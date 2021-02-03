@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Database Communication Points</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Database Communication Points</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Rhapsody Integration Engine comes with a number of different database communication points, each tailored to suit different scenarios. This section describes each of the communication points, and the scenarios in which they should be used:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146945119 {padding: 0px;}
+div.rbtoc1565146945119 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146945119 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146945119"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#DatabaseCommunicationPoints-DatabaseInsertionCommunicationPoint">Database Insertion Communication Point</a></li> 
+        <li><a href="#DatabaseCommunicationPoints-DatabaseCommunicationPoint">Database Communication Point</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#DatabaseCommunicationPoints-InputMode">Input Mode</a></li> 
+          <li><a href="#DatabaseCommunicationPoints-OutputMode">Output Mode</a></li> 
+          <li><a href="#DatabaseCommunicationPoints-Out->InMode">Out-&gt;In Mode</a></li> 
+         </ul> </li> 
+        <li><a href="#DatabaseCommunicationPoints-Scenarios">Scenarios</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="DatabaseCommunicationPoints-DatabaseInsertionCommunicationPoint">Database Insertion Communication Point</h2>
+      <p>The <a href="Database-Insertion_133162485.html">Database Insertion</a> communication point allows a single row in a single table to be inserted or updated. The values to be inserted can be constants, message properties, fields, or the current date-time. While it is only useful in a limited number of scenarios, it is the simplest database component to configure and so should be used if only one row in one table needs to be changed. All the queries run by this communication point may be dynamic; that is, they can be parameterized based on values from a message.</p>
+      <h2 id="DatabaseCommunicationPoints-DatabaseCommunicationPoint"><span style="color: rgb(0,0,0);">Database Communication Point</span></h2>
+      <h3 id="DatabaseCommunicationPoints-InputMode"><em>Input</em> Mode</h3>
+      <p>The <a href="Database_133162443.html">Database</a> communication point in <em>Input</em> mode is used to poll a database table to detect changes. Once changes have been detected, the queries specified in the configuration are used to generate an XML message representing the new data. When running in input mode, the database communication point can be used with or without a 'key' value. When using a key value, the input database communication point requires that the main table contains a key column which can be used to order and restrict the rows returned. In addition, the queries it runs must be static; that is, they cannot be parameterized based on values from a message. When not using a key value, no key column is specified in the configuration, but the script must update the row so it does not get read again.</p>
+      <h3 id="DatabaseCommunicationPoints-OutputMode"><em>Output</em> Mode</h3>
+      <p>The&nbsp;<a href="Database_133162443.html">Database</a> communication point in <em>Output</em> mode is primarily used to insert or update data in one or more tables. The inserted data is usually sourced from a message flowing through Rhapsody, using either message properties, or fields directly from the message. The configuration is able to iterate over repeating fields in a message, thus inserting multiples rows into a table if necessary. All the queries run by this communication point may be dynamic; that is, they can be parameterized based on values from a message.</p>
+      <h3 id="DatabaseCommunicationPoints-Out->InMode"><em>Out-&gt;In</em> Mode</h3>
+      <p>The&nbsp;<a href="Database_133162443.html">Database</a> communication point in <em>Out-&gt;In</em> mode operates in exactly the same manner as the <a href="Database-Lookup_133163067.html">Database Lookup</a> filter. It is recommended that it be used in preference to the database lookup filter if any changes to the database are being made. There is no way to customize the SQL that is executed by this communication point, as it generates it internally based on the configuration.</p>
+      <h2 id="DatabaseCommunicationPoints-Scenarios">Scenarios</h2>
+      <p></p>
+      <ul class="childpages-macro">
+       <li><a href="Database_133162443.html">Database</a>
+        <ul class="childpages-macro">
+         <li><a href="Using-the-Database-Communication-Point_133162447.html">Using the Database Communication Point</a></li>
+        </ul></li>
+       <li><a href="Database-Insertion_133162485.html">Database Insertion</a>
+        <ul class="childpages-macro">
+         <li><a href="Inserting-Patient-Identifiers-and-Names-into-a-Database_133162491.html">Inserting Patient Identifiers and Names into a Database</a></li>
+        </ul></li>
+      </ul>
+      <p></p>
+      <h3 id="DatabaseCommunicationPoints-SeeAlso...">See Also...</h3>
+      <ul>
+       <li><a href="Using-the-Database-Filters_133163056.html">Using the Database Filters</a></li>
+       <li><a href="Main-Database-Configuration_133161776.html">Main Database Configuration</a></li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

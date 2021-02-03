@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Content Population</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Content Population</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162952/133162954.jpg" data-image-src="attachments/133162952/133162954.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162954" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ContentPopulationFilterIcon.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162952" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Content Population</strong> filter&nbsp;is used to insert information into a message. The filter can replace the body of the message with a static body and the values of given fields with static (literal) values or message property values.</p>
+      <p>If the <strong>Body Template File</strong> property is supplied, the message body is replaced with the data in the file. Following the replacement, the message is parsed using the <strong>Definition File</strong> and each field in the message (listed in the <strong>Field Mappings</strong> field) has its value replaced with the respective value. The values can reference message properties.</p>
+      <p>A common use of this filter is to create acknowledgment messages containing information from the original message.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If you are parsing the incoming message or the body template, you must have a definition defined.</p>
+       </div>
+      </div>
+      <h2 id="ContentPopulation-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition</p></td>
+          <td class="confluenceTd"><p>Identifies the message definition describing the layout of the output message.</p><p>This is only required if you are inserting values into the body of the message. If a body template file is specified, then this definition must match the message structure of the data in that file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Body Template File</p></td>
+          <td class="confluenceTd"><p>An optional file that replaces the entire message body. Any field replacements occur after the body has been replaced. If the message body is replaced, the existing message body is placed into the temporary message property <code>$InputMessageBody</code>. This message property is only available within this filter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Field Mappings</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>This property is only available if a definition file has been specified in the <strong>Definition</strong> configuration property. Fields listed in this mapping have their values replaced by the constant values or message property values specified in the Value column. Message properties are denoted with a <code>$</code> prefix in name of the message property; for example, <code>$MessageType</code>.</p>
+            <p>To create field mappings:</p>
+            <ol>
+             <li><p>Select the <strong>Browse</strong> button to display the <strong>Field Mappings</strong> dialog:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="440" src="attachments/133162952/133162953.png" data-image-src="attachments/133162952/133162953.png" data-unresolved-comment-count="0" data-linked-resource-id="133162953" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="FieldMappings.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162952" data-linked-resource-container-version="2"></span></p></li>
+             <li><p>In the <strong>Field</strong> column, use the <strong>Browse</strong> button to select the desired field path <span>(entering <span>the name of field path directly into the column </span></span><span>is not recommended)</span>.</p></li>
+             <li><p>The <strong>Value</strong> column holds the actual string to be inserted into the outgoing message:</p>
+              <ul>
+               <li><p>To enter a literal value,&nbsp;enter a string directly into the column.</p></li>
+               <li><p>To enter a message property, select it from the drop-down list, or enter it manually.</p>
+                <div class="confluence-information-macro confluence-information-macro-note">
+                 <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+                 <div class="confluence-information-macro-body">
+                  <p><span style="color: rgb(22,35,58);">When selecting a message property from the drop-down list, the</span><span style="color: rgb(22,35,58);"> names of the message properties are displayed without the</span><span style="color: rgb(22,35,58);"> prefix </span><code>$</code><span style="color: rgb(22,35,58);">. However, when manually entering a message property, you must prefix the message property name with <code>$</code> to denote the use of a message property.</span></p>
+                 </div>
+                </div></li>
+              </ul></li>
+             <li><p>Repeat steps 2 to 3 until you have added all the field mappings you require.</p></li>
+             <li><p>Select the <strong>OK</strong> button to save the field mappings.</p></li>
+            </ol>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

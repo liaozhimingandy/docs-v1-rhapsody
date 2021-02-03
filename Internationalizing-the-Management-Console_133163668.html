@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Internationalizing the Management Console</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Internationalizing the Management Console</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section describes the process of internationalizing the Management Console:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147030609 {padding: 0px;}
+div.rbtoc1565147030609 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147030609 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147030609"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#InternationalizingtheManagementConsole-CreatingandAddingaNewLocaletotheManagementConsole">Creating and Adding a New Locale to the Management Console</a></li> 
+        <li><a href="#InternationalizingtheManagementConsole-SpecialTranslationStrings">Special Translation Strings</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to&nbsp;<a href="Localization_133160990.html">Localization</a><span style="color: rgb(51,51,51);">&nbsp;for details on changing the default locale of Rhapsody.</span></p>
+       </div>
+      </div>
+      <h2 id="InternationalizingtheManagementConsole-CreatingandAddingaNewLocaletotheManagementConsole"><span style="color: rgb(0,0,0);">Creating and Adding a New Locale to the Management Console</span></h2>
+      <p>To add an option to change the locale for the Management Console on its login screen:</p>
+      <ol>
+       <li><p>Choose a locale (language code) you want to create and add.</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Each locale pack specifies the locale for which the pack is intended for; this is done through the file name. The file name <em>must</em> be of the format <code>&lt;locale&gt;.locale.csv</code>, where <code>&lt;locale&gt;</code> is either <code>&lt;language&gt;_&lt;country&gt;</code> or simply <code>&lt;language&gt;</code>:</p>
+          <ul>
+           <li><code>&lt;language&gt;</code> is a valid ISO language code. These codes are lowercase, two-letter codes as defined by ISO-639.</li>
+           <li><code>&lt;country&gt;</code> is a valid ISO country code. These codes are the uppercase, two-letter codes as defined by ISO-3166.</li>
+          </ul>
+         </div>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>If the file name specifies an unsupported locale, then it is ignored.</p>
+         </div>
+        </div></li>
+       <li><p>Create an unpopulated Unicode-encoded CSV file called <code>&lt;locale&gt;.locale.csv</code>, for example <code>ja.locale.csv </code>for Japanese localization.</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>The <em>required</em> locale pack file format is a Unicode-encoded CSV file with two columns: the first column is the translation string key, and the second column represents the localized value of that string key. Acceptable Unicode encodings are:</p>
+          <ul>
+           <li>UTF-8 with or without a byte order mark.</li>
+           <li>UTF-16 BE or LE with a byte order mark.</li>
+           <li>UTF-32 BE or LE with a byte order mark.</li>
+          </ul>
+         </div>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Rhapsody performs minimal validation of these locale packs, and just checks that the first row has the expected two columns, and the first key corresponds to the expected pattern for a translation key (matches the regular expression "<code>^[A-Za-z0-9.$]+$</code>"). No validation is performed on the translation values.</p>
+         </div>
+        </div></li>
+       <li><p>Place the file in the <code>$(installDir)/rhapsody/locale/</code> directory (<em>all&nbsp;</em>locale packs should be placed within this directory). The Rhapsody engine periodically checks this directory for changes.</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Rhapsody observes the following conditions:</p>
+          <ul>
+           <li>If a locale pack (which has been loaded) is removed, then it will remain in Rhapsody's memory until Rhapsody is restarted.</li>
+           <li>If a locale pack is added and/or updated, then it is imported into the engine:
+            <ul>
+             <li>If an error occurs during an import, the locale pack will be ignored.</li>
+             <li>If the locale represents an updated locale pack, then the previously loaded locale pack will remain in memory unmodified.</li>
+            </ul></li>
+           <li>If a locale pack is updated with a file that fails to pass the validation rules, then the existing locale pack remains in memory. The party deploying the locale pack is responsible for resolving the problem either by fixing the invalid locale pack or replacing it with a backup.</li>
+          </ul>
+         </div>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Whenever a locale pack replaces an existing file, any existing translations for that locale are written out to a backup file called <code>&lt;locale&gt;.locale.csv.old.&lt;N&gt;</code>, where <code>&lt;N&gt;</code> is a number from 1 to 9 (1 is the most recent backup). These files are written out as UTF-8 encoded CSV file with two columns: the translation key, and the associated value.</p>
+         </div>
+        </div><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="235" width="606" src="attachments/133163668/133163669.jpg" data-image-src="attachments/133163668/133163669.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163669" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="locale directory.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163668" data-linked-resource-container-version="1"></span></p></li>
+       <li>Wait a few seconds for Rhapsody to generate a UTF-8 encoded <code>&lt;locale&gt;.locale-missing.csv</code> file which contains the missing keys and their default English strings.</li>
+       <li><p>Open <code>&lt;locale&gt;.locale-missing.csv</code>&nbsp;file in a text editor and replace the relevant text in the chosen language.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>The translation key and value must both be encapsulated in double quotes.</p>
+         </div>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-warning">
+         <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Excel does not save <span>CSV</span> files as UTF-16 encoded. This can lead to some characters not being displayed properly. The problem can be solved by using other text editors, for example Notepad.</p>
+         </div>
+        </div></li>
+       <li>Save the file with the desired Unicode encoding and rename it to <code>&lt;locale&gt;.locale.csv</code>, for example <a href="attachments/133163668/133163672.csv" data-linked-resource-id="133163672" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ja.locale.csv" data-linked-resource-content-type="text/csv" data-linked-resource-container-id="133163668" data-linked-resource-container-version="1">ja.locale.csv</a>.</li>
+       <li>Replace the file contained within the <code>$(installDir)/rhapsody/locale/</code> directory. Rhapsody will pick up the new locale shortly thereafter.</li>
+      </ol>
+      <h2 id="InternationalizingtheManagementConsole-SpecialTranslationStrings">Special Translation Strings</h2>
+      <p>While most translation strings are either string literals, or message format strings (following the patterns in <code>java.text.MessageFormat</code>), there are a few special strings used for date-time formats in Rhapsody. These patterns are all defined using the available modes in <a href="https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html" class="external-link" rel="nofollow">SimpleDateFormat</a>. The date strings can be added to locale file to change the way dates are shown for the locale.</p>
+      <p>The data strings for widgets are only used for the date-time picker widget, for example:</p>
+      <ul>
+       <li><a href="Find-Messages_133163841.html">Searches</a> (<strong>From</strong>&nbsp;and <strong>To</strong> dates).</li>
+       <li>Settings&gt;<a href="Public-Holidays_133163907.html">Public Holidays</a>.</li>
+       <li>Notifications&gt;<a href="133163938.html">My Leave</a>.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163668/133163670.png" data-image-src="attachments/133163668/133163670.png" data-unresolved-comment-count="0" data-linked-resource-id="133163670" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="datePicker.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163668" data-linked-resource-container-version="1"></span></p>
+      <p>The date strings for widgets are as follows:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Format</p></th>
+          <th class="confluenceTh"><p>Key</p></th>
+          <th class="confluenceTh"><p>Default</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Long Date Format</p></td>
+          <td class="confluenceTd"><p>widget.datetime.long.date.format</p></td>
+          <td class="confluenceTd"><p>dd MMMM yyyy</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Medium Date Format</p></td>
+          <td class="confluenceTd"><p>widget.datetime.medium.date.format</p></td>
+          <td class="confluenceTd"><p>dd-MMM-yyyy</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Short Date Format</p></td>
+          <td class="confluenceTd"><p>widget.datetime.short.date.format</p></td>
+          <td class="confluenceTd"><p>dd-MMM-yy</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Long Date/Time Format</p></td>
+          <td class="confluenceTd"><p>widget.datetime.long.datetime.format</p></td>
+          <td class="confluenceTd"><p>dd MMMM yyyy HH:mm:ss</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Medium Date/Time Format</p></td>
+          <td class="confluenceTd"><p>widget.datetime.medium.datetime.format</p></td>
+          <td class="confluenceTd"><p>dd-MMM-yyyy HH:mm</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Short Date/Time Format</p></td>
+          <td class="confluenceTd"><p>widget.datetime.short.datetime.format</p></td>
+          <td class="confluenceTd"><p>dd-MMM-yy HH:mm</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Long Time Format</p></td>
+          <td class="confluenceTd"><p>widget.datetime.long.time.format</p></td>
+          <td class="confluenceTd"><p>HH:mm:ss</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Medium Time Format</p></td>
+          <td class="confluenceTd"><p>widget.datetime.medium.time.format</p></td>
+          <td class="confluenceTd"><p>HH:mm</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Short Time Format</p></td>
+          <td class="confluenceTd"><p>widget.datetime.short.time.format</p></td>
+          <td class="confluenceTd"><p>HH:mm</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The data strings for entries in tables are used everywhere else, for example:</p>
+      <ul>
+       <li>Logs (<a href="System-Log_133163966.html">System Log</a>).</li>
+       <li>Activity streams on communication point details pages.</li>
+       <li>Date/times on the x-axis of graphs.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163668/133163671.png" data-image-src="attachments/133163668/133163671.png" data-unresolved-comment-count="0" data-linked-resource-id="133163671" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="entryInTables.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163668" data-linked-resource-container-version="1"></span></p>
+      <p>The date strings for entries in tables are as follows:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Format</p></th>
+          <th class="confluenceTh"><p>Key</p></th>
+          <th class="confluenceTh"><p>Default</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Long Date Format</p></td>
+          <td class="confluenceTd"><p>format.datetime.long.dateonly</p></td>
+          <td class="confluenceTd"><p>dd MMMM yyyy</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Medium Date Format</p></td>
+          <td class="confluenceTd"><p>format.datetime.medium.dateonly</p></td>
+          <td class="confluenceTd"><p>dd-MMM-yyyy</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Short Date Format</p></td>
+          <td class="confluenceTd"><p>format.datetime.short.dateonly</p></td>
+          <td class="confluenceTd"><p>dd-MMM-yy</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Long Date/Time Format</p></td>
+          <td class="confluenceTd"><p>format.datetime.long</p></td>
+          <td class="confluenceTd"><p>dd MMMM yyyy HH:mm:ss</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Medium Date/Time Format</p></td>
+          <td class="confluenceTd"><p>format.datetime.medium</p></td>
+          <td class="confluenceTd"><p>dd-MMM-yyyy HH:mm</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Short Date/Time Format</p></td>
+          <td class="confluenceTd"><p>format.datetime.short</p></td>
+          <td class="confluenceTd"><p>dd-MMM-yy HH:mm</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Long Time Format</p></td>
+          <td class="confluenceTd"><p>format.datetime.long.timeonly</p></td>
+          <td class="confluenceTd"><p>HH:mm:ss</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Medium Time Format</p></td>
+          <td class="confluenceTd"><p>format.datetime.medium.timeonly</p></td>
+          <td class="confluenceTd"><p>HH:mm</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Short Time Format</p></td>
+          <td class="confluenceTd"><p>format.datetime.short.timeonly</p></td>
+          <td class="confluenceTd"><p>HH:mm</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>These date/time formats are not used throughout Rhapsody because some data types require specific formats.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

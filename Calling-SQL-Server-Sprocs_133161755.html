@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Calling SQL Server Sprocs</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Stored-Procedure-Editor_133161749.html">Stored Procedure Editor</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Calling SQL Server Sprocs</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><em>Microsoft</em>® SQL Server and other Transact-SQL style databases (such as MySQL and Sybase) allow both stored procedures and functions to be defined. A stored function is very similar to a stored procedure, but is allowed to return a primitive result in addition to using normal output parameters. In addition, both stored procedures and functions implicitly allow result sets to be returned (in addition to any defined output parameters and normal return values), simply by performing a SELECT statement within the stored procedure itself.</p>
+      <p>As a consequence of this, return values from SQL Server stored procedures and functions cannot be reliably introspected, and the stored procedure itself should be examined when determining how to call it from Rhapsody.</p>
+      <p>The following examples provide some different types of stored procedures and show how they can be called from within Rhapsody.</p>
+      <h2 id="CallingSQLServerSprocs-Example:StoredProcedurewithanOutputParameter">Example: Stored Procedure with an Output Parameter</h2>
+      <p>This example uses a stored procedure to insert some patient information into a table. The table itself uses an identity column for the primary key with the unique identifier returned as an output parameter from the stored procedure. Refer to the following script for an example:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>CREATE PROCEDURE [dbo].[usp_InsertPatient]
+        @familyName VARCHAR(50),
+        @givenName VARCHAR(50),
+        @title VARCHAR(4),
+        @dateOfBirth DATETIME,
+        @patientId INT OUTPUT
+AS
+BEGIN
+        -- SET NOCOUNT ON added to prevent extra result sets from
+        -- interfering with SELECT statements.
+        SET NOCOUNT ON;
+
+        INSERT INTO Patient (FamilyName, GivenName, Title, Gender, DateOfBirth)
+                Values (@familyName, @givenName, @title, @gender, @dateOfBirth);
+
+        -- Get the identity that was just allocated
+        SET @patientId = SCOPE_IDENTITY();
+END
+</pre> 
+       </div>
+      </div>
+      <h3 id="CallingSQLServerSprocs-OutputParameterDefinition">Output Parameter Definition</h3>
+      <p>The following output parameter should be declared to enable this stored procedure to be called:</p>
+      <ul>
+       <li>Name - <code>patientID</code></li>
+       <li>Type - <code>INTEGER</code><br> It should NOT be configured as the result set parameter.</li>
+      </ul>
+      <p></p>
+      <h3 id="CallingSQLServerSprocs-CallingtheStoredProcedure">Calling the Stored Procedure</h3>
+      <p>The stored procedure should be called as shown in the following script.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>{
+    CALL usp_InsertPatient (
+        @PID.PatientName[0].FamilyName.Surname,
+        @PID.PatientName[0].GivenName,
+        @PID.PatientName[0].Prefix,
+        @PID.PSex,
+        $DateOfBirth,
+        #patientID)
+}
+</pre> 
+       </div>
+      </div>
+      <p>Rhapsody automatically detects that the stored procedure call is using a newly defined output parameter, and so declares it as such when calling the procedure via JDBC.</p>
+      <h2 id="CallingSQLServerSprocs-Example:StoredProcedurewithaResultSet">Example: Stored Procedure with a Result Set</h2>
+      <p>This example uses a stored procedure to retrieve some patient information from a table. While it is defined as a procedure rather than a function, it returns a result set containing the desired columns. The stored procedure is shown in the following script:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>CREATE PROCEDURE usp_LookupPatientInfo
+        -- Add the parameters for the stored procedure here
+        @patientId INT
+AS
+BEGIN
+        -- SET NOCOUNT ON added to prevent extra result sets from
+        -- interfering with SELECT statements.
+        SET NOCOUNT ON;
+
+     -- Insert statements for procedure here
+         SELECT FamilyName, GivenName, Title, Gender, DateOfBirth
+                 FROM Patient
+                 WHERE PatientID = @patientId;
+end
+</pre> 
+       </div>
+      </div>
+      <h3 id="CallingSQLServerSprocs-OutputParameterDefinition.1">Output Parameter Definition</h3>
+      <p>Even though this stored procedure returns a result set, no output parameters should be defined when calling it. This is because SQL Server style result sets are returned implicitly, rather than explicitly via output parameters.</p>
+      <p></p>
+      <h3 id="CallingSQLServerSprocs-CallingtheStoredProcedure.1">Calling the Stored Procedure</h3>
+      <p>The stored procedure should be called as follows:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>{
+    CALL usp_LookupPatientInfo(  $PatientID  )
+}
+</pre> 
+       </div>
+      </div>
+      <p>Result substitution can then be used to update the incoming message with the values returned in the result set.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

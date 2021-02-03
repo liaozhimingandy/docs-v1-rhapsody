@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Database Connections</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Database Connections</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A database connection is made, and the database structures are loaded into the Rhapsody Database Configuration Editor, when you configure a database connection.</p>
+      <p>The recommended way to create the database connection is to configure the database connection in the database communication point or filter within the Rhapsody IDE and then click the <strong>Create Configuration</strong> or <strong>Edit Configuration</strong> links from the <strong>Configuration</strong> field to launch the<strong>&nbsp;</strong>Database Configuration Editor. The database structure is then automatically loaded when the<strong>&nbsp;</strong>Database Configuration Editor is launched.</p>
+      <p>Alternatively, you can manually create a database connection, by dragging the <strong>Database Connection</strong> object from the <strong>Database Components</strong> toolbox to the top of the<strong>&nbsp;</strong>Database Configuration Editor:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161700/133161702.png" data-image-src="attachments/133161700/133161702.png" data-unresolved-comment-count="0" data-linked-resource-id="133161702" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateConnection.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161700" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Database Connection Editor</strong> is then displayed. Refer to <a href="#DatabaseConnections-EditingDatabaseConnections">Editing Database Connections</a> for details.</p>
+      <h2 id="DatabaseConnections-EditingDatabaseConnections">Editing Database Connections</h2>
+      <p>The <strong>Database Connection Editor&nbsp;</strong>enables you to add or maintain the database connection:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161700/133161703.png" data-image-src="attachments/133161700/133161703.png" data-unresolved-comment-count="0" data-linked-resource-id="133161703" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="databaseConnectionEditor.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161700" data-linked-resource-container-version="2"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If the <strong>Store connection information directly in database configuration</strong> field is not selected, any changes made here are <em>not</em> reflected in the <strong>Database</strong> communication point or filter settings. Consequently it is recommended that the database connection be configured in the Rhapsody IDE first, and then the Rhapsody Database Configuration Editor is launched so it can use that connection.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table id="TBL1565043148451" class="wrapped confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Display Name</p></td>
+          <td class="confluenceTd"><p>This is the name of the database connection that is displayed within the editor. It is an arbitrary value and is not used to actually perform the connection to the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Driver Class Name</p></td>
+          <td class="confluenceTd"><p>This is one of the options available in the drop-down list, or the fully qualified Java class name of the database driver to use. Database drivers for SQL Server, Oracle, and PostgreSQL are provided by default. Refer to <a href="#DatabaseConnections-UsingCustomDatabaseDrivers">Using Custom Database Drivers</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JDBC URL</p></td>
+          <td class="confluenceTd"><p>This is the JDBC URL used to connect to the database. Refer to <a href="Main-Database-Configuration_133161776.html#MainDatabaseConfiguration-DatabaseDriversandURLs">Database Drivers and URLs</a> for information on building this URL.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The username that is used to connect to the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p>The password that is used to connect to the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Schema</p></td>
+          <td class="confluenceTd"><p>The database schema that is retrieved. If this is left blank, the Rhapsody Database Configuration Editor retrieves a list of schemas to choose between.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Store connection information directly in database configuration</p></td>
+          <td class="confluenceTd"><p>Select this field to store the connection information within the database configuration file itself. Where possible, it is recommended that database connections are configured within the Rhapsody IDE.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Reload Database Structure</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Reload the database structure from the database, and load it to the <strong>Database Configuration Editor</strong>. If no database schema has been specified, a list of database schemas is retrieved first, followed by the tables, views, and stored procedures defined within the selected schema.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If the <strong>Rhapsody Database Configuration Editor</strong> is launched from the Rhapsody IDE, it attempts to automatically load the database structure for the configured database connection at startup. Once this has been done, it is cached to allow faster subsequent startup times. However, pressing the <strong>Reload Database Structure</strong> button in the <strong>Database Connection Editor</strong> always overwrites the cache.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148451']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148451',[],'style=&quot;width:20%; text-align: left;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>Refer to <a href="Main-Database-Configuration_133161776.html#MainDatabaseConfiguration-DatabaseDriversandURLs">Database Drivers and URLs</a> for details on finding the correct database URL.</p>
+      <h2 id="DatabaseConnections-UsingCustomDatabaseDrivers">Using Custom Database Drivers</h2>
+      <p>The<strong>&nbsp;</strong>Database Configuration Editor has built-in database drivers for <em>SQL Server</em>, <em>Oracle</em>, and <em>PostgreSQL</em>. If another database driver is specified, the following error may be encountered:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161700/133161704.png" data-image-src="attachments/133161700/133161704.png" data-unresolved-comment-count="0" data-linked-resource-id="133161704" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="databaseDriverNotFound.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161700" data-linked-resource-container-version="2"></span></p>
+      <p>Other databases may be used if a Java database driver is provided.<strong>&nbsp;</strong>To enable Rhapsody IDE&nbsp;to retrieve a database structure using a database driver,<strong>&nbsp;</strong>place the JAR file containing the database driver into the <code>&lt;Rhapsody IDE&gt;\DatabaseStructureReader</code>. By default, the directory is <code>C:\Program Files\<span>Rhapsody</span>\Rhapsody IDE 6\Rhapsody IDE\DatabaseStructureReader</code>. An engine restart is not required.&nbsp;</p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">Once the driver is installed, enter the full class name of the database driver into the </span><strong style="line-height: 13.0pt;">Driver Class Name</strong><span style="line-height: 13.0pt;background-color: transparent;"> field on the </span><strong style="line-height: 13.0pt;">Database Connection Editor</strong><span style="line-height: 13.0pt;background-color: transparent;"> window, and the database details to load the database structure.</span></p>
+      <p><span>For the Rhapsody engine to be able to use the driver,&nbsp;place the JAR file containing the database driver into the&nbsp;<code>data\lib</code>&nbsp;folder. In this case a&nbsp;restart of the engine is required.</span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <p class="title">Important!</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Custom database drivers must be added to both the <code>data\lib</code> and <code>&lt;Rhapsody IDE&gt;\DatabaseStructureReader</code> directories. Refer to <a href="Main-Database-Configuration_133161776.html#MainDatabaseConfiguration-CustomDrivers">Custom Drivers</a> for details.</p>
+       </div>
+      </div>
+      <h2 id="DatabaseConnections-TheDatabaseStructure">The Database Structure</h2>
+      <p>Once a database connection has been made and the database structure has been loaded, the <strong>Rhapsody Database Configuration Editor</strong> can access the tables, views, and stored procedures within that database.</p>
+      <p>You can view the database tables, views, and stored procedures in the <strong>Server Explorer</strong>, shown in the following diagram. This allows easy reference to the database, and enables you to generate SQL and stored procedure calls.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161700/133161701.png" data-image-src="attachments/133161700/133161701.png" data-unresolved-comment-count="0" data-linked-resource-id="133161701" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="serverExplorer.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161700" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Server Explorer</strong> is shown on the right side of the <strong>SQL Editor</strong> and the <strong>Stored Procedure Editor</strong> screens. Different components are displayed in the <strong>Server Explorer</strong> depending on the context in which it is viewed.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

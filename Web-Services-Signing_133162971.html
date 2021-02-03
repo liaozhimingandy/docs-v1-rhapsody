@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Web Services Signing</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="XML-Filters_133162964.html">XML Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Web Services Signing</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162971/133162972.jpg" data-image-src="attachments/133162971/133162972.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162972" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image156.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162971" data-linked-resource-container-version="3"></span></p>
+      <p>The <strong>Web Services Signing</strong> filter&nbsp;uses the web services extensions framework to create digital signatures of parts of the XML (generally SOAP) message.</p>
+      <p>The filter takes in an XML message (generally, but not necessarily a SOAP message), and then uses a configurable private key to digitally sign some configurable elements of the XML document. In addition, the filter can add a timestamp and expiry time (which can also be signed), and allows the certificate used to verify the signature to be included or referenced in a number of ways.</p>
+      <p>The final output of the filter is an XML message (again, generally a SOAP message) with some additional elements added containing the signed elements and the certificate.</p>
+      <p>XML signatures are digital signatures designed for use in XML transactions and they are represented by the Signature element which has the following structure:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ds:Signature&gt; &lt;ds:SignedInfo Id?&gt; &lt;ds:CanonicalizationMethod/&gt; &lt;ds:SignatureMethod/&gt; ( &lt;ds:Reference URI? &gt; ( &lt;ds:Transforms&gt; )? &lt;ds: DigestMethod/&gt; &lt;ds: DigestValue/&gt; &lt;/ds:Reference&gt; )+ &lt;/ds:SignedInfo&gt; &lt;ds:SignatureValue/&gt; ( &lt;ds:KeyInfo&gt; ) ? ( &lt;ds:Object Id?&gt; ) * &lt;/ds:Signature&gt;</pre> 
+       </div>
+      </div>
+      <p>Refer to&nbsp;<a href="http://www.w3.org/TR/xmldsig-core" class="external-link" rel="nofollow">XML Signature Syntax and Processing</a>&nbsp;for details on XML signatures.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The <span>Web Services Signing</span> filter always converts its output to the UTF-8 character encoding.&nbsp;To output messages using a different character encoding, add an appropriately configured <a href="Character-Encoding-Translator_133163370.html">Character Encoding Translator</a> filter after the Web Services Signing filter.</p>
+       </div>
+      </div>
+      <h2 id="WebServicesSigning-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing Key</p></td>
+          <td class="confluenceTd"><p><em>Required</em>. The private key that should be used by the filter to sign the message. It should match the public key in the supplied certificate so that the remote system can successfully validate the signature.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing Certificate</p></td>
+          <td class="confluenceTd"><p><em>Required</em>. The certificate that should be used to verify the signature. The verification itself is not done by the filter, but the configured certificate here is included inside the generated XML document in accordance with the <strong>Certificate Reference</strong> property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timestamp</p></td>
+          <td class="confluenceTd"><p><em>Required</em>. This property determines whether or not the filter generates a timestamp element as part of the XML document:</p>
+           <ul>
+            <li><code>Generate Timestamp</code><span> (default).</span></li>
+            <li><code>No timestamp</code><span> - if<span>&nbsp;</span>a timestamp is already present it still forms<span> part of the signature.</span></span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Expiry Time</p></td>
+          <td class="confluenceTd"><p><em>Required, if generating a timestamp</em>. The expiry time, in seconds, for the signed message. The server will reject messages that are too old.</p><p><span>The default expiry time is </span><code>600</code><span> seconds (10 minutes). An expiry time set to a value less than 30 seconds is treated as 30 seconds.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Signing Algorithm</p></td>
+          <td colspan="1" class="confluenceTd"><p>The signing algorithm to use when signing the message:</p>
+           <ul>
+            <li><code>SHA1</code> - <span class="nolink">http://www.w3.org/2000/09/xmldsig#rsa-sha1</span>.</li>
+            <li><code>SHA256</code> - <span class="nolink">http://www.w3.org/2001/04/xmldsig-more#rsa-sha256<span> (default)</span></span>.</li>
+            <li><code>SHA384</code> -<span> <span class="nolink">http://www.w3.org/2001/04/xmldsig-more#rsa-sha384</span>.</span></li>
+            <li><code>SHA512</code> - <span class="nolink">http://www.w3.org/2001/04/xmldsig-more#rsa-sha512</span>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Digest Algorithm</p></td>
+          <td colspan="1" class="confluenceTd"><p>The digest algorithm to use when generating the digital signature:</p>
+           <ul>
+            <li><code>SHA1</code> - <span class="nolink">http://www.w3.org/2000/09/xmldsig#sha1</span>.</li>
+            <li><code>SHA256</code> - <span class="nolink">http://www.w3.org/2001/04/xmlenc#sha256<span> (default)</span></span>.</li>
+            <li><code>SHA384</code> - <span class="nolink">http://www.w3.org/2001/04/xmldsig-more#sha384</span>.</li>
+            <li><code>SHA512</code> - <span class="nolink">http://www.w3.org/2001/04/xmlenc#sha512</span>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Elements To Sign</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><em>Optional</em>. The list of elements to sign. They are found by their qualified name of the specified name and the namespace. A URI is used for the namespace meaning that elements can be found regardless of the particular namespace prefix that is being used. The signing type determines whether just the contents of the element are signed (Content), that is just between the tags, or if the entire element is signed (Element).</p>
+            <p>While any elements can be added to this list, by default the filter signs the following elements:</p>
+            <ul>
+             <li>Body in the namespace: <a class="external-link" href="http://schemas.xmlsoap.org/soap/envelope/" rel="nofollow">http://schemas.xmlsoap.org/soap/envelope/</a>.</li>
+             <li>Timestamp in the namespace: <a class="external-link" rel="nofollow" href="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd</a>.</li>
+             <li>To in the namespace: <a class="external-link" rel="nofollow" href="http://schemas.xmlsoap.org/ws/2004/03/addressing">http://schemas.xmlsoap.org/ws/2004/03/addressing</a>.</li>
+             <li>Action in the namespace: <a class="external-link" rel="nofollow" href="http://schemas.xmlsoap.org/ws/2004/03/addressing">http://schemas.xmlsoap.org/ws/2004/03/addressing</a>.</li>
+             <li>ReplyTo in the namespace: <a rel="nofollow" class="external-link" href="http://schemas.xmlsoap.org/ws/2004/03/addressing">http://schemas.xmlsoap.org/ws/2004/03/addressing</a>.</li>
+             <li>MessageID in the namespace: <a class="external-link" rel="nofollow" href="http://schemas.xmlsoap.org/ws/2004/03/addressing">http://schemas.xmlsoap.org/ws/2004/03/addressing</a>.</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>As this is XML, the element names are case-sensitive.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Certificate Reference</p></td>
+          <td class="confluenceTd"><p><em>Required</em>. Specifies how the certificate that should be used to verify the message is included in the output XML document:</p>
+           <ul>
+            <li><code>Include Full Certificate</code> (default) - by default the full certificate is included in a <code>&lt;BinarySecurityToken&gt;</code> tag, which is more or less the certificate base-64 encoded.</li>
+            <li><code>Include Certificate Identifier Only</code> - includes just the certificate identifier inside a <code>&lt;SecurityTokenReference&gt;</code> with the issuer name and serial number of the certificate.</li>
+            <li><code>Include Encrypted Certificate</code> - the encrypted certificate option includes the full certificate in a <code>&lt;KeyIdentifier&gt;</code> tag under a <code>&lt;SecurityTokenReference&gt;</code> tag, but the certificate is first encrypted using the specified private key, and then base-64 encoded.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

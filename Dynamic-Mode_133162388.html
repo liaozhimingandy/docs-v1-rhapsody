@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Dynamic Mode</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Dynamic Mode</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>In cases where an interface built in Rhapsody needs to communicate to multiple FTP servers, the&nbsp;implementer&nbsp;needs to decide whether it is appropriate to create separate (S)FTP Client communication points for each FTP server, or instead to use a single (S)FTP Client communication point operating in dynamic mode in order to talk to all of the FTP servers. Dynamic mode can be configured in both <em>Output</em> and <em>Out-&gt;In</em> modes.</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146949706 {padding: 0px;}
+div.rbtoc1565146949706 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146949706 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146949706"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#DynamicMode-SettingConfigurationPropertiesDynamically">Setting Configuration Properties Dynamically</a></li> 
+        <li><a href="#DynamicMode-DynamicOutputMode">Dynamic Output Mode</a></li> 
+        <li><a href="#DynamicMode-DynamicInputMode(Out->In)">Dynamic Input Mode (Out-&gt;In)</a></li> 
+        <li><a href="#DynamicMode-SSL/SSHServerValidationOptions">SSL/SSH Server Validation Options</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="DynamicMode-SettingConfigurationPropertiesDynamically">Setting Configuration Properties Dynamically</h2>
+      <p>The communication point's configuration properties can be configured dynamically in two ways: <a href="Dynamic-Configuration-Using-Message-Properties_133162391.html">Message Properties</a> and <a href="Dynamic-Configuration-Using-XML-Templates_133162389.html">Configuration Templates</a>.</p>
+      <p><a href="Dynamic-Configuration-Using-Message-Properties_133162391.html">Dynamic Configuration Using Message Properties</a> allows any of the configuration options configured statically on the (S)FTP Client communication point to be overridden at runtime using configuration parameters retrieved from the message properties of the outgoing message. Message properties set on the outgoing message override any statically configured values.&nbsp;Therefore, message properties should be set for configuration parameters which are dynamically configured. If a statically configured value is appropriate for the message, then the&nbsp;corresponding message property does not need to be set and the static value is used.</p>
+      <p><a href="Dynamic-Configuration-Using-XML-Templates_133162389.html">Dynamic Configuration Using XML Templates</a> allows a number of sets of configuration parameters to be configured on the communication point in an XML file. These settings are merged with the statically configured values, with settings in the templates overriding the static configuration. The outgoing message is then able to select which configuration template to use at runtime via a message property.</p>
+      <p>In both cases it is required that the resolved configuration settings are consistent with each other, for example:</p>
+      <ul>
+       <li>If FTPS is enabled, it is mandatory to provide at least one SSL certificate to validate the server.</li>
+       <li>If the duplicate handling mode is configured to append to an existing file, it is not possible to enabling appending the date-time to the filename or enable the use of temporary files.</li>
+      </ul>
+      <p>These restrictions are not enforced on the static configuration settings when the communication point is configured in dynamic mode as it is perfectly reasonable to provide default values for all of these settings, even though some of them may contradict each other. However, the restrictions are enforced when the configuration settings are ultimately resolved. When configuration templates are in use, this occurs at configuration time and will cause a configuration error if they settings are inconsistent. However, if message properties are being used, the configuration settings are not resolved until a message is actually being sent. The configuration is validated after merging the dynamic configuration from message properties with the static configuration from the communication point and any unresolvable inconsistencies will cause the outgoing message to be sent directly to the error queue. See the descriptions of each of the configuration properties&nbsp;for details on their restrictions and how errors are handled.</p>
+      <h2 id="DynamicMode-DynamicOutputMode">Dynamic Output Mode</h2>
+      <p>The (S)FTP Client communication point is able to operate in a dynamic output mode that enables its configuration parameters to be changed dynamically at runtime. The outgoing message determines the configuration settings that should be used to send, even down to the FTP protocol to use. In other words, it is possible to dynamically switch between the FTP, FTPS and SFTP protocols.</p>
+      <p>When operating in dynamic output mode, the (S)FTP Client communication point's configuration parameters can be changed dynamically at runtime. Configuration settings configured statically in the Rhapsody IDE are merged with configuration parameters retrieved from either the appropriate configuration template, or the message properties of the outgoing message.</p>
+      <p>The communication point is placed into dynamic output mode by configuring its <strong>Mode</strong> to <code>Output</code>, and then setting the <code>Configuration Mode</code> property on the communication point to either <code>Dynamic Using XML Configuration Templates</code>&nbsp;or&nbsp;<code>Use Message Property Configuration</code>. Once this is enabled, all configuration properties are enabled on the communication point, even those that would normally be disabled. This is to allow appropriate default values to be configured for any desired configuration properties, even though some of these defaults will not be used simultaneously. For example, when in dynamic mode, it is possible to configure both SSL certificates and SSH public keys to use to validate the remote server, but obviously at most of one of these will be used at a time.</p>
+      <h2 id="DynamicMode-DynamicInputMode(Out->In)">Dynamic Input Mode (Out-&gt;In)</h2>
+      <p>The purpose of using dynamic input is to allow a single communication point to be able to dynamically retrieve messages from a variety of different remote servers as required based on an event. This replaces the need to have an input communication point configured for every single remote server that you are connecting to. It also means that you can set up your workflow to only connect to remote servers as required, rather than relying on polling or scheduling.</p>
+      <p>To enable dynamic input, the communication point should be configured to be operating in the <em>Out-&gt;In</em> mode, and <strong>Configuration Mode</strong> set to either <code>Dynamic Using XML Configuration Templates</code> or&nbsp;<code>Use Message Property Configuration</code>. To trigger dynamic input retrieval, a message is sent to the output of the Out-&gt;In communication point (henceforth referred to as the trigger message). The body of the trigger message is unimportant as this message itself will be discarded, but the properties of the message are important. Using the message properties, you can set the input side configuration by either selecting the appropriate configuration template or providing values for all the appropriate configuration settings (for example, server, port, SSL/SFTP settings) in the same way that you would for dynamic output. In the same way as dynamic output, these settings will overwrite the static configuration if set, but otherwise the static configuration will be defaulted to. This allows parameters that are common across remote servers to just be configured statically. Note that <em>Out-&gt;In</em> mode can be used with an entirely static configuration as well if required.</p>
+      <p>The <strong>Refresh Rate</strong> cannot be set dynamically, as it is irrelevant when operating in this mode because Rhapsody does not poll for input.</p>
+      <p>If no input is available from the remote server when a&nbsp;trigger message is sent to an Out-&gt;In communication point, the trigger message will be discarded by default and the next trigger message on the queue will be sent. This will appear in the message path of the management console. However, if the <strong>Generate Message When No Response</strong> configuration property is enabled, the (S)FTP Client Communication Point will instead return a single dummy response message if no files are available for download. This dummy response message can be identified by the presence of a message property called <code>NoResponseMessageReceived</code>, and allows the Rhapsody route to perform any necessary logic to handle a server that currently has no files available for download.</p>
+      <p>If multiple input messages are available from the remote server when the trigger message is sent, then the trigger message will be re-enqueued to the front of the queue and resent, which means that all the available input can be received from that remote server before the next trigger message is received. This will appear in the message path of the management console, and as is the usual behavior with <em>Out-&gt;In</em> mode, all the received messages will show in the message path too. This makes it possible to see exactly what input any given trigger message caused to be received.&nbsp;<span style="line-height: 13.0pt;">The last message received for each trigger message will have a message property called </span><code style="line-height: 13.0pt;">LastResponseMessageReceived</code><span style="line-height: 13.0pt;"> set which allows the Rhapsody route to perform any extra processing that may be required once all files have been downloaded.</span></p>
+      <h2 id="DynamicMode-SSL/SSHServerValidationOptions">SSL/SSH Server Validation Options</h2>
+      <p>A number of options are available for configuring the SSL Server Certificates and SSH public keys used to authenticate FTPS and SFTP servers respectively when operating in dynamic mode. These include:</p>
+      <ul>
+       <li>Configuring all the SSL Server Certificates and SSH public keys on the communication point itself at configuration time. The associated message properties to modify these settings are then never set at runtime, so the communication point is able to successfully connect to any FTPS server presenting one of those certificates or any SFTP server using one of those public keys.</li>
+       <li>Configuring no SSL Server Certificates or SSH public keys on the communication point itself at configuration time. Instead, the alias of the expected certificate or public key is provided in the appropriate message property at runtime, so that the communication point is able to successfully connect to the expected FTPS or SFTP server.</li>
+       <li>Configuring the SSL Server Certificates with the issuer of the actual SSL certificates that will be presented by the FTPS servers. This will successfully validate connections to FTPS servers that present a certificate that has been issued (either directly or indirectly) by the configured SSL certificate using the SSL chain of trust. Note that this option is not available for SFTP as SSH public keys do not use certificate chains.</li>
+       <li>Change the <strong>Server Validation Mode</strong> configuration property to&nbsp;<code>Allow Dynamic Key Lookups</code> or <code>Auto-Add Keys For New Servers</code>. Refer to the <a href="Connection-Details_133162392.html#ConnectionDetails-ServerValidationMode">Server Validation Mode</a>&nbsp;for details on how this configuration property works.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

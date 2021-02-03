@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>RPG Decrypt and Verify</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="RPG-Filters_133162990.html">RPG Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">RPG Decrypt and Verify</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162993/133162994.bmp" data-image-src="attachments/133162993/133162994.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162994" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="rpg-decrypt-verify.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162993" data-linked-resource-container-version="1"></span></p>
+      <p>RPG (Rhapsody Privacy Guard) is Rhapsody's implementation of a subset of the OpenPGP standard. The RPG Decrypt and Verify can be used for decrypting and/or verifying messages that have been encrypted and/or signed by the&nbsp;<a href="RPG-Encrypt-and-Sign_133162991.html">RPG Encrypt and Sign</a>&nbsp;filter&nbsp;or compatible external systems.</p>
+      <p>The filter supports decrypting files encrypted using multiple keys. However, it does not support verifying files signed using multiple keys.</p>
+      <p><span style="color: rgb(0,0,0);font-size: 20.0px;">Configuration Properties</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <thead>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            <p>Property</p>
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            <p>Description</p>
+           </div></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td colspan="1" class="confluenceTd">Maximum Concurrency</td>
+          <td colspan="1" class="confluenceTd"><p>The maximum level of concurrency for the filter. 0 (zero) signifies infinite.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Decryption is a CPU intensive activity. Thus, decrypting a large number of concurrent messages can have an adverse impact on the overall performance of the server. This is especially the case <span>when the message size is large</span>. The default value of maximum concurrency property is set to 2. It is recommended that this number not be set much higher.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Mode</td>
+          <td colspan="1" class="confluenceTd"><p>Specifies what action the filter should perform:</p>
+           <ul>
+            <li><code>Decrypt and verify</code> <span>(default) </span>- the message is both decrypted and verified. The filter automatically determines whether the message was signed and then encrypted or encrypted and then signed, and handles both the cases.</li>
+            <li><code>Decrypt only</code> - used when the message has been only encrypted and not signed. Note that if the input message was both signed and encrypted we cannot choose to only decrypt the message.&nbsp;</li>
+            <li><code>Verify only</code> - used when the message has only been signed, but not encrypted. If the message is both signed and encrypted, this mode cannot be used.</li>
+            <li><code>Passphrase only</code> - used to decrypt the messages that were encrypted using a passphrase.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Decrypt Keyring</td>
+          <td class="confluenceTd"><p><span>The RPG</span> private keyring to decrypt the message.</p><p>When this property is set, the filter expects incoming messages to be encrypted using the specified key. Unencrypted messages are sent to the Error Queue.</p><p>The keyring can also be specified via message property by indicating the alias of the keyring. The filter can automatically identify the relevant key from within the given keyring.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Verify Keyring</p></td>
+          <td colspan="1" class="confluenceTd"><p>The <span>RPG</span> public keyring to verify the signature of the message.</p><p><span>When this property is set, the</span> filter expects messages to have been signed using the <span>specified</span> key. Unsigned messages are sent to the <span>Error Queue</span>.</p><p>The keyring can also be specified via message property by indicating the alias of the keyring. The filter automatically identifies the suitable key from within the given keyring.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Passphrase</td>
+          <td colspan="1" class="confluenceTd"><p>The passphrase to use when the user does not have keys.</p><p>If <strong>Mode</strong> is set to <code>Passphrase only</code>, the user needs to provide the passphrase used to decrypt the message. The filter converts the passphrase string into a symmetric key to decrypt the data.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

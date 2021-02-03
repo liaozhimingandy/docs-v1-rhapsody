@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>XML Encryption / Decryption</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="XML-Filters_133162964.html">XML Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">XML Encryption / Decryption</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162983/133162985.jpg" data-image-src="attachments/133162983/133162985.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162985" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image161.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162983" data-linked-resource-container-version="4"></span></p>
+      <p>The <strong>XML Encryption / Decryption</strong> filter&nbsp;encrypts or decrypts XML messages using a cryptography algorithm. It encrypts or decrypts whole XML message or selective elements. The key encryption can be optionally used. The EncryptedData element has the following structure:</p>
+      <div class="panel" style="border-width: 1px;">
+       <div class="panelContent"> 
+        <p>&lt;xenc:EncryptedData Id?&gt; &lt;xenc:EncryptionMethod/&gt;? &lt;ds:KeyInfo&gt; &lt;xenc:EncryptedKey/&gt;? &lt;ds:KeyName/&gt;? &lt;/ds:KeyInfo&gt; &lt;xenc:CipherData&gt; &lt;xenc:CipherValue/&gt;? &lt;/xenc:CipherData&gt; &lt;/xenc:EncryptedData&gt;</p> 
+       </div>
+      </div>
+      <h2 id="XMLEncryption/Decryption-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encrypt or Decrypt</p></td>
+          <td class="confluenceTd"><p>Identifies whether an XML message processed by this filter is to be encrypted or decrypted:</p>
+           <ul>
+            <li><code>Encrypt</code><span> (default).</span></li>
+            <li><code>Decrypt</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encrypted Part</p></td>
+          <td class="confluenceTd"><p>Options: <code>Encrypt whole message including root tag</code>, <code>Encrypt whole message excluding root tag</code>, <code>Encrypt selected element</code>. Default: <code>Encrypt whole message including root tag</code><br>The part of the XML message to be encrypted. If <code>Encrypt selected element</code> is set then Encrypted Element should be set.</p><p>Only available if <strong>Encrypt or Decrypt</strong> is set to <code>Encrypt</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encrypted Element</p></td>
+          <td class="confluenceTd"><p>The XPath of the selective element to be encrypted / decrypted.</p><p><span>Only available if </span><strong>Encrypted Part</strong><span> is set </span>to <code>Encrypt selected element</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XML Data Cipher</p></td>
+          <td class="confluenceTd"><p>The name of a symmetric cryptography to be used to encrypt the content of the XML. Available algorithms are:</p>
+           <ul>
+            <li><code>AES 128</code></li>
+            <li><code>AES 192</code></li>
+            <li><code>AES 256</code></li>
+            <li><code>Triple DES EDE</code></li>
+           </ul><p><span>Only available if the </span><strong>Encrypt or Decrypt</strong><span> field is set to Encrypt.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Canonicalization Algorithm</p></td>
+          <td class="confluenceTd"><p>The name of the canonicalization algorithm to be used for serializing before the XML content is encrypted. Available algorithms are:</p>
+           <ul>
+            <li><code>Exclusive Canonicalization without Comment</code></li>
+            <li><code>Exclusive Canonicalization with Comment</code></li>
+            <li><code>Canonicalization without Comment</code></li>
+            <li><code>Canonicalization with Comment</code></li>
+           </ul><p><span>Only available if the </span><strong>Encrypt or Decrypt</strong><span> field is set to </span><code>Encrypt</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XML Data Encryption Key</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The secret key to be used for encrypting / decrypting the XML content. Select the key displayed in the <strong>Select AES Symmetric Key</strong> dialog:</p>
+            <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/133162983/133162984.png" data-image-src="attachments/133162983/133162984.png" data-unresolved-comment-count="0" data-linked-resource-id="133162984" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SelectAESSymmetricKey.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162983" data-linked-resource-container-version="4"></span></p>
+            <p>You can generate a new key using the Certificate and Key Manager. Refer to <a href="Managing-Symmetric-Keys_133161243.html#ManagingSymmetricKeys-GeneratingaSymmetricKey">Generating a Symmetric Key</a> for details.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Key Cipher</p></td>
+          <td class="confluenceTd"><p>The name of the cipher to be used for encrypting the XML data encryption key. If None is selected then the key encryption will not be applied. Available algorithms are:</p>
+           <ul>
+            <li><code>AES 128 Key Wrap</code></li>
+            <li><code>AES 192 Key Wrap</code></li>
+            <li><code>AES 256 Key Wrap</code></li>
+            <li><code>Triple DES EDE Key Wrap</code></li>
+            <li><code>RSA OAEP</code></li>
+            <li><code>RSA V1.5</code></li>
+           </ul><p><span>Only available if </span><strong>Encrypt or Decrypt</strong><span> is set to Encrypt.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Key Encryption Key</p></td>
+          <td class="confluenceTd"><p>The certificate which contains the public key to be used for encrypting the XML content encryption key.</p><p><span>Only available if </span><strong>Encrypt or Decrypt</strong><span> is set </span>to <code>Encrypt</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Key Decryption Key</p></td>
+          <td class="confluenceTd"><p>The private key to be used for decrypting the XMLencryption key.</p><p><span>Only available if </span><strong>Encrypt or Decrypt</strong><span> is set </span>to <code>Encrypt</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Enclose Encrypted Key</p></td>
+          <td class="confluenceTd"><p>Only available if <strong>Encrypt or Decrypt</strong> is set to <code>Encrypt</code>.<br>Whether the outgoing encrypted message encloses the encrypted key or not. If set to <code>True</code>, the EncryptedKey element is added to the KeyInfo element.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Namespaces</p></td>
+          <td class="confluenceTd"><p>Determines whether namespaces should be removed from the generated XML:</p>
+           <ul>
+            <li><code>Do not change</code><span> (default).</span></li>
+            <li><code>Remove Namespaces</code><span>.</span></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

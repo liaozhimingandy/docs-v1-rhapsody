@@ -1,0 +1,379 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>rlc-load</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="Unattended-Installations_133164341.html">Unattended Installations</a></span> </li> 
+       <li> <span><a href="Configuring-Rhapsody-IDE-Unattended_133164342.html">Configuring Rhapsody IDE Unattended</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">rlc-load</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section describes how to load a Rhapsody Local Configuration (RLC) file:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146927347 {padding: 0px;}
+div.rbtoc1565146927347 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146927347 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146927347"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#rlc-load-RLCLoad">RLC Load</a></li> 
+        <li><a href="#rlc-load-LookupTables">Lookup Tables</a></li> 
+        <li><a href="#rlc-load-OtherRhapsodyObjects">Other Rhapsody Objects&nbsp;</a></li> 
+        <li><a href="#rlc-load-Example">Example</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If you are using a command line script or XML to overwrite a current configuration and you do not have permissions to overwrite a configuration, you are not presented with an error message indicating you have insufficient privileges to overwrite a configuration. The new configuration, however, does not overwrite the current configuration; it is added to the current configuration. Refer to <a href="Loading-a-Configuration_133161525.html">Loading a Configuration</a> for details.</p>
+       </div>
+      </div>
+      <h2 id="rlc-load-RLCLoad">RLC Load</h2>
+      <p>The following top-level element is used to load an&nbsp;RLC file<span>:</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Element</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>rlc-load</pre></td>
+          <td class="confluenceTd"><p>Loads the RLC file specified by the&nbsp;<code>file</code><span>&nbsp;attribute</span>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Its attributes are:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Attribute</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>file</code> <code> </code></p></td>
+          <td colspan="1" class="confluenceTd"><p>A string that specifies the filename of the RLC file to load.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>defaultLocker</code></p></td>
+          <td colspan="1" class="confluenceTd"><p><span>A string that specifies the name for a <span>new or existing locker</span> to load the RLC <span>configuration</span> into (a<span>n optional&nbsp;</span>attribute).</span></p><p><span>&nbsp;</span>If the RLC file was created before Rhapsody 6.1, the configuration will not be in a locker. On load, a locker will be created if required and the configuration migrated into it. If a locker with the specified name already exists then the configuration is merged into the existing locker.</p><p>To create a new locker, the 'Create locker' access right is required. To load the RLC into an existing locker, the 'Edit locker' access right is required for the relevant locker.</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;!-- Load a pre-locker RLC --&gt;
+&lt;rlc-load file="pre-6.1.rlc" defaultLocker="My Locker"/&gt;</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>passwordImportMode</code></td>
+          <td class="confluenceTd"><p><span>Determines how <span>encrypted passwords contained in an RLC file</span> should be handled when the RLC is imported:</span></p>
+           <ul>
+            <li><span><code>decrypt-passwords</code> - a</span>ny passwords found in the Rhapsody objects loaded from the RLC file are loaded along with the configuration. The passwords are decrypted using the passphrase provided. The RLC load is aborted if either no passphrase is provided in the <code>passphrase</code> attribute or the provided passphrase turns out to be incorrect.</li>
+            <li><code>remove-passwords</code> - any passwords found in the <span>Rhapsody objects</span> loaded from the RLC file are stripped out of the configuration as it is loaded.</li>
+            <li><code>import-passwords</code> - this option can only be used with RLCs that are not using encrypted passwords. When used, it imports the unencrypted passwords along with the configuration. The RLC load is aborted if the specified RLC is encrypted.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>passphrase</code></p></td>
+          <td colspan="1" class="confluenceTd">Specifies a <span>passphrase</span> to use to decrypt passwords associated with Rhapsody objects in the RLC file to be loaded.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>starting</span> </code></td>
+          <td colspan="1" class="confluenceTd"><p>Configures the state of communication points and routes upon RLC load:</p>
+           <ul>
+            <li><code>stop all</code> - stops all routes and communication points after loading the RLC.</li>
+            <li><span><span><code>start all</code> - s</span></span>tarts all routes and communication points after loading the RLC.</li>
+            <li><span><span><span><code>as in rlc</code> - starts or stop routes and communication points based on the settings in the RLC.</span> </span> </span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>checkInMessage</span> </code></td>
+          <td colspan="1" class="confluenceTd"><p>A non-empty string that specifies the commit comment to use for the configuration changes (a<span>n optional attribute)</span>. If the attribute is not provided, then an empty commit comment is used.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><span style="color: rgb(0,0,0);font-size: 20.0px;"> <br>Lockers</span></p>
+      <p>The following elements relating to lockers can be nested inside the <code>rlc-load</code>&nbsp;element:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>locker</span> </code></td>
+          <td class="confluenceTd">Specifies what action to take when importing a specified locker from an RLC<span>.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>locker-default</span> </code></td>
+          <td colspan="1" class="confluenceTd">The same&nbsp;as&nbsp;<code>locker</code>,&nbsp;except the action applies to all lockers in an RLC.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The attributes are:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th colspan="2" class="confluenceTh"><span style="color: rgb(0,0,0);">Attribute</span></th>
+          <th class="confluenceTh"><p style="text-align: left;">Description</p></th>
+         </tr>
+         <tr>
+          <td colspan="2" class="confluenceTd"><code>name</code></td>
+          <td colspan="1" class="confluenceTd"><span>Specifies a particular locker in the RLC (only applicable to</span> <code>locker</code><span>).</span></td>
+         </tr>
+         <tr>
+          <td colspan="2" class="confluenceTd"><code>action</code></td>
+          <td colspan="1" class="confluenceTd"><p>Specifies the action to take when encountering locker conflicts when loading the RLC:</p>
+           <ul>
+            <li><code>auto</code> - for&nbsp;a specified locker with:
+             <ul>
+              <li>A different name from existing lockers on the engine, imports the locker as is.</li>
+              <li>The same name and <a href="Rhapsody-Glossary_133164568.html#RhapsodyGlossary-UUID">UUID</a> as an existing locker on the engine, merges the difference of the two lockers into the existing locker.</li>
+              <li>The same name but a different <a href="Rhapsody-Glossary_133164568.html#RhapsodyGlossary-UUID">UUID</a> from an existing locker on the engine, imports the locker by adding an increment number to its name.</li>
+             </ul></li>
+            <li><code>new</code> - for a specified locker with:
+             <ul>
+              <li>A different name from existing lockers on the engine, imports the locker as is.</li>
+              <li>The same name as an existing locker on the engine, imports the locker by adding an increment number to its name.</li>
+             </ul></li>
+            <li><code>merge</code> - for&nbsp;a specified locker with:
+             <ul>
+              <li>A different name and UUID from an existing locker on the engine,&nbsp;imports the locker as is.</li>
+              <li>A different name and the same UUID as an existing locker on the engine, merges the difference of the two lockers into the existing locker.</li>
+              <li>The same name and UUID as an existing locker on the engine, merges the difference of the two lockers into the existing locker.</li>
+              <li>The same name and different UUID as an existing locker on the engine, imports the locker by adding an increment number to its name.</li>
+             </ul></li>
+            <li><code>skip</code> - skips the importing of the specified locker.</li>
+           </ul><p>If the <code>action</code> attribute is not specified, then <code>auto</code> is used.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="rlc-load-LookupTables">Lookup Tables</h2>
+      <p>The following elements relating to lookup tables can be nested inside the <code>rlc-load</code>&nbsp;element:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>lookup-table</span> </code></td>
+          <td class="confluenceTd">Specifies what action to take when importing a specified <span>lookup table</span> from an RLC.<span>&nbsp;</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>lookup-table-default</span> </code></td>
+          <td class="confluenceTd">The same as&nbsp;<code>lookup-table</code>, except the action applies to all lookup tables in an RLC.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The&nbsp;attributes are:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Attribute</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre><code>name</code></pre></td>
+          <td colspan="1" class="confluenceTd">Specifies a particular lookup table in the RLC (only applicable to&nbsp;<code>lookup-table</code>).</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>action</span><br></code></td>
+          <td colspan="1" class="confluenceTd"><p><span>Specifies the action to take when encountering lookup table conflicts when loading the RLC</span>:</p>
+           <ul>
+            <li><code>auto</code> - <span>for a </span><span>specified</span><span> <span>lookup table</span> </span><span>with:</span>
+             <ul>
+              <li>A different name from existing lookup tables on the engine,&nbsp;imports the specified lookup table as is.</li>
+              <li><span>The same name as an existing lookup table on the </span>engine,<span>&nbsp;only imports <span>the specified lookup table if it is the newer of the two lookup table.</span></span><span><span><br></span></span></li>
+             </ul></li>
+            <li><code>new</code> - f<span>or a </span> <span>specified</span> <span> <span>lookup table</span> </span><span>with:</span>
+             <ul>
+              <li>A different name from existing <span>lookup tables</span> on the engine, imports the specified lookup table as is.</li>
+              <li><span> <span>The same name as an existing <span>lookup table</span> on the </span>engine, imports the<span> specified lookup table <span>by adding an increment number to its name.</span></span></span><span>&nbsp;</span></li>
+             </ul></li>
+            <li><code><span>keep existing</span></code> - does not import the <span>specified </span>lookup table (same as <code>skip</code> for lockers).</li>
+            <li><code>overwrite</code> - imports the <span>specified </span>lookup table and removes any existing lookup table on the engine with<span> the same name</span>.</li>
+           </ul><p>If the <code>action</code> attribute is not specified, then <code>auto</code> is used.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="rlc-load-OtherRhapsodyObjects">Other Rhapsody Objects&nbsp;</h2>
+      <p>The following elements relating to Rhapsody objects can be nested inside the <code style="color: rgb(51,51,51);font-size: 14.0px;">rlc-load</code> <span style="color: rgb(51,51,51);">element:</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>rest-client</span><br></code></td>
+          <td class="confluenceTd">Specifies what action to take when <span>importing a specified</span> REST client from an RLC.<span>&nbsp;</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>rest-client-default</span><br></code></td>
+          <td colspan="1" class="confluenceTd">The same as&nbsp;<code>rest-client</code>, except the action applies to all REST clients in an RLC.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>javascript-library</span><br></code></td>
+          <td colspan="1" class="confluenceTd">Specifies what action to take when importing<span> a specified</span>&nbsp;shared JavaScript library from an RLC.<span>&nbsp;</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>javascript-library-default</span><br></code></td>
+          <td colspan="1" class="confluenceTd"><p>The same as&nbsp;<code>javascript-library</code>,&nbsp;except the action applies to all shared JavaScript libraries in an RLC.<code>&nbsp;</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>intelligent-mapper-project</span><br></code></td>
+          <td colspan="1" class="confluenceTd"><p>Specifies what action to take when importing<span> a specified</span> mapping project from an RLC.<span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>intelligent-mapper-project-default</span><br></code></td>
+          <td colspan="1" class="confluenceTd">The same as&nbsp;<code>intelligent-mapper</code>,&nbsp;except the action applies to all mapping projects, not a specific one,.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>x12-project</span><br></code></td>
+          <td colspan="1" class="confluenceTd"><p>Specifies what action to take when importing<span> a specified</span> X12 project from an RLC.<span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>x12-project-default</span><br></code></td>
+          <td colspan="1" class="confluenceTd">The same as&nbsp;<code>x12-project</code>,&nbsp;except the action applies to all X12 projects, not a specific one <span>on the engine.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>route-template</span><br></code></td>
+          <td colspan="1" class="confluenceTd"><p>Specifies what action to take when importing<span> a specified</span> route template from an RLC.<span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>route-template-default</span> </code></td>
+          <td colspan="1" class="confluenceTd">The same as&nbsp;<code>route-template</code>,&nbsp;except the action applies to all route templates in an RLC.<code>&nbsp;</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>filter-template</span><br></code></td>
+          <td colspan="1" class="confluenceTd">Specifies what action to take when importing<span> a specified</span> filter template from an RLC.<span>&nbsp;</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>filter-template-default</span><br></code></td>
+          <td colspan="1" class="confluenceTd">The same as&nbsp;<code>filter-template</code>,&nbsp;except the action applies to all filter templates in an RLC.<code>&nbsp;</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>communication-point-template</span><br></code></td>
+          <td colspan="1" class="confluenceTd">Specifies what action to take when importing<span> a specified</span> communication point template from an RLC.<span>&nbsp;</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>communication-point-template-default</span><br></code></td>
+          <td colspan="1" class="confluenceTd">The same as&nbsp;<code>communication-point-template</code>,&nbsp;except the action applies to all communication point templates in an RLC.<code>&nbsp;</code></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The&nbsp;attributes are:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Attribute</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre><code>name</code></pre></td>
+          <td colspan="1" class="confluenceTd"><p>Specifies a single instance of a particular Rhapsody object in the RLC.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>action</code></p></td>
+          <td class="confluenceTd"><p><span>Specifies the action to take when encountering Rhapsody object conflicts when loading the RLC</span> <span>:</span></p>
+           <ul>
+            <li><code>auto</code> - the same as <code>overwrite</code>.</li>
+            <li><code>new</code> - for a specified <span>Rhapsody object</span> with:
+             <ul>
+              <li>A different name from existing Rhapsody objects on the<span>&nbsp;</span>engine <span>of the same type</span>, imports the specified <span>Rhapsody object</span> as is.</li>
+              <li>The same name as an existing <span>Rhapsody object</span> on the engine <span>of the same type</span>, imports the specified <span>Rhapsody object </span>by adding an increment number to its name.</li>
+             </ul><code>skip</code> - does not import the specified Rhapsody object.</li>
+            <li><code>overwrite</code> - imports the specified <span>Rhapsody object</span> and removes any <span>existing </span> Rhapsody object on the engine with the same name and type.</li>
+           </ul><p><span>If the </span><code>action</code><span> attribute is not specified, then </span><code>auto</code> <span>is used.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="rlc-load-Example">Example</h2>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;!-- Load an RLC --&gt;
+&lt;rlc-load file="MyConfig.rlc" passwordImportMode="decrypt-passwords" passphrase="5ecrets" starting="start all" checkInMessage='Loading an RLC'/&gt;
+
+    &lt;!-- Load with locker collision actions --&gt;
+	&lt;locker-default action="skip"/&gt;
+	&lt;locker name="My Locker" action="merge"/&gt;
+	&lt;locker name="Labs" action="skip"/&gt;
+
+    &lt;!-- Load with lookup table collision actions --&gt;
+	&lt;lookup-table-default action="auto"/&gt;
+	&lt;lookup-table name="Table" action="overwrite"/&gt;
+&nbsp;
+    &lt;!-- Load with REST client collision actions --&gt;
+	&lt;rest-client-default action="auto"/&gt;
+	&lt;rest-client name="String Library" action="overwrite"/&gt;
+
+    &lt;!-- Load with shared JavaScript library collision actions --&gt;
+	&lt;javascript-library-default action="auto"/&gt;
+	&lt;javascript-library name="JSLib" action="overwrite"/&gt;
+
+    &lt;!-- Load with Intelligent Mapper mapping project collision actions --&gt;
+    &lt;intelligent-mapper-project-default action="auto"/&gt;
+    &lt;intelligent-mapper-project name="Mapping Proj 1" action="overwrite"/&gt;
+
+    &lt;!-- Load with X12 project collision actions --&gt;
+    &lt;x12-project-default action="auto"/&gt;
+    &lt;x12-project name="X12 Proj 1" action="overwrite"/&gt;
+
+    &lt;!-- Load with route template collision actions --&gt;
+    &lt;route-template-default action="auto"/&gt;
+    &lt;route-template name="Route Template 1" action="overwrite"/&gt;
+
+    &lt;!-- Load with filter template collision actions --&gt;
+    &lt;filter-template-default action="auto"/&gt;
+    &lt;filter-template name="Filter Template 1" action="overwrite"/&gt;
+
+    &lt;!-- Load with communication point template collision actions --&gt;
+    &lt;communication-point-template-default action="auto"/&gt;
+    &lt;communication-point-template name="Comm Pt Template 1" action="overwrite"/&gt;
+&nbsp;
+&lt;/rlc-load&gt;</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

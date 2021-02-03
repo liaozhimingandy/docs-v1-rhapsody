@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Viewing Rhapsody Engines</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Rhapsody-Server-Authentication_133161184.html">Rhapsody Server Authentication</a></span> </li> 
+       <li> <span><a href="Rhapsody-IDE-Trust-Manager_133161202.html">Rhapsody IDE Trust Manager</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Viewing Rhapsody Engines</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Rhapsody IDE Trust Manager's main page displays the connection information for all Rhapsody engines that are trusted by this computer.&nbsp;It shows both Rhapsody engines added via actions of the current user (either using the Rhapsody IDE or this tool directly), and those Rhapsody engines added by the system administrator. Rhapsody engines added by the system administrator can be viewed in this tool but cannot be edited. Refer to <a href="Administrative-Control-of-Rhapsody-Server-Authentication_133161185.html">Administrative Control of Rhapsody Server Authentication</a> for details.</p>
+      <p><span class="image-wrap"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161203/133161204.png" data-image-src="attachments/133161203/133161204.png" data-unresolved-comment-count="0" data-linked-resource-id="133161204" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="IDETrustManager.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161203" data-linked-resource-container-version="1"></span> </span></p>
+      <p>The table contains the following columns:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Column Name</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Hostname</td>
+          <td class="confluenceTd">The Rhapsody engine hostname as used in the Rhapsody IDE to connect to it. This value, in combination with the port, is used to identify the Rhapsody engine.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Port</td>
+          <td class="confluenceTd">The IDE connection port the Rhapsody engine is listening on. This value, in combination with the hostname, is used to identify the Rhapsody engine.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Issued To</td>
+          <td class="confluenceTd">The subject's common name (CN) extracted from the SSL certificate presented by the Rhapsody engine. If the SSL certificate presented by the Rhapsody engine is no longer available on this machine, then this will display the certificate thumbprint instead.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Issued By</td>
+          <td class="confluenceTd">The issuer's common name (CN) extracted from the SSL certificate presented by the Rhapsody engine. This will be blank if the SSL certificate presented by the Rhapsody engine is no longer available.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Validate Hostname</td>
+          <td class="confluenceTd">Indicates whether the Rhapsody IDE will validate the engine hostname against the names included in its SSL certificate prior to allowing the connection to proceed.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ViewingRhapsodyEngines-Commands">Commands</h2>
+      <p>A number of commands can be run from this main page: from the main menu, the toolbar, a shortcut key, or via the right-click context menu. These commands are described in the following table:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Command</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="133161209.html#Adding,EditingorRemovingaRhapsodyEngine-AddingaRhapsodyEngine">Add Engine</a></td>
+          <td class="confluenceTd">Displays a form to allow a new Rhapsody engine to be added.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="133161209.html#Adding,EditingorRemovingaRhapsodyEngine-EditingaRhapsodyEngine">Edit Engine</a></td>
+          <td class="confluenceTd">Displays a form to allow the currently selected Rhapsody engine to be modified. If the currently selected engine has been configured by the system administrator, this command changes to 'View Engine' and just allows viewing rather than editing.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="133161209.html#Adding,EditingorRemovingaRhapsodyEngine-RemovingaRhapsodyEngine">Remove Engine</a></td>
+          <td class="confluenceTd">Removes the connection details for the selected Rhapsody engine so that the next connection attempt from the Rhapsody IDE will have no knowledge of any previous certificates used by that engine. This option is not available for Rhapsody engines added by the system administrator.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span class="confluence-link">View Certificate</span></td>
+          <td class="confluenceTd">Displays the Windows certificate viewer for the SSL certificate presented by the selected Rhapsody engine. This option is not available if the SSL certificate is no longer available in the Windows certificate store.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Refresh</td>
+          <td class="confluenceTd">Reloads all the Rhapsody engine connection details from the registry.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified"
+	elementFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.orionhealth.com/rhapsody/2010/02/NotificationEvent"
+	xmlns="http://www.orionhealth.com/rhapsody/2010/02/NotificationEvent">
+	<xs:element name="event">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="1" name="enginehost"
+					type="xs:string" maxOccurs="1" nillable="false">
+					<xs:annotation>
+						<xs:documentation>
+							The IP address or hostname of the Rhapsody
+							Engine
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element minOccurs="1" name="timestamp"
+					type="xs:dateTime" maxOccurs="1" nillable="false">
+					<xs:annotation>
+						<xs:documentation>
+							Event time represented in the ISO8601 XML
+							date format
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="component" type="component"
+					maxOccurs="1" minOccurs="0" nillable="true">
+					<xs:annotation>
+						<xs:documentation>
+							The compound identifier if available
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="parameters" maxOccurs="1"
+					minOccurs="0" type="parameters">
+				</xs:element>
+				<xs:any></xs:any>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The event name as seen in the Rhapsody IDE
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="id" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique event identifier</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:anyAttribute>
+				<xs:annotation>
+					<xs:documentation>Reserved for future development
+					</xs:documentation>
+				</xs:annotation>
+			</xs:anyAttribute>
+		</xs:complexType>
+	</xs:element>
+
+
+	<xs:complexType name="component">
+        <xs:sequence>
+        	<xs:any></xs:any>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:int">
+			<xs:annotation>
+				<xs:documentation>
+					The component identifier
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="guid" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					The globally unique identifier (GUID) of the
+					component
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:anyAttribute>
+			<xs:annotation>
+				<xs:documentation>Reserved for future development</xs:documentation>
+			</xs:annotation>
+		</xs:anyAttribute>
+	</xs:complexType>
+
+
+	<xs:complexType name="parameters">
+		<xs:sequence>
+			<xs:element name="parameter" type="parameter"
+				maxOccurs="unbounded" minOccurs="0">
+			</xs:element>
+			<xs:any></xs:any>
+		</xs:sequence>
+		<xs:anyAttribute></xs:anyAttribute>
+	</xs:complexType>
+
+	<xs:complexType name="parameter">
+		<xs:sequence>
+			<xs:any></xs:any>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string"></xs:attribute>
+		<xs:anyAttribute></xs:anyAttribute>
+	</xs:complexType>
+
+</xs:schema>

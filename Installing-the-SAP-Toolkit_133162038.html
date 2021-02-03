@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Installing the SAP Toolkit</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Toolkits_133162036.html">Toolkits</a></span> </li> 
+       <li> <span><a href="SAP-Toolkit_133162037.html">SAP Toolkit</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Installing the SAP Toolkit</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="InstallingtheSAPToolkit-InstallingaLicense"><span>Installing a License</span></h2>
+      <p><span>To use the SAP Toolkit, a valid Rhapsody license with the SAP Toolkit feature enabled is required. Refer to </span><a href="Managing-Licensing_133160983.html">Managing Licensing</a><span> for details on how to install a license.</span></p>
+      <h2 id="InstallingtheSAPToolkit-DeployingtheSAPToolkit">Deploying the SAP Toolkit</h2>
+      <h3 id="InstallingtheSAPToolkit-DownloadtheLibraries">Download the Libraries</h3>
+      <p>To use the SAP Toolkit, the appropriate SAP libraries for your system are required. These can be downloaded from the&nbsp;<a href="https://service.sap.com/connectors" class="external-link" rel="nofollow">SAP Service Marketplace</a>. The SAP JCo (version 3) libraries are required for the Rhapsody engine, and the SAP Nco (version 3) libraries are required for any machine that will be using the Rhapsody IDE to configure SAP components.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Without the SAP libraries installed, SAP filters and communication points can be used in the Rhapsody IDE, but it would not possible to configure them. They may need to be re-configured after the libraries have been installed before they can be used.</p>
+       </div>
+      </div>
+      <h3 id="InstallingtheSAPToolkit-InstallingtheSAPJColibraries">Installing the SAP JCo libraries</h3>
+      <p>In the <code>tools/DeploySAPModule</code> folder of the engine is a tool that will package the SAP JCo libraries into a format that Rhapsody can use. The following steps should be followed:</p>
+      <ol>
+       <li><p>Copy the appropriate JCo libaries into this folder. This should be two files, the <code>sapjco3.jar</code> and the native library, which will either be&nbsp;<code>libsapjco3.so</code> or <code>sapjco3.dll</code>, depending on which operating system Rhapsody is running on.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Care should be taken to make sure that the correct native library for the operating system and architecture (for example, 32- or 64-bit) is chosen.</p>
+         </div>
+        </div></li>
+       <li><p>Run either <code>deploySAPModule.bat</code> or <code>deploySAPModule.sh</code>, depending on which operating system Rhapsody is running on.</p></li>
+       <li>The console output should indicate whether or not the operation was successful. If it did succeed, a file,&nbsp;<code>com.orchestral.rhapsody.module.helper.sap.jar</code> will have been deployed to the <code>modules</code> folder of the <code>data</code> directory. If the was an issue deploying the file to that location, the file should appear in the current directory, and it should be manually copied to the <code>modules</code> folder of the <code>data</code> directory.</li>
+       <li>Typically the engine picks up this new file within a minute or two. The Rhapsody IDE will need to be restarted to pick up these changes.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If the output indicates failure due to a permissions issue, make sure that the user running the script has permissions to write to the <code>modules</code> folder and/or run the script with a user that does have permissions.</p>
+       </div>
+      </div>
+      <h3 id="InstallingtheSAPToolkit-InstallingtheSAPNColibraries">Installing the SAP NCo libraries</h3>
+      <p>For any machine that is running the Rhapsody IDE and is required to configure SAP communication points or filters, the SAP NCo (version 3) libraries should be installed. The 32-bit (x86) version should be installed.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When installing the SAP NCo library, it is imperative to select the <strong>Install assembles to GAC</strong> option on the <strong>Optional setup steps</strong> dialog. Failure to do this results in the Rhapsody IDE being unable to find the SAP NCo library.</p>
+       </div>
+      </div>
+      <p> </p>
+      <p><br></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

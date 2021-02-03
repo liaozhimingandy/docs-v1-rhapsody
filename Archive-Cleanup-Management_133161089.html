@@ -1,0 +1,1128 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Archive Cleanup Management</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Archive Cleanup Management</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods for managing <a href="Archive-Cleanup_133164049.html">archive cleanup</a> and Error Queue defragmentation tasks:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147001999 {padding: 0px;}
+div.rbtoc1565147001999 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147001999 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147001999"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ArchiveCleanupManagement-GET/api/archivecleanup/cleanup">GET /api/archivecleanup/cleanup</a></li> 
+        <li><a href="#ArchiveCleanupManagement-POST/api/archivecleanup/cleanup">POST /api/archivecleanup/cleanup</a></li> 
+        <li><a href="#ArchiveCleanupManagement-DELETE/api/archivecleanup/cleanup">DELETE /api/archivecleanup/cleanup</a></li> 
+        <li><a href="#ArchiveCleanupManagement-GET/api/archivecleanup/cleanup/settings">GET /api/archivecleanup/cleanup/settings</a></li> 
+        <li><a href="#ArchiveCleanupManagement-PUT/api/archivecleanup/cleanup/settings">PUT /api/archivecleanup/cleanup/settings</a></li> 
+        <li><a href="#ArchiveCleanupManagement-GET/api/archivecleanup/defrag">GET /api/archivecleanup/defrag</a></li> 
+        <li><a href="#ArchiveCleanupManagement-POST/api/archivecleanup/defrag">POST /api/archivecleanup/defrag</a></li> 
+        <li><a href="#ArchiveCleanupManagement-DELETE/api/archivecleanup/defrag">DELETE /api/archivecleanup/defrag</a></li> 
+        <li><a href="#ArchiveCleanupManagement-GET/api/archivecleanup/defrag/settings">GET /api/archivecleanup/defrag/settings</a></li> 
+        <li><a href="#ArchiveCleanupManagement-PUT/api/archivecleanup/defrag/settings">PUT /api/archivecleanup/defrag/settings</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="ArchiveCleanupManagement-GET/api/archivecleanup/cleanup">GET /api/archivecleanup/cleanup</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>GET /api/archivecleanup/cleanup</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td colspan="1" class="confluenceTd">Gets the archive cleanup status and results.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" rowspan="2" data-highlight-colour="grey"><p><strong>Request Header</strong></p></td>
+          <td class="confluenceTd"><p><code>Accept: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Accept: application/vnd.orchestral.rhapsody.6_2+json</span> </code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Status</strong></p></td>
+          <td class="confluenceTd"><p><code>200 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Body</strong></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The response body has the following structure:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":{
+        "manualStatus": {
+            "status": "NOT_RUNNING",
+            "result": "SUCCEEDED",
+            "completionTime": "20150806T170751.603+1200",
+            "runDuration": "PT0.592S",
+            "filesRemoved": 0,
+            "filesFailedToRemoved": 0,
+            "diskSpaceFreed": 0,
+            "diskSpaceFailedToFree": 0,
+            "eligibleDefragMessages": 131301
+        },
+        "automaticStatus": {
+            "status": "NOT_RUNNING",
+            "result": "SUCCEEDED",
+            "completionTime": "20150806T171000.523+1200",
+            "runDuration": "PT0.521S",
+            "filesRemoved": 0,
+            "filesFailedToRemoved": 0,
+            "diskSpaceFreed": 0,
+            "diskSpaceFailedToFree": 0,
+            "eligibleDefragMessages": 131289
+        }
+    },
+    "error": null
+}</pre> 
+             </div>
+            </div>
+            <p>The units for <code>diskSpaceFreed</code> and <code>diskSpaceFailedToFree</code> are bytes.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd"><p>'Organize archive cleanup REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ArchiveCleanupManagement-POST/api/archivecleanup/cleanup">POST /api/archivecleanup/cleanup</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>POST /api/archivecleanup/cleanup</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Description</strong></p></td>
+          <td class="confluenceTd"><p>Starts an archive cleanup.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Header</strong></p></td>
+          <td class="confluenceTd"><p><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Status</strong></p></td>
+          <td class="confluenceTd"><p><code>204 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Access Rights</strong></p></td>
+          <td class="confluenceTd"><p>Organize archive cleanup<span> REST API</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ArchiveCleanupManagement-DELETE/api/archivecleanup/cleanup">DELETE /api/archivecleanup/cleanup</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>DELETE /api/archivecleanup/cleanup</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Description</strong></p></td>
+          <td class="confluenceTd"><p>Cancels a running archive cleanup.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Header</strong></p></td>
+          <td class="confluenceTd"><p><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Status</strong></p></td>
+          <td class="confluenceTd"><p><code>204 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Access Rights</strong></p></td>
+          <td class="confluenceTd"><p>'Organize archive cleanup<span> REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ArchiveCleanupManagement-GET/api/archivecleanup/cleanup/settings">GET /api/archivecleanup/cleanup/settings</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>URI</strong></td>
+          <td class="confluenceTd"><p><code>GET /api/archivecleanup/cleanup/settings</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td class="confluenceTd">Retrieves the archive cleanup settings.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" rowspan="3" data-highlight-colour="grey"><strong>Request Header</strong></td>
+          <td class="confluenceTd"><code>Accept: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_2+json&nbsp;</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Accept: application/vnd.orchestral.rhapsody.6_3+json</span></code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Request Body</strong></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Returns the settings in JSON format. If a schedule is set then the current schedule type and settings are also returned:</p>
+            <ul>
+             <li><code>archiveDataPeriodUnit</code> can be one of <code>DAY</code>, <code>HOUR</code>.</li>
+             <li><code>schedule</code>→<code>periodType</code> can be one of <code>HOURLY</code>, <code>DAILY</code>, <code>WEEKLY</code>, <code>MONTHLY</code>, <code>CRON</code>.</li>
+             <li><code>schedule</code>→<code>weeklySchedule</code>→<code>dayOfWeek</code> can be one of <code>MONDAY</code>, <code>TUESDAY</code>, <code>WEDNESDAY</code>, <code>THURSDAY</code>, <code>FRIDAY</code>, <code>SATURDAY</code>, <code>SUNDAY</code>.</li>
+             <li><code>schedule</code>→<code>monthlySchedule</code>→<code>monthlyMode</code> can be one of <code>FIRST_DAY</code>, <code>LAST_DAY</code>, <code>CHOOSE_DAY</code>.</li>
+            </ul>
+            <div id="expander-1909541390" class="expand-container">
+             <div id="expander-control-1909541390" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Examples</span>
+             </div>
+             <div id="expander-content-1909541390" class="expand-content">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With hourly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":{
+        "archiveDataPeriod": 1,
+        "archiveDataPeriodUnit": "HOUR",
+        "logsPeriod": 28,
+        "cleanupNotificationEvents": false,
+        "notificationEventDataPeriod": 90,
+        "schedule":{
+            "periodType": "HOURLY",
+            "hourlySchedule": {
+                "hourlyPeriod": 5,
+                "hourlyMinuteOfHour": 0
+            },
+            "dailySchedule": null,
+            "weeklySchedule": null,
+            "monthlySchedule": null,
+            "cronSchedule": null
+        },
+        "cleanupOldBackups": true,
+        "backupCleanupPeriod": 28
+    },
+    "error": null
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With daily schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":{
+        "archiveDataPeriod": 1,
+        "archiveDataPeriodUnit": "HOUR",
+        "logsPeriod": 28,
+        "cleanupNotificationEvents": false,
+        "notificationEventDataPeriod": 90,
+        "schedule":{
+            "periodType": "DAILY",
+            "hourlySchedule": null,
+            "dailySchedule": {
+                "hourOfDay": 3,
+                "minuteOfHour": 18
+            },
+            "weeklySchedule": null,
+            "monthlySchedule": null,
+            "cronSchedule": null
+        },
+        "cleanupOldBackups": true,
+        "backupCleanupPeriod": 28
+    },
+    "error": null
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With weekly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":{
+        "archiveDataPeriod": 1,
+        "archiveDataPeriodUnit": "HOUR",
+        "logsPeriod": 28,
+        "cleanupNotificationEvents": false,
+        "notificationEventDataPeriod": 90,
+        "schedule":{
+            "periodType": "WEEKLY",
+            "hourlySchedule": null,
+            "dailySchedule": null,
+            "weeklySchedule": {
+                "hourOfDay": 3,
+                "minuteOfHour": 18,
+                "dayOfWeek": "WEDNESDAY"
+            },
+            "monthlySchedule": null,
+            "cronSchedule": null
+        },
+        "cleanupOldBackups": true,
+        "backupCleanupPeriod": 28
+    },
+    "error": null
+}&nbsp;</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With monthly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":{
+       "archiveDataPeriod": 1,
+        "archiveDataPeriodUnit": "HOUR",
+        "logsPeriod": 28,
+        "cleanupNotificationEvents": false,
+        "notificationEventDataPeriod": 90,
+        "schedule":{
+            "periodType": "MONTHLY",
+            "hourlySchedule": null,
+            "dailySchedule": null,
+            "weeklySchedule": null,
+            "monthlySchedule": {
+                "hourOfDay": 3,
+                "minuteOfHour": 18,
+                "dayOfMonth": 6,
+                "monthlyMode": "CHOOSE_DAY"
+            },
+            "cronSchedule": null
+        },
+        "cleanupOldBackups": true,
+        "backupCleanupPeriod": 28
+    },
+    "error": null
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With cron schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "data":{
+        "archiveDataPeriod": 1,
+        "archiveDataPeriodUnit": "HOUR",
+        "logsPeriod": 28,
+        "cleanupNotificationEvents": false,
+        "notificationEventDataPeriod": 90,
+        "schedule":{
+            "periodType": "CRON",
+            "hourlySchedule": null,
+            "dailySchedule": null,
+            "weeklySchedule": null,
+            "monthlySchedule": null,
+            "cronSchedule": {
+                "cronExpression": "0 0 3 6 * ?"
+            },
+        },
+        "cleanupOldBackups": true,
+        "backupCleanupPeriod": 28
+    },
+    "error": null
+}</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'Organize archive cleanup<span> REST API'.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ArchiveCleanupManagement-PUT/api/archivecleanup/cleanup/settings">PUT /api/archivecleanup/cleanup/settings</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>PUT /api/archivecleanup/cleanup/settings</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Description</strong></p></td>
+          <td class="confluenceTd"><p>Allows the user to set the archive cleanup settings.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" rowspan="3" data-highlight-colour="grey"><p><strong>Request Header</strong></p></td>
+          <td class="confluenceTd"><p><code>Content-Type: application/json</code> <code>&nbsp;</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Content-Type: application/vnd.orchestral.rhapsody.6_2+json</span></code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>Content-Type: application/vnd.orchestral.rhapsody.6_3+json</pre></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Body</strong></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Accepts new settings in JSON format. If a schedule is set then the appropriate schedule information is required. Any schedule type that is not set maintains the previous values:</p>
+            <ul>
+             <li><code>archiveDataPeriodUnit</code> can be one of <code>DAY</code>, <code>HOUR</code>.</li>
+             <li><code>schedule</code>→<code>periodType</code> can be one of <code>HOURLY</code>, <code>DAILY</code>, <code>WEEKLY</code>, <code>MONTHLY</code>, <code>CRON</code>.</li>
+             <li><code>schedule</code>→<code>weeklySchedule</code>→<code>dayOfWeek</code> can be one of <code>MONDAY</code>, <code>TUESDAY</code>, <code>WEDNESDAY</code>, <code>THURSDAY</code>, <code>FRIDAY</code>, <code>SATURDAY</code>, <code>SUNDAY</code>.</li>
+             <li><code>schedule</code>→<code>monthlySchedule</code>→<code>monthlyMode</code> can be one of <code>FIRST_DAY</code>, <code>LAST_DAY</code>, <code>CHOOSE_DAY</code>.</li>
+            </ul>
+            <div id="expander-1123685459" class="expand-container">
+             <div id="expander-control-1123685459" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Examples</span>
+             </div>
+             <div id="expander-content-1123685459" class="expand-content">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a hourly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "archiveDataPeriod": 1,
+    "archiveDataPeriodUnit": "HOUR",
+    "logsPeriod": 28,
+    "cleanupNotificationEvents": false,
+    "notificationEventDataPeriod": 90,
+    "cleanupOldBackups": true,
+    "backupCleanupPeriod": 60,
+    "schedule":{
+        "periodType": "HOURLY",
+        "hourlySchedule": {
+            "hourlyPeriod": 5,
+            "minuteOfHour": 0
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a daily schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "archiveDataPeriod": 1,
+    "archiveDataPeriodUnit": "HOUR",
+    "logsPeriod": 28,
+    "cleanupNotificationEvents": false,
+    "notificationEventDataPeriod": 90,
+    "cleanupOldBackups": true,
+    "backupCleanupPeriod": 60,
+    "schedule":{
+        "periodType": "DAILY",
+        "dailySchedule": {
+            "hourOfDay": 3,
+            "minuteOfHour": 18
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a weekly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "archiveDataPeriod": 1,
+    "archiveDataPeriodUnit": "HOUR",
+    "logsPeriod": 28,
+    "cleanupNotificationEvents": false,
+    "notificationEventDataPeriod": 90,
+    "cleanupOldBackups": true,
+    "backupCleanupPeriod": 60,
+    "schedule":{
+        "periodType": "WEEKLY",
+        "weeklySchedule": {
+            "hourOfDay": 3,
+            "minuteOfHour": 18,
+            "dayOfWeek": "WEDNESDAY"
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a monthly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "archiveDataPeriod": 1,
+    "archiveDataPeriodUnit": "HOUR",
+    "logsPeriod": 28,
+    "cleanupNotificationEvents": false,
+    "notificationEventDataPeriod": 90,
+    "cleanupOldBackups": true,
+    "backupCleanupPeriod": 60,
+    "schedule":{
+        "periodType": "MONTHLY",
+        "monthlySchedule": {
+            "hourOfDay": 3,
+            "minuteOfHour": 18,
+            "dayOfMonth": 6,
+            "monthlyMode": "CHOOSE_DAY"
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a cron schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "archiveDataPeriod": 1,
+    "archiveDataPeriodUnit": "HOUR",
+    "logsPeriod": 28,
+    "cleanupNotificationEvents": false,
+    "notificationEventDataPeriod": 90,
+    "cleanupOldBackups": true,
+    "backupCleanupPeriod": 60,
+    "schedule":{
+        "periodType": "CRON",
+        "cronSchedule": {
+            "cronExpression": "0 0 3 6 * ?"
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'Organize archive cleanup<span> REST API'.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ArchiveCleanupManagement-GET/api/archivecleanup/defrag">GET /api/archivecleanup/defrag</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>GET /api/archivecleanup/defrag</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Description</strong></p></td>
+          <td class="confluenceTd"><p>Retrieves the defragmentation task status and results.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" rowspan="2" data-highlight-colour="grey"><p><strong>Request Header</strong></p></td>
+          <td class="confluenceTd"><p><code>Accept: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Accept: application/vnd.orchestral.rhapsody.6_2+json</span> </code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Status</strong></p></td>
+          <td class="confluenceTd"><p><code>200 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Body</strong></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span>The response body has the following structure:</span></p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data": 
+    {
+        "currentStatus": "NOT_RUNNING",
+        "lastRunResult": "SUCCEEDED",
+        "completionTime": "20150806T170917.288+1200",
+        "messagesDefragged": 2,
+        "messagesFailedDefrag": 0,
+        "stoppedPrematurely": true,
+        "stoppedPrematurelyReason":"LIMITED_DISK_SPACE"
+    },
+    "error": null
+}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd"><p>'Organize message defragmentation<span> REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br></p>
+      <h2 id="ArchiveCleanupManagement-POST/api/archivecleanup/defrag">POST /api/archivecleanup/defrag</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>POST /api/archivecleanup/defrag</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Description</strong></p></td>
+          <td class="confluenceTd"><p>Starts a defragmentation task.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Header</strong></p></td>
+          <td class="confluenceTd"><p><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Status</strong></p></td>
+          <td class="confluenceTd"><p><code>204 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Access Rights</strong></p></td>
+          <td class="confluenceTd"><p>'Organize message defragmentation<span> REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ArchiveCleanupManagement-DELETE/api/archivecleanup/defrag">DELETE /api/archivecleanup/defrag</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>DELETE /api/archivecleanup/defrag</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Description</strong></p></td>
+          <td class="confluenceTd"><p>Cancels a running defragmentation task.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Header</strong></p></td>
+          <td class="confluenceTd"><p><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Status</strong></p></td>
+          <td class="confluenceTd"><p><code>204 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Access Rights</strong></p></td>
+          <td class="confluenceTd"><p>'Organize message defragmentation<span> REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ArchiveCleanupManagement-GET/api/archivecleanup/defrag/settings">GET /api/archivecleanup/defrag/settings</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>GET /api/archivecleanup/defrag/settings</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Description</strong></p></td>
+          <td class="confluenceTd"><p>Retrieves the defragmentation task settings.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" rowspan="2" data-highlight-colour="grey"><p><strong>Request Header</strong></p></td>
+          <td class="confluenceTd"><p><code>Accept: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Accept: application/vnd.orchestral.rhapsody.6_2+json</span> </code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Body</strong></p></td>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Status</strong></p></td>
+          <td class="confluenceTd"><p><code>200 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Body</strong></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Returns the settings in JSON format. If a schedule is set then the current schedule type and settings are also returned:</p>
+            <ul>
+             <li><code>launchType</code> can be one of <code>USE_SCHEDULE</code>, <code>AUTOMATICALLY_AFTER_ARCHIVE_CLEANUP</code>, <code>OFF</code>.</li>
+             <li><code>schedule</code>→<code>periodType</code> can be one of <code>HOURLY</code>, <code>DAILY</code>, <code>WEEKLY</code>, <code>MONTHLY</code>, <code>CRON</code>.</li>
+             <li><code>schedule</code>→<code>weeklySchedule</code>→<code>dayOfWeek</code> can be one of <code>MONDAY</code>, <code>TUESDAY</code>, <code>WEDNESDAY</code>, <code>THURSDAY</code>, <code>FRIDAY</code>, <code>SATURDAY</code>, <code>SUNDAY</code>.</li>
+             <li><code>schedule</code>→<code>monthlySchedule</code>→<code>monthlyMode</code> can be one of <code>FIRST_DAY</code>, <code>LAST_DAY</code>, <code>CHOOSE_DAY</code>.</li>
+            </ul>
+            <div id="expander-1900041886" class="expand-container">
+             <div id="expander-control-1900041886" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Examples</span>
+             </div>
+             <div id="expander-content-1900041886" class="expand-content">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With no schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "data":{
+        "defragThreshold": 2,
+        "maxMessagesToDefrag": 10000,
+        "delayBetweenBatches": 60,
+        "messagesPerBatch": 1000,
+        "launchType": "AUTOMATICALLY_AFTER_ARCHIVE_CLEANUP",
+        "schedule":null
+    },
+    "error": null
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With hourly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "data":{
+        "defragThreshold": 2,
+        "maxMessagesToDefrag": 10000,
+        "delayBetweenBatches": 60,
+        "messagesPerBatch": 1000,
+        "launchType": "USE_SCHEDULE",
+        "schedule":{
+            "periodType": "HOURLY",
+            "hourlySchedule": {
+                "hourlyPeriod": 5,
+                "hourlyMinuteOfHour": 0
+            },
+            "dailySchedule": null,
+            "weeklySchedule": null,
+            "monthlySchedule": null,
+            "cronSchedule": null
+        }
+    },
+    "error": null
+}
+</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With daily schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "data":{
+        "defragThreshold": 2,
+        "maxMessagesToDefrag": 10000,
+        "delayBetweenBatches": 60,
+        "messagesPerBatch": 1000,
+        "launchType": "USE_SCHEDULE",
+        "schedule":{
+            "periodType": "DAILY",
+            "hourlySchedule": null,
+            "dailySchedule": {
+                "hourOfDay": 3,
+                "minuteOfHour": 18
+            },
+            "weeklySchedule": null,
+            "monthlySchedule": null,
+            "cronSchedule": null
+        }
+    },
+    "error": null
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With weekly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "data":{
+        "defragThreshold": 2,
+        "maxMessagesToDefrag": 10000,
+        "delayBetweenBatches": 60,
+        "messagesPerBatch": 1000,
+        "launchType": "USE_SCHEDULE",
+        "schedule":{
+            "periodType": "WEEKLY",
+            "hourlySchedule": null,
+            "dailySchedule": null,
+            "weeklySchedule": {
+                "hourOfDay": 3,
+                "minuteOfHour": 18,
+                "dayOfWeek": "WEDNESDAY"
+            },
+            "monthlySchedule": null,
+            "cronSchedule": null
+        }
+    },
+    "error": null
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With monthly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "data":{
+        "defragThreshold": 2,
+        "maxMessagesToDefrag": 10000,
+        "delayBetweenBatches": 60,
+        "messagesPerBatch": 1000,
+        "launchType": "USE_SCHEDULE",
+        "schedule":{
+            "periodType": "MONTHLY",
+            "hourlySchedule": null,
+            "dailySchedule": null,
+            "weeklySchedule": null,
+            "monthlySchedule": {
+                "hourOfDay": 3,
+                "minuteOfHour": 18,
+                "dayOfMonth": 6,
+                "monthlyMode": "CHOOSE_DAY"
+            },
+            "cronSchedule": null
+        }
+    },
+    "error": null
+}
+</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With cron schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "data":{
+        "defragThreshold": 2,
+        "maxMessagesToDefrag": 10000,
+        "delayBetweenBatches": 60,
+        "messagesPerBatch": 1000,
+        "launchType": "USE_SCHEDULE",
+        "schedule":{
+            "periodType": "CRON",
+            "hourlySchedule": null,
+            "dailySchedule": null,
+            "weeklySchedule": null,
+            "monthlySchedule": null,
+            "cronSchedule": {
+                "cronExpression": "0 0 3 6 * ?"
+            }
+        }
+    },
+    "error": null
+}</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Access Rights</strong></p></td>
+          <td class="confluenceTd"><p>'Organize message defragmentation<span> REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ArchiveCleanupManagement-PUT/api/archivecleanup/defrag/settings">PUT /api/archivecleanup/defrag/settings</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>PUT /api/archivecleanup/defrag/settings</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Description</strong></p></td>
+          <td class="confluenceTd"><p>Enables the user to set the defragmentation task settings.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" rowspan="2" data-highlight-colour="grey"><p><strong>Request Header</strong></p></td>
+          <td class="confluenceTd"><p><code>Content-Type: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Content-Type: application/vnd.orchestral.rhapsody.6_2+json</span> </code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Request Body</strong></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Accepts the new settings in JSON format. If a schedule is set then the appropriate schedule information is required:</p>
+            <ul>
+             <li><code>launchType</code> can be one of <code>USE_SCHEDULE</code>, <code>AUTOMATICALLY_AFTER_ARCHIVE_CLEANUP</code>, <code>OFF</code>.</li>
+             <li><code>schedule</code>→<code>periodType</code> can be one of <code>HOURLY</code>, <code>DAILY</code>, <code>WEEKLY</code>, <code>MONTHLY</code>, <code>CRON</code>.</li>
+             <li><code>schedule</code>→<code>weeklySchedule</code>→<code>dayOfWeek</code> can be one of <code>MONDAY</code>, <code>TUESDAY</code>, <code>WEDNESDAY</code>, <code>THURSDAY</code>, <code>FRIDAY</code>, <code>SATURDAY</code>, <code>SUNDAY</code>.</li>
+             <li><code>schedule</code>→<code>monthlySchedule</code>→<code>monthlyMode</code> can be one of <code>FIRST_DAY</code>, <code>LAST_DAY</code>, <code>CHOOSE_DAY</code>.</li>
+            </ul>
+            <div id="expander-987783937" class="expand-container">
+             <div id="expander-control-987783937" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Examples</span>
+             </div>
+             <div id="expander-content-987783937" class="expand-content">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>With no schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "defragThreshold": 2,
+    "maxMessagesToDefrag": 10000,
+    "delayBetweenBatches": 60,
+    "messagesPerBatch": 1000,
+    "launchType": "AUTOMATICALLY_AFTER_ARCHIVE_CLEANUP",
+    "schedule":null
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a hourly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "defragThreshold": 2,
+    "maxMessagesToDefrag": 10000,
+    "delayBetweenBatches": 60,
+    "messagesPerBatch": 1000,
+    "launchType": "USE_SCHEDULE",
+    "schedule":{
+        "periodType": "HOURLY",
+        "hourlySchedule": {
+            "hourlyPeriod": 5,
+            "hourlyMinuteOfHour": 0
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a daily schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "defragThreshold": 2,
+    "maxMessagesToDefrag": 10000,
+    "delayBetweenBatches": 60,
+    "messagesPerBatch": 1000,
+    "launchType": "USE_SCHEDULE",
+    "schedule":{
+        "periodType": "DAILY",
+        "dailySchedule": {
+            "hourOfDay": 3,
+            "minuteOfHour": 18
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a weekly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "defragThreshold": 2,
+    "maxMessagesToDefrag": 10000,
+    "delayBetweenBatches": 60,
+    "messagesPerBatch": 1000,
+    "launchType": "USE_SCHEDULE",
+    "schedule":{
+        "periodType": "WEEKLY",
+        "weeklySchedule": {
+            "hourOfDay": 3,
+            "minuteOfHour": 18,
+            "dayOfWeek": "WEDNESDAY"
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a monthly schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "defragThreshold": 2,
+    "maxMessagesToDefrag": 10000,
+    "delayBetweenBatches": 60,
+    "messagesPerBatch": 1000,
+    "launchType": "USE_SCHEDULE",
+    "schedule":{
+        "periodType": "MONTHLY",
+        "monthlySchedule": {
+            "hourOfDay": 3,
+            "minuteOfHour": 18,
+            "dayOfMonth": 6,
+            "monthlyMode": "CHOOSE_DAY"
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Save settings with a cron schedule</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+    "defragThreshold": 2,
+    "maxMessagesToDefrag": 10000,
+    "delayBetweenBatches": 60,
+    "messagesPerBatch": 1000,
+    "launchType": "USE_SCHEDULE",
+    "schedule":{
+        "periodType": "CRON",
+        "cronSchedule": {
+            "cronExpression": "0 0 3 6 * ?"
+        }
+    }
+}</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><code>204 No Content</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'Organize message defragmentation<span> REST API'.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <div>
+       <span style="white-space: pre-wrap;"><br></span>
+      </div> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

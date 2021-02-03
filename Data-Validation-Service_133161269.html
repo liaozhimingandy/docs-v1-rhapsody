@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Data Validation Service</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Data Validation Service</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Rhapsody Integration Engine includes data validation functionality which is&nbsp;part of the start-up process in Rhapsody and provides the engine with the ability to recover from power failures. It also repairs and recovers data damaged by OS-level write errors.</p>
+      <p>When the engine detects an unclean shutdown (caused by a power failure, for example) upon start-up, Rhapsody performs data validation on the Rhapsody message store to ensure data integrity.</p>
+      <p>The start-up process as relevant to data validation consists of the following stages:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146936578 {padding: 0px;}
+div.rbtoc1565146936578 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146936578 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146936578"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#DataValidationService-UncleanShutdownDetection">Unclean Shutdown Detection</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#DataValidationService-DataValidation">Data Validation</a></li> 
+          <li><a href="#DataValidationService-B-treeValidationandRepair">B-tree Validation and Repair</a></li> 
+          <li><a href="#DataValidationService-InputQueueValidationandRepair">Input Queue Validation and Repair</a></li> 
+         </ul> </li> 
+        <li><a href="#DataValidationService-TransactionRecovery">Transaction Recovery</a></li> 
+        <li><a href="#DataValidationService-ConfigurationValidationandRepair">Configuration Validation and Repair</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="DataValidationService-UncleanShutdownDetection">Unclean Shutdown Detection</h2>
+      <p>Rhapsody can take several minutes to completely shut down, particularly if you have&nbsp;<em>Out-&gt;In</em>&nbsp;communication points that are currently blocking, waiting for a response. The&nbsp;Rhapsody Service Monitor&nbsp;makes it difficult to get this wrong on&nbsp;<em>Windows®</em>, but on Unix® it is possible to restart at the wrong time.</p>
+      <p>Rhapsody can be shut down cleanly in one of the following ways:<span style="color: rgb(0,0,0);">&nbsp;</span></p>
+      <ul>
+       <li>Rhapsody IDE&nbsp;- Navigate to&nbsp;<strong>Rhapsody&gt;Server Actions&gt;Stop Rhapsody Engine...</strong>.</li>
+       <li>Rhapsody Service Monitor&nbsp;(<em>Windows®</em>&nbsp;only) - right-click the Rhapsody Service Monitor on your taskbar, then select&nbsp;<strong>Stop Rhapsody Service</strong>.</li>
+       <li>Unix® only - enter the command&nbsp;<code>./rhapsody.sh stop</code>.</li>
+       <li>Soft process kill (do not use a hard process kill:&nbsp;<code>kill -9</code>).</li>
+      </ul>
+      <p>When Rhapsody starts, the initialization service creates a file called&nbsp;<code>Rhapsody\rhapsody\data\engine.running</code>. Just before the initialization service terminates, it deletes that file. If the&nbsp;<code>engine.running</code>&nbsp;file is present when Rhapsody starts, an unclean shutdown has occurred.</p>
+      <p>The presence of the&nbsp;<code>engine.running</code>&nbsp;file causes data validation to occur during startup.&nbsp;As validation of potentially corrupt files takes place on demand, there is no visual indication of this process in the Management Console.</p>
+      <h3 id="DataValidationService-DataValidation"><span style="color: rgb(0,0,0);">Data Validation</span></h3>
+      <p>In versions of Rhapsody prior to Rhapsody 6.3.0, validation is performed on all files when Rhapsody is first started after an&nbsp;unclean shutdown. As of Rhapsody 6.3.0, validation is performed on a file marked as open when that file is first accessed by Rhapsody. If a file is never accessed, it will not be validated. This prevents unnecessary validation on files that are no longer in use.</p>
+      <p>When Rhapsody is running and processing messages, it frequently writes to files on disk. Only&nbsp;files open for writing at the time of an unclean shutdown are at risk of corruption –&nbsp;files not currently being accessed are not affected by an unclean shutdown. Thus, when a file is currently open by Rhapsody, an associated marker file is created, which is named using the same filename as the file and the&nbsp;<code>.mk</code>&nbsp;file extension. When Rhapsody is finished using the file, the file is closed and the corresponding marker file is removed. If Rhapsody encounters an unclean shutdown, any files open at the time will have associated marker files. Upon engine startup, the&nbsp;Data Validation Service validates a file on first access only if it detects an associated marker file.</p>
+      <p>In order to force a file to be validated as well, create a corresponding marker file in the same directory.</p>
+      <h3 id="DataValidationService-B-treeValidationandRepair">B-tree Validation and Repair</h3>
+      <p>Rhapsody has an internal b-tree service, which is responsible for creating all the b-trees used by any other component in the engine.&nbsp;During repair of an open b-tree on first access, a log entry is added at the&nbsp;<code>TRACE</code>&nbsp;level:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>TRACE [ DefaultQuartzScheduler_Worker-4] [rhapsody.btree.impl.BTreeServiceImpl] Explicitly repairing btree 'E:\data\idgeneration\idGenerator.store'...          
+TRACE [ DefaultQuartzScheduler_Worker-3] [rhapsody.btree.impl.BTreeServiceImpl] Took 3ms to repair btree 'E:\data\idgeneration\idGenerator.store'.       
+TRACE [ DefaultQuartzScheduler_Worker-4] [rhapsody.btree.impl.BTreeServiceImpl] Explicitly repairing btree 'E:\data\logs\log.index'...          
+TRACE [ DefaultQuartzScheduler_Worker-3] [rhapsody.btree.impl.BTreeServiceImpl] Took 3ms to repair btree 'E:\data\logs\log.index'.                      
+...</pre> 
+       </div>
+      </div>
+      <h3 id="DataValidationService-InputQueueValidationandRepair">Input Queue Validation and Repair</h3>
+      <p>Rhapsody repairs broken input queues during start-up, because corruption in the head, tail or archive pointers can effectively result in a communication point not working. Input queue validation is performed only after any open transactions have been rolled back during startup. This is because, in some cases, the transaction rollback can cause the problem depending on exactly when the OS decides to flush each data store.</p>
+      <p>Any input queue repairs result in a log message:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>INFO [ DefaultQuartzScheduler_Worker-3] [.rhapsody.transaction.TransactionService] Beginning transaction recovery...                                                                 
+INFO [ DefaultQuartzScheduler_Worker-3] [.rhapsody.transaction.TransactionService] Recovered 0 transactions.                                                                         
+INFO [ DefaultQuartzScheduler_Worker-3] [.rhapsody.transaction.TransactionService] Transaction service initialised.                                                                  
+INFO [ DefaultQuartzScheduler_Worker-2] [tence.spi.AbstractComponentTrackingIndex] Validating live tracking index at 'E:\data\tracking\communicationPointTrackingLiveV3.idx'...  
+INFO [ DefaultQuartzScheduler_Worker-2] [tence.spi.AbstractComponentTrackingIndex] Validating live tracking index at 'E:\data\tracking\routeTrackingLiveV3.idx'...               
+INFO [ DefaultQuartzScheduler_Worker-2] [king.persistence.spi.TrackingStatusIndex] Validating tracking status index...                                                               
+INFO [ DefaultQuartzScheduler_Worker-1] [rhapsody.queue.input.file.FileInputQueue] Validating input queue in 'E:\data\queue\input\178'...                                        
+INFO [ DefaultQuartzScheduler_Worker-1] [rhapsody.queue.input.file.FileInputQueue] Validating input queue in 'E:\data\queue\input\294'...                                        
+...</pre> 
+       </div>
+      </div>
+      <h2 id="DataValidationService-TransactionRecovery">Transaction Recovery</h2>
+      <p>Transactions are used to keep the data store consistent as messages flow through the system. During startup, Transaction Recovery ensures that the data stores are in a consistent state by checking that all transactions are either fully committed or rolled back.</p>
+      <p>A progress indicator displays the number of records recovered and what stage the Transaction Recovery process is in:</p>
+      <ol>
+       <li>Initialization.</li>
+       <li>Scanning transaction records.</li>
+       <li>Deserializing transaction records.</li>
+       <li>Recovering transaction records.</li>
+       <li>Cleaning up transaction records.</li>
+       <li>Completion (this stage could also indicate Transaction Recovery failed, in which case you should check the Rhapsody log).</li>
+      </ol>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="900" src="attachments/133161269/133161270.png" data-image-src="attachments/133161269/133161270.png" data-unresolved-comment-count="0" data-linked-resource-id="133161270" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="UncleanShutdownPhase1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161269" data-linked-resource-container-version="1"></span> </span></p>
+      <h2 id="DataValidationService-ConfigurationValidationandRepair">Configuration Validation and Repair</h2>
+      <p>Validation and repair of the configuration are performed as part of the start-up process. Unlike other data stores, it is not always possible to completely repair the configuration structures. Depending on the type of corruption, Rhapsody may be prevented from starting up. In this case, the configuration should be restored from a backup before starting Rhapsody again.</p>
+      <p>The main error that Rhapsody will automatically recover from is if the most recent change-sets in the history are either not present or corrupt. If this is detected during startup, Rhapsody discards the invalid change-set and leaves the configuration in a consistent state:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>WARN [ DefaultQuartzScheduler_Worker-1] [figuration.persistence.spi.ChangeHistory] Error occurred getting configuration for revision 236 - it will be rolled back.
+com.orchestral.rhapsody.configuration.persistence.ConfigurationPersistenceException: IO error getting set of changes in revision 236
+	at com.orchestral.rhapsody.configuration.persistence.spi.ChangeHistory.getChangeSet(ChangeHistory.java:314)
+	at com.orchestral.rhapsody.configuration.persistence.spi.ChangeHistory.&lt;init&gt;(ChangeHistory.java:168)
+	at com.orchestral.rhapsody.configuration.persistence.spi.VersionedConfigurationServiceImpl.doActivate(VersionedConfigurationServiceImpl.java:124)
+	at com.orchestral.rhapsody.configuration.persistence.spi.VersionedConfigurationServiceImpl$1.run(VersionedConfigurationServiceImpl.java:104)
+	at com.orchestral.rhapsody.taskscheduler.spi.TaskExecutor.execute(TaskExecutor.java:40)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:529)
+Caused by: java.io.IOException: Location '1319936' does not contain correct record type. Type=UNUSED, Expected=START
+	at com.orchestral.rhapsody.blobstore.file.FileReadableBlob.readBlock(FileReadableBlob.java:189)
+	at com.orchestral.rhapsody.blobstore.file.FileReadableBlob.&lt;init&gt;(FileReadableBlob.java:71)
+	at com.orchestral.rhapsody.blobstore.file.FileBlobStore.getReadableBlob(FileBlobStore.java:121)
+	at com.orchestral.rhapsody.blobstore.file.rolling.RollingFileBlobStore.getReadableBlob(RollingFileBlobStore.java:158)
+	at com.orchestral.rhapsody.configuration.persistence.spi.ChangeHistory.getChangeSet(ChangeHistory.java:301)
+	... </pre> 
+       </div>
+      </div>
+      <p><br> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

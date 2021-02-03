@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>HL7 Acknowledgement Generation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">HL7 Acknowledgement Generation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163288/133163290.jpg" data-image-src="attachments/133163288/133163290.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163290" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image111.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163288" data-linked-resource-container-version="1"></span></p>
+      <p>The HL7 Acknowledgement Generation filter&nbsp;can be used to create HL7 acknowledgment messages.</p>
+      <p>By default, the filter can generate acknowledgment messages of the 'ACK' message type for all HL7 versions. EDI message definitions are required if the filter is to be used to create acknowledgments of other HL7 message types. The filter is normally used in the following situations:</p>
+      <ul>
+       <li>Creating positive acknowledgments for all messages received.</li>
+       <li>Validating messages (for HL7 syntax) and generating positive or negative acknowledgments based on the validation results.</li>
+       <li>Creating acknowledgments by using properties set on the input message as errors.</li>
+      </ul>
+      <h2 id="HL7AcknowledgementGeneration-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Definition</p></td>
+          <td class="confluenceTd"><p>The EDI definition file for input messages and acknowledgments.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response Message Mapping</p></td>
+          <td class="confluenceTd"><p>Map input message type to acknowledgment message type.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Acknowledgment Mode</p></td>
+          <td class="confluenceTd"><p>Sets the action to be taken by the filter. This allows the filter to make a decision on which acknowledgment needs to be generated after an input message is received.</p>
+           <ul>
+            <li><code>Always ACK</code> - the filter creates a positive acknowledgment always.</li>
+            <li><code>Always NACK</code> - the filter creates a negative acknowledgment always.</li>
+            <li><code>Validate and NACK</code> - the filter validates input message against configured message definition and creates an acknowledgment (positive or negative) from the validation results.</li>
+            <li><code>Use properties and ACK</code> - the filter checks for errors set as properties on the input message and creates an acknowledgment with the content of these properties.</li>
+            <li><code>Validate, use properties and ACK</code> - filter first validates the input message and then checks for any errors set as message properties. An acknowledgment is created containing all the errors (if any).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>NACK mode</p></td>
+          <td class="confluenceTd"><p>The acknowledgment mode of the acknowledgment message. Defaults to <code>AR</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>User Description</p></td>
+          <td class="confluenceTd"><p>Any text provided here will be used as the content of the <code>MSA.TextMessage</code> field of the generated acknowledgment.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On message validation failure</p></td>
+          <td class="confluenceTd"><p>Action to be taken by the filter when the input message contains errors or error properties. Available options are:</p>
+           <ul>
+            <li><code>Return ACK only to route</code>. (default).</li>
+            <li><code>Return input message only to route</code>.</li>
+            <li><code>Send input message to error connector</code>.</li>
+            <li><code>Return both input message and ACK to route</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On successful validation</p></td>
+          <td class="confluenceTd"><p>Action to be taken by the filter when the input message does not contain errors or error properties or if the Acknowledgment Mode is configured as <code>Always ACK</code>. Available options are:</p>
+           <ul>
+            <li><code>Return ACK only to route</code> <span>(default).</span></li>
+            <li><code>Return input message only to route</code>.</li>
+            <li><code>Return both input message and ACK to route</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Errors Property Name</p></td>
+          <td class="confluenceTd"><p><span style="color: rgb(0,0,0);">A list of the names of properties in the input message containing message errors (in Rhapsody's specified <a href="#HL7AcknowledgementGeneration-ErrorMessageFormat">error message format</a>) generated by <a href="HL7-External-Code-Translation_133163280.html">HL7 External Code Translation</a> and <a href="HL7-External-Code-Validation_133163277.html">HL7 <span>External </span>Code Validation</a> filters. The HL7 Acknowledgement Generation filter generates a NACK using these properties.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HL7 version</p></td>
+          <td class="confluenceTd"><p>The HL7 version of the acknowledgments to be generated. The available options are:</p>
+           <ul>
+            <li><code>Same as input message</code> (default) - the filter creates acknowledgments based on the HL7 version of the input message. This is the recommended option.</li>
+            <li><code>2.1</code>, <code>2.2</code>, <code>2.3</code>, <code>2.3.1</code>, <code>2.4</code>, <code>2.5</code>, <code><span>2.5.1 </span></code>or <code>2.6</code> - the s<span>upported HL7 version.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maintain Field Length</p></td>
+          <td class="confluenceTd"><p>The action the filter should take when creating ERR segments. This entry can be used to control the length of the error text in the ERR segment. Available options are:</p>
+           <ul>
+            <li><code>Ignore error length</code> - the filter will not perform any checks or any action on the generated ERR segment.</li>
+            <li><code>Use HL7 version 2.5 specs</code> - the filter will allow the generated ERR segment to be a maximum of 493 characters long (as in the HL7 version 2.5 specification). Longer error messages will be truncated to fit the 493 character limit.</li>
+            <li><code>Use HL7 version 2.1 to 2.4</code> - the filter will allow the generated ERR segment to be a maximum of 80 characters long (as in HL7 specification versions 2.1 to 2.5).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Fields to Copy</p></td>
+          <td class="confluenceTd"><p>Enables you to map fields in the input message (Source Field) against fields in the generated acknowledgment (Destination Field). This mapping allows the filter to copy across content from the input message into the generated acknowledgment. By default, the filter copies the following fields:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163288/133163289.png" data-image-src="attachments/133163288/133163289.png" data-unresolved-comment-count="0" data-linked-resource-id="133163289" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="FieldsToCopy.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163288" data-linked-resource-container-version="1"></span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>An ACK can be generated of an HL7 version that is different to the version of the incoming message by explicitly specifying the HL7 version in the <strong>HL7 version</strong> property. However, if a mapping is specified in the <strong>Response Message Mapping</strong> property, then any messages which are mapped according to that setting use the message structure from the EDI definition file specified in the <strong>Message Definition</strong> property. Consequently, it is important that the MSH and MSA segments in that message definition match one of the HL7 standards otherwise it is possible that errors may occur while generating the acknowledgment.</p>
+        <p>If a non-standard acknowledgment message structure is required then it is recommended that a standard acknowledgment is generated using this filter, and then the <a href="Mapper_133163007.html">Mapper filter</a> is used to transform it into the desired structure.</p>
+       </div>
+      </div>
+      <h2 id="HL7AcknowledgementGeneration-ErrorMessageFormat"><span style="color: rgb(0,0,0);">Error Message Format</span></h2>
+      <p>The filter reports errors using the standard&nbsp;HL7 ERR segment format. The HL7 version used for the ERR segment by the filter is determined by the <strong>HL7 Version</strong> configuration&nbsp;property:</p>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh"><strong>'HL7 </strong>Version' Configuration Property</th>
+          <th style="text-align: left;" class="confluenceTh">HL7 Format for ERR Segment</th>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+          <th style="text-align: left;" class="confluenceTh">Example</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">2.1</td>
+          <td class="confluenceTd"><span style="color: rgb(153,51,0);">HL7v2.1&nbsp;</span></td>
+          <td class="confluenceTd">Each error is separated by spaces (does not support repeats).</td>
+          <td class="confluenceTd"><code>ERR|1005 MSH/MessageControlId Required field missing~1010 MSH/SendingApplication/NamespaceID Field too long&nbsp;</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">2.2 to 2.4</td>
+          <td class="confluenceTd"><span style="color: rgb(153,51,0);">HL7v2.4</span></td>
+          <td class="confluenceTd">Each error is a repeat in the ERR segment (separated by '<span>~').</span></td>
+          <td class="confluenceTd"><code>ERR|MSH^1^10^1005&amp;Required field missing&amp;&amp;&amp;MSH/MessageControlId~MSH^1^3^1010&amp;Field too long&amp;&amp;&amp;MSH/SendingApplication/NamespaceID&nbsp;</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">2.5 to 2.6&nbsp;</td>
+          <td class="confluenceTd"><span style="color: rgb(153,51,0);">HL7v2.5</span></td>
+          <td class="confluenceTd">Each error is an ERR segment repeat.</td>
+          <td class="confluenceTd"><code>ERR||MSH^1^10^1|101^Required field missing^HL70357|E|1006^Required field missing|MSH/MessageControlId</code><br><code>ERR||MSH^1^3^1^1|207^Application internal error^HL70357|E|1008^Field too long|MSH/SendingApplication/NamespaceID&nbsp;</code></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><span>Additionally, the maximum length of the ERR segment can be set through the&nbsp;<strong>Maintain Field Length</strong>&nbsp;configuration property.</span></p>
+      <p><span>For examples of the types of error codes you may encounter, refer to <i>Error Codes</i> for EDI Designer.</span></p>
+      <h2 id="HL7AcknowledgementGeneration-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for the HL7 Acknowledgement Generation filter&nbsp;are as follows:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Published Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>AckStatus</code></p></td>
+          <td class="confluenceTd"><p>This property is set on all messages where some action is taken by the acknowledgment generator:</p>
+           <ul>
+            <li><code>ACK</code> - a positive acknowledgment was generated and sent to the source system.</li>
+            <li><code>NACK</code> - a negative acknowledgment was generated and sent to the source system.</li>
+            <li><code>BADHL7VERSION</code> - this message has an HL7 version which is not accepted by this filter.</li>
+            <li><code>NOTHL7MSH</code> - this is not an HL7 message.</li>
+            <li><code>UNKNOWNHL7MSG</code> - this message appears to be a valid HL7 message, but is unknown by this filter.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>AckCode</code></p></td>
+          <td class="confluenceTd"><p>The response code that was sent with the generated acknowledgment. If an acknowledgment message was not created, then this property is not set.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>AckIsValid</code></p></td>
+          <td class="confluenceTd"><p>A boolean property that is set to <code>True</code> if there were no validation errors in the message, or <code>False</code> if there were any validation errors. If the message was not validated, then this property is not set.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>AckMessageType</code></p></td>
+          <td class="confluenceTd"><p>This property allows the original and acknowledgment messages to be easily distinguished (for easy routing).<br class="atl-forced-newline"> The input message will carry the value for this property as <strong>ORIGINAL</strong>.<br class="atl-forced-newline"> The acknowledgment message will carry the value for this property as <strong>ACK</strong>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>MSG_CTRL_ID</code></p></td>
+          <td class="confluenceTd"><p>The property that is common to both the input message and the generated acknowledgment. This property can be used in the collation process to pair up the input message and the generated acknowledgment.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>ValidationErrors</code></p></td>
+          <td class="confluenceTd"><p>If the filter is used to validate and return the input message, then all the validation errors found will have been set as the value of this property (in Rhapsody's error message format).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Lookup Global Functions</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+       <li> <span><a href="Global-Functions_133161395.html">Global Functions</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Lookup Global Functions</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Function</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>You can use one of the following variants:</p>
+           <ul>
+            <li><code>lookup(tableName, columnName1, value1 [,columnName2, value2, ...])</code></li>
+            <li><code>lookup(tableName, {<span>columnName1</span>: value1 [,<span>columnName2</span>: value2, ...]})</code></li>
+           </ul></td>
+          <td class="confluenceTd"><p>Performs a table lookup using the specified parameters as search criteria and returns only the first matching row. A row in the table is matched if all the&nbsp;provided&nbsp;values match the table values in their specified columns in the same row.</p>
+           <ul>
+            <li><p><code>tableName</code> - the name of the table to perform the lookup on.</p></li>
+            <li><code><span>columnName</span></code><span>&nbsp;</span><span>and</span><span>&nbsp;</span><code><span><span>value</span></span></code><span> - the name of the column and the associated</span> the value used to match a row.</li>
+           </ul><p>An exception is thrown if the lookup fails or any of the column names are invalid. It returns null if no match is found, which is indicated as a lookup failure in Rhapsody IDE.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>lookupAll(<span>tableName,&nbsp;<span>columnValues</span></span>[, lookupOptions])</pre></td>
+          <td colspan="1" class="confluenceTd"><p>Performs a table lookup using the specified parameters as search criteria&nbsp;and returns all matching rows (subject to an optional limit):</p>
+           <ul>
+            <li><code><code>tableName</code></code><span> - the name of the table to perform the lookup on.</span></li>
+            <li><p><code>columnValues</code> - <span>the values in JSON format used to match a row. For example:</span></p>
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">[{columnName: "translated_system", value: "CDC"}, {columnName: "internal_code", value: "A"}]</pre> 
+              </div>
+             </div></li>
+            <li><code>lookupOptions</code><span> (optional) - can be one or more of the following options:</span>
+             <ul>
+              <li><code>returnColumns</code> (optional) - a list of column names that their values are included in the results. Used when you only want the value in one column to be returned, rather than the entire row.</li>
+              <li><p><code>sortColumns</code> (optional) - a list of column names to be used to define a specific order of the results <span>(the sort order is case-sensitive)</span>. For each column, results are returned in ascending order by default. The results can be returned in descending order by setting the <code>desc</code> object property to <code>true</code>, for example:</p>
+               <div class="code panel pdl" style="border-width: 1px;">
+                <div class="codeContent panelContent pdl"> 
+                 <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">[{columnName: "text", desc:true}]</pre> 
+                </div>
+               </div></li>
+              <li><p><code>limit</code> (optional) - the maximum number of results to be returned. By default, a maximum of 100 results is returned. It can be configured globally via <code>rhapsody.properties</code> file:</p>
+               <div class="code panel pdl" style="border-width: 1px;">
+                <div class="codeContent panelContent pdl"> 
+                 <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence"># Maximum rows returned from lookupAll. By default this is 100.
+# LookupTable.defaultReturnedRowsLimit=100</pre> 
+                </div>
+               </div></li>
+             </ul></li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p><code>lookupAll()</code> is not supported for the Mapper filter; use <code><a href="Using-Map-Designer-for-Lookups_133163474.html">RhapsodyTableLookup()</a></code> instead.</p>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupGlobalFunctions-Examples">Examples</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>internal_code</p></th>
+          <th class="confluenceTh"><p>text</p></th>
+          <th class="confluenceTh"><p>translated_code</p></th>
+          <th class="confluenceTh"><p>translated_system</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>pl</p></td>
+          <td class="confluenceTd"><p>Polish</p></td>
+          <td class="confluenceTd"><p>2115-4</p></td>
+          <td class="confluenceTd"><p>CDC</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>fj</p></td>
+          <td class="confluenceTd"><p>Fijian</p></td>
+          <td class="confluenceTd"><p>2101-4</p></td>
+          <td class="confluenceTd"><p>CDC</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>ir</p></td>
+          <td class="confluenceTd"><p>Irish</p></td>
+          <td class="confluenceTd"><p>2113-9</p></td>
+          <td class="confluenceTd"><p>CDC</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>sc</p></td>
+          <td class="confluenceTd"><p>Scottish</p></td>
+          <td class="confluenceTd"><p>2116-2</p></td>
+          <td class="confluenceTd"><p>CDC</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The following JavaScript excerpt looks up a value in the <strong>translated_system </strong>column:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Replace the internal code with the CDC coding system
+for (var i = 0; i &lt; input.length; i++){
+    var next = output.append(input[i]);
+
+    // Only look up a value from the translated_system column
+    var result = lookup("race_cs_replace", "translated_system", "CDC");
+    // or alternatively
+    // var result = lookup("race_cs_replace", {translated_system: "CDC"});
+   
+    if (result != null) {
+        next.setField("PID.Race[0].Identifier",result.text);
+    }
+    
+    // When the code is translated, change the coding system string too!
+    next.setField("PID.Race[0].NameOfCodingSystem","CDC");
+} </pre> 
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The following JavaScript excerpt looks up the </span><strong style="line-height: 13.0pt;">internal_code</strong><span style="line-height: 13.0pt;background-color: transparent;"> and </span><strong style="line-height: 13.0pt;">translated_system</strong><span style="line-height: 13.0pt;background-color: transparent;"> and returns the first matching row in the </span><strong style="line-height: 13.0pt;">race_cs_replace</strong><span style="line-height: 13.0pt;background-color: transparent;"> table:</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Replace the internal code with the CDC coding system
+for (var i = 0; i &lt; input.length; i++){
+    var next = output.append(input[i]);
+    
+    var msg_race_id = next.getField("PID.Race[0].Identifier");
+    
+    // Perform lookup
+    var result = lookup("race_cs_replace", {internal_code: msg_race_id, translated_system: "CDC"});
+    
+    // Received the whole row from the table (all columns and values)
+    if (result != null) {
+        next.setField("PID.Race[0].Text", result.text);
+        next.setField("PID.Race[0].Identifier", result.translated_code);
+    }
+    // When the code is translated, change the coding system string too!
+    next.setField("PID.Race[0].NameOfCodingSystem","CDC");
+} </pre> 
+       </div>
+      </div>
+      <p>The following JavaScript excerpt looks up the&nbsp;<strong>internal_code</strong>&nbsp;and&nbsp;<strong>translated_system</strong>&nbsp;and returns a maximum of 10 matching rows in the&nbsp;<strong>race_cs_replace</strong>&nbsp;table:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Replace the internal code with the CDC coding system 
+var resultRows = lookupAll("race_cs_replace", 
+                      [{columnName: "translated_system", value: "CDC"}], 
+                      {returnColumns:["text"], sortColumns:[{columnName: "text", desc:true}], limit:10});
+
+var next = output.append(input[0]);
+
+if (resultRows != null) {
+    for (var i = 0; i &lt; resultRows; i++) {
+
+        // Received the whole row from the table (all columns and values)
+        next.setField("PID.Race[i].Text", resultRows[i].text);
+        next.setField("PID.Race[i].Identifier", resultRows[i].translated_code);
+    }
+
+}</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

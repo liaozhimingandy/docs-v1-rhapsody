@@ -1,0 +1,343 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>FTP Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Deprecated-Components_133162090.html">Deprecated Components</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">FTP Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <p class="title">Deprecated Component</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span style="color: rgb(51,51,51);">This communication point has been deprecated and replaced</span> by the <a href="133162373.html">(S)FTP Client</a> communication point:</p>
+        <ul>
+         <li><span style="color: rgb(51,51,51);">If you are creating a new RLC, we strongly recommend you use the </span>(S)FTP Client<span style="color: rgb(51,51,51);"> communication point for FTP applications.</span></li>
+         <li>If you are using an RLC containing<span style="color: rgb(51,51,51);"> FTP Client communication points that</span> work as expected after an upgrade to Rhapsody 6, then we recommend you <span style="color: rgb(51,51,51);"> <em>do not</em> replace the FTP Client communication points with<span>&nbsp;</span>(S)FTP Client<span> communication points</span>. If any <span>FTP Client communication points are not working as expected after an upgrade, we recommend you use the (S)FTP Client communication points instead.</span> </span></li>
+        </ul>
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162354/133162355.jpg" data-image-src="attachments/133162354/133162355.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162355" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image039.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162354" data-linked-resource-container-version="3"></span> </span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The </span> <strong style="line-height: 13.0pt;">FTP Client</strong> <span style="line-height: 13.0pt;background-color: transparent;"> communication point</span> <span style="line-height: 13.0pt;background-color: transparent;">&nbsp;is used to connect to an FTP Server to look for files from an input directory, to send messages to an output directory or both. It supports both FTP and FTPS (FTP over SSL). If you want to use SSH protocols, use the </span> <a href="SFTP-Client_133162547.html">SFTP Client</a>&nbsp;communication point.</p>
+      <p>As there are many different FTP servers that have different configuration options, there may be properties that are not applicable for the FTP to which you are connecting. Refer to <a href="#FTPClient-PublishedProperties">Published Properties</a> for a list of properties associated with this communication point.</p>
+      <p>Supported Operational Modes: <em>All</em></p>
+      <h2 id="FTPClient-InputModeProperties">Input Mode Properties</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        Ensure that the input location for multiple distinct communication point instances do not resolve to the same filename in order to prevent race conditions with multiple communication points trying to read the same file.
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Server</p></td>
+          <td class="confluenceTd"><p>Hostname/IP Address of the FTP Server to which the communication point will connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>The remote port number to connect to on an FTP server. The default value is <code>0</code>, which means port 21 is used for all standard FTP connections. Port 990 is used when running in FTPS implicit mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The username/id of the user for authenticating with the FTP server. This may be provided as a literal, a Rhapsody variable (using the <code>$(variableName)</code> notation), or a Rhapsody message property (using the <code>$propertyName</code> notation).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The password of the user for authenticating with the FTP server. The user account must have write access. <span>This may be provided as a literal, a Rhapsody variable (using the </span> <code>$(variableName)</code> <span> notation), or a Rhapsody message property (using the </span> <code>$propertyName</code> <span> notation).</span></p>
+            <div class="confluence-information-macro confluence-information-macro-warning">
+             <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>As message properties are visible in the Management Console to users with the appropriate access rights, it is highly recommended that you encrypt passwords provided in this message using the <a href="Encrypting-Your-Password_133164477.html">Encrypt Password</a> function in the Rhapsody IDE. Alternatively, you can use <a href="Dynamic-Configuration-Using-XML-Templates_133162389.html">Configuration Templates</a>, which do not require providing the password in a message property.</p>
+              <p><span>If the passwords are retrieved from a Rhapsody variable using JavaScript, then the retrieval functions can leave them in this format. Refer to </span> <a href="Global-Functions_133161395.html#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a> <span> for details.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Passive Mode Connection</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br class="atl-forced-newline"> Use with firewalls that do not allow FTP back connections. When a client connects to an FTP server, it asks to get or send a file and informs the server that it is waiting for a connection on a random port. The server then connects to the client on that port and the client either receives the data or sends the file. <br class="atl-forced-newline"> In passive mode ( <code>True</code>), the client connects to the server, tells it to switch to passive mode, then asks to get or send a file. The server responds with a port number, the client connects to that port then gets or receives the file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Read Timeout</p></td>
+          <td class="confluenceTd"><p>Specifies the length of time Rhapsody will wait for a response from the FTP server. Units: <code>milliseconds</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Transfer Type</p></td>
+          <td class="confluenceTd"><p>Options: <code>Binary</code> or <code>ASCII</code>. Default: <code>Binary</code> <br class="atl-forced-newline"> Identifies the mode transfer type to use. <br class="atl-forced-newline"> In Binary mode, the sending machine sends each file byte for byte and as such the recipient stores the bytestream as it receives it. (The FTP standard calls this "IMAGE" or "I" mode). <br class="atl-forced-newline"> When a file is sent using an ASCII-type transfer, the individual letters, numbers, and characters are sent using their ASCII character codes. The receiving machine saves these in a text file in the appropriate format (for example, a Unix® machine saves it in a Unix® format, a <em>Windows</em>® machine saves it in a <em>Windows</em>® format). In ASCII mode, any form of data that is not plain text is corrupted.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>Maintain a constant connection</code> or <code>Disconnect if not sending/receiving</code>. Default: <code>Maintain a constant connection</code> <br class="atl-forced-newline"> Identifies the type of connection maintained with the FTP server, if a constant connection to the FTP server should be maintained, or if the client should disconnect when not sending or receiving. A constant connection is not advised if the communication point is expected to stay idle for extensive periods of time without any activity.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>FTP Connection Type</p></td>
+          <td class="confluenceTd"><p>Options: <code>FTP</code> or <code>FTPS</code>. Default: <code>FTP</code> <br class="atl-forced-newline"> FTPS is a secure version of the FTP protocol, that operates over an SSL connection. <br class="atl-forced-newline"> If you want to use SSH protocols, use the <a href="SFTP-Client_133162547.html">SFTP Client Communication Point</a>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Data Channel Protection Level</p></td>
+          <td class="confluenceTd"><p>Options: <code>Private</code>, <code>Clear</code>. Default: <code>Private</code> <br class="atl-forced-newline"> This option is only available if the <strong>FTP Connection Type</strong> is <code>FTPS</code>. <br class="atl-forced-newline"> The data channel protection level. If the data channel protection level is set to <code>Clear</code> then PBSZ and PROT commands will not be sent (some older FTPS servers do not support these commands).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>FTPS Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>Explicit</code> or <code>Implicit</code>. Default: <code>Explicit</code> <br class="atl-forced-newline"> This option is only available if the <strong>FTP Connection Type</strong> is <code>FTPS</code>. <br class="atl-forced-newline"> This option determines whether the FTPS client should operate in explicit or implicit mode.</p>
+           <ul>
+            <li>In explicit mode, the connection is established as per normal FTP, and then subsequently TLS security is requested and enabled.</li>
+            <li>In implicit mode, the SSL handshake is performed before any FTP commands are sent. The appropriate mode depends entirely on how the FTPS server has been configured.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Disable Standard SSL Closure</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>False</code> <br class="atl-forced-newline"> This option is only available if the <strong>FTP Connection Type</strong> is <code>FTPS</code>. <br class="atl-forced-newline"> This option disables standard SSL closure forcing, on both the data and control channels. This is necessary for compatibility with some FTPS servers. Disabling this weakens protection against some truncation attacks, and so should only be disabled if required by the server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Server Validation</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>False</code> <br class="atl-forced-newline"> This option is only available if the <strong>FTP Connection Type</strong> is <code>FTPS</code>. <br class="atl-forced-newline"> This option determines whether the FTPS client should verify the server before allowing a connection. If enabled, the server's certificate must be configured in Rhapsody before any connections can be made.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>When performing server validation for FTPS, this property is the list of certificates that are used to validate the server. During authentication, the server must present at least one of these certificates, or the connection will not be established. <br class="atl-forced-newline"> This option is only available if <strong>Server Validation</strong> is set to <code>True</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Check hostnames</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>True</code> <br class="atl-forced-newline"> When performing server validation for FTPS, this property determines whether the FTPS client will insist on the hostname of the server matching the hostname in the certificate presented. If this parameter is on, and the hostnames are not identical, the connection will not be established. Setting this to false is strongly discouraged as it makes it easy for someone to impersonate the owner of the certificate. <br class="atl-forced-newline"> Commonly used when operating within an internal network where a server may have different internal and external network names. Not recommended when connecting to external networks.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Client Authentication</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>False</code> <br class="atl-forced-newline"> This option determines whether client authentication is required when connecting to an FTPS server. When client authentication is on, the FTPS client must present a valid certificate to the FTPS server or the connection will not be established.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Key</p></td>
+          <td class="confluenceTd"><p>This is the private key used for client authentication when connecting via FTPS. This private key must match the public key contained in the certificate that will be presented to the server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Client Certificate</p></td>
+          <td class="confluenceTd"><p>This is the client certificate that will be used for client authentication when connecting to an FTPS server. The public key in this certificate must match the private key specified.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Directory</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The directory to check for input files. If this property is empty, the user's home directory becomes the Input Directory.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>For compatibility across all operating systems, use forward slashes (/).</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>List Command Parameter</p></td>
+          <td class="confluenceTd"><p>The List Command parameter to pass to the remote FTP server. <br class="atl-forced-newline"> Only needed if the server you are connecting to expects different commands other than the standard <code>ls</code> command. <br class="atl-forced-newline"> Generally you should not have to set this property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Pattern</p></td>
+          <td class="confluenceTd"><p>Pattern to use to select input files from the <strong>Input Directory</strong>. This is an optional property with an asterisk "*" as the default value (that is, all files from "Input Directory" are to be processed). <br class="atl-forced-newline"> For example, <code>*.xml</code> searches for all files with the file extension of <code>.xml</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Refresh Rate</p></td>
+          <td class="confluenceTd"><p>Specifies the frequency (in ms) that the input directory is checked for new files. This property is optional with a default value of <code>60000ms</code> (1 minute).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remove Files from Server</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>True</code> <br class="atl-forced-newline"> Whether the files should be removed from the server after being successfully downloaded. This option supports cases where another process is responsible for removing files and therefore, should almost always be set to <code>True</code>. If this is set to <code>False</code>, the route must be able to handle any duplicate messages as the communication point will reprocesses any messages present on the server after every refresh interval.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Before Receive</p></td>
+          <td class="confluenceTd"><p>A collection of commands to be sent to the FTP server before receiving each message. Any non <code>2xx</code> or <code>3xx</code> responses are considered a receive error.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="FTPClient-OutputModeProperties">Output Mode Properties</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Ensure that the output location for multiple distinct communication point instances do not resolve to the same filename in order to prevent potential overwrites occurring as a result of trying to write to the same file.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Server</p></td>
+          <td class="confluenceTd"><p>Hostname/IP Address of the FTP Server to which the communication point connects.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>The remote port number to connect to on an FTP server. The default value is <code>0</code>, which means port 21 is used for all standard FTP connections. Port 990 is used when running in FTPS implicit mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p><span>The username/id of the user for authenticating with the FTP server. This may be provided as a literal, a Rhapsody variable (using the </span> <code>$(variableName)</code> <span> notation), or a Rhapsody message property (using the </span> <code>$propertyName</code> <span> notation).</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The password of the user for authenticating with the FTP server. The user account must have write access. This may be provided as a literal, a Rhapsody variable (using the <code>$(variableName)</code> notation), or a Rhapsody message property (using the <code>$propertyName</code> notation).</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>As message properties are visible in the Management Console to users with the appropriate access right, it is recommended that passwords provided in message properties are kept in their obfuscated form. If those passwords are retrieved via Rhapsody variables using JavaScript, then the retrieval functions can leave them in this format - refer to <a href="Global-Functions_133161395.html#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a> for details. If those passwords are provided as literals elsewhere in the configuration, then the <a href="Encrypting-Your-Password_133164477.html">Encrypt Password</a> function in the Rhapsody IDE can be used.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Passive Mode Connection</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>False</code> <br class="atl-forced-newline"> Use with firewalls that do not allow FTP back connections. When a client connects to an FTP server, it asks to get or send a file and informs the server that it is waiting for a connection on a random port. The server then connects to the client on that port and the client either receives the data or sends the file. <br class="atl-forced-newline"> In passive mode (value set to <code>True</code>), the client connects to the server, tells it to switch to passive mode, then asks to get or send a file. The server responds with a port number, the client connects to that port then gets or receives the file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Read Timeout</p></td>
+          <td class="confluenceTd"><p>Specifies the length of time Rhapsody will wait for a response from the FTP server. Units: milliseconds.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Transfer Type</p></td>
+          <td class="confluenceTd"><p>Options: <code>Binary</code> or <code>ASCII</code>. Default: <code>Binary</code> <br class="atl-forced-newline"> Identifies the mode transfer type to use. <br class="atl-forced-newline"> In Binary mode, the sending machine sends each file byte for byte and as such the recipient stores the bytestream as it receives it. (The FTP standard calls this "IMAGE" or "I" mode). <br class="atl-forced-newline"> When a file is sent using an ASCII-type transfer, the individual letters, numbers, and characters are sent using their ASCII character codes. The receiving machine saves these in a text file in the appropriate format (for example, a Unix® machine saves it in a Unix® format, a <em>Windows</em>® machine saves it in a <em>Windows</em>® format). In ASCII mode, any form of data that is not plain text is corrupted.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>Maintain a constant connection</code> or <code>Disconnect if not sending/receiving</code>. Default: <code>Maintain a constant connection</code> <br class="atl-forced-newline"> Identifies the type of connection maintained with the FTP server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>FTP Connection Type</p></td>
+          <td class="confluenceTd"><p>Options: <code>FTP</code>, <code>FTPS</code>. Default: <code>FTP</code> <br class="atl-forced-newline"> FTPS is a secure version of the FTP protocol, that operates over an SSL connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Data Channel Protection Level</p></td>
+          <td class="confluenceTd"><p>Options: <code>Private</code>, <code>Clear</code>. Default: <code>Private</code> <br class="atl-forced-newline"> The data channel protection level. If the data channel protection level is set to <code>Clear</code> then PBSZ and PROT commands will not be sent (some older FTPS servers do not support these commands).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>FTPS Mode</p></td>
+          <td class="confluenceTd"><p>Options:&nbsp; <code>Explicit</code> or&nbsp; <code>Implicit</code>. Default: <code>Explicit</code> <br class="atl-forced-newline"> This option is only available if the <strong>FTP Connection Type</strong> is&nbsp; <code>FTPS</code>. <br class="atl-forced-newline"> This option determines whether the FTPS client should operate in explicit or implicit mode.</p>
+           <ul>
+            <li>In explicit mode, the connection is established as per normal FTP, and then subsequently TLS security is requested and enabled.</li>
+            <li>In implicit mode, the SSL handshake is performed before any FTP commands are sent. The appropriate mode depends entirely on how the FTPS server has been configured.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Disable Standard SSL Closure</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>False</code> <br class="atl-forced-newline"> This option disables standard SSL closure forcing, on both the data and control channels. This is necessary for compatibility with some FTPS servers. Disabling this weakens protection against some truncation attacks, and so it should only be disabled if required by the server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Server Validation</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>False</code> <br class="atl-forced-newline"> This option determines whether the FTPS client should verify the server before allowing a connection. If enabled, the server's certificate must be configured in Rhapsody before any connections can be made. This option is only available when connecting using FTPS.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>When performing server validation for FTPS, this property is the list of certificates that are used to validate the server. During authentication, the server must present at least one of these certificates, or the connection will not be established.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Check hostnames</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>True</code> <br class="atl-forced-newline"> When performing server validation for FTPS, this property determines whether the FTPS client will insist on the hostname of the server matching the hostname in the certificate presented. If this parameter is on, and the hostnames are not identical, the connection will not be established. Setting this to false is strongly discouraged as it makes it easy for someone to impersonate the owner of the certificate.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Client Authentication</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>False</code> <br class="atl-forced-newline"> This option determines whether client authentication is required when connecting to an FTPS server. When client authentication is on, the FTPS client must present a valid certificate to the FTPS server or the connection will not be established.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Key</p></td>
+          <td class="confluenceTd"><p>This is the private key used for client authentication when connecting via FTPS. This private key must match the public key contained in the certificate that will be presented to the server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Client Certificate</p></td>
+          <td class="confluenceTd"><p>This is the client certificate that will be used for client authentication when connecting to an FTPS server. The public key in this certificate must match the private key specified.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Directory</p></td>
+          <td class="confluenceTd"><p>Directory to place output messages. <br class="atl-forced-newline"> Need Write access. Will default to the home directory.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Base Filename</p></td>
+          <td class="confluenceTd"><p>Base filename to use for output messages. Refer to <a href="Configuration_133162170.html">File Naming Options</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Suffix</p></td>
+          <td class="confluenceTd"><p>Optional suffix to append to the end of the filename. Refer to <a href="Configuration_133162170.html">File Naming Options</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Append Date</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>True</code> <br class="atl-forced-newline"> Appends the current date/time to the filename. Note that the default is <code>True</code>; this compares with the default: <code>False</code> for the Directory communication point. This difference is because it is harder to test for unique names over FTP and thus it's more important to generate a unique file name.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Check Name</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>True</code></p>
+           <ul>
+            <li>If <code>False</code>, existing files with the same name as the generated file will be overwritten.</li>
+            <li>If <code>True</code> and a duplicate filename is encountered, a counter will be added to the newly generated filename. Setting this property to <code>True</code> significantly slows the performance of the FTP Client communication point.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use temp file</p></td>
+          <td class="confluenceTd"><p>Options: <code>False</code> or <code>True</code>. Default: <code>True</code> <br class="atl-forced-newline"> If <code>True</code>, a temporary file is created on the server and renamed once transmission is complete.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Append to existing file</p></td>
+          <td class="confluenceTd"><p>Whether or not to append to a file that may already exist on the remote location. This property cannot be set to true if any of the following options are set to true:</p>
+           <ul>
+            <li><code>Use Temp File</code></li>
+            <li><code>Check Name</code></li>
+            <li><code>Append Date</code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Before Send</p></td>
+          <td class="confluenceTd"><p>A collection of commands to be sent to the FTP server before sending each message. Any non 2xx or 3xx responses are considered a receive error.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="FTPClient-Bidirectional,In->OutandOut->InMode">Bidirectional, In-&gt;Out and Out-&gt;In Mode</h2>
+      <p>The configuration properties for the FTP Client communication point in <em>Bidirectional</em>, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes is a combination of the properties described above.</p>
+      <p>Refer to <a href="General_133162189.html">Out-&gt;In and In-&gt;Out Properties</a> for general details on a communication point's <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes.</p>
+      <h2 id="FTPClient-publishedpropertiesPublishedProperties"><span class="confluence-anchor-link" id="FTPClient-publishedproperties"></span>Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for&nbsp;the FTP Client communication point are:</p>
+      <ul>
+       <li><code>Full Filename</code> - the full filename of the file associated with the received message.</li>
+       <li><code>Base Filename</code> - the base filename (that is everything before the last '.' in the full filename) of the file associated with the received message. If there is no '.' then it is equal to the full filename.</li>
+       <li><code>Suffix</code> - the suffix (everything from the last '.' in the full filename, including the '.') of the file associated with the received message. If there is no '.' then it is empty.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

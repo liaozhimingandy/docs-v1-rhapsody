@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Managing Conditional Connector Tests</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Connectors_133162108.html">Connectors</a></span> </li> 
+       <li> <span><a href="Testing-Conditional-Connectors_133162134.html">Testing Conditional Connectors</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Managing Conditional Connector Tests</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A conditional connector test consists of an input test message and a matching (or not-matching) condition. You can configure the input test message's message body, encoding, properties and the definition to parse the message. Message bodies can be created from files on a disk, or entered using either hexadecimal or ASCII mode.</p>
+      <p><span>A conditional connector's tests&nbsp;are stored with its source filter.&nbsp;Furthermore, all tests configured on a conditional connector are shared by all other conditional connectors connected to the same source filter. Therefore, for conditional connectors sharing the same source filter,&nbsp;if you add or modify tests for one conditional connector, you accordingly affect all conditional connectors; additionally, if you check tests for selection for one conditional connector, the corresponding tests are checked for all conditional connectors. One exception, however, is that you can individually set the Expected Result option for each conditional connector test on the same source filter.</span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>As tests configured on a conditional connector are shared by all other conditional connectors connected to the same source filter:</p>
+        <ul>
+         <li><p>When you copy-paste a conditional connector from one source filter to another, the connector's tests are not copied.&nbsp;</p></li>
+         <li><p>When you copy-paste a source filter, any conditional connector tests stored within it are also copied.</p></li>
+         <li><p>When you copy-paste a conditional connector to the same source filter, it shares the same tests as the original connector, however the <strong>Expected Result</strong> for every test is reset to <code>Condition Matched</code>.</p></li>
+        </ul>
+       </div>
+      </div>
+      <p>The process of testing a conditional or JavaScript connector is similar to the process of <a href="Testing-Filter-Configurations_133162685.html">testing a filter configuration</a>.&nbsp;You can create new tests, and edit or delete existing tests through the&nbsp;<strong>Conditional Connector Testing</strong>&nbsp;dialog:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146942902 {padding: 0px;}
+div.rbtoc1565146942902 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146942902 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146942902"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ManagingConditionalConnectorTests-ViewingConditionalConnectorTests">Viewing Conditional Connector Tests</a></li> 
+        <li><a href="#ManagingConditionalConnectorTests-AddingaConditionalConnectorTest">Adding a Conditional Connector&nbsp;Test</a></li> 
+        <li><a href="#ManagingConditionalConnectorTests-DeletingConditionalConnectorTests">Deleting Conditional Connector Tests</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162135/133162136.png" data-image-src="attachments/133162135/133162136.png" data-unresolved-comment-count="0" data-linked-resource-id="133162136" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConditionalConnectorTesting.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162135" data-linked-resource-container-version="1"></span></p>
+      <p>The&nbsp;<strong>Conditional Connector Testing&nbsp;</strong>dialog displays the following information:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">The user-defined name of the test.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Description</td>
+          <td class="confluenceTd">The user-defined description of the test.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Result</td>
+          <td colspan="1" class="confluenceTd"><p>The test result:</p>
+           <ul>
+            <li><p>None (blank field) - <span>the test has not yet been executed</span>.</p></li>
+            <li><p><code>Passed</code> - <span>the test has been executed, and </span>the expected result matches the actual output.</p></li>
+            <li><p><code>Failed</code> - <span>the test has been executed, and </span>the expected result does not match the actual output.</p></li>
+            <li><p><code>Executed</code> - the test has been executed but not validated. The test has run <span>with no </span><a href="Reviewing-Conditional-Connector-Test-Results_133162147.html#ReviewingConditionalConnectorTestResults-ConditionalConnectorTestingErrors">fatal errors</a><span> occurring</span>.</p></li>
+            <li><code>Error</code> - <a href="Reviewing-Conditional-Connector-Test-Results_133162147.html#ReviewingConditionalConnectorTestResults-ConditionalConnectorTestingErrors">fatal errors</a><span> have occurred while running the test</span>.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The&nbsp;<strong>Conditional Connector Testing&nbsp;</strong>dialog provides the following actions:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingConditionalConnectorTests-AddingaConditionalConnectorTest">Add Test</a></td>
+          <td class="confluenceTd"><p>Add a new test.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Tests are shared by all conditional connectors for a particular connection.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingConditionalConnectorTests-ModifyingaConditionalConnectorTest">Edit Test</a></td>
+          <td class="confluenceTd">Edit a test.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingConditionalConnectorTests-DeletingConditionalConnectorTests">Remove Test</a></td>
+          <td colspan="1" class="confluenceTd">Delete a test.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Running-Conditional-Connector-Tests_133162144.html">Run Test</a></td>
+          <td colspan="1" class="confluenceTd">Run a test you have selected.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Running-Conditional-Connector-Tests_133162144.html">Run Checked Tests</a></td>
+          <td colspan="1" class="confluenceTd"><p>R<span>un all tests you have checked.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Select All</td>
+          <td colspan="1" class="confluenceTd">Select all tests by checking their checkboxes.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Deselect All</p></td>
+          <td colspan="1" class="confluenceTd"><p>Deselect all tests by unchecking their checkboxes.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout</p></td>
+          <td class="confluenceTd">Set the maximum time in seconds allowed for running the tests.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Logging Level</td>
+          <td class="confluenceTd">Set the level of logging events to capture.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>When you <span>modify</span><span> tests, t<span>he associated route is automatically checked out.</span></span></span></p>
+       </div>
+      </div>
+      <h2 id="ManagingConditionalConnectorTests-ViewingConditionalConnectorTests">Viewing Conditional Connector Tests</h2>
+      <p>To view tests added to a conditional connector:</p>
+      <ol>
+       <li>Double-click a conditional or JavaScript connector that you want to test to display the&nbsp;<strong>Edit Conditional Connector</strong>&nbsp;dialog or&nbsp;<strong>Properties</strong>&nbsp;dialog for the&nbsp;JavaScript connector.</li>
+       <li><p>Click the&nbsp;<strong>Test Conditional Connector&nbsp;</strong>link to display the&nbsp;<strong>Conditional Connector Testing</strong>&nbsp;dialog.</p></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If conditional connector testing is not supported by the engine, or if you do not have the 'Test conditional connectors' access right, then the <strong>Test Conditional Connector</strong> link is not displayed.</p>
+       </div>
+      </div>
+      <h2 id="ManagingConditionalConnectorTests-AddingaConditionalConnectorTest">Adding a Conditional Connector&nbsp;Test</h2>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162135/133162139.png" data-image-src="attachments/133162135/133162139.png" data-unresolved-comment-count="0" data-linked-resource-id="133162139" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="TestEditorFilter.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162135" data-linked-resource-container-version="1"></span></p>
+      <p>To add a test to a conditional connector:</p>
+      <ol>
+       <li>On the <strong>Conditional Connector Testing</strong> dialog, select the <strong>Add Test</strong>&nbsp;button to display the<strong>&nbsp;Test Editor</strong>&nbsp;dialog:</li>
+       <li><p>Enter a&nbsp;<strong>Name</strong>&nbsp;and&nbsp;<strong>Description</strong>&nbsp;for your test.</p></li>
+       <li><span>In the&nbsp;<strong>Input Message</strong>&nbsp;tab:</span><br><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="602" width="560" src="attachments/133162135/133162137.png" data-image-src="attachments/133162135/133162137.png" data-unresolved-comment-count="0" data-linked-resource-id="133162137" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="InputMessageConnector.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162135" data-linked-resource-container-version="1"></span><br>
+        <ol>
+         <li><span style="line-height: 13.0pt;">Click the&nbsp;</span><strong style="line-height: 13.0pt;">Select&nbsp;</strong><span style="line-height: 13.0pt;">link to select a message definition (clicking the&nbsp;</span><strong style="line-height: 13.0pt;">Clear</strong><span style="line-height: 13.0pt;">&nbsp;link clears the message definition).</span></li>
+         <li><span>Add message properties.</span><span><br></span></li>
+         <li><p><span>Select the message body parameters</span><strong>&nbsp;</strong><span>for your test message:</span></p>
+          <div class="table-wrap">
+           <table class="confluenceTable">
+            <tbody>
+             <tr>
+              <th class="confluenceTh">Parameters</th>
+              <th class="confluenceTh">Descriptions</th>
+             </tr>
+             <tr>
+              <td class="confluenceTd">Mode</td>
+              <td class="confluenceTd">The display mode of the message. The&nbsp;<code>Show Whitespace</code>&nbsp;mode uses Java escape characters to represent non-printable characters, whereas the&nbsp;<code>Raw Hex</code>&nbsp;mode enables you to edit directly the hexadecimal characters that make up the binary message. You can switch between the two modes at any time.</td>
+             </tr>
+             <tr>
+              <td class="confluenceTd">Encoding</td>
+              <td class="confluenceTd"><p>The character encoding of the message. If&nbsp;<code>Unknown/Not Set</code>&nbsp;is selected, then no encoding is stamped on the message when it is sent to the filter for testing.</p></td>
+             </tr>
+            </tbody>
+           </table>
+          </div></li>
+         <li>Add your message using one of the following methods:<br>
+          <ul>
+           <li>Enter the message manually. Ensure you&nbsp;add&nbsp;<code>\r\n</code>&nbsp;(or&nbsp;<code>\r</code>&nbsp;or&nbsp;<code>\n</code>) to the end of every segment in the message.</li>
+           <li>Click&nbsp;the&nbsp;<strong>Load Message</strong>&nbsp;link to load a message from a file.</li>
+          </ul></li>
+        </ol></li>
+       <li><p><span><span><span>In the&nbsp;<strong>Expected Output Message</strong>&nbsp;tab, s</span></span></span><span style="line-height: 13.0pt;">elect the </span>test parameters as required:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="224" width="560" src="attachments/133162135/133162138.png" data-image-src="attachments/133162135/133162138.png" data-unresolved-comment-count="0" data-linked-resource-id="133162138" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExpectedOutputMessageConnector.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162135" data-linked-resource-container-version="1"></span></p>
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Parameter</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Validate Expected Output Result</p></td>
+            <td class="confluenceTd"><p>When checked, the result of the test is compared to the expected output result and the test marked as Passed or Failed. When not checked,</p>test<p>is marked as Executed and you can view the output result.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Expected Result</p></td>
+            <td class="confluenceTd"><p>Whether you want the test result to be marked as passed when the test condition matches or does not match <span>the result</span>.</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+       <li><p><span style="line-height: 13.0pt;">Select the&nbsp;</span><strong style="line-height: 13.0pt;">OK</strong><span style="line-height: 13.0pt;">&nbsp;button to add the test, or the&nbsp;</span><strong style="line-height: 13.0pt;">Cancel</strong><span style="line-height: 13.0pt;">&nbsp;button to abort.</span></p></li>
+      </ol>
+      <p>Alternatively, you can copy-paste an existing test for a conditional connector on&nbsp;<em>any</em>&nbsp;filter to a conditional connector on another filter by using the right-click menu.</p>
+      <p><span style="color: rgb(0,0,0);font-size: 20.0px;">Modifying a Conditional Connector&nbsp;Test</span></p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162135/133162139.png" data-image-src="attachments/133162135/133162139.png" data-unresolved-comment-count="0" data-linked-resource-id="133162139" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="TestEditorFilter.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162135" data-linked-resource-container-version="1"></span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">To modify a conditional connector test:</span></p>
+      <ol>
+       <li>On the <strong>Conditional Connector Testing</strong>&nbsp;dialog, double-click a test, or select it and select the&nbsp;<strong>Edit Test</strong>&nbsp;button to display the<strong>&nbsp;Test Editor</strong>&nbsp;dialog.</li>
+       <li><p>Edit the test parameters as required.</p></li>
+       <li><p><span style="line-height: 13.0pt;">Select the&nbsp;</span><strong style="line-height: 13.0pt;">OK</strong><span style="line-height: 13.0pt;">&nbsp;button to add the test, or the&nbsp;</span><strong style="line-height: 13.0pt;">Cancel</strong><span style="line-height: 13.0pt;">&nbsp;button to abort.</span></p></li>
+      </ol>
+      <h2 id="ManagingConditionalConnectorTests-DeletingConditionalConnectorTests">Deleting Conditional Connector Tests</h2>
+      <p>To delete a conditional connector test:</p>
+      <ol>
+       <li>On the <strong>Conditional Connector Testing</strong> dialog, select the tests you want to delete by checking their checkbox, then select the <strong>Remove Test</strong>&nbsp;button.</li>
+       <li>Select the <strong>Yes</strong> button when prompted to confirm the deletion.</li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

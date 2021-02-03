@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Excessive Calls</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Excessive Calls</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides some protection against an excessive number of REST API calls made within a short period of time. A simple mechanism prevents message transmission delay due to too many incoming requests via the REST API, and detects some misconfiguration in scripts calling the REST API that causes them to call it far more than expected. Though the default limit is 500 requests per minute, an appropriate limit is very much dependent on the hardware that Rhapsody is running on and the normal message processing load. The limit setting is found in the <code>rhapsody.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence"># Configure the maximum number of requests per minute via the REST API
+#RestApi.MaximumRequestsPerMinute=500
+</pre> 
+       </div>
+      </div>
+      <p>To change the default limit:</p>
+      <ol>
+       <li>Edit the value in the <code>rhapsody.properties</code> file.</li>
+       <li>Uncomment the line.</li>
+       <li>Restart the Rhapsody engine so that it picks up the change.</li>
+      </ol>
+      <p>If more than the configured number of requests are received via the REST API within a minute, subsequent requests in excess of the limit are rejected with a <code>429 Too Many Requests</code> HTTP status code. When the minute expires, the request count is reset, and new requests are accepted.</p>
+      <p>Additionally, if any requests are rejected due to this limit, an alert is raised to make this obvious to the user. This alert is enabled by default as a warning, and is raised as soon as any requests are rejected (although enabled by default it will not be raised unless the REST API is in use). The alert remains visible in the Management Console until it is manually dismissed by the user. Only one instance of this alert is raised at a time.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

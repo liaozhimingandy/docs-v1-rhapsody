@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>DICOM JPEG Extraction</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Deprecated-Components_133162090.html">Deprecated Components</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">DICOM JPEG Extraction</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="letter-spacing: 0.0px;"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/142319828/142319830.jpg" data-image-src="attachments/142319828/142319830.jpg" data-unresolved-comment-count="0" data-linked-resource-id="142319830" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image051.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="142319828" data-linked-resource-container-version="14"></span></span></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <p class="title">Discontinued Component</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This filter has been discontinued and replaced by the&nbsp;<a href="DICOM-JPEG-Converter_133163333.html">DICOM JPEG Converter</a>&nbsp;filter. While RLCs containing this filter will load into Rhapsody, the filter will be rendered both inoperable and unconfigurable. Therefore, it is recommended you update your RLC to work with the&nbsp;<a href="DICOM-JPEG-Converter_133163333.html">DICOM JPEG Converter</a>&nbsp;filter.</p>
+       </div>
+      </div>
+      <p><span style="letter-spacing: 0.0px;">The </span><strong style="letter-spacing: 0.0px;">DICOM JPEG Extraction</strong><span style="letter-spacing: 0.0px;"> filter&nbsp;extracts JPEG images from a DICOM message. It accesses the image pixel data of a DICOM message and transforms it into one or more JPEG images. It takes a DICOM message as input and returns one or more JPEG images as outgoing messages.</span></p>
+      <p>This filter is only available on 32-bit <em>Windows®</em> and Linux® platforms.</p>
+      <p>DICOM (Digital Imaging and Communications in Medicine) is a standard designed to allow medical image files to be transferred, stored and viewed on different makes of computers. A single DICOM message contains both a header (which stores information about the patient's name, the type of scan, image dimensions, etc), as well as all of the image data (which can contain information in three dimensions). Refer to the <a href="http://medical.nema.org/" class="external-link" rel="nofollow">DICOM home page</a> for details.</p>
+      <p>Transfer Syntax is a set of encoding rules that allows Application Entities to unambiguously negotiate the encoding techniques (for example, Data Element structure, byte ordering, compression) they are able to support, thereby allowing these Application Entities to communicate. It has a direct influence on how the Pixel Data Element (7FE0, 0010) shall be used for the exchange of encoded graphical image data. Pixel data may be sent either in a Native (uncompressed) format or in a compressed format defined outside the DICOM standard. The JPEG Extraction filter currently supports reading DICOM messages whose contents have either native or compressed data that has been written using the following Transfer Syntaxes:</p>
+      <p>1.2.840.10008.1.2 - Native, Implicit VR, Little Endian<br>1.2.840.10008.1.2.1 - Native, Explicit VR, Little Endian<br>1.2.840.10008.1.2.2 - Native, Explicit VR, Big Endian<br>1.2.840.10008.1.2.4.50 - JPEG Baseline: Default Transfer Syntax for Lossy JPEG 8 Bit Image Compression<br>1.2.840.10008.1.2.4.51 - JPEG Extended: Default Transfer Syntax for Lossy JPEG 12 Bit Image Compression<br>1.2.840.10008.1.2.4.57 - JPEG Lossless, Non-Hierarchical<br>1.2.840.10008.1.2.4.70 - JPEG Lossless, Hierarchical, First-Order Prediction<br>1.2.840.10008.1.2.4.80 - JPEG-LS Lossless<br>1.2.840.10008.1.2.4.81 - JPEG-LS Near-lossless<br>1.2.840.10008.1.2.4.90 - JPEG 2000 Lossless<br>1.2.840.10008.1.2.4.91 - JPEG 2000</p>
+      <h2 id="DICOMJPEGExtraction-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Generate Multiframe Image</p></td>
+          <td class="confluenceTd"><p>Whether to generate multiple images for a DICOM message that includes multiframes:</p>
+           <ul>
+            <li><code>True</code> (default) - a number of JPEG images will be produced from all the frames included in the DICOM message.</li>
+            <li><code>False</code> - only one JPEG image will be produced from the first frame.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Finding No Images</p></td>
+          <td class="confluenceTd"><p>Sets an action when no image data is found in the input DICOM message:</p>
+           <ul>
+            <li><code>Send message to error connector</code> (default) - returns the message to the error connector.</li>
+            <li><code>Output original message</code> - the original input message is returned and the message processing is continued.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="DICOMJPEGExtraction-PublishedProperties">Published Properties</h3>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for&nbsp;the DICOM JPG Extraction filter are:</p>
+      <ul>
+       <li><strong>FrameCount</strong> - the total number of frames (images) which are included in the input DICOM message.</li>
+       <li><strong>FrameSetID</strong> - a unique id that indicates the original DICOM message; users may use this property with <strong>FrameIndex</strong> property for a message collector to collect a whole set of images from a DICOM message.</li>
+       <li><strong>FrameIndex</strong> - the outgoing message's (JPEG image) frame index that indicates the position in the whole set of images.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

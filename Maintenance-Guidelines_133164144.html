@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Maintenance Guidelines</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Maintenance Guidelines</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>To prevent the performance of your Rhapsody engine from degrading over time, it is recommended you observe certain best practices to maintain the engine. Important factors that determine the health of an engine are:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147030751 {padding: 0px;}
+div.rbtoc1565147030751 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147030751 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147030751"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#MaintenanceGuidelines-ArchiveCleanup">Archive Cleanup</a></li> 
+        <li><a href="#MaintenanceGuidelines-Backups">Backups</a></li> 
+        <li><a href="#MaintenanceGuidelines-ErrorQueueandHoldQueue">Error Queue and Hold Queue</a></li> 
+        <li><a href="#MaintenanceGuidelines-CommunicationPointandRouteQueues">Communication Point and Route Queues</a></li> 
+        <li><a href="#MaintenanceGuidelines-LookupTablesFailureList">Lookup Tables Failure List</a></li> 
+        <li><a href="#MaintenanceGuidelines-MonitoringMemoryUsage">Monitoring Memory Usage</a></li> 
+        <li><a href="#MaintenanceGuidelines-CapacityReviewWhenMessageLoadIncreases">Capacity Review When Message Load Increases</a></li> 
+        <li><a href="#MaintenanceGuidelines-ServicePackUpdates">Service Pack Updates</a></li> 
+        <li><a href="#MaintenanceGuidelines-ProceduresforRestartingtheEngine">Procedures for Restarting the Engine</a></li> 
+        <li><a href="#MaintenanceGuidelines-MonitoringtheSizeofaConfigurationforaSingleEngine">Monitoring the Size of a Configuration for a Single Engine</a></li> 
+        <li><a href="#MaintenanceGuidelines-NotificationstoHandleIssuesProactively">Notifications to Handle Issues Proactively</a></li> 
+        <li><a href="#MaintenanceGuidelines-StartupStates">Startup States</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="MaintenanceGuidelines-ArchiveCleanup">Archive Cleanup</h2>
+      <p><a href="Archive-Cleanup_133164049.html">Archive Cleanup</a>&nbsp;removes 'dead' messages that are older than the configured archive period. A message is considered 'live' when it is traversing through Rhapsody, and dead when it has left Rhapsody. A common cause of disk space issues is having a large number of live messages. Any messages that are in the Error Queue, the Hold Queue, communication point queues, route queues or message collectors are considered live and therefore are not be eligible for archive clean-up. Due to the structure of the Rhapsody datastore, having even a single live message can render other messages, that have been received by Rhapsody at approximately the same time, ineligible for clean-up as well. Consequently, a large number of live messages can make many other messages and their associated files (body files, metadata files, indexes) ineligible for clean-up.</p>
+      <p>To keep disk space utilization low, it is recommended you minimize the number of live messages within Rhapsody. Ensure you do not have a large number of messages in the&nbsp;Error Queue, Hold Queue, route queues or communication point queues. For example, if you need to hold messages for extended periods of time (measured in days) due to unavailability of the recipient system, it is recommended you write those messages to disk using a Directory communication point rather than hold them within Rhapsody.</p>
+      <h2 id="MaintenanceGuidelines-Backups">Backups</h2>
+      <p>It is recommended you schedule regular backups of your configuration and administration areas, so that you can restore your configuration in the event&nbsp;it is corrupted. The backup frequency should depend on how often you make configuration changes. For example, if your configuration only changes once a month, there is little point in backing up your configuration on a daily basis.</p>
+      <p>In most cases, a&nbsp;message store backup is not necessary. If your message store becomes corrupted, restoring from a backup of the message store could result in old messages being replayed. If you do need to configure backups of the message store, then it is important to be aware of the potential performance impact. To ensure the integrity of a backup, it is necessary to pause sections of the live datastore during the backup process. If you have large live queues or a large configuration, the pause duration could be large. When queues are paused, messages held in those queues are not processed and overall engine throughput could drop. The size of the message store will impact the total time taken to perform a message store backup. Consequently, it is recommended you only back up the configuration and administration areas unless you have a specific requirement to back up the entire message store.</p>
+      <h2 id="MaintenanceGuidelines-ErrorQueueandHoldQueue">Error Queue and Hold Queue</h2>
+      <p>Any messages in the Error Queue or Hold Queue&nbsp;are considered live, and are not eligible for archive clean-up – which increases disk space requirements. In Rhapsody versions prior to Rhapsody 6.2.1, messages in the&nbsp;Error Queue&nbsp;and Hold Queue&nbsp;are also validated during start-up, resulting in long startup times if the number of messages in these queues are high.</p>
+      <p>It is therefore recommended you address messages in the Error Queue on a daily basis, determining why a message has been sent to the Error Queue&nbsp;and resolving the root cause. The Error Queue is designed to catch unexpected exceptions – its message count should be kept to a minimum and should not be used as a repository for messages with known issues.</p>
+      <p>The Hold Queue should not be used in production environments.</p>
+      <h2 id="MaintenanceGuidelines-CommunicationPointandRouteQueues">Communication Point and Route Queues</h2>
+      <p>Large communication point and route queues can have a number of detrimental effects. Messages in these queues are considered live and hence not eligible for cleanup. These messages are validated on start-up and can cause long start-up times if the number of messages in these queues are large. If a backup of the message store is attempted, then communication point and route queues are paused as required by the backup process. The larger the queue, the longer the pause time. References to messages in a route queue are held in memory. Having an abnormally large route queue could cause higher heap memory usage. Consequently, it is recommended&nbsp;that you ensure&nbsp;the number of messages in communication point queues and route queues is low. Typically these queues build up when routes or communication points are kept in the stopped state while the feeders are still running. The same applies to messages held in message collectors. Collection time periods should be short –&nbsp;in seconds or minutes rather than hours or days.</p>
+      <h2 id="MaintenanceGuidelines-LookupTablesFailureList">Lookup Tables Failure List</h2>
+      <p>By default, Rhapsody logs&nbsp;lookup table&nbsp;failures and keeps a list of all unique failures. It is recommended you monitor the failure list and update the lookup tables as necessary. If this is not done, the failure list can grow very large over time and have a performance impact on your engine. When the lookup failure count is very high, attempting to view the <a href="Monitoring-Lookup-Tables_133164084.html">Monitoring Lookup Tables</a> page in the Management Console could result in high heap memory usage and the Management Console&nbsp;page failing to display. Similarly, attempting to view the lookup tables from Rhapsody IDE will also lead to high heap memory usage and could potentially lead to Rhapsody IDE hangs.</p>
+      <h2 id="MaintenanceGuidelines-MonitoringMemoryUsage">Monitoring Memory Usage</h2>
+      <p>The heap memory requirement is dependent on a number of factors such as message load, the size of the messages, the size of the configuration, and the operations performed. When new message feeds are added or when the configuration is modified, it is recommended you check the impact on memory. Ideally, heap memory usage should fluctuate between 40% and 80% of the maximum heap size. This gives enough space for occasional spikes in memory usage. When a spike occurs, determine what is causing the memory spike. Causes typically include full-text searches, attempting to process large messages, and bursts of incoming messages. Memory spikes may trigger warnings about high heap memory usage. These can be ignored as long as the memory is reclaimed shortly afterward by the garbage collection (GC) process. It only becomes a matter of concern if the memory usage goes up above 80% and stays above that threshold for an extended period of time.&nbsp;</p>
+      <p>A typical misconception is that more heap memory allocation is better. As heap sizes grow, the chances of encountering long GC pauses increase. This is because, as the heap becomes larger, the frequency of full garbage collection cycles decreases. When a full GC eventually gets triggered, it needs to clean up a large number of objects. Since a full GC&nbsp;is a 'stop the world' process, the engine is unresponsive during that process. For applications such as Rhapsody that are sensitive to response times, it is better to have frequent short full GCs rather than the occasional long full GC.</p>
+      <h2 id="MaintenanceGuidelines-CapacityReviewWhenMessageLoadIncreases">Capacity Review When Message Load Increases</h2>
+      <p>The resource requirements (memory, CPU, disk I/O, disk space) can change when new message feeds are added, when the message load changes, or when configuration changes are made. For this reason, it is recommended you perform a capacity review on a regular basis to prevent potential resourcing problems in the future.</p>
+      <h2 id="MaintenanceGuidelines-ServicePackUpdates">Service Pack Updates</h2>
+      <p>Rhapsody releases regular service packs to address the bugs that have been identified in the field. Most service packs contain upwards of 50 bug fixes. Rhapsody as an organization&nbsp;goes to some length to ensure that service packs do not change existing behavior (except, of course, addressing bugs) so that the testing effort required prior to applying service pack updates is minimal. It is strongly recommended you keep up-to-date with service packs to minimize the number of bugs in your production engines. Service pack releases are announced in the Rhapsody forums.</p>
+      <h2 id="MaintenanceGuidelines-ProceduresforRestartingtheEngine">Procedures for Restarting the Engine</h2>
+      <p>When a Rhapsody engine needs to be shut down for maintenance, keep the number of messages in flight within Rhapsody to a minimum. This ensures the engine start-up is fast and only a small number of transactions need rolling back. The recommended shutdown procedure is as follows:</p>
+      <ol>
+       <li>&nbsp;Shut down all inbound communication points.</li>
+       <li>&nbsp;Give enough time for messages in routes to flow to outbound communication points and then shut down all routes.</li>
+       <li>&nbsp;Give enough time for messages in outbound communication points to leave Rhapsody and then shut down outbound communication points.</li>
+      </ol>
+      <p>An exception to this procedure is a communication point in <em>Bi-directional</em> or <em>In-&gt;Out</em> mode. In this case, you cannot shut down the inbound direction without shutting down the outbound direction as well. Therefore, ensure there are no messages in route queues before shutting down the engine.</p>
+      <h2 id="MaintenanceGuidelines-MonitoringtheSizeofaConfigurationforaSingleEngine">Monitoring the Size of a Configuration for a Single Engine</h2>
+      <p>There is a limit to the size of a configuration (the number of communication points, routes, and filters) that a single Rhapsody engine can handle in a performant manner. The recommended maximum size of a configuration is approximately 2,000 communication points. This number is based on tests performed using TCP Client and TCP Server communication points. Users typically begin to notice slowness on Management Console pages and Rhapsody IDE check-ins before seeing any performance degradation in message processing. For configurations with more resource-intensive communication points, the maximum size will be less (for example, a web service communication point is more resource intensive than a Timer or Sink communication point, and a Mapper filter is more resource intensive than a No-operation filter).</p>
+      <h2 id="MaintenanceGuidelines-NotificationstoHandleIssuesProactively">Notifications to Handle Issues Proactively</h2>
+      <p>Rhapsody provides the option of configuring notifications. It is important to configure alerts on items that you care about. While Rhapsody ships with default threshold values for these notifications, it is recommended you modify the threshold values to suit your environment. For example, if a message spends more than a certain number of seconds in a filter, you could configure it to get a notification. If you have a database filter that has a query that is likely to take a long time to execute, you should tweak the thresholds accordingly so that you do not receive unnecessary alerts (however, it is recommended you use the&nbsp;<a href="Database_133162443.html">Database</a> communication point for such cases). Notifications enable you proactively fix issues before they become serious.</p>
+      <h2 id="MaintenanceGuidelines-StartupStates">Startup States</h2>
+      <p>If there are hard dependencies in your configuration, you should use startup states to ensure that the communication points and routes that are needed for other components to work are started before the components that depend on them.</p>
+      <p>If there are no hard dependencies, then general best practice is to observe the following sequence:</p>
+      <ol>
+       <li>Start output mode communication points.</li>
+       <li>Start routes and dynamic routers.</li>
+       <li>Start input mode communication points.</li>
+      </ol>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

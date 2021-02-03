@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Zip / Unzip</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Zip / Unzip</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163376/133163378.jpg" data-image-src="attachments/133163376/133163378.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163378" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image185.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163376" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>Zip / Unzip</strong> filter&nbsp;can be used to zip separate messages into a single Zip file, or to extract individual messages from a Zip file.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This filter only supports the Zip compression format. It uses the <a href="http://commons.apache.org/compress/apidocs/org/apache/commons/compress/archivers/zip/ZipArchiveInputStream.html" class="external-link" rel="nofollow">ZipArchiveInputStream</a> input stream, defined in Apache Commons Compress 1.1, to read Zip archives. The compression and encoding algorithm used is DEFLATE. Refer to <a href="http://www.ietf.org/rfc/rfc1951.txt" class="external-link" rel="nofollow">IETF RFC 1951</a> for details.</p>
+       </div>
+      </div>
+      <h2 id="Zip/Unzip-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>Specify if a Zip file is to be split into separate messages (unzipped), or if messages are to be combined into a single Zip file (zipped):</p>
+           <ul>
+            <li><code>Zip</code> (default) - the filter is set to Zip mode.</li>
+            <li><code>Unzip</code> -<span> the filter is set</span> to Unzip mode.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Non-zip File Receipt</p></td>
+          <td class="confluenceTd"><p>Selects the action to take after receiving a non-Zip file format message:</p>
+           <ul>
+            <li><code>Send to error connector</code> (default) - the filter returns the message to the route connector.</li>
+            <li><code>Send original message to route</code> - <span>the filter</span> sends the original message to the next filter or output communication point to continue processing.</li>
+           </ul><p><span>Available only in </span><span>Unzip</span><span> mode</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Empty Zip File Receipt</p></td>
+          <td class="confluenceTd"><p><span>Selects the action to take</span> after receiving an empty Zip file which contains no messages:</p>
+           <ul>
+            <li><code>Send to error connector</code> (default) - the filter returns the message to the route connector.</li>
+            <li><code>Send no messages</code> - the filter sends no messages to the next filter or output communication point; that is, the filter generates zero messages.</li>
+           </ul><p>Available only in Unzip mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Filename Encoding</p></td>
+          <td class="confluenceTd"><p>The character encoding to use for filenames when reading from or writing to a Zip archive (s<span>et to </span><code>Default Platform Encoding</code><span> by default)</span>. This setting only applies to files within the archive, <em>not</em> the archive itself:</p>
+           <ul>
+            <li>In Unzip mode, this setting allows archives containing files, with foreign characters in the filenames, to be processed correctly (if the input encoding is known).</li>
+            <li>In Zip mode, it enables filenames with foreign characters to be archived without the filenames becoming garbled. The default value is the default encoding of the current platform.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="Zip/Unzip-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a> for the Zip / Unzip filter are:</p>
+      <ul>
+       <li><code>NumberOfBatchedMessages</code> - indicates the number of many messages zipped into the Zip file when in Zip mode, and the number of messaged extracted from the Zip file in Unzip mode.</li>
+       <li><code>ZipIndex</code> - zero-based index of this message within the Zip file. This property is generated and populated only when the filter is set to Unzip mode.</li>
+       <li><code>ZipFullFilename</code> - filename of this message within the Zip&nbsp;file. This property is generated and populated only when the filter is set to Unzip mode.</li>
+       <li><code>ZipBaseFilename</code> - base filename without the extension of this message. This property is generated and populated only when the filter is set to Unzip mode.</li>
+       <li><code>ZipSuffix</code> - file extension of this message. This property is generated and populated only when the filter is set to Unzip mode.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If you create and populate message properties for a message to be zipped with the same name as the published properties:&nbsp;<code>ZipFullFilename</code>, or&nbsp;<code>ZipBaseFilename</code> and&nbsp;<code>ZipSuffix</code>, then the message properties automatically set the name of the message when zipped inside the Zip file generated by the filter<span> in Zip mode</span>. If these message properties are not set, then the name of the message inside the Zip file is set according to a timestamp.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

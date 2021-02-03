@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Security Objects Service</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="RDK-Reference_133161352.html">RDK Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Security Objects Service</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p> </p>
+      <p class="p1">Security Objects Service provides an interface for the security objects service, that allows access to the security objects (keys and certificates) in the configuration. It also allows a new <span class="s1">keystore</span> to be created containing a subset of the security objects in the configuration.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>KeyStore getKeyStore(Set&lt;String&gt; <span class="s1">aliases</span>, <span class="s2">char</span>[] <span class="s1">password</span>)</code></p></td>
+          <td class="confluenceTd"><p class="p1"><span class="s1">Returns a new key store that is a subset of this one, with just the keys or certificates with the given aliases. Note that this method will never return SSH keys as they need additional decoding in order to be used. The explicit SSH methods in RDK2.1 should be used instead.</span></p><p class="p1"><span class="s1">Parameters:<br></span></p>
+           <ul>
+            <li class="p1"><code>aliases</code> - the aliases of the keys or certificates to go in the new key store.</li>
+            <li class="p1"><code>password</code> - the password for the keys in the new key store.</li>
+           </ul><p class="p1"><span class="s1">Exceptions: <br></span></p>
+           <ul>
+            <li class="p1"><span class="s1"><code>IOException</code> - </span>if there is an IO error with the new <span class="s1">key store.</span></li>
+            <li class="p1"><code>GeneralSecurityException</code> - if there is an error loading one of the security objects with the given aliases.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>Key getKey(String <span class="s1">name</span>)</code></p></td>
+          <td class="confluenceTd"><p class="p1">Retrieves a key from Rhapsody's security provider.</p><p class="p1">Parameters:</p>
+           <ul>
+            <li class="p1"><code>name</code> - the name of the key to retrieve.</li>
+           </ul><p class="p1">Exceptions:</p>
+           <ul>
+            <li class="p1"><code>KeyNotFoundException</code> - if the specified key could not be found.</li>
+            <li class="p1"><code>GeneralSecurityException</code> - if there is an error loading the key.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>Certificate getCertificate(String <span class="s1">name</span>)</code></p></td>
+          <td class="confluenceTd"><p class="p1">Retrieves a certificate from Rhapsody's security provider.</p><p class="p1">Parameters:</p>
+           <ul>
+            <li class="p1"><code>name</code> - the name of the key to retrieve</li>
+           </ul><p class="p1"><span>Exceptions</span>:</p>
+           <ul>
+            <li class="p1"><code>CertificateNotFoundException</code> - if the specified certificate could not be found.</li>
+            <li class="p1"><code><span>GeneralSecurityException</span></code> - if there is an error loading the key.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>Certificate[] getCertificateChain(String <span class="s1">name</span>)</code></p></td>
+          <td class="confluenceTd"><p class="p1"><span class="s1">Retrieves a certificate chain from Rhapsody's security provider. If these are X509 certificates (almost certainly the case) then the certificate chain will be reordered if necessary prior to returning them.</span></p><p class="p1">Parameters:</p>
+           <ul>
+            <li class="p1"><code>name</code> - the name of the certificate chain to retrieve.</li>
+           </ul><p class="p1">Exceptions:</p>
+           <ul>
+            <li class="p1"><code>CertificateNotFoundException</code> - if the specified certificate could not be found.</li>
+            <li class="p1"><code>GeneralSecurityException</code> - if there is an error loading the key.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>X509Certificate getCertificate(X500Principal <span class="s1">subject</span>)</code></p></td>
+          <td class="confluenceTd"><p class="p1">Retrieves a certificate from Rhapsody's security provider with the specified subject.</p><p class="p1">Parameters:</p>
+           <ul>
+            <li class="p1"><code>subject</code>.</li>
+           </ul><p class="p1">Exceptions:</p>
+           <ul>
+            <li class="p1"><code>CertificateNotFoundException</code> - if the specified certificate could not be found.</li>
+            <li class="p1"><code>GeneralSecurityException</code> - if there is an error loading the key.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p>
+      <p class="p1">&nbsp;</p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

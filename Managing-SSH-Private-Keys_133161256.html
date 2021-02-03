@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Managing SSH Private Keys</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Managing-Certificates-and-Keys_133161222.html">Managing Certificates and Keys</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Managing SSH Private Keys</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="ManagingSSHPrivateKeys-ViewingSSHPrivateKeys">Viewing SSH Private Keys</h2>
+      <p>To view the SSH private keys registered on the Rhapsody server, navigate to<strong>&nbsp;View&gt;</strong><strong>Certificate and Key Manager</strong> to display the <strong>Certificate and Key Manager</strong>&nbsp;and select the <strong>SSH Private Keys </strong>tab:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="720" src="attachments/133161256/133161257.png" data-image-src="attachments/133161256/133161257.png" data-unresolved-comment-count="0" data-linked-resource-id="133161257" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="ViewingSSHPrivateKeys.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161256" data-linked-resource-container-version="3"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If you are connecting to an engine that does not support SSH key management, then the <strong>Certificate and Key Manager</strong> does not display the <strong>SSH Public Keys</strong> and <strong>SSH Private Keys</strong> tabs.</p>
+       </div>
+      </div>
+      <p>The<strong>&nbsp;</strong>tab provides the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Alias</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The unique user-defined name for the key.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Key aliases must be unique across all certificates and keys in Rhapsody.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Algorithm</td>
+          <td class="confluenceTd">The encryption algorithm used (RSA or DSA).</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Key Size</td>
+          <td class="confluenceTd">The key bit length.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Fingerprint</td>
+          <td colspan="1" class="confluenceTd">MD5 hash of the key.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can perform the following actions from the tab via buttons or the right-click menu:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingSSHPrivateKeys-ImportinganSSHPrivateKey">Import...</a></td>
+          <td class="confluenceTd">Add an&nbsp;SSH private key.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingSSHPrivateKeys-ExportinganSSHPrivateKey">Export...</a></td>
+          <td colspan="1" class="confluenceTd">Export an&nbsp;SSH private key.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingSSHPrivateKeys-RemovinganSSHPrivateKey">Remove</a></td>
+          <td class="confluenceTd">Delete an&nbsp;SSH private key.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Show Uses</td>
+          <td colspan="1" class="confluenceTd"><span>Open the </span><strong>Security Object Uses</strong><span> dialog to display the components <span>an&nbsp;SSH private key</span></span><span> is being used in. Double-click a component to view or edit its configuration properties.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Filter</td>
+          <td colspan="1" class="confluenceTd">Perform text-based filtering to filter the list of displayed&nbsp;SSH private keys.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ManagingSSHPrivateKeys-ImportinganSSHPrivateKey">Importing an SSH Private Key</h2>
+      <p>SSH private keys can be imported from either OpenSSH, ssh.com, or Putty formats, and the user is prompted for a passphrase to use to decrypt the key.</p>
+      <p>To import an SSH private key:</p>
+      <ol>
+       <li><p>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</p></li>
+       <li><p>On the <strong>SSH Private Keys </strong>tab, select the <strong>Import...</strong> button<span>.&nbsp;</span>The <strong>Import SSH Private Key</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161256/133161259.png" data-image-src="attachments/133161256/133161259.png" data-unresolved-comment-count="0" data-linked-resource-id="133161259" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ImportinganSSHPrivateKey.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161256" data-linked-resource-container-version="3"></span></p></li>
+       <li>Enter:&nbsp;
+        <ul>
+         <li>A name in the&nbsp;<strong>Key Alias</strong>&nbsp;field to identify the key, if required.</li>
+         <li>The path of the key&nbsp;you want to import in the <strong>Filename</strong> field or click the <strong>Browse</strong> link to locate it.</li>
+         <li>The passphrase in the <strong>Passphrase</strong> field.</li>
+        </ul></li>
+       <li>Select&nbsp;the <strong>OK</strong> button to import the key.</li>
+       <li><p>If the import is successful, then the new key is added to the list. If it fails, an error message is displayed indicating the reason why it failed. Failure reasons include:</p>
+        <ul>
+         <li>Duplicate key alias.</li>
+         <li>Specified file does not exist.</li>
+         <li>Specified file could not be opened.</li>
+         <li>Specified file is too large (you cannot import files larger than 1MB).</li>
+         <li>Specified file is not the appropriate type of key (you cannot load an SSH private key from the public keys page or vice versa).</li>
+         <li>Specified file is not an SSH key.</li>
+         <li>Passphrase is incorrect for an SSH private key.</li>
+        </ul></li>
+      </ol>
+      <h2 id="ManagingSSHPrivateKeys-ExportinganSSHPrivateKey">Exporting an SSH Private Key</h2>
+      <p>SSH private keys can only&nbsp;be exported using the OpenSSH private key format. If another format is desired, then a tool such as PuttyGen can be used to convert between the formats.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The 'Export SSH private keys' <span>access right </span>is required to export SSH private keys. By default, this privilege is only given to the root Administrator user.</p>
+       </div>
+      </div>
+      <p>To export an SSH private key:</p>
+      <ol>
+       <li><p>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</p></li>
+       <li><p>On the <strong>SSH Private Keys</strong> tab, select a private key to export&nbsp;and then select&nbsp;the <strong>Export... </strong>button<span>.&nbsp;</span>The <strong>Export SSH Private Key</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161256/133161258.png" data-image-src="attachments/133161256/133161258.png" data-unresolved-comment-count="0" data-linked-resource-id="133161258" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExportinganSSHPrivateKey.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161256" data-linked-resource-container-version="3"></span></p></li>
+       <li>Enter a path in the <strong>Filename</strong> field or click the <strong>Browse...</strong> link to select a path&nbsp;to save the key to that location.</li>
+       <li>Enter a password in the <strong>Password</strong> and <strong>Confirm</strong> fields.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to export the private key. The <strong>OK</strong> button becomes available only when the mandatory fields have been entered (all fields are mandatory).</li>
+      </ol>
+      <h2 id="ManagingSSHPrivateKeys-RemovinganSSHPrivateKey">Removing an SSH Private Key</h2>
+      <p>To remove an SSH private key:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li><p>On the <strong>SSH Private Keys </strong>tab, select the private key you want to remove.</p></li>
+       <li>Select&nbsp;the&nbsp;<strong>Remove</strong>&nbsp;button.&nbsp;A confirmation dialog is displayed</li>
+       <li><p>Select the <strong>Yes</strong> button on the confirmation dialog to remove the key&nbsp;(you can undo the deletion by selecting the&nbsp;<strong>Undo Remove</strong>&nbsp;button).</p></li>
+      </ol>
+      <h2 id="ManagingSSHPrivateKeys-SupportedPrivateKeyFormats">Supported Private Key Formats</h2>
+      <p>Rhapsody supports SSH private keys in the OpenSSH, ssh.com, and Putty key formats, for example:</p>
+      <ul>
+       <li><a href="#ManagingSSHPrivateKeys-OpenSSHPrivateKeyFormat">OpenSSH Private Key Format</a></li>
+       <li><a href="#ManagingSSHPrivateKeys-SSH.COMPrivateKeyFormat">SSH.COM Private Key Format</a></li>
+       <li><p class="_mce_tagged_br"><a href="#ManagingSSHPrivateKeys-PuttyPrivateKeyFormat">Putty Private Key Format</a></p></li>
+      </ul>
+      <h3 id="ManagingSSHPrivateKeys-OpenSSHPrivateKeyFormat">OpenSSH Private Key Format</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-----BEGIN RSA PRIVATE KEY-----
+MIIEoAIBAAKCAQEAkFTRr7nVMZrv9648hfG+ednEQNedt+Cbuam6r+Ug/1TvGSkB
+fxf6RWL1ASGgAFna+fun99uJgrF2F82knCa4dTMOwzkcPdhXjGNvTKlby3MH46wq
+viT+aICUguQ8LDGVu2iDzhHwbsMFzpVQh+NtIl/WPxybi6zMsYjDRnVTBB54gEls
+V5XNkLJc7oXyqPrWfJv5SzTbiMByN1wtHHarekM4cAdyd3VQ7WLo4DGPcZvlP/Ew
+n54Ol7vTKobZ8UyHT8W771NhtypfUn14Ma4r/W1lVPuX1b0qj/EhyTN8b88EsAkR
+cnicu2dn/TW59bjOQP3lnu8Uliy1u/R/tF48ZQIBJQKCAQAjG4zzZI3Ny73Udn1s
+sGyaLg0kh3lkFAo0FIdbN7vrFKjcm0WNngxxvh/rhLg3b817E7M8SiheD32XFlh5
+An/lKBhZAA3J2q2DA24ZkPqnG/sAB0iqyrpsck2jTEX86XdyxmU/9oaXe4vKd1jH
+G6Tsr4ckG7ch+ZmS98DL8wZa8kh2L13HvsuaGy5FI/rUKFLlFuDN1LCjUnpTCf1J
+XifCfAqtH55KjTRkzwbvi8O54EsAi8iznv8AB4jq41dgf5UANjhUYDX1PQwg9Bbi
+VKcg1F7l7n1ilrlfI36l5n9cz/3PJ1yu1/gilA6rwwdkia7Sa9lX4qFuE2GoSGXv
+Op0tAoGBAOi6dUEsnfpC9h1KuQPV5gSgkCtNh9uRLstJIb466euSP5vf0g5hmUsV
+t9ZkJhdeLKr4+LluBZ+pEwf9KCE431gkTboGS+O6mRANpkXakxjr0zRf55Q4kteS
+DjwrtWpOc8kY1EbUD+O86gjCAl1jKY0ChmlN1ITMM+ijfLfMscbhAoGBAJ7DgzfZ
+WTjwodbAceejxGCgAxVaJinJ6T5DgySz7Tjk6TfIeoP/0GdVrUtN6VNsnD7S8q/d
+YB21pkL18PwrtgN/7m+qmGdFQQD2QQ0mablRv1V8sVV5ojx2wsCBrgaHWX18doZ6
+Ri6pOSLq2K/1PMfdZsXnzDEFcDudhwhlgpoFAoGAPuZJNDWSev1XRi/e+h4ifcqH
+1Fokt+IMpaUQCeZovDVdTLkIVunyFEsPF1lWZy41lf4ZtZNbd0Jz2KVJHbxYCfv5
+VN8bbfsUnI4RQ0/UuqCZ8nrI96CWY8acEEMqHLtB41LRlpotztkcqGvJSawZEVqg
+3jC1+mC0FVyeP4NuUW0CgYBrRdUzkttrqYIbexyHwa4zcwkAltuEBPeK71icQjiA
+Y1F4t+QT/9/XHjbSBDXea/reVy5bJuAUEvPMYPzGD7JVZEco2w0HgdH5uyUI4pp2
+S/3R+k5Ogp4NLaYvC4NsMfBbtPYjgwzTa2vLfBXerJ6wjq05nJ65VrOd5vpfnoit
+QQKBgCrJYY8QhSX+TTaqF2S2wsoBbmK5RdC/ZMbyyzp1Fi0oTrDaJ7lQxIfQQ/s5
+iGQUqnJ8lWrQ2QK/9mnw6d/N41IAlZ4ipoMWeTnAFtjfNXQdZYqBOfKgxpakg2N0
+YC4vSDbZSATxq/bzD8Ym4eS62NfMmLm1HO9xLhEHaWil3xTa
+-----END RSA PRIVATE KEY-----</pre> 
+       </div>
+      </div>
+      <h3 id="ManagingSSHPrivateKeys-SSH.COMPrivateKeyFormat">SSH.COM Private Key Format</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">---- BEGIN SSH2 ENCRYPTED PRIVATE KEY ----
+Comment: "rsa-key-20140829"
+P2/56wAAA+wAAAA3aWYtbW9kbntzaWdue3JzYS1wa2NzMS1zaGExfSxlbmNyeXB0e3JzYS
+1wa2NzMXYyLW9hZXB9fQAAAARub25lAAADnQAAA5kAAAAGJQAAB/4jG4zzZI3Ny73Udn1s
+sGyaLg0kh3lkFAo0FIdbN7vrFKjcm0WNngxxvh/rhLg3b817E7M8SiheD32XFlh5An/lKB
+hZAA3J2q2DA24ZkPqnG/sAB0iqyrpsck2jTEX86XdyxmU/9oaXe4vKd1jHG6Tsr4ckG7ch
++ZmS98DL8wZa8kh2L13HvsuaGy5FI/rUKFLlFuDN1LCjUnpTCf1JXifCfAqtH55KjTRkzw
+bvi8O54EsAi8iznv8AB4jq41dgf5UANjhUYDX1PQwg9BbiVKcg1F7l7n1ilrlfI36l5n9c
+z/3PJ1yu1/gilA6rwwdkia7Sa9lX4qFuE2GoSGXvOp0tAAAIAJBU0a+51TGa7/euPIXxvn
+nZxEDXnbfgm7mpuq/lIP9U7xkpAX8X+kVi9QEhoABZ2vn7p/fbiYKxdhfNpJwmuHUzDsM5
+HD3YV4xjb0ypW8tzB+OsKr4k/miAlILkPCwxlbtog84R8G7DBc6VUIfjbSJf1j8cm4uszL
+GIw0Z1UwQeeIBJbFeVzZCyXO6F8qj61nyb+Us024jAcjdcLRx2q3pDOHAHcnd1UO1i6OAx
+j3Gb5T/xMJ+eDpe70yqG2fFMh0/Fu+9TYbcqX1J9eDGuK/1tZVT7l9W9Ko/xIckzfG/PBL
+AJEXJ4nLtnZ/01ufW4zkD95Z7vFJYstbv0f7RePGUAAAP+KslhjxCFJf5NNqoXZLbCygFu
+YrlF0L9kxvLLOnUWLShOsNonuVDEh9BD+zmIZBSqcnyVatDZAr/2afDp383jUgCVniKmgx
+Z5OcAW2N81dB1lioE58qDGlqSDY3RgLi9INtlIBPGr9vMPxibh5LrY18yYubUc73EuEQdp
+aKXfFNoAAAQAnsODN9lZOPCh1sBx56PEYKADFVomKcnpPkODJLPtOOTpN8h6g//QZ1WtS0
+3pU2ycPtLyr91gHbWmQvXw/Cu2A3/ub6qYZ0VBAPZBDSZpuVG/VXyxVXmiPHbCwIGuBodZ
+fXx2hnpGLqk5IurYr/U8x91mxefMMQVwO52HCGWCmgUAAAQA6Lp1QSyd+kL2HUq5A9XmBK
+CQK02H25Euy0khvjrp65I/m9/SDmGZSxW31mQmF14sqvj4uW4Fn6kTB/0oITjfWCRNugZL
+47qZEA2mRdqTGOvTNF/nlDiS15IOPCu1ak5zyRjURtQP47zqCMICXWMpjQKGaU3UhMwz6K
+N8t8yxxuE=
+---- END SSH2 ENCRYPTED PRIVATE KEY ----</pre> 
+       </div>
+      </div>
+      <h3 id="ManagingSSHPrivateKeys-PuttyPrivateKeyFormat">Putty Private Key Format</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">PuTTY-User-Key-File-2: ssh-rsa
+Encryption: none
+Comment: rsa-key-20140829
+Public-Lines: 6
+AAAAB3NzaC1yc2EAAAABJQAAAQEAkFTRr7nVMZrv9648hfG+ednEQNedt+Cbuam6
+r+Ug/1TvGSkBfxf6RWL1ASGgAFna+fun99uJgrF2F82knCa4dTMOwzkcPdhXjGNv
+TKlby3MH46wqviT+aICUguQ8LDGVu2iDzhHwbsMFzpVQh+NtIl/WPxybi6zMsYjD
+RnVTBB54gElsV5XNkLJc7oXyqPrWfJv5SzTbiMByN1wtHHarekM4cAdyd3VQ7WLo
+4DGPcZvlP/Ewn54Ol7vTKobZ8UyHT8W771NhtypfUn14Ma4r/W1lVPuX1b0qj/Eh
+yTN8b88EsAkRcnicu2dn/TW59bjOQP3lnu8Uliy1u/R/tF48ZQ==
+Private-Lines: 14
+AAABACMbjPNkjc3LvdR2fWywbJouDSSHeWQUCjQUh1s3u+sUqNybRY2eDHG+H+uE
+uDdvzXsTszxKKF4PfZcWWHkCf+UoGFkADcnarYMDbhmQ+qcb+wAHSKrKumxyTaNM
+Rfzpd3LGZT/2hpd7i8p3WMcbpOyvhyQbtyH5mZL3wMvzBlrySHYvXce+y5obLkUj
++tQoUuUW4M3UsKNSelMJ/UleJ8J8Cq0fnkqNNGTPBu+Lw7ngSwCLyLOe/wAHiOrj
+V2B/lQA2OFRgNfU9DCD0FuJUpyDUXuXufWKWuV8jfqXmf1zP/c8nXK7X+CKUDqvD
+B2SJrtJr2VfioW4TYahIZe86nS0AAACBAOi6dUEsnfpC9h1KuQPV5gSgkCtNh9uR
+LstJIb466euSP5vf0g5hmUsVt9ZkJhdeLKr4+LluBZ+pEwf9KCE431gkTboGS+O6
+mRANpkXakxjr0zRf55Q4kteSDjwrtWpOc8kY1EbUD+O86gjCAl1jKY0ChmlN1ITM
+M+ijfLfMscbhAAAAgQCew4M32Vk48KHWwHHno8RgoAMVWiYpyek+Q4Mks+045Ok3
+yHqD/9BnVa1LTelTbJw+0vKv3WAdtaZC9fD8K7YDf+5vqphnRUEA9kENJmm5Ub9V
+fLFVeaI8dsLAga4Gh1l9fHaGekYuqTki6tiv9TzH3WbF58wxBXA7nYcIZYKaBQAA
+AIAqyWGPEIUl/k02qhdktsLKAW5iuUXQv2TG8ss6dRYtKE6w2ie5UMSH0EP7OYhk
+FKpyfJVq0NkCv/Zp8OnfzeNSAJWeIqaDFnk5wBbY3zV0HWWKgTnyoMaWpINjdGAu
+L0g22UgE8av28w/GJuHkutjXzJi5tRzvcS4RB2lopd8U2g==
+Private-MAC: f121aaf857fcb3bc7c13624a167440e1d6ead8a0</pre> 
+       </div>
+      </div>
+      <p> </p>
+      <p><br></p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

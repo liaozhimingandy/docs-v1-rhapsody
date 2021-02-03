@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Multiple Database Access</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Multiple Database Access</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Database communication point in&nbsp;<em>Input</em>,&nbsp;<em>Output</em>&nbsp;or&nbsp;<em>Out-&gt;In</em>&nbsp;mode&nbsp;and database filters can connect to more than one database with each statement using one database connection. The main database must be uniquely identified using the driver, url, username and password tags and will be used as the default database for the statements. Additional databases can be configured using a database tag with embedded driver, URL, username and password tags.</p>
+      <p>In the event the database component has a connection failure to one of the databases, all the transactions will be rolled back.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>As Rhapsody does not officially endorse the use of multiple database access, a warning is displayed for any connections you configure in addition to the first one.</p>
+       </div>
+      </div>
+      <h2 id="MultipleDatabaseAccess-Syntax">Syntax</h2>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;database name="..."&gt;
+    &lt;driver&gt;driver name&lt;/driver&gt;
+    &lt;url&gt;database url&lt;/url&gt;
+    &lt;username&gt;database username&lt;/username&gt;
+    &lt;password&gt;database password&lt;/password&gt;
+&lt;/database&gt;</pre> 
+       </div>
+      </div>
+      <p>The name attribute must be provided so that a statement can refer to the named database. Each statement can use a secondary database connection if the database attribute points to a secondary database name. This attribute is optional. If the database attribute is omitted the main database connection is used for the statement.&nbsp;</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="main" database="..."&gt;
+     ...
+&lt;/statement&gt;</pre> 
+       </div>
+      </div>
+      <p>Rhapsody variables are allowed for the values of the elements. For example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;database name="..."&gt;
+    &lt;driver&gt;driver name&lt;/driver&gt;
+    &lt;url&gt;database url&lt;/url&gt;
+    &lt;username&gt;${database_username}&lt;/username&gt;
+    &lt;password&gt;${database_password}&lt;/password&gt;
+&lt;/database&gt;
+</pre> 
+       </div>
+      </div>
+      <p>The value of <code>database_username</code> variable and the value of <code>database_password</code> variable is used for the username and the password respectively when the database connection is made.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

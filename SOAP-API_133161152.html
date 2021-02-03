@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>SOAP API</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">SOAP API</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody Integration Engine (Rhapsody) includes a programmatic Application Programming Interface (API) that allows external applications to access information about the status of components in the Rhapsody engines, and modify the state of components. It also allows access to messages in the Error and Hold Queues.</p>
+      <p>The API is a set of&nbsp;web services that can be accessed remotely using any application that supports calling web services. The unauthenticated services allow access to basic information about the state of the Rhapsody engine, and the authenticated services provide access to information on the configuration and status of components in the engine. The authenticated services require a Rhapsody username and password, and are governed by the access permissions defined in the User Manager.</p>
+      <p>All queries and responses are provided over an encrypted Web service connection (HTTPS) which defaults to being available on port 8449. Refer to <a href="Framework-Settings_133161157.html">Framework Settings</a> for details on how this default port can be changed, and how to configure which SSL certificate should be used.</p>
+      <p>All operations in the API web services support both the SOAP 1.1 and 1.2 bindings, and provide optional support for WS-Addressing.</p>
+      <h2 id="SOAPAPI-UnauthenticatedAPIServices">Unauthenticated API Services</h2>
+      <p>No authentication is required to access any of the operations in this service.</p>
+      <div class="evencolumns"> 
+       <div class="table-wrap">
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Service</p></th>
+            <th class="confluenceTh"><p>WSDL Location</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+            <th colspan="1" class="confluenceTh">Access Rights</th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><a href="Status-Web-Service_133161173.html" rel="nofollow">Rhapsody Status</a></p></td>
+            <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:<br>&lt;WSPort&gt;/services<code><code><code><code>/</code></code></code></code>RhapsodyStatusService?wsdl</code></p></td>
+            <td class="confluenceTd"><p>Provides simple operations to determine the status of the Rhapsody engine. Primarily, this is status information while Rhapsody is starting up, and a ping operation to verify that it is still responding. No authentication is required to access any of the operations in this service.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <ul>
+              <li>'Call the Rhapsody Web Services API'.</li>
+             </ul></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div> 
+      </div>
+      <h2 id="SOAPAPI-AuthenticatedAPIServices">Authenticated API Services</h2>
+      <p>These services are authenticated using a Rhapsody username and password. Authentication is performed using a WS-Security UsernameToken over the HTTPS connection. The password must be provided as plain text, rather than as a digest. As an encrypted connection is in use these passwords are not visible to any other application.</p>
+      <div class="evencolumns"> 
+       <div class="table-wrap">
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Service</p></th>
+            <th class="confluenceTh"><p>WSDL Location</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+            <th colspan="1" class="confluenceTh">Access Rights</th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><a href="System-Statistics-Web-Service_133161174.html" rel="nofollow">System Statistics</a></p></td>
+            <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services<code>/</code><code>SystemStatisticsService?wsdl</code> </code></p></td>
+            <td class="confluenceTd"><p>Provides operations to retrieve message counts for individual components or the entire engine, memory usage for the engine, and the ability to export historical values for all of those statistics.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <ul>
+              <li>'Call the Rhapsody Web Services API'.</li>
+              <li>'Export system statistics', 'View system statistics',&nbsp;<p>'Log in to Management Console' (for <code>getMemoryUsageStatistics</code>, <code>getTotalCountStatistics</code>,&nbsp; <code>getComponentCountStatistics</code>).</p></li>
+             </ul></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><a href="Components-Web-Service_133161172.html" rel="nofollow">Rhapsody Components</a></p></td>
+            <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services<code>/</code>RhapsodyComponentsService?wsdl</code></p></td>
+            <td class="confluenceTd"><p>Provides operations to find the communication points and routes in the Rhapsody configuration, simple statistical information about these components, and allows them to be stopped and started.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <ul>
+              <li>'Call the Rhapsody Web Services API'.</li>
+             </ul></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><a href="Message-Searching-Web-Service_133161175.html" rel="nofollow">Message Searching</a></p></td>
+            <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services<code>/</code>MessageSearchingService?wsdl</code></p></td>
+            <td class="confluenceTd"><p>Provides a mechanism to find messages on the Error and Hold Queues, retrieve details about these messages, and reprocess or delete them.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <ul>
+              <li>'Call the Rhapsody Web Services API'.</li>
+              <li><p>'View message bodies' and 'View message properties' (for <code>getMessage</code>).</p></li>
+              <li><p>'Delete held/errored messages' (for <code>deleteMessageFromTable</code>).</p></li>
+              <li><p>'Release/reprocess messages' (for <code>releaseMessageFromTable</code>).</p></li>
+             </ul></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><a href="Lookup-Table-Web-Service_133161171.html" rel="nofollow">Lookup Tables</a></p></td>
+            <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services<code>/</code>LookupTableService?wsdl</code></p></td>
+            <td class="confluenceTd"><p>Provides operations to lookup values contained within Rhapsody lookup tables.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <ul>
+              <li>'Call the Rhapsody Web Services API'.</li>
+             </ul></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div> 
+      </div>
+      <p><code>&lt;RhapsodyEngine&gt;</code> is the hostname or IP address of the server being queried. <code>&lt;WSPort&gt;</code> is the port number defined for the Secure Web Services&nbsp;API. The default port is <code>8449</code>&nbsp;(you can change the port number via the property <code>WebServiceApi.httpsPort</code> in the <code>rhapsody.properties</code> file).</p>
+      <p>For example:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/RhapsodyStatusService?wsdl </pre> 
+       </div>
+      </div>
+      <p>becomes</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>https://MyRhapsodyEngineServer:8449/services/RhapsodyStatusService?wsdl </pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Control File Support</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Directory_133162648.html">Directory</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Control File Support</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A Control File (OK File) is a file whose presence indicates that an associated data file is complete and ready to be processed. A remote system or Rhapsody communication point in <a href="#ControlFileSupport-OutputMode">output mode</a> only creates the Control File after the data file is completely written. The presence of the Control File then signals to another remote system or Rhapsody communication point in <a href="#ControlFileSupport-InputMode">input mode</a> that the data file is ready for processing.</p>
+      <p>The following communication points utilize Control Files:</p>
+      <ul>
+       <li><a href="Directory_133162648.html">Directory communication point</a></li>
+      </ul>
+      <h2 id="ControlFileSupport-ControlFiles">Control Files</h2>
+      <h3 id="ControlFileSupport-Format">Format</h3>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Data File</p></th>
+          <th class="confluenceTh"><p>Control File<br class="atl-forced-newline"> Extension</p></th>
+          <th class="confluenceTh"><p>Control File</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>mydatafile.csv</code></p></td>
+          <td class="confluenceTd"><p><code>ok</code></p></td>
+          <td class="confluenceTd"><p><code>mydatafile.csv.ok</code></p></td>
+          <td class="confluenceTd"><p>Control File extension appended.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>mydatafile.csv</code></p></td>
+          <td class="confluenceTd"><p><code>ok</code></p></td>
+          <td class="confluenceTd"><p><code>mydatafile.ok</code></p></td>
+          <td class="confluenceTd"><p>Data file extension replaced.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>mydatafile</code></p></td>
+          <td class="confluenceTd"><p><code>ok</code></p></td>
+          <td class="confluenceTd"><p><code>mydatafile.ok</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Data files without a file extension are supported.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The extensions <code>.tmp</code> and <code>.temp</code> are reserved and cannot be used as the control file extension in output mode.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>mydatafile2012-05-28-10-54-50-446.csv</code></p></td>
+          <td class="confluenceTd"><p><code>ok</code></p></td>
+          <td class="confluenceTd"><p><code>mydatafile2012-05-28-10-54-50-446.csv.ok</code></p></td>
+          <td class="confluenceTd"><p>Date and time appended to the data file and carried over to the Control File.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="ControlFileSupport-Size">Size</h3>
+      <p>It is recommended that the size of a Control File is less than or equal to 1KB.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody supports control files with no size (0kb).</p>
+       </div>
+      </div>
+      <h2 id="ControlFileSupport-InputMode">Input Mode</h2>
+      <p>In input mode, a communication point retrieves a data file only when its associated Control File is present:</p>
+      <ul>
+       <li>The communication point first checks for a Control File with the same full name as the data file appended with the control extension. For example, for data file <code>mydatafile.csv</code> with control file extension <code>.ok</code>, it checks for control file <code>mydatafile.csv.ok</code>.</li>
+       <li>Otherwise, it checks for the same base name up to the last <code>.</code>, with the control extension appended. For example, for the data file <code>mydatafile.csv</code> with control file extension <code>.ok</code>, it will check for control file <code>mydatafile.ok</code>.</li>
+      </ul>
+      <p>To enable Control File support in input mode from the communication point configuration properties:</p>
+      <ol>
+       <li>Enable&nbsp;<strong>Input control file mode</strong>&nbsp;(it is disabled by default).</li>
+       <li><p>Set <strong>Input control file extension&nbsp;</strong>to the desired value.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Control file extensions are case insensitive.</p>
+         </div>
+        </div></li>
+      </ol>
+      <h3 id="ControlFileSupport-MovingorDeletingDataFiles">Moving or Deleting Data Files</h3>
+      <p>If a communication point is configured to move the data file to a processed directory after retrieval, then the Control File is also moved after the data file has been moved successfully.</p>
+      <p>If a communication point is not configured to move the data file after retrieval, the data file and Control File are deleted.</p>
+      <h3 id="ControlFileSupport-Debatching">Debatching</h3>
+      <p>Debatching is supported in input mode.</p>
+      <h2 id="ControlFileSupport-OutputMode">Output Mode</h2>
+      <p>In output mode, a communication point creates a Control File after the entire data file is written to disk so that external systems can use the Control File to determine when a data file is ready to retrieve.</p>
+      <p>To enable Control File support in output mode from the communication point configuration properties:</p>
+      <ol>
+       <li>Set <strong>Output control file mode&nbsp;</strong>to:
+        <ul>
+         <li><code>Disabled</code> (default) - Control File support disabled.</li>
+         <li><code>Append extension</code> - the Control File extension is appended to the data file's full file name, for example, <code>mydatafile.csv.ok</code>.</li>
+         <li><code>Replace extension</code> - Control File extension replaces the data file's extension, for example, <code>mydatafile.ok</code>.</li>
+        </ul></li>
+       <li><p>Set <strong>Output control file extension&nbsp;</strong>to the desired value.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Control file extensions are case insensitive.</p>
+         </div>
+        </div></li>
+       <li><p>In <strong>Base Filename</strong>, enter the base filename for the data file. If this property is left empty, the communication point uses the current date-time as the filename.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Wildcards (* for any characters and ? for a single character and other special characters) cannot be used in the filenames.</p>
+         </div>
+        </div></li>
+       <li>In the <strong>Output Directory</strong>, enter the output directory path.</li>
+      </ol>
+      <h3 id="ControlFileSupport-Batching">Batching</h3>
+      <p>Batching in output mode is not supported. The batch mode is enabled only when the Control File configuration settings are disabled.</p>
+      <h2 id="ControlFileSupport-ErrorHandling">Error Handling</h2>
+      <p>Rhapsody handles and generates the following errors:</p>
+      <ul>
+       <li><code>A control file extension must be specified.</code></li>
+       <li><code>Input directory '&lt;input_directory_name&gt;' contains a control file '&lt;control_file_name&gt;' that has no accompanying data file.</code></li>
+       <li><code>Input directory '&lt;input_directory_name&gt;' contains '&lt;number_of_files&gt;' files that have been in the directory for more than a day.</code></li>
+       <li><code>Control file '&lt;control_file_name&gt;' not found after corresponding data file was processed.</code></li>
+       <li><code>An existing control file '&lt;control_file_name&gt;' found. Current control file will not be written.</code></li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

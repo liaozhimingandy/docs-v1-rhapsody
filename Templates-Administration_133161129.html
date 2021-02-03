@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Templates Administration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Administration-REST-API-Methods_133161103.html">Administration REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Templates Administration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods to manage templates configurations specifically in automated deployment scenarios:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005296 {padding: 0px;}
+div.rbtoc1565147005296 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005296 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147005296"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#TemplatesAdministration-GET/admin/templates/status/<id>">GET /admin/templates/status/&lt;id&gt;</a></li> 
+        <li><a href="#TemplatesAdministration-GET/admin/templates">GET /admin/templates</a></li> 
+        <li><a href="#TemplatesAdministration-POST/admin/templates">POST /admin/templates</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="TemplatesAdministration-GET/admin/templates/status/<id>">GET /admin/templates/status/&lt;id&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/templates/status/&lt;id&gt; </code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the status of the current <span>templates configuration</span> load.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_4+json</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td colspan="1" class="confluenceTd"><p>Status of the current load in JSON format. The response body has the following structure:</p>
+           <ul>
+            <li><code>state</code>&nbsp;- the current state of the load: <code>RUNNING</code>, <code>COMPLETED</code>, <code>FAILED</code>.</li>
+            <li><code>result</code> - the result, if the state is <code>COMPLETED</code>. <br>
+             <ul>
+              <li><code>resultType</code> - the actual result: <code>FAIL_WITH_ERRORS</code>, <code>SUCCESS</code>, <code>SUCCESS_NO_CHANGES</code>, <code>SUCCESS_WITH_WARNING</code>.</li>
+              <li><code>configErrors</code>&nbsp;- [list] all configuration errors and/or warnings. <br>
+               <ul>
+                <li><code>errorCode</code> - [string] the error code.</li>
+                <li><code>severity</code>&nbsp;- error severity: <code>FATAL</code>, <code>ERROR</code>, <code>WARNING</code>.</li>
+                <li><code>errorMessage</code> - [string] the error message.</li>
+               </ul></li>
+             </ul></li>
+           </ul><p>For example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+             <b>COMPLETED Response</b>
+            </div>
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{"data":{"state":"COMPLETED","result":{"resultType":"SUCCESS","configErrors":null}},"error":null}</pre> 
+            </div>
+           </div>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+             <b>RUNNING Response</b>
+            </div>
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{"data":{"state":"RUNNING","result":null},"error":null}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span><span>'Log in to Rhapsody IDE.</span><br></span>'Load configurations'. <br>'Clear configurations'.<br><span>'Load templates REST API'</span>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="TemplatesAdministration-GET/admin/templates">GET /admin/templates</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/templates</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the templates configuration in the datastore in a ZIP format (the templates configuration in this format can only be loaded onto the engine through the <code><a href="#TemplatesAdministration-POST/admin/templates">POST /admin/templates</a></code> method).</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/zip</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_4+zip</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the templates configuration in ZIP format.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td colspan="1" class="confluenceTd"><p>The response body has the following structure:</p>
+           <ul style="list-style-type: square;">
+            <li><code>auxiliary</code>&nbsp;- [folder] stores auxiliary files. The sub-folders are named after the UUID of the component that owns them.</li>
+           </ul><p>The <span>configuration XML file has the following structure:</span></p>
+           <ul style="list-style-type: square;">
+            <li><code><span>configuration</span></code><span> -</span><span><span> the root configuration element.</span></span><br>
+             <ul>
+              <li><code>temp</code><span style="color: rgb(51,51,51);"><code>lates</code> - <span>contains </span><span>all</span> template configurations.</span>
+               <ul>
+                <li><span style="color: rgb(51,51,51);"><code>routes</code> -&nbsp;<span>contains </span><span>all</span> route template configurations.</span></li>
+                <li><span style="color: rgb(51,51,51);"><code>communicationPoints</code> -&nbsp;<span>contains </span><span>all</span> communication point template configurations.</span></li>
+                <li><span style="color: rgb(51,51,51);"><code>filters</code> -&nbsp;<span>contains </span><span>all</span> filter template configurations.</span></li>
+               </ul></li>
+             </ul></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Log in to Rhapsody IDE'.</span><br>'Save configurations'.<br>'Save templates REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="TemplatesAdministration-POST/admin/templates">POST /admin/templates</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/templates</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Clears the existing templates configuration and loads the one provided in ZIP format (as created by calling the <code><a href="#TemplatesAdministration-GET/admin/templates">GET /admin/templates</a></code> method).</p><p>The configuration will fail to load if you do not have the 'Clear configurations' access right.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/zip<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_4+zip<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Parameter</p></th>
+          <td class="confluenceTd"><p><code>commitComment</code> - a string containing the comment to use for the commit. This parameter is mandatory.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The content of the templates configuration in the data store in ZIP format.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.<br><code>202 Accepted</code> - the request is being processed. The URI provided in the Response Header can be used to check the status of the operation. Refer to <code><a href="#TemplatesAdministration-GET/admin/templates/status/<id>">GET /admin/templates/status/&lt;id&gt;</a></code> for details on fetching the load state.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Header</p></th>
+          <td class="confluenceTd"><p>The load status URI:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Location: https://localhost:8444/admin/templates/status/1</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p>Empty when the operation is successful.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Log in to Rhapsody IDE'. </span><br><span>'Make changes with Rhapsody IDE'.<br></span>'Clear configurations'. <br>'Load configurations'. <br>'Load templates REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

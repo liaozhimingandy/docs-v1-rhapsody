@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Installing MSMQ</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162578.html">MSMQ (Microsoft Message Queuing)</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Installing MSMQ</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section describes the steps required to install the MSMQ communication point.</p>
+      <p>The <strong>MSMQ</strong> communication point uses a JNI DLL to talk directly to the <em>Windows®</em> API to perform all MSMQ operations. The JNI library is written in C++, but has minimal code to perform the MSMQ operation, and translate any errors into Java exceptions.</p>
+      <h2 id="InstallingMSMQ-Requirements">Requirements</h2>
+      <p>To install the <strong>MSMQ</strong> communication point you must have the following:</p>
+      <ul>
+       <li>The MSMQ <code>.jar</code> file.</li>
+       <li>The VC 2010 SP1 redistributable libraries are required and must be installed prior to using the communication point. These seem to be pre-installed on <em>Windows®</em> <em>XP</em> and <em>Vista</em>, but not on server versions of <em>Windows</em>®.</li>
+       <li><p>MSMQ must be installed on the machine that Rhapsody is running on so that it has access to <code>MQRT.dll</code>, the MSMQ client library.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>The VC 2010 SP1 redistributable package and MSMQ must be installed on the Rhapsody box, even if the MSMQ server is on another machine.</p>
+         </div>
+        </div></li>
+       <li>MSMQ uses <em>Windows</em>® security so the user that Rhapsody is running as needs read / write access to the queue.</li>
+       <li>The <strong>MSMQ</strong> communication point is compatible with MSMQ 3, however:
+        <ul>
+         <li>There is no guarantee that it works on <em>Windows® 2000</em> (MSMQ 2).</li>
+         <li>Transactions cannot be used to perform receive operations on remote queues for versions earlier than MSMQ 4 (Vista / 2008 Server).</li>
+        </ul></li>
+      </ul>
+      <h2 id="InstallingMSMQ-InstallingMSMQ">Installing MSMQ</h2>
+      <h3 id="InstallingMSMQ-InstalltheVC2010SP1Redistributable">Install the VC 2010 SP1 Redistributable</h3>
+      <ol>
+       <li>Download the <a href="http://www.microsoft.com/en-us/download/details.aspx?id=26999" class="external-link" rel="nofollow">VC 2010 SP1 redistributable package</a>.</li>
+       <li>Install the VC 2010 SP1 redistributable.</li>
+      </ol>
+      <h3 id="InstallingMSMQ-InstallMSMQontheMachine">Install MSMQ on the Machine</h3>
+      <ol>
+       <li>Install and configure MSMQ Server:
+        <ol>
+         <li>From the <strong>Control Panel</strong>, launch the <strong>Add or Remove Programs</strong> screen (<strong>Programs and Features</strong> on <em>Windows® Vista</em>).</li>
+         <li>Select the <strong>Add/Remove Windows Components</strong> command on the left side of the screen (<strong>Turn Windows Features on or off</strong> on <em>Microsoft</em>™ Vista). The <strong>Windows Components</strong> screen is displayed.</li>
+         <li>In the <strong>Windows Components</strong> screen, select the <strong>Message Queuing</strong> checkbox, and then click the <strong>Next</strong> button to install MSMQ (if the Message Queuing checkbox is selected, MSMQ is installed).</li>
+        </ol></li>
+       <li>Create the message queues.<br> You can create Public and Private Queues. A Public Queue is registered in the directory service and can be used by other messaging applications, whereas a private queue is registered on the local computer.
+        <ol>
+         <li>From the <strong>Control Panel</strong>, launch the <strong>Administrative Tools</strong> screen.</li>
+         <li>Select the <strong>Computer Management</strong> screen from the <strong>Administrative Tools</strong> screen.</li>
+         <li>Expand the <strong>Services and Applications</strong> node.</li>
+         <li>Expand the <strong>Message Queuing</strong> node.</li>
+         <li>Right click on the <strong>Private Queue</strong> or <strong>Public Queue</strong> node and select the <strong>New</strong> command from the popup menu that is then displayed.</li>
+         <li><p>Specify the <strong>Queue Name</strong> and select the <strong>Transactional</strong> checkbox if it is a transactional queue.</p>
+          <div class="confluence-information-macro confluence-information-macro-note">
+           <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p>The names assigned to the message queues are the names used when configuring the MSMQ communication point in the Rhapsody IDE.</p>
+           </div>
+          </div><p>You can now use this Queue to post and receive messages.</p></li>
+        </ol></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <ul>
+         <li>Refer to online MSMQ documentation for instructions on the installation and configuration of MSMQ on other platforms.</li>
+         <li>Install the MSMQ HTTP support on both the sender and receiver if this protocol is to be used within the MSMQ communication point.</li>
+         <li>Refer to online MSMQ documentation for instructions on configuring MSDTC for interoperability with transactional remote reads.</li>
+        </ul>
+       </div>
+      </div>
+      <h3 id="InstallingMSMQ-InstalltheCommunicationPoint">Install the Communication Point</h3>
+      <ol>
+       <li>Install the MSMQ <code>.jar</code> file to the modules directory <code>&lt;RhapsodyInstallDirectory&gt;\Rhapsody\rhapsody\data\modules</code>.</li>
+       <li>Restart the Rhapsody Engine to view the MSMQ communication point.</li>
+      </ol>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

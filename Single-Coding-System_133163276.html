@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Single Coding System</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+       <li> <span><a href="HL7-Code-Translation-and-Validation-Filters_133163271.html">HL7 Code Translation and Validation Filters</a></span> </li> 
+       <li> <span><a href="Configuration-of-Coded-Fields_133163272.html">Configuration of Coded Fields</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Single Coding System</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>To configure the Code Validation filter to use a table which describes a single coding system, the filter requires:</p>
+      <ul>
+       <li>The name of the table.</li>
+       <li>The column in the table which holds the identifiers.</li>
+       <li>The name of the coding system.</li>
+      </ul>
+      <p>Tables which describe a single coding system should have indexes on their <strong>Identifier</strong> column.</p>
+      <h2 id="SingleCodingSystem-Example">Example</h2>
+      <p>This is a very simple example. There is a single table (CodingSystemA) containing a list of identifiers in the database. The name of the coding system described by CodingSystemA is defined in the Coding System parameter in the configuration.</p>
+      <h3 id="SingleCodingSystem-DatabaseTableCodingSystemA">Database Table CodingSystemA</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>A</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>B</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>C</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>D</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="SingleCodingSystem-Configuration">Configuration</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Table Name</p></td>
+          <td class="confluenceTd"><p>CodingSystemA</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier Column</p></td>
+          <td class="confluenceTd"><p>Value</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System</p></td>
+          <td class="confluenceTd"><p>TestCodingSystem1</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="SingleCodingSystem-ExampleMessage(OK)">Example Message (OK)</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Name</p></td>
+          <td class="confluenceTd"><p>TestCodingSystem1</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier</p></td>
+          <td class="confluenceTd"><p>D</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="SingleCodingSystem-ExampleMessage(CodingSystemWrong)">Example Message (Coding System Wrong)</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Name</p></td>
+          <td class="confluenceTd"><p>CodingSystem2</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier</p></td>
+          <td class="confluenceTd"><p>D</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="SingleCodingSystem-ExampleMessage(IdentifierWrong)"><span style="color: rgb(0,0,0);">Example Message (Identifier Wrong)</span></h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Name</p></td>
+          <td class="confluenceTd"><p>TestCodingSystem1</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier</p></td>
+          <td class="confluenceTd"><p>X</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

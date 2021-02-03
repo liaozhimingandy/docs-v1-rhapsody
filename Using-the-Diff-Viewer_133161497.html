@@ -1,0 +1,538 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using the Diff Viewer</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Managing-Configurations_133161412.html">Managing Configurations</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using the Diff Viewer</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The<strong> Diff Viewer</strong>&nbsp;is launched from the <strong>Configuration History</strong> window and is used to:</p>
+      <ul>
+       <li><a href="#UsingtheDiffViewer-ComparingConfigurationVersions">Compare differences</a> between any two versions of a Rhapsody item.</li>
+       <li><a href="#UsingtheDiffViewer-ReviewingConfigurationChanges">Review changes to the current version</a>&nbsp;of a Rhapsody item in a pre-commit version before checking in the changes.</li>
+      </ul>
+      <p>The <strong>Diff Viewer</strong>&nbsp;provides a diff view in a format relevant to the Rhapsody item under inspection:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146938173 {padding: 0px;}
+div.rbtoc1565146938173 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146938173 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146938173"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#UsingtheDiffViewer-DiffViewFormat">Diff View Format</a></li> 
+        <li><a href="#UsingtheDiffViewer-RoutesDiffView">Routes Diff View</a></li> 
+        <li><a href="#UsingtheDiffViewer-MessageDefinitionsDiffView">Message Definitions Diff View</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#UsingtheDiffViewer-XSDDefinitionsDiffView">XSD Definitions Diff View</a></li> 
+          <li><a href="#UsingtheDiffViewer-MDFDefinitionsDiffView">MDF Definitions Diff View</a></li> 
+          <li><a href="#UsingtheDiffViewer-S3DDefinitionsDiffView">S3D Definitions Diff View</a></li> 
+         </ul> </li> 
+        <li><a href="#UsingtheDiffViewer-Non-displayableData">Non-displayable Data</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161497/133161510.png" data-image-src="attachments/133161497/133161510.png" data-unresolved-comment-count="0" data-linked-resource-id="133161510" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DiffViewer.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Dialog Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Identification label</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span><span>The name and icon for the selected Rhapsody item.</span></span><span>&nbsp;</span></p>
+            <p><span><span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/133161497/133161509.png" data-image-src="attachments/133161497/133161509.png" data-unresolved-comment-count="0" data-linked-resource-id="133161509" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="IdentificationLabel.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></span></span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Change indicator</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span>Indicates the number of currently selected change out of a total number of changes.</span></p>
+            <p><span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="39" width="98" src="attachments/133161497/133161508.png" data-image-src="attachments/133161497/133161508.png" data-unresolved-comment-count="0" data-linked-resource-id="133161508" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ChangeIndicator.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Previous Change/Next Change buttons</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Enable you <span>to navigate forward and backward through the changes.</span></p>
+            <p><span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="44" width="225" src="attachments/133161497/133161498.png" data-image-src="attachments/133161497/133161498.png" data-unresolved-comment-count="0" data-linked-resource-id="133161498" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ChangeNavigationButton.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Search bar</td>
+          <td colspan="1" class="confluenceTd">Enables you to perform a text-based search on the diffs.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Quick Links Navigation bar</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Depending on the type of Rhapsody item, the&nbsp;Quick Links Navigation bar contains links that direct you to the categories of type of change in the Version windows. The number of changes (if any) are listed next to each link.</p>
+            <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="32" width="421" src="attachments/133161497/133161507.png" data-image-src="attachments/133161497/133161507.png" data-unresolved-comment-count="0" data-linked-resource-id="133161507" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="QuickLinksNavBar.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Non-displayable Changes</td>
+          <td colspan="1" class="confluenceTd"><p>Displays a message indicating changes that are not displayable in diff view, for example:</p>
+           <ul class="alternate">
+            <li>Notes or support notes added, modified or deleted for communication points, filters, and routes.</li>
+            <li>Route topology modified.</li>
+            <li>Connector test messages modified for routes.</li>
+            <li>Filter test messages modified for filters.</li>
+            <li>Large files for message definitions, auxiliary files, and lookup tables.</li>
+            <li>Unknown file types.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Diff View Left panel</td>
+          <td colspan="1" class="confluenceTd"><p>Displays a categorized list of items in the older of the selected versions, or if you are checking in changes, the latest version. Differences are highlighted. Refer to&nbsp;<a href="#UsingtheDiffViewer-DiffView">Diff View</a> for details.</p><p>Some diff information is non-viewable and can only be downloaded.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Diff View Right panel</td>
+          <td colspan="1" class="confluenceTd"><p>Displays a categorized list of items in the newer of the selected versions, or if you are checking in changes, the "Working Copy". Differences are highlighted. Refer to&nbsp;<a href="#UsingtheDiffViewer-DiffView">Diff View</a> for details.</p><p>Some diff information is non-viewable and can only be downloaded.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span class="confluence-link">Download</span> link(s)</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Provided for downloading the old and new versions of a Rhapsody item if they can be downloaded. Lookup tables, message definitions, and auxiliary files are downloadable.</p>
+            <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="28" width="424" src="attachments/133161497/133161511.png" data-image-src="attachments/133161497/133161511.png" data-unresolved-comment-count="0" data-linked-resource-id="133161511" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DownloadLink.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="UsingtheDiffViewer-ComparingConfigurationVersions">Comparing Configuration Versions</h2>
+      <p>To use the <strong>Diff Viewer</strong> window to compare any two configuration versions:</p>
+      <ol>
+       <li>Click the <strong>Configuration History</strong> button in the Rhapsody IDE menu to open the <strong>Configuration History</strong> window.</li>
+       <li>Select the two configuration versions you want to compare.</li>
+       <li>In the <strong>Selected Configuration Version Summary</strong> window, click the link that is the name of the Rhapsody item you want to inspect.</li>
+       <li>Diff Viewer dialog is launched.</li>
+       <li>Use the <a href="#UsingtheDiffViewer-DiffView">Diff View</a> to examine the differences between versions.</li>
+       <li>You can download the information by clicking the <strong>Download</strong> link if one is provided.</li>
+      </ol>
+      <h2 id="UsingtheDiffViewer-ReviewingConfigurationChanges">Reviewing Configuration Changes</h2>
+      <p>To use the <strong>Diff Viewer</strong> window to compare proposed changes to a configuration before checking them in, refer to <a href="#UsingtheDiffViewer-DiffView">Diff View</a>.</p>
+      <h2 id="UsingtheDiffViewer-DiffView">Diff View</h2>
+      <p>A diff view consists of two side-by-side panels displaying the selected versions of a Rhapsody item to be compared.</p>
+      <p>If you are comparing any two configuration versions, the:</p>
+      <ul>
+       <li>Diff View Left panel displays a categorized list of items in the older of the selected versions.</li>
+       <li>Diff View Right panel displays a categorized list of items in the newer of the selected versions.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133161497/133161505.png" data-image-src="attachments/133161497/133161505.png" data-unresolved-comment-count="0" data-linked-resource-id="133161505" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Diff-Comm-Points-1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+      <p>If you are comparing proposed changes to a configuration before checking them in, the:</p>
+      <ul>
+       <li>Diff View Left panel displays a categorized list of items in the latest checked-in configuration version.</li>
+       <li>Diff View Right&nbsp;panel displays a categorized list of items in the pre-commit (current) version.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133161497/133161505.png" data-image-src="attachments/133161497/133161505.png" data-unresolved-comment-count="0" data-linked-resource-id="133161505" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Diff-Comm-Points-1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+      <p>Changes to items in a diff view are highlighted in the following colors:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Highlight Color</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Orange</td>
+          <td class="confluenceTd">Modified Rhapsody item attribute.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Green</td>
+          <td class="confluenceTd">Newly added Rhapsody item attribute.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Red</td>
+          <td class="confluenceTd">Deleted Rhapsody item attribute.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">None</td>
+          <td colspan="1" class="confluenceTd">Unmodified Rhapsody item.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The diff view identifies textual differences between the diff view panels, rather than differences in 'objects'. This often results in adjacent lines that have been added, modified or deleted being grouped together and treated as a single change, rather than a number of individual changes. For example:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133161497/133161506.jpg" data-image-src="attachments/133161497/133161506.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133161506" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="2Variables-EditedAndNew.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+      <h3 id="UsingtheDiffViewer-DiffViewFormat">Diff View Format</h3>
+      <p>The format of the diff view varies depending on the Rhapsody item under inspection. Changes for specific Rhapsody items are categorized in the following table.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        Current passwords are displayed as 
+        <code>********</code>. To indicate a password has been modified, the diff view displays 
+        <code>########</code> for the old password and 
+        <code>********</code> for the new password.
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><p><strong>Rhapsody Item</strong></p></td>
+          <td class="highlight-grey confluenceTd" style="text-align: center;" data-highlight-colour="grey"><strong>Diff View Format<br></strong></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Lockers</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>General</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Folders</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>General</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Communication points and communication point templates</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>General</li>
+            <li>Management</li>
+            <li>Configuration</li>
+            <li>Scheduling</li>
+            <li>Message Tracking</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Web Service Hosting communication point</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Operations</li>
+            <li>Timeouts</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Web Service Client communication point</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>General</li>
+            <li>Security</li>
+            <li>Operations</li>
+            <li>Management</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Filters and filter templates</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>General</li>
+            <li>Configuration</li>
+            <li>Message Collector</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">HL7 Message Modifier filter</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <ul>
+             <li>Textual view, for example:</li>
+            </ul>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;MessageModifierConfiguration version="1"&gt;
+    &lt;changeGroup description="" name="Untitled" ruleId="1" version="1"&gt;
+        &lt;segment ruleId="2" tag="a" version="1"&gt;
+            &lt;segmentLayer name="" ruleId="3"
+                sampleInput="a|1|2|3|4|5|6|7|8|9|10" version="1"/&gt;
+        &lt;/segment&gt;
+    &lt;/changeGroup&gt;
+&lt;/MessageModifierConfiguration&gt;</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Security objects</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <ul>
+             <li>General</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The content of private and symmetric keys is not displayed.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Web Services User Store</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>General</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Web services</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Operations</li>
+            <li>Management</li>
+            <li>General</li>
+            <li>Security</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Rhapsody variables</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>General</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Message tracking schemes</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><p class="_mce_tagged_br">Response Handling</p></li>
+            <li><p class="_mce_tagged_br">Error Handling</p></li>
+            <li><p class="_mce_tagged_br">Messages Configuration</p></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Auxiliary files</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><p>Textual diff if the files are in text or XML format, or <a href="#UsingtheDiffViewer-Non-displayableData">non-displayable data</a> if the file is larger than 1MB or in a non-displayable format (for example, in binary form). A download link is provided.</p></li>
+           </ul><p>In the <code>rhapsody.properties</code> file, you can specify the file formats that Rhapsody accepts for textual diffs using the following properties:</p>
+           <ul>
+            <li><code>ConfigurationService.file.extensions.text</code> - specifies the supported text file extensions for textual diff. By default, the following file extensions are supported: <code>edi, txt, css, htm, html, htlp, shtm, shtml, wml, xhtml, options, properties, prefs, java, js, json, jsp, jsf, jspf, jspx, jsv, jtpl, tag, tagf, tagx, tagxf, confluence, mediawiki, textile, tracwiki, twiki, dtd, ent, mod, log, ftl</code>.</li>
+            <li><code>ConfigurationService.file.extensions.xml</code> - <span>specifies the supported </span>XML file extensions for textual diff. By default, the following file extensions are supported: <code>xml, xsd, exsd, xsl, xslt, classpath, component, jsdtscope, project, wtpmodules, wsimsg, xjb, ant, ent, macrodef, wsdd, dita, ditamap, dbk, e4xmi, product, tld, target, wsil, wsdl, xmi, ecore, ecore2ecore, ecore2xml, genmodel, emof</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#UsingtheDiffViewer-MessageDefinitionsDiffView">Message definitions</a></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><span class="confluence-link">Textual diff, or </span><a href="#UsingtheDiffViewer-Non-displayableData">non-displayable data</a> if the file is non-displayable or larger than 1MB. A download link is provided. Refer to <a href="#UsingtheDiffViewer-DefinitionsDiffView">Definitions Diff View</a> for details.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Lookup tables</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>General</li>
+            <li>Structure</li>
+            <li>Values - textual diff, or <a href="#UsingtheDiffViewer-Non-displayableData">non-displayable data</a> if the file is larger than 1MB.</li>
+           </ul><p>A download link is provided.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#UsingtheDiffViewer-RoutesDiffView">Routes</a> and route templates</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><span>Definitions</span></li>
+            <li><span>Configuration</span></li>
+            <li><span>Notes</span></li>
+            <li><span>General</span><span>&nbsp;</span></li>
+            <li><span><a href="#UsingtheDiffViewer-ConnectionsView">Connections</a><br></span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Mapping projects</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <ul>
+             <li>General</li>
+             <li>Code</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>You are notified when sample messages and mapping rules have been modified, but no diff is provided for the modifications.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">X12 projects</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>General</li>
+            <li>Data Element Dictionary</li>
+            <li>Composite Dictionary</li>
+            <li>Transaction Sets</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="UsingtheDiffViewer-RoutesDiffView">Routes Diff View</h3>
+      <p>The Routes Diff View provides a standard diff view with the addition of connections. Connections in routes are made between components using connectors. Changes to connections are displayed under the Connections category:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133161497/133161504.png" data-image-src="attachments/133161497/133161504.png" data-unresolved-comment-count="0" data-linked-resource-id="133161504" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConnectorsDiffView.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+      <p><span>A connection type corresponds to the connector type. <span>Connection types </span>in the Routes Diff View are indicated by the following icons:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Icon
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Connection Type
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161497/133161517.png" data-image-src="attachments/133161497/133161517.png" data-unresolved-comment-count="0" data-linked-resource-id="133161517" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_plain_connection_16x16.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span>
+           </div></td>
+          <td class="confluenceTd">Standard</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161497/133161522.png" data-image-src="attachments/133161497/133161522.png" data-unresolved-comment-count="0" data-linked-resource-id="133161522" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_conditional_connection_16x16.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span>
+           </div></td>
+          <td class="confluenceTd">Conditional</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161497/133161521.png" data-image-src="attachments/133161497/133161521.png" data-unresolved-comment-count="0" data-linked-resource-id="133161521" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_cond_connection_javascript_16x16.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span>
+           </div></td>
+          <td class="confluenceTd"><p>JavaScript</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161497/133161518.png" data-image-src="attachments/133161497/133161518.png" data-unresolved-comment-count="0" data-linked-resource-id="133161518" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_no_match_connection_16x16.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span>
+           </div></td>
+          <td class="confluenceTd">No Match</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161497/133161519.png" data-image-src="attachments/133161497/133161519.png" data-unresolved-comment-count="0" data-linked-resource-id="133161519" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_error_connection_16x16.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span>
+           </div></td>
+          <td class="confluenceTd"><p>Error</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161497/133161520.png" data-image-src="attachments/133161497/133161520.png" data-unresolved-comment-count="0" data-linked-resource-id="133161520" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_connection_endcap_16x16.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span>
+           </div></td>
+          <td class="confluenceTd">Endcap</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <ul>
+         <li>Conditional and JavaScript connections are labeled with the name of the corresponding connectors. If you have not provided a name for a connector, then the Rhapsody IDE adds an auto-generated name based on the connector's logic.</li>
+         <li>The properties of a Conditional or JavaScript connector can be viewed by clicking the expand icon on the corresponding connection.</li>
+        </ul>
+       </div>
+      </div>
+      <p>Changes to connections are highlighted in the following colors:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Highlight Color</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Orange</td>
+          <td class="confluenceTd"><p>Modified connector.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Green</td>
+          <td class="confluenceTd">Newly added connector.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Red</td>
+          <td class="confluenceTd"><p>Deleted connector.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">None</td>
+          <td colspan="1" class="confluenceTd">Unmodified connector.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The following example illustrates how changes to connectors appear in route views and the corresponding connections diff view:</p>
+      <ul>
+       <li><span>Deletion of a standard connector.</span></li>
+       <li>Addition of a new Communication Point.</li>
+       <li>Modification of name of Conditional or JavaScript connector.</li>
+      </ul>
+      <p><span> <map id="gliffy-map-133161503-6176" name="gliffy-map-133161503-6176"></map> </span></p>
+      <table width="100%" class="gliffy-macro-table"> 
+       <tbody>
+        <tr> 
+         <td> 
+          <table class="gliffy-macro-inner-table"> 
+           <caption align="bottom"> 
+           </caption> 
+           <tbody>
+            <tr> 
+             <td> <img style="border: thin solid blue; width: 881px;" usemap="#gliffy-map-133161503-6176" src="attachments/133161497/133161502.png" alt="" class="gliffy-macro-image"> </td> 
+            </tr> 
+           </tbody>
+          </table> </td> 
+        </tr> 
+       </tbody>
+      </table> 
+      <p></p>
+      <h3 id="UsingtheDiffViewer-MessageDefinitionsDiffView">Message Definitions Diff View</h3>
+      <h4 id="UsingtheDiffViewer-XSDDefinitionsDiffView">XSD Definitions Diff View</h4>
+      <p>The XSD Definitions Diff View provides the a standard diff view with the addition of a Schemas panel to allow for easy navigation between schemas. A download link is provided.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133161497/133161501.jpg" data-image-src="attachments/133161497/133161501.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133161501" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="xsdDiffView.JPG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+      <h4 id="UsingtheDiffViewer-MDFDefinitionsDiffView">MDF Definitions Diff View</h4>
+      <p>The MDF Definitions Diff View provides the a standard diff view with the addition of a Submaps panel to allow for easy navigation between Type Definitions, External Functions, Global Variables and Mapping Submaps. A download link is provided.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133161497/133161500.jpg" data-image-src="attachments/133161497/133161500.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133161500" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="mdfDiffView.JPG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+      <h4 id="UsingtheDiffViewer-S3DDefinitionsDiffView">S3D Definitions Diff View</h4>
+      <p>The S3D Definitions Diff View is <a href="#UsingtheDiffViewer-Non-displayableData">non-displayable</a>. A download link is provided.</p>
+      <h3 id="UsingtheDiffViewer-Non-displayableData">Non-displayable Data</h3>
+      <p>When data is not displayable in the <strong>Diff Viewer</strong> (for example, binary data), the following diff view with download links (if applicable) is displayed:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133161497/133161499.png" data-image-src="attachments/133161497/133161499.png" data-unresolved-comment-count="0" data-linked-resource-id="133161499" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Diff-NotViewable.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161497" data-linked-resource-container-version="2"></span></p>
+      <p>You can use the download links to obtain the versions before and after the change, and compare them manually or with a third-party tool.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

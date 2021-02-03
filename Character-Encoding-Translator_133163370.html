@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Character Encoding Translator</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Character Encoding Translator</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163370/133163371.png" data-image-src="attachments/133163370/133163371.png" data-unresolved-comment-count="0" data-linked-resource-id="133163371" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CharacterEncodingTranslatorFilter.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163370" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Character Encoding Translator</strong> filter&nbsp;converts the contents of a message from one encoding to another. The translation consists of reading characters from the input stream using the specified Input Encoding and then writing the characters to the output stream using the specified Output Encoding. To address the problem of maintaining readability in converted messages, you can specify a custom mapping that is applied before the translation, so that alternative characters can be used in cases where there is no match for the input character. The new character, however, must belong to the supported output character set.</p>
+      <p>As messages are stored as raw bytes, they must be converted to a string representation for manipulation. For example, if you are receiving ADT messages in EBCDIC from an <em>IBM</em> mainframe and you need to send them to a laboratory system running on a <em>UNIX</em>® system in US ASCII, specify the following:</p>
+      <ul>
+       <li>Input Character Encoding IBM EBCDIC USA, Canada (Bilingual, French), Netherlands, Portugal, Brazil, Australia: Cp037</li>
+       <li>Output Character Encoding American Standard Code for Information Interchange: ASCII</li>
+      </ul>
+      <p>When messages are received from the mainframe, they are translated from EBCDIC to ASCII.</p>
+      <p>The filter performs a check for XML when it runs. If the message is well-formed XML, The filter sets the encoding attribute correctly and changes the byte encoding; if not, it just changes have the byte encoding.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This filter does not change the XML preprocessor directive.</p>
+       </div>
+      </div>
+      <h2 id="CharacterEncodingTranslator-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Character Encoding</p></td>
+          <td class="confluenceTd"><p>Identifies the character set used to format the input message.</p>
+           <ul>
+            <li><code><span>Current Message Encoding</span></code> (default) - uses the current message encoding (if known) for the input encoding. If the current encoding is not known it attempts to auto-detect the encoding by looking at byte order marks, null characters (for UTF-16 and UTF-32), XML preprocessor directives, or finally uses the default system encoding.</li>
+            <li><code style="letter-spacing: 0.0px;">XML Auto-Detect</code> - auto-detects the character encoding of an XML document by looking at the <span style="letter-spacing: 0.0px;">prep</span><span style="letter-spacing: 0.0px;">rocessor</span> directive.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Character Encoding</p></td>
+          <td class="confluenceTd"><p>Identifies the character set used to format the output message (the default is UTF-8).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Character Mapping File</p></td>
+          <td class="confluenceTd"><p>An auxiliary mapping file that will override the global mapping in <code>characterMapping.xml</code>. Refer to <a href="#CharacterEncodingTranslator-GlobalMappingFile">Global Mapping File</a> for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CharacterEncodingTranslator-GlobalMappingFile">Global Mapping File</h2>
+      <p>The <code>characterMapping.xml</code> file:</p>
+      <ul>
+       <li>Is used to provide replacements for characters that are not covered by the destination encoding and is usually represented by a default character such as <code>?</code>.</li>
+       <li>Describes the custom mappings for individual encodings and can be edited.</li>
+       <li>Applies globally, however, individual filters can override the mapping by specifying another mapping file in the <strong>Character Mapping File</strong> property.</li>
+       <li><p>Must be created in accordance with the example shown below, and placed in the <code>&lt;RhapsodyInstallDirectory&gt;\Rhapsody\rhapsody\data\charactermap</code> directory. The filters will detect this file automatically, if present.</p>
+        <div class="preformatted panel" style="border-width: 1px;">
+         <div class="preformattedHeader panelHeader" style="border-bottom-width: 1px;">
+          <b>Example XML Format</b>
+         </div>
+         <div class="preformattedContent panelContent"> 
+          <pre>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;encodings&gt;
+  &lt;encoding name="EUC-JP"&gt;
+    &lt;entry&gt;
+      &lt;input&gt;?&lt;/input&gt;
+      &lt;output&gt;0x00a3&lt;/output&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+      &lt;input&gt;0xc2a3&lt;/input&gt;
+      &lt;output&gt;0x0040&lt;/output&gt;
+    &lt;/entry&gt;
+    &lt;!-- more entries --&gt;
+  &lt;/encoding&gt;
+  &lt;encoding name="MS932"&gt;
+    &lt;entry&gt;
+      &lt;input&gt;2385&lt;/input&gt;
+      &lt;output&gt;f&lt;/output&gt;
+    &lt;/entry&gt;
+  &lt;/encoding&gt;
+  &lt;!-- more encodings --&gt;
+&lt;/encodings&gt;
+</pre> 
+         </div>
+        </div></li>
+      </ul>
+      <p>The auxiliary files to override the global file must be attached to the individual filters.</p>
+      <p>You can specify the time interval to check the global mapping file for modifications by altering the <code>CharacterMapService.modificationCheckInterval</code> property in the <code>\Rhapsody\rhapsody\rhapsody.properties</code> file. The value is specified in seconds, and has a minimum value of <code>10</code> and a maximum value of <code>3600</code>. The default value is <code>60</code> seconds.</p>
+      <p>The mappings for the input and output characters can be specified as one of the following:</p>
+      <ul>
+       <li>Unicode code-points in hexadecimal – use <code>0x....</code>.</li>
+       <li>Unicode code-points in decimal.</li>
+       <li>The character itself.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <ul>
+         <li>Duplicate encoding names are not allowed. If duplicate <code>&lt;encoding&gt;</code> elements are present, only the last element will be processed.</li>
+         <li>The file must be UTF-8 encoded, especially if literal characters are used, else they will not be read correctly.&nbsp;</li>
+         <li>It is recommended you use Unicode hexadecimal values.</li>
+        </ul>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

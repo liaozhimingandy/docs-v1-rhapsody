@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Managing Symmetric Keys</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Managing-Certificates-and-Keys_133161222.html">Managing Certificates and Keys</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Managing Symmetric Keys</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Symmetric keys are used in the configuration of the Symmetric Cryptography and Encrypting/Decrypting XML filters. A symmetric key is a random string that is combined with a message according to the algorithm specified when it was first created. Keys can be imported, exported or created on the spot. If you want to create them on the spot, a name for the key, its associated algorithm and the key size must be provided.</p>
+      <p>Refer to <a href="Managing-Certificates-and-Keys_133161222.html">Understanding Cryptography</a> for details on cryptography, keys, and algorithms.</p>
+      <h2 id="ManagingSymmetricKeys-ViewingSymmetricKeys">Viewing Symmetric Keys</h2>
+      <p>To view the symmetric keys&nbsp;registered on the Rhapsody server, navigate to<strong>&nbsp;View&gt;</strong><strong>Certificate and Key Manager</strong>&nbsp;to display the&nbsp;<strong>Certificate and Key Manager</strong>&nbsp;and select the&nbsp;<strong>Symmetric Keys&nbsp;</strong>tab:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="720" src="attachments/133161243/133161244.png" data-image-src="attachments/133161243/133161244.png" data-unresolved-comment-count="0" data-linked-resource-id="133161244" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="ViewingSymmetricKeys.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161243" data-linked-resource-container-version="3"></span></p>
+      <p>The<strong>&nbsp;</strong>tab provides the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Alias</td>
+          <td class="confluenceTd">The unique user-defined name for the key.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Symmetric Algorithm</td>
+          <td class="confluenceTd">Identifies the symmetric algorithm used.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Key Size</td>
+          <td class="confluenceTd">The bit size of the key.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can perform the following actions from the tab via buttons or the right-click menu:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingSymmetricKeys-ImportingaSymmetricKey">Import...</a></td>
+          <td class="confluenceTd">Add a <span>symmetric</span> key.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingSymmetricKeys-ExportingaSymmetricKey">Export...</a></td>
+          <td colspan="1" class="confluenceTd">Save a <span>symmetric key</span> by exporting it.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingSymmetricKeys-GeneratingaSymmetricKey">Generate New...</a></td>
+          <td colspan="1" class="confluenceTd">Generate a new symmetric key.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Remove</td>
+          <td class="confluenceTd">Delete a <span>symmetric</span> key.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Show Uses</td>
+          <td colspan="1" class="confluenceTd"><span>Open the </span><strong>Security Object Uses</strong><span> dialog to display the components a <span>symmetric</span><span> key</span></span><span> is being used in. Double-click a component to view or edit its configuration properties.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Filter</td>
+          <td colspan="1" class="confluenceTd">Perform text-based filtering to filter the list of displayed&nbsp;<span>symmetric</span><span> keys</span>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ManagingSymmetricKeys-ImportingaSymmetricKey">Importing a Symmetric Key</h2>
+      <p>To import a symmetric key onto the Rhapsody server:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong> <strong>Certificate and Key Manager</strong> to display the <strong>Certificate and Key Manager</strong>.</li>
+       <li>On the <strong>Symmetric Keys </strong>tab, select the <strong>Import...</strong> button<span>.&nbsp;</span>The <strong>Import Symmetric Key</strong> dialog is displayed: <br class="atl-forced-newline"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161243/133161246.png" data-image-src="attachments/133161243/133161246.png" data-unresolved-comment-count="0" data-linked-resource-id="133161246" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ImportSymmetricKey.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161243" data-linked-resource-container-version="3"></span></li>
+       <li>Enter:&nbsp;
+        <ul>
+         <li>A name in the&nbsp;<strong>Key Alias</strong>&nbsp;field to identify the key, if required.</li>
+         <li>The path of the key&nbsp;you want to import in the&nbsp;<strong>Filename</strong>&nbsp;field or click the&nbsp;<strong>Browse</strong>&nbsp;link to locate it.</li>
+        </ul></li>
+       <li>Select the encryption algorithm which the key is to be used for from the drop-down list.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to import the key.</li>
+      </ol>
+      <h2 id="ManagingSymmetricKeys-ExportingaSymmetricKey">Exporting a Symmetric Key</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The 'Export symmetric keys' <span>access right </span>is required to export symmetric keys. By default, this privilege is only given to the root Administrator user.</p>
+       </div>
+      </div>
+      <p>To export a symmetric key from the Rhapsody server:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong> <strong>Certificate and Key Manager</strong> to display the <strong>Certificate and Keys Manager</strong>.</li>
+       <li>On the <strong>Symmetric Keys </strong>tab, select a key and then select&nbsp;the <strong>Export...</strong> button.&nbsp;The&nbsp;<strong>Export Symmetric Key</strong>&nbsp;dialog is displayed:</li>
+       <li>Decide where you want to store the exported key, then select&nbsp;the <strong>Save</strong> button.</li>
+      </ol>
+      <h2 id="ManagingSymmetricKeys-GeneratingaSymmetricKey">Generating a Symmetric Key</h2>
+      <p>To generate a new symmetric key:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong> to display the <strong>Certificate and Keys Manager</strong>.</li>
+       <li><p>On the <strong>Symmetric Keys </strong>tab, select&nbsp;the <strong>Generate New...</strong> button. The <strong>Generate Symmetric Key</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161243/133161245.png" data-image-src="attachments/133161243/133161245.png" data-unresolved-comment-count="0" data-linked-resource-id="133161245" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GenerateSymmetricKey.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161243" data-linked-resource-container-version="3"></span></p></li>
+       <li>Select the algorithm which the key is to be used for from the drop-down list.</li>
+       <li><p>Under <strong>Key Size</strong>:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>If you want to...</p></th>
+            <th class="confluenceTh"><p>Then...</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Retain the default key size</p></td>
+            <td class="confluenceTd"><p>Select the <strong>Use the default key size for the algorithm </strong>radio button<strong>.</strong></p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Specify the key size</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p>1. Select the <strong>Specify a key size (bits) </strong><span>radio button.</span><br> 2. In the field, enter the size. The following table lists the acceptable range and default values for each algorithm:</p>
+              <div class="table-wrap">
+               <table id="TBL1565043148362" class="wrapped confluenceTable">
+                <tbody>
+                 <tr>
+                  <th class="confluenceTh"><p>Algorithm</p></th>
+                  <th class="confluenceTh"><p>Acceptable Range <br class="atl-forced-newline">(bits)</p></th>
+                  <th class="confluenceTh"><p>Default Key <br class="atl-forced-newline">Size (bits)</p></th>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>AES</p></td>
+                  <td class="confluenceTd"><p>0 .. 256</p></td>
+                  <td class="confluenceTd"><p>192</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>Blowfish</p></td>
+                  <td class="confluenceTd"><p>0 .. 448</p></td>
+                  <td class="confluenceTd"><p>448</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>CAST5</p></td>
+                  <td class="confluenceTd"><p>0 .. 128</p></td>
+                  <td class="confluenceTd"><p>64</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>CAST6</p></td>
+                  <td class="confluenceTd"><p>0 .. 256</p></td>
+                  <td class="confluenceTd"><p>256</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>DES</p></td>
+                  <td class="confluenceTd"><p>56</p></td>
+                  <td class="confluenceTd"><p>56</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>DESede</p></td>
+                  <td class="confluenceTd"><p>128, 192</p></td>
+                  <td class="confluenceTd"><p>128</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>IDEA</p></td>
+                  <td class="confluenceTd"><p>128</p></td>
+                  <td class="confluenceTd"><p>128</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>RC2</p></td>
+                  <td class="confluenceTd"><p>0 .. 1024</p></td>
+                  <td class="confluenceTd"><p>128</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>RC4</p></td>
+                  <td class="confluenceTd"><p>40 .. 2048</p></td>
+                  <td class="confluenceTd"><p>128</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>RC5</p></td>
+                  <td class="confluenceTd"><p>0 .. 128</p></td>
+                  <td class="confluenceTd"><p>128</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>RC6</p></td>
+                  <td class="confluenceTd"><p>0 .. 256</p></td>
+                  <td class="confluenceTd"><p>128</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>Rijndael</p></td>
+                  <td class="confluenceTd"><p>0 .. 256</p></td>
+                  <td class="confluenceTd"><p>192</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>Skipjack</p></td>
+                  <td class="confluenceTd"><p>0 .. 128</p></td>
+                  <td class="confluenceTd"><p>128</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>Twofish</p></td>
+                  <td class="confluenceTd"><p>128, 192, 256</p></td>
+                  <td class="confluenceTd"><p>256</p></td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd"><p>Serpent</p></td>
+                  <td class="confluenceTd"><p>128, 192, 256</p></td>
+                  <td class="confluenceTd"><p>256</p></td>
+                 </tr>
+                </tbody> 
+                <script type="text/javascript">
+
+$("table[id='TBL1565043148362']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148362',[],'',
+1,'lightgoldenrodyellow',true,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+               </table>
+              </div>
+             </div></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+       <li><p>In the <strong>Filename</strong> field, enter a name for the symmetric key.</p></li>
+       <li>Select&nbsp;the <strong>Generate</strong>&nbsp;button to generate the symmetric key.</li>
+      </ol>
+      <h2 id="ManagingSymmetricKeys-RemovingaSymmetricKey">Removing a Symmetric Key</h2>
+      <p>To remove a&nbsp;symmetric key:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li><p>On the <strong>Symmetric Key&nbsp;</strong>tab, select the key you want to remove.</p></li>
+       <li>Select&nbsp;the&nbsp;<strong>Remove</strong>&nbsp;button.&nbsp;A confirmation dialog is displayed.</li>
+       <li><p>Select the&nbsp;<strong>Yes</strong>&nbsp;button on the confirmation dialog to remove the key&nbsp;(you can undo the deletion by selecting the&nbsp;<strong>Undo Remove</strong>&nbsp;button).</p></li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

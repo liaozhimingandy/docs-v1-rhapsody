@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Message Package</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="RDK-Reference_133161352.html">RDK Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Message Package</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p> </p>
+      <p>Message Package provides an interface to manage the attributes of messages.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Function</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>int getPropertyCount()</code></td>
+          <td class="confluenceTd"><p class="p1">Returns a count of the number of properties defined on this message</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Iterator&lt;String&gt; getPropertyNames()</code></td>
+          <td class="confluenceTd"><p class="p1">Returns an iterator over the defined property names. The returned iterator does not support Iterator.remove</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>Iterator&lt;Property&gt; getProperties()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Returns an iterator over the properties defined on this message. The returned iterator is not modifiable.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code><span class="s1">boolean</span> hasProperty(String <span class="s2">propertyName</span>);</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1"><span class="s1">Returns</span> true if a property with the given name is defined in the message.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code><span class="s1">boolean</span> hasProperty(StandardMessageProperty <span class="s2">property</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><span class="s1">Returns</span><span> true if a </span><span>property with the given name is defined in the message.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>Property getProperty(String <span class="s1">propertyName</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Returns the property value associated with the given property value. If no property with the specified value exists a new value is created. To avoid unnecessarily creating new properties, use <code>hasProperty(String)</code> <span class="s1">to check for existence.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>Property getProperty(StandardMessageProperty <span class="s1">property</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1"><span>Returns the property value associated with the given property value. If no property with the specified value exists a new value is created. To avoid unnecessarily creating new properties, use <code>hasProperty(String) </code></span><span class="s1">to check for existence.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>removeProperty(<span class="s1">String</span> <span class="s2">propertyName</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Removes the property with the given name. If there is no property with the specified name, this method has no effect.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>ReadableBody getBody()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Returns this message's current body. If this message is newly created, this method will return null. <code>ReadableBody</code> objects returned from this method can only be read a single time (in other words, you can only read forwards). This method should be called again if the message needs to be re<span class="s1">-</span>read.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>WritableBody newBody()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Creates a new body for this message. If this method is called, the newly created body will replace any existing writable body.</p><p class="p1">Exceptions:</p>
+           <ul>
+            <li class="p1"><span><code>MessageException</code>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>String getBodyEncoding()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Returns the character encoding that the message body was encoded with if it was not a binary stream.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>setBodyEncoding(String <span class="s1">encodingName</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Sets the encoding that was used to transform the message body to a byte stream. If this method is not called, the system-wide default encoding will be assumed and returned by <span class="s1"><code>getBodyEncoding()</code>.</span> This sets the encoding for the currently writable message body, and so does not take effect until the new body is persisted.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>setBodyEncoding(Charset <span class="s1">encoding</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Sets the encoding that was used to transform the message body to a byte stream. If this method is not called, the system-wide default encoding will be assumed and returned by <code><span class="s1">{@link #getBodyEncoding()}</span>.</code> This sets the encoding for the currently writable message body, and so doesn't take effect until the new body is persisted.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>addError(String <span class="s1">reason</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Adds an error to the message. This will cause the message to go to the error connector. The message will be persisted in its current state.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code><span class="s1">boolean</span> hasErrors()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">&nbsp;Returns true if the message has errors associated with it. These may not be "new" errors.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>List&lt;String&gt; getErrors()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">If the message is in the error state this method will return the reasons.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>Message spawn()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Creates a copy of the current message. Message properties are duplicated as are message contexts and errors. The new message will point to the current message's existing and pending body. The returned message will have a unique message ID.</p><p class="p1">Exceptions:</p>
+           <ul>
+            <li class="p1"><code>MessageException</code>.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

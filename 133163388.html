@@ -1,0 +1,573 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Message Collector (Filters)</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Configuring-Filters_133163379.html">Configuring Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Message Collector (Filters)</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Message collectors provide the facility to collect messages coming from one or more sources and process them as a batch.</p>
+      <p>For example, when a doctor needs to see a patient's medical information, their system sends a request to Rhapsody. Behind-the-scenes, Rhapsody can request patient information from many different systems, each using different communication protocols such as HL7, XML or database queries. Rhapsody can then wait for all systems to respond, combine all the patient information into a single record and send it back to the doctor's system as a single message.</p>
+      <p>When a collector collects the messages, they are all delivered in a single batch to the filter the collector is attached to. If this filter does not combine them into a single message, then multiple output messages are generated and their order is no longer guaranteed.</p>
+      <p>Typically, the following filters are used in conjunction with a message collector <span>(though not all message collector types are necessarily applicable to every filter)</span>:</p>
+      <ul>
+       <li><a href="Mapper_133163007.html">Mapper</a> filter - maps multiple input messages into a single message. The filter takes many inputs, and produces a single output. This happens by running the main map code multiple times, once for each input message. Each time, the output message is saved from the previous run, and set as the output message. In this way, multiple passes of the message can generate an output with information from both parties. Refer to&nbsp;<a href="Many-to-one-Mapping-Using-Mapper-Filter_133163011.html">Many-to-one Mapping Using Mapper Filter</a> for details.</li>
+       <li><a href="133162940.html">Batch \ De-batch</a> filter - concatenates messages into a single batched message, and de-batches a batched message.</li>
+       <li><a href="JavaScript_133163317.html">JavaScript</a> filter - the default script loops over an input collection of messages. If there is a collector, this may have more than one message in the collection. This can be handled by looping, or explicitly indexing the first and second message in the input collection. The JavaScript filter can opt to output single or multiple messages.</li>
+       <li><a href="XSLT-Stylesheet_133162980.html">XSLT Stylesheet</a>&nbsp;filter&nbsp;- can operate on multiple messages: if&nbsp;in XML format, the messages are concatenated together, with the document tag removed from the bottom of all but the last, and from the top of all but the first; if in EDI format, the filter operates on the 'virtual' XML document for the EDI message; if a mixture, then the virtual document is concatenated with a real XML document.</li>
+       <li><a href="HIPAA-4010-Rebatcher_133163357.html">HIPAA 4010 Rebatcher</a> filter - re-batches HIPAA messages.</li>
+      </ul>
+      <p>Rhapsody provides the following message collector types:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146964251 {padding: 0px;}
+div.rbtoc1565146964251 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146964251 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146964251"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#MessageCollector(Filters)-InputCollation">Input Collation</a></li> 
+        <li><a href="#MessageCollector(Filters)-MessageSet">Message Set</a></li> 
+        <li><a href="#MessageCollector(Filters)-MessageSetTrigger">Message Set Trigger</a></li> 
+        <li><a href="#MessageCollector(Filters)-Property">Property</a></li> 
+        <li><a href="#MessageCollector(Filters)-Sizeand/orTime">Size and/or Time</a></li> 
+        <li><a href="#MessageCollector(Filters)-TimedHold">Timed Hold</a></li> 
+        <li><a href="#MessageCollector(Filters)-TriggerMessage">Trigger Message</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/133163388/133163389.png" data-image-src="attachments/133163388/133163389.png" data-unresolved-comment-count="0" data-linked-resource-id="133163389" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="BatchDe-batch-MsgCollector.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163388" data-linked-resource-container-version="6"></span></p>
+      <h2 id="MessageCollector(Filters)-InputCollation">Input Collation</h2>
+      <p>The&nbsp;Input Collation message collector is used to hold back the Rhapsody engine&nbsp;from processing messages&nbsp;until a message has been received from each of the inputs specified by the Collation Order. This property also determines the order that the messages are processed, once this condition is met.</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148408" class="wrapped confluenceTable" width="100%">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Collection Order</p></td>
+          <td class="confluenceTd"><p>Sets the order in which messages are collected before processing occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Match Property</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Allows a property to be set within an incoming message, which identifies that message as part of a group to be collected before processing occurs.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>In order to guarantee the identifier used to identify the message set is unique, avoid generating the identifier from the message itself, for example from the <code>InputTime</code> property which under certain circumstances may not be unique. If the message set does not already have a unique identifier, then generate one externally by,</span><span> for example,</span><span> using the </span><code><a href="Global-Functions_133161395.html">incCounter()</a></code><span> function in a </span><a href="JavaScript_133163317.html">JavaScript</a><span> filter.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Timeout</p></td>
+          <td class="confluenceTd"><p>Specifies the <em>minimum</em> guaranteed hold time after which message collection is considered incomplete and the messages are sent to the Timeout Destination. A Timeout value of <code>0</code> (zero) means that the message collection will never time out.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Units</p></td>
+          <td class="confluenceTd"><p>Specifies the unit of time before timeout:</p>
+           <ul>
+            <li><code>Seconds</code>.</li>
+            <li><code>Minutes</code>&nbsp;(default).</li>
+            <li><code>Hours</code>.</li>
+            <li><code>Days</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Destination</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the location to which messages that are part of an incomplete collection are sent, once the timeout period is reached:</p>
+           <ul>
+            <li><code>Error Connector</code>.</li>
+            <li><code>No-Match Connector</code>.</li>
+            <li><code>Process as Usual</code> (default).</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148408']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148408',[],'style=&quot;width:150&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h2 id="MessageCollector(Filters)-MessageSet">Message Set</h2>
+      <p>The&nbsp;Message Set message collector is used to hold back the Rhapsody engine&nbsp;from processing messages&nbsp;until all messages in a message set are collected together. A message set is typically generated by a filter that splits messages.</p>
+      <p>For example, the <a href="133162940.html">Batch / De-batch</a> filter generates the properties required for message set collection. Each message contains a message set identifier (so multiple sets can be simultaneously collected), and a position in the message set (for example, position 4 of 9). When all messages have been collected into the set, they are sent to the filter.</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148409" class="wrapped confluenceTable" width="100%">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Set Identifier Property</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specifies the property <span>whose value</span> each message uses to identify the message set it belongs to.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>In order to guarantee the identifier used to identify the message set is unique, avoid generating the identifier from the message itself, for example from the <code>InputTime</code> property which under certain circumstances may not be unique.</p>
+              <p>If the message set does not already have a unique identifier, then generate one externally by, for example, using the <code><a href="Global-Functions_133161395.html">incCounter()</a></code> function in a <a href="JavaScript_133163317.html">JavaScript</a> filter. However, if you are using the <a href="133162940.html">Batch / De-batch</a>&nbsp;filter to re-batch previously de-batched messages, then the property you have specified in the filter's Set Identifier Property configuration property provides a unique identifier for the message set (batched message).</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Total Count Property</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the property <span>whose value</span> each message uses to identify the total number of messages in its message set. This is required so the collector knows when it has all the messages in the collection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Index Base</p></td>
+          <td class="confluenceTd"><p>Determines how the index properties are used to sort the message set for collation:</p>
+           <ul>
+            <li><code>Zero</code><span> (default) - <span>assumes that the index properties start at 0 and increase by one for each message.</span></span></li>
+            <li><code>One</code><span> -<span> assumes that the index properties start at 1 and increase <span>by one for each message</span>. <span>Whether to use zero- or one-based indexing is down to personal preference.</span></span></span></li>
+            <li><code>Not Applicable</code><span><span> - </span></span>sorts the message set according to the relative value of the index properties in the input messages up to the total message count. As an example, incoming messages with index properties of 5, 10, 254, 3 will be sorted to 3, 5, 10, 254. This method of indexing has slightly degraded performance as compared with a zero- and one-based indexing due to the sorting overhead (which increases with larger message set sizes).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Index Property</p></td>
+          <td class="confluenceTd"><p>Specifies the message property that contains the index of the message in the set.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Timeout</p></td>
+          <td class="confluenceTd"><p>Specifies the <em>minimum</em> guaranteed hold time after which message collection is considered incomplete and message processing occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Units</p></td>
+          <td class="confluenceTd"><p>Specifies the unit of time before timeout:</p>
+           <ul>
+            <li><code>Seconds</code>.</li>
+            <li><code>Minutes</code>&nbsp;(default).</li>
+            <li><code>Hours</code>.</li>
+            <li><code>Days</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Destination</p></td>
+          <td class="confluenceTd"><p>Specifies the location to which messages that are part of an incomplete collection are sent, once the timeout period is reached:</p>
+           <ul>
+            <li><code>Error Connector</code>.</li>
+            <li><code>No-Match Connector</code>.</li>
+            <li><code>Process as Usual</code> (default).</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148409']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148409',[],'style=&quot;width:150&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h2 id="MessageCollector(Filters)-MessageSetTrigger">Message Set Trigger</h2>
+      <p>The&nbsp;Message Set Trigger message collector is used to hold back the Rhapsody engine&nbsp;from processing messages&nbsp;until all messages with indexes less than the trigger message have arrived. A message set is typically generated by a filter that splits messages.</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148410" class="wrapped confluenceTable" width="100%">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Set Identifier Property</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span>Specifies the property whose value each message uses to identify the message set it belongs to</span>.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>In order to guarantee the identifier used to identify the message set is unique, avoid generating the identifier from the message itself, for example from the <code>InputTime</code> property which under certain circumstances may not be unique. If the message set does not already have a unique identifier, then generate one externally by, for example, using the <code><a href="Global-Functions_133161395.html">incCounter()</a></code> function in a <a href="JavaScript_133163317.html">JavaScript</a> filter.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trigger Message Property</p></td>
+          <td class="confluenceTd"><p><span>Specifies the message property to trigger on. </span>When a message is received and this property is present, the corresponding message set is released once all messages with indexes less than the trigger message have arrived.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Index Base</p></td>
+          <td class="confluenceTd"><p><span>Determines how the index properties are used to sort the message set for collation:</span></p>
+           <ul>
+            <li><code>Zero</code> (default).</li>
+            <li><code>One</code>.</li>
+            <li><code>None</code>.</li>
+           </ul><p>If you require a complete set of ordered messages, then the messages need to be numbered with an index property which can either be zero- or one-based. When an index property is used, the incoming messages are simply sorted according to their index property, and when all the messages with an index property less than that of the trigger message, the set is considered complete and will be released in order. If there is no index then the ordering and completeness cannot be guaranteed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Index Property</p></td>
+          <td class="confluenceTd"><p>Specifies the message property that contains the index of the message in the set.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Timeout</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the <em>minimum</em> guaranteed hold time after which message collection is considered incomplete and message processing occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Units</p></td>
+          <td class="confluenceTd"><p>Specifies the unit of time before timeout:</p>
+           <ul>
+            <li><code>Seconds</code>.</li>
+            <li><code>Minutes</code> (default).</li>
+            <li><code>Hours</code>.</li>
+            <li><code>Days</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Destination</p></td>
+          <td class="confluenceTd"><p>Specifies the location to which messages that are part of an incomplete collection are sent, once the timeout period is reached:</p>
+           <ul>
+            <li><code>Error Connector</code>.</li>
+            <li><code>No-Match Connector</code>.</li>
+            <li><code>Process as Usual</code> (default).</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148410']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148410',[],'style=&quot;width:150&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h2 id="MessageCollector(Filters)-Property">Property</h2>
+      <p>The&nbsp;Property message collector is used to hold and collate messages using a collection property.</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148411" class="wrapped confluenceTable" width="100%">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Collection Property</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Selects the collection property on which messages are collated.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>In order to guarantee the identifier used to identify the message set is unique, avoid generating the identifier from the message itself, for example from the <code>InputTime</code> property which under certain circumstances may not be unique. If the message set does not already have a unique identifier, then generate one externally by, for example, using the <code><a href="Global-Functions_133161395.html">incCounter()</a></code> function in a <a href="JavaScript_133163317.html">JavaScript</a> filter.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Total Count Property</td>
+          <td colspan="1" class="confluenceTd"><p>Selects the name of the message property that contains the total number of messages that are expected in the collection.</p><p>If this configuration is configured, then it must be present on the first message collected in each group. If the first message is either missing this property or it is invalid (in other words, it is not a positive integer), then the message is sent to the error queue. This property is not examined on the second and subsequent messages within a collection group. The collection is deemed complete when either the timeout occurs or the expected number of messages are received.</p><p>If this optional configuration property is not configured, then the collector keeps collecting messages until the configured timeout is reached. The messages are then sent to the configured <strong>Timeout Destination</strong>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Timeout</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the <em>minimum</em> guaranteed hold time after which message collection is considered incomplete and message processing occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Units</p></td>
+          <td class="confluenceTd"><p>Specifies the unit of time before timeout:</p>
+           <ul>
+            <li><code>Seconds</code>.</li>
+            <li><code>Minutes</code> (default).</li>
+            <li><code>Hours</code>.</li>
+            <li><code>Days</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Destination</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specifies the location to which messages that are part of an incomplete collection are sent, once the timeout period is reached:</p>
+            <ul>
+             <li><code>Error Connector</code>.</li>
+             <li><code>No-Match Connector</code>.</li>
+             <li><code>Process as Usual</code> (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If the <strong>Total Count Property</strong> configuration property is not set, this message collector will always timeout. When that occurs the collected messages are always sent to the configured <strong>Timeout Destination</strong>.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148411']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148411',[],'style=&quot;width:150&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h2 id="MessageCollector(Filters)-Sizeand/orTime">Size and/or Time</h2>
+      <p>The&nbsp;Size and/or Time message collector is used to hold back the Rhapsody engine&nbsp;from processing messages until their combined size reaches the value identified by the Message Set Size properties. Message collections that do not reach this size will be still processed once the timeout values have been reached.</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148412" class="wrapped confluenceTable" width="100%">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Size Count</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the size the file must grow to until processing occurs. When this configuration property is set to zero, there is no size limit and therefore messages are collected until a timeout occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Size Unit</p></td>
+          <td class="confluenceTd"><p>Specifies the units of the size the file must reach before processing occurs:</p>
+           <ul>
+            <li><code>Bytes</code> (default).</li>
+            <li><code>Kilobytes</code>.</li>
+            <li><code>Megabytes</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Timeout</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the <em>minimum</em> guaranteed hold time after which message collection is considered incomplete and message processing occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Units</p></td>
+          <td class="confluenceTd"><p>Specifies the unit of time before timeout:</p>
+           <ul>
+            <li><code>Seconds</code>.</li>
+            <li><code>Minutes</code> (default).</li>
+            <li><code>Hours</code>.</li>
+            <li><code>Days</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Destination</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specifies the location to which messages that are part of an incomplete collection are sent, once the timeout period is reached:</p>
+            <ul>
+             <li><code>Error Connector</code>.</li>
+             <li><code>No-Match Connector</code>.</li>
+             <li><code>Process as Usual</code> (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If the <strong>Message Set Size Count</strong> configuration property is set to zero, this message collector always timeouts. When that occurs the collected messages are always sent to the configured <strong>Timeout Destination</strong>.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148412']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148412',[],'style=&quot;width:150&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h2 id="MessageCollector(Filters)-TimedHold">Timed Hold</h2>
+      <p>The Timed Hold message collector is unique in that it does not collect messages together, but rather&nbsp;delays the processing of each message for a <em>minimum</em> guaranteed hold time. In other words, this type of collection does not release a collection of messages into a filter.</p>
+      <p>In practice, the actual hold time can be longer than the guaranteed hold time because<span style="line-height: 13.0pt;background-color: transparent;">&nbsp;an internal timeout task releases messages that have been in the collector longer than their configured hold time or timeout. The running frequency of the task is as follows:</span></p>
+      <ul>
+       <li>If the configured timeout is less than 5 minutes, then it runs every 15 seconds.</li>
+       <li>If the configured timeout is less than 1 hour, then it runs every minute.</li>
+       <li>Otherwise, it runs every 10 minutes.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Timed Hold message collector does not batch the messages into a single message when used in conjunction with the&nbsp;<a href="133162940.html">Batch \ De-batch</a>&nbsp;filter. In this scenario, when a timed out message is released by the collector, all other messages that have been collected with it are released at the same time as individual messages. If you want to batch all messages that arrive within a certain time interval using the <a href="133162940.html">Batch \ De-batch</a>&nbsp;filter, use the <a href="#MessageCollector(Filters)-Sizeand/orTime">Size and/or Time</a> message collector instead and set its <strong>Message Set Timeout</strong> property as required.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table id="TBL1565043148413" class="wrapped confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Timeout</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the <em>minimum</em> guaranteed hold time after which message collection is considered incomplete and message processing occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Units</p></td>
+          <td class="confluenceTd"><p>Specifies the unit of time before timeout:</p>
+           <ul>
+            <li><code>Seconds</code>.</li>
+            <li><code>Minutes</code> (default).</li>
+            <li><code>Hours</code>.</li>
+            <li><code>Days</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Destination</p></td>
+          <td class="confluenceTd"><p>Specifies the location to which messages that are part of an incomplete collection are sent, once the timeout period is reached.</p>
+           <ul>
+            <li><code>Error Connector</code>.</li>
+            <li><code>No-Match Connector</code>.</li>
+            <li><code>Process as Usual</code> (default).</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148413']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148413',[],'style=&quot;width:150&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h2 id="MessageCollector(Filters)-TriggerMessage">Trigger Message</h2>
+      <p>The Trigger message collector is used to collect up a number of messages until a <em>trigger</em> message is received. When this trigger is received, all collected messages are released simultaneously.</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148414" class="wrapped confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Property to trigger collection release</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the message property that triggers the collection release. When a message is received, with any value in this property, the collection is released.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Timeout</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the <em>minimum</em> guaranteed hold time after which message collection is considered incomplete and message processing occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Units</p></td>
+          <td class="confluenceTd"><p>Specifies the unit of time before timeout:</p>
+           <ul>
+            <li><code>Seconds</code>.</li>
+            <li><code>Minutes</code> (default).</li>
+            <li><code>Hours</code>.</li>
+            <li><code>Days</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Destination</p></td>
+          <td class="confluenceTd"><p>Specifies the location to which messages that are part of an incomplete collection are sent, once the timeout period is reached:</p>
+           <ul>
+            <li><code>Error Connector</code>.</li>
+            <li><code>No-Match Connector</code>.</li>
+            <li><code>Process as Usual</code> (default).</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148414']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148414',[],'style=&quot;width:150&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>SQL Statement Parameters</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">SQL Statement Parameters</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>In the configuration XML file, the statements can contain parameters in them. There are three types of parameters:</p>
+      <ul>
+       <li><p>An incoming message property specified by <code>$&lt;message property name&gt;</code>. Message properties can be referenced in the XML configuration file by preceding their names with a <code>$</code> character.</p></li>
+       <li><p>An incoming message field value specified by <code>@&lt;full path of a message field&gt;</code> for an EDI message, or <code> `&lt;full path of a message field&gt;`</code> for an XML message . It is the full path of the message field. Not available if the database communication point is in input mode.</p></li>
+       <li><p>A database table column value specified by <code>@&lt;column name&gt;</code>. It is the name of one of the columns returned by the parent statement.</p></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>To assign or insert a full segment using the @ notation <span>in a SQL statements</span>, ensure a dot (<code>.</code>) is appended to the segment name (for example, <code>@MSH.</code>).</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>An XPath expression can be used to specify a field path when incoming message type is XML. The value should be started with <code>`</code> followed by the XPath expression (for example, <code>`/message/patient[1]/name</code>, <code>`/message/patient[1]/@id</code>). Note that the XPath expression should be point to only one field. If the XPath expression refers multiple fields, only first field of the corresponding expression will be populated.</p>
+       </div>
+      </div>
+      <p>For example, to insert the value for the property <code>PatientIDProperty</code> into a database table, the following XML can be used:</p>
+      <p></p>
+      <div class="indent20 inline" style="margin-left: 20px;">
+       <style type="text/css">div.inline p:first-child { display: inline; }</style>
+       <p><code>&lt;sql&gt;insert into table1 values ( ..., $PatientIDProperty, ...) &lt;/sql&gt;</code></p>
+      </div>
+      <p></p>
+      <p><span style="color: rgb(0,0,0);font-size: 20.0px;">Escaping '@'</span></p>
+      <p>If you need to use the <code>@</code> character as part of your SQL query syntax, you must escape it by preceding it with a back-slash character (<code>\</code>).</p>
+      <p>For example, if you have the following configuration:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement&gt; 
+    &lt;sql&gt; 
+        select id from parentTable where ... 
+    &lt;/sql&gt; 
+    &lt;statement&gt; 
+        &lt;sql&gt; 
+            insert into table1 values ( ..., @id, ... ) 
+         &lt;/sql&gt; 
+    &lt;/statement&gt; 
+    &lt;statement&gt; 
+        &lt;sql&gt; 
+            update table2 set \@id = @id where ... 
+        &lt;/sql&gt;&nbsp;
+	&lt;/statement&gt; 
+&lt;/statement&gt;&nbsp;</pre> 
+       </div>
+      </div>
+      <p>In the first child statement, the <code>@id</code> would be replaced by a column value from the parent statement and executed; if the parent statement returns <code>123</code> for the <code>id</code> column of <code>parentTable</code> then <code>insert into table1 values (..., '123', ...)</code> would be executed.</p>
+      <p>In the second child statement, <code>@id</code> (on the left hand side) would be replaced by <code>@id</code> (on the right hand side). For example, <code>@id</code> is replaced by <code>123</code> when the following SQL query is executed: <code>update table2 set @id='123' where ...</code>, where <code>@id</code> must be a column name of table2.</p>
+      <h2 id="SQLStatementParameters-AccessingMessageBodyString">Accessing Message Body String</h2>
+      <p>The variable <code>$messageContent</code> (case insensitive) can be used to refer to the entire message body as a string.</p>
+      <p></p>
+      <div class="indent20 inline" style="margin-left: 20px;">
+       <style type="text/css">div.inline p:first-child { display: inline; }</style>
+       <p><code>&lt;sql&gt;insert into table values ( ..., $messageContent, ... ) &lt;/sql&gt;</code></p>
+      </div>
+      <p></p>
+      <p>The above SQL statement inserts the message body into the database column.</p>
+      <h2 id="SQLStatementParameters-ConvertNULLFields">Convert NULL Fields</h2>
+      <p>When a message field does not exist in the message to be processed, null is used for the value.</p>
+      <p></p>
+      <div class="indent20 inline" style="margin-left: 20px;">
+       <style type="text/css">div.inline p:first-child { display: inline; }</style>
+       <p><code>&lt;sql&gt;insert into table values ( ..., @PID.PatientID, ... ) &lt;/sql&gt;</code></p>
+      </div>
+      <p></p>
+      <p>In the above SQL statement the <code>@PID.PatientID</code> would be replaced by a <code>PID.PatientID</code> value from the incoming message; if the <code>PID.PatientID</code> does not exist in the message, then <code>insert into table values (..., null, ...)</code> is executed by default. However, if you wish to insert an empty string instead of null value, then set the <code>convertNullFields</code> property in the configuration file.</p>
+      <p>SYNTAX:</p>
+      <p></p>
+      <div class="indent20 inline" style="margin-left: 20px;">
+       <style type="text/css">div.inline p:first-child { display: inline; }</style>
+       <p><code>&lt;convertNullFields/&gt;</code></p>
+      </div>
+      <p></p>
+      <p>If <code>convertNullFields</code> exists in the configuration file, then if the <code>PID.PatientID</code> does not exist in the message, then&nbsp;<code>insert into table values (..., '', ...)</code> is executed.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

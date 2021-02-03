@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Getting a Message from an HTTP Server</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="HTTP-Client-and-Server_133162622.html">HTTP Client and Server</a></span> </li> 
+       <li> <span><a href="HTTP-Client_133162623.html">HTTP Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Getting a Message from an HTTP Server</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <strong>HTTP Client</strong> communication point enables your Rhapsody engine to get information from or send information to an HTTP server. With web services becoming more predominant this communication point is becoming more popular in today's healthcare enterprises.</p>
+      <p>For reference material about this communication point, refer to:</p>
+      <ul>
+       <li><a href="HTTP-Client_133162623.html">HTTP Client</a></li>
+      </ul>
+      <p>In this scenario, an HTTP Client communication point is configured to use the HTTP GET method to retrieve a message from an HTTP server and put the retrieved HTML into a directory:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162634/133162635.png" data-image-src="attachments/133162634/133162635.png" data-unresolved-comment-count="0" data-linked-resource-id="133162635" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="http.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162634" data-linked-resource-container-version="1"></span></p>
+      <ol>
+       <li><p>Create an HTTP Client communication point in Input mode and enter <code><span class="nolink">http://www.orionhealth.com</span></code> in the <strong>URL</strong> property, as shown in the following screenshot:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162634/133162637.png" data-image-src="attachments/133162634/133162637.png" data-unresolved-comment-count="0" data-linked-resource-id="133162637" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="httpclient.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162634" data-linked-resource-container-version="1"></span></p></li>
+       <li><p>Create a <a href="Directory_133162648.html">Directory</a> communication point and enter <code>c:\temp\out</code> in the <strong>Output Directory</strong> property. This is where the HTML messages retrieved from the HTTP Client are sent.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162634/133162636.png" data-image-src="attachments/133162634/133162636.png" data-unresolved-comment-count="0" data-linked-resource-id="133162636" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="dirproperties.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162634" data-linked-resource-container-version="1"></span></p><p>&nbsp;</p></li>
+       <li>Create a new route and add the communication points to the routes. Connect the two communication points and then check in the route and the communication points.</li>
+       <li>A file is created in the Output Directory, every minute, based on the date and time. This is because the HTTP Client communication point, by default, connects to the server every minute and doesn't check to see that the page has changed.</li>
+       <li>To send a message when the page is changed, change the <strong>Set If-Modified-Since header</strong> property to <code>True</code>. The communication point will then check the <code>Last-Modified</code> HTTP header and only place the message in the Rhapsody route if it is later than the value in the previous GET call.</li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

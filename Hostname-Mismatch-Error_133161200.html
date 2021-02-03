@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Hostname Mismatch Error</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Rhapsody-Server-Authentication_133161184.html">Rhapsody Server Authentication</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Hostname Mismatch Error</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>As part of the Rhapsody server authentication process, when examining its SSL certificate the Rhapsody IDE attempts to verify that the presented SSL certificate is for the computer that it is connecting to. This is done by verifying that the hostname used to establish the connection can be found inside the SSL certificate. This check is not performed if the hostname used to connect to the engine is <code>localhost</code> or <code>127.0.0.1</code> for connecting to an engine on the same machine as the IDE. However, the check is performed if the local machine's real hostname is used rather than the loopback address. In the case of a mismatch, a Hostname Mismatch error dialog is displayed.</p>
+      <p>Hostnames are retrieved from the SSL certificate by extracting the certificate subject's Common Name, as well as any DNS names that can be found in the <code>SubjectAlternativeNames</code> extension (if present). If the hostname used to connect to the engine does not match any of these extracted hostnames using a case-insensitive comparison, then the connection attempt is aborted.</p>
+      <p>The error usually occurs when connecting to a Rhapsody engine using its IP address rather than its hostname, as IP addresses are typically not stored within SSL certificates.</p>
+      <p>The preferred resolution to this problem is to fix either the SSL certificate to include the correct hostname, or fix the DNS resolution problems so that a direct IP address is not required for the connection. In cases where this may not be possible, the <a href="Rhapsody-IDE-Trust-Manager_133161202.html">Rhapsody IDE Trust Manager </a>application can be used to suppress this warning for a specific Rhapsody engine.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161200/133161201.png" data-image-src="attachments/133161200/133161201.png" data-unresolved-comment-count="0" data-linked-resource-id="133161201" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="HostNameMismatch2.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161200" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Close</td>
+          <td class="confluenceTd">Cancels the connection so the login does not take place.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">View certificate</td>
+          <td class="confluenceTd">Displays the SSL certificate presented by the Rhapsody engine using the standard <em>Windows</em><span class="st">®</span> certificate viewer.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Rhapsody IDE Trust Manager</td>
+          <td class="confluenceTd">Launches the <a href="Rhapsody-IDE-Trust-Manager_133161202.html">Rhapsody IDE Trust Manager </a>to allow manual editing of the Rhapsody IDE trust relationships.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Filters</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Filters</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Filters are placed on the connections between a route's input and output communication points. Their purpose is control and direct message processing, based on the organization's business requirements.</p>
+      <p>Testing to ensure that the required business logic has been applied correctly can be performed within the filter itself, without needing to check in the route that it is part of. The testing configuration, along with any&nbsp;test&nbsp;messages, can be included in the Rhapsody configuration (RLC) file.</p>
+      <p>Each filter accesses two message objects:</p>
+      <ul>
+       <li><strong>Input message object</strong>&nbsp;- a read-only object received from the route.</li>
+      </ul>
+      <div class="no-overflow">
+       <ul>
+        <li><strong>Output message object</strong>&nbsp;- the message object which the filter generates to send via its output connections.</li>
+       </ul>
+       <h2 id="Filters-FilterAttachmentPoints">Filter Attachment Points</h2>
+       <p class="_mce_tagged_br">Each filter supports four attachment points to allow connection to other components in the route:</p>
+       <ul>
+        <li><strong>Input&nbsp;</strong>- a connector entering from the left of the filter showing an inbound arrowhead.</li>
+        <li><strong>Output </strong>-&nbsp;a connector leaving from the right of the filter. Conditional rules may be applied to restrict messages passing along an output connector based on their content, type or associated properties, for example.</li>
+        <li><strong>No-match connector </strong>-&nbsp;the green 'lollipop' connection point above the filter. This connector is used to direct messages which do not match the conditions set on the filter's output connector.&nbsp;</li>
+        <li>If no conditions are set on the output connector, the No-match connector will never be used.</li>
+        <li><strong>Error connector </strong>-&nbsp;the red 'lollipop' connection point below the filter. Messages whose processing on the filter causes an error will be routed to this connector and along its attached pathway. If no pathway originates from this connection point, messages routed to this connector will be sent to the&nbsp;Error Queue&nbsp;for viewing in the&nbsp;<a href="Management-Console_133163667.html">Management Console</a><strong>.</strong></li>
+       </ul>
+      </div>
+      <p class="box generalbox book_content"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/133162681/133162684.png" data-image-src="attachments/133162681/133162684.png" data-unresolved-comment-count="0" data-linked-resource-id="133162684" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Filter_Paths.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162681" data-linked-resource-container-version="1"></span><br>Filters must have at least one input and one output connection. Multiple connections are possible to and from each filter, or from the&nbsp;<strong>No-match</strong>&nbsp;and&nbsp;<strong>Error&nbsp;</strong>connectors. When multiple paths exit a filter, a copy of the message is sent along each path, with&nbsp;FIFO&nbsp;rules applying to all copies as a group. The&nbsp;<strong>No-match</strong>&nbsp;and&nbsp;<strong>Error</strong>&nbsp;connectors may be hidden by clicking&nbsp;the&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162681/133162683.png" data-image-src="attachments/133162681/133162683.png" data-unresolved-comment-count="0" data-linked-resource-id="133162683" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_nomatch_outputs.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162681" data-linked-resource-container-version="1"></span>&nbsp;or&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162681/133162682.png" data-image-src="attachments/133162681/133162682.png" data-unresolved-comment-count="0" data-linked-resource-id="133162682" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_error_outputs.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162681" data-linked-resource-container-version="1"></span>&nbsp;icons&nbsp;respectively in the Rhapsody IDE toolbar or from Rhapsody IDE's&nbsp;<strong>View</strong>&nbsp;menu.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

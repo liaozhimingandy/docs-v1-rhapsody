@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using the Database Configuration Editor</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using the Database Configuration Editor</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The<strong>&nbsp;Database Configuration Editor</strong>&nbsp;displays an overview of how a configuration uses the database, and enables you to individually edit each statement.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161708.png" data-image-src="attachments/133161705/133161708.png" data-unresolved-comment-count="0" data-linked-resource-id="133161708" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="overviewEditor.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+      <p>Each item in the<strong>&nbsp;Database Configuration Editor</strong> corresponds to an SQL statement that will be run, or a stored procedure that will be called. It shows which statements are executed multiple times, which are conditionally executed, and the parent/child relationship between various statements.</p>
+      <p>The<strong>&nbsp;Database Configuration Editor</strong> uses icons to identify different statement types, as shown in the following tables.</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148445" class="wrapped confluenceTable" width="90%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Image</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161709.png" data-image-src="attachments/133161705/133161709.png" data-unresolved-comment-count="0" data-linked-resource-id="133161709" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="sql.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Executes an SQL statement.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161710.png" data-image-src="attachments/133161705/133161710.png" data-unresolved-comment-count="0" data-linked-resource-id="133161710" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="sql-iterate.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Executes an SQL statement that is run once for each repeat of a particular path within a message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161707.png" data-image-src="attachments/133161705/133161707.png" data-unresolved-comment-count="0" data-linked-resource-id="133161707" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="sql-condition.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Executes an SQL statement only if a specified condition evaluates to true.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161706.png" data-image-src="attachments/133161705/133161706.png" data-unresolved-comment-count="0" data-linked-resource-id="133161706" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="sql-condition-iterate.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Executes an SQL statement that is run once for each repeat of a particular path within a message, but each iteration of the statement is only run if a specified condition evaluates to true.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161713.png" data-image-src="attachments/133161705/133161713.png" data-unresolved-comment-count="0" data-linked-resource-id="133161713" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="storedProcedure.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Executes a stored procedure call.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161714.png" data-image-src="attachments/133161705/133161714.png" data-unresolved-comment-count="0" data-linked-resource-id="133161714" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="storedProcedure-iterate.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Executes a stored procedure call that is run once for each repeat of a particular path within a message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161715.png" data-image-src="attachments/133161705/133161715.png" data-unresolved-comment-count="0" data-linked-resource-id="133161715" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="storedProcedure-condition.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Executes a stored procedure call only if a specified condition evaluates to true.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161712.png" data-image-src="attachments/133161705/133161712.png" data-unresolved-comment-count="0" data-linked-resource-id="133161712" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="storedProcedure-condition-iterate.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Executes a stored procedure call that is run once for each repeat of a particular path within a message, but each iteration of the stored procedure call is only run if a specified condition evaluates to true.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148445']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148445',[],'style=&quot;width:10%; text-align: center;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','90%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h2 id="UsingtheDatabaseConfigurationEditor-StatementToolbar">Statement Toolbar</h2>
+      <p>The statement toolbar is displayed when a statement is selected in the<strong>&nbsp;Database Configuration Editor</strong> and enables you to perform a number of operations on the selected statement:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161711.png" data-image-src="attachments/133161705/133161711.png" data-unresolved-comment-count="0" data-linked-resource-id="133161711" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="statementToolbar.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+      <p>The operations available are described in the following table.</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148446" class="wrapped confluenceTable" width="90%">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Icon</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161718.png" data-image-src="attachments/133161705/133161718.png" data-unresolved-comment-count="0" data-linked-resource-id="133161718" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="window_edit24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Starts editing the statement or stored procedure call.&nbsp; Launches the <strong>SQL Editor</strong> or the <strong>Stored Procedure Editor</strong>. Refer to <a href="SQL-Editor_133161696.html">SQL Editor</a> and <a href="Stored-Procedure-Editor_133161749.html">Stored Procedure Editor</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161719.png" data-image-src="attachments/133161705/133161719.png" data-unresolved-comment-count="0" data-linked-resource-id="133161719" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="iterate24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Configures how statement iteration works. This allows a statement or stored procedure call to be executed once for every repeat of a field within a message. Refer to <a href="Statement-Nesting-and-Iteration_133161727.html">Statement Nesting and Iteration</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161720.png" data-image-src="attachments/133161705/133161720.png" data-unresolved-comment-count="0" data-linked-resource-id="133161720" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="condition24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Configures statement conditional execution. If a statement or stored procedure call has a condition attached to it, it will only be executed if the condition evaluates to true. Refer to <a href="Condition-Editor_133161741.html">Conditional Execution</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161717.png" data-image-src="attachments/133161705/133161717.png" data-unresolved-comment-count="0" data-linked-resource-id="133161717" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="arrow_down_green24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Moves the statement around the configuration hierarchy. Refer to <a href="#UsingtheDatabaseConfigurationEditor-reorderingStatements">Reordering Statements</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161716.png" data-image-src="attachments/133161705/133161716.png" data-unresolved-comment-count="0" data-linked-resource-id="133161716" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="arrow_up_green24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Moves the statement around the configuration hierarchy. Refer to <a href="#UsingtheDatabaseConfigurationEditor-reorderingStatements">Reordering Statements</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161723.png" data-image-src="attachments/133161705/133161723.png" data-unresolved-comment-count="0" data-linked-resource-id="133161723" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="arrow_left_green24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Moves the statement around the configuration hierarchy. Refer to <a href="#UsingtheDatabaseConfigurationEditor-reorderingStatements">Reordering Statements</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161724.png" data-image-src="attachments/133161705/133161724.png" data-unresolved-comment-count="0" data-linked-resource-id="133161724" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="arrow_right_green24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Moves the statement around the configuration hierarchy. Refer to <a href="#UsingtheDatabaseConfigurationEditor-reorderingStatements">Reordering Statements</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161725.png" data-image-src="attachments/133161705/133161725.png" data-unresolved-comment-count="0" data-linked-resource-id="133161725" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="delete24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>Deletes the selected statement. Refer to <a href="#UsingtheDatabaseConfigurationEditor-deletingStatements">Deleting a Statement</a> for details.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148446']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148446',[],'style=&quot;width:10%; text-align: center;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','90%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h3 id="UsingtheDatabaseConfigurationEditor-addingStatementsAddingNewStatementstoaConfiguration"><span class="confluence-anchor-link" id="UsingtheDatabaseConfigurationEditor-addingStatements"></span>Adding New Statements to a Configuration</h3>
+      <p>To add new statements and stored procedure calls to a configuration, select and drag the <strong>Execute SQL</strong> or <strong>Stored Procedure</strong> components from the <strong>Database Components</strong> toolbar on the right, and then drop them somewhere on the overview editor. When dragging the component, a black insertion line is displayed to indicate where the new statement will be placed:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161722.png" data-image-src="attachments/133161705/133161722.png" data-unresolved-comment-count="0" data-linked-resource-id="133161722" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="overviewEditorDraggingStatement.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+      <h3 id="UsingtheDatabaseConfigurationEditor-deletingStatementsDeletingaStatement"><span class="confluence-anchor-link" id="UsingtheDatabaseConfigurationEditor-deletingStatements"></span>Deleting a Statement</h3>
+      <p>To delete a statement or stored procedure, select the statement that should be deleted, to display the <strong>Statement Toolbar</strong> and then click the <strong>Delete</strong> button:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161721.png" data-image-src="attachments/133161705/133161721.png" data-unresolved-comment-count="0" data-linked-resource-id="133161721" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="overviewEditorDeleteStatement.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+      <h3 id="UsingtheDatabaseConfigurationEditor-reorderingStatementsReorderingStatements"><span class="confluence-anchor-link" id="UsingtheDatabaseConfigurationEditor-reorderingStatements"></span>Reordering Statements</h3>
+      <p>The order that the statements are shown in the<strong>&nbsp;Database Configuration Editor</strong> is the order in which they are run. Consequently, it is often necessary to reorder statements to get the desired behavior.</p>
+      <p>To reorder statements, select the statement to display the <strong>Statement Toolbar</strong>. You can then reorder the selected statement by using the green arrow toolbar buttons that are displayed. Statements can be moved up, down, left and right:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161705/133161726.png" data-image-src="attachments/133161705/133161726.png" data-unresolved-comment-count="0" data-linked-resource-id="133161726" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="overviewEditorMoveStatement.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161705" data-linked-resource-container-version="3"></span></p>
+      <p>Moving statements up and down changes the order of execution. If a statement with child statements (that are indented below it in the editor) is moved up or down, its children move with it.</p>
+      <p>Moving statements left or right changes the hierarchy by modifying the parent/child statement relationships. As with moving statements up and down, moving left and right moves the child statements with its parent.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

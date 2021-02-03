@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Migrating from Test to Production</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Deployment_133164213.html">Deployment</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Migrating from Test to Production</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>It is difficult to generalize a migration process because there are so many variables and each organization's situation is likely to be different from everyone else's. The following suggestions were contributed by an experienced Rhapsody consultant as a guide to completing this task successfully.</p>
+      <h2 id="MigratingfromTesttoProduction-ManualMigration">Manual Migration</h2>
+      <p>Manually managing a migration means that a developer must take what they have configured in the DEV system and replicate it exactly in the PROD system manually. It is important that a number of tasks are completed before starting this process; these are listed at the <a href="#MigratingfromTesttoProduction-prepostupgradesteps">end of this section</a>.</p>
+      <p>The advantage of a manual migration is that it forces the user to change the system without having Rhapsody overwrite parts of the system creating duplicate registry and guide keys using the reload and save function. It also means it takes longer to redevelop the new routes in the Production system; if there is a large number of components, there is a good chance of missing parts of the new configuration. But if the upgrade is small and not many changes are required, then this is the ideal way to transfer routes between environments.</p>
+      <p><strong>Advantages</strong></p>
+      <ul>
+       <li>The Developer can make the changes and feel confident that the upgrade is working.</li>
+       <li>If there are variables in Rhapsody, these are changed correctly by the developer at the time of upgrade.</li>
+       <li>The process is cleaner if the DEV and PROD systems do not have the right naming conventions associated with the file structure or do not use the <a href="Rhapsody-Variables_133163434.html">Variables Manager</a> for configuration files.</li>
+      </ul>
+      <p><strong>Disadvantage</strong></p>
+      <ul>
+       <li>It may take longer to upgrade the Rhapsody configuration depending on the number of routes being upgraded.</li>
+      </ul>
+      <h2 id="MigratingfromTesttoProduction-MigrationUsingRhapsodyTools">Migration Using Rhapsody Tools</h2>
+      <p>This is generally the way two environments should be migrated. Problems may arise if the naming conventions are not correct (i.e. file structures of the environments differ) when different routes are migrated. Any Rhapsody variables in use must be changed to reflect the new environment, otherwise data will be sent to the wrong system (at the very least) when their associated components are started.</p>
+      <p>The Rhapsody way must adhere to two sets of rules to enable a successful upgrade plan:</p>
+      <ol>
+       <li>Ensure both systems have a naming convention that is identical throughout the two environments i.e. if you have a route in DEV named "PAS to Radiology" then you must in PROD have a "PAS to Radiology" route if you want the upgrade of the DEV to PROD system to work correctly.</li>
+       <li>Communication point and/or filter properties should use the&nbsp;<a href="Rhapsody-Variables_133163434.html">Variables Manager</a> for defining values. For example, a Rhapsody variable called <code>radiology_port</code>&nbsp;might have a set value of <code>9000</code>&nbsp;and can be referenced in a TCP communication point as <code>$(radiology_port)</code>. This variable can be set up in DEV and PROD but the values might be different, in other words DEV "radiology_port" = "9000" PROD "radiology_port" = "9001".<br>This simplifies the upgrade as you do not need to worry about changing individual configuration files or comm points.</li>
+      </ol>
+      <p><strong>Advantages</strong></p>
+      <ul>
+       <li>Quicker, cleaner and easy to upgrade individual routes.</li>
+       <li>Reference values mean that you have a record of individual components values.</li>
+      </ul>
+      <p><strong>Disadvantages</strong></p>
+      <ul>
+       <li>If folder structures between DEV and PROD are different then it becomes complicated as you need to rename components.</li>
+      </ul>
+      <h2 id="MigratingfromTesttoProduction-prepostupgradestepsPre/Post-upgradeSteps"><span class="confluence-anchor-link" id="MigratingfromTesttoProduction-prepostupgradesteps"></span>Pre/Post-upgrade Steps</h2>
+      <ol>
+       <li>Always backup the Rhapsody datastore.</li>
+       <li>Save the entire <span>RLC</span>&nbsp;configuration from the DEV and PROD systems, storing them safely in a folder that is easy to find.</li>
+       <li><p>From the DEV environment, repeat the save but this time select the components of the routes that you wish to upgrade.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>The RLC file may contain certain dependencies. If these dependencies are missing routes that are in the PROD system, these can be missed.</p>
+          <p>If these dependencies are configuration or definition files that have been changed, then these must be included.</p>
+         </div>
+        </div></li>
+       <li><p>Once you have an RLC file that you wish to upgrade with, open the PROD system IDE and reload the configuration contained in the <span>RLC</span>&nbsp;file.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>It is recommended that the <strong>Stop All</strong> option for routes and communication points should be selected and that you do NOT select to overwrite the existing configuration.</p>
+         </div>
+        </div></li>
+       <li>Once the upload of the new routes has completed, double check the route and make any changes to the uploaded property files. Double check again that all is correctly configured.</li>
+       <li>Start the Output communication points first, followed by the routes then the Input components.</li>
+       <li>Monitor and check using the Management Console.</li>
+      </ol>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

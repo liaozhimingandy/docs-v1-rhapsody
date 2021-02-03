@@ -1,0 +1,651 @@
+<html>
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/datatable.css" />
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/dragdrop/dragdrop-min.js"></script>
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datasource/datasource-min.js"></script>
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/event-delegate/event-delegate-min.js"></script>
+	<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datatable/datatable-min.js"></script>
+	<script src="http://yui.yahooapis.com/3.5.1/build/yui/yui-min.js"></script>
+	
+	<link rel=StyleSheet href="http://woki/download/attachments/192023667/style.css" type="text/css" media=screen>
+	
+    <head><title>Test Template</title></head>
+    <body class="yui-skin-sam">
+	
+	<div id="container-of-containers">
+		<div class="container">
+			<span class="label"><a href="http://woki/display/dev/Rhapsody+Memory+Usage#RhapsodyMemoryUsage">Memory (Available)</a></span>
+			<div id="table-container">
+				<div class="table" id="memory-table"></div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<span class="label">Memory (Used)</span>
+			<div id="table-container">
+				<div class="table" id="memory-used-table"></div>
+			</div>
+		</div>
+		
+		<div id="image-upright-4" class="upright hidden"><img src="upright.png"></div>
+		<div id="image4" class="image hidden"><img src="500bar.png"></div>
+		<div class="container">
+			<span class="label">
+				<a href="http://woki/display/dev/Rhapsody+Memory+Usage#RhapsodyMemoryUsage-JVMProcessHeapStructure%3A">JVM Process Heap</a> <input type="checkbox" id="jvm-check"/></span>
+			<div id="table-container">
+				<div class="hidden table" id="jvm-table"></div>
+			</div>
+		</div>
+		
+		<div id="image-upright-3" class="upright hidden"><img src="upright.png"></div>
+		<div id="image3" class="image hidden"><img src="500bar.png"></div>
+		<div class="container">
+			<span class="label"><a href="http://woki/display/dev/Rhapsody+Memory+Usage#RhapsodyMemoryUsage-JavaHeapstructure%3A">Java Heap</a> <input type="checkbox" id="java-check"/></span>
+			<div id="table-container">
+				<div class="hidden table" id="java-table"></div>
+			</div>
+		</div>
+		
+		<div id="image1" class="image hidden"><img src="250bar.png"></div>
+		<div id="image2" class="image hidden"><img src="250bar.png"></div>
+		<div class="container">
+			<span class="label">Young and Old Generation <input type="checkbox" id="young-check"/></span>
+			
+			<div id="table-container">
+				<div class="hidden table" id="gen-table"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container" id="input-container">
+		<div id="physical-mem-container">
+			<span class="input-label label"> Physical Memory </span><span><input class="input" id="physical-mem" type="text" value="8.00"/> GB</span>
+		</div>
+		<div id="virtual-mem-container">
+			<span class="input-label label"> Virtual Memory </span><span><input class="input" id="virtual-mem" type="text" value="4.00"/> GB</span>
+		</div>
+		<div id="other-jvm-container">
+			<span class="input-label label"> Other JVMs </span><span><input class="input" id="other-jvm" type="text" value="0.00"/> GB</span>
+		</div>
+		<div id="other-os-container">
+			<span class="input-label label"> OS and Other Applications </span><span><input class="input" id="other-os" type="text" value="2.00"/> GB</span>
+		</div>
+		<div id="java-heap-container">
+			<span class="input-label label">
+				<a href="http://woki/display/dev/Rhapsody+Memory+Usage#RhapsodyMemoryUsage-JavaHeapsize">Max Java Heap</a> 
+			</span><span><input class="input" id="java-heap" type="text" value="1.00"/> GB</span>
+		</div>
+		<div id="perm-mem-container">
+			<span class="input-label label"> 
+				<a href="http://woki/display/dev/Rhapsody+Memory+Usage#RhapsodyMemoryUsage-PermanentGenerationSpace">Max PermGen Memory</a> 
+			</span><span><input class="input" id="perm-mem" type="text" value="0.128"/> GB</span>
+		</div>
+		<div id="threads-stack-container">
+			<span class="input-label label"> 
+				<a href="http://woki/display/dev/Rhapsody+Memory+Usage#RhapsodyMemoryUsage-Stacksize">Number of Threads Rhapsody</a>
+			</span><span><input class="input" id="thread-stack" type="text" value="30.00"/></span>
+		</div>
+		<div id="rhap-mem-usage-container" class="read">
+			<span class="input-label label">  
+				<a href="http://woki/display/dev/Rhapsody+Memory+Usage#RhapsodyMemoryUsage-RhapsodyMemoryUsage">Rhapsody Memory Usage</a>  
+			</span><span><input class="input" id="rhap-mem-usage" type="text" value="0.00"/></span>
+		</div>
+	</div>
+	<div class="container" id="input-container">
+		<div class="read" id="virtual-mem-container">
+			<span class="input-label label second-label"> Rhapsody JVM </span><span id="rhap-mem" >0.00</span><span> GB</span>
+		</div>
+		<div id="other-container" class="read">
+			<span class="input-label label second-label"> I/O Cache </span><span id="io-cache" >0.00</span><span> GB</span>
+		</div>
+		<div id="threads-size-container" class="read">
+			<span class="input-label label second-label"> Thread Stack (1MB per thread) </span><span id="generated-thread-value" >0.00</span><span> GB</span>
+		</div>
+		<div id="mis-size-container" class="read">
+			<span class="input-label label second-label"> Miscellaneaous </span><span id="mis-value" >0.00</span><span> GB</span>
+		</div>
+		<div id="eden-space-container" class="read">
+			<span class="input-label label second-label"> Eden Space </span><span id="eden-space" />0.00</span><span> GB</span>
+		</div>
+		<div id="survivor-space-container" class="read">
+			<span class="input-label label second-label"> Survivor Space </span><span id="survivor-space" />0.00</span><span> GB</span>
+		</div>
+		<div id="tenured-space-container" class="read">
+			<span class="input-label label second-label"> Tenured Space </span><span id="tenured-space" />0.00</span><span> GB</span>
+		</div>
+	</div>
+	
+	<div id="results-container">
+		<textarea id="errors" rows = "10" cols ="50" readonly > Error warnings:</textarea>
+		<div id="link-area">
+			<a href="http://woki/display/dev/Diagnosing+Rhapsody+Restarts">Click here for more information on Garbage Collection Errors</a>
+		</div>
+	</div>
+		
+	<script type="text/javascript">
+	YAHOO.util.Event.addListener(window, "load", function() { 
+		YUI().use('node', function (Y) {
+	
+			//global variables
+			var TOTAL_TABLE_WIDTH = 500;
+			var THREAD_SIZE =  0.001;
+			var physical_mem = 0;
+			var virtual_mem = 0;
+			var rhapsody_jvm = 0;
+			var other_jvm = 0;
+			var other_os = 0;
+			var io_cache = 0;
+			var java_heap = 0;
+			var perm_mem = 0;
+			var thread_num = 0;
+			var thread_stack = 0;
+			var mis_value = 0.1;
+			var eden_space = 0;
+			var survivor_space = 0;
+			var tenured_space = 0;
+			
+			/** Initialisation of the diagram*/
+			 _updateValues()
+			_generateMemoryAvailableTable();
+			_generateMemoryUsedTable();
+			_generateErrors();
+			
+			/** Listen on input box changes */
+			Y.all(".input").on('change', function(e) {
+				_updateValues()
+				_generateMemoryUsedTable();
+				_generateMemoryAvailableTable();
+				_generateErrors();
+				_updateJavaUpright();
+				_updateRhapUpright();
+			});
+			
+			/** Listen on checkboxes */
+			Y.one("#jvm-check").on('change', function(e) {
+				if( Y.one("#jvm-check").get('checked')){
+					_generateJvmTable();
+					Y.one("#image4").removeClass("hidden");
+					Y.one("#image-upright-4").removeClass("hidden");
+					_updateRhapUpright()
+					if(Y.one("#java-check").get('checked')){
+						Y.one("#image3").removeClass("hidden");
+						Y.one("#image-upright-3").removeClass("hidden");
+						_updateJavaUpright();
+					}
+				} else {
+					Y.one("#jvm-table").addClass('hidden');
+					Y.one("#image3").addClass("hidden");
+					Y.one("#image-upright-3").addClass("hidden");
+					Y.one("#image4").addClass("hidden");
+					Y.one("#image-upright-4").addClass("hidden");
+				}
+			});
+			Y.one("#java-check").on('change', function(e) {
+				if( Y.one("#java-check").get('checked')){
+					_generateJavaTable();
+					if(Y.one("#young-check").get('checked')){
+						Y.one("#image1").removeClass("hidden");
+						Y.one("#image2").removeClass("hidden");
+					}
+					if(Y.one("#jvm-check").get('checked')){
+						Y.one("#image3").removeClass("hidden");
+						Y.one("#image-upright-3").removeClass("hidden");
+						_updateJavaUpright();
+					}
+				} else {
+					Y.one("#java-table").addClass('hidden');
+					Y.one("#image1").addClass("hidden");
+					Y.one("#image2").addClass("hidden");
+					Y.one("#image3").addClass("hidden");
+					Y.one("#image-upright-3").addClass("hidden");
+				}
+			});
+			Y.one("#young-check").on('change', function(e) {
+				if( Y.one("#young-check").get('checked')){
+					_generateGenerationTable();
+					if(Y.one("#java-check").get('checked')){
+						Y.one("#image1").removeClass("hidden");
+						Y.one("#image2").removeClass("hidden");
+					}
+				} else {
+					Y.one("#gen-table").addClass('hidden');
+					Y.one("#image1").addClass("hidden");
+					Y.one("#image2").addClass("hidden");
+				}
+			});
+			
+			function _updateRhapUpright(){
+				
+				if(io_cache > 0){
+					var sum = rhapsody_jvm + other_jvm + other_os + io_cache;
+				} else {
+					var sum = rhapsody_jvm + other_jvm + other_os;
+				};
+				
+				var rhapsody_jvm_size = (rhapsody_jvm/sum) * TOTAL_TABLE_WIDTH;
+				
+				Y.one("#image-upright-4").setAttribute('style', "margin-left: " + (rhapsody_jvm_size/2).toString() + "px;");
+			}
+			
+			function _updateJavaUpright(){
+				
+				var sum = rhapsody_jvm;
+				
+				var java_heap_size = (java_heap/sum) * TOTAL_TABLE_WIDTH;
+				
+				Y.one("#image-upright-3").setAttribute('style', "margin-left: " + (java_heap_size/2).toString() + "px;");
+			}
+			
+			function _updateValues() {
+				Y.one("#physical-mem").get('value') != 0 ? physical_mem = parseFloat(Y.one("#physical-mem").get('value')) : physical_mem = 0;
+				Y.one("#virtual-mem").get('value') != 0 ? virtual_mem = parseFloat(Y.one("#virtual-mem").get('value')) : virtual_mem = 0;
+				Y.one("#other-jvm").get('value') != 0 ? other_jvm = parseFloat(Y.one("#other-jvm").get('value')) : other_jvm = 0;
+				Y.one("#other-os").get('value') != 0 ? other_os = parseFloat(Y.one("#other-os").get('value')) : other_os = 0;
+				Y.one("#java-heap").get('value') != 0 ? java_heap = parseFloat(Y.one("#java-heap").get('value')) : java_heap = 0;
+				Y.one("#perm-mem").get('value') != 0 ? perm_mem = parseFloat(Y.one("#perm-mem").get('value')) : perm_mem = 0;
+				Y.one("#thread-stack").get('value') != 0 ? thread_num = parseFloat(Y.one("#thread-stack").get('value')) : thread_num = 0;
+				//calculations
+				thread_stack = thread_num * THREAD_SIZE;
+				rhapsody_jvm = java_heap + perm_mem + parseFloat(thread_stack) + parseFloat(mis_value);
+				io_cache = (physical_mem + virtual_mem) - (rhapsody_jvm + other_jvm + other_os);
+				io_cache > 0 ? io_cache = io_cache: io_cache = 0;
+				eden_space = (java_heap/4);
+				survivor_space = (java_heap/4);
+				tenured_space = (java_heap/2);
+				//set read only
+				Y.one("#generated-thread-value").set('text', thread_stack.toFixed(2));
+				Y.one("#rhap-mem").set('text', rhapsody_jvm.toFixed(2));
+				Y.one("#io-cache").set('text', io_cache.toFixed(2));
+				Y.one("#eden-space").set('text', eden_space.toFixed(2));
+				Y.one("#survivor-space").set('text', survivor_space.toFixed(2));
+				Y.one("#tenured-space").set('text', tenured_space.toFixed(2));
+			}
+			
+			function _writeOutChanges(){
+				Y.one("#physical-mem").set('value', physical_mem.toFixed(2));
+				Y.one("#virtual-mem").set('value', virtual_mem.toFixed(2));
+				Y.one("#other-jvm").set('value', other_jvm.toFixed(2));
+				Y.one("#other-os").set('value', other_os.toFixed(2));
+				Y.one("#java-heap").set('value', java_heap.toFixed(2));
+				Y.one("#perm-mem").set('value', perm_mem.toFixed(2));
+				Y.one("#thread-stack").set('value', thread_num.toFixed(2));
+				//calculations
+				thread_stack = thread_num * 0.001;
+				rhapsody_jvm = java_heap + perm_mem + parseFloat(thread_stack) + parseFloat(mis_value);
+				io_cache = (physical_mem + virtual_mem) - (rhapsody_jvm + other_jvm + other_os);
+				io_cache > 0 ? io_cache = io_cache: io_cache = 0;
+				eden_space = (java_heap/4);
+				survivor_space = (java_heap/4);
+				tenured_space = (java_heap/2);
+
+				//set read only
+				Y.one("#mis-value").set('text', mis_value.toFixed(2));
+				Y.one("#generated-thread-value").set('text', thread_stack.toFixed(2));
+				Y.one("#rhap-mem").set('text', rhapsody_jvm.toFixed(2));
+				Y.one("#io-cache").set('text', io_cache.toFixed(2));
+				Y.one("#eden-space").set('text', (java_heap/4).toFixed(2));
+				Y.one("#survivor-space").set('text', (java_heap/4).toFixed(2));
+				Y.one("#tenured-space").set('text', (java_heap/2).toFixed(2));
+			}
+			
+			/** Calculate the widths of each section in the memory available table*/
+			function _generateMemoryAvailableTable(){
+				_updateValues();
+				var sum = physical_mem + virtual_mem;
+				if(sum == 0){
+					_createTable("memory-table", 0, 0, 0, 0);
+					return;
+				}
+				var physical_table_size = (physical_mem/sum) * TOTAL_TABLE_WIDTH;
+				var virtual_table_size = (virtual_mem/sum) * TOTAL_TABLE_WIDTH;
+				_createTable("memory-table", physical_table_size, virtual_table_size, 0, 0);
+			}
+			
+			/** Calculate the widths of each section in the memory used table*/
+			function _generateMemoryUsedTable() {
+				_updateValues();
+				if(io_cache > 0){
+					var sum = rhapsody_jvm + other_jvm + other_os + io_cache;
+				} else {
+					var sum = rhapsody_jvm + other_jvm + other_os;
+				};
+				if(sum == 0){
+					_createTable("memory-used-table", 0, 0, 0, 0);
+					return;
+				}
+				var rhapsody_jvm_size = (rhapsody_jvm/sum) * TOTAL_TABLE_WIDTH;
+				var other_jvm_size = (other_jvm/sum) * TOTAL_TABLE_WIDTH;
+				var other_os_size = (other_os/sum) * TOTAL_TABLE_WIDTH;
+				if(io_cache > 0){
+					var io_cache_size = (io_cache/sum) * TOTAL_TABLE_WIDTH;
+				}else {
+					var io_cache_size = 0;
+				}
+				_createTable("memory-used-table", rhapsody_jvm_size, other_jvm_size, other_os_size, io_cache_size);
+			}
+			
+			/** Calculate the widths of each section in the jvm table*/
+			function _generateJvmTable() {
+				if( Y.one("#jvm-check").get('checked')){
+					_updateValues();
+					var sum = rhapsody_jvm;
+					if(sum == 0){
+						_createTable("jvm-table", 0, 0, 0, 0);
+						return;
+					}
+					var java_heap_size = (java_heap/sum) * TOTAL_TABLE_WIDTH;	
+					var perm_mem_size = (perm_mem/sum) * TOTAL_TABLE_WIDTH;
+					var thread_stack_size = (thread_stack/sum) * TOTAL_TABLE_WIDTH;
+					var mis_value_size = (mis_value/sum) * TOTAL_TABLE_WIDTH;
+					
+					Y.one("#jvm-table").removeClass('hidden');
+					_createTable("jvm-table", java_heap_size, perm_mem_size, thread_stack_size, mis_value_size);
+				}
+			}
+			
+			/** Calculate the widths of each section in the java table*/
+			function _generateJavaTable() {
+				if( Y.one("#java-check").get('checked')){
+					_updateValues();
+					var sum = eden_space + survivor_space + tenured_space;
+					if(sum == 0){
+						_createTable("java-table", 0, 0, 0, 0);
+						return;
+					}
+					var eden_space_size = (eden_space/sum) * TOTAL_TABLE_WIDTH;
+					var survivor_space_size = (survivor_space/sum) * TOTAL_TABLE_WIDTH;
+					var tenured_space_size = (tenured_space/sum) * TOTAL_TABLE_WIDTH;
+					Y.one("#java-table").removeClass('hidden');
+					_createTable("java-table", (eden_space_size + survivor_space_size), tenured_space_size, 0, 0);
+				}
+			}
+			
+			/** Calculate the widths of each section in the generation table*/
+			function _generateGenerationTable() {
+				if( Y.one("#young-check").get('checked')){
+					_updateValues();
+					var sum = eden_space + survivor_space + tenured_space; 
+					if(sum == 0){
+						_createTable("memory-used-table", 0, 0, 0, 0);
+						return;
+					}
+					var eden_space_size = (eden_space/sum) * TOTAL_TABLE_WIDTH;
+					var survivor_space_size = (survivor_space/sum) * TOTAL_TABLE_WIDTH;
+					var tenured_space_size = (tenured_space/sum) * TOTAL_TABLE_WIDTH;
+					Y.one("#gen-table").removeClass('hidden');
+					_createTable("gen-table", eden_space_size, survivor_space_size, tenured_space_size, 0);
+				}
+			}
+		
+			/** Redraw the diagram with the given widths.*/
+			function _createTable(tableName, width_a, width_b, width_c, width_d) {
+				//any width of 0 set to 1 px;
+				if(width_a < 1){
+					width_a = 1;
+				}
+				if(width_b < 1){
+					width_b = 1;
+				}
+				if(width_c < 1){
+					width_c = 1;
+				}
+				if(width_d < 1){
+					width_d = 1;
+				} 
+			
+				//determine which column set we need to use
+				if(tableName == 'memory-table'){
+					var columns = [	{key:'1', label:"Physical Memory",  width: width_a, resizeable: true }, 
+								{key:'2', label:"Virtual Memory", width: width_b, resizeable: true}];
+				} else if (tableName == 'memory-used-table') {
+					var columns = [	{key:'1', label:"Rhapsody JVM",  width: width_a, resizeable: true}, 
+							{key:'2', label:"Other JVMs", width: width_b, resizeable: true}, 
+							{key:'3', label:"Other Applications", width: width_c, resizeable: true},
+							{key:'4', label:"I/O Cache", width: width_d}];
+				} else if (tableName == 'jvm-table') {
+					var columns = [	{key:'1', label:"Java Heap",  width: width_a, resizeable: true}, 
+								{key:'2', label:"PremGem Memory", width: width_b, resizeable: true}, 
+								{key:'3', label:"Thread Stack", width: width_c, resizeable: true },
+								{key:'4', label:"Miscellaneaous", width: width_d, resizeable: true}];
+				} else if (tableName == 'java-table') {
+					var columns = [	{key:'1', label:"Young Generation",  width: width_a }, 
+								{key:'2', label:"Old Generation", width: width_b}];
+				} else if (tableName == 'gen-table') {
+					var columns = [	{key:'1', label:"Eden Space",  width: width_a }, 
+								{key:'2', label:"Survivor Space", width: width_b}, 
+								{key:'3', label:"Tenured Space", width: width_c}];
+				}
+				
+				var data = [{1:"", 2:"", 3:"", 4:""}];
+				
+				var myDataSource = new YAHOO.util.DataSource(data); 
+				myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY; 
+				myDataSource.responseSchema = { 
+					fields: ["1","2","3","4"] 
+				};
+				
+				var table = new YAHOO.widget.DataTable(tableName, 
+				columns, myDataSource);
+				
+				/** Listen on column resize */
+				table.subscribe("columnResizeEvent", function(e){
+					_recaculateTable(e, tableName);
+				});
+			}
+			
+			
+			function _recaculateTable(e, tableName) {
+				if(tableName == 'memory-table'){
+					_reCalculateMemoryAvailableTable(e);
+				} else if (tableName == 'memory-used-table') {
+					_reCalculateMemoryUsedTable(e);
+				} else if (tableName == 'jvm-table') {
+					_reCalculateJvmTable(e);
+				}
+				
+				_generateErrors();
+			}
+
+			function _reCalculateMemoryAvailableTable(e) {
+				var newWidth = e.width;
+				var totalWidth = Y.one("#memory-table table").get('clientWidth');
+				if(totalWidth < TOTAL_TABLE_WIDTH){
+					totalWidth = TOTAL_TABLE_WIDTH;
+				}
+				var percentageSize = (newWidth/totalWidth) * 100;
+				var allOtherPercentage = 100 - percentageSize;
+				
+				var sum = physical_mem + virtual_mem;
+				if(e.column.key == '1'){
+					var othersSum = sum - physical_mem;
+				} else if(e.column.key == '2'){
+					var othersSum = sum - virtual_mem;
+				}
+				
+				var scale = allOtherPercentage/othersSum;
+				var newValue = percentageSize/scale;
+				//resize table back to TOTAL_TABLE_WIDTH
+				var physical_table_size = (physical_mem/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				var virtual_table_size = (virtual_mem/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				
+				//update text box values and table column widths.
+				if(e.column.key == '1'){
+					physical_mem = newValue;
+					physical_table_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				} else if(e.column.key == '2'){
+					physical_mem = newValue;
+					virtual_table_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				}
+				_writeOutChanges();
+				//redraw table
+				_createTable("memory-table", physical_table_size, virtual_table_size, 0, 0);
+			}
+			
+			function _reCalculateMemoryUsedTable(e){
+				var newWidth = e.width;
+				var totalWidth = Y.one("#memory-used-table table").get('clientWidth');
+				if(totalWidth < TOTAL_TABLE_WIDTH){
+					totalWidth = TOTAL_TABLE_WIDTH;
+				}
+				var percentageSize = (newWidth/totalWidth) * 100;
+				var allOtherPercentage = 100 - percentageSize;
+				
+				if(io_cache > 0){
+					var sum = rhapsody_jvm + other_jvm + other_os + io_cache;
+				} else {
+					var sum = rhapsody_jvm + other_jvm + other_os;
+				};
+				
+				if(e.column.key == '1'){
+					var othersSum = sum - rhapsody_jvm;
+				} else if(e.column.key == '2'){
+					var othersSum = sum - other_jvm;
+				} else if(e.column.key == '3'){
+					var othersSum = sum - other_os;
+				} else if(e.column.key == '4'){
+					var othersSum = sum - io_cache;
+				}
+				
+				var scale = allOtherPercentage/othersSum;
+				var newValue = percentageSize/scale;
+				//resize table back to TOTAL_TABLE_WIDTH
+				var rhapsody_jvm_size = (rhapsody_jvm/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				var other_jvm_table_size = (other_jvm/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				var other_os_table_size = (other_os/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				if(io_cache > 0){
+					var io_cache_table_size = (io_cache/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				} else {
+					var io_cache_table_size = 0;
+				}
+				
+				//update text box values and table column widths.
+				if(e.column.key == '1'){
+					java_heap = ((newValue - rhapsody_jvm) * 0.7) + parseFloat(Y.one("#java-heap").get('value'));
+					if(java_heap < 0){
+						java_heap = 0;
+					}
+					perm_mem = ((newValue - rhapsody_jvm) * 0.1) + parseFloat(Y.one("#perm-mem").get('value'));
+					if(perm_mem < 0){
+						perm_mem = 0;
+					}
+					mis_value = ((newValue - rhapsody_jvm) * 0.1) + parseFloat(Y.one("#mis-value").get('text'));
+					if(mis_value < 0){
+						mis_value = 0;
+					}
+					rhapsody_jvm = newValue;
+					rhapsody_jvm_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				} else if(e.column.key == '2'){
+					other_jvm = newValue;
+					other_jvm_table_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				} else if(e.column.key == '3'){
+					other_os = newValue;
+					other_os_table_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				} else if(e.column.key == '4'){
+					io_cache = newValue;
+					io_cache_table_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				}
+				_writeOutChanges();
+				_updateRhapUpright();
+				_updateJavaUpright();
+				//redraw table
+				_createTable("memory-used-table", rhapsody_jvm_size, other_jvm_table_size, other_os_table_size, io_cache_table_size);
+				_generateJavaTable();
+				_generateJvmTable();
+			}
+			
+			function _reCalculateJvmTable(e){
+				var newWidth = e.width;
+				var totalWidth = Y.one("#jvm-table table").get('clientWidth');
+				if(totalWidth < TOTAL_TABLE_WIDTH){
+					totalWidth = TOTAL_TABLE_WIDTH;
+				}
+				var percentageSize = (newWidth/totalWidth) * 100;
+				var allOtherPercentage = 100 - percentageSize;
+				
+				var sum = rhapsody_jvm;
+				if(e.column.key == '1'){
+					var othersSum = sum - java_heap;
+				} else if(e.column.key == '2'){
+					var othersSum = sum - perm_mem;
+				} else if(e.column.key == '3'){
+					var othersSum = sum - thread_stack;
+				} else if(e.column.key == '4'){
+					var othersSum = sum - mis_value;
+				}
+				
+				var scale = allOtherPercentage/othersSum;
+				var newValue = percentageSize/scale;
+				//resize table back to TOTAL_TABLE_WIDTH
+				var java_heap_size = (java_heap/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				var perm_mem_size = (perm_mem/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				var thread_stack_size = (thread_stack/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				var mis_value_size = (mis_value/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				
+				//update text box values and table column widths.
+				if(e.column.key == '1'){
+					//update young and old generation
+					eden_space = ((newValue- java_heap) * 0.15) + parseFloat(Y.one("#eden-space").get('text'));
+					if(eden_space < 0){
+						eden_space = 0;
+					}
+					survivor_space = ((newValue- java_heap) * 0.15) + parseFloat(Y.one("#survivor-space").get('text'));
+					if(survivor_space < 0){
+						survivor_space = 0;
+					}
+					tenured_space = ((newValue- java_heap) * 0.7) + parseFloat(Y.one("#tenured-space").get('text'));
+					if(tenured_space < 0){
+						tenured_space = 0;
+					}
+					java_heap = newValue;
+					java_heap_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				} else if(e.column.key == '2'){
+					perm_mem = newValue;
+					perm_mem_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				} else if(e.column.key == '3'){
+					thread_num = newValue/THREAD_SIZE;
+					thread_stack = newValue;
+					thread_stack_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				} else if(e.column.key == '4'){
+					mis_value = newValue;
+					mis_value_size = (newValue/(othersSum+newValue)) * TOTAL_TABLE_WIDTH;
+				}
+				_writeOutChanges();
+				_updateJavaUpright();
+				_updateRhapUpright();
+				//redraw table
+				_createTable("jvm-table", java_heap_size, perm_mem_size, thread_stack_size, mis_value_size);
+				_generateJavaTable();
+				_generateMemoryUsedTable();
+			}
+		
+			function _generateErrors() {
+				var errorString = "";
+				
+				if(physical_mem < (rhapsody_jvm + other_jvm + other_os)){
+					errorString = errorString + "        Timeout Warning 1: 'JVM appears hung: \n	Timed out waiting for signal from JVM' \nAs the JVM and other processes require more physical memory than is available this could result in a large number of I/O swaps which could cause the GC to exceed the timeout period.\n\n";
+				}
+				if(java_heap > (parseFloat(Y.one("#rhap-mem-usage").get('value')) * 2)){
+					errorString = errorString + "	Timeout Warning 2: 'Potential Timeouts' \nExceedingly large max java heap space for given Rhapsody Memory Usage. Could result in a large heap to be cleared by the GC which may take longer than the given timeout period.\n\n";
+				}
+				if(parseFloat(Y.one("#rhap-mem-usage").get('value')) > (0.8 * java_heap)) {
+					errorString = errorString + "	Out Of Memory Warning 1: 'java.lang.\n	OutOfMemoryError: GC overhead limit exceeded'\nThe Garbage Collector is spending too much time trying to free memory and not freeing enough memory each garbage cycle\n\n";
+					errorString = errorString + "	Out Of Memory Warning 2: 'java.lang.\n	OutOfMemoryError: Java heap space'\n\n";
+				}
+				if((physical_mem + virtual_mem) < (rhapsody_jvm + other_jvm + other_os)) {
+					errorString = errorString + "	Out Of Memory Warning 3: 'java.lang.\n	OutOfMemoryError: requested 32744 bytes for\n	ChunkPool::allocate' Out of swap space?'\n\n";
+				}
+				if(perm_mem < 0.128) {
+					errorString = errorString + "	Out Of Memory Warning 4: 'java.lang.\n	OutOfMemoryError: PermGen space'\n\n";
+				}
+				Y.one("#errors").set('value', errorString);
+			
+			}
+
+		});
+	});
+	</script>
+	
+	
+    </body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Custom Commands</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Custom Commands</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Custom command configuration properties allow the user to execute custom FTP or SFTP commands immediately before sending or receiving a message, or immediately after sending or receiving a message:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Configuration Property
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Before Send Commands</td>
+          <td class="confluenceTd">A list of custom commands and associated <span><a href="#CustomCommands-OnErrorAction">error handling actions</a></span> sent to the FTP / FTPS / SFTP server immediately prior to uploading a file. The commands are executed in the directory that will contain the uploaded file, and are executed in the order defined in the configuration. If an error occurs and the error action is not <em>Ignore</em> then the communication point aborts the upload.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">After Send Commands</td>
+          <td colspan="1" class="confluenceTd"><span>A list of custom commands and associated <a href="#CustomCommands-OnErrorAction">error handling actions</a> sent to the FTP / FTPS / SFTP server immediately after uploading a file. The commands are executed in the directory that contains the uploaded file, and are executed in the order defined in the configuration. If an error occurs and the error action is not <em>Ignore</em> then the communication point attempts to delete the uploaded file.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Before Receive Commands</td>
+          <td colspan="1" class="confluenceTd"><span>A list of custom commands and associated <span><a href="#CustomCommands-OnErrorAction">error handling actions</a></span> sent to the FTP / FTPS / SFTP server immediately prior to downloading a file. The commands are executed in the directory that contains the target file, and are executed in the order defined in the configuration. If an error occurs and the error action is not <em>Ignore</em> then the communication point aborts the download. However, if the <span><span class="confluence-link">error action</span></span> is not <em>Blacklist File</em> then it is likely to attempt to download the same file again shortly afterward.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">After Receive Commands</td>
+          <td colspan="1" class="confluenceTd"><span>A list of custom commands and associated <span><a href="#CustomCommands-OnErrorAction">error handling actions</a></span> sent to the FTP / FTPS / SFTP server immediately after downloading a file. The commands are executed in the directory that contains the downloaded file, and are executed in the order defined in the configuration. If an error occurs and the error action is not </span><em>Ignore</em><span> then the communication point aborts the download. However, if the <span class="confluence-link">error action</span> is not </span><em>Blacklist File</em><span> then it is likely to attempt to download the same file again shortly afterward.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>These commands are sent verbatim to the server (with the exception of the <a href="#CustomCommands-VariableReplacement">variable replacement</a>) and are composed of the following components:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#CustomCommands-Command">Command</a></td>
+          <td class="confluenceTd">The custom command and its arguments.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="#CustomCommands-OnErrorAction">On Error Action</a></p></td>
+          <td class="confluenceTd">The error action.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162397/133162399.png" data-image-src="attachments/133162397/133162399.png" data-unresolved-comment-count="0" data-linked-resource-id="133162399" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="BeforeReceiveCmd.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162397" data-linked-resource-container-version="1"></span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162397/133162398.png" data-image-src="attachments/133162397/133162398.png" data-unresolved-comment-count="0" data-linked-resource-id="133162398" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="BeforeSendCmd.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162397" data-linked-resource-container-version="1"></span></p>
+      <h2 id="CustomCommands-Command">Command</h2>
+      <p>Custom commands are site-specific. Therefore, determining which commands are available requires consulting the&nbsp;appropriate documentation of the FTP / FTPS / SFTP server in use.</p>
+      <h3 id="CustomCommands-SITECommand">SITE Command</h3>
+      <p>FTP has a special <code>SITE</code> command that is normally used to prefix custom commands supported by the FTP server. If one of these commands is required then the command must be prefixed with <code>SITE</code> in order for it to be sent correctly. For example, the Apache FTP Server supports a custom command to display user details which would be invoked by configuring a custom command of <code>SITE DESCUSER</code>. This differs from the obsolete FTP communication point where all custom commands were automatically prefixed with <code>SITE</code> by the communication point, and so consequently meant that non-<code>SITE</code> commands could not be executed using this mechanism.</p>
+      <h3 id="CustomCommands-VariableReplacement">Variable Replacement</h3>
+      <p>There are two special variables that can be contained within custom commands:</p>
+      <ul>
+       <li><code>%directory%</code> - replaced with the directory path of the file being uploaded or downloaded.</li>
+       <li><code>%filename%</code> - replaced with the name of the file being uploaded or downloaded.</li>
+      </ul>
+      <p>The filename is the actual name of the file being uploaded or downloaded, therefore if temporary files are being used for uploads, this becomes the name of the temporary file.</p>
+      <h2 id="CustomCommands-OnErrorAction">On Error Action</h2>
+      <p>Custom commands sent to an FTP(S) server are treated as successful if the FTP server returns a code of 1xx, 2xx, or 3xx. The command is considered to have failed if any other type of response is received.</p>
+      <p>Custom commands sent to an SFTP server are different as the server does not return the same sort of error code. Consequently, custom commands on an SFTP server are treated as failed if the server reports an error to the client while invoking it, or if the command writes to standard error.</p>
+      <p>For every custom command, you must configure an error handling mode that determines how the communication point should handle errors:</p>
+      <ul>
+       <li><em>Ignore </em>- the error is logged but ignored so processing continues normally.</li>
+       <li><em>Treat as Connection Error </em>- the error is treated as a connection error and so the normal connection retry functionality takes effect.</li>
+       <li><em>Send to Error Queue </em>- the outgoing message is sent directly to the Rhapsody error queue. This option is only available for Before Send Commands and After Send Commands.</li>
+       <li><em>Blacklist File </em>- the incoming message is blacklisted (ignored) temporarily as though it failed to download. This option is only available for Before Receive Commands and After Receive Commands. Blacklisting is only temporary and the file is tried again later.</li>
+      </ul>
+      <p>If connection is lost to the FTP / FTPS / SFTP server while executing a custom command, the dropped connection is always treated as a connection error regardless of which option was selected.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

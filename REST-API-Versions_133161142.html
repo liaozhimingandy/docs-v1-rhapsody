@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>REST API Versions</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">REST API Versions</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section provides details about the versioning of the Rhapsody REST API. It includes examples of how to call the most recent version of a REST API method and how to call a previous version.</p>
+      <h2 id="RESTAPIVersions-RESTAPIVersioning">REST API Versioning</h2>
+      <p>The Rhapsody REST API has been versioned as of Rhapsody 6.0 in order to provided backwards compatibility of the REST API methods should they be required in the future. Versioning has been added by including the version information in the Internet Media Type. The version number is of the form <code>major_minor</code> (for example, <code>6_0</code>) and represents the response format version at the time the a REST API method was introduced. If there are no format changes, the REST API version remains the same unless the API has also changed.</p>
+      <p>The caller specifies the Media Type in the Accept field of the Request Header to specify the format they want to receive the data in, for example:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Accept: application/vnd.orchestral.rhapsody.6_0+json
+</pre> 
+       </div>
+      </div>
+      <p>The REST API methods with the return type of HTML or those which return a single number value have not been versioned. It is bad practice to depend on results returned in HTML format. Instead, the REST API method which returns JSON format should be used if further processing of the results is required.</p>
+      <h2 id="RESTAPIVersions-CallingaVersionedRESTAPIMethod">Calling a Versioned REST API Method</h2>
+      <p>To call the current and most recent version of a REST API method omit the version information from the request, for example:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Accept: application/json
+</pre> 
+       </div>
+      </div>
+      <p>To call a specific version of a REST API method, include the version information in the Accept and Content-Type headers of the request where applicable, for example:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Accept: application/vnd.orchestral.rhapsody.6_0+json
+</pre> 
+       </div>
+      </div>
+      <p>For documentation regarding previous versions of REST API methods, refer to the relevant product documentation for that Rhapsody version.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

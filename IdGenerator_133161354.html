@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>IdGenerator</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="RDK-Reference_133161352.html">RDK Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">IdGenerator</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p> </p>
+      <h2 id="IdGenerator-IdGenerator">IdGenerator</h2>
+      <p class="p1">The IdGenerator&nbsp;generates identifiers according to the generator type, and are created by the IdGeneratorFactory.&nbsp;Generated identifiers are always unique across the cluster, and are persisted across&nbsp;<span class="s2">Rhapsody</span> restarts.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>String getName()</code></p></td>
+          <td class="confluenceTd"><p class="p1">Retrieves the name of the identifier.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>IdGeneratorType getType()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1"><span class="s1">Retrieves</span> the identifier type.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code><span class="s1">long</span> nextId()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1"><span class="s1">Generates and returns the next identifier for this generator. The generated identifier is guaranteed to be unique across the cluster, and will be persisted correctly across Rhapsody restarts. However, the generated identifiers will not necessarily be in numerical order - the ordering is determined by the generator type.</span></p><p class="p1"><span class="s1">Exceptions:<br></span></p>
+           <ul>
+            <li class="p1"><code><span class="s1">IdGeneratorException</span></code><span class="s2"> - if an error occurs allocating the next identifier.</span>&nbsp;</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code><span class="s1">long</span> getValue()</code></p></td>
+          <td colspan="1" class="confluenceTd">Retrieves the current value of this id generator without incrementing the value. This method is only provided for backwards compatibility for the JavaScript filter and its use is generally a bad idea. Instead, the <code><span class="s2">nextId()</span></code> method should be used.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code><span class="s1">void</span> reset(<span class="s1">long</span> <span class="s2">value</span>)</code></p></td>
+          <td class="confluenceTd"><p>Resets the next allocated identifier to the specified value. Note that this is not safe when generating identifiers with multiple threads or nodes simultaneously, and its use should be avoided.</p><p>Parameters:</p>
+           <ul>
+            <li><code>value </code>- the value to reset to.</li>
+           </ul><p class="p1"><span class="s1">Exceptions:<br></span></p>
+           <ul>
+            <li class="p1"><code>IdGeneratorException</code><span class="s2"> - if an error occurs allocating the next identifier.</span>&nbsp;</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="IdGenerator-IdGeneratorFactory"><span style="color: rgb(0,0,0);">IdGeneratorFactory</span></h2>
+      <p class="p1">The IdGeneratorFactory&nbsp;provides an id generation service.&nbsp; It allows multiple id generators of different types to be created, and is responsible for generating identifiers uniquely across the cluster, and persisting them across restarts of <span class="s2">Rhapsody</span>.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>IdGenerator createIdGenerator(String <span class="s1">name</span>, IdGeneratorType <span class="s1">type</span>)</code></p></td>
+          <td class="confluenceTd"><p class="p1"><span class="s1">Creates an <span>identifier</span> generator with the specified type and name. If an id generator of the specified name and type already exists, then it is returned. Otherwise, a new ID generator (starting at 0) is created.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>Set&lt;IdGenerator&gt; getIdGenerators()</code></p></td>
+          <td class="confluenceTd"><p class="p1">Gets a set of <span>identifier</span> generator created by the <span>identifier</span> generator factor.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

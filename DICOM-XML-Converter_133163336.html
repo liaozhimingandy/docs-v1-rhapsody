@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>DICOM XML Converter</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="DICOM-Filters_133163332.html">DICOM Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">DICOM XML Converter</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163336/133163337.jpg" data-image-src="attachments/133163336/133163337.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163337" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image055.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163336" data-linked-resource-container-version="12"></span></p>
+      <p>The <strong>DICOM XML Converter</strong>&nbsp;filter&nbsp;transforms a DICOM message into an XML message format and vice versa. Using this filter allows easy access to DICOM message content, to modify it or map it to another message format such as HL7.</p>
+      <p>DICOM (Digital Imaging and Communications in Medicine) is a standard designed to allow medical image files to be transferred, stored and viewed on different makes of computers. A single DICOM message contains both a header (which stores information about the patient's name, the type of scan, image dimensions, etc), as well as all of the image data (which can contain information in three dimensions).&nbsp;Refer to the&nbsp;<a href="http://medical.nema.org/" class="external-link" rel="nofollow">DICOM Standard</a>&nbsp;for details.</p>
+      <p>This filter uses the&nbsp;<a href="http://dicom.nema.org/medical/dicom/current/output/html/part19.html#chapter_A" class="external-link" rel="nofollow">Native DICOM Model</a> for its XML format.</p>
+      <p>To apply an XML stylesheet to the output XML, you can employ the <a href="XSLT-Stylesheet_133162980.html">XSLT Stylesheet</a> filter.</p>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>As of Rhapsody 6.5, the <a href="142319834.html"><span>DICOM to XML / XML</span> to DICOM</a> and <a href="DICOM-JPEG-Extraction_142319828.html">DICOM JPEG Extraction</a> filters have been discontinued and replaced by the DICOM XML Converter&nbsp;and DICOM JPEG Converter filters, respectively, that are supported on both 32-bit and 64-bit engines. If you want to use an RLC that contains the discontinued filters, you must replace them with their supported counterparts. Users should contact <a href="-Support_133163665.html">Rhapsody Support</a> to assist with the migration.</p>
+       </div>
+      </div>
+      <p></p>
+      <h2 id="DICOMXMLConverter-ConfigurationProperties"><span style="color: rgb(51,51,51);">Configuration Properties</span></h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Maximum Concurrency</td>
+          <td class="confluenceTd">The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html">Maximum Concurrency</a> for details.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Transform Mode</td>
+          <td class="confluenceTd"><p>Determines whether the filter is operating as a DICOM to XML converter or an XML to DICOM converter:</p>
+           <ul>
+            <li><code>DICOM to XML</code><span> (default).</span></li>
+            <li><code>XML to DICOM</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Include Image Data</td>
+          <td class="confluenceTd"><p>Whether to include image data in the output XML message:</p>
+           <ul>
+            <li>Enabled - the XML message includes image pixel data encoded in Base64.</li>
+            <li><span><span>Disabled</span> (default).</span></li>
+           </ul><p>This property is only available if <strong>Transform Mode</strong> is set to <code>DICOM to XML</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

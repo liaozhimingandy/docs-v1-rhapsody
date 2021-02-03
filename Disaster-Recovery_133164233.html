@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Disaster Recovery</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Deployment_133164213.html">Deployment</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Disaster Recovery</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Disaster recovery whilst related to high availability has different requirements that need to be considered when deciding on an implementation strategy. In contrast to high availability solutions which are primarily focused on increasing reliability of a system due to transient failures in hardware/software or permanent failures in components within a system, disaster recovery relates to the complete and total failure of a system generally precipitated by an external event. As such, the key requirements and constraints are as follows:</p>
+      <ul>
+       <li>The entire system needs to be recovered after a disaster in a timely manner whilst minimizing any data loss or potential for data integrity issues.</li>
+       <li>Strategies in effect to accommodate disaster recovery should not have an adverse impact (whether due to performance or data integrity) on normal business operations.</li>
+       <li>The extent of a disaster may be far ranging and may include a physical compromise to the location of the system. Therefore, the recovery systems need to be located in a remote location/data center.</li>
+       <li>Both Rhapsody configuration and data stores need to be recovered such that messages are not lost and the recovered environment matches that of the original environment.</li>
+      </ul>
+      <p>Given the requirement regarding the remote location of the backup node, this prevents any system from using a shared data store as is normally the case for Rhapsody HA configurations in an Active/Passive setup. There are effectively three techniques for disaster recovery:</p>
+      <ul>
+       <li>Set up regular Rhapsody backups (for example, every day or hour) of the Rhapsody data store including the message store and configuration. Save the backups in a remote location – these can then be restored in the event of a disaster on another Rhapsody engine.</li>
+       <li>Replicate the data store synchronously to a remote location.</li>
+       <li>Replicate the data store asynchronously to a remote location.</li>
+      </ul>
+      <p>Of these, replicating the data synchronously (in other words, inline whilst the data is being written by Rhapsody to disk) has a high impact on performance against a runtime engine. Synchronous replication has a large impact on I/O speeds within the engine as disk operations are not returned to the application layer as complete until I/O operations have been completed against all the replicas. This works best in an environment where there is a low volume of I/O operations and the operations themselves are of a critical transactional nature where message loss of any kind is unacceptable. In Rhapsody, such a configuration is generally undesired due to heavy reliance on I/O speeds to maximize message throughput – in this instance, a small amount of message loss in the event of a disaster is likely preferable to the performance impact incurred for normal operations.</p>
+      <p>A combination of full and incremental Rhapsody backups allows for recovery against a known and consistent data store and configuration state (at the time the backup was taken). However, there are disadvantages with this approach. The first is that the backups need to be managed and periodically validated to ensure that recovery is possible against the backup images. The second and more serious issue is that the potential for message loss is high – effectively, any live messages that were present at the time of a failure will likely be lost (as they will not be present in the backup). In the case where a route or communication point has experienced a failure in the lead-up to a disaster, there may be a large amount of pending messages in the live portion of the engine which will not be recovered. Furthermore, configuration changes may also be subject to loss if they were made after the last scheduled backup took place.</p>
+      <p>Asynchronous replication of the data store does not impact runtime performance as any I/O write operations complete as soon as the data is written to the primary node. Furthermore, no management is required as the replication can be configured at the disk level. Second only to synchronous replication, asynchronous replication offers the most up-to-date data in replica nodes during a failure as the replication does not occur on prescribed timed boundaries (it happens continuously in the background). However, given its asynchronous nature, data loss is possible (though likely only constrained to data in the few seconds/minutes leading up to a disaster). This is because it is possible for the primary node to fail before the I/O operations are persisted to any secondary locations. The fact that some I/O operations may not be replicated could also lead to data integrity issues as message references and indices may have been partially replicated thereby leading to an inconsistent data store.</p>
+      <p>Given the above, the general recommendation would be to employ asynchronous data replication to a remote location with the caveat that some message loss is possible and the data store may be in an inconsistent state. However, if message loss of any form is unacceptable even in a disaster, then synchronous replication should be employed acknowledging the fact that performance will be significantly impacted.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

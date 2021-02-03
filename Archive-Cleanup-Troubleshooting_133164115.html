@@ -1,0 +1,427 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Archive Cleanup Troubleshooting</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Rhapsody_133164108.html">Troubleshooting Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Examples_133164109.html">Troubleshooting Examples</a></span> </li> 
+       <li> <span><a href="Archive-Cleanup-Problems_133164114.html">Archive Cleanup Problems</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Archive Cleanup Troubleshooting</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="Textbody">The purpose of this section is to provide an approach to troubleshooting Archive Cleanup problems in Rhapsody for Rhapsody Support staff.</p>
+      <p class="Textbody"><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147032825 {padding: 0px;}
+div.rbtoc1565147032825 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147032825 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147032825"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ArchiveCleanupTroubleshooting-Overview">Overview</a></li> 
+        <li><a href="#ArchiveCleanupTroubleshooting-ArchiveCleanupProblems">Archive Cleanup Problems</a></li> 
+        <li><a href="#ArchiveCleanupTroubleshooting-ArchiveCleanupTroubleshooting">Archive Cleanup Troubleshooting</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ArchiveCleanupTroubleshooting-InitialSteps">Initial Steps</a></li> 
+          <li><a href="#ArchiveCleanupTroubleshooting-EnableTRACELogging">Enable TRACE Logging</a></li> 
+          <li><a href="#ArchiveCleanupTroubleshooting-InterpretingArchiveCleanupTRACELogs">Interpreting Archive Cleanup TRACE Logs</a></li> 
+         </ul> </li> 
+        <li><a href="#ArchiveCleanupTroubleshooting-AdditionalSteps">Additional Steps</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ArchiveCleanupTroubleshooting-RhapsodyVersions5.4andLater">Rhapsody Versions 5.4 and Later</a></li> 
+          <li><a href="#ArchiveCleanupTroubleshooting-RhapsodyVersionsBefore5.4">Rhapsody Versions Before 5.4</a></li> 
+          <li><a href="#ArchiveCleanupTroubleshooting-CorruptQueues">Corrupt Queues</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 class="Textbody" id="ArchiveCleanupTroubleshooting-Overview">Overview</h2>
+      <p class="Textbody">Rhapsody’s Archive Cleanup processes files in the Datastore and determines which ones can be removed safely without losing any live or archived messages.</p>
+      <p class="Textbody">Archive Cleanup process starts by retrieving a set of the message metafiles that currently exist in Rhapsody. This set of metafiles is then filtered through the queues, the message tables (error and hold queues), and the live message tracking store to determine which of these files are still live and/or contain messages that have completed processing within the configurable Archive Cleanup period. During this process, any queue files that only refer to messages beyond the cleanup period are added to the list of files to delete.</p>
+      <p class="Textbody">The filtering process identifies a set of message metafiles that are no longer required and therefore eligible for cleanup. Once Archive Cleanup has identified the files to be removed it will attempt to delete them.</p>
+      <h2 class="Textbody" id="ArchiveCleanupTroubleshooting-ArchiveCleanupProblems">Archive Cleanup Problems</h2>
+      <p class="Textbody">On occasion, Archive Cleanup is unable to delete the files from the Datastore. As a result, customers often report the following problems:</p>
+      <ul>
+       <li>Archive Cleanup is unable to remove the files.</li>
+       <li>Rhapsody is not releasing space from the Datastore.</li>
+       <li>Archive Cleanup is not working.</li>
+       <li>Rhapsody is running out of disk space.</li>
+       <li>Available disk space for Datastore has been slowly decreasing.</li>
+      </ul>
+      <h2 id="ArchiveCleanupTroubleshooting-ArchiveCleanupTroubleshooting">Archive Cleanup Troubleshooting</h2>
+      <p>Archive Cleanup can operate incorrectly for a wide variety of reasons. Thus, Archive Cleanup problems are usually handled on a case by case basis to identify the root cause. However, there are some general steps you can take to narrow down the root cause.</p>
+      <h3 id="ArchiveCleanupTroubleshooting-InitialSteps">Initial Steps</h3>
+      <p>Messages are not eligible for cleanup if:</p>
+      <ol>
+       <li>The message is live on an input queue, output queue, or processing queue. This normally is the case for very recent messages (in other words, those that have not yet completed processing), or can be caused by a stopped communication point or route with a backlog of messages.</li>
+       <li>The message is in the Error Queue or Hold Queue. Messages in these queues are still considered live by Rhapsody and so cannot be cleaned up. The Error Queue and Hold&nbsp;Queue&nbsp;should be checked regularly and any messages on these queues dealt with (in other words, fixed and reprocessed, or removed).</li>
+       <li>Message tracking is still waiting for a response for the message. In this case, the message itself has been sent, but no response has yet been received. This is only likely to ever be an issue when very large response timeouts (in other words, in the order of days rather than minutes) are used with message tracking.</li>
+       <li>The message is present on an input queue archive, but was received after the archive cleanup cut-off time.</li>
+       <li>The message is present on an output queue archive, but was sent after the archive cleanup cut-off time. Tracked messages are added to the output queue archive every time that they are sent, and so are not eligible for cleanup unless the last send before the Archive Cleanup cut-off time.</li>
+      </ol>
+      <p>The first two conditions are the most likely reasons for Rhapsody not removing specific message meta files during an Archive Cleanup run. Therefore, before going through the effort of obtaining a trace log for Archive Cleanup and analyzing it, check for:</p>
+      <ol>
+       <li>Stopped communication points or routes with waiting messages.</li>
+       <li>Messages on the error or hold queues.</li>
+      </ol>
+      <h3 id="ArchiveCleanupTroubleshooting-EnableTRACELogging">Enable TRACE Logging</h3>
+      <p>Trace logging can be enabled by adding the following lines to the <code>log4j.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>Rhapsody versions prior to 5.4.3</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">log4j.logger.com.orchestral.rhapsody.cleanup=TRACE,CLEANUP
+log4j.appender.CLEANUP=org.apache.log4j.RollingFileAppender
+log4j.appender.CLEANUP.File=log/cleanup-log.txt
+log4j.appender.CLEANUP.MaxBackupIndex=9
+log4j.appender.CLEANUP.MaxFileSize=5MB
+log4j.appender.CLEANUP.layout=org.apache.log4j.PatternLayout
+log4j.appender.CLEANUP.layout.ConversionPattern=%d %5.5p [%32.32t] [%40.40c] %m%n</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>Rhapsody versions 5.4.3 and later</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence"># [1] Logs all the Archive Cleanup events
+
+log4j.logger.com.orchestral.rhapsody.cleanup.CleanupService=TRACE,ArchiveCleanupAppender
+log4j.appender.ArchiveCleanupAppender=org.apache.log4j.RollingFileAppender
+log4j.appender.ArchiveCleanupAppender.File=log/archiveCleanupLog/cleanup-log.txt
+log4j.appender.ArchiveCleanupAppender.MaxBackupIndex=9
+log4j.appender.ArchiveCleanupAppender.MaxFileSize=5MB
+log4j.appender.ArchiveCleanupAppender.encoding=UTF-8
+log4j.appender.ArchiveCleanupAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.ArchiveCleanupAppender.layout.ConversionPattern=%d{DATE} [%-5p] {%t} (%c) %m%n
+
+# [2] Logs only info about deleted files
+
+log4j.logger.ArchiveCleanup=TRACE,DeletedFilesAppender
+log4j.additivity.ArchiveCleanup=false
+log4j.appender.DeletedFilesAppender=org.apache.log4j.RollingFileAppender
+log4j.appender.DeletedFilesAppender.File=log/archiveCleanupLog/deleted-files-log.txt
+log4j.appender.DeletedFilesAppender.MaxBackupIndex=9
+log4j.appender.DeletedFilesAppender.MaxFileSize=5MB  
+log4j.appender.DeletedFilesAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.DeletedFilesAppender.layout.ConversionPattern=%d %5.5p [%32.32t] [%40.40c] %m%n</pre> 
+       </div>
+      </div>
+      <h3 id="ArchiveCleanupTroubleshooting-InterpretingArchiveCleanupTRACELogs">Interpreting Archive Cleanup TRACE Logs</h3>
+      <p>The following example is a sample archive cleanup trace log (key lines are in bold):</p>
+      <p><code>2014-06-26 15:00:00,031&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong style="font-family: monospace;">Starting cleanup of data older than Jun 12, 2014 3:00:00 PM</strong></code></p>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Candidate files for cleanup from MessageService</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105093</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105092</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105095</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105094</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105089</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105088</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105091</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105090</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105101</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105100</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105103</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105102</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105097</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105096</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105099</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105098</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105108</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105109</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105110</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,047 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; 105111</code>
+      </div>
+      <div>
+       <code>….&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>
+      </div>
+      <div>
+       <code>….</code>
+      </div>
+      <div>
+       <code>….</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,265 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Filtering candidates for input queues</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 104799 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 104798 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105125 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105124 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105036 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 107340 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105037 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 106524 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 107101 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 106853 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:00,437 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 106852 removed: used by queue 1049</code>
+      </div>
+      <div>
+       <code>…</code>
+      </div>
+      <div>
+       <code>…</code>
+      </div>
+      <div>
+       <code>…</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:23,307 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Filtering candidates for routes</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:23,307 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Filtering candidates for output queues</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:25,740&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Marked 1 queue files for deletion</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:30,139 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105093 removed: used by queue 296</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:30,139 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105092 removed: used by queue 296</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:30,139 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105095 removed: used by queue 296</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:30,139 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105094 removed: used by queue 296</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:30,139 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105089 removed: used by queue 296</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:30,139 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105088 removed: used by queue 296</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:30,139 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105091 removed: used by queue 296</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:30,139 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] &nbsp;&nbsp;&nbsp;&nbsp; file 105090 removed: used by queue 296</code>
+      </div>
+      <div>
+       <code>…</code>
+      </div>
+      <div>
+       <code>…</code>
+      </div>
+      <div>
+       <code>…</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:30,233&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Marked 1 queue files for deletion</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:44,772&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Marked 1 queue files for deletion</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:00:47,518&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Marked 1 queue files for deletion</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:12,727&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Marked 1 queue files for deletion</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:19,623&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Marked 1 queue files for deletion</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:22,493 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Checking candidates in error queue</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:22,493 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Checking candidates in hold queue</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:22,493 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Filtering candidates for message tracking</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:22,493&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Cleaning up message bodies and meta information</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:22,524&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Deleting 993 unused files.</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:22,899&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Cleaning up message events</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,086&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Cleaning up message property indexes</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,429&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Cleaning up message tracking indexes</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,429 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Scanning tracking status index to find eligible files for cleanup.</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Cleaning up old log entries</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Cleaning up throughput statistics</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Cleaning up statistics files from the last week</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Skipping statistics file 7110 as it has already been cleaned up for this period</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Skipping statistics file 7111 as it has already been cleaned up for this period</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Skipping statistics file 7112 as it has already been cleaned up for this period</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Skipping statistics file 7113 as it has already been cleaned up for this period</code>
+      </div>
+      <div>
+       <code>…</code>
+      </div>
+      <div>
+       <code>…</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Cleaning up statistics files from beyond the last month</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523 TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Moved 0 statistics entries to the permanent statistics store</code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,523&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] Will delete 0 statistics files</code> 
+       <code>2014-06-26 15:01:23,523&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Deleting 24 unused files.</strong> </code>
+      </div>
+      <div>
+       <code>2014-06-26 15:01:23,538&nbsp; INFO [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] <strong>Cleanup complete. There is now 41,393MB free disk space (10,729MB cleaned up).</strong> </code>
+      </div>
+      <h4 id="ArchiveCleanupTroubleshooting-FilteringCandidatesforInputandOutputQueues">Filtering Candidates for Input and Output Queues</h4>
+      <p>The log entries indicate that metafile 104799 has been removed from the list of candidates eligible for cleanup because it is in use by input communication point with id 1049. Similarly, the metafile 105093 has been removed from the list of candidates eligible for cleanup because it is in use by output communication point with id 29:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Filtering candidates for input queues file 
+104799 removed: used by queue 1049
+&nbsp;
+Filtering candidates for output queues file 
+105093 removed: used by queue 296</pre> 
+       </div>
+      </div>
+      <p>The phrase "in use" has two meanings here. Either a communication point or a route with the respective ID is:</p>
+      <ol>
+       <li>Holding the live messages. This means communication point or route queues have live messages on them, or</li>
+       <li>Holding the archived messages. This is how usually it is. This means the communication point or route is holding messages within the Archive Cleanup period. For example, if the Archive Cleanup period is 28 days, the messages were on this communication point or route within the last 28 days. This is why the queues appear empty despite the log saying that a component is holding the metafile.</li>
+      </ol>
+      <p>This log file does not contain the names of the communication points or routes holding the references to the metafiles. The component names can be determined using the available ids from the routes or communication points pages in the Management Console.</p>
+      <div>
+       <h2 id="ArchiveCleanupTroubleshooting-AdditionalSteps">Additional Steps</h2>
+      </div>
+      <p>For some cases, general troubleshooting steps are unlikely to help identify the root cause of the Archive Cleanup issues. In that case, there are additional steps you can take, depending on the version of Rhapsody.</p>
+      <h3 id="ArchiveCleanupTroubleshooting-RhapsodyVersions5.4andLater">Rhapsody Versions 5.4 and Later</h3>
+      <p>An Archive Cleanup diagnostic tool was introduced in Rhapsody 5.4 for troubleshooting a situation in which the disk is out-of-space and Archive Cleanup does not free up any space. The Management Console enables you to trigger a cleanup with tracing enabled or simulate a cleanup with tracing. Refer to <a href="Archive-Cleanup-Diagnosis_133164116.html">Archive Cleanup Diagnosis</a> for details on Archive Cleanup diagnostic tool.</p>
+      <h3 id="ArchiveCleanupTroubleshooting-RhapsodyVersionsBefore5.4">Rhapsody Versions Before 5.4</h3>
+      <p>To determine the root cause in the earlier versions of Rhapsody, specifically Rhapsody 3.4, 4.1, 5.1, and 5.2:</p>
+      <ol>
+       <li><a href="#ArchiveCleanupTroubleshooting-EnableTRACELogging">Enable Archive Cleanup trace logging</a>.</li>
+       <li>Obtain a directory listing of the data directory using <code>dir *.* /S &nbsp;&gt; list_before.txt</code>, which writes the file names in the specified directory and all subdirectories into a text file.</li>
+       <li>Run the Archive Cleanup.</li>
+       <li>Obtain a directory listing of the data directory again after the Archive Cleanup using <code>dir *.* /S&nbsp; &gt; list_after.txt</code>.</li>
+       <li>Restart Engine and repeat steps 1 through 4.</li>
+       <li>Collecting the required trace logs and directory listings before and after restart.</li>
+       <li>Execute the steps in <a href="#ArchiveCleanupTroubleshooting-PathA">Path A</a> or <a href="#ArchiveCleanupTroubleshooting-PathB">Path B</a>.</li>
+      </ol>
+      <h4 id="ArchiveCleanupTroubleshooting-PathA">Path A</h4>
+      <ol>
+       <li>Compare the data directory listings obtained in Steps 2 and 4 above before and after Engine restart.</li>
+       <li>Search for any metafiles that are identified by Archive Cleanup process as candidates for cleanup before and after the restart:<br> <code>TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] 107019</code> <br>but do not have the following entry that removes the metafile from the list of eligible files for cleanup:<br> <code>TRACE [ecution Thread - Archive Cleanup] [chestral.rhapsody.cleanup.CleanupService] file 107019 removed: used by queue 1792</code></li>
+       <li>The existence of such metafiles suggests that Rhapsody identifies the files correctly for cleanup before and after the restart, but for some reason removes them only after the Engine restart. In this case, one needs to determine why Rhapsody does not remove these files. Use Process Monitor to check whether it is some other process or Rhapsody itself that is holding the locks.</li>
+      </ol>
+      <h4 id="ArchiveCleanupTroubleshooting-PathB">Path B</h4>
+      <ol>
+       <li><p>Check if there are any metafiles in <code>&lt;Rhapsody Install Directory&gt;\rhapsody\data\messagestore\meta</code> that are older than Archive Cleanup retention period.</p></li>
+       <li><p>If so, find the oldest (latest/highest) meta id.</p></li>
+       <li><p>Look up the oldest metafile id in the Archive Cleanup trace log file to identify which component is causing that metafile to not get removed because the log will contain lines like:&nbsp;<code>file &lt;oldest meta file id&gt; removed: used by queue</code> <code>&lt;component id&gt;</code>. Check for the component in the Management Console using the <code>&lt;component id&gt;</code> to verify if there are any live messages on the component.</p></li>
+       <li><p>If there are any live messages, then release them from the queues. Please note that releasing the messages from the queues will not instantly make them eligible for cleanup. Releasing the messages from the queues only means now the messages are moved to archives. So unless the Archive Cleanup window has passed the messages won’t be eligible for cleanup. This leads to the case where the identified component has empty queues (despite the&nbsp;<code>file xxxx removed: used by queue yyyy</code> entry in the&nbsp;cleanup log) which means the messages are potentially still within the archive cleanup period and will be cleaned up only after the cleanup windows has passed, making them eligible for cleanup. If the oldest metafile id cannot be found in the trace log at all, then use tools like Process Monitor to identify what is holding the locks on the metafile. If a third party process like an Anti-virus or Backup or Replication software is holding the locks, then kill the process to release the locks. If Rhapsody itself is holding the locks, it is most likely a bug causes the meta and body files to leak, preventing from cleaned up. This will require an Engine restart to allow cleanup of leaked meta and body files. This bug was identified in Rhapsody 5.4.1, fixed in Rhapsody 5.5.0 and backported to 5.4.3 service pack.</p></li>
+      </ol>
+      <h3 id="ArchiveCleanupTroubleshooting-CorruptQueues">Corrupt Queues</h3>
+      <p>In rare cases, one or more queue files in the Datastore can become corrupted due to unclean shutdowns or environment-related issues, preventing the Archive Cleanup process from operating correctly. Queue file corruption corrupts the timestamps on the queue files, thereby making the files ineligible for cleanup. In this case, the only current solution is to recreate the communication point or route corresponding to the corrupt queue.</p>
+      <p class="Textbody"> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

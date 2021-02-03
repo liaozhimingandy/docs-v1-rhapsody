@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Database Communication Point in Input Mode</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+       <li> <span><a href="Configuration-Templates_133161778.html">Configuration Templates</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Database Communication Point in Input Mode</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;!--  Database Communication Point in Input Mode Configuration Template  --&gt;
+&lt;!--
+This XML file is designed to help the user configure the Rhapsody Database 
+Communication Point in Input mode. All element or attribute tags are not 
+case sensitive, i.e., both 'config' and 'CONFIG' are valid tags. 
+Please refer to the Rhapsody Reference Guide for more information. 
+--&gt;
+&lt;config&gt;
+    &lt;!--  Main Database Standard JDBC Configuration  --&gt;
+    &lt;driver&gt;enter driver name here&lt;/driver&gt;
+    &lt;url&gt;enter database url here&lt;/url&gt;
+    &lt;username&gt;enter database username here&lt;/username&gt;
+    &lt;password&gt;enter database password&lt;/password&gt;
+
+    &lt;!-- Secondary Database Standard JDBC Configuration
+    Zero or more secondary databases can be configured
+    Please remove the database element if it is not required
+    --&gt;
+    &lt;database name="enter this database name"&gt;
+        &lt;driver&gt;enter driver name here&lt;/driver&gt;
+        &lt;url&gt;enter database url here&lt;/url&gt;
+        &lt;username&gt;enter database username here&lt;/username&gt;
+        &lt;password&gt;enter database password&lt;/password&gt;
+    &lt;/database&gt;
+
+    &lt;!--  Order Column Configuration  --&gt;
+    &lt;key&gt;enter name of key column&lt;/key&gt;
+    &lt;commPointID&gt;unique id from other database commpoint input mode&lt;/commPointID&gt;
+    &lt;initialKeyValue&gt;enter initial key value&lt;/initialKeyValue&gt;
+
+    &lt;!--  Refresh Rate in ms: default refresh rate 1 minute  --&gt;
+    &lt;refreshRate&gt;60000&lt;/refreshRate&gt;
+
+    &lt;!-- Output Message Format Configuration 
+    Use the property which is required 
+    --&gt; 
+    &lt;!-- &lt;columnNameAsAttribute/&gt;  --&gt;
+    &lt;!-- &lt;rowNameAsAttribute/&gt;  --&gt;
+    &lt;!-- &lt;valueAsAttribute/&gt;  --&gt;
+
+    &lt;!--  Number of Rows to be used to generate a outgoing xml message  --&gt;
+    &lt;!-- &lt;rowsInMessage&gt;1&lt;/rowsInMessage&gt; --&gt;
+
+    &lt;!-- Database Connections' Auto-Commit Mode Configuration
+    By default, auto-commit mode is turned off which means that transactions 
+    will be rolled back in case of failure while processing the message.
+    The auto-commit mode option will be applied to all the database connections.
+    Use the property which is required (if only SELECT statements are used then 
+    it may be turned on in order to enhance the performance in processing 
+    messages)
+    --&gt;
+    &lt;!--   &lt;autoCommit/&gt; --&gt;
+
+    &lt;!--  Statements Configuration  --&gt;
+    &lt;!--
+    Root Statement Configuration 
+    One root statement can be configured.
+    The 'name' attribute: name of the statement, the name will be used to 
+    refer the statement in the Rhapsody log.
+    The 'database' attribute: one of the secondary database names, if this
+    attribute is omitted main database will be used for the statement.
+    The 'maxResultRows' attribute: maximum Number of Rows Limit that Result 
+    Set can hold for the statements: default 0 means no limit.
+    The 'name', 'iterate' and 'database' attribute can be omitted .
+    --&gt;
+    &lt;statement name="" database="" maxResultRows="0"&gt;
+
+        &lt;!--
+        SQL or Stored Procedure for the statement, this element can be omitted
+        --&gt;
+        &lt;sql&gt;enter SELECT sql query&lt;/sql&gt;
+        &lt;!--  &lt;procedure&gt;enter stored procedure&lt;/procedure&gt;  --&gt;
+
+        &lt;!--
+        Child Statements Configuration
+        One or more child statements can be configured.
+        A child statement can have one or more child statements.
+        Attribute details are the same as the root statement.
+        The 'test' attribute: test condition to decide whether the sql query for 
+        the statement is executed. A column value returned from the parent 
+        statement can be tested. 
+        --&gt;
+
+        &lt;statement name="" database="" test="" maxResultRows="0"&gt;
+            &lt;sql&gt;enter sql query&lt;/sql&gt; 
+            &lt;!--  &lt;procedure&gt;enter stored procedure&lt;/procedure&gt;  --&gt;
+        &lt;/statement&gt;
+
+    &lt;/statement&gt;
+
+&lt;/config&gt;</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

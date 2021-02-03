@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Configuring the Web Service Client to Call the Control API</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Web-Service-Client_133162592.html">Web Service Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Configuring the Web Service Client to Call the Control API</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section describes how to configure the Web Service Client communication point to call the Rhapsody API to start and stop a component.</p>
+      <ol>
+       <li>Create a new <strong>Web Service Client</strong> communication point and add it to a route.</li>
+       <li>Load the WSDL. The URL for the API is <code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/RhapsodyComponentsService?wsdl</code>. The default port is <code>8449</code>. The XSD for the message is not required, so these do not need to be saved.</li>
+       <li>On the <strong>Security</strong> tab, change the <strong>Authentication Method</strong> to <code>Username Token Plaintext Authentication</code> and set the <strong>Username</strong> to a user that has the appropriate permissions to start, stop and use the Web Services API.<br><br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162614/133162616.png" data-image-src="attachments/133162614/133162616.png" data-unresolved-comment-count="0" data-linked-resource-id="133162616" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSC1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162614" data-linked-resource-container-version="1"></span></li>
+       <li>On the <strong>Operations</strong> tab, add a new operation.</li>
+       <li>Under <strong>Operation</strong>, in the <strong>Name</strong> field, select <code>stopComponent</code>.</li>
+       <li>There are two ways to create the Web service call:
+        <ol>
+         <li><a href="#ConfiguringtheWebServiceClienttoCalltheControlAPI-UsingtheRhapsodyMessageBody">Using the Rhapsody message body</a>.</li>
+         <li><a href="Configuring-the-Web-Service-Client-to-Call-the-Control-API_133162614.html">Using the Template option</a>.</li>
+        </ol></li>
+      </ol>
+      <h4 id="ConfiguringtheWebServiceClienttoCalltheControlAPI-UsingtheRhapsodyMessageBody">Using the Rhapsody Message Body</h4>
+      <p>On the <strong>Request</strong> tab, change the <strong>Mode</strong> to <code>Use the Rhapsody message body as the contents of the SOAP body</code>. This option will take the Rhapsody message body and insert it into the SOAP message.</p>
+      <p>An example of the XML message that would be valid is:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;stopComponent xmlns="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;id&gt;926&lt;/id&gt;
+   &lt;type&gt;ROUTE&lt;/type&gt;
+&lt;/stopComponent&gt; </pre> 
+       </div>
+      </div>
+      <h5 id="ConfiguringtheWebServiceClienttoCalltheControlAPI-UsingaTemplate">Using a Template</h5>
+      <p>Change the <strong>Mode</strong> to <code>Construct SOAP body content using a template and values from the Rhapsody message body and properties</code>.</p>
+      <p>Under <strong>Content Insertion</strong>, you can configure the communication point to take values to insert into the template. For example to insert the message property componentType into the <strong>type</strong> field in the template you would use the following setting:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Content Insertion Field</p></th>
+          <th class="confluenceTh"><p>Example Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Source Type</p></td>
+          <td class="confluenceTd"><p><code>Property</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Property / Field Name</p></td>
+          <td class="confluenceTd"><p><code>componentType</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content type</p></td>
+          <td class="confluenceTd"><p><code>text</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Target XPath</p></td>
+          <td class="confluenceTd"><p><code>/rhap:stopComponent/rhap:path</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162614/133162617.png" data-image-src="attachments/133162614/133162617.png" data-unresolved-comment-count="0" data-linked-resource-id="133162617" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSC2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162614" data-linked-resource-container-version="1"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The text in the <strong>type</strong> field, that is <code>COMMUNICATION_POINT</code>, will be overridden with the value from the message property.</p>
+       </div>
+      </div>
+      <p>Neither the Response nor Fault Handling needs to be configured in this example. The communication point can now be checked in and connected to a route. For example:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162614/133162618.png" data-image-src="attachments/133162614/133162618.png" data-unresolved-comment-count="0" data-linked-resource-id="133162618" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSC3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162614" data-linked-resource-container-version="1"></span> <br> &nbsp;<br> The <a href="attachments/133162614/133162615.rlc" data-linked-resource-id="133162615" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceAPI.rlc" data-linked-resource-content-type="application/x-upload-data" data-linked-resource-container-id="133162614" data-linked-resource-container-version="1">attached RLC file</a> includes:</p>
+      <ul>
+       <li>An example of the <em>Use Rhapsody Message Body</em> option in the <strong>Message Body</strong> directory, and</li>
+       <li>A more complex example, in the <strong>Template</strong> folder, that demonstrates how to call either <code>startComponent</code> or <code>stopComponent</code> in the same communication point using the <em>Template</em> option.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,317 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Installing the Rhapsody Engine on *nix</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="GUI-and-Console-Installations_133164313.html">GUI and Console Installations</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Installing the Rhapsody Engine on *nix</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Before installing Rhapsody, refer to <a href="Datastore-Setup_133161568.html">Datastore Setup</a> for important information on configuring your datastore.</p>
+       </div>
+      </div>
+      <p>Installing the Rhapsody Integration Engine (Rhapsody) on *nix systems can be more complicated than installing on <em>Windows®</em> systems as *nix systems often do not have a GUI display available, requiring the display to be redirected or the console installer to be used. These systems can be broadly grouped into three categories:</p>
+      <ul>
+       <li>Systems that cannot use a GUI display at all.</li>
+       <li>Systems that have XWindows available locally.</li>
+       <li>Systems that can export the display to a remote XServer.</li>
+      </ul>
+      <p>Installers for the following Unix® environments are available:</p>
+      <ul>
+       <li>AIX®</li>
+       <li>HP-UX</li>
+       <li>Linux®</li>
+       <li>Solaris</li>
+      </ul>
+      <p>Run the executable for the operating system on which you are installing to start the installation:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146926627 {padding: 0px;}
+div.rbtoc1565146926627 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146926627 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146926627"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#InstallingtheRhapsodyEngineon*nix-InstallinginConsoleMode">Installing in Console Mode</a></li> 
+        <li><a href="#InstallingtheRhapsodyEngineon*nix-InstallingwithXWindows">Installing with XWindows</a></li> 
+        <li><a href="#InstallingtheRhapsodyEngineon*nix-InstallingwithaRemoteXServer">Installing with a Remote XServer</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The installation must be run as a normal user, not the <strong>superuser</strong> or <strong>root</strong>. After the installation has completed, run the startup scripts as the <strong>superuser</strong>.</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <p class="title">IOException: No space left on device</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The var partition fills up when running the install, as install4j creates its temporary files under <code>/var/tmp</code>. If you encounter a '<code>java.io.IOException: No space left on device</code>' error message when upgrading, ensure that you have at least 512MB in the <code>/tmp</code> or <code>/var</code> directories.</p>
+       </div>
+      </div>
+      <h2 id="InstallingtheRhapsodyEngineon*nix-InstallinginConsoleMode">Installing in Console Mode</h2>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>These instructions have been written using Linux® as an example.</p>
+       </div>
+      </div>
+      <p>To install the Rhapsody Engine on a *nix environment:</p>
+      <ol>
+       <li><p>Copy the installer&nbsp;<code>rhapsody-&lt;version&gt;-&lt;operatingSystem&gt;.sh</code>&nbsp;to the *nix server using the Binary mode.</p>
+        <div class="confluence-information-macro confluence-information-macro-warning">
+         <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>The installer file must be not be placed inside the existing engine's installation directory.</p>
+         </div>
+        </div></li>
+       <li><p>Navigate to the directory where the installer is located.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">cd &lt;installerLocation&gt;</pre> 
+         </div>
+        </div></li>
+       <li><p>Change the installer to be an executable:<code> <code> <br> </code> </code></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">chmod +x rhapsody-&lt;version&gt;-&lt;operatingSystem&gt;.sh</pre> 
+         </div>
+        </div></li>
+       <li><p>Run the installer in the console mode using the <code>-c</code> argument:<code> <code> <br> </code> </code></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">./rhapsody-&lt;version&gt;-&lt;operatingSystem&gt;.sh -c</pre> 
+         </div>
+        </div></li>
+       <li><p>Press <strong>ENTER</strong> or&nbsp;<strong>o</strong> to continue:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Unpacking JRE ...
+Preparing JRE ...
+Starting Installer ...
+This will install Rhapsody &lt;version&gt; on your computer.
+OK [o, Enter], Cancel [c] </pre> 
+         </div>
+        </div></li>
+       <li><p>Specify the directory where you want to install Rhapsody, and press <strong>ENTER</strong> to continue.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Where should Rhapsody be installed?
+[/&lt;installation_directory&gt;/orionhealth/rhapsody] </pre> 
+         </div>
+        </div></li>
+       <li><p>If the installer detects another installation, the following upgrade message is displayed:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">Rhapsody Upgrade
+
+A Rhapsody engine is already installed at this location. You can either
+upgrade the existing installation or choose another location.
+
+If you choose to upgrade it is strongly recommended that you backup your
+existing configuration before continuing, including any custom
+communication points or filters.
+
+[Enter] </pre> 
+         </div>
+        </div></li>
+       <li>
+        <div>
+         Press 
+         <strong>ENTER</strong> to continue. If you are upgrading from Rhapsody 5 or earlier, a datastore migration is performed.&nbsp;Refer to 
+         <a href="Configuration-Migration_133161421.html">Configuration Migration</a> for details. The following warning is displayed:
+        </div>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">The Rhapsody configuration will be migrated to a versioned configuration
+repository when first started after the upgrade. A backup of the
+configuration will be kept in:
+/&lt;installation_directory&gt;/orionhealth/rhapsody/rhapsody/data/config/migrated.
+
+Warning: Upgrading removes all unknown files from the
+installation directory. Ensure that you have a backup before proceeding.</pre> 
+         </div>
+        </div></li>
+       <li><p>Specify whether you wish to disable HTTP connections:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Do you want to disable HTTP connections?
+
+Rhapsody allows both HTTP and HTTPS connections to the Management Console.
+It is recommended that you only use HTTPS connections.
+
+HTTPS can verify the authenticity of the server and prevent eavesdropping.
+Disable HTTP connections to Management Console?
+Yes [y], No [n, Enter]</pre> 
+         </div>
+        </div></li>
+       <li><p>Specify the location of the Data directory, and press <strong>ENTER</strong> to continue.</p>
+        <div class="confluence-information-macro confluence-information-macro-warning">
+         <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>We recommend that you install the data files on a high-performance disk with a raid array. The disk must be fast and reliable as the messages are stored in the data files.</p>
+         </div>
+        </div>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Where should the data directory be located?
+[/&lt;installation_directory&gt;/orionhealth/rhapsody/rhapsody/data] </pre> 
+         </div>
+        </div></li>
+       <li><p>Specify the initial and maximum memory that Rhapsody can use, and press <strong>ENTER</strong> to continue.&nbsp;<span>JVM Maximum Heap memory provided must be greater than 512MB and not less than the JVM Initial Memory.&nbsp;</span>When installing on a dedicated server, the JVM memory should be approximately half of the physical memory. For example, if the server has 3GB of RAM, allocate around 1536 MB.</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>The maximum heap size advised for 32-bit *nix environments is approximately 1200MB. If you have a larger heap size requirement, you must use a 64-bit operating system.</p>
+         </div>
+        </div>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">What memory settings should be used?
+Specify the initial memory and the maximum memory to allocate to the Rhapsody Engine.
+The recommended JVM memory allocation for a production environment can be
+found in the "Rhapsody Hardware Recommendation Guide" document located
+within the Documents folder.
+JVM Initial Memory (MB)
+[512]
+ 
+JVM Max Memory (MB)
+[1024]</pre> 
+         </div>
+        </div></li>
+       <li><p>Ensure that the default ports used by Rhapsody are free, and press ENTER to begin the installation. If the default ports are not available, enter alternative port numbers:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <tbody>
+           <tr>
+            <th colspan="1" class="confluenceTh">Port</th>
+            <th class="confluenceTh"><p>Default Value</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p>IDE Port</p></td>
+            <td class="confluenceTd"><p><code>3041</code></p></td>
+            <td class="confluenceTd"><p>The Rhapsody IDE port.</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p>IDE Broadcast Port</p></td>
+            <td class="confluenceTd"><p><code>4031</code></p></td>
+            <td class="confluenceTd"><p>The configuration broadcast/browse port to connect to the Rhapsody engine.</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p>Secure Management Console Port</p></td>
+            <td class="confluenceTd"><p><code>8444</code></p></td>
+            <td class="confluenceTd"><p>The Management Console HTTPS port.</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p><span>Secure Web Service Port</span></p></td>
+            <td class="confluenceTd"><p><code>8449</code></p></td>
+            <td class="confluenceTd"><p>Web Service API HTTPS port.</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">What port settings should be used?
+Specify the ports that Rhapsody should use. These must be changed if they are not available.
+IDE Port
+[3041]
+IDE Broadcast Port
+[4031]
+Secure Management Console Port
+[8444]
+Secure Web Service Port
+[8449]</pre> 
+         </div>
+        </div></li>
+       <li><p>When the wizard finishes installing Rhapsody, the following message is displayed:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Finishing installation...</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h2 id="InstallingtheRhapsodyEngineon*nix-InstallingwithXWindows">Installing with XWindows</h2>
+      <p>If XWindows is available when installing the Rhapsody Engine, then the installation is very similar to that on <em>Windows®</em>. Launch the installer while XWindows is running to launch the GUI installer.</p>
+      <p>If the following error message (or similar)&nbsp;is displayed after launching the installer, the installer can fail to connect to the local XServer to host the display:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">Could not display the GUI. This application needs access to an X Server.
+If you have access there is probably an X library missing.
+*******************************************************************
+You can also run this application in console mode without
+access to an X server by passing the argument \-c
+******************************************************************* </pre> 
+       </div>
+      </div>
+      <p>The possible reasons are XWindows is not started or unavailable, or because symbolic links in the&nbsp;<code>/usr/lib</code>&nbsp;folder&nbsp;point to the incorrect location. If you are still unable to resolve the issue, select one of the other installation options instead.</p>
+      <h2 id="InstallingtheRhapsodyEngineon*nix-InstallingwithaRemoteXServer">Installing with a Remote XServer</h2>
+      <p>If the *nix system does not have XWindows available locally, it is often possible to export the display to another machine, therefore allowing the GUI installer to be used. To do this, another machine with an XServer must be available to host the installer display. A second *nix system running XWindows can be used for this purpose, otherwise a number of XServers for <em>Windows</em>® are available, which can host the display of a *nix GUI application. One such XServer, contained with Cygwin, is available from <a href="http://www.cygwin.com" class="external-link" rel="nofollow">http://www.cygwin.com/</a>.</p>
+      <p>Once XServer has been started on the host machine, two commands must be run to export the display, one on the host and the other on the *nix machine.</p>
+      <ol>
+       <li><p>Relax the security on the host machine so that it can host GUI applications on its XServer by running the following command:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">xhost +</pre> 
+         </div>
+        </div></li>
+       <li><p>Redirect the GUI display from the Unix® machine to the host machine:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">export DISPLAY=&lt;host machine&gt;:0</pre> 
+         </div>
+        </div><p>For example, if the IP address of the host machine was 192.168.1.54, then the command would be:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">export DISPLAY=192.168.1.54:0</pre> 
+         </div>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Some *nix systems require the export of the <code>DISPLAY</code> variable to be done in two stages as follows:</p>
+          <div class="code panel pdl" style="border-width: 1px;">
+           <div class="codeContent panelContent pdl"> 
+            <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">set DISPLAY=192.168.1.54:0 
+export DISPLAY </pre> 
+           </div>
+          </div>
+          <p>When the display has been exported, the installer can be launched normally.</p>
+         </div>
+        </div></li>
+      </ol>
+      <h2 id="InstallingtheRhapsodyEngineon*nix-RelatedTopic">Related Topic</h2>
+      <ul>
+       <li><a href="Installing-the-Rhapsody-Engine-on-Windows_133164314.html">Installing the Rhapsody Engine on Windows</a></li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

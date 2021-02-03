@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Connection Monitoring</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Configuring-Communication-Points_133162165.html">Configuring Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Connection Monitoring</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Communication points that use TCP connections will only detect that the connection has been closed by the remote end when attempting to send or receive a message on the connection. Once Rhapsody attempts to send or receive a message on the connection, the end-of-file will be encountered, and the socket will be closed. If the communication point is a client then it will apply its connection retry strategy.</p>
+      <p>When communication points are in&nbsp;<em>Output</em> <span> or </span> <em>Out-&gt;In</em> <span> mode they will wait for messages to be delivered before sending them. This means that there can be long periods of inactivity during which the state of the connection is assumed to be connected but it may have actually been closed by the remote end.</span></p>
+      <p>This can cause problems for client communication points because the remote end will not be available when it needs to send the message. After exhausting all the connection retry attempts the communication point will stop in error and a notification will be raised. Only at this point will users that have subscribed to this notification be aware that the remote end is unavailable. This can waste valuable time that could have been spent notifying the administrators of the remote end that their system is unavailable which could have been resolved by the time Rhapsody actually needed to send a message.</p>
+      <p>Connection Monitoring enables a client/server communication point to determine whether a remote host has dropped the connection without waiting for a message to be sent or received. After a 30-second period of inactivity on a socket (in other words, no reads or writes to the socket), the communication point attempts to read from the socket (with a minimal timeout to avoid blocking) to determine whether the remote end has closed the connection.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Connection Monitoring functionality applies to <a href="TCP-Server_133162501.html">TCP Server</a>, <a href="TCP-Client_133162495.html">TCP Client</a>, <a href="JavaScript-TCP-Server_133162415.html">JavaScript TCP Server</a> and <a href="JavaScript-TCP-Client_133162421.html">JavaScript TCP Client</a> communication points only, and only when they are in <em>Output</em> or <em>Out-&gt;In</em> mode.</p>
+       </div>
+      </div>
+      <p>To enable this functionality, add the following line to the <code>rhapsody.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">CommunicationPointExecutionService.monitorConnections=true</pre> 
+       </div>
+      </div>
+      <p><span>This will enable Connection Monitoring on all applicable communication points in the engine. It cannot be configured per communication point.</span></p>
+      <p><span style="background-color: transparent;line-height: 13.0pt;"><span style="line-height: 13.0pt;">For these cases, it is&nbsp;</span><span style="background-color: transparent;">preferable</span><span style="line-height: 13.0pt;">&nbsp;to modify the configuration of the communication point rather than disabling Connection Monitoring. One or more of the following settings should be modified to get the desired&nbsp;</span><span style="background-color: transparent;">behavior.&nbsp;</span>There may be rare cases where enabling Connection Monitoring is conceived of as undesirable because the remote end is known to be unreliable. Previously this may have been acceptable if by the time a message was ready to be sent, the remote end was available again. In this case, the communication point would have applied the connection retry strategy and successfully reconnected without having to stop in error. With Connection Monitoring enabled, the retry strategy would be applied much sooner which could potentially cause the communication point to stop in error when it would not have previously.</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Setting</th>
+          <th class="confluenceTh">Example</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Connection Retries</td>
+          <td class="confluenceTd">This should be set with enough of a delay and times as to allow the communication point to reconnect.</td>
+          <td class="confluenceTd">If the communication point was sending one message every 45 minutes and the previous connection retry strategy would try for at least 15 minutes then the communication point could previously recover from a situation where the remote end was down for 1 hour without stopping in error. The connection retry strategy should be modified to keep retrying for 1 hour.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Scheduling</td>
+          <td class="confluenceTd">If there are certain times of the day where the communication point is not sending a message and the remote end is expected to be down then the communication point should be scheduled to automatically stop during this time.</td>
+          <td class="confluenceTd">Between 00:00 and 01:00 the remote end is expected to go down for maintenance then the communication point should be configured to start at 01:00 and stop at 00:00.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Idle Timeout</td>
+          <td class="confluenceTd">Setting the idle timeout to less than 30 seconds will effectively bypass the Connection Monitoring by closing the connection proactively.</td>
+          <td class="confluenceTd"><p>Setting the idle timeout to 20 seconds will cause the connection to close after 20 seconds of inactivity. Since the connection is closed before the 30 seconds of inactivity, Connection Monitoring will not occur. Since the <span style="background-color: transparent;line-height: 13.0pt;">connection is closed as being idle it will not apply the connection retry strategy until a message is available for sending.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Connection Mode</td>
+          <td colspan="1" class="confluenceTd">Setting this to <code>Disconnect if not sending/receiving</code> will cause the connection to be closed immediately after the message has been sent (or the response received if in <em>Out-&gt;In</em> mode).</td>
+          <td colspan="1" class="confluenceTd">The connection will now be closed after <span>the message has been sent (or the response received if in</span> <em>Out-&gt;In</em><span> mode) and so <span>Connection Monitoring will not occur. The connection will be re-established for every message that is to be sent.</span> </span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>License Administration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Administration-REST-API-Methods_133161103.html">Administration REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">License Administration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods to manage licenses:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147004952 {padding: 0px;}
+div.rbtoc1565147004952 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147004952 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147004952"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#LicenseAdministration-POST/admin/licenses">POST /admin/licenses</a></li> 
+        <li><a href="#LicenseAdministration-GET/admin/licenses">GET /admin/licenses</a></li> 
+        <li><a href="#LicenseAdministration-DELETE/admin/licenses/<id>">DELETE /admin/licenses/&lt;id&gt;</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="LicenseAdministration-POST/admin/licenses">POST /admin/licenses</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/licenses</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Installs the given license which is in text/XML or binary format.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: text/xml</code>, <code>application/octet-stream<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: text/vnd.orchestral.rhapsody.6_0+xml</code>, <code>application/vnd.orchestral.rhapsody.6_0+octet-stream</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The content of the <code>.ohl</code> license file as string or binary stream.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The maximum size for the license file whose content is in a binary stream is 50KB.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - license in text/XML format installed successfully.<br><code>204 No Content</code> - license in binary format installed successfully.</p></td>
+         </tr>
+         <tr>
+          <th class="highlight-grey confluenceTh" colspan="1" data-highlight-colour="grey">Response Body</th>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Write licenses REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LicenseAdministration-GET/admin/licenses">GET /admin/licenses</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/licenses</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the details of current licenses that are installed and the <span>number of communication points in use which counts towards each license limit.</span></p></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>RequestHeader</p></th>
+          <td class="confluenceTd"><p><code>Accept: text/xml</code>, <code>text/html</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: text/vnd.orchestral.rhapsody.6_0+xml</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: text/vnd.orchestral.rhapsody.6_4+xml</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <th class="highlight-grey confluenceTh" colspan="1" data-highlight-colour="grey"><strong>Response Body</strong></th>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code>text/html</code> displays the license information in a browser; <code><code>text</code>/xml</code> returns the license information in XML format.</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;licenseInfo&gt;
+  &lt;environmentType&gt;Test&lt;/environmentType&gt;
+  &lt;licenses&gt;
+    &lt;license valid="true"&gt;
+      &lt;name&gt;Rhapsody Engine&lt;/name&gt;
+      &lt;version&gt;6.3&lt;/version&gt;
+      &lt;type&gt;TEST&lt;/type&gt;
+      &lt;id&gt;05ca2abb-1fbd-4225-a983-53fbe691a1e7&lt;/id&gt;
+      &lt;issueDate&gt;2017-10-17T00:00:00.000+13:00&lt;/issueDate&gt;
+      &lt;licensee&gt;Rhapsody Health&lt;/licensee&gt;
+    &lt;/license&gt;
+  &lt;/licenses&gt;
+  &lt;totalCommpoints&gt;-1&lt;/totalCommpoints&gt;
+  &lt;internal&gt;false&lt;/internal&gt;
+  &lt;componentId&gt;SAP Toolkit&lt;/componentId&gt;
+  &lt;componentId&gt;Branding&lt;/componentId&gt;
+  &lt;componentId&gt;IHE Toolkit&lt;/componentId&gt;
+  &lt;usedCommpoints&gt;15&lt;/usedCommpoints&gt;
+&lt;/licenseInfo&gt;</pre> 
+             </div>
+            </div>
+            <p>A license for unlimited communication points indicated by a <code>totalCommpoints</code> element with a value of <code>-1</code>.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Read licenses REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LicenseAdministration-DELETE/admin/licenses/<id>">DELETE /admin/licenses/&lt;id&gt;</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /admin/licenses/&lt;id&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Removes the license with the given license ID.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - license removed successfully.</p></td>
+         </tr>
+         <tr>
+          <th class="highlight-grey confluenceTh" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Body</strong> </span></th>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Write licenses REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

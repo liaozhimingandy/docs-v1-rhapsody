@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>XML to PDF</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="XML-Filters_133162964.html">XML Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">XML to PDF</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162987/133162988.jpg" data-image-src="attachments/133162987/133162988.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162988" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image169.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162987" data-linked-resource-container-version="3"></span></p>
+      <p>The <strong>XML to PDF (0.2)</strong> and <strong>XML to PDF (0.9)</strong> filters&nbsp;take an XML document and apply an XSLT stylesheet transformation using an XSLT file, which transforms the XML document to an XSL:FO compliant one. This is then rendered to Portable Document Format (PDF).</p>
+      <p>The <strong>XML to PDF (0.2)</strong> filter uses version 0.2 of Apache Formatting Objects Processor (FOP), while the <strong>XML to PDF (0.9)</strong> filter uses version 0.9. Refer to the&nbsp;<a href="http://xmlgraphics.apache.org/fop/compliance.html" class="external-link" rel="nofollow">Apache™ FOP Compliance Page</a> for details.</p>
+      <h2 id="XMLtoPDF-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Format</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Sets the format of the output message.</p>
+            <ul>
+             <li><code>PDF</code><span> (default).</span></li>
+             <li><code>Postscript</code><span>.</span></li>
+             <li><code>PCL</code><span>.</span></li>
+             <li><code>Text</code><span>.</span></li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>When using the filter with the <a href="Printer_133162589.html">Printer</a> communication point, use the communication point's PostScript output.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XSLT File</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Identifies the XSLT file used to transform the input message from an XML data document to a PDF file.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This file is not required if the incoming file is already in XSL:fo format.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Configuration File</p></td>
+          <td class="confluenceTd"><p>An optional XML FOP configuration file used to add extra fonts to the FOP XSL:fo processor.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input EDI Definition</p></td>
+          <td class="confluenceTd"><p>The EDI message definition of the input file. If this is specified, the filter converts the incoming file to XML format. If an XSLT file is specified in the <strong>XSLT File</strong> property, then the file is converted from XML to PDF format without requiring further user action.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="XMLtoPDF-XSLBackground">XSL Background</h2>
+      <p>XSL is a language for expressing stylesheets. An XSL stylesheet is a file that describes how to display an XML document of a given type and includes:</p>
+      <ul>
+       <li>A transformation language for XML documents: XSLT. This is a general purpose XML processing language and is widely used for tasks such as generating HTML web pages from XML data.</li>
+       <li>Advanced styling features, expressed by an XML document type which defines a set of formatting objects: XSL:fo. Refer to&nbsp;<a href="http://www.w3c.org/Style/XSL" class="external-link" rel="nofollow">The Extensible Stylesheet Language Family (XSL)</a> for details.</li>
+      </ul>
+      <h2 id="XMLtoPDF-GeneratingPDF">Generating PDF</h2>
+      <p>The most straight-forward way to produce a PDF from XML is to write in a syntax known as XSL-FO. This is a set of formatting instructions in XML which, when rendered through a formatter, will produce a PDF.</p>
+      <p>Rhapsody uses the Apache Formatting Objects Processor (FOP) XSL:FO library. Refer to <a href="http://xmlgraphics.apache.org/fop" class="external-link" rel="nofollow">Apache™ FOP</a> for details on FOP.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

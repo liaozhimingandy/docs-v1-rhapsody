@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>SSH Algorithms</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+       <li> <span><a href="Connection-Details_133162392.html">Connection Details</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">SSH Algorithms</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody is required to manage the following SSH algorithms when an SSH connection is established:</p>
+      <ul>
+       <li>The cipher suite used for encryption.</li>
+       <li>The key exchange algorithm used for exchanging SSH keys.</li>
+       <li>The key&nbsp;generation algorithm.</li>
+       <li>The message authentication algorithm for verifying the integrity of the channel.</li>
+       <li>The compression algorithm.</li>
+      </ul>
+      <p>Rhapsody treats the compression algorithm separately from the authentication algorithms, allowing it to be configured independently on the (S)FTP Client communication point. The remainder of the SSH algorithms are configured using the <strong>Cipher Suites</strong> configuration property.</p>
+      <h2 id="SSHAlgorithms-SSHCipherSuites">SSH Cipher Suites</h2>
+      <p>The following table shows which ciphers are included in each category:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Cipher Suite Level</strong></td>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>SSH Algorithms</strong></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Very Strong Cipher Suites</p></td>
+          <td class="confluenceTd">
+           <ul>
+            <li>AES-256 (CBC) only for the cipher.</li>
+            <li>DH Group 14 Exchange (SHA256).</li>
+            <li>DSA/RSA for the key generation.</li>
+            <li>HMAC SHA2-256, and HMAC SHA2-512 for message authentication.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>FIPS Cipher Suites</p></td>
+          <td class="confluenceTd">
+           <ul>
+            <li>AES-128 (CBC), AES-192 (CBC), and AES-256 (CBC) for the cipher.</li>
+            <li>DH Group 14 Exchange (SHA-256) / DH Group 14 Exchange (SHA-1).</li>
+            <li>DSA/RSA for the key generation.</li>
+            <li>HMAC SHA1, <span>HMAC SHA2-256, and HMAC SHA2-512</span> for message authentication.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Strong Cipher Suites</p></td>
+          <td class="confluenceTd">
+           <ul>
+            <li>AES-128 (CBC/CTR), AES-192 (CBC/CTR), AES-256 (CBC/CTR), and Blowfish-128 for the cipher.</li>
+            <li>DH Group 14 Exchange (SHA-256) /&nbsp;DH Group 14 Exchange (SHA-1).</li>
+            <li>DSA/RSA for the key generation.</li>
+            <li>HMAC SHA1, <span>HMAC SHA2-256, and HMAC SHA2-512</span> for message authentication.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Weak Cipher Suites</p></td>
+          <td class="confluenceTd">
+           <ul>
+            <li>3DES-168 (CBC), AES-128 (CBC/CTR), AES-192 (CBC/CTR), AES-256 (CBC/CTR), and Blowfish-128 for the cipher.</li>
+            <li>DH Group 14 Exchange (SHA-256) /&nbsp;DH Group 14 Exchange (SHA-1) / DH Group Exchange / DH Group 1 Exchange.</li>
+            <li>DSA/RSA for the key generation.</li>
+            <li>HMAC SHA1, <span>HMAC SHA2-256, HMAC SHA2-512, </span>HMAC SHA1-96, HMAC MD5, HMAC MD5 96 for message authentication.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SSHAlgorithms-ConfiguringSSHCipherSuites">Configuring SSH Cipher Suites</h2>
+      <p><span>As with the SSL cipher suites, it is possible to configure which SSH algorithms are included in each category in the <code>rhapsody.properties</code> file. Such changes require a Rhapsody restart in order to take effect. </span><span>The following table lists the keys in the <code>rhapsody.properties</code> file that can be set:&nbsp;</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Key</strong></td>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Description</strong></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>SshService.Ciphers.&lt;strength&gt;</code></p></td>
+          <td class="confluenceTd"><p>The ciphers to use:</p>
+           <ul>
+            <li><code>AES_256_CBC</code></li>
+            <li><code>AES_256_CTR</code></li>
+            <li><code>AES_192_CBC</code></li>
+            <li><code>AES_192_CTR</code></li>
+            <li><code>AES_128_CBC</code></li>
+            <li><code>AES_128_CTR</code></li>
+            <li><code>DES_168_CBC3</code></li>
+            <li><code>BLOWFISH_128_CBC</code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>SshService.KeyExchange.&lt;strength&gt;</code></p></td>
+          <td class="confluenceTd"><p>The key exchange algorithms to use:</p>
+           <ul>
+            <li><code>DH_GROUP_EXCHANGE</code></li>
+            <li><code>DH_GROUP_14_EXCHANGE</code></li>
+            <li><code>DH_GROUP_1_EXCHANGE</code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>SshService.KeyGeneration.&lt;strength&gt;</code></p></td>
+          <td class="confluenceTd"><p>The key generation algorithms to use:</p>
+           <ul>
+            <li><code>DSA</code></li>
+            <li><code>RSA</code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>SshService.MessageAuthentication.&lt;strength&gt;</code></p></td>
+          <td class="confluenceTd"><p>The message authentication algorithms to use:</p>
+           <ul>
+            <li><code>HMAC_SHA1</code></li>
+            <li><pre>HMAC_SHA2_256</pre></li>
+            <li><pre>HMAC_SHA2_512</pre></li>
+            <li><code>HMAC_SHA1_96</code></li>
+            <li><code>HMAC_MD5</code></li>
+            <li><code>HMAC_MD5_96</code></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Refer to the following examples:</p>
+      <ul>
+       <li><code>SshService.Ciphers.VeryStrong=AES_256_CBC</code></li>
+       <li><code>SshService.KeyExchange.Fips=DH_GROUP_EXCHANGE DH_GROUP_14_EXCHANGE</code></li>
+       <li><code>SshService.KeyGeneration.Strong=RSA DSA</code></li>
+       <li><code>SshService.MessageAuthentication.Weak=HMAC_SHA1 HMAC_SHA1_96 HMAC_MD5 HMAC_MD5_96</code></li>
+      </ul>
+      <p><span>The following excerpt shows the default properties in&nbsp;<code>rhapsody.properties</code> file for modifying the SSH algorithms: </span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence"># SSH Cipher Suites
+# Note that each cipher suite group wraps over multiple lines. All the lines for a particular group
+# should be uncommented if it is going to be modified. Wrapping requires that the last character on
+# the previous line is a backslash.
+#SshService.Ciphers.VeryStrong=AES_256_CBC
+#SshService.KeyExchange.VeryStrong=DH_GROUP_EXCHANGE_SHA256
+#SshService.KeyGeneration.VeryStrong=DSA RSA
+#SshService.MessageAuthentication.VeryStrong=HMAC_SHA2_256 HMAC_SHA2_512
+#
+#SshService.Ciphers.Fips=AES_256_CBC AES_192_CBC AES_128_CBC
+#SshService.KeyExchange.Fips=DH_GROUP_EXCHANGE_SHA256 DH_GROUP_14_EXCHANGE
+#SshService.KeyGeneration.Fips=DSA RSA
+#SshService.MessageAuthentication.Fips=HMAC_SHA2_256 HMAC_SHA2_512 HMAC_SHA1
+#
+#SshService.Ciphers.Strong=AES_256_CBC AES_256_CTR AES_192_CBC AES_192_CTR AES_128_CBC AES_128_CTR \
+#    BLOWFISH_128_CBC
+#SshService.KeyExchange.Strong=DH_GROUP_EXCHANGE_SHA256 DH_GROUP_14_EXCHANGE
+#SshService.KeyGeneration.Strong=DSA RSA
+#SshService.MessageAuthentication.Strong=HMAC_SHA2_256 HMAC_SHA2_512 HMAC_SHA1
+#
+#SshService.Ciphers.Weak=AES_256_CBC AES_256_CTR AES_192_CBC AES_192_CTR AES_128_CBC AES_128_CTR \
+#    DES_168_CBC3 BLOWFISH_128_CBC RC4_128
+#SshService.KeyExchange.Weak=DH_GROUP_EXCHANGE_SHA256 DH_GROUP_14_EXCHANGE DH_GROUP_EXCHANGE DH_GROUP_1_EXCHANGE
+#SshService.KeyGeneration.Weak=DSA RSA
+#SshService.MessageAuthentication.Weak=HMAC_SHA2_256 HMAC_SHA2_512 HMAC_SHA1 HMAC_SHA1_96 HMAC_MD5 HMAC_MD5_96</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <span>You must include a backslash at the end of a line if that property wraps onto the next line. The SSH algorithms are separated by whitespace or commas.</span>
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

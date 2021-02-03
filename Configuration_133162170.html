@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Configuration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Configuring-Communication-Points_133162165.html">Configuring Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Configuration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <strong>Configuration</strong> tab enables you to define configuration properties specific to a communication point:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146943909 {padding: 0px;}
+div.rbtoc1565146943909 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146943909 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146943909"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#Configuration-ConfigurationProperties">Configuration Properties</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#Configuration-SettingConfigurationProperties">Setting Configuration Properties</a></li> 
+          <li><a href="#Configuration-InternalIDsforConfigurationProperties">Internal IDs for Configuration Properties</a></li> 
+         </ul> </li> 
+        <li><a href="#Configuration-FilenameGenerationfilenames">Filename Generation</a></li> 
+        <li><a href="#Configuration-WrapperOptions">Wrapper Options</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#Configuration-StripWrapping">Strip Wrapping</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p>&nbsp;The options available on this tab depend on the communication point's type and operational mode, for example:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162170/133162171.png" data-image-src="attachments/133162170/133162171.png" data-unresolved-comment-count="0" data-linked-resource-id="133162171" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Directory-Config.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162170" data-linked-resource-container-version="1"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-tip">
+       <span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If a property is displayed in grey, it is not applicable for the selected operational mode or implementation. Only properties displayed in black can be configured.</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>To determine the value of a configuration property that is set to a Rhapsody variable, you can hover over the variable to display a tooltip with its value.</p>
+       </div>
+      </div>
+      <p>For details on the options available on this tab for a particular communication point, refer to the documentation for that specific communication point.</p>
+      <h2 id="Configuration-ConfigurationProperties">Configuration Properties</h2>
+      <h3 id="Configuration-SettingConfigurationProperties">Setting Configuration Properties</h3>
+      <p>There are three ways to set a configuration property that does not offer pre-configured settings, using literals, message properties or Rhapsody variables:</p>
+      <ol>
+       <li>Enter the relevant value directly into the&nbsp;<strong>Value</strong>&nbsp;field.</li>
+       <li><p>Select from one of the communication point's published message properties from the drop-down list, or&nbsp;enter <span>into the&nbsp;</span><strong>Value</strong><span>&nbsp;field </span>a message property that is either route extracted or created, using the&nbsp;<code>$propertyName</code>&nbsp;notation.&nbsp;For example, if the&nbsp;<code>&lt;Patient Name&gt;</code>&nbsp;and&nbsp;<code>&lt;Patient Gender&gt;</code>&nbsp;properties have been identified as Message Definition properties on the route's&nbsp;<strong>Properties</strong>&nbsp;window, then these fields can be selected for the filename. Refer to&nbsp;<a href="Message-Properties_133164574.html">Message Properties</a>&nbsp;for details on configuring components with message properties.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Most configuration properties that can be set using literal values can also accept message properties using the <code>$propertyName</code><span>&nbsp;notation. There are, however, exceptions. Therefore it is recommended you <a href="Testing-Filter-Configurations_133162685.html">test your routes</a> to ensure expected behavior.</span></p>
+         </div>
+        </div></li>
+       <li><p>Search and select from a list of available Rhapsody variables by launching the&nbsp;<strong>Select Rhapsody Variable</strong>&nbsp;dialog (refer to&nbsp;<a href="Rhapsody-Variables_133163434.html">Rhapsody Variables</a>&nbsp;for details on how to manage Rhapsody variables):</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162170/133162172.png" data-image-src="attachments/133162170/133162172.png" data-unresolved-comment-count="0" data-linked-resource-id="133162172" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SelectRhapsodyVariable.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162170" data-linked-resource-container-version="1"></span></p></li>
+      </ol>
+      <h3 id="Configuration-InternalIDsforConfigurationProperties">Internal IDs for Configuration Properties</h3>
+      <p>To obtain the internal IDs for configuration properties relevant to your configuration:</p>
+      <ol>
+       <li>Save your configuration to an RLC file (create a backup of the file if you wish).</li>
+       <li>Change the RLC file's extension to&nbsp;<code>.zip</code>.&nbsp;</li>
+       <li>Unzip the Zip file and open the XML file contained therein.&nbsp;</li>
+       <li><p>The XML file contains the internal IDs for configuration properties, for example:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;Property&gt;
+  &lt;Name&gt;LOCALPORT&lt;/Name&gt;
+  &lt;Value&gt;$(TCP_Blocking_Port)&lt;/Value&gt;
+  &lt;Type&gt;ptInteger&lt;/Type&gt;
+&lt;/Property&gt;</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <p></p>
+      <h2 id="Configuration-FilenameGenerationfilenames">Filename Generation<span class="confluence-anchor-link" id="Configuration-filenames"></span></h2>
+      <p>The generation of a filename is controlled by three properties (<code>Base Filename</code>, <code>Suffix</code>, and <code>Append Date</code>). The name is generated by concatenating the base filename, the current date/time (if the <strong>Append Date</strong> field is set to <code>True</code>) and the suffix.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If a file already exists with the generated name, a counter is added in parentheses. The file is initially written with a suffix of <code>.tmp</code> and then renamed with its correct name once its creation is complete. Incomplete files (with a <code>.tmp</code> suffix) can therefore be ignored by external applications.</p>
+        <p>For example, if the following settings are defined for a Directory communication point:</p>
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <td class="confluenceTd"><p>Base Filename</p></td>
+            <td class="confluenceTd"><p>Base</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Suffix</p></td>
+            <td class="confluenceTd"><p>.msg</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Append Date</p></td>
+            <td class="confluenceTd"><p><em>True</em></p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+        <p>The following sample filename is generated: <code>Base2008-07-01-10-51-45-666.msg</code></p>
+       </div>
+      </div>
+      <h2 id="Configuration-WrapperOptions">Wrapper Options</h2>
+      <p>The the message wrapper options are as follows:</p>
+      <ul>
+       <li>When message wrapping is set to <code>None</code>, no header or trailer information is included with the message.</li>
+       <li><code>Minimal</code> wrapping uses a header of <code>\x0B</code>&nbsp;and a trailer of <code>\x1C\x0D</code>, as used by HL7 Minimal Lower Layer Protocol (MLLP).</li>
+       <li><code>Hybrid</code> wrapping is used for HL7 Hybrid Lower Layer Protocol (HLLP), which is generally only used on unreliable transports like serial connections. It uses a header of <code>\x0BD21\x0D</code>&nbsp;and a trailer of <code>dddddccc\x1C\x0D</code>, where the <strong>d</strong> is a 5-byte data length in decimal, and <strong>c</strong> is a 3-byte XOR checksum of the data.</li>
+       <li>With <code>User</code> wrapping, you can set your own header and trailer strings. The endian-ness of binary data that can be placed in these header/trailer strings is set in the <code>Endian-ness</code> properties. These endian-ness properties can be either <code>Big</code> (most significant byte first) or <code>Little</code> (least significant byte first) endian.</li>
+      </ul>
+      <p>The format codes used in the header or trailer strings are as follows:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Format</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\x<em>ZZ</em></code></p></td>
+          <td class="confluenceTd"><p>The byte code <em>ZZ</em>&nbsp;in hexadecimal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%<em>n</em>C</code></p></td>
+          <td class="confluenceTd"><p>An <em>n</em>-digit checksum.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%2B</code></p></td>
+          <td class="confluenceTd"><p>A two-byte representation of the message length.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%2B(<em>n</em>)</code></p></td>
+          <td class="confluenceTd"><p>A two-byte representation of the decimal value <em>n</em> added to the message length. The <em>(n)</em> suffix can be appended to all message length-related format codes.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%4B</code></p></td>
+          <td class="confluenceTd"><p>A four-byte representation of the message length.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%<em>n</em>O</code></p></td>
+          <td class="confluenceTd"><p>An <em>n</em>-digit representation of the message length in octal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%<em>n</em>D</code></p></td>
+          <td class="confluenceTd"><p>An<em> n</em>-digit representation of the message length in decimal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%<em>n</em>H</code></p></td>
+          <td class="confluenceTd"><p>An <em>n</em>-digit representation of the message length in hexadecimal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%<em>n</em>I</code></p></td>
+          <td class="confluenceTd"><p>Ignore the first <em>n</em> characters in the input stream.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Configuration-StripWrapping">Strip Wrapping</h3>
+      <h4 id="Configuration-InputMode">Input Mode</h4>
+      <p>Bytes are read from the socket and discarded until a header is received, then the body is read until a trailer is received. If the <strong>Strip Wrapping</strong> property is set to True, the body of the message is placed in the processing queue. If <strong>Strip Wrapping</strong> is set to False, the body (including received wrapping) is placed on the processing queue.</p>
+      <h4 id="Configuration-OutputMode">Output Mode</h4>
+      <p>Each message is wrapped appropriately and sent out the socket connection.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

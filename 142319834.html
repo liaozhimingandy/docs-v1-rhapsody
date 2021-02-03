@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>DICOM to XML / XML to DICOM</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Deprecated-Components_133162090.html">Deprecated Components</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">DICOM to XML / XML to DICOM</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/142319834/142319835.jpg" data-image-src="attachments/142319834/142319835.jpg" data-unresolved-comment-count="0" data-linked-resource-id="142319835" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image055.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="142319834" data-linked-resource-container-version="9"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <p class="title">Discontinued Component</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This filter has been <span>discontinued</span> and replaced by the&nbsp;<a href="DICOM-XML-Converter_133163336.html">DICOM XML Converter</a>&nbsp;filter. While RLCs containing this filter will load into Rhapsody, the filter will be rendered both inoperable and unconfigurable. Therefore, it is recommended you update your RLC to work with the<span>&nbsp;</span><a href="DICOM-XML-Converter_133163336.html">DICOM XML Converter</a><span>&nbsp;filter.</span></p>
+       </div>
+      </div>
+      <p>The <strong style="letter-spacing: 0.0px;">DICOM to XML / XML to DICOM</strong> filter&nbsp;transforms a DICOM message into an XML message format and vice versa. Using this filter allows easy access to DICOM message content, its modification or a mapping to another message format such as HL7.</p>
+      <p><span>This filter is only available on 32-bit </span><em>Windows®</em><span> and Linux® platforms.</span></p>
+      <p>DICOM (Digital Imaging and Communications in Medicine) is a standard designed to allow medical image files to be transferred, stored and viewed on different makes of computers. A single DICOM message contains both a header (which stores information about the patient's name, the type of scan, image dimensions, etc), as well as all of the image data (which can contain information in three dimensions). Refer to the <a href="http://medical.nema.org/" class="external-link" rel="nofollow">DICOM home page</a> for details.</p>
+      <p>The <strong>DICOM to XML / XML to DICOM</strong> filter also provides a way to transform the header information into a readable text format by setting the <strong>Apply Stylesheet</strong> property to <code>true</code>.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>DTD of XML</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">&lt;!ELEMENT dicomfile (filemetainfo?, dataset)&gt;
+&lt;!ELEMENT filemetainfo (preamble?, attr*)&gt;
+&lt;!ELEMENT preamble (#PCDATA)&gt;
+&lt;!ELEMENT dataset (attr*)&gt;
+&lt;!ELEMENT attr (#PCDATA \| item)*&gt;
+&lt;!ELEMENT item (#PCDATA \| attr)*&gt;
+
+&lt;!ATTLIST attr tag CDATA #REQUIRED&gt;
+&lt;!ATTLIST attr vr (AE \| AS \| AT \| CS \| DA \| DS \| DT \| FL \|
+ FD \| IS \| LO \| LT \| OB \| OF \| OW \| PN \|
+ SH \| SL \| SQ \| SS \| ST \| TM \| UI \| UL \|
+ UN \| US \| UT) #IMPLIED&gt;
+&lt;!ATTLIST attr vm CDATA #IMPLIED&gt;
+&lt;!ATTLIST attr pos CDATA #IMPLIED&gt;
+&lt;!ATTLIST attr len CDATA #IMPLIED&gt;
+&lt;!ATTLIST attr name CDATA #IMPLIED&gt;
+&lt;!ATTLIST attr src CDATA #IMPLIED&gt;
+&lt;!ATTLIST attr hide (true \| false) "false"&gt;
+
+&lt;!ATTLIST item id CDATA #IMPLIED&gt;
+&lt;!ATTLIST item len CDATA #IMPLIED&gt;
+&lt;!ATTLIST item pos CDATA #IMPLIED&gt;</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>Sample XML</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;dicomfile&gt;
+    &lt;filemetainfo&gt;
+        &lt;preamble&gt;0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0
+                  ........................................................................
+        &lt;/preamble&gt;
+        &lt;attr tag="00020000" vr="UL" pos="132" name="Group Length" vm="1" len="4"&gt;194&lt;/attr&gt;
+        ........................................................................
+        &lt;attr tag="00020016" vr="AE" pos="322" name="Source Application Entity Title" vm="1" len="8"&gt;CLUNIE1&lt;/attr&gt;
+    &lt;/filemetainfo&gt;
+    &lt;dataset&gt;
+        &lt;attr tag="00080008" vr="CS" pos="338" name="Image Type" vm="4" len="36"&gt;ORIGINAL\PRIMARY\WHOLE BODY\EMISSION&lt;/attr&gt;
+        &lt;attr tag="00080012" vr="DA" pos="382" name="Instance Creation Date" vm="1" len="8"&gt;19970911&lt;/attr&gt;
+        ........................................................................
+        &lt;attr tag="00540400" vr="SH" pos="2636" name="Image ID" vm="1" len="12"&gt;WHOLE BODY_E&lt;/attr&gt;
+        &lt;attr tag="7FE00010" vr="OB" pos="2656" name="Pixel Data" len="-1"&gt;
+            &lt;item id="1" pos="2668" len="0"/&gt;
+            &lt;item id="2" pos="2676" len="116051"&gt; 
+            255\216\255\195\0\11\16\4\0\1\0\1\1\17\0\
+            ..........................................................................................................................
+            &lt;/item&gt;
+        &lt;/attr&gt;
+    &lt;/dataset&gt;
+&lt;/dicomfile&gt;
+
+The 'attr' element of 'tag' attribute of '7FE00010' is 
+omitted when the 'Include Image Data' property is set to false.</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>Sample text format output when the Apply Stylesheet property is set to true</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">=== File Meta Information ===
+0132 (0002,0000) UL #4\* 1 \[194\] //Group Length
+0144 (0002,0001) OB #2\* 1 \[0\1\] //File Meta Information Version
+........................................................................
+0322 (0002,0016) AE #8\* 1 \[CLUNIE1 \] //Source Application Entity Title
+=== Data Set ===
+0338 (0008,0008) CS #36\* 4 \[ORIGINAL\PRIMARY\WHOLE BODY\EMISSION]
+//Image Type
+
+0382 (0008,0012) DA #8\* 1 \[19970911\] //Instance Creation Date
+........................................................................
+2636 (0054,0400) SH #12\* 1 \[WHOLE BODY_E\] //Image ID
+2656 (7FE0,0010) OB #-1 //Pixel Data
+2668 &gt;(fffe,e000) #0 \[\] //Item-1
+2676 &gt;(fffe,e000) #116051
+[255\216\255\195\0\11\16\4\0\1\0\1\1\17\0\255\196\
+(fffe,e0dd) #0 //Sequence Delimitation Item
+
+*Note that the part on and after '2656 (7FE0,0010) OB #-1 
+// Pixel Data' will be omitted when the
+// 'Include Image Data' property is set to false.</pre> 
+       </div>
+      </div>
+      <h2 id="DICOMtoXML/XMLtoDICOM-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Maximum Concurrency</td>
+          <td class="confluenceTd">The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="https://docs.rhapsody.health/pages/viewpage.action?pageId=128717969">Maximum Concurrency</a> for details.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Transform Mode</td>
+          <td class="confluenceTd"><p>Determines whether the filter is operating as a DICOM to XML converter or an XML to DICOM converter:</p>
+           <ul>
+            <li><code>DICOM to XML</code><span> - (default).</span></li>
+            <li><code>XML to DICOM</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Include Image Data</td>
+          <td class="confluenceTd"><p>Whether to include image data into the output XML message:</p>
+           <ul>
+            <li><code>True</code> - the XML message includes an <code>attr</code> element of tag attribute value <code>7FE00010</code> and image pixel data is included in this <code>attr</code> element value.</li>
+            <li><span><code>False</code> - (default).</span></li>
+           </ul><p>This property is enabled only if <strong>Transform Mode</strong> is set to <code>DICOM to XML</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Apply Stylesheet</td>
+          <td class="confluenceTd"><p>Whether to apply a stylesheet after the XML is generated:</p>
+           <ul>
+            <li><code>True</code> - apply a stylesheet. T<span>he output is text format instead of XML.</span></li>
+            <li><code>False</code> - (default) - do not <span>apply a </span>stylesheet.</li>
+           </ul><p>This property is enabled only if <strong>Transform Mode</strong> is set to <code>DICOM to XML</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

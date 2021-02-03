@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>register and registration-prompt</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="Unattended-Installations_133164341.html">Unattended Installations</a></span> </li> 
+       <li> <span><a href="Configuring-Rhapsody-IDE-Unattended_133164342.html">Configuring Rhapsody IDE Unattended</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">register and registration-prompt</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section describes how to register the Rhapsody engine.</p>
+      <h2 id="registerandregistration-prompt-Alternatives">Alternatives</h2>
+      <p>You can register in one of the following ways when using a script:</p>
+      <ol>
+       <li>Interactive registration (<code>&lt;registration-prompt/&gt;</code>).</li>
+       <li>Automated registration with automated FTP delivery, but falls back to interactive delivery if FTP fails (<code>&lt;interactive-delivery/&gt;</code>).</li>
+       <li>Automated registration with deferred manual delivery. This writes the registration file to a directory and you can manually email the registrations through later.</li>
+       <li>Automated registration with fully automated delivery. FTP or email delivery scripted fallback options.</li>
+      </ol>
+      <h2 id="registerandregistration-prompt-Example">Example</h2>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;!-- If FTP fails, Rhapsody tries to email the registration information. If email fails as well, then Rhapsody saves
+the registration information to the directory specified in manual dir --&gt;
+&lt;register&gt;
+    &lt;organization&gt;Acme Corporation&lt;/organization&gt;
+    &lt;address&gt;
+        &lt;line1&gt;181 Grafton Road&lt;/line1&gt;
+        &lt;line2&gt;Grafton&lt;/line2&gt;
+        &lt;city&gt;Auckland&lt;/city&gt;
+        &lt;postcode&gt;1010&lt;/postcode&gt;
+        &lt;state&gt;Auckland&lt;/state&gt;
+        &lt;country&gt;New Zealand&lt;/country&gt;
+    &lt;/address&gt;
+    &lt;engine&gt;
+        &lt;name&gt;Rhapsody&lt;/name&gt;
+        &lt;purpose&gt;Experimental&lt;/purpose&gt;
+    &lt;/engine&gt;
+
+    &lt;delivery&gt;
+        &lt;ftp/&gt;
+        &lt;fallback&gt;
+            &lt;email/&gt;
+            &lt;manual dir="C:\registrations"/&gt;
+        &lt;/fallback&gt;
+    &lt;/delivery&gt;
+&lt;/register&gt;
+
+&lt;!-- Don't try to deliver the registration, instead write the registration information to a folder that can be sent
+to Rhapsody Global later --&gt;
+  &lt;register&gt;
+    &lt;organization&gt;Acme Corporation&lt;/organization&gt;
+    &lt;address&gt;
+        &lt;line1&gt;181 Grafton Road&lt;/line1&gt;
+        &lt;line2&gt;Grafton&lt;/line2&gt;
+        &lt;city&gt;Auckland&lt;/city&gt;
+        &lt;postcode&gt;1010&lt;/postcode&gt;
+        &lt;state&gt;Auckland&lt;/state&gt;
+        &lt;country&gt;New Zealand&lt;/country&gt;
+    &lt;/address&gt;
+    &lt;engine&gt;
+        &lt;name&gt;Rhapsody&lt;/name&gt;
+        &lt;purpose&gt;Experimental&lt;/purpose&gt;
+    &lt;/engine&gt;
+
+    &lt;delivery&gt;
+        &lt;manual dir="C:/registrations"/&gt;
+    &lt;/delivery&gt;
+&lt;/register&gt;
+
+&lt;!-- Register, but if the FTP registration fails display a dialog and ask the user how to deliver the registration --&gt;
+&lt;register&gt;
+    &lt;organization&gt;Acme Corporation&lt;/organization&gt;
+    &lt;address&gt;
+        &lt;line1&gt;181 Grafton Road&lt;/line1&gt;
+        &lt;line2&gt;Mt Eden&lt;/line2&gt;
+        &lt;city&gt;Grafton&lt;/city&gt;
+        &lt;postcode&gt;1010&lt;/postcode&gt;
+        &lt;state&gt;Auckland&lt;/state&gt;
+        &lt;country&gt;New Zealand&lt;/country&gt;
+    &lt;/address&gt;
+    &lt;engine&gt;
+        &lt;name&gt;Rhapsody&lt;/name&gt;
+        &lt;purpose&gt;Experimental&lt;/purpose&gt;
+    &lt;/engine&gt;
+
+    &lt;interactive-delivery/&gt;
+&lt;/register&gt;
+
+&lt;!-- Full manual registration --&gt;
+&lt;registration-prompt/&gt;</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,632 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Custom Modules and Libraries</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Administration-REST-API-Methods_133161103.html">Administration REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Custom Modules and Libraries</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods for managing custom modules and libraries:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147004916 {padding: 0px;}
+div.rbtoc1565147004916 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147004916 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147004916"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CustomModulesandLibraries-POST/admin/modules">POST /admin/modules</a></li> 
+        <li><a href="#CustomModulesandLibraries-PUT/admin/modules/<name>">PUT /admin/modules/&lt;name&gt;</a></li> 
+        <li><a href="#CustomModulesandLibraries-GET/admin/modules">GET /admin/modules</a></li> 
+        <li><a href="#CustomModulesandLibraries-GET/admin/modules/<name>">GET /admin/modules/&lt;name&gt;</a></li> 
+        <li><a href="#CustomModulesandLibraries-POST/admin/libraries">POST /admin/libraries</a></li> 
+        <li><a href="#CustomModulesandLibraries-PUT/admin/libraries/<name>">PUT /admin/libraries/&lt;name&gt;</a></li> 
+        <li><a href="#CustomModulesandLibraries-GET/admin/libraries">GET /admin/libraries</a></li> 
+        <li><a href="#CustomModulesandLibraries-GET/admin/libraries/<name>">GET /admin/libraries/&lt;name&gt;</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="CustomModulesandLibraries-POST/admin/modules">POST /admin/modules</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/modules</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads a new module onto the engine.</p><p>An option in the&nbsp;<code>rhapsody.properties</code>&nbsp;file can be used to limit the circumstances under which custom modules and libraries can be uploaded to the Rhapsody engine. Refer to&nbsp;<a href="Loading-a-Configuration_133161525.html#LoadingaConfiguration-LoadingCustomModulesandLibraries">Loading Custom Modules and Libraries</a>&nbsp;<span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/java-archive<br>Content-Disposition: &lt;name&gt;<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+java-archive<br>Content-Disposition: &lt;name&gt;<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The module JAR file binary.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>201 Created</code> - includes location header with the URI of the API to save the custom module.<br> <code>409 Conflict</code> - the module already exists on the engine.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Load custom modules and third party libraries REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CustomModulesandLibraries-PUT/admin/modules/<name>">PUT /admin/modules/&lt;name&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/modules/&lt;name&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads a module onto the engine, overwriting the existing module with that name.</p><p>An option in the&nbsp;<code>rhapsody.properties</code>&nbsp;file can be used to limit the circumstances under which custom modules and libraries can be uploaded to the Rhapsody engine. Refer to&nbsp;<a href="Loading-a-Configuration_133161525.html#LoadingaConfiguration-LoadingCustomModulesandLibraries">Loading Custom Modules and Libraries</a>&nbsp;<span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/java-archive<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+java-archive<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The module JAR file binary.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Load custom modules and third party libraries REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CustomModulesandLibraries-GET/admin/modules">GET /admin/modules</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/modules</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the custom modules.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code>, <code>multipart/mixed </code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_1+json</code>, <code>multipart/vnd.orchestral.rhapsody.6_1+mixed</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns all the module's information in JSON format and the actual module JAR file if requested.<br><code style="line-height: 13.0pt;">204 No Content</code><span style="line-height: 13.0pt;"> -</span><span style="line-height: 13.0pt;background-color: transparent;"> there are no modules available.</span></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">
+           <div id="expander-136974610" class="expand-container">
+            <div id="expander-control-136974610" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">json</span>
+            </div>
+            <div id="expander-content-136974610" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":
+    [
+        {
+            "filename": "com.orchestral.rhapsody.testing.fifotester-3.4-final.jar",
+            "hash": "c2c1752bcbef182f294a7240bd34ba5ae85762de",
+            "resourceURI": "https://localhost:8444/admin/module/com.orchestral.rhapsody.testing.fifotester-3.4-final.jar"
+        },
+        {
+            "filename": "Mapper_Source.jar",
+            "hash": "9e47c479747ef3add5a5f794c2a8d229545dfa98",
+            "resourceURI": "https://localhost:8444/admin/module/Mapper_Source.jar"
+        },
+        {
+            "filename": "MessageSource.jar",
+            "hash": "e3ad78bbfa2b0fe494f08ff8c46cfd22dae32b07",
+            "resourceURI": "https://localhost:8444/admin/module/MessageSource.jar"
+        },
+        {
+            "filename": "net.catholichealth.rhapsody.filters.ExtractMessagePropertiesHL7.jar",
+            "hash": "a7d456b5d188da5312361fba4f46341338f03e4e",
+            "resourceURI": "https://localhost:8444/admin/module/net.catholichealth.rhapsody.filters.ExtractMessagePropertiesHL7.jar"
+        },
+        {
+            "filename": "XML_Source.jar",
+            "hash": "8618375e547237f6817641e6d0188400db0e6b1b",
+            "resourceURI": "https://localhost:8444/admin/module/XML_Source.jar"
+        }
+    ],
+    "error": null
+}  </pre> 
+              </div>
+             </div>
+            </div>
+           </div>
+           <div id="expander-785006386" class="expand-container">
+            <div id="expander-control-785006386" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">multipart/mixed</span>
+            </div>
+            <div id="expander-content-785006386" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">--Boundary_20_1981173124_1418952174309
+Content-Type: multipart/mixed; boundary=Boundary_15_1443523109_1418952174308
+
+--Boundary_6_1777375636_1418952018388
+Content-X-Rhapsody-Modulepart: meta
+Content-Type: application/json
+
+{"filename":"XML\u005FSource\u002Ejar","hash":"8618375e547237f6817641e6d0188400db0e6b1b","resourceURI":null}
+
+--Boundary_6_1777375636_1418952018388
+Content-Disposition: attachment;filename=XML_Source.jar
+Content-X-Rhapsody-Modulepart: jar
+Content-Type: application/java-archive
+
+A34943CBD13F21G123...
+
+--Boundary_6_1777375636_1418952018388
+
+--Boundary_6_1777375636_1418952018389
+Content-X-Rhapsody-Modulepart: meta
+Content-Type: application/json
+
+{"filename":"XML\u005FSource2\u002Ejar","hash":"8618375e547237f6817641e6d0188400db0e6b1b","resourceURI":null}
+
+--Boundary_6_1777375636_1418952018389
+Content-Disposition: attachment;filename=XML_Source2.jar
+Content-X-Rhapsody-Modulepart: jar
+Content-Type: application/java-archive
+
+A34943CBD13F21G123...
+
+--Boundary_6_1777375636_1418952018389
+
+--Boundary_20_1981173124_1418952174309 </pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save custom modules and third party libraries REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CustomModulesandLibraries-GET/admin/modules/<name>">GET /admin/modules/&lt;name&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/modules/&lt;name&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the module with the given name.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code>, <code>multipart/mixed</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_1+json</code>, <code>multipart/vnd.orchestral.rhapsody.6_1+mixed</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the module information in JSON format and the actual module JAR file if requested.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">
+           <div id="expander-48186847" class="expand-container">
+            <div id="expander-control-48186847" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">application/json</span>
+            </div>
+            <div id="expander-content-48186847" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":
+    {
+        "filename": "XML_Source.jar",
+        "hash": "8618375e547237f6817641e6d0188400db0e6b1b",
+        "resourceURI": "https://localhost:8444/admin/module/XML_Source.jar"
+    },
+    "error": null
+}</pre> 
+              </div>
+             </div>
+            </div>
+           </div>
+           <div id="expander-588796617" class="expand-container">
+            <div id="expander-control-588796617" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">multipart/mixed</span>
+            </div>
+            <div id="expander-content-588796617" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">--Boundary_6_1777375636_1418952018389
+Content-X-Rhapsody-Modulepart: meta
+Content-Type: application/json
+
+{"filename":"XML\u005FSource\u002Ejar","hash":"8618375e547237f6817641e6d0188400db0e6b1b","resourceURI":null}
+
+--Boundary_6_1777375636_1418952018389
+Content-Disposition: attachment;filename=XML_Source.jar
+Content-X-Rhapsody-Modulepart: jar
+Content-Type: application/java-archive
+
+A34943CBD13F21G123...
+
+--Boundary_6_1777375636_1418952018389</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save custom modules and third party libraries REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CustomModulesandLibraries-POST/admin/libraries">POST /admin/libraries</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/libraries</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads a new library onto the engine.</p><p><span>An option in the&nbsp;</span><code>rhapsody.properties</code><span>&nbsp;file can be used to limit the circumstances under which custom modules and libraries can be uploaded to the Rhapsody engine. Refer to&nbsp;</span><a href="Loading-a-Configuration_133161525.html#LoadingaConfiguration-LoadingCustomModulesandLibraries">Loading Custom Modules and Libraries</a><span>&nbsp;</span><span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/octet-stream<br>Content-Disposition: &lt;name&gt;</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+octet-stream<br>Content-Disposition: &lt;name&gt;</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The library binary.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>201 Created</code> - includes location header with the URI of the API to save the custom library.<br> <code>409 Conflict</code> - the library already exists on the engine.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Load custom modules and third party libraries REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CustomModulesandLibraries-PUT/admin/libraries/<name>">PUT /admin/libraries/&lt;name&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/libraries/&lt;name&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads a library into the engine, overwriting the existing library with that name.</p><p><span>An option in the&nbsp;</span><code>rhapsody.properties</code><span>&nbsp;file can be used to limit the circumstances under which custom modules and libraries can be uploaded to the Rhapsody engine. Refer to&nbsp;</span><a href="Loading-a-Configuration_133161525.html#LoadingaConfiguration-LoadingCustomModulesandLibraries">Loading Custom Modules and Libraries</a><span>&nbsp;</span><span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/octet-stream</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+octet-stream</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The library binary.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Load custom modules and third party libraries REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CustomModulesandLibraries-GET/admin/libraries">GET /admin/libraries</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/libraries</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the custom libraries.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code>, <code>multipart/mixed</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_1+json</code>, <code>multipart/vnd.orchestral.rhapsody.6_1+mixed</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns all the libraries' information in JSON format and the actual library JAR file if requested.<br><code style="line-height: 13.0pt;">204 No Content</code><span style="line-height: 13.0pt;"> -</span><span style="line-height: 13.0pt;background-color: transparent;"> there are no libraries available.</span></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">
+           <div id="expander-1693989811" class="expand-container">
+            <div id="expander-control-1693989811" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">application/json</span>
+            </div>
+            <div id="expander-content-1693989811" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":
+    [
+        {
+            "filename": "com.orchestral.rhapsody.testing.fifotester-3.4-final.jar",
+            "hash": "c2c1752bcbef182f294a7240bd34ba5ae85762de",
+            "resourceURI": "https://localhost:8444/admin/libraries/com.orchestral.rhapsody.testing.fifotester-3.4-final.jar"
+        },
+        {
+            "filename": "Mapper_Source.jar",
+            "hash": "9e47c479747ef3add5a5f794c2a8d229545dfa98",
+            "resourceURI": "https://localhost:8444/admin/libraries/Mapper_Source.jar"
+        },
+        {
+            "filename": "MessageSource.jar",
+            "hash": "e3ad78bbfa2b0fe494f08ff8c46cfd22dae32b07",
+            "resourceURI": "https://localhost:8444/admin/libraries/MessageSource.jar"
+        },
+        {
+            "filename": "net.catholichealth.rhapsody.filters.ExtractMessagePropertiesHL7.jar",
+            "hash": "a7d456b5d188da5312361fba4f46341338f03e4e",
+            "resourceURI": "https://localhost:8444/admin/libraries/net.catholichealth.rhapsody.filters.ExtractMessagePropertiesHL7.jar"
+        },
+        {
+            "filename": "XML_Source.jar",
+            "hash": "8618375e547237f6817641e6d0188400db0e6b1b",
+            "resourceURI": "https://localhost:8444/admin/libraries/XML_Source.jar"
+        }
+    ],
+    "error": null
+}  </pre> 
+              </div>
+             </div>
+            </div>
+           </div>
+           <div id="expander-1507617615" class="expand-container">
+            <div id="expander-control-1507617615" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">multipart/mixed</span>
+            </div>
+            <div id="expander-content-1507617615" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">--Boundary_20_1981173124_1418952174309
+Content-Type: multipart/mixed; boundary=Boundary_15_1443523109_1418952174308
+
+--Boundary_6_1777375636_1418952018388
+Content-X-Rhapsody-Modulepart: meta
+Content-Type: application/json
+
+{"filename":"XML\u005FSource\u002Ejar","hash":"8618375e547237f6817641e6d0188400db0e6b1b","resourceURI":null}
+
+--Boundary_6_1777375636_1418952018388
+Content-Disposition: attachment;filename=XML_Source.jar
+Content-X-Rhapsody-Modulepart: jar
+Content-Type: application/octet-stream
+
+A34943CBD13F21G123...
+
+--Boundary_6_1777375636_1418952018388
+
+--Boundary_6_1777375636_1418952018389
+Content-X-Rhapsody-Modulepart: meta
+Content-Type: application/json
+
+{"filename":"XML\u005FSource2\u002Ejar","hash":"8618375e547237f6817641e6d0188400db0e6b1b","resourceURI":null}
+
+--Boundary_6_1777375636_1418952018389
+Content-Disposition: attachment;filename=XML_Source2.jar
+Content-X-Rhapsody-Modulepart: jar
+Content-Type: application/octet-stream
+
+A34943CBD13F21G123...
+
+--Boundary_6_1777375636_1418952018389
+
+--Boundary_20_1981173124_1418952174309 </pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save custom modules and third party libraries REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CustomModulesandLibraries-GET/admin/libraries/<name>">GET /admin/libraries/&lt;name&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/libraries/&lt;name&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the library with the given name.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code>, <code>multipart/mixed</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_1+json</code>, <code>multipart/vnd.orchestral.rhapsody.6_1+mixed</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the library information in JSON format and the actual library JAR file if requested.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">
+           <div id="expander-829841642" class="expand-container">
+            <div id="expander-control-829841642" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">application/json</span>
+            </div>
+            <div id="expander-content-829841642" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":
+    {
+        "filename": "XML_Source.jar",
+        "hash": "8618375e547237f6817641e6d0188400db0e6b1b",
+        "resourceURI": "https://localhost:8444/admin/libraries/XML_Source.jar"
+    },
+    "error": null
+}</pre> 
+              </div>
+             </div>
+            </div>
+           </div>
+           <div id="expander-69670576" class="expand-container">
+            <div id="expander-control-69670576" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">multipart/mixed</span>
+            </div>
+            <div id="expander-content-69670576" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">--Boundary_6_1777375636_1418952018389
+Content-X-Rhapsody-Modulepart: meta
+Content-Type: application/json
+
+{"filename":"XML\u005FSource\u002Ejar","hash":"8618375e547237f6817641e6d0188400db0e6b1b","resourceURI":null}
+
+--Boundary_6_1777375636_1418952018389
+Content-Disposition: attachment;filename=XML_Source.jar
+Content-X-Rhapsody-Modulepart: jar
+Content-Type: application/java-archive
+
+A34943CBD13F21G123...
+
+--Boundary_6_1777375636_1418952018389</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save custom modules and third party libraries REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,475 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Directory</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Directory</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162648/133162653.jpg" data-image-src="attachments/133162648/133162653.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162653" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image029.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162648" data-linked-resource-container-version="13"></span></p>
+      <p>A <strong>Directory</strong> communication point&nbsp;enables you to send and receive files from a directory. Refer to <a href="#Directory-PublishedProperties">Published Properties</a> for a list of properties associated with this communication point.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Configuration_133162170.html#Configuration-SettingConfigurationProperties">Setting Configuration Properties</a> for details on using message properties or variables to define configuration properties.</p>
+       </div>
+      </div>
+      <p>Supported Operational Modes: <em>All</em>.</p>
+      <h2 id="Directory-InputModeProperties">Input Mode Properties</h2>
+      <p>Files placed in an Input Directory communication point are checked at regular intervals and if they match a pattern defined in the properties for that communication point, are processed by the Rhapsody engine. If <strong>Debatch Mode</strong> is set to <code>True</code>, files are separated into their component messages before processing.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Directory</p></td>
+          <td class="confluenceTd"><p>The location of the input directory. This location can be on the local machine or on another machine using a Universal Naming Convention (UNC) path. If a UNC path is used, the service under which Rhapsody is running must have permissions to access the network and the specified path, including write access to the input directory and the input files itself.</p><p>It is recommended you enter the path using a forward slash (/), which can be used on all platforms; for example <code>c:/temp/in</code>.</p><p>To access a <em>Windows®</em> folder on a Unix® platform, you need to mount the directory using Samba (<code>smbmount</code> command).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Control File Mode</p></td>
+          <td class="confluenceTd"><p>Whether control files (OK files) are to be expected in input mode:</p>
+           <ul>
+            <li><span>Disabled (default).</span></li>
+            <li><span><span>Enabled</span>.</span></li>
+           </ul><p>Refer to <a href="Control-File-Support_133162655.html">Control File Support</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Input Control File Suffix</p></td>
+          <td colspan="1" class="confluenceTd"><p>The suffix that is used to identify the control file. Refer to <a href="Control-File-Support_133162655.html">Control File Support</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Pattern Type</td>
+          <td colspan="1" class="confluenceTd"><p>The type of pattern for including files:</p>
+           <ul>
+            <li><code>Wildcards</code> (default).</li>
+            <li><code>Regular expression</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Pattern</td>
+          <td colspan="1" class="confluenceTd">The filename pattern that must match for files to be processed. For example, to read the messages in a directory that have an EDI file extension, define a file extension pattern&nbsp;<code>.edi</code> with wildcards or <code>.\.edi</code> with regular expressions. To read all files in the directory use <code>*</code> with wildcards and <code>.*</code> with regular expressions. This pattern is not applied to control files.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Exclude Pattern Type</td>
+          <td colspan="1" class="confluenceTd"><p>The type of pattern for excluding files:</p>
+           <ul>
+            <li><code>Wildcards</code> (default).</li>
+            <li><code>Regular expression</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Exclude Pattern</td>
+          <td colspan="1" class="confluenceTd"><p>The filename pattern that must match for files to be excluded from processing. For example, to exclude messages in a directory that have an XML file extension, define a file extension pattern&nbsp;<code>.xml</code> with wildcards and <code>.</code><code>\.xml</code> with regular expressions. To read all files in the directory use the asterisk&nbsp;<code>*</code>&nbsp;with wildcards and <code>.*</code> with regular expressions.</p><p>This pattern is not applied to control files.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Order</p></td>
+          <td class="confluenceTd"><p>The order in which files are read from the Input Directory:</p>
+           <ul>
+            <li><code>Filename (ascending)</code>.</li>
+            <li><code>Filename (descending)</code>.</li>
+            <li><code>Least recently modified first</code>.</li>
+            <li><code>Most recently modified first</code>.</li>
+            <li><code>Custom JavaScript</code> - to use this <span>option, you are required to include a comparison script in JavaScript in the <span><strong>Comparison Script</strong> property</span>.</span></li>
+            <li><code>None</code> (default).</li>
+           </ul><p>If you have FIFO constraints, you are most likely to pick the least recently modified first option so that messages are processed in the order they arrive in the directory.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Comparison Script</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The JavaScript code to execute if performing the custom ordering of input files. This property is only available if the selected <strong>Input Order</strong> property is <code>Custom JavaScript</code>. You are given access to two objects, <code>left</code> and <code>right</code>, which represent the two files to be compared. Your JavaScript code should compare those two files with a statement or series of statements that should evaluate to:</p>
+            <ul>
+             <li>A negative number if you want the left file to be processed first.</li>
+             <li>A positive number if you want the right file to be processed first.</li>
+             <li>Zero if the files are equivalent.</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The comparison script does not have access to the&nbsp;<code>log</code>&nbsp;object. However, you can use Java's&nbsp;<code>java.lang.System.out.println()</code> for logging purposes.&nbsp;The log will be available in Rhapsody's <code>log.txt</code> file (but not the Management Console).</p>
+             </div>
+            </div>
+            <h4 id="Directory-ObjectModel">Object Model</h4>
+            <p>The following methods are available for the <code>left</code> and <code>right</code> objects:</p>
+            <div class="table-wrap">
+             <table class="wrapped confluenceTable">
+              <tbody>
+               <tr>
+                <th class="confluenceTh">Object</th>
+                <th class="confluenceTh">Description</th>
+               </tr>
+               <tr>
+                <td class="confluenceTd"><code>String getName()</code></td>
+                <td class="confluenceTd">Returns the name of the file or directory.</td>
+               </tr>
+               <tr>
+                <td class="confluenceTd"><p><code>String getPath()</code></p></td>
+                <td class="confluenceTd">Gets the path to the file.</td>
+               </tr>
+               <tr>
+                <td class="confluenceTd"><p><code>Boolean isDirectory()</code></p></td>
+                <td class="confluenceTd">Tests whether the file is a directory.</td>
+               </tr>
+               <tr>
+                <td class="confluenceTd"><p><code>Boolean isFile()</code></p></td>
+                <td class="confluenceTd">Tests whether the file is a normal file.</td>
+               </tr>
+               <tr>
+                <td class="confluenceTd"><p><code>Boolean isHidden()</code></p></td>
+                <td class="confluenceTd">Tests whether the file is a hidden file.</td>
+               </tr>
+               <tr>
+                <td class="confluenceTd"><p><code>Number lastModified()</code></p></td>
+                <td class="confluenceTd">Returns the timestamp of when the file was last modified.</td>
+               </tr>
+               <tr>
+                <td colspan="1" class="confluenceTd"><p><code>Number length()</code></p></td>
+                <td colspan="1" class="confluenceTd">Returns the length of the file.</td>
+               </tr>
+              </tbody>
+             </table>
+            </div>
+            <h4 id="Directory-RulesforImplementingComparators">Rules for Implementing Comparators</h4>
+            <p>A comparison function must provide an absolute ordering of files, not a relative ordering of files. Specifically the rules are:</p>
+            <ul>
+             <li><strong>Identity:</strong>&nbsp; compare(a, a) = 0</li>
+             <li><strong>Reflective:</strong> compare(a, b) = −compare(b, a)</li>
+             <li><strong>Transitive:</strong> if compare(a, b) &gt; 0 and compare(b, c) &gt; 0, then compare(a, c) &gt; 0</li>
+            </ul>
+            <p>Refer to <code>java.util.Comparator</code> for details on the comparator rules this communication point effectively uses.</p>
+            <h4 id="Directory-ExampleScript">Example Script</h4>
+            <p>In the following example, the script orders files by size such that the smallest file is processed first; if files are of the same size, it orders them by name.</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">var leftLength = left.length(), rightLength = right.length(), result = 0;
+
+if (leftLength &lt; rightLength) {
+    result = -1;
+}
+
+if (rightLength &lt; leftLength) {
+    result = 1;
+}
+
+if (result == 0) {
+    result = left.getName().compareTo(right.getName());
+}
+
+result;</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Refresh Rate</p></td>
+          <td class="confluenceTd"><p>How often (in milliseconds) to check the input directory for new files. A refresh rate greater than zero must be specified. In certain circumstances using a slower (higher) refresh rate can reduce CPU load, allowing other parts of the configuration to perform faster. Too low a refresh rate may lead to excessive CPU usage (a minimum of five seconds is recommended).</p><p>By default, Rhapsody uses the value <code>5000</code> – which means it checks the directory every five seconds.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Receive Rate</p></td>
+          <td class="confluenceTd"><p>The maximum number of messages to receive in any one refresh period. Enables control of the rate at which messages are fed into Rhapsody. Zero means no maximum, just read the messages as fast as possible.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Move Input Files</p></td>
+          <td class="confluenceTd"><p>Defines if the files are backed up into another directory as Rhapsody processes them:</p>
+           <ul>
+            <li><span><span>Enabled</span> - <span>the files that have been processed are moved from the <strong>Input Directory</strong> into the <strong>Processed Directory</strong>.</span></span></li>
+            <li><span>Disabled (default) - the <span>processed files are just removed from the <strong>Input Directory</strong>.</span></span><span>&nbsp;</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Processed Directory</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The location of the directory to which processed files are moved.</p>
+            <p>This property is only available if the <strong>Move Input Files</strong> property is <code>True</code>.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Write access is required to move processed files to this directory.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Zip File Debatch Mode</p></td>
+          <td class="confluenceTd"><p>Selects whether the incoming file is a Zip file containing one or more messages and is to be separated into component messages:</p>
+           <ul>
+            <li><span>Disabled (default).</span></li>
+            <li><span>Enabled</span>.<span>&nbsp;</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Debatch Mode</p></td>
+          <td class="confluenceTd"><p>Selects the debatch mode (whether the incoming file is to be separated into its component messages):</p>
+           <ul>
+            <li><span>Disabled (default) - does not debatch incoming files.</span></li>
+            <li><span><span>Enabled</span> - debatches incoming files.</span><span><br></span></li>
+           </ul><p><span><span>This option is not available when</span> </span><strong>Zip File Debatch Mode</strong><span> is set to </span><code>True</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Batch Header Expression</p></td>
+          <td class="confluenceTd"><p>A regular expression that identifies the header string at the start of the batch file. The communication point supports&nbsp;<a href="https://www.gnu.org/software/gnulib/manual/html_node/Regular-expressions.html" class="external-link" rel="nofollow">GNU Regular Expressions</a>.</p><p>This property is only available if the <strong>Debatch Mode</strong> <span>is set to</span> <code>True</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Batch Trailer Expression</p></td>
+          <td class="confluenceTd"><p>A regular expression that identifies the trailer string at the end of the batch file. The communication point supports&nbsp;<a href="https://www.gnu.org/software/gnulib/manual/html_node/Regular-expressions.html" class="external-link" rel="nofollow">GNU Regular Expressions</a>.</p><p>This property is only available if the <strong>Debatch Mode</strong> <span>is set to</span> <code>True</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Separator Type</p></td>
+          <td class="confluenceTd"><p>Defines if the message separator separates messages or marks the start of a message.</p>
+           <ul>
+            <li><code>Marks Start of Message</code> (default) - identifies the string found at the beginning of each message and marks the start of each new message.</li>
+            <li><code>Separates Messages</code> - identifies the string (specified in the Message Separator Expression field) found between messages and is used to separate messages into individual messages.</li>
+           </ul><p>A separator is not part of the message, whereas a marker is part of the messages.</p><p>This property is only available if the <strong>Debatch Mode</strong> is set to <code>True</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Separator Expression</p></td>
+          <td class="confluenceTd"><p>A regular expression that identifies the character or characters used to mark the start of a message or to separate messages in a batched file. The communication point supports&nbsp;<a href="https://www.gnu.org/software/gnulib/manual/html_node/Regular-expressions.html" class="external-link" rel="nofollow">GNU Regular Expressions</a>.</p><p>For example, to separate the messages at every carriage return and line feed pair, set the <strong>Separator Type</strong> to <code>Separates Messages</code> and then enter <code>\r\n</code>, which is the standard escape sequence string for carriage return and line feed, in this field.</p><p>This property is only available if the <strong>Debatch Mode</strong> is set to <code>True</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Maximum File Size (MB)</td>
+          <td colspan="1" class="confluenceTd">The maximum size of a file, in megabytes, that can be read from the directory. This limit is not enforced if set to zero.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Include Empty Files</td>
+          <td colspan="1" class="confluenceTd"><p>Whether to read <span>empty files (<span>files of size zero bytes) </span></span>from the directory:</p>
+           <ul style="list-style-type: square;">
+            <li>Disabled (default) - do not read in empty files.</li>
+            <li><span>Enabled</span> - read in empty files.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="Directory-OutputModeProperties">Output Mode Properties</h2>
+      <p>An Output Directory communication point can receive files processed by the Rhapsody engine. If <strong>Batch Mode</strong> is set to <code>True</code>, messages are combined into a single file before saving.</p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>We recommend that you do <em>not</em> configure more than one Directory communication point with the same output directory. If you do so, the <strong><a href="#Directory-OutputTempFileTo">Output temporary file to</a></strong> property of the relevant Directory communication points should be set to the same value. Failure to do so may result in data corruption or data loss.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Control File Mode</p></td>
+          <td class="confluenceTd"><p>Whether control files (OK files) are to be used in output mode and how their filename is to be formatted:</p>
+           <ul>
+            <li><code>Disabled</code><span> (default).</span></li>
+            <li><code>Append suffix</code>.</li>
+            <li><code>Replace suffix</code><span>. </span></li>
+           </ul><p><span><span>Refer to </span><a href="Control-File-Support_133162655.html">Control File Support</a><span> for details.</span><br></span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Control File Suffix</p></td>
+          <td class="confluenceTd"><p>The suffix that is used to identify the control file. Refer to <a href="Control-File-Support_133162655.html">Control File Support</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Directory</p></td>
+          <td class="confluenceTd"><p>The directory into which the output messages are placed.</p><p>This location can be on the local machine or on another machine using a Universal Naming Convention (UNC) path. If a UNC path is used, the service under which Rhapsody is running must have permissions to access the network and the specified path, including write access to the output directory. You are recommended to enter the path using a forward slash (/), which can be used on all platforms; for example <code>c:/temp/in</code>.</p><p>To access a <em>Windows®</em> folder on a *nix platform, you need to mount the directory using Samba (<a href="http://en.wikipedia.org/wiki/Smbmount" class="external-link" rel="nofollow">smbmount</a> command).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Base Filename</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Base filename to use for output messages. Wildcard values are not allowed. By default the Base Filename is blank; in this case, the file's creation date-time is used as its base filename.</p>
+            <p>You can also specify sub-directories in this field; for example, if you enter <code>abc/filename</code>, a folder called <code>abc</code> is created in the specified output directory. Refer to <a href="Configuration_133162170.html">File Naming Options</a> for details.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>To enable <a href="#Directory-DynamicFilenameBatching">dynamic filenames</a>, set the base filename to use a message property (with a <code>$</code> prefix).</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Suffix</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Optional file extension to append to the end of the filename. The suffix should only include the actual text of the extension, but can be preceded by a period separator. For example, <code>xml</code> and <code>.xml</code> are valid, but <code>*.xml</code> is not. Refer to <a href="Configuration_133162170.html">File Naming Options</a> for details.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>To enable <a href="#Directory-DynamicFilenameBatching">dynamic filenames</a>, set the Suffix to use a message property (with a <code>$</code> prefix).</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Append Date/Time</p></td>
+          <td class="confluenceTd"><p>Appends the current date and time to the base filename in the form dictated by the configuration property <span><strong>Append Date/Time Format</strong> (</span><code><span>yyyy</span><span>-MM-dd-HH-mm-ss-SSS</span></code><span> by default)</span>:</p>
+           <ul>
+            <li><span>Enabled</span> - append date-time.</li>
+            <li><span>Disabled (default) - do not append date/time.</span></li>
+           </ul><p>For example: <code>Base2009-04-02-09-04-42-753.xml</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Append Date/Time Format</p></td>
+          <td colspan="1" class="confluenceTd"><span>Defines the date-time format when the date-time is appended to the filename. The default date-time format is&nbsp;</span><code>yyyy-MM-dd-HH-mm-ss-SSS</code><span>&nbsp;and is used if this property is left blank. The format should follow the specification in SimpleDateFormat in Java, and must not contain special characters such as:<span style="color: rgb(0,0,0);">&nbsp;</span><code><span style="color: rgb(0,0,0);"><span style="color: rgb(153,51,0);">{}[]&lt;&gt;:;$\/*?"|</span></span></code>.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Batch Mode</p></td>
+          <td class="confluenceTd"><p>Whether to use batch mode:</p>
+           <ul>
+            <li>Disabled (default).</li>
+            <li><span>Enabled</span> - static filenames are used, all messages are appended to a single file. If&nbsp;<a href="#Directory-DynamicFilenameBatching">dynamic filenames</a> are used, unique files are generated on the basis of the filename and/or the suffix specified by message properties.</li>
+           </ul><p>The properties <strong>Batch File Rollover</strong> and <strong>Batch File Rollover Size</strong> determine how this mode operates.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Overwrite Files</p></td>
+          <td class="confluenceTd"><p>Whether to overwrite files:</p>
+           <ul>
+            <li>Disabled (default) - the output file is renamed to avoid a conflict.</li>
+            <li><span>Enabled</span> - incoming messages overwrite existing files if they have the same filename.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Output temporary file to<span class="confluence-anchor-link" id="Directory-OutputTempFileTo"></span></p>
+           </div></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specifies whether files should be written to a <code>.temp</code> directory, or if they should be written to the output directory with a<code>.tmp</code> extension before being written with the real filename. This stops the receiving system from reading incomplete files.</p>
+            <ul>
+             <li><code>.temp directory</code> (default) - files are written to a <code>.temp</code> directory in the output directory before being moved to the real filename.</li>
+             <li><p><code>.tmp extension</code> - files are written to the output directory with a<code>.tmp</code> extension before being moved to the real filename.</p>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>This setting is also used to specify the location of temporary files used as Rhapsody lock files to prevent concurrent access of output files. Multiple communication points which resolve to the same directory location should use the same value in order to prevent potential data loss from concurrent access.</p>
+               </div>
+              </div></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Wrapper</p></td>
+          <td class="confluenceTd"><p>Defines the type of message wrapping to be placed around the messages written to the directory. Options:</p>
+           <ul>
+            <li><code>None</code> - no message wrapping.</li>
+            <li><code>Minimal</code>- HL7 minimal LLP protocol.</li>
+            <li><code>User</code> - user-defined header and/or trailer.</li>
+           </ul><p>Refer to <a href="Configuration_133162170.html">Wrapper Options</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Header</p></td>
+          <td class="confluenceTd"><p><span>Defines</span> the header that is written to the file before each message.</p><p><span>Only available if </span><strong>Outgoing Wrapper</strong><span> is set to </span><code>User</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Trailer</p></td>
+          <td class="confluenceTd"><p>This property defines the trailer that is written to the file after each message.</p><p><span>Only available if </span><strong>Outgoing Wrapper</strong><span> is set to </span><code>User</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Endian-ness</p></td>
+          <td class="confluenceTd"><p>Certain codes used in the trailer and header definitions can output binary data. Options: <code>Big</code> (most significant byte first) or <code>Little</code> (least significant byte first) endian order.</p><p><span>Only available if </span><strong>Outgoing Wrapper</strong><span> is set to </span><code>User</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Batch File Rollover</p></td>
+          <td class="confluenceTd"><p>Defines whether time frequency or file size is used to roll over the batch file so that one batch file is made complete and the next is opened for writing:</p>
+           <ul>
+            <li><code>SIZE_ROLLOVER</code> - use file size to roll over.</li>
+            <li><code>HOURLY_ROLLOVER</code> - on the hour, every hour.</li>
+            <li><code>DAILY_ROLLOVER</code> - at the end of every day at midnight.</li>
+            <li><code>WEEKLY_ROLLOVER</code> - at the end of every Saturday at midnight.</li>
+            <li><code>MONTHLY_ROLLOVER</code> - at the end of every last day of the month at midnight.</li>
+            <li><code>NEVER_ROLLOVER</code> - do not roll over.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Batch File Rollover Size</p></td>
+          <td class="confluenceTd"><p>When <strong>Batch File Rollover</strong> is set to <code>SIZE_ROLLOVER</code>, this property defines the minimum size of the file at which it is rolled over; that is, a new file is started.</p><p>The rollover size is entered as a number quantity followed by the unit; for example, <code>10m</code> or <code>10M</code> is 10 megabytes and <code>200G</code> is 200 gigabytes. Recognized units are <code>b</code> or <code>B</code> = bytes, <code>k</code> or <code>K</code> = kilobytes, <code>m</code> or <code>M</code> = megabytes, <code>g</code> or <code>G</code> = gigabytes and <code>t</code> or <code>T</code> = terabytes. If you do not enter units, then bytes is used by default.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Compress Batch File</p></td>
+          <td class="confluenceTd"><p>Whether to compress the batch file:</p>
+           <ul>
+            <li><span>Enabled</span> - <span>the batch file is compressed into a Zip file</span>. <span>The Zip file is not readable until the batch has been completed.</span></li>
+            <li>Disabled (default) - <span>the batch file is not compressed</span>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Individual Files In Zip</p></td>
+          <td class="confluenceTd"><p>Whether the compressed batch file should contain individual files per message:</p>
+           <ul>
+            <li>Enabled -<span> one entry per message is placed in the Zip file and the wrapper (header and trailer) properties are ignored.</span></li>
+            <li>Disabled (default) - all messages are placed in one entry inside the Zip file.</li>
+           </ul><p><span>Only available if both </span><strong>Batch Mode</strong><span> and </span><strong>Compress Batch File</strong><span> are set to </span><code>True</code><span>. </span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Directory-DynamicFilenameBatching">Dynamic Filename Batching</h3>
+      <p>The <a href="Directory_133162648.html">Directory</a> communication point supports dynamic filenames. If the communication point uses message properties for the base filename and/or the suffix and is set to batch mode, the Directory communication point will operate in dynamic filename batch mode. In this mode, the communication point writes to unique files on the basis of the filename and/or the suffix specified by message properties.</p>
+      <p>The maximum number of dynamic files that are open at one time by all the running Directory communication points is 10,000. This can be configured through the following property in the <code>rhapsody.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">StandardModuleService.DirectoryCommunicationPoint.GlobalCacheSize </pre> 
+       </div>
+      </div>
+      <h3 id="Directory-InaccessibleDirectories"><span style="color: rgb(0,0,0);">Inaccessible Directories</span></h3>
+      <p>When a directory configured in a Directory communication point is unavailable for access, the communication point by default stops in an Unconfigured state and requires a manual check-in to get it started again. The Directory communication point can be configured to enter a Stopped In Error state instead of Unconfigured when the specified directory is not accessible. This enables you to restart the communication point when the directory becomes available, instead of having to check the communication point out, make a change and back in again. To change this default behavior (for all Directory communication points), add the following property to the <code><span>rhapsody.properties</span></code>&nbsp;file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">StandardModuleService.DirectoryCommunicationPoint.DelayDirectoryCheck=true</pre> 
+       </div>
+      </div>
+      <p><span style="color: rgb(0,0,0);font-size: 20.0px;"><br>Bidirectional, In-&gt;Out and Out-&gt;In Mode</span></p>
+      <p>The configuration properties for the Directory communication point in <em>Bidirectional</em>, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes is a combination of the properties described above.</p>
+      <p>Refer to <a href="General_133162189.html">Out-&gt;In and In-&gt;Out Properties</a> for general details on a communication point's <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes.</p>
+      <h2 id="Directory-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for&nbsp;the Directory communication point are:</p>
+      <ul>
+       <li><code>FullFilename</code> - the full filename of the file associated with the received message.</li>
+       <li><code>BaseFilename</code> - the base filename&nbsp;of the file associated with the received message (all the characters before the last '<code>.</code>' in the full filename). If there is no '<code>.</code>', then the base filename is equal to the full filename.</li>
+       <li><code>Suffix</code> - the suffix&nbsp;of the file associated with the received message (all the characters after the final '<code>.</code>' in the full filename, including the '<code>.</code>'). If there is no '<code>.</code>', the suffix is empty.</li>
+       <li><code>ZipFullFilename</code> - the filename of this message within the Zip file.</li>
+       <li><code>ZipBaseFilename</code> - the base filename without the extension of this message.</li>
+       <li><code>ZipSuffix</code> - the&nbsp;file extension of this message.</li>
+       <li><code>FileCreationTime</code>&nbsp;- the creation date of the file, if available (on some operating systems this may indicate the last modified date).</li>
+       <li><p><code>directory:BodySize</code> -&nbsp;<span style="letter-spacing: 0.0px;">indicates the size of the file (after being debatched when applicable) in bytes when it is received by the Directory communication point. This value is not updated when the size of the file changes as it is being processed on the route.</span></p></li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

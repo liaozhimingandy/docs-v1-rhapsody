@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Serial Port Problems on UNIX</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Rhapsody_133164108.html">Troubleshooting Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Examples_133164109.html">Troubleshooting Examples</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Serial Port Problems on UNIX</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>You may experience the following commonly occurring problems with serial ports on a UNIX platform:</p>
+      <ul>
+       <li><a href="#SerialPortProblemsonUNIX-RhapsodyFailstoOpenthePort">Rhapsody Fails to Open the Port</a></li>
+       <li><a href="#SerialPortProblemsonUNIX-RhapsodyKeepsWarningAboutLockFiles">Rhapsody Keeps Warning About Lock Files</a></li>
+      </ul>
+      <h2 id="SerialPortProblemsonUNIX-RhapsodyFailstoOpenthePort">Rhapsody Fails to Open the Port</h2>
+      <p>If Rhapsody fails to open the serial port, then verify that Rhapsody has access to the port:</p>
+      <ol>
+       <li><p>Check ownership on <code>/dev/ttyS*</code> (the device you are trying to open) by executing <code>ls -l /dev/ttyS*</code>and ensure Rhapsody has the appropriate permissions, for example:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">crw-rw---- 1 root dialout 4, 64 2012-01-04 1164 2012-01-04 11 :56 /dev/ttyS0
+crw-rw---- 1 root dialout 4, 65 2012-01-04 11:56 /dev/ttyS1
+crw-rw---- 1 root dialout 4, 66 2012-01-04 11:56 /dev/ttyS2
+crw-rw---- 1 root dialout 4, 67 2012-01-04 11:56 /dev/ttyS3
+crw-rw---- 1 root dialout 4, 68 2012-01-04 11:56 /dev/ttyS4
+crw-rw---- 1 root dialout 4, 69 2012-01-04 11:56 /dev/ttyS5
+crw-rw---- 1 root dialout 4, 70 2012-01-04 11:56 /dev/ttyS6
+crw-rw---- 1 root dialout 4, 71 2012-01-04 11:56 /dev/ttyS7
+crw-rw---- 1 root dialout 4, 72 2012-01-04 11:56 /dev/ttyS8
+crw-rw---- 1 root dialout 4, 73 2012-01-04 11:56 /dev/ttyS9</pre> 
+         </div>
+        </div></li>
+       <li>If not, issue the following command as a root user: <code>chmod 666 /dev/ttyS*</code>.</li>
+       <li>If the problem persists, please consult the relevant Unix documentation or contact <a href="Rhapsody-Support_133163665.html">Rhapsody Support</a>.</li>
+      </ol>
+      <h2 id="SerialPortProblemsonUNIX-RhapsodyKeepsWarningAboutLockFiles">Rhapsody Keeps Warning About Lock Files</h2>
+      <p>When Rhapsody is unable to create or access a lock file, it issues a warning. To address the problem, Rhapsody must be granted permission to access the lock directory or pre-existing lock file on the system.</p>
+      <p>The following solution is recommended:</p>
+      <ol>
+       <li>Ensure that Rhapsody can access the serial port.</li>
+       <li><p>Ensure that the Rhapsody user is a member of the group which owns those ports. If necessary add the Rhapsody user to the appropriate group in <code>/etc/group</code> (for example, issue the command <code>edit /etc/group</code> and add the name of the user that runs the Rhapsody process to the end of the <code>uucp</code>group line (daemon for HPUX)).</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>On the Redhat 5.5 platform, the user must be added to both the <code>uucp</code> and <code>lock</code> groups.</p>
+         </div>
+        </div></li>
+       <li>Ensure that that group has write permissions for <code>/dev/ttyS*</code>.</li>
+       <li>Check the ownership of the <code>uucp</code> lock directory - typically <code>/var/spool/locks</code>. On some platforms you may also need to change the permissions on this directory by executing the following command as a root user: <code>chmod 775 /var/spool/locks</code>.</li>
+       <li>Ensure that the Rhapsody user is a member of the appropriate group, and that group has write permissions for the lock directory.</li>
+      </ol>
+      <p> </p>
+      <div class="skype_c2c_menu_container" style="display: none;">
+       <div class="skype_c2c_menu_click2call">
+        <a class="skype_c2c_menu_click2call_action" rel="nofollow">Call</a>
+       </div>
+       <div class="skype_c2c_menu_click2sms">
+        <a class="skype_c2c_menu_click2sms_action" rel="nofollow">Send SMS</a>
+       </div>
+       <div class="skype_c2c_menu_add2skype">
+        <a class="skype_c2c_menu_add2skype_text" rel="nofollow">Add to Skype</a>
+       </div>
+       <div class="skype_c2c_menu_toll_info">
+        <span class="skype_c2c_menu_toll_callcredit">You'll need Skype Credit</span>
+        <span class="skype_c2c_menu_toll_free">Free via Skype</span>
+       </div>
+      </div> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

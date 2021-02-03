@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Duplicate Message Detection</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Duplicate Message Detection</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163339/133163340.png" data-image-src="attachments/133163339/133163340.png" data-unresolved-comment-count="0" data-linked-resource-id="133163340" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="duplicateMessageIcon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163339" data-linked-resource-container-version="1"></span></p>
+      <p>Message duplication usually occurs when the sending system resends a message because it did not receive a response from Rhapsody within the configured timeout period. The Duplicate Message Detection&nbsp;filter detects multiple copies of the same message, and:</p>
+      <ul>
+       <li>Sends them to the error connector, or</li>
+       <li>Sets the message property, <code>rhapsody:DuplicateMessageOutputProperty</code>, with a unique message identifier, which determines that the message is a duplicate.</li>
+      </ul>
+      <p>This filter ensures that any messages that have the same Message ID are only sent once within a specified window of time.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span> The</span> Duplicate Message Detection filter does not treat reprocessed or reinjected messages as duplicates in order to allow these messages to be re-processed or re-injected.</p>
+       </div>
+      </div>
+      <h2 id="DuplicateMessageDetection-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Identifier Property</p></td>
+          <td class="confluenceTd"><p>A message property that contains the value to be tested for uniqueness. This can be a username, password or any other Rhapsody environment variable. The message property cannot exceed 64 bytes and the character encoding must be UTF-8.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Monitoring Interval</p></td>
+          <td class="confluenceTd"><p>A sliding time window, in minutes, within which the filter should search for duplicate messages. The minimum interval is 1 minute. For example, the filter will look for duplicate messages processed within 1 minute. If a duplicate is received after 2 minutes, no action would be taken.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Method</p></td>
+          <td class="confluenceTd"><p>Action to take when a duplicate message is detected:</p>
+           <ul>
+            <li><code>Send to error connector</code> (default) - sends the message to the Error Queue if it is a duplicate.</li>
+            <li><code>Set output message property</code> - sets the message property <code>rhapsody:DuplicateMessageOutputProperty</code> to <code>true</code> if the message is a duplicate. Otherwise, the value is <code>false</code>.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="DuplicateMessageDetection-AdvancedConfiguration">Advanced Configuration</h3>
+      <p>To configure where the data files for all the Duplicate Message Detection filters are stored, open the <code>rhapsody.properties</code> file, and add the property <code>duplicate.dir</code>. If this property is not set, the directory defaults to <code>\rhapsody\data\filter\&lt;FilterIdentifier&gt;</code>.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

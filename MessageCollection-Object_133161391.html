@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>MessageCollection Object</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">MessageCollection Object</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>MessageCollection objects are used in JavaScript filters to manage collections of Message objects. There are two types of instances of the <code>MessageCollection</code> object:</p>
+      <ul>
+       <li><code>input</code> - an array that represents messages that are received by the filter.</li>
+       <li><code>output</code> -&nbsp;an array that represents&nbsp;messages that are sent by the filter.</li>
+      </ul>
+      <h2 id="MessageCollectionObject-Properties">Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>length</p></td>
+          <td class="confluenceTd"><p>Returns the number of messages in the collection</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageCollectionObject-Methods">Methods</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Method</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>append(template)</code></p></td>
+          <td class="confluenceTd"><p>Makes a copy of the template message and appends it to the end of the collection. The copied message object is also returned to the caller.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>remove(index)</code></p></td>
+          <td class="confluenceTd"><p>Removes the message from the collection at the given index. The index is zero-based.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>item(index)</code></p></td>
+          <td class="confluenceTd"><p>Returns the Message object at the given index in the collection. The index is zero-based.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageCollectionObject-Example">Example</h2>
+      <p>The <code>output</code> object in a JavaScript filter is an instance of <code>MessageCollection</code>. The <code>append()</code> method is used to add an input message to the collection of messages that will be output. The next object that is returned is an instance of Message, so using this reference the message can be altered using the Message methods.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+
+    // Append a copy of the read-only input message to the output MessageCollection
+    var next = output.append(input[i]);
+
+    //...
+}</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

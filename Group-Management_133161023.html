@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Group Management</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Access-Control-in-Rhapsody_133160999.html">Access Control in Rhapsody</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Group Management</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The<strong>&nbsp;Groups</strong> tab in the <strong>User Manager</strong>&nbsp;enables you to add or modify access groups, and set the access rights for the lockers associated with a group.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>User Manager functionality has changed significantly as of Rhapsody 6.1. If you are connecting to a Rhapsody 6.0 engine using a later version Rhapsody IDE, then refer to <i>User Manager</i> in the <em>Rhapsody 6.0 Administration Manual</em>.</p>
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">By default, Rhapsody has four groups:</span></p>
+      <ul>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Administrator -&nbsp;the default permissions for this group enable a user to perform administrative tasks on the engine, such as managing users and access rights, managing backup schedules, managing licenses (it also includes all the monitoring and developer group permissions). The default administrator user, however, does not have all possible permissions, such as locker-based access rights.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Dashboard -&nbsp;the default permissions for this group provide access to the information that a Rhapsody Dashboard instance needs in order to monitor Rhapsody engines.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Developer -&nbsp;the default permissions for this group enable a user&nbsp;to log into the Rhapsody&nbsp;IDE, view and manage configurations, and perform tasks that allow them to create routes and interfaces for the engine (it also includes the monitoring permissions).</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Monitoring -&nbsp;the default permissions for this group enable&nbsp;a user to log into the Management Console, view and manage messages, and perform tasks that allow them to monitor the day-to-day health of the engine.</span></li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="650" src="attachments/133161023/133161028.png" data-image-src="attachments/133161023/133161028.png" data-unresolved-comment-count="0" data-linked-resource-id="133161028" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="GroupManagement.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161023" data-linked-resource-container-version="4"></span></p>
+      <p>The&nbsp;<strong>Groups</strong>&nbsp;tab displays the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Column</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Group</p></td>
+          <td class="confluenceTd"><p>The name of the group.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Lockers with Custom Rights</p></td>
+          <td class="confluenceTd"><p>The lockers associated with the group that have custom access rights.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Number of Users</td>
+          <td colspan="1" class="confluenceTd"><span>The number of users in the group.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Status</td>
+          <td colspan="1" class="confluenceTd">Whether or not the group is disabled.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The&nbsp;<strong>Groups&nbsp;</strong>tab<strong>&nbsp;</strong>enables you to perform the following actions:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#GroupManagement-AddinganAccessGroup">Add</a></td>
+          <td class="confluenceTd">Add a new group.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Group-Management_133161023.html">Edit</a></td>
+          <td class="confluenceTd">Edit a group.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#GroupManagement-DeletinganAccessGroup">Delete</a></td>
+          <td class="confluenceTd">Delete a group.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="GroupManagement-ViewingAccessGroups">Viewing Access Groups</h2>
+      <p>To view a list of your access groups:</p>
+      <ol>
+       <li>Navigate to <strong>View&gt;User Manager...</strong> to display the <strong>User Manager</strong>.</li>
+       <li><p>Select the <strong>Groups</strong> tab to display the groups.</p></li>
+      </ol>
+      <h2 id="GroupManagement-AddinganAccessGroup">Adding an Access Group</h2>
+      <p>To add a new access group to the Rhapsody engine:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;User Manager...</strong>&nbsp;to display the&nbsp;User Manager.</li>
+       <li><p>Select the&nbsp;<strong>Groups</strong>&nbsp;tab to display the groups.</p></li>
+       <li><p>Select the <strong>Add</strong> button to display the <strong>Add Group</strong> dialog:&nbsp;</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="650" src="attachments/133161023/133161029.png" data-image-src="attachments/133161023/133161029.png" data-unresolved-comment-count="0" data-linked-resource-id="133161029" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddGroup.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161023" data-linked-resource-container-version="4"></span></p></li>
+       <li><p>Enter the following details for the new access group:</p>
+        <div class="table-wrap">
+         <table id="TBL1565043148365" class="wrapped confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Field</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Group Details</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <ul>
+               <li><span>Enter a <strong>Group Name</strong> for the group.</span></li>
+               <li>Select the <strong>Disabled</strong> checkbox to disable the group. All users associated with the group will then have a status of <code>Disabled</code> and cannot access Rhapsody.</li>
+               <li><p>Select the <strong>Password Never Expires</strong> checkbox if you want all users in the group to have passwords that do not expire.</p>
+                <div class="confluence-information-macro confluence-information-macro-note">
+                 <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+                 <div class="confluence-information-macro-body">
+                  <p>User permissions override the group permissions. That is, if this field is not selected for the group, but is selected for an individual, the user's password will not expire.</p>
+                 </div>
+                </div></li>
+              </ul>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd">Lockers</td>
+            <td colspan="1" class="confluenceTd">Select a locker <span>associated with the group, </span>whose permissions you want to set.</td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Access Rights</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p>For each locker associated with the group, <a href="#GroupManagement-SelectingAccessRights">select the access rights</a> that apply to that locker by checking the appropriate checkboxes. You can use the search box to filter the list of access rights displayed. Refer to <a href="Access-Rights_133161013.html">Access Rights</a> for a description of all available access rights.</p>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>Some access permissions are dependent on parent permissions.<span>&nbsp;Dependent permissions are greyed out and not selectable when<span> their parent permission is not enabled. </span>When a parent permission is disabled, its dependencies are also indicated in parentheses</span>.</p>
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd">Presets</td>
+            <td colspan="1" class="confluenceTd">Selecting a preset checkbox selects all access rights associated with that preset as indicated by the preset icon adjacent to every access right checkbox.</td>
+           </tr>
+          </tbody> 
+          <script type="text/javascript">
+
+$("table[id='TBL1565043148365']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148365',[],'',
+1,'',true,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+         </table>
+        </div></li>
+       <li><span>Select&nbsp;the&nbsp;</span><strong>OK</strong><span>&nbsp;button to create the group.</span></li>
+      </ol>
+      <h2 id="GroupManagement-EditinganAccessGroup">Editing an Access Group</h2>
+      <p>To edit an access group:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;User Manager...</strong>&nbsp;to display the&nbsp;User Manager.</li>
+       <li><p>Select&nbsp;the&nbsp;<strong>Groups</strong>&nbsp;tab to display the groups.</p></li>
+       <li><p>Select the group you want to edit, and select&nbsp;the <strong>Edit</strong>&nbsp;button to display the&nbsp;<strong>Edit Group</strong>&nbsp;dialog:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="650" src="attachments/133161023/133161030.png" data-image-src="attachments/133161023/133161030.png" data-unresolved-comment-count="0" data-linked-resource-id="133161030" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="EditGroup.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161023" data-linked-resource-container-version="4"></span></p></li>
+       <li>Edit the appropriate fields. Refer to <a href="#GroupManagement-SelectingAccessRights">Selecting Access Rights</a>&nbsp;for details.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to save your changes.</li>
+      </ol>
+      <h2 id="GroupManagement-DeletinganAccessGroup">Deleting an Access Group</h2>
+      <p>To delete an access group from the Rhapsody engine:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;User Manager...</strong>&nbsp;to display the&nbsp;User Manager.</li>
+       <li><p>Select&nbsp;the&nbsp;<strong>Groups</strong>&nbsp;tab to display the groups.</p></li>
+       <li><span style="line-height: 13.0pt;">Select the group you want to delete, then select the </span><strong style="line-height: 13.0pt;">Delete</strong><span style="line-height: 13.0pt;">&nbsp;button to <strong>Delete Group</strong> dialog.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Select&nbsp;the </span><strong style="line-height: 13.0pt;">OK</strong><span style="line-height: 13.0pt;background-color: transparent;"> button to confirm that you want to delete the group.</span></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>You cannot delete a group that has users. You must either delete the users or change the group that the users are associated with, before trying to delete the group.</p>
+       </div>
+      </div>
+      <h2 id="GroupManagement-SelectingAccessRights">Selecting Access Rights</h2>
+      <p>When you create a new group:</p>
+      <ul>
+       <li>The new group is accorded global access rights&nbsp;as per the&nbsp;<strong>All Lockers</strong>&nbsp;permissions settings.</li>
+       <li>All the lockers associated with the new group are by default accorded access rights as per the <strong>All Lockers</strong>&nbsp;permissions settings.</li>
+      </ul>
+      <p>To edit the default global access&nbsp;rights:</p>
+      <ol>
+       <li>Select <strong>All Lockers</strong>&nbsp;in the&nbsp;<strong>Edit Group</strong>&nbsp;dialog.</li>
+       <li>Select or deselect the global access rights associated with <strong>All Lockers</strong>. Use the presets as a shortcut when appropriate.&nbsp;</li>
+      </ol>
+      <p>To overwrite the default locker access rights in&nbsp;<strong>All Lockers</strong>&nbsp;which are for a particular locker associated with a group:</p>
+      <ol>
+       <li>Select the locker in the <strong>Edit Group</strong> dialog.</li>
+       <li>Select or deselect the access rights associated with the locker. Use the presets as a shortcut when appropriate.&nbsp;</li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

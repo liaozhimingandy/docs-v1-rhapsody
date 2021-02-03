@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using Map Designer for Lookups</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Lookup-Tables_133163450.html">Lookup Tables</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using Map Designer for Lookups</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Java Mapper accesses the lookup tables, when running in Rhapsody, using a callback API that talks to the Lookup Table service in Rhapsody. The tables are accessible in the Map Designer through the Mapper Debugger, which performs the lookup using the Rhapsody Remote Monitoring API, which in turn exposes access to the Lookup Table service.</p>
+      <p>A native function in the Mapper, <code><a href="#UsingMapDesignerforLookups-RhapsodyTableLookup()Function">RhapsodyTableLookup()</a></code>, appears in the <strong>Functions</strong> drop-down list if the Map Designer is launched from Rhapsody IDE. This function calls back into the Map Designer using the Mapper Debugging API. The Map Designer can then perform lookups. The Rhapsody engine, the username and password are provided to the Map Designer in the XML file used to launch it from Rhapsody IDE.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Do not use the following characters in the password: '<span style="color: rgb(153,51,0);">&amp;</span>', <span style="color: rgb(153,51,0);"><span style="color: rgb(51,51,51);">'</span>&gt;</span> ' and '<span style="color: rgb(153,51,0);">&lt;</span>'. Doing so will result in the lookup failing.</p>
+       </div>
+      </div>
+      <p>The Java Mapper allows a callback object to be provided at construction, which allows the table lookups to be performed. The <code>RhapsodyTableLookup()</code> function in the Java Mapper uses this callback whenever it is called.</p>
+      <p>The <a href="Mapper_133163007.html">Mapper</a>&nbsp;filter provides an implementation of the callback when a mapping definition is loaded. The callback implementation performs the lookups using the Lookup Table service.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When testing mappings that contain lookup calls, it is recommended for performance reasons you test them in a Rhapsody route rather than in Map Designer.</p>
+       </div>
+      </div>
+      <h2 id="UsingMapDesignerforLookups-RhapsodyTableLookup()Function"><span style="color: rgb(0,0,0);font-size: 20.0px;">RhapsodyTableLookup() Function</span></h2>
+      <p>The <code>RhapsodyTableLookup()</code> function, in the Mapper API, provides access to the Lookup Table service in Rhapsody:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">RhapsodyTableLookup(output, tableName, resultColumnName, defaultValue, queryColumn1, queryValue1, queryColumn2, queryValue2, ...)</pre> 
+       </div>
+      </div>
+      <p>Where:</p>
+      <ul>
+       <li><code>output</code> - can be a string object or a path to a string field. It is set to the result of the lookup, if successful, or the default value, if no match is found.</li>
+       <li><code>tableName</code> - is the name of the lookup table in Rhapsody. An error is raised if the specified lookup table cannot be found.</li>
+       <li><code>resultColumnName</code> - is the&nbsp;name of the column that should be used for the result. An error is raised if the specified column is not found in the lookup table. If multiple columns are wanted in the results, then the function should be called multiple times.</li>
+       <li><code>defaultValue</code> - is used&nbsp;if no match is found using the search criteria provided. If an empty string is passed in for the default value, and no match is found, an error is raised.</li>
+      </ul>
+      <p>The function returns a boolean that is true if a match is found, or false if no match is found, when a default value is provided.</p>
+      <p>After these parameters, this function takes an additional two or more parameters, where each set of two parameters represents a column name and value that is used to find the matching row in the lookup table. At least two parameters must be provided, that is, one column name and one value used to match rows in that column. There is no upper limit on the number of parameters provided. A column name parameter without an associated value, at the end of the function, is ignored.</p>
+      <p>The query values can either be string objects or paths to string fields. If a field is missing or hl7-null (empty or null keywords), then the input is treated as an empty string.</p>
+      <p>You can only call this method in the following scenarios:</p>
+      <ul>
+       <li>From a Map Designer that has been launched from Rhapsody IDE for a Rhapsody engine that supports this functionality.</li>
+       <li>From a <a href="#UsingMapDesignerforLookups-Mapper">Mapper</a>&nbsp;filter in Rhapsody.</li>
+      </ul>
+      <p>It is not available in the standalone Symphonia C++ and Java Mapper. An error is raised, without performing any operations, if called outside these scenarios.</p>
+      <h3 id="UsingMapDesignerforLookups-Example">Example</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// The code below would be replaced with a Rhapsody table lookup:
+// Usage: RhapsodyTableLookup( Output Variable,&nbsp;
+// Lookup table name,&nbsp;
+// Column to extract the value from&nbsp;
+// Default value (if lookup fails)&nbsp;
+// First lookup column&nbsp;
+// First lookup value&nbsp;
+// Second lookup column&nbsp;
+// Second lookup value );
+&nbsp;
+boolean result = RhapsodyTableLookup(out.CountryCode,"CountryCode_DB","CountryID","NOT_FOUND","CountryCode",in.CountryCode);</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

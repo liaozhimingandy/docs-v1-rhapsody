@@ -1,0 +1,297 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>JavaScript TCP Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="JavaScript-TCP-Client-and-Server_133162413.html">JavaScript TCP Client and Server</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">JavaScript TCP Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162421/133162424.jpg" data-image-src="attachments/133162421/133162424.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162424" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image052.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162421" data-linked-resource-container-version="7"></span></p>
+      <p>The <strong>JavaScript TCP Client</strong> communication point&nbsp;is used to create a communications protocol through JavaScript. The <strong>JavaScript TCP Client</strong> communication point allows four scripts to be configured by the user to control the TCP connection. The connection itself is established and managed by the Rhapsody framework, however, the custom JavaScript is responsible for performing the reading and writing to the connection itself.</p>
+      <p>The four scripts are as follows:</p>
+      <ul>
+       <li><code>init</code> - runs when a new connection is established. This is to allow any initialization or login sequence to be performed.</li>
+       <li><code>send</code> - this script is used to send a message over the connection.</li>
+       <li><code>receive</code> - this script is used to read a message from the connection.</li>
+       <li><code>done</code> - this script is used to indicate that a received message has been successfully stored by the communication point framework.</li>
+      </ul>
+      <p>Refer to <a href="Global-Variables_133162428.html">Global Variables</a> for details on the global objects associated with these scripts.</p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">Supported Operational Modes: </span> <em style="line-height: 13.0pt;">All</em><span style="line-height: 13.0pt;background-color: transparent;">.</span></p>
+      <h2 id="JavaScriptTCPClient-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Host</p></td>
+          <td class="confluenceTd"><p>The hostname/IP address of the remote system to which you want to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Port</p></td>
+          <td class="confluenceTd"><p>The port number on the remote host to which you want to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p><span>The hostname</span>/IP address of the local interface to which you want to bind the socket connection (all interfaces if blank).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p>The port number to which you want to bind the local socket.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to use SSL:</p>
+            <ul>
+             <li>Enabled - <span>secure socket layer is used for this connection and all messages are encrypted.</span></li>
+             <li><span>Disabled</span> (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>It is recommended that SSL be enabled for JavaScript TCP Client communication points whenever it is supported by the remote server. </span>Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></p><p><br></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL Client Mode</p></td>
+          <td class="confluenceTd"><p>Whether to use SSL client mode:</p>
+           <ul>
+            <li><span>Enabled</span> (default).</li>
+            <li><span>Disabled</span>.</li>
+           </ul><p>If this property is <span>enabled</span>, SSL client mode will be enabled. Note that this is NOT the same as TLS client authentication. TLS client authentication is supported by configuring one or more private keys in the <strong>Secure Keys</strong>&nbsp;configuration property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>Identifies the private keys used for authenticating Rhapsody's end of the SSL connection. When configured with a private key, the SSL client supports SSL client authentication if requested by the SSL server.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Identifies the trusted certificates used at the non-Rhapsody end of the SSL connection. If it is not configured with the SSL server's certificate, then this SSL client operates in anonymous server authentication mode. It is highly recommended that the server's certificate always be provided here to allow server authentication to be performed.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Initialise</p></td>
+          <td class="confluenceTd"><p>The script called whenever the communication point is started.</p><p>The initialization script is called as soon as a new connection is established by the communication point framework. Specifically, it is called in the getConnection() method of the communication point as soon as the TCP connection has been made.</p><p>It enables you to perform any necessary initialization of the connection object. Additionally, any variables declared and initialized in this script are available to all other scripts for the same connection.</p><p>The initialization object has only the 'log' and 'conn' objects placed in its scope. There is no return value from the initialization script.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to log connections and disconnections:</p>
+            <ul>
+             <li><span>Enabled</span> - details of when a connection to the communication point is established and dropped are logged to the log file specified in the <strong>Connection Log File</strong> property. Use of this logging facility slows the communication point down considerably. It is intended for debugging purposes and should not generally be used in production.</li>
+             <li><span>Disabled</span> (default).</li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Whether to log data:</p>
+           <ul>
+            <li><span>Enabled</span>&nbsp;- all data passed over the connections of the communication point is logged to the log file. This is potentially a large amount of data.</li>
+            <li><span>Disabled</span>&nbsp;(default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Whether to log data in hexadecimal form:</p>
+           <ul>
+            <li><span>Enabled</span>&nbsp;- the hexadecimal representation of the data is logged to the log file.</li>
+            <li><span>Disabled</span>&nbsp;(default) - the data is logged exactly as it is as it passes over the communication point connection.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The full file name (path and file name) of the file on the server to which to log the information.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Whether to include extra log information:</p>
+           <ul>
+            <li><code>None</code>.</li>
+            <li><code>Log Time</code> (default) - the timestamps are logged with each event.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Receive</p></td>
+          <td class="confluenceTd"><p>The Receive script is expected to read a message from the transport connection and populate the result message and return a <code>true</code> Boolean value. If no message can be received within a short time period (such as 5 seconds), the script should return a <code>false</code> value.</p><p>The <span>Receive</span> script is used to read a message from the underlying connection. A writable message object is provided in the scope to receive the message data.</p><p>The script has access to the <em>log</em>, <em>conn</em>, and <em>result</em> objects placed in its scope. The return value is a boolean indicating whether a message was received or not. If <code>true</code> (or no return value is provided) then the message is sent into Rhapsody for persisting. If <code>false</code> is returned, then the message is discarded.</p><p>The <span>Receive</span> script can be written to operate in either a polling or blocking manner. However, if it is blocking, the script must be safely aborted if the communication point is shut down (as long as you have not put a spinning loop in the script).</p><p>Note that each time the <span>Receive</span> script is executed; it is independent of previous executions of the same script (that is, runs in a new scope). This means that any variables needed across multiple script calls must be declared in the initialization script (for example, to build up a message received over multiple TCP packets where the <span>Receive</span> script may be called multiple times).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Done receive</p></td>
+          <td class="confluenceTd"><p>The Done receive script is called once the message has been persisted into the Rhapsody database. The <code>success</code> global variable is set to <code>True</code> to indicate that Rhapsody has successfully stored the message and that the remote system may be informed that it has been received successfully.</p><p>If the <code>success</code> global variable is <code>False</code> then the message was not received successfully and the remote system should be informed of this.</p><p>The <span>Done receive</span> script is run after a message has been received and Rhapsody has committed it to its internal datastore. A boolean is provided as the parameter to indicate whether Rhapsody successfully persisted the message or not.</p><p>This script has access to the <code>log</code>, <code>conn</code>, and <code>success</code> objects placed in its scope. There is no return value.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="JavaScriptTCPClient-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Host</p></td>
+          <td class="confluenceTd"><p>The hostname/IP address of the remote system to which you want to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Port</p></td>
+          <td class="confluenceTd"><p>The port number on the remote host to which you want to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p><span>The hostname</span>/IP address of the local interface to which you want to bind the socket connection (all interfaces if blank).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p><span>The port</span> number to which you want to bind the local socket.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to use SSL:</p>
+            <ul>
+             <li><span>Enabled</span> - secure socket layer is used for this connection and all messages are encrypted.</li>
+             <li><span>Disabled</span> (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>It is recommended that SSL be enabled for JavaScript TCP Client communication points whenever it is supported by the remote server. </span>Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></p><p><br></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></p><p><br></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL Client Mode</p></td>
+          <td class="confluenceTd"><p>Whether to use SSL client mode:</p>
+           <ul>
+            <li><span>Enabled</span> (default).</li>
+            <li><span>Disabled</span>.</li>
+           </ul><p>If this property is <span>enabled</span>, SSL client mode will be enabled. Note that this is NOT the same as TLS client authentication. TLS client authentication is supported by configuring one or more private keys in the&nbsp;<strong>Secure Keys</strong>&nbsp;configuration property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>Identifies the private keys used for authenticating Rhapsody's end of the SSL connection. When configured with a private key, the SSL client supports SSL client authentication if requested by the SSL server.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Identifies the trusted certificates used at the non-Rhapsody end of the SSL connection. If it is not configured with the SSL server's certificate, then this SSL client operates in anonymous server authentication mode. It is highly recommended that the server's certificate always be provided here to allow server authentication to be performed.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Initialise</p></td>
+          <td class="confluenceTd"><p>The script called whenever the communication point is started.</p><p>The initialization script is called as soon as a new connection is established by the communication point framework. Specifically, it is called in the <code>getConnection()</code> method of the communication point as soon as the TCP connection has been made.</p><p>It enables you to perform any necessary initialization of the connection object. Additionally, any variables declared and initialized in this script are available to all the other scripts for the same connection.</p><p>The initialization object has only the <code>log</code> and <code>conn</code> objects placed in its scope. There is no return value from the initialization script.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Whether to log connections and disconnections:</p>
+           <ul>
+            <li><span>Enabled</span> - details of when a connection to the communication point is established and dropped are logged to the log file specified in the <strong>Connection Log File</strong> property. Use of this logging facility slows the communication point down considerably. It is intended for debugging purposes and should not generally be used in production.</li>
+            <li><span>Disabled</span> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Whether to log data:</p>
+           <ul>
+            <li><span>Enabled</span>&nbsp;- all data passed over the connections of the communication point is logged to the log file. This is potentially a large amount of data.</li>
+            <li><span>Disabled</span>&nbsp;(default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Whether to log data in hexadecimal form:</p>
+           <ul>
+            <li><span>Enabled</span>&nbsp;- the hexadecimal representation of the data is logged to the log file.</li>
+            <li><span>Disabled</span>&nbsp;(default) - the data is logged exactly as it is as it passes over the communication point connection.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The full file name (path and file name) of the file on the server to which information will be logged.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Whether to include extra log information:</p>
+           <ul>
+            <li><code>None</code>.</li>
+            <li><code>Log Time</code> (default) - the timestamps are logged with each event.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Send</p></td>
+          <td class="confluenceTd"><p>The Send script is called whenever there is a message waiting to be sent via the communication point. The message to be sent is passed to the script in the global variable message.</p><p>The Send script is used to send a message from Rhapsody using the JavaScript TCP communication point. A read-only message object is provided in the scope to allow access to the message data. The script then sends whatever is necessary over the wire to perform the message send.</p><p>This script has access to the <code>log</code>, <code>conn</code>, and <code>message</code> objects placed in its scope. There is no return value from the send script.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="JavaScriptTCPClient-Bidirectional,In->OutandOut->InMode">Bidirectional, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> Mode</h2>
+      <p>The configuration properties for the JavaScript TCP Client communication point in <em>Bidirectional</em>, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes is a combination of the properties described above.</p>
+      <p>Refer to <a href="Connection_133162193.html#Connection-In-&amp;amp;gt;OutandOut-&amp;amp;gt;InProperties"><em>Out-&gt;In</em> and <em>In-&gt;Out</em> Properties</a> for general details on a communication point's <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes.</p>
+      <h2 id="JavaScriptTCPClient-ConnectionMonitoring">Connection Monitoring</h2>
+      <p>Refer to <a href="Connection-Monitoring_133162166.html">Connection Monitoring</a> or details.</p>
+      <h2 id="JavaScriptTCPClient-AdditionalInformation">Additional Information</h2>
+      <ul>
+       <li>Refer to&nbsp;<a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a>&nbsp;for details on JavaScript and the objects that Rhapsody exposes.</li>
+       <li>Refer to&nbsp;<a href="Shared-JavaScript-Libraries_133161861.html">Shared JavaScript Libraries</a>&nbsp;for details on how to manage shared&nbsp;JavaScript libraries.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

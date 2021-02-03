@@ -1,0 +1,306 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>TLS/SSL Support in Rhapsody</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">TLS/SSL Support in Rhapsody</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The following Rhapsody components use TLS (Transport Layer Security) in order to secure connections to provide confidentiality, integrity, and authorization of transmitted data:</p>
+      <ul>
+       <li><a href="TCP-Client_133162495.html">TCP Client</a></li>
+       <li><a href="TCP-Server_133162501.html">TCP Server</a></li>
+       <li><a href="JavaScript-TCP-Client_133162421.html">JavaScript TCP Client</a></li>
+       <li><a href="JavaScript-TCP-Server_133162415.html">JavaScript TCP Server</a></li>
+       <li><a href="ASTM-TCP-Client_133162660.html">ASTM TCP Client</a></li>
+       <li><a href="ASTM-TCP-Server_133162664.html">ASTM TCP Server</a></li>
+       <li><a href="Clinicom-Client_133162669.html">Clinicom Client</a></li>
+       <li><a href="Clinicom-Server_133162675.html">Clinicom Server</a></li>
+       <li><a href="TN3270_133162438.html">TN3270</a></li>
+       <li><a href="HTTP-Client_133162623.html">HTTP Client</a></li>
+       <li><a href="HTTP-Server_133162638.html">HTTP Server</a></li>
+       <li><a href="Email-Client_133162342.html">Email Client</a></li>
+       <li><a href="Rhapsody-Connector_133162574.html">Rhapsody Connector</a></li>
+       <li><a href="Web-Service-Client_133162592.html">Web Service Client</a></li>
+       <li><a href="Web-Services-in-Rhapsody_133163507.html">Web Service Hosting</a></li>
+       <li><a href="133162373.html">(S)FTP Client</a></li>
+       <li><a href="REST-Clients_133161987.html">REST Clients</a></li>
+      </ul>
+      <p>When a TLS connection is established, the client and server exchange keys, negotiate a cipher suite, and then generate a random session key to use for the connection. As Rhapsody is designed to communicate with a wide range of systems, it supports several SSL/TLS (Secure Sockets Layer/Transport Layer Security) versions and allows the enabled cipher suites to be configured as required.</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146932909 {padding: 0px;}
+div.rbtoc1565146932909 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146932909 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146932909"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#TLS/SSLSupportinRhapsody-SSL/TLSProtocolVersions">SSL/TLS Protocol Versions</a></li> 
+        <li><a href="#TLS/SSLSupportinRhapsody-SSL/TLSCipherSuites">SSL/TLS Cipher Suites</a></li> 
+        <li><a href="#TLS/SSLSupportinRhapsody-MutualAuthentication">Mutual Authentication</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="TLS/SSLSupportinRhapsody-SSL/TLSProtocolVersions">SSL/TLS Protocol Versions</h2>
+      <p>Rhapsody currently supports the following SSL/TLS protocols: TLSv1.0,&nbsp;TLSv1.1, and TLSv1.2. These protocols can be enabled using a configuration property on the relevant Rhapsody components.</p>
+      <p>For various compatibility reasons, some SSL/TLS clients send an SSLv2 ClientHello packet (the first message sent to start the SSL handshake) even if they actually only support SSLv3/TLSv1.0. All Rhapsody SSL/TLS server components accept these SSLv2 ClientHello packets as long as the remote client actually supports either SSLv3 or TLSv1.0. Rhapsody does not support SSLv1, SSLv2, and SSLv3 due to significant security issues with those protocols.</p>
+      <p>You can configure Rhapsody client components to send an SSLv2 ClientHello packet to establish the SSL connection if this is required for compatibility with the SSL server that Rhapsody needs to talk to. This option is not available on AIX, as the JSSE security implementation in the IBM JRE does not support this behavior.</p>
+      <p>Consequently, Rhapsody TLS components allow the following SSL protocol modes to be configured:</p>
+      <ul>
+       <li><strong>SSL</strong>&nbsp;- enables the TLSv1.0, TLSv1.1 and TLSv1.2 protocols and if this is an SSL client, it sends an SSLv2-compatible ClientHello packet (but does not support SSLv2 itself). An incoming SSLv2 ClientHello packet is accepted by an SSL server configured using this mode (provided that it actually is using TLS).</li>
+       <li><p><strong>TLSv1</strong><span>&nbsp;- enables&nbsp;the TLSv1.0, TLSv1.1 and TLSv1.2 protocols. An incoming SSLv2 ClientHello packet is accepted by an SSL server configured using this mode (provided that it actually is using TLS).</span></p></li>
+       <li><strong>TLSv1.1</strong>&nbsp;- enables&nbsp;the TLSv1.1 and&nbsp;TLSv1.2 protocols only.</li>
+       <li><strong>TLSv1.2</strong>&nbsp;- enables&nbsp;the TLSv1.2 protocol only.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Using TLSv1.1 or TLSv1.2 may result in a component not being able to connect to legacy systems that do not support these protocols, therefore ensure your configuration has been tested before being placed in a production environment.</p>
+       </div>
+      </div>
+      <p>For backward compatibility, some Rhapsody communication points list an additional number of SSL protocol modes:</p>
+      <ul>
+       <li><strong>SSLv2</strong>&nbsp;- Treated as SSL (in other words, the TLSv1.0 protocol is enabled, and an SSLv2-compatible ClientHello is sent if this is a client).</li>
+       <li><p><strong>SSLv3</strong>&nbsp;- Treated as&nbsp;TLSv1 (in other words, only the TLSv1.0 protocol is enabled).</p></li>
+       <li><strong>TLS</strong>&nbsp;- Treated as TLSv1 (in other words, only the TLSv1.0 protocol is enabled).</li>
+      </ul>
+      <p>In most cases, newly created components default to using TLSv1.2.</p>
+      <h2 id="TLS/SSLSupportinRhapsody-SSL/TLSCipherSuites">SSL/TLS Cipher Suites</h2>
+      <p>The SSL cipher suite determines which algorithms are used for key exchange, encryption, and message integrity. Due to the SSL handshake, the client and server negotiate which cipher suite should be used for the connection, and the connection can only be established if the client and server have a cipher suite in common. This allows both the client and server to set minimum expectations for the security of the connection.</p>
+      <p>Supported cipher suites in Rhapsody are arranged into groups to make it easier to configure the desired security level for each SSL component, while still allowing a system administrator the fine-grained control of which cipher suites belong to which groups. In Rhapsody's default configuration, the cipher suites are grouped as follows:</p>
+      <div class="table-wrap">
+       <table class="wrapped relative-table confluenceTable" style="width: 97.6982%;">
+        <colgroup>
+         <col style="width: 5.60503%;">
+         <col style="width: 40.44%;">
+         <col style="width: 53.955%;">
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Cipher&nbsp;Suite Group</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+          <th class="confluenceTh"><p>Usage</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Very Strong</p></td>
+          <td class="confluenceTd"><p>Only the AES 256-bit cipher suites are enabled.</p></td>
+          <td class="confluenceTd"><p>Only available <span>to components using</span> TLSv1,&nbsp;TLSv1.1, or TLSv1.2 as the SSL protocol.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>FIPS</p></td>
+          <td class="confluenceTd"><p>Only the FIPS cipher suites are enabled. This includes AES 128-bit and AES 256-bit cipher suites.</p></td>
+          <td class="confluenceTd"><p>Only available <span>to components using</span> TLSv1,&nbsp;TLSv1.1, or TLSv1.2 as the <span>SSL</span> protocol. <span>By default, the FIPS cipher suites are enabled for all SSL/TLS components in Rhapsody. This can be changed <span>as required </span>on a per component basis.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Strong</p></td>
+          <td class="confluenceTd"><p>Only cipher suites with greater than 128-bit encryption are enabled. This includes AES 128-bit and AES 256-bit.</p></td>
+          <td class="confluenceTd"><p><br></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Weak</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Intended for the weak strength cipher suites.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>In the JRE versions used as of Rhapsody 6.5, vulnerable and compromised cipher suites have been removed from this group. Currently, the group contains the same set of cipher suites as the FIPS and Strong groups.</span></p>
+             </div>
+            </div>
+           </div></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Not available to components using TLSv1.1 or TLSv1.2 as the <span>SSL</span> protocol.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Weak cipher suites should not be used unless there is a justified need for them (for example, when Rhapsody is required to connect to a system that only supports weak cipher suites and no higher security options are available). <span>To enable weak cipher suites, refer to </span><a href="#TLS/SSLSupportinRhapsody-EnablingDisabledCipherSuites">Enabling Disabled Cipher Suites</a><span>.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="TLS/SSLSupportinRhapsody-ConfiguringCipherSuites">Configuring Cipher Suites</h3>
+      <p>The cipher suites included within each cipher suite group can be configured through the <code>rhapsody.properties</code> file using the following keys:</p>
+      <ul>
+       <li><code>SslProvider.CipherSuites.VeryStrong</code> (the very strong cipher suites).</li>
+       <li><code>SslProvider.CipherSuites.Fips</code> (the FIPS cipher suites).</li>
+       <li><code>SslProvider.CipherSuites.Strong</code> (the strong cipher suites).</li>
+       <li><code style="letter-spacing: 0.0px;">SslProvider.CipherSuites.Weak</code><span style="letter-spacing: 0.0px;"> (the weak cipher suites).</span></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span style="color: rgb(51,51,51);">Anonymous cipher suites&nbsp;have been removed from the&nbsp;JRE version&nbsp;used by Rhapsody as of&nbsp;Rhapsody 6.5 because&nbsp;of vulnerabilities.&nbsp;Therefore, as of&nbsp;Rhapsody 6.5,&nbsp;Rhapsody no longer uses them. As with other compromised or weak cipher suites, anonymous cipher suites&nbsp;can be re-added to&nbsp;the&nbsp;<code>rhapsody.properties</code>&nbsp;file if necessary, as can the anonymous cipher suite groups which they previously belonged to (refer to&nbsp;<a href="https://docs.rhapsody.health/pages/viewpage.action?pageId=128715499">TLS/SSL Support in Rhapsody 6.4</a></span><span style="color: rgb(51,51,51);">&nbsp;for the cipher suites supported in that version):</span></p>
+        <ul>
+         <li><code>SslProvider.CipherSuites.Strong.Anonymous</code>&nbsp;(the strong but anonymous cipher suites).</li>
+         <li><code>SslProvider.CipherSuites.Weak.Anonymous</code>&nbsp;(the weak and anonymous cipher suites).</li>
+        </ul>
+       </div>
+      </div>
+      <p>To enable a specific set of cipher&nbsp;suites in a cipher suite group, uncomment them in the&nbsp;<code style="letter-spacing: 0.0px;">rhapsody.properties</code>&nbsp;file, and restart Rhapsody in order for the changes to be picked up.</p>
+      <p>By default, all available cipher suites are enabled. The list of cipher suites included for each group level is the exhaustive list of all available cipher suites at that level. The cipher suites actually enabled for a particular socket are always a subset of this list depending on the platform in use and the selected SSL certificate for the connection (for example, the DSA cipher suites are only available if using a DSA key instead of an RSA key).</p>
+      <p>The set of cipher suites currently supported and therefore enabled in Rhapsody is as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence"># SSL Cipher Suites
+# Note that each cipher suite group wraps over multiple lines. All the lines for a particular group
+# should be uncommented if it is going to be modified. Wrapping requires that the last character on
+# the previous line is a backslash.
+#WebMonitoringService.ssl.enabledCiphers=TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384 TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 \
+#    TLS_RSA_WITH_AES_256_CBC_SHA256 TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384 TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384 \
+#    TLS_DHE_RSA_WITH_AES_256_CBC_SHA256 TLS_DHE_DSS_WITH_AES_256_CBC_SHA256 TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA \
+#    TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA TLS_RSA_WITH_AES_256_CBC_SHA TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA \
+#    TLS_ECDH_RSA_WITH_AES_256_CBC_SHA TLS_DHE_RSA_WITH_AES_256_CBC_SHA TLS_DHE_DSS_WITH_AES_256_CBC_SHA \
+#    TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 TLS_RSA_WITH_AES_128_CBC_SHA256 \
+#    TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA256 TLS_ECDH_RSA_WITH_AES_128_CBC_SHA256 TLS_DHE_RSA_WITH_AES_128_CBC_SHA256 \
+#    TLS_DHE_DSS_WITH_AES_128_CBC_SHA256 TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA \
+#    TLS_RSA_WITH_AES_128_CBC_SHA TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA TLS_ECDH_RSA_WITH_AES_128_CBC_SHA \
+#    TLS_DHE_RSA_WITH_AES_128_CBC_SHA TLS_DHE_DSS_WITH_AES_128_CBC_SHA TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 \
+#    TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 TLS_RSA_WITH_AES_256_GCM_SHA384 \
+#    TLS_ECDH_ECDSA_WITH_AES_256_GCM_SHA384 TLS_ECDH_RSA_WITH_AES_256_GCM_SHA384 TLS_DHE_RSA_WITH_AES_256_GCM_SHA384 \
+#    TLS_DHE_DSS_WITH_AES_256_GCM_SHA384 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 TLS_RSA_WITH_AES_128_GCM_SHA256 \
+#    TLS_ECDH_ECDSA_WITH_AES_128_GCM_SHA256 TLS_ECDH_RSA_WITH_AES_128_GCM_SHA256 TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 \
+#    TLS_DHE_DSS_WITH_AES_128_GCM_SHA256 TLS_EMPTY_RENEGOTIATION_INFO_SCSV
+#SslProvider.CipherSuites.VeryStrong=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA \
+#    TLS_RSA_WITH_AES_256_CBC_SHA256 TLS_RSA_WITH_AES_256_CBC_SHA \
+#SslProvider.CipherSuites.Fips=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384  TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA \
+#    TLS_RSA_WITH_AES_256_CBC_SHA256 TLS_RSA_WITH_AES_256_CBC_SHA TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 \
+#    TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA TLS_RSA_WITH_AES_128_CBC_SHA256 TLS_RSA_WITH_AES_128_CBC_SHA
+#SslProvider.CipherSuites.Strong=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA \
+#    TLS_RSA_WITH_AES_256_CBC_SHA256 TLS_RSA_WITH_AES_256_CBC_SHA TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 \
+#    TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA TLS_RSA_WITH_AES_128_CBC_SHA256 TLS_RSA_WITH_AES_128_CBC_SHA
+#SslProvider.CipherSuites.Weak=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA \
+#    TLS_RSA_WITH_AES_256_CBC_SHA256 TLS_RSA_WITH_AES_256_CBC_SHA TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 \
+#    TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA TLS_RSA_WITH_AES_128_CBC_SHA256 TLS_RSA_WITH_AES_128_CBC_SHA</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody does not enable ECDHE cipher suites by default for HP-UX servers, unless explicitly stated in the <code>rhapsody.properties</code> file.</p>
+       </div>
+      </div>
+      <p>Caution is urged when editing these settings in the <code>rhapsody.properties</code> file as they wrap over multiple lines using the escape character (a backslash) since they are very long. If one of these properties is not set, then the current cipher suite reverts to the default cipher suites for that level. The actual cipher suites included in each category are written to the Rhapsody log during startup at the DEBUG level. This can be enabled if desired by adding the following line to the <code>log4j.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">log4j.logger.com.orchestral.rhapsody.security.ssl=DEBUG</pre> 
+       </div>
+      </div>
+      <h3 id="TLS/SSLSupportinRhapsody-EnablingDisabledCipherSuites">Enabling Disabled Cipher Suites</h3>
+      <p><span style="color: rgb(51,51,51);">Algorithms which have been disabled in Rhapsody&nbsp;are listed in the&nbsp;property&nbsp;<code>jdk.tls.disabledAlgorithms</code>&nbsp;in&nbsp;the&nbsp;<code>java.security</code>&nbsp;file, which&nbsp;is located in&nbsp;<code>&lt;Rhapsody&gt;/jre/lib/security</code>. This file is automatically updated during every upgrade.</span></p>
+      <p><span style="letter-spacing: 0.0px;">To enable a cipher suite that has been disabled:</span></p>
+      <ol>
+       <li>Edit the&nbsp;<code>java.security</code>&nbsp;file to remove the relevant algorithms from the list of disabled algorithms listed in the&nbsp;property&nbsp;<code>jdk.tls.disabledAlgorithms</code>.</li>
+       <li>Edit the&nbsp;<code>rhapsody.properties</code>&nbsp;file to add the relevant cipher suite into one of the existing groups. Ensure the entire group is uncommented.</li>
+       <li>Restart Rhapsody so the engine can pick up the changes.</li>
+      </ol>
+      <p>For example, the <code>TLS_ECDHE_RSA_WITH_RC4_128_SHA</code> cipher suite&nbsp;has been removed because the RC4 algorithm has exploitable vulnerabilities. To enable&nbsp;<code>TLS_ECDHE_RSA_WITH_RC4_128_SHA</code> f<span style="letter-spacing: 0.0px;">or an external system can only connect to Rhapsody using it:</span></p>
+      <ol>
+       <li><p>Modify the <code>java.security</code> file by removing the RC4 algorithm:</p>
+        <div class="panel" style="border-width: 1px;">
+         <div class="panelContent"> 
+          <p>j<code>dk.tls.disabledAlgorithms=SSLv3,&nbsp;<span style="color: rgb(255,0,0);">RC4</span>, DES, MD5withRSA, DH keySize &lt; 1024, \</code><br><code>EC keySize &lt; 224, 3DES_EDE_CBC, anon, NULL</code></p> 
+         </div>
+        </div></li>
+       <li><p>Modify the&nbsp;<code>rhapsody.properties</code>&nbsp;file by adding the cipher suite to the weak group and uncommenting the entire group:</p>
+        <div class="panel" style="border-width: 1px;">
+         <div class="panelContent"> 
+          <p><code>SslProvider.CipherSuites.Weak=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA \</code><br><code>TLS_RSA_WITH_AES_256_CBC_SHA256 TLS_RSA_WITH_AES_256_CBC_SHA TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 \</code><br><code>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA TLS_RSA_WITH_AES_128_CBC_SHA256 TLS_RSA_WITH_AES_128_CBC_SHA&nbsp;<span style="color: rgb(51,153,102);">TLS_ECDHE_RSA_WITH_RC4_128_SHA</span></code></p> 
+         </div>
+        </div></li>
+       <li><p>Restart Rhapsody.</p></li>
+      </ol>
+      <h3 id="TLS/SSLSupportinRhapsody-UpdatingCipherSuitesPost-upgrade">Updating Cipher Suites Post-upgrade</h3>
+      <p><span style="color: rgb(51,51,51);">The list of cipher suites enabled in Rhapsody is not automatically updated in the&nbsp;<code>rhapsody.properties</code>&nbsp;file during an upgrade.</span></p>
+      <p><span style="color: rgb(51,51,51);">If you are using the default set of cipher suites (in other words, the&nbsp;list of cipher suites&nbsp;is fully commented out), it is recommended that you replace the original settings with the default cipher suite settings of the version of Rhapsody you are upgrading to.&nbsp;This ensures that the correct cipher suites are in place for future use.</span></p>
+      <p>If you are using custom cipher suites (in other words, relevant parts of the&nbsp;list of cipher suites&nbsp;have been uncommented),&nbsp;it is also recommended that you replace the original settings with the default cipher suite settings&nbsp;of the version of Rhapsody you are upgrading to, having taken note of any customizations. Thereafter, you can modify the section to re-incorporate your customizations.</p>
+      <p>Ensure you are not using any disabled&nbsp;cipher suites.</p>
+      <p>Testing all components which use the SSL/TLS protocol is especially important after an upgrade. If a component fails to start due to the use of a disabled cipher suite, the expected error in the logs would be of the form:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">*.SSLHandshakeException: No appropriate protocol (protocol is disabled or cipher suites are inappropriate)</pre> 
+       </div>
+      </div>
+      <h2 id="TLS/SSLSupportinRhapsody-MutualAuthentication"><span style="color: rgb(0,0,0);">Mutual Authentication</span></h2>
+      <p>Mutual authentication refers to a situation where both parties in a connection authenticate each other at the same time. This means that when establishing a connection the client must authenticate itself to the server and the server must also authenticate itself to a client. Mutual authentication is a crucial part of establishing a secure connection so that both the client and server know who they are talking to. This means that they can prevent transmitting or receiving data from an untrusted party.&nbsp;</p>
+      <p>In the context of TLS, the authentication of servers is almost always done using SSL certificates. However, client authentication can be done in a number of different ways including SSL certificates, or sometimes via a login using a username and password.</p>
+      <p>It is highly recommended that SSL with mutual authentication be enabled whenever it is supported by the remote system. Using SSL without mutual authentication could result in connections being established to untrusted systems.</p>
+      <h3 id="TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</h3>
+      <p>Server authentication is normally performed using SSL certificates. The server is configured to use a private key and corresponding certificate chain, and it presents the certificate chain to clients as they connect. Clients connecting to such a server examine the presented certificate chain to ensure that they trust either the presented certificate directly, or one of the certificates higher in the chain.</p>
+      <p>All TLS-capable server communication points in Rhapsody provide some way to configure the SSL private key to use for the connection:</p>
+      <ul>
+       <li><a href="TCP-Server_133162501.html">TCP Server</a>, <a href="HTTP-Server_133162638.html">HTTP Server</a>, <a href="Rhapsody-Connector_133162574.html">Rhapsody Connector</a>, <a href="ASTM-TCP-Server_133162664.html">ASTM TCP Server</a>, <a href="Clinicom-Server_133162675.html">Clinicom Server</a>, and <a href="JavaScript-TCP-Server_133162415.html">JavaScript TCP Server</a> communication points configure this using the <strong>Secure Keys</strong> configuration property.</li>
+       <li><a href="Web-Services-in-Rhapsody_133163507.html">Hosted Web Services</a> configure this using the <strong>Private Key</strong> configuration property in the Web Service itself (as opposed to the Web Service Hosting communication point). Web services can configure a key even when not using TLS as it can be used to perform message-level encryption using XML security rather than the transport level encryption provided by TLS.</li>
+      </ul>
+      <p>This private key and certificate pair should ideally be at least of 2048-bit strength. It can be generated through the&nbsp;<a href="Managing-Certificates-and-Keys_133161222.html">Rhapsody IDE Certificate Manager</a>&nbsp;if required.</p>
+      <p>All TLS capable client communication points in Rhapsody provide a way to configure the SSL certificates that they expect to be presented by the server. If the server does not present the expected certificate or a certificate issued by the expected certificate, Rhapsody will prevent the connection from being established.</p>
+      <ul>
+       <li><a href="TCP-Client_133162495.html">TCP Client</a>, <a href="HTTP-Client_133162623.html">HTTP Client</a>, <a href="Rhapsody-Connector_133162574.html">Rhapsody Connector</a>, <a href="ASTM-TCP-Client_133162660.html">ASTM TCP Client</a>, <a href="Clinicom-Client_133162669.html">Clinicom Client</a>, <a href="JavaScript-TCP-Client_133162421.html">JavaScript TCP Client</a>, <a href="Email-Client_133162342.html">E-mail Client</a>, <a href="TN3270_133162438.html">TN3270</a>, <a href="SMS-Batch_133162656.html">SMS Batch</a>, and <a href="SMS-Invision_133162351.html">SMS Invision</a> communication points, along with <a href="REST-Clients_133161987.html">REST Clients</a>,&nbsp;configure this using the <strong>Trusted Certificates</strong> configuration property. In the case of the&nbsp;<a href="HTTP-Client_133162623.html">HTTP Client</a> communication point and&nbsp;<a href="REST-Clients_133161987.html">REST Clients</a>, they may optionally leave this property blank in order to accept certificates issued by a trusted certificate authority instead.</li>
+       <li><a href="Web-Service-Client_133162592.html">Web Service Client</a> communication points configure this using the <strong>Web Service Certificate</strong> configuration property. Note that web service clients can configure the server's certificate even when not using TLS as it can be used to perform message-level encryption using XML security rather than the transport level encryption provided by TLS. In addition,&nbsp;the <strong>Server Authentication</strong> configuration property can be used to allow accepting certificates issued by a trusted certificate authority instead.</li>
+       <li><a href="133162373.html">(S)FTP Client</a> communication points configure the expected SSL server certificate using the <strong>SSL Server Certificates</strong> configuration property when connecting to FTPS servers. Server authentication is performed using SSH public keys configured using the <strong>SFTP Server Public Key</strong> configuration property when connecting to SFTP servers.</li>
+      </ul>
+      <h3 id="TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</h3>
+      <p>Client authentication of TLS connections can generally be done using SSL certificates, however, some communication point types also provide some alternative mechanisms to accomplish this. TLS client authentication is used by configuring the SSL private key on the client-side, and providing the SSL certificate to the TLS server so that it can authenticate the client. Alternatively, the issuer certificate can be provided to the TLS server to allow it to authenticate any client with a certificate issued by the configured certificate.</p>
+      <p>It is highly recommended that all TLS server communication points in Rhapsody be configured to perform client authentication either using one of the supported modes, or via custom logic in the routes immediately after receiving the incoming message.</p>
+      <ul>
+       <li><a href="TCP-Server_133162501.html">TCP Server</a>, <a href="ASTM-TCP-Server_133162664.html">ASTM TCP Server</a>, <a href="Clinicom-Server_133162675.html">Clinicom Server</a>, and <a href="JavaScript-TCP-Server_133162415.html">JavaScript TCP Server</a> communication points have built-in support for TLS client authentication using the <strong>Trusted Certificates</strong> configuration property.</li>
+       <li><a href="HTTP-Server_133162638.html">HTTP Server</a> communication points have built-in support for TLS client authentication. This is enabled by setting the <strong>Require Client Authentication</strong> configuration property to true, and then providing the SSL certificates in the <strong>Trusted Certificates</strong> configuration property.</li>
+       <li><a href="Rhapsody-Connector_133162574.html">Rhapsody Connector</a> communication points have built-in support for TLS client authentication using the <strong>Trusted Certificates</strong> and <strong>Trusted Certificate Issuers</strong> configuration properties.</li>
+       <li><a href="Web-Services-in-Rhapsody_133163507.html">Hosted Web Services</a> have built-in support for client authentication using: TLS client authentication using SSL certificates; HTTP basic authentication; WS-Security Username Token authentication; and WS-Security X509 Token authentication. The <strong>Authentication Method</strong> configuration property determines what authentication mode is supported, and then the users, passwords, and certificates are configured in the <a href="Managing-Web-Service-User-Stores_133163497.html">Web Services User Store</a>. As the HTTP basic authentication and WS-Security Username Token authentication modes can result in effectively a plaintext password being sent across the wire, it is strongly recommended that these authentication modes only be enabled when using a TLS connection.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>While there are some cases where it is reasonable to configure a server communication point without client authentication, these cases should be relatively rare. Whenever possible it is <strong>highly recommended</strong> that server communication points in Rhapsody be configured to enforce client authentication.</p>
+       </div>
+      </div>
+      <p>With the exception of the E-mail Client, all TLS-capable client communication points in Rhapsody support client authentication using SSL client certificates. Some client communication point support types also support alternative modes of authentication:</p>
+      <ul>
+       <li><a href="TCP-Client_133162495.html">TCP Client</a>, <a href="Rhapsody-Connector_133162574.html">Rhapsody Connector</a>, <a href="ASTM-TCP-Client_133162660.html">ASTM TCP Client</a>, <a href="Clinicom-Client_133162669.html">Clinicom Client</a>, <a href="JavaScript-TCP-Client_133162421.html">JavaScript TCP Client</a>, <a href="TN3270_133162438.html">TN3270</a>, <a href="SMS-Batch_133162656.html">SMS Batch</a>, and <a href="SMS-Invision_133162351.html">SMS Invision</a> communication points have built-in support for TLS client authentication using the <strong>Secure Keys</strong> configuration property.</li>
+       <li><a href="HTTP-Client_133162623.html">HTTP Client</a> communication points have built-in support for client authentication using: TLS client authentication, configured using the <strong>Secure Keys</strong> configuration property; and HTTP basic or digest authentication using a username and password, configured using the <strong>HTTP Authentication Username</strong> and <strong>HTTP Authentication Password</strong> configuration properties.</li>
+       <li><span style="line-height: 13.0pt;"><a href="Email-Client_133162342.html">E-mail Client</a> communication points support client authentication using an IMAP, POP3, or SMTP login with a username and password, configured using the <strong>User</strong> and <strong>Password</strong> configuration properties.</span></li>
+       <li><a href="Web-Service-Client_133162592.html">Web Service Client</a> communication points support client authentication using: TLS client authentication using SSL certificates; HTTP basic or digest authentication; Username Token plaintext authentication, Username Token Digest authentication, and X509 Token authentication. The <strong>Authentication Method</strong> configuration property determines what authentication mode is supported. If required the private key is provided using the <strong>Client Private Key</strong> configuration property, and usernames and passwords are provided using the <strong>Username</strong> and <strong>Password</strong> properties respectively.&nbsp;As the HTTP basic authentication and WS-Security Username Token authentication modes can result in effectively a plaintext password being sent across the wire, it is strongly recommended that these authentication modes only be enabled when using a TLS connection.</li>
+       <li><a href="133162373.html">(S)FTP Client</a> communication points support client authentication using: username and password authentication (via the <strong>Username</strong> and <strong>Password</strong> configuration properties); TLS client authentication when connecting to FTPS servers (using the <strong>SSL Client Private Key</strong> configuration property); SSH public key authentication when connecting to SFTP servers (using the <strong>SFTP Client Private Key</strong> configuration property). In addition, when connecting to an SFTP server, the <strong>SFTP Client Authentication Mode</strong> configuration property can be used to perform client authentication using both a private key and a username/password.&nbsp;</li>
+      </ul>
+      <h3 id="TLS/SSLSupportinRhapsody-CertificateRevocationChecks">Certificate Revocation Checks</h3>
+      <p>Rhapsody is capable of performing certificate revocation checks using either the Online Certificate Status Protocol (OCSP) or Certificate Revocation Lists (CRLs). These can be enabled globally via the <code>rhapsody.properties</code> file and are picked up after a Rhapsody restart:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>SslProvider.revocationChecks.enable=true</pre> 
+       </div>
+      </div>
+      <p><span style="color: rgb(0,0,0);">If revocation checks are enabled, then the internal JSSE security implementation will examine the extensions on the issuing certificate to see which of OCSP and CRLs should be used, and then check that the certificate is still valid.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">If a Rhapsody component has been configured to validate the peer using a self-signed certificate then revocation checks will not be performed.</span></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If revocation checks are enabled, then they are performed on all TLS connections that enable authentication but are not using self-signed certificates. Due to how this is implemented in the JSSE, this will cause certificates that do not provide revocation information either via OCSP or via CRLs to be rejected. This is not a problem if the certificates in question are issued by a public certificate authority, but may be an issue if they are issued by an internal organization certificate authority that does not provide these checks. <span style="line-height: 13.0pt;background-color: transparent;">For this reason, the revocation checks are not enabled by default.</span></p>
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

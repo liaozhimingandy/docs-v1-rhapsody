@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Backup and Restore</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Management_133164048.html">Management</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Backup and Restore</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148543" class="wrapped confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <colgroup>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path</em> : <strong>Management&gt;Backup and Restore</strong></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><em>Read <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li><p>Log in to Management Console</p></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Write <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Organize backups</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148543']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148543',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>From the <strong>Backup and Restore</strong> page, you can view, add, and maintain scheduled backups. Users require the 'Organize backups'&nbsp;access right&nbsp;to manage backups (the 'Organize backups'&nbsp;access right&nbsp;requires the 'Login to Management Console' access right, otherwise it cannot be selected).&nbsp;Backup and Restore should be set up such that users can view the backup schedules, but only administrators can schedule backups, perform actions on schedule (backup/cancel) or restore a backup.</p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When restoring a backup, users who do not have permissions to view the entire configuration could unknowingly overwrite changes made by other users to the parts of the configuration they cannot view. It is recommended only administrators be given the ability to manage backups.</p>
+       </div>
+      </div>
+      <p>If you have not configured backups for certain backup areas, you are presented with a warning: a warning icon in the navigation menu and a warning banner on the <strong>Backup and Restore</strong> page. You can dismiss the warning without configuring backups by clicking the <strong>Permanently dismiss warning</strong> link in the warning banner. In that case, you can only restore the warning by deleting the data store.</p>
+      <p><span>The backups are platform-dependent. Thus, a backup created on a Rhapsody engine running on a </span><em>Windows</em><span class="st">®</span><span> machine, for example, can only be restored on a Rhapsody engine running on a </span><em>Windows</em><span class="st">®</span><span> machine.</span></p>
+      <p>To manage backups, refer to:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147026219 {padding: 0px;}
+div.rbtoc1565147026219 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147026219 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147026219"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#BackupandRestore-FullandIncrementalBackups">Full and Incremental Backups</a></li> 
+        <li><a href="#BackupandRestore-BackupAreas">Backup Areas</a></li> 
+        <li><a href="#BackupandRestore-BackupScenarios">Backup Scenarios</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#BackupandRestore-DisasterRecovery">Disaster Recovery</a></li> 
+          <li><a href="#BackupandRestore-SettingupaDuplicateEnvironment">Setting up a Duplicate Environment</a></li> 
+         </ul> </li> 
+        <li><a href="#BackupandRestore-BackupStateandActions">Backup State and Actions</a></li> 
+        <li><a href="#BackupandRestore-DeletingBackups">Deleting Backups</a></li> 
+        <li><a href="#BackupandRestore-Upgrading">Upgrading</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="564" width="1069" src="attachments/133164059/133164060.png" data-image-src="attachments/133164059/133164060.png" data-unresolved-comment-count="0" data-linked-resource-id="133164060" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="BackupandRestorePage.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164059" data-linked-resource-container-version="3"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Column</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Type</p></td>
+          <td class="confluenceTd"><p>The configured type of backup; <code>Full</code> or <code>Incremental</code>. Refer to <a href="#BackupandRestore-FullandIncrementalBackups">Full and Incremental Backups</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Area</p></td>
+          <td class="confluenceTd"><p>The configured area to be backed up:</p>
+           <ul>
+            <li><code>Administration</code></li>
+            <li><code>Configuration</code></li>
+            <li><code>Message Store</code></li>
+            <li><code>All</code></li>
+           </ul><p>Refer to <a href="#BackupandRestore-BackupAreas">Backup Areas</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Directory</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>A unique path where the backup for a schedule will be stored.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is the directory on the Rhapsody server. If the machine is a Unix® machine, then the path will forward slashes (<code>/home/</code>...), if the machine is <em>Windows®</em>, then the path will use backslashes (<code>C:\</code>...).</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Frequency</p></td>
+          <td class="confluenceTd"><p>The number of times the backup would take place. A backup can be scheduled to run every x hours (where x is a whole number greater than one) at y minutes past the hour (0 - 59), daily at a specified time, weekly (at a specified day and time), or monthly (at a specified day and time).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Last Backup</p></td>
+          <td class="confluenceTd"><p>The time of the last backup.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Status</p></td>
+          <td class="confluenceTd"><p>The current state of a backup:</p>
+           <ul>
+            <li><code>Running</code></li>
+            <li><code>Not running</code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Actions</p></td>
+          <td class="confluenceTd">
+           <ul>
+            <li>Click the <strong>Add New Schedule</strong> link to add a new backup schedule. Refer to <a href="Scheduling-a-Backup_133164066.html">Scheduling a Backup</a> for details.</li>
+            <li>Click the <strong>Backup Now</strong> link to start a scheduled backup immediately.</li>
+            <li>Click the <strong>Edit Schedule</strong> link to schedule a backup. Refer to <a href="Scheduling-a-Backup_133164066.html#SchedulingaBackup-ModifyinganExistingBackupSchedule">Modifying an Existing Backup Schedule</a> for details.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="BackupandRestore-FullandIncrementalBackups">Full and Incremental Backups</h2>
+      <p>The <strong>Backup and Restore</strong> page enables you to schedule full and incremental backups. Full backups will backup all files, while incremental backups only backup files that are new since the previous backup, plus any files that were active in the previous backup (that is, the files that have changed since the last backup).</p>
+      <p>It is a good idea to configure an infrequent full backup to the same directory as a frequent incremental; for example, a weekly full backup and a daily incremental backup. Each full backup provides a fresh starting point for further incrementals, rather than having a never-ending chain.</p>
+      <p>A new backup will never overwrite a previous backup. All backups (full and incremental) are created in a directory inside the directory you specify in the <strong>Backup</strong> field, with an appropriate name to indicate whether it was full or incremental and the time of the backup; for example, <code>20080211-1420_INCREMENTAL</code>.</p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Backup directories are not deleted by Rhapsody. It is up to you to determine how long backups should be retained and to delete them once they are no longer required.</p>
+        <p>Take care when deleting old backups; to restore a backup you must have a valid starting point (that is an initial full backup), and all subsequent incremental backups. You cannot restore a backup if there is no starting point or if an incremental is missing.</p>
+       </div>
+      </div>
+      <h2 id="BackupandRestore-BackupAreas">Backup Areas</h2>
+      <p>Backup areas are categories of<span>&nbsp;data that the user can specify to back up.&nbsp;</span>Backups can be performed on the following areas:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Backup Area</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Administration</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Includes the backup and archive cleanup schedules and user accounts.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>In LDAP mode, the backup does not store the user accounts, instead it stores the settings for connecting to the LDAP server.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Configuration</td>
+          <td class="confluenceTd">Includes the engine configuration. This includes all route, communication point, and filter configurations, along with any other configuration data (auxiliary files, definitions, watchlists and delivery agent global properties, message tracking schemes, security objects and variables).</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Message Store</td>
+          <td colspan="1" class="confluenceTd"><p>Includes the logs as well as the message data.&nbsp;This message data includes both archived and live messages. <span>Restoring a copy of the m<span>essage store</span> at any later date would mean reverting back to the exact state of the backed up message store, which means that any live messages in the message store may be sent again. Thus, it is often undesirable for users to back up the message store.</span></p><p>When performing a message store backup, the backup task needs to pause running components for a short period of time in order to backup live messages. <span>For an engine under high message load, <span>the number of live messages can be large</span>, which could result in decreased engine throughput and occasional pauses in message processing while the backup task is running. Therefore, if you must back up the message store, it is recommended that you schedule it during off-peak hours.</span></p><p><span><span>Using a message store backed up on one engine to&nbsp;restore the message store on another also requires copying the original engine's configuration.</span></span></p><p>The size of a message store backup varies from site to site. However, it is typically compressed to a size of about 10 to 20 times smaller than the contents of the message-related directories (\<code>index</code>, \<code>messageevents</code>, \<code>messagestore</code>, \<code>messagetables</code>, \<code>queue</code>, \<code>transaction</code>). For example, 100GB of message-related directory content would generally produce a message store backup size of 5 to 10GB.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The license file,&nbsp;<code>log4j.properties</code>, and&nbsp;<code>rhapsody.properties</code>&nbsp;files are&nbsp;<em>not</em>&nbsp;backed up by any of the backup areas, as these files contain engine-specific, environment-dependent properties. You must back up these files manually.</p>
+       </div>
+      </div>
+      <h2 id="BackupandRestore-BackupScenarios">Backup Scenarios</h2>
+      <p>There are typically two reasons for configuring backups: <a href="Backup-and-Restore_133164059.html">disaster recovery</a> and <a href="#BackupandRestore-SettingupaDuplicateEnvironment">setting up a duplicate environment</a>.</p>
+      <h3 id="BackupandRestore-DisasterRecovery">Disaster Recovery</h3>
+      <p>The primary purpose of restoring a backup is to get the Rhapsody engine up and running again after a catastrophic failure. The two backup areas that should be configured for this case are&nbsp;<code>Administration</code> and <code>Configuration</code>.&nbsp;Having these two backup areas configured is a recommended prerequisite for performing Rhapsody engine upgrades.</p>
+      <p>The Message Store backup is not necessary for disaster recovery, and in some cases could have detrimental consequences. This is because the Message Store backup represents the state of the messages in Rhapsody when the backup was completed, which could be out-of-date by hours, days or weeks when a failure occurs. Restoring an out-of-date Message Store would result in any live messages from the time of the backup becoming live again, and flowing into their respective systems which may not be expecting old (and now duplicated) messages. Therefore, for most cases it is recommended you do not perform a Message Store backup.</p>
+      <p>If it is critical for you to restore messages as part of a disaster recovery plan, the backup of message-related data should be handled via asynchronous SAN replication. Refer to&nbsp;<a href="Disaster-Recovery_133164233.html">Disaster Recovery</a> for details.</p>
+      <h3 id="BackupandRestore-SettingupaDuplicateEnvironment"><span style="color: rgb(0,0,0);font-size: 16.0px;font-weight: bold;">Setting up a Duplicate Environment</span></h3>
+      <p>Sometimes, an exact copy of a Rhapsody engine, including live messages, is required. This is most often the case when creating a realistic Staging environment using Production data. In this scenario, all three backup areas (<code>Administration</code>,&nbsp;<code>Configuration</code>&nbsp;and <code>Message Store</code>) can be selected. This is typically the only use-case that requires a Message Store backup.</p>
+      <p>Development and Test environments often do not, and should not, contain production data, therefore a fully duplicated environment with Production messages is not required.</p>
+      <h2 id="BackupandRestore-BackupStateandActions">Backup State and Actions</h2>
+      <p>Any scheduled backup displays its current state (<code>running</code> or <code>not running</code>) or when it last ran (if it is currently in&nbsp;<code>not running</code>&nbsp;state but has been run at least once at some point in time). If a backup is not running, you can start a scheduled backup immediately by clicking the <strong>Backup Now</strong> link for the backup.</p>
+      <p>Only one backup can be run at a time. If a backup is running, you can cancel the backup by selecting the <strong>Cancel</strong> button.</p>
+      <h2 id="BackupandRestore-DeletingBackups">Deleting Backups</h2>
+      <p>You can configure Archive Cleanup to delete old backups automatically. Refer to&nbsp;<a href="Archive-Cleanup_133164049.html#ArchiveCleanup-AutomaticCleanup">Automatic Cleanup</a> for details.</p>
+      <h2 id="BackupandRestore-Upgrading">Upgrading</h2>
+      <p><span>Ensure you back up your configuration before upgrading your engine. Refer to&nbsp;<a href="Upgrade-Strategies_133164181.html">Upgrade Strategies</a>&nbsp;for details.</span></p>
+      <p><span>Backups before upgrade are particularly important when you are upgrading from Rhapsody version 5 or earlier to version 6 or later as configuration migration is required. Refer to </span><a href="Configuration-Migration_133161421.html">Configuration Migration</a><span> for details.</span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

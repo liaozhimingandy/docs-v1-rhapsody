@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Database Lookup</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="Database-Filters_133163055.html">Database Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Database Lookup</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163067/133163068.jpg" data-image-src="attachments/133163067/133163068.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163068" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image039.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163067" data-linked-resource-container-version="4"></span></p>
+      <p>The <strong>Database LookUp</strong> filter&nbsp;enables information to be retrieved from JDBC accessible data sources and inserts that information into the message in accordance with its message properties.</p>
+      <p>Because the configuration of a database filter is flexible and potentially very complex, the <a href="Database-Configuration_133161571.html">Database Configuration</a>&nbsp;is used to configure how it interacts with the database.</p>
+      <p>After you have added a new&nbsp;Database Lookup filter to your route:</p>
+      <ol>
+       <li>Read the <a href="#DatabaseLookup-Caveats">Caveats</a> related to using this filter.</li>
+       <li>Configure the database connection using its <a href="#DatabaseLookup-ConfigurationProperties">Configuration Properties</a>.</li>
+       <li>Configure the message definition (if any) to use for messages processed by this filter.</li>
+       <li>Launch the <a href="Database-Configuration_133161571.html">Database Configuration</a>&nbsp;by clicking the <strong>Create Configuration</strong> link.</li>
+      </ol>
+      <p>The Database LookUp filter is generally used to retrieve individual values or a group of values from a database, based on values from the incoming message. The retrieved values are then inserted directly into the message.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">For example, a Database Lookup</span> <span style="line-height: 13.0pt;background-color: transparent;">&nbsp;filter may be used to retrieve the full name and address of a patient from a database, when the incoming message contains only the patient identifier.&nbsp;</span> <span style="line-height: 13.0pt;">Refer to </span> <a href="Database-Components-Best-Practice-Guide_133161762.html">Database Components Best Practice Guide</a> <span style="line-height: 13.0pt;"> for guidance on the usage of database queries.</span></p>
+      <h2 id="DatabaseLookup-Caveats"><span style="line-height: 13.0pt;">Caveats</span></h2>
+      <h3 id="DatabaseLookup-LosingDatabaseConnection">Losing Database Connection</h3>
+      <p>When the database connection used by a database filter is lost, messages that the filter was attempting to process during the outage are sent to the Error Queue. The database connection is re-attempted three times for every incoming message. When the database connection is re-established, the filter recovers automatically and begins to process new messages. Consequently, when you manually reprocess the messages in the Error Queue, FIFO ordering of the messages is likely to be lost.</p>
+      <p>In Rhapsody versions previous to Rhapsody 6.2.3, the database filters are not able to recover automatically if the connection is lost during an insert or update query. In these circumstances, a manual route restart is required and users have the opportunity to reprocess the messages in the Error Queue before restarting the route, thereby preserving FIFO ordering.&nbsp;The database filters automatically recover if the connection is lost during select queries or before the insert or update queries are started.</p>
+      <p>If FIFO ordering <span>of messages </span>is critical for your purposes, it is recommended you use the <a href="#DatabaseLookup-Database">Database</a> communication point.</p>
+      <p></p>
+      <p><span style="color: rgb(0,0,0);font-size: 16.0px;font-weight: bold;">Testing Filter Configurations</span></p>
+      <p>When using third-party JDBC drivers (such as MySql or SQLite), you cannot test the configuration of database filters using the in-built&nbsp;filter testing&nbsp;functionality, because it cannot create the respective database driver classes. To test your filter configuration, start the relevant route and generate the test message using an appropriate input communication point, for example: the&nbsp;<a href="Directory_133162648.html">Directory</a>&nbsp;or&nbsp;<a href="Timer_133162523.html">Timer</a>&nbsp;communication point.</p>
+      <h2 id="DatabaseLookup-ConfigurationProperties">Configuration Properties</h2>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Database-Configuration_133161571.html">Database Configuration</a> and <a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a> for details on configuring the filter.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The type of database to connect to:</p>
+            <ul>
+             <li><code>Microsoft SQL Server - Microsoft Driver</code> - the com.microsoft.sqlserver.jdbc.SQLServerDriver <span>is used to enable access.</span></li>
+             <li><code>Microsoft SQL Server - jTDS</code> - the net.sourceforge.jtds.jdbc.Driver&nbsp;<span>is used to enable access.</span> <code><br></code></li>
+             <li><code>Oracle</code> - the oracle.jdbc.OracleDriver is used to enable access.</li>
+             <li><code>MySQL</code> - you must download the MySQL JDBC driver (com.mysql.jdbc.Driver) and attach it to the communication point <span>as an auxiliary file</span>. If you want to use the <a href="https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-overview.html" rel="nofollow" class="external-link" title="Follow link">MySQL Connector/J</a> driver (com.mysql.cj.jdbc.Driver), then you must select <code>Manual Setting</code>.</li>
+             <li><code>Microsoft Access</code> - the sun.jdbc.odbc.JdbcOdbcDriver is used to enable access.</li>
+             <li><code>PostgreSQL</code> - the org.postgresql.Driver is used to enable access.</li>
+             <li><code><span>Manual Setting</span></code><span> - </span><span><span>the JDBC driver and database URL must be included in the configuration file. Refer to </span> <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> <span>for details.</span> </span></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Host</p></td>
+          <td class="confluenceTd"><p>The hostname/IP address of the database to which to connect.</p><p>This property is available only if <strong>Database</strong> is not set to <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>The port number to connect to on the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database Name</p></td>
+          <td class="confluenceTd"><p>The name of the database. If <code>Microsoft Access</code> is selected for <strong>Database</strong>, the name of the data source should be provided.</p><p>This property is available only if <strong>Database</strong> is not <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The username to use to log in to the database.</p><p>This property is available only if <strong>Database</strong> is not <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p>The password to use to log in to the database.</p><p>This property is available only if <strong>Database</strong> is not <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Additional Connection Properties</p></td>
+          <td colspan="1" class="confluenceTd"><p>A list of name/value pairs of message properties to be set on database connection.</p><p>The listed properties are not used when <strong>Database</strong> is set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Configuration File</p></td>
+          <td class="confluenceTd"><p>This is an XML file that controls how the filter interacts with the database. While the XML can be edited manually, the recommended approach is to click the <strong>Create Configuration</strong> or <strong>Edit Configuration</strong> links to launch the <a href="Database-Configuration_133161571.html">Database Configuration Editor</a>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Type</p></td>
+          <td class="confluenceTd"><p>The input message type when no definition is specified.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition</p></td>
+          <td class="confluenceTd"><p>The message definition file that describes the structure of the incoming and outgoing messages.</p><p>Specifying a message definition allows the filter to access fields inside the message. This can be used to read or edit information in the message. The message definition is required if the database configuration references specific fields on the message.</p><p>This property not required to be set if no content extraction/insertion is to be performed (property-only lookups).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Retry Attempts</p></td>
+          <td class="confluenceTd"><p>The number of retry attempts if a database deadlock occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Query Timeout</p></td>
+          <td class="confluenceTd"><p>Used to specify how long, in seconds, a remote operation can take before the procedure times out (t<span>he default value is 0)</span>. The timeout should be applied to all SQL/procedure queries in the configuration file. When a query timeout occurs, the underlying connection is re-tried three times.</p><p>It is important to set a suitable timeout to ensure that queries do not block indefinitely as this would manifest as a hang in Rhapsody, which could block either a communication point thread or a route executor thread. Long queries could result from one of the conditions:</p>
+           <ul>
+            <li>Performance issues within the database.</li>
+            <li>Poor database configuration such as lack of indexing.</li>
+            <li>Poor database query design.</li>
+            <li>Locks on database resources by another application or deadlocks within the Database.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Retry Delay</p></td>
+          <td class="confluenceTd"><p>The delay (in milliseconds) between each retry attempt when a deadlock occurs. The maximum is <code>5000ms</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Socket Timeout</span></td>
+          <td colspan="1" class="confluenceTd"><p><span>Specifies how long, in seconds, the underlying connection should remain open before timing out. The socket timeout prevents <span>Rhapsody from waiting indefinitely for results from a database</span> in the event Rhapsody loses its connection to the database. </span>When a socket timeout occurs, the underlying connection is re-tried three times.</p><p><span> <span>A value of zero indicates the timeout is not configured.</span> </span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,498 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Web Service Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Web Service Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162592/133162600.png" data-image-src="attachments/133162592/133162600.png" data-unresolved-comment-count="0" data-linked-resource-id="133162600" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SOAP-Client-comm-32.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162592" data-linked-resource-container-version="12"></span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The </span><strong style="line-height: 13.0pt;">Web Service Client</strong><span style="line-height: 13.0pt;background-color: transparent;"> communication point&nbsp;supports RPC and document-based web services. A single communication point can call multiple operations hosted by the same web service. If multiple operations are supported, then a message property on the message (</span><code style="line-height: 13.0pt;">rhapsody:consumerOperation</code><span style="line-height: 13.0pt;background-color: transparent;">) indicates which operation should be used.</span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;"><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146952604 {padding: 0px;}
+div.rbtoc1565146952604 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146952604 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></span></p>
+      <div class="toc-macro rbtoc1565146952604"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#WebServiceClient-UsingWSDLs">Using WSDLs</a></li> 
+        <li><a href="#WebServiceClient-GeneratingSOAPRequestsandResponses">Generating SOAP Requests and Responses</a></li> 
+        <li><a href="#WebServiceClient-CDATASupport">CDATA Support</a></li> 
+        <li><a href="#WebServiceClient-ConfigurationProperties">Configuration Properties</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#WebServiceClient-General">General</a></li> 
+          <li><a href="#WebServiceClient-Proxy">Proxy</a></li> 
+          <li><a href="#WebServiceClient-Security">Security</a></li> 
+          <li><a href="#WebServiceClient-Operations">Operations</a></li> 
+          <li><a href="#WebServiceClient-Management">Management</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;"><span style="color: rgb(0,0,0);font-size: 20.0px;">Operational Modes</span><br></span></p>
+      <p>Supported Operational Modes: <em>Output</em>, <em>Out -&gt; In</em>.</p>
+      <p>If running in <em>Out-&gt;In</em> mode and using an output only operation, the messages received from the communication point are identical to the message sent (assuming no fault occurred). If running in <em>Output</em>&nbsp;mode and using a request-response operation, the response message is discarded (custom fault processing still occurs, but cannot return a message to the route).</p>
+      <h2 id="WebServiceClient-UsingWSDLs">Using WSDLs</h2>
+      <p>When parsing a WSDL, the Rhapsody engine extracts the following information:</p>
+      <ul>
+       <li>The service name.</li>
+       <li>The available endpoints for the web service.</li>
+       <li>The available operations (and namespaces) for the web service.</li>
+      </ul>
+      <p>All these values can be manually set, if required, irrespective of whether a WSDL is used to generate the configuration. Manually configured values can use Rhapsody variables as part of the configuration.</p>
+      <h2 id="WebServiceClient-GeneratingSOAPRequestsandResponses">Generating SOAP Requests and Responses</h2>
+      <p>This communication point provides the following methods to generate the outgoing SOAP request:</p>
+      <ul>
+       <li>Use the Rhapsody message body as the entire SOAP envelope.</li>
+       <li>Use the Rhapsody message body as the contents of the SOAP body.</li>
+       <li>Build the contents of the SOAP body using a template, and map the message properties, fields or message body using XPaths to refer to locations in the template.</li>
+       <li>Construct the SOAP message using JavaScript.</li>
+      </ul>
+      <p>It provides the following methods to generate the incoming SOAP response:</p>
+      <ul>
+       <li>Replace the Rhapsody message body with the entire SOAP envelope from the response.</li>
+       <li>Replace the Rhapsody message body with the contents of the SOAP body.</li>
+       <li>Set message properties, the message body, and fields within the message using XPaths&nbsp;to extract values from the SOAP response.</li>
+       <li>Execute custom JavaScript when SOAP response is received.</li>
+      </ul>
+      <h2 id="WebServiceClient-CDATASupport">CDATA Support</h2>
+      <p><span style="color: rgb(51,51,51);"><span style="color: rgb(51,51,51);">Through the following configuration property in the&nbsp;</span><code>rhapsody.properties</code><span style="color: rgb(51,51,51);">&nbsp;file, y</span>ou can configure the&nbsp;<span style="color: rgb(51,51,51);">web service framework</span><span style="color: rgb(51,51,51);">&nbsp;to write either escaped or preserved CDATA sections to the content of SOAP requests and responses</span>.</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Property</span></th>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Default Value</span></th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(51,51,51);">WebServicesFramework.CDATA.preserve</span></td>
+          <td class="confluenceTd">False</td>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">Enables the <span style="color: rgb(51,51,51);">web service framework either to preserve CDATA sections or escape them:</span></span></p>
+           <ul>
+            <li><span style="color: rgb(51,51,51);">If not set or set to false, then all literal CDATA sections in incoming and outgoing XML are escaped for both consumers and producers.</span></li>
+            <li><span style="color: rgb(51,51,51);"><span style="color: rgb(51,51,51);">If set to true, then the CDATA sections are preserved if and only if<span style="color: rgb(51,51,51);">&nbsp;</span><span style="color: rgb(51,51,51);">no security bindings are set for both the producer and consumer (an HTTPS connection ought to be secure enough for most applications).</span></span></span></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="WebServiceClient-ConfigurationProperties">Configuration Properties</h2>
+      <p>Click the <strong>Edit Communication Point Configuration</strong> link to view the properties you can configure.</p>
+      <h3 id="WebServiceClient-General">General</h3>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="560" src="attachments/133162592/133162602.png" data-image-src="attachments/133162592/133162602.png" data-unresolved-comment-count="0" data-linked-resource-id="133162602" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceConsumerGeneral.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162592" data-linked-resource-container-version="12"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>WSDL URL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Click the <strong>Reload WSDL</strong> link to open the <strong>Load WSDL</strong> dialog, and enter the URL to retrieve the WSDL from, or its location on the local machine where Rhapsody IDE is running (not the location on the Rhapsody server):</p>
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162592/133162593.png" data-image-src="attachments/133162592/133162593.png" data-unresolved-comment-count="0" data-linked-resource-id="133162593" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LoadWDSL.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162592" data-linked-resource-container-version="12"></span></p>
+            <p>Select the <strong>Specify an exact TLS version</strong> checkbox if you want the communication point to interpret your selected SSL Protocol as the exact version you want to use rather than the minimum version.</p>
+            <p>If you require HTTP basic/digest authentication or HTTPS client authentication to retrieve the WSDL, then select the <strong>Authenticate when loading WSDL</strong> checkbox, and either the <strong>Username</strong> and <strong>Password</strong> must be entered, or a <strong>Private Key</strong> must be selected. Select the <strong>Load</strong> button to retrieve and parse the WSDL.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If a Rhapsody variable <span>containing any XML tags</span> (in the form <code><em>abcd</em><span style="color: rgb(255,0,0);">&lt;</span><em>efgh</em><span style="color: rgb(255,0,0);">&gt;</span><em>ijkl</em></code> for example) is used for the username or password in a Web Service Client communication point, then the communication point will fail to configure.</p>
+             </div>
+            </div>
+            <p>To load the WSDL into Rhapsody when the WSDL has external references to other WSDLs or schemas using absolute paths (for example&nbsp;<code>http://&lt;server&gt;:&lt;port&gt;/path/to/schema.xsd</code>):</p>
+            <ol>
+             <li><p>Download the WSDL and all referenced files to a local folder (for example: <code>C:\WSDL</code>).</p></li>
+             <li><p>Replace the external URLs in the main WSDL with the local file paths of the downloaded references (for example, replace&nbsp;<code>http://&lt;server&gt;:&lt;port&gt;/path/to/schema.xsd</code>&nbsp;with&nbsp;<code>schema.xsd</code>&nbsp;since <code>schema.xsd</code> is now in the same folder as the WSDL).</p></li>
+             <li><p>Load the main WSDL using the&nbsp;<strong>Parse WSDL from file</strong>&nbsp;option.</p></li>
+            </ol>
+            <p>The default timeout of one minute is used. The value can be changed by setting the <code>WebServicesConsumerService.wsdl.timeoutInSeconds</code> option in <code>rhapsody.properties</code> file.</p>
+            <p>The SSL Protocol can also be selected when reloading a WSDL from a web service,&nbsp;and defaults to the SSL protocol on that web service client. Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details. It is recommended that all calls to web services be secured if supported by the server, either by using TLS or the symmetric or asymmetric security bindings.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Endpoint URL</p></td>
+          <td class="confluenceTd"><p>Selects the URL to use to send requests to the web service, or enter a custom endpoint. The custom endpoint can either be a message property (specified by starting the property name with a dollar '$' symbol), or a combination of a literal and Rhapsody variables.</p><p>When you select a WSDL, the Endpoint URL is automatically set.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Binding</p></td>
+          <td class="confluenceTd"><p><span>Selects the SOAP version</span>:</p>
+           <ul>
+            <li><code>SOAP 1.1</code>.</li>
+            <li><code>SOAP 1.2</code> (default).</li>
+           </ul><p>When you select a WSDL, the SOAP binding is automatically updated to match the selected Endpoint URL.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Send WS-Addressing Headers</p></td>
+          <td class="confluenceTd"><p>Determines whether the WS-Addressing headers should be sent in the outgoing SOAP request and expected in the SOAP response. It is enabled by default.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>The length of time, in milliseconds, Rhapsody should wait for a connection attempt to succeed before aborting it. The default is 60,000 milliseconds. One of the following actions is taken after connection timeout:</p>
+           <ul>
+            <li>If a static endpoint URL is used, the connection retries are made as configured for this communication point (as in <strong>General</strong> tab) because a connection timeout is viewed as a connection failure.</li>
+            <li>If a message property is used to specify a custom endpoint URL, the message is sent to the error connector, but subsequent messages are still sent because a connection timeout is viewed as a message error.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTPS Client Authentication</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to use <span>HTTPS Client Authentication:</span></p>
+            <ul>
+             <li><code>Required</code>.</li>
+             <li><code>Optional</code>.</li>
+             <li><code>Disabled</code> (Default).</li>
+            </ul>
+            <p>This property is unavailable if the selected <strong>Endpoint URL</strong> is a literal or value selected from the WSDL, and the URL does not use HTTPS. It is available if the URL is HTTPS, a message property or a Rhapsody variable.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The&nbsp;Web Service Client&nbsp;communication point does not support pre-emptive authentication.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol</p></td>
+          <td class="confluenceTd"><p>The SSL Protocol that should be used. Disabled if connecting to an older Rhapsody engine that does not support this functionality. Newly created web service clients default to <code>TLSv1.2</code> with strong ciphers. Refer to <a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><p>Limits the SSL cipher suites that can be used, allowing a minimum encryption level to be set:</p>
+           <ul>
+            <li><code>Very Strong Cipher Suites (AES-256)</code>.</li>
+            <li><code>FIPS Cipher Suites (AES-128, AES-256, TripleDES-168)</code><span> (default)</span>.</li>
+            <li><code>Strong Cipher Suites (AES-128, AES-256, TripleDES-168, RC4-128)</code>.</li>
+           </ul><p>Disabled if connecting to an older Rhapsody engine that does not support this functionality. Newly created web service clients default to TLSv1 with strong ciphers. Refer to <a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Server Authentication</td>
+          <td colspan="1" class="confluenceTd"><p><span style="background-color: transparent;">Determines how server authentication is performed when an HTTPS connection is in use:</span></p>
+           <ul>
+            <li><code>Use Certificate Authorities for Authentication</code> - the web service client ensures that the certificate presented by the server is signed by a trusted certificate authority, and is for the server that it is connecting to.</li>
+            <li><code>Authenticate Using Provided Certificate</code> - the web service client ensures that the certificate presented by the server is either the exact certificate provided in the <strong>Web Service Certificate</strong> option, or a certificate that is signed by that certificate. The <strong>Web Service Certificate</strong> configuration option is mandatory in this case.</li>
+            <li><code>Anonymous Authentication</code> - the web service client does not perform any authentication. This option is not recommended.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Web Service Certificate</p></td>
+          <td class="confluenceTd"><p>Click the <strong>Select</strong> link to select the certificate used by the web service. If the connection uses HTTPS, then this certificate is used to authenticate the remote server if the <strong>Server Authentication</strong> property is set to <code>Authenticate Using Provided Certificate</code>. Even if HTTPS is not in use, this parameter may be provided as it is required when using asymmetric or symmetric security binding.</p><p>Only available if using HTTPS with the <code>Authenticate Using Provided Certificate</code> option for <strong>Server Authentication</strong>, or asymmetric/symmetric security binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Client Private Key</p></td>
+          <td class="confluenceTd"><p>Click the <strong>Select</strong> link to select the private key this communication point should use when talking to the web service. It is required if HTTPS client authentication is required or optional, but may be set even if that is not the case, as it is required when using asymmetric security binding.</p><p>Only available if using HTTPS client authentication or asymmetric security binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Definition</p></td>
+          <td class="confluenceTd"><p>Click the <strong>Select</strong> link to select the message definition to use when parsing the WSDL. The message definition is optional, but needed for the following operations:</p>
+           <ul>
+            <li>Building the SOAP request from a template where some of the insertion values are from fields in the message.</li>
+            <li>Extracting values from the SOAP response where some of the extracted values are to be inserted into fields in the message.</li>
+            <li>Browsing fields in the message for configuring the above operations.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Custom SOAP Header</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Can be set to a literal, message property or Rhapsody variable.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>When using <span>a</span><span> message property to set</span> <span>the </span><span><strong>Custom SOAP Header</strong> configuration property</span></span><span>, ensure<strong> </strong>the message property is populated with the full SOAP header. Additionally, ensure </span><span><strong>Custom SOAP Header</strong> is set to this message property and nothing else.</span></p>
+              <p><span>For example, setting <strong>Custom SOAP Header</strong> to </span><code>$customHeader</code><span> <span>is valid </span>where the message property </span><code>customHeader</code><span> has been populated with the appropriate full SOAP header. On the other hand, setting </span><strong>Custom SOAP Header</strong><span> to </span><code>&lt;soap:Header&gt;$customHeader&lt;/soap:Header&gt;</code><span> is invalid since it contains literals as well as a message property.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServiceClient-Proxy">Proxy</h3>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="560" src="attachments/133162592/142322993.png" data-image-src="attachments/133162592/142322993.png" data-unresolved-comment-count="0" data-linked-resource-id="142322993" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceConsumerProxy.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162592" data-linked-resource-container-version="12"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Property</th>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Proxy Enabled</td>
+          <td class="confluenceTd">Whether the communication point should connect via a proxy.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Proxy Hostname</td>
+          <td class="confluenceTd">The hostname for the proxy server.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Proxy Port</td>
+          <td class="confluenceTd">The port for the proxy server. If set to a value less than 1, the default HTTP port will be used.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Proxy Username</td>
+          <td class="confluenceTd">The username to authenticate with the proxy server, if required.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Proxy Password</td>
+          <td class="confluenceTd">The password to authenticate with the proxy server, if required.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServiceClient-Security">Security</h3>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="560" src="attachments/133162592/133162604.png" data-image-src="attachments/133162592/133162604.png" data-unresolved-comment-count="0" data-linked-resource-id="133162604" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceConsumerSecurity.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162592" data-linked-resource-container-version="12"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Security Binding</p></td>
+          <td class="confluenceTd"><p>Defines how the key exchange mechanism works:</p>
+           <ul>
+            <li><code>No Security Binding</code> (default).</li>
+            <li><code>Transport Security Binding</code>.</li>
+            <li><code>Asymmetric Security Binding</code>.</li>
+            <li><code>Symmetric Security Binding</code>.</li>
+           </ul><p>Note that even if there is no security binding, the connection can still be secure if it uses HTTPS with an appropriate authentication mechanism.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Authentication Method</p></td>
+          <td class="confluenceTd"><p>Determines how the client will authenticate itself to the web service:</p>
+           <ul>
+            <li><code>No Authentication</code> (default).</li>
+            <li><code>HTTP Basic/Digest Authentication</code>.</li>
+            <li><code>HTTPS Client Authentication</code> - the Endpoint URL must be an HTTPS endpoint (or unknown if it is a message property) and a private key must be provided.</li>
+            <li><code>Username Token Plaintext Authentication</code> - the <span style="color: rgb(51,51,51);">web service client adds authentication information (username and password) to the SOAP header, and sets the <code>mustUnderstand</code> attribute to true (or 1) to enforce authentication on the server side.</span></li>
+            <li><code>Username Token Digest Authentication</code> - the <span style="color: rgb(51,51,51);">web service client adds authentication information (username and password) to the SOAP header, and sets the <code>mustUnderstand</code> attribute to true (or 1) to enforce authentication on the server side.</span></li>
+            <li><code>X509 Token Authentication</code> - only available when the asymmetric binding mechanism is used, as it requires the client to have a private key.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The username that can be a literal, a Rhapsody variable, or a reference to a Rhapsody message property. The username is required when using HTTP Basic/Digest Authentication or Username Token Authentication.</p><p>Rhapsody variables are referenced using the <code>$(variableName)</code> notation; Rhapsody message properties are referenced using the <code>$propertyName</code> notation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The password that can be a literal, a Rhapsody variable, or a reference to a Rhapsody message property. A blank password is permitted (although not recommended) for Username Token Authentication.</p>
+            <p><span>Rhapsody variables are referenced using the </span><code>$(variableName)</code><span> notation; Rhapsody message properties are referenced using the </span><code>$propertyName</code><span> notation.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-warning">
+             <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>As message properties are visible in the Management Console to users with the appropriate access rights, it is highly recommended that you encrypt passwords provided in this message using the <a href="Encrypting-Your-Password_133164477.html">Encrypt Password</a> function in the Rhapsody IDE. Alternatively, you can use <a href="Dynamic-Configuration-Using-XML-Templates_133162389.html">Configuration Templates</a>, which do not require providing the password in a message property.</p>
+              <p><span>If the passwords are retrieved from a Rhapsody variable using JavaScript, then the retrieval functions can leave them in this format. Refer to </span><a href="Global-Functions_133161395.html#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a><span> for details.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Algorithm Suite</p></td>
+          <td class="confluenceTd"><p>Controls which set of algorithms are used for security. The default value is<span>&nbsp;</span><code>BASIC_256</code>.</p><p>Only available when using asymmetric or symmetric security binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Protection Order</p></td>
+          <td class="confluenceTd"><p>Determines whether messages are signed first or encrypted first:</p>
+           <ul>
+            <li><code>Encrypt Then Sign</code>.</li>
+            <li><code>Sign Then Encrypt</code> (default).</li>
+           </ul><p>Only available when using asymmetric or symmetric security binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Initiator Token</p></td>
+          <td class="confluenceTd"><p>How the client's certificate should be referenced in the SOAP request:</p>
+           <ul>
+            <li><code>Include Binary Security Token</code> (default) - embed the x509 certificate in the request.</li>
+            <li><code>Reference using SHA-1 Thumbprint</code> - used when the web service already has access to the certificate and can retrieve it when necessary.</li>
+           </ul><p>Only available when using the asymmetric security binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Recipient Token</p></td>
+          <td class="confluenceTd"><p>How the web service's certificate should be referenced in the SOAP request:</p>
+           <ul>
+            <li><code>Include Binary Security Token</code> (default) - embed the x509 certificate in the request.</li>
+            <li><code>Reference using SHA-1 Thumbprint</code>.</li>
+           </ul><p>Only available when using asymmetric or symmetric security binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timestamp mode</p></td>
+          <td class="confluenceTd"><p>Determines whether a timestamp is included in the security header of the SOAP request and required in SOAP responses:</p>
+           <ul>
+            <li><code>Don't use timestamps</code> (default).</li>
+            <li><code>Include timestamp in requests and require timestamp in responses</code>.</li>
+            <li><code>Include timestamp in requests, timestamp optional in responses</code>.</li>
+           </ul><p>Only available when using transport, asymmetric or symmetric security binding (although it does not add anything when used with transport binding).</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Use Derived Keys</p></td>
+          <td colspan="1" class="confluenceTd"><p>Select to enable the use of the <code>&lt;DerivedKeyToken&gt;</code> element as defined by the&nbsp;<em><a rel="nofollow" class="external-link" href="http://docs.oasis-open.org/ws-sx/ws-secureconversation/v1.4/os/ws-secureconversation-1.4-spec-os.html">WS-SecureConversation 1.4</a>&nbsp;</em>document.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Encrypt Signatures</td>
+          <td colspan="1" class="confluenceTd"><p><span>Select to e</span>ncrypt the signature. Refer to Section 6.4 of the&nbsp;<a rel="nofollow" class="external-link" href="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html"><em>WS-SecurityPolicy 1.3</em>&nbsp;</a>document for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing / Encryption</p></td>
+          <td class="confluenceTd"><p>Options to sign and encrypt message content. The messages are effectively always signed and encrypted when using transport security binding as it uses HTTPS. Refer to <a href="#WebServiceClient-SigningandEncryptionParameters">Signing and Encryption Parameters</a> for details.</p><p>Only available when using asymmetric or symmetric security binding.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Use Endorsing Supporting Tokens</td>
+          <td colspan="1" class="confluenceTd"><p><span>Select to enable</span> Endorsing Supporting Tokens. Refer to Section 8.3 of&nbsp;the&nbsp;<em><a rel="nofollow" href="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html" class="external-link">WS-SecurityPolicy 1.3</a>&nbsp;</em>document for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="WebServiceClient-SigningandEncryptionParameters">Signing and Encryption Parameters</h4>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="510" src="attachments/133162592/133162606.png" data-image-src="attachments/133162592/133162606.png" data-unresolved-comment-count="0" data-linked-resource-id="133162606" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="EditSigningEncryptionParameters.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162592" data-linked-resource-container-version="12"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Inherit settings from web service configuration</p></td>
+          <td class="confluenceTd"><p>Select to inherit the signing and encryption settings from the web service.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encryption Mode</p></td>
+          <td class="confluenceTd"><p>Determines whether the messages are encrypted and how:</p>
+           <ul>
+            <li><code>Do not Encrypt</code> (default).</li>
+            <li><code>Encrypt Entire Body</code>.</li>
+            <li><code>Encrypt Body Parts</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing Mode</p></td>
+          <td class="confluenceTd"><p>Determines whether the messages are signed and how:</p>
+           <ul>
+            <li><code>Do not Sign</code>&nbsp;(default).</li>
+            <li><code>Sign Entire Body</code>.</li>
+            <li><code>Sign Body Parts</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XML Namespace Mapping</p></td>
+          <td class="confluenceTd"><p>Provides a mapping of XML prefixes to namespace URIs. It is used to declare namespace prefixes used in the XPaths that select the components to sign and encrypt. If this map is empty and one of the encryption or signing modes is changed to sign/encrypt parts of the message, then an entry is automatically added here for the service namespace (as that is the namespace that is likely to be used).</p><p>Only available if either the encryption or signing mode indicates that parts of the message body will be encrypted or signed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XPaths to Encrypt</p></td>
+          <td class="confluenceTd"><p>A set of XPaths (one per line) identifying components in the message that should be encrypted. A value here does not mean that the message must include a value at that location. Rather, it means that if the value is present, it must be encrypted.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XPaths to Sign</p></td>
+          <td class="confluenceTd"><p>A set of <span>XPaths</span> (one per line) identifying components in the message that should be signed.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServiceClient-Operations">Operations</h3>
+      <p>An operation is configured in four parts:</p>
+      <ul>
+       <li>How to call the operation.</li>
+       <li>How to generate the SOAP request.</li>
+       <li>How to process the SOAP response.</li>
+       <li>How to handle SOAP faults.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="560" src="attachments/133162592/133162607.png" data-image-src="attachments/133162592/133162607.png" data-unresolved-comment-count="0" data-linked-resource-id="133162607" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceConsumerOperations.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162592" data-linked-resource-container-version="12"></span></p>
+      <p>Refer to <a href="Web-Service-Operations_133162608.html">Web Service Operations</a> for details.</p>
+      <h3 id="WebServiceClient-Management">Management</h3>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="560" src="attachments/133162592/133162603.png" data-image-src="attachments/133162592/133162603.png" data-unresolved-comment-count="0" data-linked-resource-id="133162603" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceConsumerManagement.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162592" data-linked-resource-container-version="12"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Custom SOAP Headers</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The custom SOAP headers that are expected in the incoming requests.</p>
+            <p>Custom&nbsp;header entries in a SOAP request can be enforced by clients by setting the <code>mustUnderstand</code> attribute to <code>true.</code> If this attribute is set to <code>true</code>, then all expected custom&nbsp;header entries must be defined by setting their name and namespace (as required by the SOAP specification) in the Web Service Client communication point's configuration. If the custom&nbsp;header entries are not defined or defined incorrectly, then i<span>ncoming messages are rejected,</span><span> resulting in a connection error.</span><span>&nbsp;</span></p>
+            <p>If a SOAP request contains custom headers entries with the <code>mustUnderstand</code> attribute set to <span>false</span>, then the headers entries are ignored, whether defined or not.</p>
+            <p>If you intend to use custom&nbsp;header entries, then you are responsible for implementing support for them in the Rhapsody configuration.</p>
+            <p>If you want to use a Rhapsody variable that contains XML to set the custom header, ensure you pre-escape the XML to avoid configuration errors. For example, use the following value in a Rhapsody variable:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+              <b>Escaped XML</b>
+             </div>
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&amp;lt;urn:SessionHeader xmlns:urn=&amp;quot;urn:enterprise.soap.sforce.com&amp;quot;&amp;gt;&amp;lt;urn:sessionId&amp;gt;00D630000008yXI!AQIAQJYQv9V9I3dnKzY7E0A0pCVNwghid8Jy5okgLGg3Lkf7D3I3OGWLRPion5_HTRUy_6ASrIHB6ByE_JTikP_GeKmToHC8&amp;lt;/urn:sessionId&amp;gt;&amp;lt;/urn:SessionHeader&amp;gt;</pre> 
+             </div>
+            </div>
+            <p>instead of:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+              <b>Unescaped XML</b>
+             </div>
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;urn:SessionHeader xmlns:urn="urn:enterprise.soap.sforce.com"&gt;
+  &lt;urn:sessionId&gt;00D630000008yXI!AQIAQJYQv9V9I3dnKzY7E0A0pCVNwghid8Jy5okgLGg3Lkf7D3I3OGWLRPion5_HTRUy_6ASrIHB6ByE_JTikP_GeKmToHC8&lt;/urn:sessionId&gt;
+&lt;/urn:SessionHeader&gt;</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

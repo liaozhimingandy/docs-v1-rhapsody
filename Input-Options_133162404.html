@@ -1,0 +1,541 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Input Options</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Input Options</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Input configuration properties are as follows:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146950452 {padding: 0px;}
+div.rbtoc1565146950452 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146950452 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146950452"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#InputOptions-GenerateMessageWhenNoResponse">Generate Message When No Response</a></li> 
+        <li><a href="#InputOptions-InputDirectory">Input Directory</a></li> 
+        <li><a href="#InputOptions-RefreshRate">Refresh Rate</a></li> 
+        <li><a href="#InputOptions-InputPatternType">Input Pattern Type</a></li> 
+        <li><a href="#InputOptions-InputPattern">Input Pattern</a></li> 
+        <li><a href="#InputOptions-InputOrder">Input Order</a></li> 
+        <li><a href="#InputOptions-ComparisonScript">Comparison Script</a></li> 
+        <li><a href="#InputOptions-DirectoryTraversalMode">Directory Traversal Mode</a></li> 
+        <li><a href="#InputOptions-FollowSymbolicLinks">Follow Symbolic Links</a></li> 
+        <li><a href="#InputOptions-PostDownloadAction">Post Download Action</a></li> 
+        <li><a href="#InputOptions-RenameTo">Rename To</a></li> 
+        <li><a href="#InputOptions-MaximumFileSizeforDownload(MB)">Maximum File Size for Download (MB)</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="InputOptions-GenerateMessageWhenNoResponse">Generate Message When No Response</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p>The <strong>Generate Message When No Response</strong> configuration property is only used for <em>Out-&gt;In</em> mode and determines whether the (S)FTP Client Communication Point returns a response message or not when no files were available for download on the server. This property&nbsp;has no effect if files are available for download.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Option</p></th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Enabled</code></td>
+          <td class="confluenceTd">If no files are available for download then a dummy message is returned to indicate this. The dummy message has a message property called <code>NoResponseMessageReceived</code> set in order to distinguish it from a download file. This option allows the Rhapsody route to be signaled when no files are available for download so that it can take any appropriate action.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Disabled<sup><span>†</span></sup></code></td>
+          <td colspan="1" class="confluenceTd">If no files are available for download then an event is inserted into the message path of the outgoing message, but no messages are returned to the route.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <h2 id="InputOptions-InputDirectory">Input Directory</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Input Directory</strong> is the directory on the remote server to look for files. Defaults to the home directory.</p>
+      <h2 id="InputOptions-RefreshRate">Refresh Rate</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Refresh Rate</strong>&nbsp;determines how often to look on the remote server for new files. This property is only applicable to cases where there were no files available on the remote server the last time Rhapsody checked. When files are available, Rhapsody fetches them all with no delay. The default is <code>60000</code> milliseconds.</p>
+      <h2 id="InputOptions-InputPatternType">Input Pattern Type</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Input Pattern Type</strong> is used to filter which files are retrieved from the remote server.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Filename with wildcards<sup>†</sup></code></td>
+          <td class="confluenceTd"><p>The <strong>Input Pattern</strong> is interpreted as a case-sensitive wildcard filename filter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Regular expression</code></td>
+          <td class="confluenceTd"><p>The <strong>Input Pattern</strong> is interpreted as a regular expression. The (S)FTP communication point supports <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html" class="external-link" rel="nofollow">Java Regex</a>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <h2 id="InputOptions-InputPattern">Input Pattern</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Input Pattern </strong>defines the pattern used to filter input files.&nbsp;The default is&nbsp;<code>*</code>.</p>
+      <p>If&nbsp;<a href="#InputOptions-InputPatternType">Input Pattern Type</a> is set to&nbsp;<code>Filename with wildcards</code>, the pattern is interpreted as a wildcard. The default <code>*</code> fetches all files, but by using <code>*</code> to match multiple characters or <code>?</code> to match single characters, you can create a filter to fetch files with specific names. For example, a pattern of <code>*.txt</code> gets all files that have the suffix <code>.txt</code>, and ignores files with other suffixes. Wildcard pattern matching used by the (S)FTP Client communication point is case-sensitive, unlike the deprecated <a href="SFTP-Client_133162547.html">SFTP Client</a> communication point. To emulate the same case-insensitive behavior of the deprecated <a href="SFTP-Client_133162547.html">SFTP Client</a>&nbsp;communication point, set the <a href="Custom-Commands_133162397.html#CustomCommands-BeforeReceiveCommands">Before Receive Commands</a> property to <code>CASE</code>.</p>
+      <p>If&nbsp;<a href="Input-Options_133162404.html">Input Pattern Type</a>&nbsp;is set to&nbsp;<code>Regular expression</code>, the pattern is interpreted as a regular expression, and only fetches files whose names match the regular expression. Rhapsody displays a configuration error if it is unable to understand your regular expression.</p>
+      <h2 id="InputOptions-InputOrder">Input Order</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Input Order</strong> defines the order in which files in a directory are read from the server.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Property Option</th>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>None<sup><span>†</span></sup></code></td>
+          <td class="confluenceTd">Read in the order the server defines.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Filename (ascending)</code></td>
+          <td class="confluenceTd">Read in ascending order based on file name.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Filename (descending)</code></td>
+          <td class="confluenceTd">Read in descending order based on file name.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Least recently modified file first</code></td>
+          <td class="confluenceTd">Read the file least recently modified first.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Most recently modified <span>file </span>first</code></td>
+          <td class="confluenceTd">Read the file most recently&nbsp;<span>modified</span> first.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Custom JavaScript</code></td>
+          <td class="confluenceTd">Use the custom JavaScript provided in <a href="#InputOptions-ComparisonScript">Comparison Script</a> to determine the file order.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup><span>† Default option.</span></sup></p>
+      <h2 id="InputOptions-ComparisonScript"><span style="color: rgb(0,0,0);">Comparison Script</span></h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+         <li><strong>Input Order</strong>: Custom JavaScript.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Comparison Script</strong> refers to custom JavaScript used to order files returned from the server. If the standard input order options in the configuration property&nbsp;<strong style="letter-spacing: 0.0px;">Input Order</strong> are not sufficient for your purposes, you can write a custom comparator using JavaScript. To enable the comparison script, set the&nbsp;<strong style="letter-spacing: 0.0px;">Input Order</strong>&nbsp;property&nbsp;to <code style="letter-spacing: 0.0px;">Custom JavaScript</code>. The JavaScript comparator can then be configured in the <strong style="letter-spacing: 0.0px;">Comparison Script</strong> configuration property.</p>
+      <p>You are given access to two objects, left and right, which represent the two files to be compared. Your JavaScript code should compare those two files with a statement or series of statements that should evaluate to:</p>
+      <ul>
+       <li>A negative number if you want the left file to be processed first.</li>
+       <li>A positive number if you want the right file to be processed first.</li>
+       <li>Zero if the files are equivalent.</li>
+      </ul>
+      <p>Compilation errors in the script prevent the communication point being successfully configured, and any runtime errors are treated as a connection error within the communication point.</p>
+      <h3 id="InputOptions-RulesforImplementingComparators">Rules for Implementing Comparators</h3>
+      <p>A comparison function must provide an absolute ordering of files, not a relative ordering of files. Specifically the rules are:</p>
+      <ul>
+       <li>Identity - compare(a, a) = 0.</li>
+       <li>Reflective - compare(a, b) = −compare(b, a).</li>
+       <li>Transitive - if compare(a, b) &gt; 0 and compare(b, c) &gt; 0, then compare(a, c) &gt; 0.</li>
+      </ul>
+      <p>Refer to java.util.Comparator for details on the comparator rules this communication point effectively uses.</p>
+      <h3 id="InputOptions-JavaScriptVariables"><strong>JavaScript Variables</strong></h3>
+      <p>The following JavaScript variables are placed into the scope of the custom JavaScript comparator.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Name</th>
+          <th style="text-align: left;" class="confluenceTh">Type</th>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>left</code></td>
+          <td class="confluenceTd">File</td>
+          <td class="confluenceTd">The left file to compare.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>right</code></td>
+          <td class="confluenceTd">File</td>
+          <td class="confluenceTd">The right file to compare.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="InputOptions-FileObject">File Object</h3>
+      <p>The <code>left</code> and <code>right</code> JavaScript variables are <code>File</code> objects. The methods and properties the <code>File</code> object takes are listed in the following table:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Name</th>
+          <th style="text-align: left;" class="confluenceTh">Type</th>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>name</code></td>
+          <td class="confluenceTd">String</td>
+          <td class="confluenceTd">The name of the file.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>path</code></td>
+          <td class="confluenceTd">String</td>
+          <td class="confluenceTd">The path of the file.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>isFile</code></td>
+          <td class="confluenceTd">Boolean</td>
+          <td class="confluenceTd">True if this is a file.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>size</code></td>
+          <td colspan="1" class="confluenceTd">Long</td>
+          <td colspan="1" class="confluenceTd">The size of the file.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>isDirectory</code></td>
+          <td class="confluenceTd">Boolean</td>
+          <td class="confluenceTd">True if this is a directory rather than a file.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>isSymLink</code></td>
+          <td class="confluenceTd">Boolean</td>
+          <td class="confluenceTd">True if this file is a symbolic link.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="InputOptions-ConnectionErrors"><strong>Connection Errors</strong></h3>
+      <p>Connection errors are raised by throwing an exception within the script. Normally this is done by throwing a string describing the problem, for example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">throw 'Failed to parse line \"' + line + '\".';</pre> 
+       </div>
+      </div>
+      <p>There is no need to raise an error if a line should not correspond to a file – simply do not call the <code>contents.add()</code> method and no file object will be created for it.</p>
+      <h3 id="InputOptions-ExampleScript"><strong>Example Script</strong></h3>
+      <p>In the following example, the script orders files by size such that the smallest file is processed first; if files are of the same size, it orders them by name:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">var leftLength = left.size(), rightLength = right.size(), result = 0;
+ 
+if (leftLength &lt; rightLength) {
+    result = -1;
+}
+ 
+if (rightLength &lt; leftLength) {
+    result = 1;
+}
+ 
+if (result == 0) {
+    result = left.name().compareTo(right.name());
+}
+ 
+result;</pre> 
+       </div>
+      </div>
+      <h2 id="InputOptions-DirectoryTraversalMode"><span style="color: rgb(0,0,0);">Directory Traversal Mode</span></h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p>Directory Traversal Mode determines whether to fetch files from the specified input directory only or the sub-directories as well.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Selected input directory only</code><sup>†</sup></td>
+          <td class="confluenceTd">Files are only be retrieved from the specified input directory.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Recurse into child directories</code></td>
+          <td class="confluenceTd"><p>Any sub-directories of the input directory are also searched for files to retrieve.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <h2 id="InputOptions-FollowSymbolicLinks">Follow Symbolic Links</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Follow Symbolic Links</strong> determines what should be done when symbolic links are encountered in an input directory when in <em>Input</em> and <em>Out-&gt;In</em> mode.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Ignore symbolic links<sup>†</sup></code></td>
+          <td class="confluenceTd">Ignore all symbolic links.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Follow file symbolic links</code></td>
+          <td class="confluenceTd">Ignore symbolic links that resolve to a directory.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Follow directory symbolic links</code></td>
+          <td class="confluenceTd">Ignore symbolic links that resolve to a file (in other words, not a directory). Requires <a href="#InputOptions-DirectoryTraversalMode">Directory Traversal Mode</a> to be set to <code>Recurse into child directories</code>.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Follow all symbolic links</code></td>
+          <td colspan="1" class="confluenceTd">Follows both file and directory symbolic links. Requires <a href="#InputOptions-DirectoryTraversalMode">Directory Traversal Mode</a> to be set to <code>Recurse into child directories</code>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <p><strong>Input Pattern</strong> applies when selecting file symbolic links, so that file symbolic links that do not match the input pattern are ignored. Directory symbolic links are followed regardless of whether or not they match the input pattern (as is the behavior of regular directories), but the input pattern is applied to files that are found inside that directory.</p>
+      <p>When the file that a file symbolic link links to has been downloaded into Rhapsody, the usual <a href="#InputOptions-PostDownloadAction">Post Download Action</a> is taken. The action is taken on the symbolic link file itself, not to the file it links to. So for example, if the default <code>delete</code> <a href="#InputOptions-PostDownloadAction">Post Download Action</a> is selected, the symbolic link is deleted after the file that it linked to has been downloaded.</p>
+      <p>For directory symbolic links, the <a href="#InputOptions-PostDownloadAction">Post Download Action</a> is applied to the actual files in that directory after they have been downloaded, and the directory symbolic link remains (as is the behavior of regular directories).</p>
+      <p>If you are using symbolic links and getting errors (specifically where the stack trace has an error message similar to <code>No such file or directory</code>) when you believe that the files or directories do indeed exist, it is likely that the FTP server you are connecting to is denying you permission to access the files or permission to use symbolic links.</p>
+      <h3 id="InputOptions-AvoidingInfiniteLoops">Avoiding Infinite Loops</h3>
+      <p>In order to avoid infinite loops that could occur when following symbolic links, when the <strong>Follow Symbolic Links</strong> property is set to&nbsp;<code>Follow directory symbolic links</code> or <code>Follow all symbolic links</code>, Rhapsody takes the following precautions when navigating directories to look for input files:</p>
+      <ul>
+       <li>There is a hard limit to the number of consecutive symbolic links to other directories that can be followed. This limit is 10. Generally, on any file system, it is only likely that you would follow that many consecutive symbolic links if you had hit a loop situation, where some directories all contained symbolic links to each other.</li>
+       <li>Once you have followed one symbolic link to a directory, Rhapsody also starts to count the depth of the path, whether it be regular folders or symbolic links to directories. This has a hard limit of 40. This is to avoid a situation where for example a folder had a symbolic link back up to a parent folder, which would cause a loop.</li>
+       <li>If the <strong>Follow Symbolic Links</strong> property is not set to&nbsp;<code>Follow directory symbolic links</code> or <code>Follow all symbolic links</code>, then a maximum path depth is not enforced, as there is not much likelihood of infinite loops occurring when symbolic links are not being used.</li>
+       <li>Care should be taken on <em>Windows</em> machines when using symbolic links (such as those created with the <code>mklink</code> command), as these may not be reported to Rhapsody as symbolic links. Looping could therefore occur; however,&nbsp;<em>Windows</em> seems to limit itself in these cases with its own hard limit on maximum path lengths.</li>
+      </ul>
+      <h2 id="InputOptions-PostDownloadAction">Post Download Action</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Post Download Action</strong> is the action to perform on the remote file after it has been downloaded onto Rhapsody.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><code>Delete file</code><sup>†</sup></code></td>
+          <td class="confluenceTd">Rhapsody deletes the file on the remote server after it has been successfully retrieved into Rhapsody.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>Leave file</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Rhapsody leaves the file on the remote server.</p>
+            <div class="confluence-information-macro confluence-information-macro-warning">
+             <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If the <code>Leave file</code> option is selected, Rhapsody tries to download the file again sometime later. For this reason, it is imperative some form of duplicate message detection is used if this option is selected so that duplicate messages can be filtered out. One way to do this is by using the <a href="Duplicate-Message-Detection_133163339.html">Duplicate Message Detection filter</a>.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Rename file</code></p></td>
+          <td colspan="1" class="confluenceTd"><span>Rhapsody </span>renames the file on the FTP server to the configured name in the <a href="#InputOptions-RenameTo">Rename To</a> property after a successful download.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <h2 id="InputOptions-RenameTo">Rename To</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+         <li><strong>Post Download Action</strong>: Rename file.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Rename To</strong> determines what to rename the file after it has been downloaded onto Rhapsody.</p>
+      <p>Only available when either the&nbsp;<code>Rename file</code> option is selected for <a href="#InputOptions-PostDownloadAction">Post Download Action</a>, or if the communication point is in dynamic mode.</p>
+      <p>After a successful download, the file on the FTP server is renamed to the configured name.&nbsp;<span style="line-height: 13.0pt;">If the target name evaluates to a path (which can be relative or absolute), in other words a move operation, then the communication point attempts to create any directories referenced. An error is thrown if the creation does not succeed.&nbsp;</span></p>
+      <p><span style="line-height: 13.0pt;">The following variables can be used to dynamically generate a target filename:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Variable</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>%filename%</code></td>
+          <td class="confluenceTd">The full filename (but not the path) of the downloaded file. For example, if the full path to the downloaded file is <code>/home/ftp/someTextFile.txt</code>, then <code>%filename%</code> has the value <code>someTextFile.txt</code>.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>%baseFilename%</code></td>
+          <td colspan="1" class="confluenceTd">The base filename without the suffix of the downloaded file. For example, <span>if the full path to the downloaded file is </span><code>/home/ftp/someTextFile.txt</code><span>, then </span><code>%baseFilename%</code><span> has the value </span><code>someTextFile</code><span>. It would be an empty string if the one and only fullstop in the filename is the first character.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>%suffix%</code></td>
+          <td colspan="1" class="confluenceTd">The suffix of the downloaded file. This is defined as everything after the last full stop in the filename. <span>For example, if the full path to the downloaded file is </span><code>/home/ftp/someTextFile.txt</code><span>, then </span><code>%suffix%</code><span> has the value </span><code>txt</code><span>.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>%datetime%</code></td>
+          <td colspan="1" class="confluenceTd">The current date-time in the format <code>yyyy-MM-dd-HH-mm-ss-SSS</code>, which is the same format as is used for uploaded messages if that option is enabled. For example, <code>2013-09-17-06-55-43-831</code>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><span style="line-height: 13.0pt;">For example, a configured <strong>Rename To</strong> value of <code>../done/%baseFilename%-%datetime%.%suffix%</code>&nbsp;moves the downloaded files into a sibling directory called <code>done</code> (which would be created if necessary), and renames them to insert the current date and time between the base filename and suffix. If the full path to the downloaded file is&nbsp;<code>/home/ftp/available/someTextFile.txt</code>, then the file is moved&nbsp;to&nbsp;<code>/home/ftp/done/someTextFile-2013-09-17-06-55-43-831.txt</code>, for example.</span></p>
+      <p><span style="line-height: 13.0pt;">If the target filename is already in use on the FTP server, the (S)FTP Client communication point attempts to automatically rename the file by appending a number in parentheses to make the filename unique. For example, <code>someTextFile.txt</code>&nbsp;becomes&nbsp;<code>someTextFile(1).txt</code> or <code>someTextFile(2).txt</code>, etc., until a unique filename is found.</span></p>
+      <p>In static mode or when using XML configuration templates, a configuration error is raised if the&nbsp;<code>Rename file</code> option is selected but no <strong>Rename To</strong> value is provided, or if the <strong>Rename To</strong> value is configured specifically as <code>%filename%</code>. If either of these errors occurs while using message properties the outgoing message is instead sent directly to the error queue.</p>
+      <p>The default is <code>%filename%.done</code>.</p>
+      <h2 id="InputOptions-MaximumFileSizeforDownload(MB)">Maximum File Size for Download (MB)</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.&nbsp;</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Maximum File Size for Download (MB)</strong>&nbsp;specifies the maximum size of a file in megabytes that can be downloaded. This limit is not enforced if the property is set to zero or if the (S)FTP server does not provide the file size. This property can be configured statically, dynamically via&nbsp;<a href="Dynamic-Configuration-Using-Message-Properties_133162391.html">message properties</a>&nbsp;or <a href="Dynamic-Configuration-Using-XML-Templates_133162389.html">configuration templates</a>.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

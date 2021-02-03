@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Creating a Mapping Definition</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="File-Manager_133163394.html">File Manager</a></span> </li> 
+       <li> <span><a href="EDI-Tools_133163399.html">EDI Tools</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Creating a Mapping Definition</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The mapper solves communications problems between information systems with different formats by mapping one format to another.</p>
+      <p>&nbsp;</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163411/133163412.png" data-image-src="attachments/133163411/133163412.png" data-unresolved-comment-count="0" data-linked-resource-id="133163412" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="mapper.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163411" data-linked-resource-container-version="1"></span></p>
+      <p>&nbsp;</p>
+      <p>Mapping is about reformatting structured information; for example:</p>
+      <p>Two pieces of information need to be communicated: A name and a date of birth. The name consists of a first name, a space and a surname. At the end of the name, there is a comma and a space. There is also a '/' character to separate the day, month and year of the date. At the end of the communication, there will be a new line character:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Firstname Surname, Date of Birth Fyodor Dostoevsky, 06/07/1821</pre> 
+       </div>
+      </div>
+      <p>When working with computers, the information describing how this data is presented is important, as the program must process this information in the correct way. What happens when someone else needs the same information formatted differently? For example, someone else might accept the surname and then the first name. We would need to map the information from the original format to the recipient's format.</p>
+      <p>Mapping is about changing the way structured data is formatted.</p>
+      <h2 id="CreatingaMappingDefinition-UsingtheMapper">Using the Mapper</h2>
+      <p>Mapping can be carried out between two hierarchical objects; for example, between an EDI HL7 message and an XML document.</p>
+      <p>Using the Mapper tool, you can define how to map between an input and an output object. When compiled, the Mapper generates a mapping file (<code>*.ecc</code>) to be used by the Mapping Engine.</p>
+      <p>A basic overview of the process for creating a map is detailed below:</p>
+      <ol>
+       <li>Import an input and output object into the Data Engine's Mapper. This is achieved by selecting a message definition file or XML schema/DTD which is then imported by the Mapper.</li>
+       <li>Define how fields in the input object are mapped to fields in the output object. This can be achieved by dragging and dropping fields from one side to the other, or by writing code for custom processing of items.</li>
+       <li>Generate (compile) the mapping file.</li>
+      </ol>
+      <h2 id="CreatingaMappingDefinition-StartingtheMapper">Starting the Mapper</h2>
+      <ol>
+       <li><p>Select the <strong>Map Designer</strong> command from the <strong>Tools</strong> drop-down menu. The <strong>Map Designer</strong> is launched and the <strong>New Project</strong>&nbsp;dialog&nbsp;is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163411/133163415.png" data-image-src="attachments/133163411/133163415.png" data-unresolved-comment-count="0" data-linked-resource-id="133163415" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MapperNewProject.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163411" data-linked-resource-container-version="1"></span></p><p>From the <strong>New Project</strong>&nbsp;dialog, you can:</p>
+        <ol>
+         <li><p>Create a new mapping project on the <strong>New</strong> tab. A project name cannot include spaces and may be saved to any location on the local machine or network.</p></li>
+         <li><p>Open an existing project on the <strong>Existing</strong> tab. A standard <em>Windows</em>® dialog allows navigation to any location on the local machine or network.</p></li>
+         <li><p>Open a recent project on the <strong>Recent</strong> tab. The dialog lists the most recently opened projects.</p></li>
+        </ol></li>
+      </ol>
+      <h3 id="CreatingaMappingDefinition-CreatingaNewMappingDefinition">Creating a New Mapping Definition</h3>
+      <p></p>
+      <ol>
+       <li>On the <strong>New</strong> tab of the <strong>New Project</strong> screen, enter the following details and then select the <strong>Create</strong> button.
+        <ol>
+         <li>Enter a name for the mapping definition.</li>
+         <li>Enter the location where you want to save the mapping definition.</li>
+        </ol></li>
+       <li><p>The <strong>Mapping Wizard</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163411/133163414.png" data-image-src="attachments/133163411/133163414.png" data-unresolved-comment-count="0" data-linked-resource-id="133163414" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MappingWizard.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163411" data-linked-resource-container-version="1"></span></p></li>
+       <li>A mapping definition requires Input and Output message definitions:
+        <ol>
+         <li>The <strong>Input Definition</strong> is the file that holds the object definition that is to be the source of the mapping; that is, the object to be mapped from.</li>
+         <li><p>The <strong>Output Definition</strong> is the file that holds the object definition that is to be created; that is, the object to be mapped to.</p>
+          <div class="confluence-information-macro confluence-information-macro-note">
+           <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p>A single file may be specified for both definitions; for example, to map an input message to a different output message type (ADTA02 to ADTA011). In this example, we are mapping messages from HL7 v2.4 to HL7 v2.5</p>
+           </div>
+          </div></li>
+        </ol></li>
+       <li>Select the input and output definition files and click the <strong>Next</strong> button. The mapper importer then loads the selected files and checks to see if any object names need to be changed; for example, if one or more names conflict with Mapper Language keywords, or if a message name begins with a number. If a message name begins with a number, the dollar sign (<code>$</code>) character is added to the beginning of the name to make it legal.</li>
+       <li><p>If modifications are made, the <strong>Message Components Name Changes</strong> dialog is displayed identifying each change:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163411/133163417.png" data-image-src="attachments/133163411/133163417.png" data-unresolved-comment-count="0" data-linked-resource-id="133163417" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MapperChanges.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163411" data-linked-resource-container-version="1"></span></p></li>
+       <li><p>Select the <strong>Details</strong> button to display further information relating to the object names that were changed, and why the change was made:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163411/133163416.png" data-image-src="attachments/133163411/133163416.png" data-unresolved-comment-count="0" data-linked-resource-id="133163416" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MapperChanges1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163411" data-linked-resource-container-version="1"></span></p><p>Alternatively, select the <strong>Next</strong> button to continue creating the mapping definition.</p></li>
+       <li><p>The <strong>Message Selection</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163411/133163413.png" data-image-src="attachments/133163411/133163413.png" data-unresolved-comment-count="0" data-linked-resource-id="133163413" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MessageSelection.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163411" data-linked-resource-container-version="1"></span></p><p>The <strong>Message Selection</strong> dialog lists all root messages in the specified message definitions.</p></li>
+       <li><p>Select the input and output message structure to be mapped, and select the <strong>Finish</strong> button. The Mapper then creates an empty mapping definition between the two files:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163411/133163418.png" data-image-src="attachments/133163411/133163418.png" data-unresolved-comment-count="0" data-linked-resource-id="133163418" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MapDesigner.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163411" data-linked-resource-container-version="1"></span></p><p>The new mapping is automatically named <code>Main&lt;MSG&gt;</code>, where <code>MSG</code> is the type of the message/document as listed in this dialog, for example <code>MainACK</code>. This name cannot be changed. The two root messages selected are used as parameters to the new main map. The parameters are named <code>in</code> and <code>out</code> by default and can be changed by right clicking the map in the workspace and, from its shortcut menu, selecting <strong>Properties</strong>.</p></li>
+      </ol> 
+      <p></p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

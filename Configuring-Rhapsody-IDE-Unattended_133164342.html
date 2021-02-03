@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Configuring Rhapsody IDE Unattended</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="Unattended-Installations_133164341.html">Unattended Installations</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Configuring Rhapsody IDE Unattended</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody partners require the ability to build a complete Rhapsody environment with minimal operator interaction. As a result, Rhapsody now includes a new command line tool that can:</p>
+      <ul>
+       <li>Load and save local configurations</li>
+       <li>Install a Rhapsody license</li>
+       <li>Complete site registration</li>
+       <li>Manage users, groups and permissions</li>
+       <li>Manage Rhapsody variables</li>
+       <li>Rename folders, routes and communication points</li>
+       <li>Load certificates, private keys and symmetric keys</li>
+      </ul>
+      <p>A 'master' machine controls the configuration process, and a 'target' machine receives a pre-configured installation of the Rhapsody engine that is ready to run. A single master machine can configure any number of target machines, and therefore only needs to be set up once.</p>
+      <p>The Rhapsody engine is installed on the target first. Refer to <a href="Installing-the-Rhapsody-Engine-Unattended_133164357.html">Installing the Rhapsody Engine Unattended</a> for details. Once installation completes, the engine is started either by the installer, or by using a mechanism appropriate to the platform.</p>
+      <ul>
+       <li>On *nix machines, the command is <code>./rhapsody.sh start</code>.</li>
+       <li>On <em>Windows®</em> machines, the command is <code>sc start Rhapsody6</code>.</li>
+      </ul>
+      <p>Rhapsody&nbsp;IDE is installed on the master machine. It includes a command line application that can automate a number of operations. The command line application takes the filename of an XML file as its sole parameter. The XML file contains a list of commands and associated parameters. When run, the application launches the IDE and uses it to connect to the target machine. Once connected, it performs the actions in the XML script. Refer to <a href="#ConfiguringRhapsodyIDEUnattended-XMLScriptElements">XML Script Elements</a> for a list of elements the XML script may include.</p>
+      <h2 id="ConfiguringRhapsodyIDEUnattended-RunningScripts">Running Scripts</h2>
+      <p>To execute the script, enter the following command:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">"&lt;RhapsodyInstallDirectory&gt;\Rhapsody IDE\Rhapsody IDE\RhapAdmin6.exe" /script script.xml &gt; log.txt &nbsp;</pre> 
+       </div>
+      </div>
+      <h3 id="ConfiguringRhapsodyIDEUnattended-ExampleScriptsforTypicalTasks">Example Scripts for Typical Tasks</h3>
+      <p>A simple script that logs in and leaves&nbsp;Rhapsody IDE running:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;script xmlns="http://www.orionhealth.com/rhapsody/ide/2010/09/command-script"&gt;
+    &lt;login username="administrator" password="Rhapsody" hostname="198.51.100.1" port="3041"/&gt;
+&lt;/script&gt;</pre> 
+       </div>
+      </div>
+      <p><br>A simple script that logs in (<code>administrator/rhapsody</code> on <code>localhost:3041</code>), installs a license, loads an RLC and closes&nbsp;Rhapsody IDE:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;script xmlns="http://www.orionhealth.com/rhapsody/ide/2010/09/command-script"&gt;
+    &lt;login/&gt;
+    &lt;license file="acme-v6.0.lic"/&gt;
+    &lt;rlc-load file="example.rlc"/&gt;
+    &lt;exit/&gt;
+&lt;/script&gt;</pre> 
+       </div>
+      </div>
+      <h2 id="ConfiguringRhapsodyIDEUnattended-XMLScriptElements"><span style="color: rgb(0,0,0);">XML Script Elements</span></h2>
+      <p>The XML script may include the following elements:</p>
+      <p></p>
+      <ul class="childpages-macro">
+       <li><a href="certificate-manager_133164349.html">certificate-manager</a></li>
+       <li><a href="clear-configuration_133164346.html">clear-configuration</a></li>
+       <li><a href="check-in_133164343.html">check-in</a></li>
+       <li><a href="exit_133164345.html">exit</a></li>
+       <li><a href="import-webservice-users_133164356.html">import-webservice-users</a></li>
+       <li><a href="license_133164352.html">license</a></li>
+       <li><a href="login_133164353.html">login</a></li>
+       <li><a href="reconfigure_133164350.html">reconfigure</a></li>
+       <li><a href="register-and-registration-prompt_133164351.html">register and registration-prompt</a></li>
+       <li><a href="rename_133164355.html">rename</a></li>
+       <li><a href="rlc-load_133164344.html">rlc-load</a></li>
+       <li><a href="rlc-save_133164348.html">rlc-save</a></li>
+       <li><a href="user-manager_133164354.html">user-manager</a></li>
+       <li><a href="variables_133164347.html">variables</a></li>
+      </ul>
+      <p></p>
+      <h2 id="ConfiguringRhapsodyIDEUnattended-RelatedTopics">Related Topics</h2>
+      <ul>
+       <li><a href="Installing-Rhapsody-IDE-Unattended_133164359.html">Installing Rhapsody IDE Unattended</a></li>
+       <li><a href="Installing-the-Rhapsody-Engine-Unattended_133164357.html">Installing the Rhapsody Engine Unattended</a></li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

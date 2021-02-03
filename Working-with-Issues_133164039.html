@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Working with Issues</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Accessing-the-Management-Console_133163988.html">Accessing the Management Console</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Working with Issues</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody 6 has the ability to view a live stream of issues that have been raised by the engine, so you and your team can see what is happening, as it happens. Each issue has a level of severity, so you can see at a glance that everything is running as expected, and know in an instant when something unexpected has happened. With the ability to assign an issue to a user, and an ability to dismiss issues that you have under control, you and your team can be more productive with your time, and focus on the issues that matter. The <strong>Change system notifications</strong> access right is required to perform actions on notifications which do not reference a specific component, for example "Low disk space". Notifications which reference a specific component will require the user to be able to view the component, in other words have the correct <strong>View Locker</strong> access right, in order to perform actions on that notification.</p>
+      <h2 id="WorkingwithIssues-IssueSeverityStates">Issue Severity States</h2>
+      <p>When an issue is raised in Rhapsody, it will be at either <strong>Warning</strong> or <strong>Alarm</strong> level. A Warning that is triggered by a <em>Numerical Issue</em> can become an Alarm if the circumstances that trigger an Alarm level occur, and an Alarm that remains unresolved for a length of time can become <strong>Escalated</strong>. An issue can also be <strong>Dismissed</strong> through the workflow described on this page, which places it at the lowest level of severity in this model. These levels of severity are indicated throughout the Management Console with the icons displayed in the following table:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Icon</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164039/133164043.png" data-image-src="attachments/133164039/133164043.png" data-unresolved-comment-count="0" data-linked-resource-id="133164043" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="escalatedicon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164039" data-linked-resource-container-version="1"></span></p></td>
+          <td class="confluenceTd"><p><strong>Escalated</strong> - indicates that an issue has been escalated. An issue is escalated when an Alarm remains unresolved for a length of time.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164039/133164041.png" data-image-src="attachments/133164039/133164041.png" data-unresolved-comment-count="0" data-linked-resource-id="133164041" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="alarmicon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164039" data-linked-resource-container-version="1"></span></p></td>
+          <td class="confluenceTd"><p><strong>Alarm</strong> - represents an alarm level for an issue. An alarm is raised when a user has configured to be notified about changes in a specific component in Rhapsody.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164039/133164040.png" data-image-src="attachments/133164039/133164040.png" data-unresolved-comment-count="0" data-linked-resource-id="133164040" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="warningicon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164039" data-linked-resource-container-version="1"></span></p></td>
+          <td class="confluenceTd"><p><strong>Warning</strong> - represents a warning level for an issue. A warning is raised when a user has configured to be notified about changes in a specific component in Rhapsody.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164039/133164042.png" data-image-src="attachments/133164039/133164042.png" data-unresolved-comment-count="0" data-linked-resource-id="133164042" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="dismissedicon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164039" data-linked-resource-container-version="1"></span></p></td>
+          <td class="confluenceTd"><p><strong>Dismissed</strong> - represents an issue that has had its warning, alarm or escalated level dismissed by a user.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Historical issues also use this icon. If an issue appears in the Historical Issues section of an Activity Feed, it is a historical issue. If it appears in the other locations as indicated in the following section, it is a Dismissed issue.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164039/133164044.png" data-image-src="attachments/133164039/133164044.png" data-unresolved-comment-count="0" data-linked-resource-id="133164044" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="goodgreen.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164039" data-linked-resource-container-version="1"></span></p></td>
+          <td class="confluenceTd"><p><strong>None</strong> - represents that there are no issues</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The system will only move an issue to a higher severity, never to a lower severity.</p>
+       </div>
+      </div>
+      <h2 id="WorkingwithIssues-WheretheIssueSeverityStatesareDisplayedintheManagementConsole">Where the Issue Severity States are Displayed in the Management Console</h2>
+      <ul>
+       <li>The severity icons will appear for all Current Issues in the activity feed, where the issues will be sorted in order of severity.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164039/133164046.png" data-image-src="attachments/133164039/133164046.png" data-unresolved-comment-count="0" data-linked-resource-id="133164046" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="activitystream.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164039" data-linked-resource-container-version="1"></span></p>
+      <ul>
+       <li>The severity icons will also appear beside components that currently have issues. Where a component has multiple issues currently open, its icon will show the highest severity of all the issues that are currently active.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="391" width="1000" src="attachments/133164039/133164047.png" data-image-src="attachments/133164039/133164047.png" data-unresolved-comment-count="0" data-linked-resource-id="133164047" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="list_icons.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164039" data-linked-resource-container-version="1"></span></p>
+      <ul>
+       <li>The severity icons will also appear as the icons for watchlists that currently have issues. Where a watchlist has multiple issues currently open, its icon will show the highest severity of all the issues that are currently active.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164039/133164045.png" data-image-src="attachments/133164039/133164045.png" data-unresolved-comment-count="0" data-linked-resource-id="133164045" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="issues_watchlists.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164039" data-linked-resource-container-version="1"></span></p>
+      <h2 id="WorkingwithIssues-DismissinganIssue">Dismissing an Issue</h2>
+      <p>In the activity stream, the <strong>Dismiss Alert</strong> option is available. This has the effect of visually marking the issue as not as severe, so that you can focus on other issues instead. It is envisioned that you will only do this when you have ascertained the cause or taken remedial actions, for example if you were faced with a large queue issue and you knew of a particular reason that the queue was large, you could increase the queue size threshold so that the queue will no longer be over the threshold.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Dismissing an alert will not mean that the issue will immediately disappear. It will still be active in the system until the system has calculated that it is resolved. The purpose of dismissing is to let you and your team know that the issue is being dealt with.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Issue Type</p></th>
+          <th class="confluenceTh"><p>What Will Happen When Issue is Dismissed</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Non-Numerical Issue</p></td>
+          <td class="confluenceTd"><p>When these types of issues are Dismissed, they will move straight to the <strong>Historical Issues</strong> panel, as they are deemed to have been acknowledged by you.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>When dismissing a "Communication Point Stopped In Error" issue, it will change the state of the communication point from "Stopped in Error" to "Stopped".</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Numerical Issue</p></td>
+          <td class="confluenceTd"><p>When these types of issues are Dismissed, they will stay in the <strong>Current Issues</strong> panel, but will be displayed at the lower Dismissed severity level. They will stay in this state until one&nbsp;of the following events occur:</p>
+           <ul>
+            <li>The threshold conditions mean that the issue increases in severity. A rise in severity will cancel the dismissed state and resume notifications for the issue. For example, if you dismissed the issue when it was a Warning but now the Alarm threshold has been crossed, the issue will move out of the dismissed state and into the Alarm state. You can then dismiss it again at this new severity level if you believe it should still be dismissed.</li>
+            <li>The issue is resolved automatically by the system, as the threshold is no longer met. The issue will move to the <strong>Historical Issues</strong> section.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>We recommend you take advantage of the option to suspend notifications for the issue when performing the <strong>Dismiss Alert</strong> action, as the issue could hover around the threshold for some time before it is finally resolved. In this scenario, the issue could be resolved automatically by the system and then reopened by the system several times before being resolved permanently. The issue will stay in the dismissed state while this is happening, but if you have not suspended notifications, the users who are scheduled to be notified about this issue will be notified each time the issue is reopened.</p>
+       </div>
+      </div>
+      <h2 id="WorkingwithIssues-ReactivatinganIssue">Reactivating an Issue</h2>
+      <p>Once an issue is Dismissed in the activity stream, there will instead be an option to <strong>Reactivate</strong> the issue. It is envisioned that you will do this when you have decided that whatever reasons you had for Dismissing the issue in the first place are no longer valid. This will have the effect of changing the severity of the issue back to whatever severity it was before it was dismissed.</p>
+      <h2 id="WorkingwithIssues-AssigninganIssue">Assigning an Issue</h2>
+      <p>When you click <strong>Assign</strong>, you have the option to select a user on your team to assign the issue to. If you assign an issue to someone, they will receive notifications for that issue, even if they do not usually receive notifications for that issue. It will also appear in the <strong>Assigned to Me</strong> section on their <a href="Engine-Monitor_133163816.html">Engine Monitor</a> page.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When assigning an issue related to a specific component, e.g. "Communication Point Stopped In Error", the user being assigned the issue requires the access right to view the component, otherwise the assign action will be rejected.</p>
+       </div>
+      </div>
+      <h2 id="WorkingwithIssues-Scenarios">Scenarios</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Scenario</p></th>
+          <th class="confluenceTh"><p>What triggers this</p></th>
+          <th class="confluenceTh"><p>What this means</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Warning -&gt; Alarm</p></td>
+          <td class="confluenceTd"><p>The issue crosses the Alarm threshold</p></td>
+          <td class="confluenceTd"><p>The issue will stay in the Alarm state until:</p>
+           <ul>
+            <li>The system resolves the issue.</li>
+            <li>The user clicks <strong>Dismiss Alert</strong>.</li>
+            <li>The system calculates that the Alarm should be Escalated, in which case the issue moves to the Escalated state and notifications resume.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Alarm -&gt; Escalated</p></td>
+          <td class="confluenceTd"><p>An Alarm has been active longer than the Escalation Period</p></td>
+          <td class="confluenceTd"><p>The issue will stay in the Escalated state until:</p>
+           <ul>
+            <li>The system resolves the issue.</li>
+            <li>The user clicks <strong>Dismiss Alert</strong>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Warning -&gt; Dismissed</p></td>
+          <td class="confluenceTd"><p>The user clicks <strong>Dismiss Alert</strong>.</p></td>
+          <td class="confluenceTd"><p>The issue will stay in the Dismissed state until:</p>
+           <ul>
+            <li>The system resolves the issue.</li>
+            <li>The system calculates that the Warning should be replaced by an Alarm, in which case the issue moves to the Alarm state and notifications resume.</li>
+            <li>A user clicks <strong>Reactivate Alert</strong>, in which case the issue moves back to the Warning state.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Alarm -&gt; Dismissed</p></td>
+          <td class="confluenceTd"><p>The user clicks <strong>Dismiss Alert</strong>.</p></td>
+          <td class="confluenceTd"><p>The issue will stay in the Dismissed state until:</p>
+           <ul>
+            <li>The system resolves the issue.</li>
+            <li>The system calculates that the Alarm should be Escalated, in which case the issue moves to the Escalated state and notifications resume.</li>
+            <li>A user clicks <strong>Reactivate Alert</strong>, in which case the issue moves back to the Alarm state.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Escalated -&gt; Dismissed</p></td>
+          <td class="confluenceTd"><p>The user clicks <strong>Dismiss Alert</strong>.</p></td>
+          <td class="confluenceTd"><p>The issue will stay in the Dismissed state until:</p>
+           <ul>
+            <li>The system resolves the issue.</li>
+            <li>A user clicks <strong>Reactivate Alert</strong>, in which case the issue moves back to the Escalated state.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Any Severity -&gt; Closed (Historical)</p></td>
+          <td class="confluenceTd"><p>The system calculates that the issue is resolved.</p></td>
+          <td class="confluenceTd"><p>The issue moves to the Historical Section of the Activity Stream.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Closed (Historical) -&gt; Reopened</p></td>
+          <td class="confluenceTd"><p>The system calculates that a recently closed issue has reoccurred.</p></td>
+          <td class="confluenceTd"><p>The issue will move back to the Current Issues section of the Activity Stream.</p>
+           <ul>
+            <li>If it was Dismissed at the time it was closed, it will be Dismissed when it is reopened.</li>
+            <li>If notifications were suspended at the time it was closed, the notifications will still be suspended if the suspension time period has not expired.</li>
+            <li>The system will calculate the issue's severity, which will be equal to or greater than the severity it was at when it was closed.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

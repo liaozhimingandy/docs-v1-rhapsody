@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>CommunicationPointConnection</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="RDK-Reference_133161352.html">RDK Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">CommunicationPointConnection</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p> </p>
+      <p class="p1"><span class="s1"><span>CommunicationPointConnection d</span>efines the interface for communication point connections used by Rhapsody. Connections are returned by <a href="CommunicationPoint_133161359.html">CommunicationPoint</a> </span> implementations and are responsible for actually sending and receiving messages over their specific communication channel.</p>
+      <p class="p1"><span class="s1">There is no </span> <code> <span class="s3">configure(Configuration)</span></code> <span class="s1"> method in this interface. Any required configuration of a connection should be done by the parent </span> CommunicationPoint <span class="s1"> when the connection is created.</span></p>
+      <p class="p1">There are a number of important conventions to be aware of when implementing a communication point connection:</p>
+      <ol class="ol1">
+       <li class="li1"><span class="s1">It is expected that when a <code> <span>ConnectionException</span></code><span>&nbsp;</span></span><span class="s1">is thrown from any method, for any reason, that the state of the connection is set to </span> <span class="s3">ERROR</span> <span class="s1"> and any other communication threads using the connection will throw a </span> <span class="s3">ConnectionFailedException</span> <span class="s1"> the next time they attempt to use the connection. If this is not done it is possible (with a bidirectional comm point) to have a communication thread left running, with no way to stop it, and this makes the communication point impossible to stop.</span></li>
+       <li class="li1">It is expected that a connection will either be a <code> PollingInputConnection</code> with an effective implementation of the <code>PollingInputConnection.isInputAvailable()</code> method or has a <code> receiveMessage(Message)</code> method that blocks until a message is available or some time-out has occurred. It is possible to write an implementation that does not implement the <code> PollingInputConnection</code> interface and where <code> receiveMessage(Message) </code> immediately returns false if no message is available. Such an implementation will work correctly but will result in a busy loop (with the engine constantly calling <code>receiveMessage(Message)</code>) which will impact negatively on the performance of the Rhapsody server.</li>
+      </ol>
+      <h3 class="li1" id="CommunicationPointConnection-CommunicationPointConnectionStates"><span class="s1">CommunicationPointConnection States</span></h3>
+      <p><span class="s1">Enum class State:</span></p>
+      <ul>
+       <li><span class="s1"> <code>UNCONNECTED</code> - there is no connection yet</span></li>
+       <li><span class="s1"> <code>CONNECTED</code> - It is currently connected.</span></li>
+       <li><span class="s1"> <code>CLOSED</code> - Connection is closed.</span></li>
+       <li><span class="s1"> <code>ERROR</code> - Error happened in the connection.</span></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>int<span class="s1">&nbsp;</span>getId()</code></p></td>
+          <td class="confluenceTd"><p class="p1">Retrieves the identifier that identifies this connection. Should be unique amongst all connections from the same communication point, and must not change over the lifetime of the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>dropConnection()</code></td>
+          <td class="confluenceTd">&nbsp;Drops this connection if the connection is able to be dropped and later re<span class="s1">-</span>established. Will be called by the engine if the connection is doing output only, an idle time<span class="s1">-</span>out is specified and no message has been sent from the connection in that amount of time. If this connection is able to disconnect and reconnect at a later time then this method should disconnect and set the connections state to <code>UNCONNECTED</code>.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>reconnect()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Reconnects this connection if required. Will be called by the engine if<span class="s1"> <code>sendMessage(Message)</code> i</span>s about to be called and the <code>getState()</code> returns <code>UNCONNECTED</code>. Will only be called after a previous call to <code><span class="s1">{@link #dropConnection}</span></code>.</p><p class="p1"><span class="s1"><span>Exceptions</span>:</span></p>
+           <ul>
+            <li class="p1"><code>ConnectionException</code> - if an error occurs reconnecting.</li>
+            <li class="p1"><code>InterruptedException</code> - if interrupted while reconnecting.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>State getState()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Gets the state of this connection.</p><p class="p1"><span class="s1">Must return one of: </span><code>CONNECTED</code>, <code>UNCONNECTED</code>, <code>ERROR</code> or <code>CLOSED</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>cleanup()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Cleans up after the connection has finished being used.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>finishComms()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Signal to finish any communication taking place as soon as possible. Basically used to interrupt blocked receives.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code><span class="s1">boolean</span> receiveMessage(Message <span class="s2">message</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Gets a message from the connection.</p><p class="p1">Must write any incoming message data to the body of the message. Returns true if a full message was successfully received, or false otherwise. Properties may also be set on the Message.</p><p class="p1">Parameters:</p>
+           <ul>
+            <li class="p1"><code>message</code> - the message object to populate with the incoming data</li>
+           </ul><p class="p1"><span>Exceptions</span>:</p>
+           <ul>
+            <li class="p1"><code>ConnectionException</code> - if the connection failed during the receive.</li>
+            <li class="p1"><code>MessageException</code> - if the connection failed to manipulate the message.</li>
+            <li class="p1"><code>InterruptedException</code> - if the thread is interrupted while receiving a message.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>messageProcessed(<span class="s1">boolean</span> <span class="s2">success</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Notifies connection that the last received message has been received by the engine. Allows the connection to mark the message as processed so it is received again if successfully received, or to queue it again for receipt if it was not received.</p><p class="p1"><span class="s2">Parameters:<br></span></p>
+           <ul>
+            <li class="p1"><code>success</code> - whether the engine successfully received the message or not.</li>
+           </ul><p class="p1"><span>Exceptions</span>:</p>
+           <ul>
+            <li class="p1"><code>ConnectionException</code> - if the connection fails.</li>
+            <li class="p1"><code>MessageProcessedFailedException</code> - if the message is failed to be marked as processed.</li>
+            <li class="p1"><code>InterruptedException</code> - if the thread is interrupted while marking the message as processed.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>sendMessage(Message <span class="s1">message</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Sends a message over the connection. Should throw a <code>ConnectionException</code> if the connection fails and a <code>SendMessageFailedException</code> if the message is badly formed and therefore cannot be sent. It is important the correct exception is thrown at the correct time by implementations of this method.</p><p class="p1">Parameters:</p>
+           <ul>
+            <li class="p1"><code>message</code> - the message to send.</li>
+           </ul><p class="p1"><span>Exceptions</span>:</p>
+           <ul>
+            <li class="p1"><code>ConnectionException</code> - if the connection fails during the send.</li>
+            <li class="p1"><code>SendMessageFailedException</code> - if the message is badly formed and therefore cannot be sent.</li>
+            <li class="p1"><code>InterruptedException</code> - if the thread is interrupted while sending a message.</li>
+           </ul><p class="p1">A <code>ConnectionException</code> will result in the connection being dropped. <span class="s2">Rhapsody</span> will automatically try to re<span class="s1">-</span>establish the connection and <span class="s2">resend</span> the message that was attempting to be sent when the connection failed. So if a badly formed message incorrectly causes a <code>ConnectionException</code> then you will get repeated errors until the communication point is forced to shut down.</p><p class="p1">A <code>SendMessageFailedException</code> causes the message to be sent to the Error Queue but the connection is left open. So a bad connection which incorrectly results in a <code>SendMessageFailedException</code> will result in many messages being sent to the Error Queue. If this method returns without throwing an error <span class="s2">Rhapsody</span> assumes the message has been sent safely and will mark the message as sent.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>initSend()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1"><span class="s1">Initialises</span> a connection to send a number of messages. Called immediately before multiple calls to <code>s<span class="s3">endMessage(Message)</span></code><span class="s3">&nbsp;</span>which are then followed by a call to <code><span class="s3">finishSend()</span></code>. So this method can be used to perform some function that is required to prepare the connection for sending messages.</p><p class="p1"><span>Exceptions</span>:</p>
+           <ul>
+            <li class="p1"><code>ConnectionException</code> - if the connection fails.</li>
+            <li class="p1"><code>InterruptedException</code> - if the thread is interrupted while <span class="s1">initializing </span>the sending operation.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>finishSend()</code></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Cleans up a connection after sending a number of messages. Called immediately after multiple calls to <code><span class="s2">sendMessage(Message)</span></code>. This method can be used to perform some function to clean up the connection after sending the message data.</p><p class="p1">Note that <span class="s3">Rhapsody</span> regards a message as sent when <code>sendMessage(Message)</code> completes successfully so this method may not implement any code vital to the successful sending of the message. It is intended to be used for some routine task that only needs to be done once a connection has finished sending all messages queued for it but is not critical to the actual sending of the messages.</p><p class="p1"><span>Exceptions</span>:</p>
+           <ul>
+            <li class="p1"><code>InterruptedException</code> - if the thread is interrupted while performing the send cleanup.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

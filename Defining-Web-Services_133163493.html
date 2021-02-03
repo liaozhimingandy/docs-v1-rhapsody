@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Defining Web Services</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Web-Services_133163490.html">Web Services</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Defining Web Services</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Hosting a web&nbsp;service in Rhapsody can be done in two steps:</p>
+      <ol>
+       <li>Define the web&nbsp;service, its operations, ports and datatypes.</li>
+       <li>Connect the web&nbsp;service operations to Rhapsody communication points. Each <a href="Web-Service-Hosting_133162537.html">Web Service Hosting</a> communication point can implement one or more web&nbsp;service operations. This provides flexibility in implementing the web&nbsp;service methods and routing the messages.</li>
+      </ol>
+      <p>If all operations share the routing, then they can be implemented using one communication point. However, if different routing is required for different methods, it is easier to implement each method using a new <strong>Web Service Hosting</strong> communication point for simplicity.</p>
+      <p>Once the messages are received by the communication point, the messages are routed and processed by Rhapsody as usual.</p>
+      <p>Web services can be defined using the top-down or bottom-up approach.</p>
+      <h2 id="DefiningWebServices-DefiningaWebServiceUsingaWSDL(Top-downApproach)">Defining a Web Service Using a WSDL (Top-down Approach)</h2>
+      <p>The top-down approach uses an existing Web Services Description Language (WSDL) file to generate the web&nbsp;service configuration. You can then modify the configuration, and your changes will be reflected in the WSDL that is hosted by Rhapsody.</p>
+      <p>To define a web&nbsp;service using a WSDL:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;Web Services</strong>. The <strong>Web Services</strong>&nbsp;dialog is displayed.</li>
+       <li><p>Select&nbsp;<strong>Add&gt;From WSDL</strong> to display the <strong>Create Service From WSDL</strong> dialog:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163493/133163495.png" data-image-src="attachments/133163493/133163495.png" data-unresolved-comment-count="0" data-linked-resource-id="133163495" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddWebService2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163493" data-linked-resource-container-version="1"></span></p></li>
+       <li>In the <strong>WSDL Filename</strong> field, enter a URL or click the <strong>Browse</strong> link to select a file from Rhapsody IDE. The WSDL can either be located at the URL of the web&nbsp;service, or can be read from a file. Typically, if you are implementing the Web service, you will load a WSDL file.</li>
+       <li>Select&nbsp;the <strong>Load&nbsp;</strong>button. Rhapsody imports the web service, and extracts the following information to allow easy selection within the IDE:
+        <ul>
+         <li>Service name</li>
+         <li>Available endpoints for the service</li>
+         <li>Available operations (and namespaces) available for the web&nbsp;service.<br> Typically, this is all that is required to define the web&nbsp;service using a WSDL.</li>
+        </ul></li>
+       <li>If required, modify the details on the <a href="Web-Services-in-Rhapsody_133163507.html"> <strong>General</strong></a>, <a href="Web-Services-in-Rhapsody_133163507.html"> <strong>Security</strong> </a> and <a href="Web-Services-in-Rhapsody_133163507.html"> <strong>Management</strong> </a> tabs.</li>
+      </ol>
+      <h2 id="DefiningWebServices-DefiningaWebServiceManually(Bottom-upApproach)">Defining a Web Service Manually (Bottom-up Approach)</h2>
+      <p>The bottom-up approach does not require a WSDL. Instead you create a new web&nbsp;service, and configure all the settings manually. We recommend this approach when exposing an existing Rhapsody route as a Web service.</p>
+      <p>To define a web&nbsp;service manually:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;Web Services</strong>.</li>
+       <li>On the <strong>Web Services</strong> dialog, select <strong>Add&gt;New Web Service...</strong>.</li>
+       <li>Enter the details on the <a href="Web-Services-in-Rhapsody_133163507.html"> <strong>General</strong></a>, <a href="Web-Services-in-Rhapsody_133163507.html"> <strong>Security</strong> </a> and <a href="Web-Services-in-Rhapsody_133163507.html"> <strong>Management</strong> </a> tabs.</li>
+       <li><p>On the <strong>WSDL</strong> tab, click the <strong>Generate WSDL</strong> button to preview the WSDL and check for any configuration errors. This sends the current configuration to the engine (without checking in any changes) and generates the WSDL. Any errors or warnings that are found when generating the WSDL are displayed as follows:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163493/133163494.png" data-image-src="attachments/133163493/133163494.png" data-unresolved-comment-count="0" data-linked-resource-id="133163494" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceValidationError.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163493" data-linked-resource-container-version="1"></span></p></li>
+       <li>Select the <strong>OK</strong> button to save your changes.</li>
+       <li>Select&nbsp;the <strong>Check In</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163493/133163496.png" data-image-src="attachments/133163493/133163496.png" data-unresolved-comment-count="0" data-linked-resource-id="133163496" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_checkin_selected.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163493" data-linked-resource-container-version="1"></span> to apply your changes to the engine. Rhapsody will check in a web service with incompatible settings, but you will not be able to run the web&nbsp;service until you resolve the incompatible settings.</li>
+      </ol>
+      <p>Click <a href="Tutorials_133163522.html">here</a> for a tutorial on adding a web&nbsp;service manually.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

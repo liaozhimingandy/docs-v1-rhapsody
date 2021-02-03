@@ -1,0 +1,362 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>SFTP Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Deprecated-Components_133162090.html">Deprecated Components</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">SFTP Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="line-height: 13.0pt;background-color: transparent;"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162547/133162548.jpg" data-image-src="attachments/133162547/133162548.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162548" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image039.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162547" data-linked-resource-container-version="6"></span></span></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <p class="title">Deprecated Component</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This communication point has been deprecated and replaced by the <a href="133162373.html">(S)FTP Client</a> communication point.</p>
+        <p>It is strongly recommended you replace any SFTP Client communication points in your RLCs with <a href="133162373.html">(S)FTP Client</a> communication points. For assistance in adapting your RLCs to use <a href="133162373.html">(S)FTP Client</a> communication points, contact <a href="Rhapsody-Support_133163665.html">Rhapsody Support</a>.</p>
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The </span> <strong style="line-height: 13.0pt;">SFTP Client</strong> <span style="line-height: 13.0pt;background-color: transparent;"> communication point</span>&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">is used to connect to a server running a secure FTP (SFTP) service to look for files from an input directory and to send messages to an output directory. Refer to </span> <a href="#SFTPClient-PublishedProperties">Published Properties</a> <span style="line-height: 13.0pt;background-color: transparent;"> for a list of properties associated with this communication point.</span></p>
+      <p>Typically, an SFTP service uses an underlying SSH layer to provide public-private key based authentication features. There is a wide range of key formats produced by different SSH emulations. Rhapsody supports OpenSSH; that is, Rhapsody only uses public-private key pairs generated in accordance with the OpenSSH standards.<span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span></p>
+      <p>The SFTP Client communication point supports Triple DES encryption algorithm. Public key authentication is supported for OpenSSH on Unix where the default algorithm is Triple DES, but not on Cygwin in Windows where the default algorithm is AES-128.</p>
+      <p>Supported Operational Modes: <em>All</em>.</p>
+      <h2 id="SFTPClient-InputModeProperties">Input Mode Properties</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        Ensure that the input location for multiple distinct communication point instances do not resolve to the same filename in order to prevent race conditions with multiple communication points trying to read the same file.
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Server</p></td>
+          <td class="confluenceTd"><p>Hostname/IP Address of SFTP Server to which to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>SFTP communications port on the remote server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The username to log in with. This is to be provided when the administrator of the remote SFTP server provides a username for the purposes of logging in. Alternatively, the administrator can be asked to create a user with this identity (combination of username, password, and public key file) on the remote server. This may be provided as a literal, a Rhapsody variable (using the <code>$(variableName)</code> notation), or a Rhapsody message property (using the <code>$propertyName</code> notation).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The password for the user. <span>This may be provided as a literal, a Rhapsody variable (using the</span> <code>$(variableName)</code><span> notation), or a Rhapsody message property (using the</span> <code>$propertyName</code><span> notation).</span></p>
+            <div class="confluence-information-macro confluence-information-macro-warning">
+             <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>As message properties are visible in the Management Console to users with the appropriate access rights, it is highly recommended that you encrypt passwords provided in this message using the <a href="Encrypting-Your-Password_133164477.html">Encrypt Password</a> function in Rhapsody IDE. Alternatively, you can use <a href="Dynamic-Configuration-Using-XML-Templates_133162389.html">Configuration Templates</a>, which do not require providing the password in a message property.</p>
+              <p><span>If the passwords are retrieved from a Rhapsody variable using JavaScript, then the retrieval functions can leave them in this format. Refer to</span> <a href="Global-Functions_133161395.html#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a> <span>for details.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Passphrase</p></td>
+          <td class="confluenceTd"><p>An optional passphrase used in case of public key based authentication. This is to be provided if the OpenSSH key pair has been created with a passphrase.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Read Timeout</p></td>
+          <td class="confluenceTd"><p>Specifies the length of time Rhapsody will wait for a response from the SFTP server when requesting connections. Units: milliseconds.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>Disconnect if idle</code>, <code>Maintain a constant connection</code>. Default: <code>Maintain a constant connection</code> <br> Allows the communication point to hold on to the SFTP connections made to the SFTP server if this is set to <code>Maintain a constant connection</code>. This is not advised if the communication point is expected to stay idle for extensive periods of time without any SFTP activity.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Authentication Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>Public Key Authentication</code>, <code>Password Authentication</code>. Default: <code>Public Key Authentication</code></p><p>SFTP servers allow user authentication using a password or using SSH2 protocol specified Public-Private Key Files or both.</p><p>The simplest form of user authentication is Password Authentication, where the user is required to set up a password as part of the Communication Point Configuration. The alternative mode requires some setup on the part of the administrators of both the local machine (machine on which Rhapsody IDE is installed) and the remote SFTP server machine. These two modes deal with OpenSSH based public-private keys.</p><p>In the Public Key Authentication mode:</p>
+           <ul>
+            <li>An OpenSSH based public-private key pair is generated on the Rhapsody installation machine (or any other machine that can generate an OpenSSH public-private key pair).</li>
+            <li>The OpenSSH private key belonging to the client is provided as the <strong>Private Key File</strong> configuration property. Once selected it is attached to the communication point for future use in its current form.</li>
+            <li>The OpenSSH private key in the specified file is expected to be encrypted using Triple-DES, and the passphrase for that encryption provided in the <strong>Passphrase</strong> configuration property.</li>
+            <li>During public key authentication, the client's public key is sent to the server, with proof that the client holds the associated private key. The server validates this in order to authenticate the client</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Private Key File</p></td>
+          <td class="confluenceTd"><p>Required when authentication mode is set to <code>Public Key Authentication</code>. <br> The complete file path (absolute location) of the private key file to be used for public key authentication. If the file is not found in the specified location, the communication point cannot be configured.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Known Hosts</p></td>
+          <td class="confluenceTd"><p>The complete file path of the <code>known_hosts</code> file on the Rhapsody Engine machine. The file maintains the list of the public keys that is loaded by the client to validate the server. When configured, Rhapsody uses the entries in this file to authenticate the remote server to log on to. The SSH login protocol allows validation of the remote server that Rhapsody will be logging on to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Directory</p></td>
+          <td class="confluenceTd"><p>The directory to check for input files. If this property is empty the default will be used, which is dependent on the SFTP server being used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Pattern</p></td>
+          <td class="confluenceTd"><p>The pattern to use to select input files from the <strong>Input Directory</strong>. This is an optional property. The default value is an asterisk (*); that is, all files from <strong>Input Directory</strong> are to be processed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Refresh Rate</p></td>
+          <td class="confluenceTd"><p>Specifies the frequency (in ms) that the input directory is checked for new files. The default value is <code>60,000ms</code> (1 minute).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Before Receive</p></td>
+          <td class="confluenceTd"><p>Specifies a set of commands to execute on the remote server just before the file transfer begins. A failure to execute any of the commands set up will result in the file transfer process from being aborted and the communication point will shut down in an error state. <br>This assumes that a batch file's executable has to exist in the user's home directory or any other directory that the SFTP server is allowed to access for command execution. Some SFTP server implementations can access operating system related commands directly, such as <code>echo</code>, <code>run.sh</code>. Refer to <a href="#SFTPClient-SendandReceiveCommands">Send and Receive Commands </a>for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>After Receive</p></td>
+          <td class="confluenceTd"><p>Specifies a set of commands to execute on the remote server just after file transfer begins. A failure to execute any of the commands will result in the communication point shutting down. Refer to <a href="#SFTPClient-SendandReceiveCommands">Send and Receive Commands </a>for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SFTPClient-OutputModeProperties">Output Mode Properties</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Ensure that the output location for multiple distinct communication point instances do not resolve to the same filename in order to prevent potential overwrites occurring as a result of trying to write to the same file.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Server</p></td>
+          <td class="confluenceTd"><p>Hostname/IP Address of SFTP Server to which to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>SFTP communications port on the remote server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p><span>The username to log in with. This is to be provided when the administrator of the remote SFTP server provides a username for the purposes of logging in. Alternatively, the administrator can be asked to create a user with this identity (combination of username, password, and public key file) on the remote server. This may be provided as a literal, a Rhapsody variable (using the</span> <code>$(variableName)</code> <span>notation), or a Rhapsody message property (using the</span> <code>$propertyName</code><span> notation)</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The password for the user. This may be provided as a literal, a Rhapsody variable (using the <code>$(variableName)</code> notation), or a Rhapsody message property (using the <code>$propertyName</code> notation).</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>As message properties are visible in the Management Console to users with the appropriate access right, it is recommended that passwords provided in message properties are kept in their obfuscated form. If those passwords are retrieved via Rhapsody variables using JavaScript, then the retrieval functions can leave them in this format - refer to <a href="Global-Functions_133161395.html#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a> for details. If those passwords are provided as literals elsewhere in the configuration, then the <a href="Encrypting-Your-Password_133164477.html">Encrypt Password</a> function in the Rhapsody IDE can be used.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Passphrase</p></td>
+          <td class="confluenceTd"><p>An optional passphrase used in the case of public key based authentication. This is to be provided if the OpenSSH key pair has been created with a passphrase.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Read Timeout</p></td>
+          <td class="confluenceTd"><p>Specifies the length of time Rhapsody will wait for a response from the SFTP server when requesting connections. Units: milliseconds.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>Disconnect if idle</code>, <code>Maintain a constant connection</code>. Default: <code>Maintain a constant connection</code> <br> Allows the communication point to hold on to the SFTP connections made to the SFTP server if this is set to <code>Maintain a constant connection</code>. This is not advised if the communication point is expected to stay idle for extended periods of time without any SFTP activity.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Authentication Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>Public Key Authentication</code>, <code>Password Authentication</code>. Default: <code>Public Key Authentication</code></p><p>SFTP servers allow user authentication using a password or by using the SSH2 protocol specified in the Public-Private Key Files or both.</p><p>The simplest form of user authentication is Password Authentication, where the user is required to set up a password as part of the Communication Point Configuration. The alternative mode requires some setup on the part of the administrators of both the local machine (machine on which Rhapsody IDE is installed) and the remote SFTP server machine. These two modes deal with OpenSSH based public-private keys.</p><p>In the Public Key Authentication mode:</p>
+           <ul>
+            <li>An OpenSSH based public-private key pair is generated on the Rhapsody installation machine (or any other machine that can generate an OpenSSH public-private key pair).</li>
+            <li>The OpenSSH private key belonging to the client is provided as the <strong>Private Key File</strong> configuration property. Once selected it is attached to the communication point for future use in its current form.</li>
+            <li>The OpenSSH private key in the specified file is expected to be encrypted using Triple-DES, and the passphrase for that encryption provided in the <strong>Passphrase</strong> configuration property.</li>
+            <li>During public key authentication, the client's public key is sent to the server, with proof that the client holds the associated private key. The server validates this in order to authenticate the client</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Private Key File</p></td>
+          <td class="confluenceTd"><p>Required when authentication mode is set to <code>Public Key Authentication</code>.<br> The complete file path (absolute location) of the private key file to be used for public key authentication. If the file is not found in the specified location, the communication point cannot be configured.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Known Hosts</p></td>
+          <td class="confluenceTd"><p>The complete file path of the known_hosts file on the Rhapsody Engine machine. The file maintains the list of the public keys that is loaded by the client to validate the server. When configured, Rhapsody uses the entries in this file to authenticate the remote server to log on to. The SSH login protocol allows validation of the remote server that Rhapsody will be logging on to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Directory</p></td>
+          <td class="confluenceTd"><p>Directory on the remote server to place output messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Base Filename</p></td>
+          <td class="confluenceTd"><p>Base filename to use for output messages. Refer to <a href="Configuration_133162170.html">File Naming Options</a> for details on specifying a published property or Rhapsody variable for this property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Suffix</p></td>
+          <td class="confluenceTd"><p>Optional suffix to append to the end of the filename. Refer to <a href="Configuration_133162170.html">File Naming Options</a> for details on specifying a published property or Rhapsody variable for this property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Append Date</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br>Appends the current date/time to the filename. Note that the default is <code>True</code>; this compares with default <code>False</code> for the Directory communication point. This difference is because it is harder to test for unique names over FTP and hence is more important to generate a unique filename.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Check Name</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code></p>
+            <p>If <code>False</code>, existing files with the same name as the generated file will be overwritten. If <code>True</code> and a duplicate filename is encountered, a counter will be added to the newly generated filename. For example, if <code>uploaded.txt</code> already exists then <code>uploaded(1).txt</code> will be created for the new message.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Setting Check Name to <code>True</code> will significantly slow the performance of the SFTP Client communication point.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use temp file</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code></p><p>Allows Rhapsody to use a temporary file (file with a <code>.tmp</code> extension) to transfer the output message to. The temporary file will be renamed to the specified output file name once the entire transfer is complete.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Append to existing file</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code>.</p><p>This will allow the SFTP transfer process to append messages to a file that may already exist on the remote server. This property cannot be set to <code>True</code> when <strong>Use Temp File</strong> or <strong>Check Name</strong> are set to <code>True</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Before Send</p></td>
+          <td class="confluenceTd"><p>Specifies a set of commands to execute on the local server just before file transfer begins. A failure to execute any of the commands will result in the communication point shutting down. Refer to <a href="#SFTPClient-SendandReceiveCommands">Send and Receive Commands </a>for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>After Send</p></td>
+          <td class="confluenceTd"><p>Specifies a set of commands to execute on the local server just after file transfer begins. A failure to execute any of the commands will result in the communication point shutting down. Refer to <a href="#SFTPClient-SendandReceiveCommands">Send and Receive Commands </a>for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SFTPClient-Bidirectional,In->OutandOut->InMode">Bidirectional, In-&gt;Out and Out-&gt;In Mode</h2>
+      <p>The configuration properties for the Directory communication point in <em>Bidirectional</em>, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes is a combination of the properties described above.</p>
+      <p>Refer to <a href="General_133162189.html">Out-&gt;In and In-&gt;Out Properties</a> for general details on a communication point's <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes.</p>
+      <h2 id="SFTPClient-SendandReceiveCommands">Send and Receive Commands</h2>
+      <p>In order for these commands to work with the remote server, the following criteria must be met:</p>
+      <ol>
+       <li>The mode is set to <em>Out-&gt;In</em> and <strong>Connection Mode</strong> property is set to <code>Maintain a constant connection</code>.</li>
+       <li>The command must return some text, otherwise the communication point will assume the command failed and stop in error.</li>
+      </ol>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Command</th>
+          <th class="confluenceTh">Result</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>CD &lt;path&gt;</code></td>
+          <td class="confluenceTd">Change remote directory to &lt;path&gt;.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>CHGRP &lt;group&gt; &lt;path&gt;</code></td>
+          <td class="confluenceTd">Change group of file at &lt;path&gt; to user &lt;group&gt;.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>CGMOD &lt;mode&gt; &lt;path&gt;</code></td>
+          <td class="confluenceTd">Change permissions of file &lt;path&gt; to &lt;mode&gt;.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>GET &lt;remote path&gt; [&lt;local path&gt;]</code></td>
+          <td class="confluenceTd">Retrieve the &lt;remote-path&gt; and store it on the local machine. If the local path name is not specified, it is given the same name it has on the remote machine.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>LCD &lt;path&gt;</code></td>
+          <td class="confluenceTd">Change local directory to &lt;path&gt;.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>LPWD</code></td>
+          <td class="confluenceTd">Print local working directory.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>LS [&lt;path&gt;]</code></td>
+          <td class="confluenceTd">Display a remote directory listing of either &lt;path&gt; or the current directory if &lt;path&gt; is not specified.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>MKDIR &lt;path&gt;</code></td>
+          <td class="confluenceTd">Create remote directory specified by &lt;path&gt;.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>PUT &lt;local path&gt; [&lt;remote path&gt;]</code></td>
+          <td class="confluenceTd">Upload &lt;local-path&gt; and store it on the remote machine. If the &lt;remote path&gt; name is not specified, it is given the same name it has on the local machine.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>PWD</code></td>
+          <td class="confluenceTd">Print the remote working directory.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>RENAME &lt;old path&gt; &lt;new path&gt;</code></td>
+          <td class="confluenceTd">Rename remote file from &lt;old path&gt; to &lt;new path&gt;.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>RM &lt;path&gt;</code></td>
+          <td class="confluenceTd">Delete remote file specified by &lt;path&gt;.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>RMDIR &lt;path&gt;</code></td>
+          <td class="confluenceTd">Remove remote directory specified by &lt;path&gt;.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>SYMLINK &lt;old path&gt; &lt;new path&gt;</code></td>
+          <td class="confluenceTd">Create a symbolic link from &lt;old path&gt; to &lt;new path&gt;.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>VERSION</code></td>
+          <td class="confluenceTd">Display the sftp protocol version.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>! &lt;command&gt;</code></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Execute &lt;command&gt; in remote shell via SSH. Will use the same credentials for SSH as for SFTP</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The <code>! &lt;command&gt;</code> is executed on the <strong>remote machine</strong>, unlike most SFTP client implementations which execute the command on the local machine.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SFTPClient-PublishedProperties">Published Properties</h2>
+      <p>Published properties of an INPUT communication point on a route are added to all drop-down lists where message properties can be selected on that route. For the <strong>SFTP Client</strong> communication point, these are:</p>
+      <ul>
+       <li><code>Full Filename</code> - the full filename of the file associated with the received message.</li>
+       <li><code>Base Filename</code> - the base filename (everything before the last '.' in the full filename) of the file associated with the received message. If there is no '.', it is equal to the full filename.</li>
+       <li><code>Suffix</code> - the suffix (everything from the last '.' in the full filename, including the '.') of the file associated with the received message. If there is no '.', it is empty.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

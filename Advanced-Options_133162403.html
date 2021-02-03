@@ -1,0 +1,576 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Advanced Options</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Advanced Options</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The following advanced configuration properties are provided:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146950222 {padding: 0px;}
+div.rbtoc1565146950222 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146950222 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146950222"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#AdvancedOptions-CharacterEncoding">Character Encoding</a></li> 
+        <li><a href="#AdvancedOptions-ActiveModeIPAddress">Active Mode IP Address</a></li> 
+        <li><a href="#AdvancedOptions-ActiveModePortRange">Active Mode Port Range</a></li> 
+        <li><a href="#AdvancedOptions-FTPOptions">FTP Options</a></li> 
+        <li><a href="#AdvancedOptions-FTPSOptions">FTPS Options</a></li> 
+        <li><a href="#AdvancedOptions-InputLocales">Input Locales</a></li> 
+        <li><a href="#AdvancedOptions-DirectoryListingParser">Directory Listing Parser</a></li> 
+        <li><a href="#AdvancedOptions-JavaScriptDirectoryParser">JavaScript Directory Parser</a></li> 
+        <li><a href="#AdvancedOptions-OutputDirectoryNavigationMode">Output Directory Navigation Mode</a></li> 
+        <li><a href="#AdvancedOptions-InputDirectoryNavigationMode">Input Directory Navigation Mode</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="AdvancedOptions-CharacterEncoding"><span style="color: rgb(0,0,0);font-size: 20.0px;">Character Encoding</span></h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Character Encoding</strong>&nbsp;sets the character encoding for the control channel. If you are using file names or directory names that are outside the standard ASCII character set, you may need to set this to make sure that the remote server&nbsp;can correctly interpret the data you are sending. In this case, you should also ensure the encoding you are using is accepted by the remote server and/or the OS&nbsp;it is running on.</p>
+      <p>It defaults to&nbsp;<code>ASCII</code>.</p>
+      <h2 id="AdvancedOptions-ActiveModeIPAddress"><span style="color: rgb(0,0,0);font-size: 20.0px;">Active Mode IP Address</span></h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS.</li>
+         <li><strong>Connection Mode</strong>: Active.</li>
+        </ul> 
+       </div>
+      </div>
+      <p class="TableContents"><strong>Active Mode IP Address</strong> sets the local IP address to send to the remote server when using FTP in active mode. This should be a valid IPv4 address. This can be left blank if not required, in which case the communication point would use a sensible default.</p>
+      <h2 class="TableContents" id="AdvancedOptions-ActiveModePortRange"><span style="color: rgb(0,0,0);font-size: 20.0px;">Active Mode Port Range</span></h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS.</li>
+         <li><strong>Connection Mode</strong>: Active.</li>
+        </ul> 
+       </div>
+      </div>
+      <p class="TableContents"><strong>Active Mode Port Range</strong> sets the range of ports that will be used when using FTP in active mode. This can be left blank if not required, in which case the communication point will use a sensible default. The port range should be specified as two valid port numbers, separated by a dash, for example&nbsp;<code>23456-34567</code>.</p>
+      <h2 class="TableContents" id="AdvancedOptions-FTPOptions"><span style="color: rgb(0,0,0);font-size: 20.0px;">FTP Options</span></h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS.</li>
+        </ul> 
+       </div>
+      </div>
+      <p class="TableContents">The FTP options are a set of optional settings that may be required for compatibility with certain servers.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Automatically substitute the remote host IP in passive mode</code></td>
+          <td class="confluenceTd">When operating in FTP passive mode, the configured hostname is always used instead of any value the remote server returns. This option can be used to work around issues with connectivity or issues with remote servers that return incorrect IP addresses.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Enable Mode Z compression</code></td>
+          <td class="confluenceTd"><p>Then compression is enabled on all transfers with the remote server.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Force unique names</code></td>
+          <td colspan="1" class="confluenceTd">The remote server is instructed to generate unique names for all files that you transfer to it (this option is only applicable to <em>Output</em> mode). In other words, the server uses the <code>STOU</code> command instead of the <code>STOR</code> command.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>None enabled by default.</sup></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        Rhapsody already has extensive checking for unique filenames, and therefore to utilize this property fully you may want to set 
+        <strong>Duplicate Filename Behaviour</strong> to 
+        <code>Don't check for duplicates</code>.
+       </div>
+      </div>
+      <h2 class="TableContents" id="AdvancedOptions-FTPSOptions">FTPS Options</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTPS.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>FTPS Options</strong>&nbsp;provides options to work around some known bugs in various FTPS servers. A number of FTPS servers do not correctly close SSL channels when closing either the data or control sockets. This can manifest itself as either the client communication point freezing until a timeout occurs or raising connection errors when attempting to close data or control sockets. If this occurs then the appropriate options can then be enabled. Note that these options should not be enabled unless required to fix a specific FTPS server issue otherwise as they instruct the FTP communication point to use non-standard SSL closure mechanisms.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Start with clear data channels<sup>†</sup><br></code></td>
+          <td class="confluenceTd">Private data channels are used once the encrypted connection has been negotiated.&nbsp;The communication point always enables encryption on the control channel immediately after establishing the SSL connection and prior to the login. If this option is enabled, then the commands to enable encryption on data channels are not sent until after the login has been completed. If this option is disabled then the data channel encryption commands are sent immediately. The data channels are never used unencrypted regardless of whether this option is enabled or not.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Disable control SSL closure</code></td>
+          <td class="confluenceTd"><p>The communication point forces the SSL closure on the control channel to be done in a non-standard way. This is usually only required if the client or server freezes when the connection is closed.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Disable control wait on close</code></td>
+          <td colspan="1" class="confluenceTd">The communication point stops the client waiting for SSL closure acknowledgment on the control channel. This is usually only required if the client freezes when the connection is closed. This is not required to be set if <code>Disable control SSL closure</code> is set.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Disable data SSL closure</code></td>
+          <td colspan="1" class="confluenceTd">The communication point forces the SSL closure on the data channel to be done in a non-standard way. This is usually only required if the client or server freeze when data transfer has completed.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Disable data wait on close</code></td>
+          <td colspan="1" class="confluenceTd">The communication point stops the client waiting for SSL closure acknowledgment on the data channel. This is usually only required if the client freezes after data transfer has completed. This is not required to be set if <code>Disable data SSL closure</code> is set.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Disable SSL session resumption</code></td>
+          <td colspan="1" class="confluenceTd">A new SSL session is established for each data transfer.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <h2 id="AdvancedOptions-InputLocales"><span style="color: rgb(0,0,0);font-size: 20.0px;">Input Locales</span></h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Input Locales</strong>&nbsp;holds the ordered list of Java locales to use when required for parsing input directory listings. If set, the specified locales are used in the ordered specified until one is successful. If not, this is equivalent to setting English first followed by the Rhapsody locale. Refer to&nbsp;<a href="http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html" class="external-link" rel="nofollow">JDK 8 and JRE 8 Supported Locales</a> for details.</p>
+      <p>The extended directory listings requested by the FTP communication point normally include a last modified date in the listing. While this date is not actually used by the communication point, the directory listing parsers still need to be able to parse these dates correctly. Most date formats are locale-dependent (for example 04/05/2013 could be interpreted as 5 April 2013 or 4 May 2013) and sometimes even included month names in the default language of the FTP server. As there is no FTP command to ask an FTP server what locale it is using, this needs to be configured on the communication point. By default the FTP communication point will try English first, followed by the Rhapsody system locale. This is likely to work correctly in many cases, however it can be configured using the <strong>Input Locales</strong> configuration property on the communication point. This configuration property is set as a list of strings representing Java locales. If it is set, then each specified locale is attempted in the order that they are configured until one of them is successful.</p>
+      <h2 id="AdvancedOptions-DirectoryListingParser"><span style="color: rgb(0,0,0);font-size: 20.0px;">Directory Listing Parser</span></h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Directory Listing Parser</strong>&nbsp;selects a directory listing parser to parse directory listings returned from the FTP server.</p>
+      <p>An FTP client retrieves the contents of a directory from an FTP server using either the LIST or NLIST commands. These commands return a formatted directory listing, but the format of this listing is entirely determined by the FTP server in use. As a result, the FTP client needs a mechanism to parse these returned values in order to interpret them, as it&nbsp;expects a list of files and sub-directories.</p>
+      <p>The (S)FTP communication point has a number of directory listing parsers built in corresponding to commonly used formats. The following list refers to the directory listing format and not necessarily the operating system that the FTP server is running on. For example, FileZilla Server returns Unix style directory listings even when running on <em>Windows</em>.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Auto Detect<sup>†</sup> </code></td>
+          <td class="confluenceTd">Selects the&nbsp;auto-detect directory listing parser. This parser is suitable for most scenarios. It works by sending the SYSTEM command to the FTP server and then using the result of that command to pick which parser should be attempted first. If the first attempt fails, then all the other parsers are tried until one of them is successful. Therefore, it is only necessary to select a specific directory parser if another default parsers being attempted first incorrectly parses the directory listing.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Unix</code></td>
+          <td class="confluenceTd"><p>Selects the UNIX directory listing parser.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Windows</code></td>
+          <td colspan="1" class="confluenceTd">Selects the Windows directory listing parser.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>VMS<br></code></td>
+          <td colspan="1" class="confluenceTd">Selects the VMS directory listing parser.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>NetWare</code></td>
+          <td colspan="1" class="confluenceTd">Selects the NetWare directory listing parser.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>MVS</code></td>
+          <td colspan="1" class="confluenceTd">Selects the MVS directory listing parser.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>OS/400</code></p></td>
+          <td colspan="1" class="confluenceTd">Selects the OS/400 directory listing parser.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Custom JavaScript Parser</code></td>
+          <td colspan="1" class="confluenceTd"><p><span>Selects the </span><a href="#AdvancedOptions-JavaScriptDirectoryParser">Custom JavaScript Parser</a> directory listing parser.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If a specific directory listing parser is selected:</p>
+        <ul>
+         <li>The selected parser is the only parser that will be used for directory listings – the other available parsers are completely ignored.</li>
+         <li>It is very important to test the configuration to verify that it is working correctly as an incorrect parser is likely to prevent the communication point from retrieving any files from the FTP server.</li>
+        </ul>
+       </div>
+      </div>
+      <h2 id="AdvancedOptions-JavaScriptDirectoryParser"><span style="color: rgb(0,0,0);">JavaScript Directory Parser</span></h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS.</li>
+         <li><strong>Parsing Directory Listings</strong>:&nbsp;Custom JavaScript Parser.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>JavaScript Directory Parser</strong>&nbsp;is the custom JavaScript used to parse directory listings returned from the FTP server.</p>
+      <p>If the default directory listing parsers are not sufficient for particular FTP server purposes, then it is possible to write a custom directory listing parser using JavaScript. To enable the custom directory listing parser, the&nbsp;<strong>Parsing Directory Listings</strong>&nbsp;configuration property should be set to&nbsp;<code>Custom JavaScript Parser</code>. The JavaScript parser can then be configured in the&nbsp;<strong>JavaScript Directory Parser</strong>&nbsp;configuration property.</p>
+      <p>The configured JavaScript is executed once for each line returned by the FTP server in its directory listing. It is completely up to the custom JavaScript parser as to how it interprets this line and whether it recognizes it as a file, sub-directory, or symbolic link. Compilation errors in the script prevent the communication point being successfully configured, and any runtime errors are treated as a connection error within the communication point.</p>
+      <h3 id="AdvancedOptions-JavaScriptVariables">JavaScript Variables</h3>
+      <p>The following JavaScript variables are placed into the scope of the custom JavaScript directory parser:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Name
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Type
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>directoryPath</code></td>
+          <td class="confluenceTd">String</td>
+          <td class="confluenceTd">The full path of the directory that is being listed, as returned by the FTP server in response to the PWD command.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>log</code></td>
+          <td colspan="1" class="confluenceTd">Logger</td>
+          <td colspan="1" class="confluenceTd">The communication point logger. This is the same logger object as is available in the JavaScript filter within Rhapsody.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>contents</code></td>
+          <td colspan="1" class="confluenceTd"><a href="#AdvancedOptions-DirectoryContentsObject">DirectoryContents</a></td>
+          <td colspan="1" class="confluenceTd">A custom object that is used to add and modify the objects that have been parsed for this directory. See below for a description of the properties and methods available on this object.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>line</code></td>
+          <td colspan="1" class="confluenceTd">String</td>
+          <td colspan="1" class="confluenceTd">The raw line of the directory listing that needs to be parsed by the script.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="AdvancedOptions-DirectoryContentsObject">DirectoryContents Object</h3>
+      <p>The&nbsp;<code>contents</code>&nbsp;JavaScript variable is a&nbsp;<code>DirectoryContents</code>&nbsp;object as described in the following table. The same instance of the&nbsp;<code>DirectoryContents</code>&nbsp;object is used for each line when parsing a directory listing.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Name
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Type
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>length</code></td>
+          <td class="confluenceTd">Number</td>
+          <td class="confluenceTd">The number of files that have been added to this <code>DirectoryContents</code> object. It will start at zero and increase as files are added. This is a read-only property.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code><em>[index]</em></code></p></td>
+          <td colspan="1" class="confluenceTd"><p><a href="#AdvancedOptions-FileObject">File</a></p></td>
+          <td colspan="1" class="confluenceTd">A read-only indexer property that allows previously added files to be retrieved from the <code>DirectoryContents</code> object. It is accessed in the same way as an array (for example, <code>var file = contents[0];</code>). Referencing a valid index returns the appropriate file object that then can be examined and modified within the script. An error is raised if an invalid index is used.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>add(File)</code></td>
+          <td colspan="1" class="confluenceTd"><a href="#AdvancedOptions-FileObject">File</a></td>
+          <td colspan="1" class="confluenceTd">The <code>add(File)</code> method is used to add a new file to the directory contents and should be based on information extracted from the <code>line</code> variable. An error is raised if a <a href="#AdvancedOptions-FileObject">File</a> object is created without a name, however, all other attributes are optional. The return value is the inserted File object which is a different object to that provided as a parameter to the method. It is the same object that would be returned if the appropriate indexer was used to retrieve the newly added object.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="AdvancedOptions-FileObject">File Object</h3>
+      <p>The File object is a simple JavaScript hash with the properties listed in the following table. It is expected that these are created inline within the JavaScript method and all available attributes are provided at construction time.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Name
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Type
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>name</code></td>
+          <td class="confluenceTd">String</td>
+          <td class="confluenceTd">The name of the file, sub-directory, or symbolic link within the current directory. This name must <em>not</em> include either the forward or backslash characters. It is mandatory to provide a non-empty name for all added files. This is a read/write property.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>isDirectory</code></td>
+          <td colspan="1" class="confluenceTd">Boolean</td>
+          <td colspan="1" class="confluenceTd">True if this file represents another directory or false if it represents a file. It defaults to false if not set. This is a read/write property.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>isSymLink</code></td>
+          <td colspan="1" class="confluenceTd">Boolean</td>
+          <td colspan="1" class="confluenceTd"><p>True if this file represents a symbolic link or false if it is a real file or directory. This is a read-only property - a symbolic link is set using the <code>symLinkTarget</code> property instead.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>symLinkTarget</code></td>
+          <td colspan="1" class="confluenceTd">String</td>
+          <td colspan="1" class="confluenceTd">This is set to the target of the symbolic link or null/empty/undefined if it is not a symbolic link. It defaults to null if not set. There is no need to set the <code>isDirectory</code> property (but there is no harm in doing so) as the communication point will subsequently check to see if it is a directory or not if it is configured to follow symbolic links.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>size</code></td>
+          <td colspan="1" class="confluenceTd">Long</td>
+          <td colspan="1" class="confluenceTd">The size of the file in bytes. It defaults to <code>0</code> if not set. This is a read/write property.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="AdvancedOptions-RaisingConnectionErrors">Raising Connection Errors</h3>
+      <p>Connection errors are raised by throwing an exception within the script. Normally this is done by throwing a string describing the problem, for example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">throw 'Failed to parse line \"' + line + '\".';</pre> 
+       </div>
+      </div>
+      <p>There is no need to raise an error if a line should not correspond to a file - simply do not call the&nbsp;<code>contents.add()</code>&nbsp;method and no file object will be created for it.</p>
+      <h3 id="AdvancedOptions-AdditionalInformation">Additional Information</h3>
+      <ul>
+       <li>Refer to&nbsp;<a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a>&nbsp;for details on JavaScript and the objects that Rhapsody exposes.</li>
+       <li><span>Refer to&nbsp;</span><a href="Shared-JavaScript-Libraries_133161861.html">Shared JavaScript Libraries</a> <span>for details on how to manage shared&nbsp;JavaScript libraries.</span></li>
+      </ul>
+      <h3 id="AdvancedOptions-Examples">Examples</h3>
+      <h4 id="AdvancedOptions-SimpleWindowsRegularExpressionDirectoryParser">Simple Windows Regular Expression Directory Parser</h4>
+      <p>This sample parses a directory listing like the following:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">07/06/2013  02:57 PM             2,113 .bash_history
+05/09/2012  10:26 AM                 0 .cookies
+20/08/2012  08:08 PM    &lt;DIR&gt;          .dia
+23/08/2012  04:25 PM    &lt;DIR&gt;          .eclipse
+30/05/2013  08:34 AM    &lt;DIR&gt;          .fop
+03/06/2013  10:17 AM    &lt;DIR&gt;          .gimp-2.8
+05/06/2013  10:24 AM               346 .gitconfig
+07/06/2013  06:44 AM                62 .hgrc</pre> 
+       </div>
+      </div>
+      <p>The regular expression is configured so that if it matches, group 5 contains the file name and group 2 contains either the file size in bytes (with the thousands separators) or&nbsp;<code>&lt;DIR&gt;</code>&nbsp;if it is a directory.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">var pattern = /(\d{2}\/\d{2}\/\d{4}\s+\d{2}:\d{2}\s*[AP]M)\s+(([\d,]+)|(&lt;DIR&gt;))\s+([^\s]+)/g;
+var match = pattern.exec(line);
+if (!match) {
+  // Pattern didn't match - panic (connection error)
+  throw 'Failed to parse line \"' + line + '\".';
+} else {
+  // Add the file
+  contents.add({
+    name: match[5],
+    isDirectory: '&lt;DIR&gt;' == match[2]
+  });
+}</pre> 
+       </div>
+      </div>
+      <h4 id="AdvancedOptions-SimpleUnixFixedWidthDirectoryParser">Simple Unix Fixed Width Directory Parser</h4>
+      <p>This sample will parse a directory listing like the following:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">drwxr-xr-x 1 ftp ftp              0 Jun 13  15:09 dir
+-rw-r--r-- 1 ftp ftp            417 Mar 12  2013 request.txt
+-rw-r--r-- 1 ftp ftp           2021 Mar 12  2013 request2.txt
+-rw-r--r-- 1 ftp ftp           2307 Mar 12  2013 request3.txt</pre> 
+       </div>
+      </div>
+      <p>The first character contains the type and <code>d</code>&nbsp;is for a directory, and the file name starts at position 49 (zero-based):</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">if (line.length &gt; 49) { 
+  contents.add({
+    name: line.substring(49),
+    isDirectory: line[0] == 'd'
+  });
+}</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This example does not handle symbolic links.</p>
+       </div>
+      </div>
+      <h2 id="AdvancedOptions-OutputDirectoryNavigationMode">Output Directory Navigation Mode</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Output.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Output <strong>Directory Navigation Mode</strong></strong>&nbsp;specifies whether the communication point should use FTP commands to traverse the target directory path and create the target directory if required during&nbsp;the file upload, or perform a direct file upload to the <span>target directory</span>.</p>
+      <p>This property is disabled when the <a href="#AdvancedOptions-DuplicateFilenameBehaviour">Duplicate Filename Behaviour</a> property is set to <code>Rename the file</code> or <code>Append date and time to filename</code>.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(51,51,51);"><code><span>Upload after navigating to target</span><sup>†</sup></code></span></td>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">The communication point <span style="color: rgb(37,36,36);">attempts to access the target directory by <span>using the change directory </span>command. If <span style="color: rgb(37,36,36);">the target directory</span> does not exist, it</span> traverses the directory path during&nbsp;the file upload from the home directory to the target directory using the change directory command, and creates any directories along the directory path that do not exist using the make directory command.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>Upload without navigating to target</span></code></td>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">The communication point performs a direct file upload to an existing target directory in environments where FTP commands are restricted. An error is raised if the target directory does not exist.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <h2 id="AdvancedOptions-InputDirectoryNavigationMode">Input Directory Navigation Mode</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, <span style="color: rgb(51,51,51);">Out-&gt;In</span>.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Input Directory Navigation Mode</strong>&nbsp;specifies whether the communication point should use FTP commands to access the target directory directly to download, or via home directory.</p>
+      <p>This property is not enforced&nbsp;when the&nbsp;<a href="Input-Options_133162404.html#InputOptions-InputDirectory">Input Directory</a>&nbsp;property is&nbsp;using an absolute path (in other words, when the input directory path begins with a forward slash).</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th colspan="1" class="confluenceTh">Property Option</th>
+          <th colspan="1" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Change directly&nbsp;to target<sup><span style="color: rgb(51,51,51);">†</span></sup></code></td>
+          <td class="confluenceTd">The communication point&nbsp;attempts to access the target directory by&nbsp;using the change directory&nbsp;command.&nbsp;</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Navigate home directory before target</code></td>
+          <td class="confluenceTd">The communication point&nbsp;attempts to access the&nbsp;home directory by&nbsp;using the change directory&nbsp;command&nbsp;before accessing the target.&nbsp;</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

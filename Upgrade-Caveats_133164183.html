@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Upgrade Caveats</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Upgrading-Rhapsody_133164179.html">Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Upgrade-Strategies_133164181.html">Upgrade Strategies</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Upgrade Caveats</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span>Before you upgrade, ensure you review the information in this section and determine whether it is applicable to your configuration:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh"><p>Upgrade Caveat</p></th>
+          <th style="text-align: left;" colspan="4" class="confluenceTh">Upgrading<span style="color: rgb(192,192,192);">&nbsp;</span>from...</th>
+          <th style="text-align: left;" class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Disabled cipher suites</td>
+          <td colspan="4" class="confluenceTd">Versions prior to Rhapsody 6.5.0.</td>
+          <td colspan="1" class="confluenceTd">Cipher suites using the TLS anon, DES, RC4, and SSL algorithms and protocols have been disabled in Rhapsody 6.5. Refer to <a href="133161183.html#TLS/SSLSupportinRhapsody-ConfiguringCipherSuites">Configuring Cipher Suites</a> for a list of currently supported cipher suites. Ensure components in your configurations are only using supported cipher suites. If you cannot avoid using disabled <span>cipher suites</span>, then you can re-enable them through the <code>java.security</code>&nbsp;and <code><span>rhapsody.properties</span></code> files. Refer to&nbsp;<a style="letter-spacing: 0.0px;" href="https://doki.orionhealth.com/pages/viewpage.action?pageId=133161183#TLS/SSLSupportinRhapsody-EnablingDisabledCipherSuites" class="external-link" rel="nofollow">Enabling Disabled Cipher Suites</a><span style="letter-spacing: 0.0px;">&nbsp;for details.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Updating SSL cipher suites</span></td>
+          <td colspan="4" class="confluenceTd"><span>Versions prior to Rhapsody 6.5.0.</span></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The list of SSL cipher suites in the <code style="letter-spacing: 0.0px;">rhapsody.properties</code>&nbsp;file is not automatically updated during an upgrade. You can manually add the latest set of cipher suites supported in Rhapsody to the <code>rhapsody.properties</code><span>&nbsp;file after the upgrade. Refer to <a href="133161183.html#TLS/SSLSupportinRhapsody-UpdatingCipherSuitesPost-upgrade">Updating Cipher Suites Post-upgrade</a> for details.</span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Missing <code>fontconfig</code><span> library</span></td>
+          <td colspan="4" class="confluenceTd"><span>Versions prior to Rhapsody 6.5.0</span></td>
+          <td colspan="1" class="confluenceTd"><span>Due to the adoption of OpenAdoptJDK in Rhapsody 6.5.0, the <code>fontconfig</code> library should be pre-installed on non-GUI 64-bit *nix platforms before running the Rhapsody engine installer</span><span>. Installations on other platforms are not affected.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mapper's handling of missing fields</p></td>
+          <td colspan="4" class="confluenceTd">Versions prior to Rhapsody 6.3.x</td>
+          <td class="confluenceTd">Refer to&nbsp;<i>Handling of Missing Fields</i>&nbsp;to determine whether your mappings require review.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Filter tests</p></td>
+          <td colspan="4" class="confluenceTd">Versions prior to Rhapsody 6.2.3.<br><p><br></p></td>
+          <td colspan="1" class="confluenceTd"><p>When loading an RLC created by a pre-Rhapsody 6.2.3 version, or upgrading from a pre-Rhapsody 6.2.3 version, Rhapsody converts input test messages into individual tests. For filter testing in pre-Rhapsody 6.2.3 RLC that is configured to send multiple messages through a filter simulating a Message Collector, or in a specific order, Rhapsody 6.2.3 converts them into individual tests with no discernible run order.</p><p>To reproduce the pre-Rhapsody 6.2.3 message collector functionality on later versions of Rhapsody, you must manually create a test and add the multiple test messages using Message Collection Test Mode. To do so, you can use the test framework's copy-paste functionality to copy messages from one test to another.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>HL7 Acknowledgement Generation filter</p></td>
+          <td colspan="4" class="confluenceTd">Versions prior to Rhapsody 6.0.</td>
+          <td colspan="1" class="confluenceTd">After upgrading, ensure the <code>Message Definition </code>configuration property on the <a href="HL7-Acknowledgement-Generation_133163288.html">HL7 Acknowledgement Generation</a> filters is set correctly to represent the HL7 version of the incoming message when using the setting <code>HL7 version: Same as input message</code>.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Change in the output of database components from non-deterministic to deterministic</p></td>
+          <td colspan="4" class="confluenceTd">Versions prior to Rhapsody 6.0.</td>
+          <td colspan="1" class="confluenceTd"><p>As of Rhapsody 6.0, the order of the XML elements in the output messages of database components is the same as the order of the columns in the database results set. Ensure that your configuration does not rely on non-deterministic results. Refer to <a href="Properties-for-XML-Message-Generation_133161770.html">Properties for XML Message Generation</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>HTTP compression for Management Console</p></td>
+          <td colspan="4" class="confluenceTd"><p>Versions from Rhapsody 5.5.7 to 5.5.x.</p></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>In Rhapsody 5.5.x as of Rhapsody 5.5.7, HTTP compression used for Management Console access is disabled by default for the MIME types&nbsp;<code>text/xml</code>&nbsp;and&nbsp;<code>text/plain</code>.&nbsp;To maintain this&nbsp;behavior when upgrading, disable&nbsp;the MIME types&nbsp;<code>text/xml</code>&nbsp;and&nbsp;<code>text/plain</code>&nbsp;by adding the following properties to the&nbsp;<code>rhapsody.properties</code> file:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">WebMonitoringService.http.compressablemimetype=text/xml,text/plain
+WebMonitoringService.https.compressablemimetype=text/xml,text/plain</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <p><br></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,461 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>HL7 External Code Translation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+       <li> <span><a href="HL7-Code-Translation-and-Validation-Filters_133163271.html">HL7 Code Translation and Validation Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">HL7 External Code Translation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163280/133163282.jpg" data-image-src="attachments/133163280/133163282.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163282" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image117.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163280" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>HL7 External Code Translation</strong> Filter&nbsp;takes input of one HL7 message and attempts to translate the contents of multiple, pre-configured coded fields to another coding system. Code Translation is an extension on Code Validation and is setup in a similar way.</p>
+      <p>The Code Translation filter performs validation in the same way as the Code Validation filter and once a field has been validated it is translated.</p>
+      <h2 id="HL7ExternalCodeTranslation-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition</p></td>
+          <td class="confluenceTd"><p>The definition file for input messages, click the <strong>...</strong> Browse button to locate this.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coded Fields</p></td>
+          <td class="confluenceTd"><p>The coded fields to validate. These should be HL7 CE datatypes or CE compatible types. Refer to <a href="Configuration-of-Coded-Fields_133163272.html">Configuration of Coded Fields</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database url</p></td>
+          <td class="confluenceTd"><p>The JDBC URL with which to connect to the database containing the coding systems. Refer to <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database username</p></td>
+          <td class="confluenceTd"><p>The username with which to connect to the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database password</p></td>
+          <td class="confluenceTd"><p>The password with which to connect to the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database driver</p></td>
+          <td class="confluenceTd"><p>The driver with which to connect to the database. Refer to <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Socket Timeout</td>
+          <td colspan="1" class="confluenceTd"><p>Specifies how long, in seconds, the underlying connection should remain open before timing out. The socket timeout prevents Rhapsody from waiting indefinitely for results from a database in the event Rhapsody loses its connection to the database.</p><p>A value of zero indicates the timeout is not configured.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Tables</p></td>
+          <td class="confluenceTd"><p>The code-set with which the coded fields are validated. Refer to <a href="Configuration-of-Coded-Fields_133163272.html">Configuration of the Code Set</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Translation</p></td>
+          <td class="confluenceTd"><p>The same columns as the <strong>Table</strong> setup except it describes which values the CE fields should be translated to. The Row in Translation are matched with the Rows in Tables by taking the first match between the 'Table Names'. Refer to <a href="#HL7ExternalCodeTranslation-Examples">Examples</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Fail Action</p></td>
+          <td class="confluenceTd"><p>Determines if messages that fail code validation are sent to the error node (the default) or the normal connector to continue processing:</p>
+           <ul>
+            <li><code>Continue Processing</code><span>.</span></li>
+            <li><code>Send to Error Node</code><span> (default).</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Translation Behavior</p></td>
+          <td class="confluenceTd"><p>Determines what should happen to the new values:</p>
+           <ul>
+            <li><code>Shuffle Codings</code> (default) - copies the current values to the Alternative Coding System fields and overwrites the current values.</li>
+            <li><code>Overwrite Coding</code> - overwrites the current values.</li>
+            <li><code>Overwrite Alternative Coding</code> - <span>overwrites the Alternative Coding System fields.</span></li>
+            <li><code>Empty and Shuffle Codings</code>.</li>
+            <li><code>Empty and Shuffle Codings, Load Local Description If Empty</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Error Generation Type</p></td>
+          <td class="confluenceTd"><p>Defines how error messages are formatted:</p>
+           <ul>
+            <li><code>HL7</code> (default).</li>
+            <li><code>None</code> - errors are not attached to the message.</li>
+            <li><code>Plain Text</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Property</p></td>
+          <td class="confluenceTd"><p>The message property to which a validation error list should be stored in when validation errors are detected. Defaults to CodeValidationErrors. A leading <code>$</code> in front of this property name is ignored.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Change Identifier and Coding System Case</p></td>
+          <td class="confluenceTd"><p>Determines whether the identifier's/coding system's case should be changed before testing if it is present. This option allows for case insensitivity as the filter has no way of knowing how the database handles case-insensitive comparisons or indexes.</p>
+           <ul>
+            <li><code>No Change</code> (default).</li>
+            <li><code>Uppercase</code>.</li>
+            <li><code>Lowercase</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Cache Size</p></td>
+          <td class="confluenceTd"><p>Specify the number of coded fields from the database that are stored in memory. The larger the size of the cache, the less database access is required which will increase performance but requires more memory. This must have a value of 1 or greater.</p><p>The default value is <code>100</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Cache Age Limit (minutes)</p></td>
+          <td class="confluenceTd"><p>The age limit specifies how long a coded field will be retained for use by the filter. This allows updates in the database to propagate to the cache. The default value of <code>1440</code> (24 hours) means database updates can take a maximum of 24 hours to effect the filter.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Coded fields are not purged from the cache; they are only marked for update. Therefore having a low value does not decrease memory use in low activity periods.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Pool Size</p></td>
+          <td class="confluenceTd"><p>The number of connections the filter can have to the database. A value of 2 - 5 is generally appropriate. A small cache size (relative to the database) generally indicates a large pool size is required for best performance.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Invalid Path Action</p></td>
+          <td class="confluenceTd"><p>The action to perform when a path is not valid for a message:</p>
+           <ul>
+            <li><code>Throw Invalid Path Exception</code> (default).</li>
+            <li><code>Log</code>.</li>
+            <li><code>Ignore</code>.<code><br></code></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="HL7ExternalCodeTranslation-Examples">Examples</h2>
+      <p>The following examples show two simple ways that translation can be performed. There are many possible ways for the translation to be performed. The only restrictions are: Both the Table and Translation have a Table Name that matches. Both the Table and Translation have an Identifier Column and either a Coding System, Coding System Column or both. Everything else is optional.</p>
+      <p>Example 1 shows a database table, the values set in the Tables and Translation and an example CE before and after it is translated.</p>
+      <h3 id="HL7ExternalCodeTranslation-SimpleTranslation">Simple Translation</h3>
+      <p>This example shows a simple translation using a database table that contains the Identifier and the Identifier to translate to. The coding system is specified as a parameter in the configuration.</p>
+      <h4 id="HL7ExternalCodeTranslation-DatabaseTableCodingSystemA">Database Table CodingSystemA</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Value</p></th>
+          <th class="confluenceTh"><p>NewValue</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>A</p></td>
+          <td class="confluenceTd"><p>Z</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>B</p></td>
+          <td class="confluenceTd"><p>X</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>C</p></td>
+          <td class="confluenceTd"><p>Y</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>D</p></td>
+          <td class="confluenceTd"><p>W</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-Tables">Tables</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Table Name</p></td>
+          <td class="confluenceTd"><p>CodingSystemA</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier Column</p></td>
+          <td class="confluenceTd"><p>Value</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System</p></td>
+          <td class="confluenceTd"><p>TestCodingSystem1</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-Translation">Translation</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Table Name</p></td>
+          <td class="confluenceTd"><p>CodingSystemA</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier Column</p></td>
+          <td class="confluenceTd"><p>NewValue</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System</p></td>
+          <td class="confluenceTd"><p>NewCodingSystem</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-ExampleMessage(OK)*">Example Message (OK)*</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Name</p></td>
+          <td class="confluenceTd"><p>TestCodingSystem1</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier</p></td>
+          <td class="confluenceTd"><p>D</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-Result">Result</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Name</p></td>
+          <td class="confluenceTd"><p>NewCodingSystem</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier</p></td>
+          <td class="confluenceTd"><p>W</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="HL7ExternalCodeTranslation-TranslationUsingaDatabaseTable">Translation Using a Database Table</h3>
+      <p>This example shows a translation using a database table that contains both the coding System and Identifier to translate from and to.</p>
+      <h4 id="HL7ExternalCodeTranslation-DatabaseTableMultipleA">Database Table MultipleA</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>System</p></th>
+          <th class="confluenceTh"><p>Identifier</p></th>
+          <th class="confluenceTh"><p>NewSystem</p></th>
+          <th class="confluenceTh"><p>NewIdentifier</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>CS 1</p></td>
+          <td class="confluenceTd"><p>A</p></td>
+          <td class="confluenceTd"><p>CS A</p></td>
+          <td class="confluenceTd"><p>1</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>CS 2</p></td>
+          <td class="confluenceTd"><p>A</p></td>
+          <td class="confluenceTd"><p>CS A</p></td>
+          <td class="confluenceTd"><p>2</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-Table">Table</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Table Name</p></td>
+          <td class="confluenceTd"><p>MultipleA</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier Column</p></td>
+          <td class="confluenceTd"><p>Identifier</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Column</p></td>
+          <td class="confluenceTd"><p>System</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-Translation.1">Translation</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Table Name</p></td>
+          <td class="confluenceTd"><p>MultipleA</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier Column</p></td>
+          <td class="confluenceTd"><p>NewValue</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System</p></td>
+          <td class="confluenceTd"><p>NewIdentifier</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Column</p></td>
+          <td class="confluenceTd"><p>NewSystem</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version Column</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-ExampleMessage(OK)">Example Message (OK)</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Name</p></td>
+          <td class="confluenceTd"><p>CS 1</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier</p></td>
+          <td class="confluenceTd"><p>A</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-Result.1">Result</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Name</p></td>
+          <td class="confluenceTd"><p>CS A</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier</p></td>
+          <td class="confluenceTd"><p>1</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-ExampleMessage(OK).1">Example Message (OK)</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Name</p></td>
+          <td class="confluenceTd"><p>CS 2</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier</p></td>
+          <td class="confluenceTd"><p>A</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="HL7ExternalCodeTranslation-Result.2">Result</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Name</p></td>
+          <td class="confluenceTd"><p>CS A</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier</p></td>
+          <td class="confluenceTd"><p>2</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

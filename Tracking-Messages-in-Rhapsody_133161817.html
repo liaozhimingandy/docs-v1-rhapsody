@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Tracking Messages in Rhapsody</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Message-Tracking-Schemes_133161791.html">Message Tracking Schemes</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Tracking Messages in Rhapsody</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Message tracking in Rhapsody involves allowing messages to be registered for message tracking at some point before they are sent from an output communication point. Once a tracked message has been sent, Rhapsody monitors messages arriving on the same communication point and attempts to match them against the sent messages. If a match is found then a (configurable) action is taken by Rhapsody. The standard behavior updates the tracking status of the message, and performs a failure action if the acknowledgment is negative; for example, resending the message, or stopping a communication point.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For message tracking to correctly match messages with their responses, the response must be received on the same communication point from which the original message was sent.</p>
+       </div>
+      </div>
+      <p>Rhapsody also monitors the time since a message was sent, allowing the message to be resent after a configurable timeout occurs. If the retries exceed the retry times, subsequent action may be taken.</p>
+      <h2 id="TrackingMessagesinRhapsody-SynchronousandAsynchronousMessageTracking">Synchronous and Asynchronous Message Tracking</h2>
+      <p>Message tracking falls into two categories; synchronous and asynchronous message tracking.</p>
+      <h3 id="TrackingMessagesinRhapsody-SynchronousMessageTracking">Synchronous Message Tracking</h3>
+      <p>Synchronous message tracking is applied when the communication point is configured to operate in <em>Out-&gt;In</em> mode. In this mode, Rhapsody does not send the next message until a response for the previous message has been received. If the response received indicates that the original message should be resent, this is done immediately, before any other messages are processed by the communication point. Some systems require a synchronous mode to be used, as they are unable to process new messages while the previous message is still being processed.</p>
+      <h3 id="TrackingMessagesinRhapsody-AsynchronousMessageTracking">Asynchronous Message Tracking</h3>
+      <p>Asynchronous message tracking is applied when the communication point is configured to operate in <em>Bidirectional</em> mode. When operating message tracking in asynchronous mode, Rhapsody does not wait for a response before sending the next message. This means messages are sent faster from Rhapsody (as it does not have to wait for an external system). In this situation, an external system will continue to receive messages before it has completed processing the previous message, and consequently the received responses to these messages may arrive out of order as well.</p>
+      <h2 id="TrackingMessagesinRhapsody-MatchingMessagesandResponses">Matching Messages and Responses</h2>
+      <p>At the core of message tracking is the requirement to match up a response against the original message that was sent. Without this ability to match messages and responses, it is impossible to know when to resend an original message, or what action to take if a failed response is received. Generally, messages are matched to responses by some common value in the message. For example, in HL7, messages are matched by <code>MSA.2</code> (<code>MSA/MessageControlID</code>) in the response message having the same value as <code>MSH.10</code> (<code>MSH/MessageControlID</code>) in the original message.</p>
+      <p>Rhapsody allows this matching process to be customized so different messages are matched to different responses in different ways. This allows Rhapsody to still track messages even when the remote system does acknowledgments in a non-standard way.</p>
+      <p>When synchronous message tracking is used, matching responses by message data is still valid, but not strictly necessary. In synchronous mode, the next message is not sent until the response to the previous message has been received. This means that a received acknowledgment will always refer to the previously sent message, and so consequently no specific matching is needed. However, it can still be used to verify that the correct acknowledgment was sent by the remote system.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>A message tracking scheme can be used by multiple communication points which may be running in different modes. It is recommended that message tracking always be configured to match the responses to messages.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

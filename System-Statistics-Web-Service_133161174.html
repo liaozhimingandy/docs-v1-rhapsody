@@ -1,0 +1,522 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>System Statistics Web Service</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="SOAP-API_133161152.html">SOAP API</a></span> </li> 
+       <li> <span><a href="Web-Services-API_133161170.html">Web Services API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">System Statistics Web Service</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The System Statistics service provides operations to retrieve message counts for individual components or the entire engine, retrieve memory usage for the engine, and the ability to export historical values for those statistics.</p>
+      <p>All these operations use WS-Security to verify that the caller has sufficient privileges. The Web service supports WS-Security with UsernameToken authentication. The password must be provided as plain text.</p>
+      <p>Once a user has been authenticated, the Web service verifies that they have permissions to make Web service calls and perform the requested operation. A SOAP fault is raised if the authentication or permission check fails.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>WSDL Location</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>SystemStatisticsService?wsdl</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>SOAP 1.1 Endpoint</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>SystemStatisticsService.</code><code>SystemStatisticsServiceHttpsSoap11Endpoint</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>SOAP 1.2 Endpoint</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>SystemStatisticsService.</code><code>SystemStatisticsServiceHttpsSoap12Endpoint</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><strong>In This Section</strong></p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005935 {padding: 0px;}
+div.rbtoc1565147005935 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005935 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565147005935"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#SystemStatisticsWebService-Operations">Operations</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#SystemStatisticsWebService-getComponentCounts">getComponentCounts</a></li> 
+          <li><a href="#SystemStatisticsWebService-getTotalCounts">getTotalCounts</a></li> 
+          <li><a href="#SystemStatisticsWebService-getMemoryUsage">getMemoryUsage</a></li> 
+          <li><a href="#SystemStatisticsWebService-getComponentCountStatistics">getComponentCountStatistics</a></li> 
+          <li><a href="#SystemStatisticsWebService-getTotalCountStatistics">getTotalCountStatistics</a></li> 
+          <li><a href="#SystemStatisticsWebService-getMemoryUsageStatistics">getMemoryUsageStatistics</a></li> 
+         </ul> </li> 
+        <li><a href="#SystemStatisticsWebService-SOAPFaults">SOAP Faults</a></li> 
+        <li><a href="#SystemStatisticsWebService-Date-TimeFormat">Date-Time Format</a></li> 
+       </ul> 
+      </div>
+      <h2 id="SystemStatisticsWebService-Operations">Operations</h2>
+      <h3 id="SystemStatisticsWebService-getComponentCounts">getComponentCounts</h3>
+      <p>Retrieves the current message counts for the specified component. The component is identified using its type (communication point, route or Web service) and either its internal integer identifier or its full path. The operation will return an object containing the input, output and processed message counts for that component, as appropriate for the component type and mode (that is, routes only have processed counts, communication points can have either input or output or both). SOAP faults are raised if the component cannot be found or the user does not have permission to view that component.</p>
+      <p><strong>Sample Communication Point Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sys="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-425" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;sys:getComponentCounts&gt;
+         &lt;sys:path&gt;Tracking - Load Testing/System1/System1 Internal TCP Server&lt;/sys:path&gt;
+         &lt;sys:type&gt;COMMUNICATION_POINT&lt;/sys:type&gt;
+      &lt;/sys:getComponentCounts&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Communication Point Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getComponentCountsResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+         &lt;ns1:counts&gt;
+            &lt;ns1:received&gt;593790&lt;/ns1:received&gt;
+            &lt;ns1:sent&gt;593780&lt;/ns1:sent&gt;
+         &lt;/ns1:counts&gt;
+      &lt;/ns1:getComponentCountsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample Route Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sys="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-425" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;sys:getComponentCounts&gt;
+         &lt;sys:path&gt;Tracking - Load Testing/System1/System1 Input Route&lt;/sys:path&gt;
+         &lt;sys:type&gt;ROUTE&lt;/sys:type&gt;
+      &lt;/sys:getComponentCounts&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Route Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getComponentCountsResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+         &lt;ns1:counts&gt;
+            &lt;ns1:processed&gt;1188000&lt;/ns1:processed&gt;
+         &lt;/ns1:counts&gt;
+      &lt;/ns1:getComponentCountsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample Web Service Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sys="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-425" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;sys:getComponentCounts&gt;
+         &lt;sys:id&gt;200&lt;/sys:id&gt;
+         &lt;sys:type&gt;WEB_SERVICE&lt;/sys:type&gt;
+      &lt;/sys:getComponentCounts&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Web Service Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getComponentCountsResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+         &lt;ns1:counts&gt;
+            &lt;ns1:received&gt;3&lt;/ns1:received&gt;
+            &lt;ns1:sent&gt;3&lt;/ns1:sent&gt;
+         &lt;/ns1:counts&gt;
+      &lt;/ns1:getComponentCountsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <h3 id="SystemStatisticsWebService-getTotalCounts">getTotalCounts</h3>
+      <p>Retrieves an object containing the current total received, sent, and processed message counts for the entire engine, across all communication points and routes. This operation takes no parameters.</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sys="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-425" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;sys:getTotalCounts/&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getTotalCountsResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+         &lt;ns1:counts&gt;
+            &lt;ns1:received&gt;2934508&lt;/ns1:received&gt;
+            &lt;ns1:sent&gt;3057873&lt;/ns1:sent&gt;
+            &lt;ns1:processed&gt;3130399&lt;/ns1:processed&gt;
+         &lt;/ns1:counts&gt;
+      &lt;/ns1:getTotalCountsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <h3 id="SystemStatisticsWebService-getMemoryUsage">getMemoryUsage</h3>
+      <p>Retrieves the current memory usage (currently in use, used by the JVM, and total allocated) for Rhapsody. This operation takes no parameters, and all returned values are in megabytes (defined as 1024^2 bytes).</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sys="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-425" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;sys:getMemoryUsage/&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getMemoryUsageResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+         &lt;ns1:memoryUsage&gt;
+            &lt;ns1:inUse&gt;138&lt;/ns1:inUse&gt;
+            &lt;ns1:jvmInUse&gt;467&lt;/ns1:jvmInUse&gt;
+            &lt;ns1:totalAllocated&gt;910&lt;/ns1:totalAllocated&gt;
+         &lt;/ns1:memoryUsage&gt;
+      &lt;/ns1:getMemoryUsageResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <h3 id="SystemStatisticsWebService-getComponentCountStatistics">getComponentCountStatistics</h3>
+      <p>Retrieves the raw statistics for received, sent or processed message counts for the specified component for the specified time range. Components are identified using their type (communication point, route or Web service) and either their internal integer identifier or their full path name. The optional <code>samplingResolution</code> parameter can be used to set a minimum time period between each returned result. This is used simply to limit the number of results that are returned by a query. It is not relevant when performing a query over a small timeframe, but if the query involves a large timeframe, this reduces the number of results returned to make them more manageable. All results are returned if this optional parameter is not provided.</p>
+      <p>Note that the <code>samplingResolution</code> does not guarantee that the returned results are at the requested interval — only that each result is separated at least by the requested interval. The <code>samplingResolution</code> is provided as an instance of <code>xs:duration</code>. If this uses the years or months parameters for the duration (not that this is sensible for a statistics export), then this assumes that a year is 365 days and a month is 30 days.</p>
+      <p>A SOAP fault is raised if the user does not have permission to export system or throughput statistics, if the times are invalid, if the specified component could not be found, if the user does not have permission to view the component, or if the specified message count type is not applicable for the specified component.</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sys="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-425" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;sys:getComponentCountStatistics&gt;
+         &lt;sys:path&gt;Tracking - Load Testing/System1/System1 Source&lt;/sys:path&gt;
+         &lt;sys:type&gt;COMMUNICATION_POINT&lt;/sys:type&gt;
+         &lt;sys:messageCountType&gt;RECEIVED&lt;/sys:messageCountType&gt;
+         &lt;sys:startTime&gt;2009-05-10T13:00:00&lt;/sys:startTime&gt;
+         &lt;sys:endTime&gt;2009-11-10T13:00:00&lt;/sys:endTime&gt;
+         &lt;sys:samplingResolution&gt;PT5M&lt;/sys:samplingResolution&gt;
+      &lt;/sys:getComponentCountStatistics&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getComponentCountStatisticsResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+         &lt;ns1:counts endTime="2009-09-28T00:00:00.000+00:00" id="10" limitedByDataValidation="false" messageCountType="RECEIVED" path="Tracking - Load Testing/System1/System1 Source" samplingResolution="PT5M" startTime="2009-05-10T13:00:00.000+00:00" type="COMMUNICATION_POINT"&gt;
+            &lt;ns1:count time="2009-09-24T12:50:00.000+10:00"&gt;481251&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T12:55:00.000+10:00"&gt;481251&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T13:00:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T13:20:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T13:25:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T15:00:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T15:05:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T15:10:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T15:15:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T15:40:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T15:45:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T15:50:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T15:55:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-24T16:00:00.000+10:00"&gt;481451&lt;/ns1:count&gt;
+            ...
+         &lt;/ns1:counts&gt;
+      &lt;/ns1:getComponentCountStatisticsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <h3 id="SystemStatisticsWebService-getTotalCountStatistics">getTotalCountStatistics</h3>
+      <p>Retrieves the raw statistics for the total received, sent or processed message counts in the engine for the specified time range. The optional <code>samplingResolution</code> parameter can be used to set a minimum time period between each returned result. This is used simply to limit the number of results that are returned by a query. It is not relevant when performing a query over a small timeframe, but if the query involves a large timeframe, this reduces the number of results returned to make them more manageable. All results are returned if this optional parameter is not provided.</p>
+      <p>Note that the <code>samplingResolution</code> does not guarantee that the returned results are at the requested interval — only that each result is separated at least by the requested interval. The <code>samplingResolution</code> is provided as an instance of <code>xs:duration</code>. If this uses the years or months parameters for the duration (not that this is sensible for a statistics export), then this assumes that a year is 365 days and a month is 30 days.</p>
+      <p>A SOAP fault is raised if the user does not have permission to export system or throughput statistics, or if the times are not valid.</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sys="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-425" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;sys:getTotalCountStatistics&gt;
+         &lt;sys:messageCountType&gt;RECEIVED&lt;/sys:messageCountType&gt;
+         &lt;sys:startTime&gt;2009-05-10T13:00:00&lt;/sys:startTime&gt;
+         &lt;sys:endTime&gt;2009-11-10T13:00:00&lt;/sys:endTime&gt;
+	 &lt;sys:samplingResolution&gt;PT5M&lt;/sys:samplingResolution&gt;
+      &lt;/sys:getTotalCountStatistics&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getTotalCountStatisticsResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+         &lt;ns1:counts endTime="2009-09-28T00:00:00.000+00:00" id="0" limitedByDataValidation="false" messageCountType="RECEIVED" samplingResolution="PT5M" startTime="2009-05-10T13:00:00.000+00:00"&gt;
+            &lt;ns1:count time="2009-09-28T08:15:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T08:20:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T08:25:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T08:30:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T08:35:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T08:40:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T08:45:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T08:50:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T08:55:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:00:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:05:30.000+10:00"&gt;2605163&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:10:30.000+10:00"&gt;2657236&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:15:30.000+10:00"&gt;2695062&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:20:30.000+10:00"&gt;2732038&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:25:30.000+10:00"&gt;2769290&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:30:30.000+10:00"&gt;2806199&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:35:30.000+10:00"&gt;2843535&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:40:30.000+10:00"&gt;2880605&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:45:30.000+10:00"&gt;2917529&lt;/ns1:count&gt;
+            &lt;ns1:count time="2009-09-28T09:57:00.000+10:00"&gt;2934508&lt;/ns1:count&gt;
+            ...
+         &lt;/ns1:counts&gt;
+      &lt;/ns1:getTotalCountStatisticsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <h3 id="SystemStatisticsWebService-getMemoryUsageStatistics">getMemoryUsageStatistics</h3>
+      <p>Retrieves the raw memory statistics for the memory in use by Rhapsody, by the JVM, or the total allocated to the JVM for the specified time range. The optional <code>samplingResolution</code> parameter can be used to set a minimum time period between each returned result. This is used simply to limit the number of results that are returned by a query. It is not relevant when performing a query over a small timeframe, but if the query involves a large timeframe, this reduces the number of results returned to make them more manageable. All results are returned if this optional parameter is not provided.</p>
+      <p>Note that the <code>samplingResolution</code> does not guarantee that the returned results are at the requested interval — only that each result is separated at least by the requested interval. The <code>samplingResolution</code> is provided as an instance of <code>xs:duration</code>. If this uses the years or months parameters for the duration (not that this is sensible for a statistics export), then this assumes that a year is 365 days and a month is 30 days.</p>
+      <p>A SOAP fault is raised if the user does not have permission to export system or throughput statistics, or if the times are not valid.</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sys="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-425" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;sys:getMemoryUsageStatistics&gt;
+         &lt;sys:memoryType&gt;IN_USE&lt;/sys:memoryType&gt;
+         &lt;sys:startTime&gt;2009-05-10T13:00:00&lt;/sys:startTime&gt;
+         &lt;sys:endTime&gt;2009-11-10T13:00:00&lt;/sys:endTime&gt;
+	 &lt;sys:samplingResolution&gt;PT5M&lt;/sys:samplingResolution&gt;
+      &lt;/sys:getMemoryUsageStatistics&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getMemoryUsageStatisticsResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+         &lt;ns1:memoryUsageStatistics endTime="2009-09-28T00:00:00.000+00:00" limitedByDataValidation="false" memoryType="IN_USE" samplingResolution="PT5M" startTime="2009-05-10T13:00:00.000+00:00"&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T08:25:30.000+10:00"&gt;82&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T08:30:30.000+10:00"&gt;113&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T08:35:30.000+10:00"&gt;133&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T08:40:30.000+10:00"&gt;64&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T08:45:30.000+10:00"&gt;68&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T08:50:30.000+10:00"&gt;169&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T08:55:30.000+10:00"&gt;142&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:00:30.000+10:00"&gt;102&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:05:30.000+10:00"&gt;150&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:10:30.000+10:00"&gt;122&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:15:30.000+10:00"&gt;230&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:20:30.000+10:00"&gt;327&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:25:30.000+10:00"&gt;808&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:30:30.000+10:00"&gt;311&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:35:30.000+10:00"&gt;604&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:40:30.000+10:00"&gt;235&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:45:30.000+10:00"&gt;510&lt;/ns1:memoryUsageStatistic&gt;
+            &lt;ns1:memoryUsageStatistic time="2009-09-28T09:57:00.000+10:00"&gt;87&lt;/ns1:memoryUsageStatistic&gt;
+            ...
+         &lt;/ns1:memoryUsageStatistics&gt;
+      &lt;/ns1:getMemoryUsageStatisticsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <h2 id="SystemStatisticsWebService-SOAPFaults">SOAP Faults</h2>
+      <p>The System Statistics service raises SOAP faults when syntactical or semantical errors are discovered in the request, or if an error occurs when generating the response. If the request reaches the System Statistics service (that is, it isn't rejected by the framework due to bad XML/SOAP formatting or invalid security parameters), then the SOAP fault returned will include an instance of a <code>StatisticsException</code> (defined in the WSDL), which includes an error code and description indicating the problem.</p>
+      <p>The SOAP fault code will be set to Sender/Client (for SOAP 1.2/1.1) for errors in the request, or Receiver/Server (1.2/1.1) for errors generating the response. The <code>StatisticsException</code> object will be included in the details section of the fault. If using SOAP 1.2, then the subcode of the fault will be an instance of <code>statisticsErrorCode</code> (defined in the WSDL as an enumeration) indicating the error that occurred.</p>
+      <p><strong>Sample SOAP 1.2 Fault</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;soapenv:Fault&gt;
+         &lt;soapenv:Code&gt;
+            &lt;soapenv:Value&gt;soapenv:Sender&lt;/soapenv:Value&gt;
+            &lt;soapenv:Subcode&gt;
+               &lt;soapenv:Value xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;ns1:ComponentNotFound&lt;/soapenv:Value&gt;
+            &lt;/soapenv:Subcode&gt;
+         &lt;/soapenv:Code&gt;
+         &lt;soapenv:Reason&gt;
+            &lt;soapenv:Text xml:lang="en-US"&gt;Component not found&lt;/soapenv:Text&gt;
+         &lt;/soapenv:Reason&gt;
+         &lt;soapenv:Detail&gt;
+            &lt;ns1:StatisticsException xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+               &lt;ns1:ErrorCode&gt;ComponentNotFound&lt;/ns1:ErrorCode&gt;
+               &lt;ns1:Message&gt;Component not found&lt;/ns1:Message&gt;
+            &lt;/ns1:StatisticsException&gt;
+         &lt;/soapenv:Detail&gt;
+      &lt;/soapenv:Fault&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample SOAP 1.1 Fault</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;soapenv:Fault&gt;
+         &lt;faultcode&gt;soapenv:Client&lt;/faultcode&gt;
+         &lt;faultstring&gt;Component not found&lt;/faultstring&gt;
+         &lt;detail&gt;
+            &lt;ns1:StatisticsException xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/systemStatisticsService"&gt;
+               &lt;ns1:ErrorCode&gt;ComponentNotFound&lt;/ns1:ErrorCode&gt;
+               &lt;ns1:Message&gt;Component not found&lt;/ns1:Message&gt;
+            &lt;/ns1:StatisticsException&gt;
+         &lt;/detail&gt;
+      &lt;/soapenv:Fault&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <h2 id="SystemStatisticsWebService-Date-TimeFormat">Date-Time Format</h2>
+      <p>If you wish to use UTC instead of the local server's time zone, append <code>Z</code> to the date-time, for example <code>2009-11-10T13:00:00Z</code></p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

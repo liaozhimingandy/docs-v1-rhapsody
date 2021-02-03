@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Datastore Setup</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Directory-Structure_133161562.html">Rhapsody Directory Structure</a></span> </li> 
+       <li> <span><a href="Rhapsody-Datastore_133161567.html">Rhapsody Datastore</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Datastore Setup</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="DatastoreSetup-WindowsOnly">Windows Only</h2>
+      <h3 id="DatastoreSetup-Anti-virus,Backup,ReplicationandDesktopSearch">Anti-virus, Backup, Replication and Desktop Search</h3>
+      <p>When installing Rhapsody on a <em>Windows®</em> machine, it is strongly recommended you disable virus or spyware scanners, automatic backup, and replication services for the datastore directory hierarchy. Desktop Search tools may also have an impact on system performance in terms of excessive disk activity and CPU usage. If these are allowed to process the datastore directory while Rhapsody is running, there can be unexpected consequences.</p>
+      <p>If anti-virus software is deployed on your server, then we strongly recommend excluding the directories that Rhapsody makes heavy use of from the virus scans, for example:</p>
+      <ul>
+       <li>Rhapsody data folder.</li>
+       <li><em>Windows®</em> <code>temp</code> folder (for <em>Windows®</em> machines only).</li>
+       <li>Any folders that Directory communication points write to or read from.</li>
+      </ul>
+      <p>If Desktop Search software is deployed on your server, then we strongly recommend either disabling it entirely, or excluding from the search the same directories recommended for exclusion for virus scans.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If in doubt, contact <a href="Rhapsody-Support_133163665.html">Rhapsody Support</a>.</p>
+       </div>
+      </div>
+      <h3 id="DatastoreSetup-Location">Location</h3>
+      <p>Placing the datastore on a shared drive can result in performance issues. We recommend you place the datastore on a local drive except when running Rhapsody in a high availability environment. Refer to <a href="Running-Rhapsody-in-a-High-Availability-Environment_133164214.html">Running Rhapsody in a High Availability Environment</a> for details.</p>
+      <h2 id="DatastoreSetup-Windows®and*nix"><em>Windows<em>®</em></em> and *nix</h2>
+      <h3 id="DatastoreSetup-Drivers">Drivers</h3>
+      <p>The Rhapsody datastore is a high-performance database. As such, it must be hosted on a disk with a file system that supports random disk I/O. The disk should be accessed by block-level drivers rather than application-level drivers. This is because, unlike block-level drivers, application-level drivers do not allow for random seeks of data. Thus, using application-level drivers can severely impair Rhapsody performance and cause data corruption.</p>
+      <p>The following block-level drivers on external systems can be used for the Rhapsody datastore:</p>
+      <ul>
+       <li>DAS - Direct Attached Storage.</li>
+       <li>Fiber Channel Storage.</li>
+       <li>iSCSI on a dedicated network.</li>
+      </ul>
+      <p>The following application-level drivers <em>must not</em> be used for the Rhapsody datastore:</p>
+      <ul>
+       <li>Windows Shares using a UNC path. These use SMB (Simple Message Block) or CIFS (Common Internet File System) mounts. These can also exist on Linux systems.</li>
+       <li>Mapped drives on <em>Windows<em>®</em></em>. These use <em>Windows<em>®</em></em> shares.</li>
+       <li>NFS (Networked File System).</li>
+      </ul>
+      <p>It is also important to understand the difference between a SAN (Storage Attached Network)&nbsp;device and NAS (Network Attached&nbsp;Storage)&nbsp;device:</p>
+      <ul>
+       <li>SAN - this provides an array of disks which are partitioned into logical units (LUNs) and are accessed by block-level drivers. Typically, both fiber channel and iSCSI are available. These <em>can</em> be used by the Rhapsody datastore.</li>
+       <li>NAS - provides shared file system support. This is typically accomplished via SMB, CIFS or NFS shares. These <em>should not</em> be used by the Rhapsody datastore.</li>
+      </ul>
+      <p>When using Rhapsody in a virtualized environment, it is important that the file system underlying logical disks&nbsp;as well as the logical disks themselves are accessed via block-level drivers.</p>
+      <h2 id="DatastoreSetup-AdvancedDeployments">Advanced Deployments</h2>
+      <p>Rhapsody supports deployment of its datastores across several I/O devices. This is an advanced deployment model and is enabled by editing the <code>rhapsody.properties</code> file. Refer to <a href="Performance-Tuning-Rhapsody_133164234.html#PerformanceTuningRhapsody-I/OThroughput">I/O Throughput</a> for details.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

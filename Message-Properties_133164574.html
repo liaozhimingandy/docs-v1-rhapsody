@@ -1,0 +1,410 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Message Properties</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Message Properties</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody provides three types of message properties:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146996056 {padding: 0px;}
+div.rbtoc1565146996056 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146996056 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146996056"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#MessageProperties-User-definedMessageProperties">User-defined Message Properties</a></li> 
+        <li><a href="#MessageProperties-PublishedMessageProperties">Published Message Properties</a></li> 
+        <li><a href="#MessageProperties-StandardMessageProperties">Standard Message Properties</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p>Message properties can be used to configure components by using the&nbsp;<code>$propertyName</code>&nbsp;notation to define the value of a component configuration property directly, or be used in JavaScript code to configure JavaScript components.</p>
+      <p>Using a message property with a literal is not supported. If a message property is used to define a value, it cannot be paired with other literals or variables. There are two reasons for this:</p>
+      <ol>
+       <li>The message&nbsp;property is not defined until the message arrives, so the communication point or filter has to do a specific lookup on the message to resolve its value.</li>
+       <li><p>A message&nbsp;property can contain numbers, letters, and symbols. As a result, it may be ambiguous as to where the property name starts and ends. This is shown in:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;$DIrHost\messages\in</pre> 
+         </div>
+        </div><p>which could be interpreted as the value&nbsp;<code>DIrHost\messages\in</code>&nbsp;or it could mean get the property&nbsp;<code>DIrHost</code>&nbsp;and attach the literal&nbsp;<code>\messages\in</code>.</p></li>
+      </ol>
+      <h2 id="MessageProperties-User-definedMessageProperties">User-defined Message Properties</h2>
+      <p>Users can define their own properties and manipulate them using JavaScript. Refer to&nbsp;<a href="ROMessage-Object_133161403.html">ROMessage Object</a> and&nbsp;<a href="Message-Object_133161393.html">Message Object</a> for details.</p>
+      <h2 id="MessageProperties-PublishedMessageProperties">Published Message Properties</h2>
+      <p>Published properties are in-built message properties specific to certain filters and input-side communication points, which are automatically added to messages. Published properties for filters and communication points on a route are added to all drop-down lists where message properties can be selected on that route.&nbsp;A filter or communication point's&nbsp;published properties are documented as part of its description.</p>
+      <h2 id="MessageProperties-StandardMessageProperties">Standard Message Properties</h2>
+      <p>Standard message properties are message properties that are typically associated with messages. They include:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <th colspan="1" class="confluenceTh">Standard Message Property</th>
+          <th colspan="1" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>MessageID</code></td>
+          <td colspan="1" class="confluenceTd">The internal message identifier. This property is special and any attempt to set it will be ignored.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>InputTime</code></td>
+          <td colspan="1" class="confluenceTd">The time that the message was received. It is a Long-formatted as a string, where the Long represents the number of milliseconds since 1 Jan 1970. This property is special and any attempt to set it will be ignored.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>MessageName</code></td>
+          <td colspan="1" class="confluenceTd">The message type that is populated when the message is parsed.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>DefinitionName</code></td>
+          <td colspan="1" class="confluenceTd">The name of the message definition used to parse the message.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:MessageControlId</code></td>
+          <td colspan="1" class="confluenceTd">The message control identifier of an outgoing message that is being tracked by message tracking. The output search option that uses the message control identifier simply looks for an indexed message property of this name. While message tracking sets this property automatically, there is nothing stopping it being set manually instead (just make sure that it is indexed). When using the old message tracking (the filters). Set when the message goes through the tracking filter (it will not, of course, be indexed until it reaches the communication point).</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:OldTrackingMessageName</code></td>
+          <td colspan="1" class="confluenceTd">The name of the message when used for the old message tracking. Set by the tracking filter.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:OldTrackingResponseTimeout</code></td>
+          <td colspan="1" class="confluenceTd">Set by the tracking filter to indicate the response timeout period (in seconds). After the timeout occurs, the message may be either resent or marked as failed. It is a whole number, encoded as a string, where 0 represents an infinite timeout.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:OldTrackingMaximumResends</code></td>
+          <td colspan="1" class="confluenceTd">Set by the tracking filter to indicate the maximum number of resends for this message when no response is received. It is an integer encoded as a string, where -1 represents an infinite number of resends.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:OldTrackingRouteId</code></td>
+          <td colspan="1" class="confluenceTd">Set by the tracking filter to the internal identifier of the route that it is on.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:InputCommunicationPoint</code></td>
+          <td colspan="1" class="confluenceTd">The name of the communication point that this message was originally received from. Note that if a message was received on an Out-&gt;In communication point, then this property refers to the input communication point that the original request was received on instead.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:InputCommunicationPointId</code></td>
+          <td colspan="1" class="confluenceTd">The internal identifier of the communication point that this message was originally received from. Note that if a message was received on an Out-&gt;In communication point, then this property refers to the input communication point that the original request was received on instead.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:ErrorRouteId</code></td>
+          <td colspan="1" class="confluenceTd">The internal identifier of the last route whose error handler processed this message. It is used internally within the route executor to prevent accidental re-entry into a route error handler.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:ErrorRoute</code></td>
+          <td colspan="1" class="confluenceTd">The name of the last route whose error handler processed this message.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:ErrorFilterId</code></td>
+          <td colspan="1" class="confluenceTd">The internal identifier of the last filter where an error occurred, causing the message to be sent to the route error handler.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:ErrorFilterName</code></td>
+          <td colspan="1" class="confluenceTd">The name of the last filter where an error occurred, causing the message to be sent to the route error handler.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:InputMessageType</code></td>
+          <td colspan="1" class="confluenceTd">The input message name. It is automatically set by property extraction if not already set, but can be manually set at any stage. Property extraction automatically marks this property to be indexed for both input and output.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:OutputMessageType</code></td>
+          <td colspan="1" class="confluenceTd">The output message name. This property is automatically set by property extraction, the <a href="HL7-Acknowledgement-Generation_133163288.html">HL7 Acknowledgement Generation</a> filter, and the <a href="Mapper_133163007.html">Mapper</a> filter, and marked to be indexed on output.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:ResponseLatency</code></td>
+          <td colspan="1" class="confluenceTd">The response latency time. It is Long-formatted as a string representing the response latency in milliseconds. It can be added by a custom <em>Out-&gt;In</em> communication point in its <code>receiveMessage()</code> method in order to inform the communication point framework how long it took to receive the response. Most communication points do not need to set it as the framework calculates it correctly.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:BodyEncoding</code></td>
+          <td colspan="1" class="confluenceTd">The name of the Java encoding currently associated with the body of this message. This a special property and cannot be set directly. It is not present if the body encoding has not been explicitly set.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:HL7Encoding</code></td>
+          <td colspan="1" class="confluenceTd">The name of the HL7 encoding extracted from a message. Currently, it is extracted by the <a href="#MessageProperties-HL7CharacterEncodingDetection">HL7 Character Encoding Detection</a> filter, but is not read by any other components.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:InputWebService</code></td>
+          <td colspan="1" class="confluenceTd">The name of the Rhapsody web service that the message was received from.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:InputWebServiceOperation</code></td>
+          <td colspan="1" class="confluenceTd">The name of the operation on the web service that this message was received from.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:WebServiceUser</code></td>
+          <td colspan="1" class="confluenceTd">The name of the authenticated user for a web service. It is not set if the web service is configured to not perform authentication.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:WebServiceAsynchronousRequest</code></td>
+          <td colspan="1" class="confluenceTd">Is present (and set to true) on an incoming message from a web service if the request used WS-Addressing and set the Reply-To address as something other than anonymous (in other words, the request is asynchronous). The property is not set if the request is synchronous.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:SoapFault</code></td>
+          <td colspan="1" class="confluenceTd">Should be present on an outgoing web service message to indicate to Rhapsody that it is a SOAP fault rather than a normal response.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:InputSoapEnvelopeNamespace</code></td>
+          <td colspan="1" class="confluenceTd">The URI of the SOAP namespace used for the incoming web service message. This implicitly allows the caller to check what version of SOAP is being used.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:From</code></td>
+          <td colspan="1" class="confluenceTd">The value of the <code>wsa:From</code> SOAP header if an incoming web services message is received with WS-Addressing headers.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:To</code></td>
+          <td colspan="1" class="confluenceTd">The value of the <code>wsa:To</code> SOAP header if an incoming web services message is received with WS-Addressing headers.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:ReplyTo</code></td>
+          <td colspan="1" class="confluenceTd">The value of the <code>wsa:ReplyTo</code> SOAP header if an incoming web services message is received with WS-Addressing headers.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:FaultTo</code></td>
+          <td colspan="1" class="confluenceTd">The value of the <code>wsa:FaultTo</code> SOAP header if an incoming web services message is received with WS-Addressing headers.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:Action</code></td>
+          <td colspan="1" class="confluenceTd">The value of the <code>wsa:Action</code> SOAP header if an incoming web services message is received with WS-Addressing headers.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:MessageID</code></td>
+          <td colspan="1" class="confluenceTd">The value of the <code>wsa:From</code> SOAP header if an incoming web services message is received with WS-Addressing headers.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:WebServiceDiscardAsynchronousResponse</code></td>
+          <td colspan="1" class="confluenceTd">Can be set on a web services response message when it is a token response to an asynchronous request which should be discarded. It is required when running the communication point in <em>In-&gt;Out</em> mode but the response is sent via another Rhapsody communication point to keep the communication point framework happy.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:TimeToLive</code></td>
+          <td colspan="1" class="confluenceTd">The time-to-live (TTL) property is set on messages received on<em> In-&gt;Out</em> communication points that are configured to discard received messages once the timeout occurs. It is a Long which is the expiry time of the message (System.currentTimeMillis() + timeout period). When the timeout occurs, the message is discarded shortly thereafter. An expiring message can be kept alive by removing (or changing) this property.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:DuplicateMessageOutputProperty</code></td>
+          <td colspan="1" class="confluenceTd">The <a href="Duplicate-Message-Detection_133163339.html">Duplicate Message Detection</a> filter can indicate duplicate messages by either sending the message to the Error Queue or setting this output message property.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:DuplicateMessageProcessedFlag</code></td>
+          <td colspan="1" class="confluenceTd">When a detected duplicate message has been sent to the Error Queue, this flag is set to 'true'. If the message is reprocessed, then the filter passes the message through unchecked.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:WebServiceIncomingUsernameToken</code></td>
+          <td colspan="1" class="confluenceTd">Set on incoming web service requests if the SOAP request includes a username token. The property will be set if the username token is present even if the web service is not performing username token authentication.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:WebServiceIncomingCertificateSubject</code></td>
+          <td colspan="1" class="confluenceTd">Set on incoming web service requests that used either HTTPS client authentication or x509 token authentication. The subject x.500 distinguished name is extracted from the certificate and set as a message property on the incoming message.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:NotificationEventIdentifier</code></td>
+          <td colspan="1" class="confluenceTd">The <a href="Watchlist-Notifier_133162533.html">Watchlist Notifier</a> communication point publishes the event identifier for each notification event produced by the communication point.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:NotificationEventName</code></td>
+          <td colspan="1" class="confluenceTd">The <a href="Watchlist-Notifier_133162533.html">Watchlist Notifier</a>&nbsp;communication point publishes the event name for each notification event produced by the communication point.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:SoapFaultCode</code></td>
+          <td colspan="1" class="confluenceTd">Set by the web services consumer on incoming fault messages. It contains the local name of the SOAP fault code.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:SoapFaultSubCode</code></td>
+          <td colspan="1" class="confluenceTd">Set as a property list by the web services consumer on incoming fault messages if the fault contains any sub-codes. It contains the local name of each fault sub-code.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:ReinjectedMessage</code></td>
+          <td colspan="1" class="confluenceTd">Set to true when a message is re-injected from the archive, Error Queue or Hold Queue back into the route.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:NotificationEventSeverity</code></td>
+          <td colspan="1" class="confluenceTd">The current severity of a notification issue generated as a Rhapsody message.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:NotificationEventDeliveryType</code></td>
+          <td colspan="1" class="confluenceTd">The current delivery type of a notification issue generated as a Rhapsody message.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:ReceivedUsingMTOM</code></td>
+          <td colspan="1" class="confluenceTd">Added to a message to indicate that a message was received using MTOM.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:XopFields</code></td>
+          <td colspan="1" class="confluenceTd">The list of XPaths that should be extracted from the message and sent via XOP.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:TransformerMessageSeparators</code></td>
+          <td colspan="1" class="confluenceTd">The actual message separators that were used to generate any raw values in an IHE message. If these differ from the standard HL7 separators, then they are replaced during the transformation. The value in this property should be formatted as the combination of MSH.1 and MSH.2 (for example: <span style="color: rgb(153,51,0);"> <code>|^~\&amp;</code> </span>).</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:AtnaEventType</code></td>
+          <td colspan="1" class="confluenceTd">The IHE event type being processed in the format expected for the ATNA logs.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:SubmissionSetUniqueId</code></td>
+          <td colspan="1" class="confluenceTd">The submission set unique identifier for an IHE transaction. Formatted as an OID.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:SubmissionSetPatientId</code></td>
+          <td colspan="1" class="confluenceTd">The submission set patient identifier for an IHE transaction. Formatted as an HL7 CX using the standard HL7 separators.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:EndPointAddress</code></td>
+          <td colspan="1" class="confluenceTd">The SOAP endpoint address for the IHE transaction.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:BodySetFromXopData</code></td>
+          <td colspan="1" class="confluenceTd">Set by the web service communication points when the message body was set directly from data received via XOP (it was set as binary rather than the encoded value).</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:XopFieldsNamespaces</code></td>
+          <td colspan="1" class="confluenceTd">The list of prefix to namespace URIs that are used to resolve prefixes in the <code>{@link #WEB_SERVICE_XOP_FIELDS}</code> property. Each value in this list is in the form:<br> <span style="color: rgb(153,51,0);"> <code>&amp;lt;prefix&amp;gt;=&amp;lt;uri&amp;gt;</code> </span>.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:WebServiceCallerIPAddress</code></td>
+          <td colspan="1" class="confluenceTd">The IP address of the web service client that has called a Rhapsody web service. Set on incoming web service requests.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:RegistryQueryPatientIds</code></td>
+          <td colspan="1" class="confluenceTd">The patient IDs used in a registry stored query.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:DocumentUniqueIds</code></td>
+          <td colspan="1" class="confluenceTd">The list of document unique identifiers. Set when performing a retrieve document set request.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:RepositoryUniqueIds</code></td>
+          <td colspan="1" class="confluenceTd">The list of repository unique identifiers. Set when performing a retrieve document set request.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:HomeCommunityIds</code></td>
+          <td colspan="1" class="confluenceTd">The list of home community identifiers. Set when performing a retrieve document set request.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:MessageControlId</code></td>
+          <td colspan="1" class="confluenceTd">The MSH-10 field used for ATNA logging. Set when performing a PIX query.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:PatientQuery</code></td>
+          <td colspan="1" class="confluenceTd">The complete PIX/PDQ query message for ATNA logging.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:ReceivingApplication</code></td>
+          <td colspan="1" class="confluenceTd">The receiving application extracted from a PIX/PDQ query.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:ReceivingFacility</code></td>
+          <td colspan="1" class="confluenceTd">The receiving facility extracted from a PIX/PDQ query.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:SendingApplication</code></td>
+          <td colspan="1" class="confluenceTd">The sending application extracted from a PIX//PDQ query.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:SendingFacility</code></td>
+          <td colspan="1" class="confluenceTd">The sending facility extracted from a PIX//PDQ query.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>ihe:PixPdqPatientIds</code></td>
+          <td colspan="1" class="confluenceTd">A list of the patient identifiers for a PIX//PDQ query.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsaClient:replyTo</code></td>
+          <td colspan="1" class="confluenceTd">The value that the web service client should use to set the replyTo WS-addressing header. Should be set on the route and is read by the <a href="Web-Service-Client_133162592.html">Web Service Client</a> communication point.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:WebServiceIncomingCertificateIssuer</code></td>
+          <td colspan="1" class="confluenceTd">Set on incoming web service requests that used either https client authentication or x509 token authentication. The issuer x.500 distinguished name is extracted from the certificate and set as a message property on the incoming message.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:WebServiceIncomingCertificateSerialNumber</code></td>
+          <td colspan="1" class="confluenceTd">Set on incoming web service requests that used either https client authentication or x509 token authentication. The certificate serial number is extracted and set in this message property formatted as a decimal number.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:WebServiceIncomingCertificateSubjectKeyIdentifier</code></td>
+          <td colspan="1" class="confluenceTd">Set on incoming web service requests that used either https client authentication or x509 token authentication. If the SubjectKeyIdentifier extension is present on the certificate, its value is extracted and set in this message property as a hex-encoded value.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:DisableInputCommunicationPointEncodingCheck</code></td>
+          <td colspan="1" class="confluenceTd">This property can be set by input communication points on newly received messages to indicate to the communication point framework that it should not run its normal encoding check after receiving the message. This can be done where the communication point is completely sure of the encoding of the received message and so doesn't want any possibly incorrect settings in the framework to override this encoding. In practice it is really only needed for those cases where the input communication point only sometimes knows the encoding of the received message – if it always knows the encoding then the framework encoding property can just be left as the default value. The value of this property is not relevant – it triggers this behavior simply be being present. Note that this message property is not persisted when added by an input communication point: it is removed by the communication point framework after receiving the message but prior to persisting it. It will be persisted normally if manually added after this point.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:MaximumMessageConnectionRetries</code></td>
+          <td colspan="1" class="confluenceTd">This property can be set to change the maximum number of per message connection retries on an outgoing message. It overrides the statically configured maximum retries configured for the communication point. It must be set to a non-negative integer. Note that this can only be used if per message connection retries are enabled for the communication point, and does not affect the maximum number of retries for the communication point itself.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:IncomingSubjectFromCertificate</code></td>
+          <td colspan="1" class="confluenceTd">Set as a property on the incoming MessageContext to the subject x.500 distinguished name used in the incoming certificate used for x509 token authentication.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:IncomingIssuerFromCertificate</code></td>
+          <td colspan="1" class="confluenceTd">Set as a property on the incoming MessageContext to the issuer x.500 distinguished name used in the incoming certificate used for x509 token authentication.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:IncomingSubjectKeyIdentifierFromCertificate</code></td>
+          <td colspan="1" class="confluenceTd">Set as a property on the incoming MessageContext if the certificate used for x509 token authentication includes the SubjectKeyIdentifier extension. If that extension is present, its value is extracted, and placed into this property encoded as hex. If the extension is not present, or could not be processed, then the property is not set.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:IncomingSerialNumberFromCertificate</code></td>
+          <td colspan="1" class="confluenceTd">Set as a property on the incoming MessageContext to the serial number of the certificate used for x509 token authentication. The serial number is formatted as a decimal number.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:RedirectedFromCommunicationPointId</code></td>
+          <td colspan="1" class="confluenceTd">Added to messages redirected from a communication point due to the per-message retries to provide the identifier of the communication point that redirected it.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:RedirectedFromCommunicationPointName</code></td>
+          <td colspan="1" class="confluenceTd">Added to messages redirected from a communication point due to the per-message retries to provide the name of the communication point that redirected it.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:SnapshotMessageId</code></td>
+          <td colspan="1" class="confluenceTd">Set as a property on the message when a snapshot of a message is taken. It is the message ID of the message at the point of the snapshot.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:SnapshotBodyEncoding</code></td>
+          <td colspan="1" class="confluenceTd">Set as a property on the message when a snapshot of a message is taken. It is the body encoding of the message at the point of the snapshot (if it was set).</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>rhapsody:ErrorCause</pre></td>
+          <td colspan="1" class="confluenceTd"><p>Added to failed messages <span>of a communication point using </span> <a href="Advanced-Routing_133308065.html">Advanced Routing</a> <span> </span>to indicate the reason for the failure.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>rhapsody:ErrorCommunicationPointId</pre></td>
+          <td colspan="1" class="confluenceTd">Added to failed messages of a communication point using <a href="Advanced-Routing_133308065.html">Advanced Routing</a>&nbsp;to provide the identifier of the communication point where the messages failed on.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>rhapsody:ErrorCommunicationPointName</pre></td>
+          <td colspan="1" class="confluenceTd">Added to failed messages&nbsp;of a communication point <span>using</span> <a href="Advanced-Routing_133308065.html">Advanced Routing</a> to provide the name of the communication point&nbsp;where the said messages failed on.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

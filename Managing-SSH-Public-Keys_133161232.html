@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Managing SSH Public Keys</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Managing-Certificates-and-Keys_133161222.html">Managing Certificates and Keys</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Managing SSH Public Keys</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="ManagingSSHPublicKeys-ViewingSSHPublicKeys">Viewing SSH Public Keys</h2>
+      <p>To view the SSH public keys&nbsp;registered on the Rhapsody server, navigate to<strong>&nbsp;View&gt;</strong><strong>Certificate and Key Manager</strong> to display the <strong>Certificate and Key Manager</strong>&nbsp;and select the <strong>SSH Public Keys </strong>tab:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="720" src="attachments/133161232/133161233.png" data-image-src="attachments/133161232/133161233.png" data-unresolved-comment-count="0" data-linked-resource-id="133161233" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="ViewingSSHPublicKeys.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161232" data-linked-resource-container-version="3"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If you are connecting to an engine that does not support SSH key management, then the <strong>Certificate and Key Manager</strong> dialog does not display the <strong>SSH Public Keys</strong> and <strong>SSH Private Keys</strong> tabs.</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>SSH private keys are also displayed in this view because an imported private key actually includes its public key as well. Removing an SSH private key from this tab automatically removes it from the <strong>SSH Private Keys</strong> tab as well.</p>
+       </div>
+      </div>
+      <p>The<strong>&nbsp;</strong>tab provides the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Alias</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The unique user-defined name for the key.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Key aliases must be unique across all certificates and keys in Rhapsody.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Algorithm</td>
+          <td class="confluenceTd">The encryption algorithm used (RSA or DSA).</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Key Size</td>
+          <td class="confluenceTd">The key bit length.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Fingerprint</td>
+          <td colspan="1" class="confluenceTd">MD5 hash of the key.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can perform the following action from the tab via buttons or the right-click menu:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingSSHPublicKeys-ImportinganSSHPublicKey">Import...</a></td>
+          <td class="confluenceTd">Add an&nbsp;SSH public key.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingSSHPublicKeys-ExportinganSSHPublicKey">Export...</a></td>
+          <td colspan="1" class="confluenceTd">Export an&nbsp;SSH public key.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingSSHPublicKeys-RemovinganSSHPublicKey">Remove</a></td>
+          <td class="confluenceTd">Delete an&nbsp;SSH public key.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Show Uses</td>
+          <td colspan="1" class="confluenceTd"><span>Open the </span><strong>Security Object Uses</strong><span> dialog to display the components <span>an&nbsp;SSH public key</span></span><span> is being used in. Double-click a component to view or edit its configuration properties.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Filter</td>
+          <td colspan="1" class="confluenceTd">Perform text-based filtering to filter the list of displayed&nbsp;SSH public keys.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ManagingSSHPublicKeys-ImportinganSSHPublicKey">Importing an SSH Public Key</h2>
+      <p>SSH public keys can be imported from either SecureShell (RFC4716) or OpenSSH formats.</p>
+      <p>To import an&nbsp;SSH public key:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li>On the&nbsp;<strong>SSH Public Keys </strong>tab, select the <strong>Import...</strong> button<span>.&nbsp;</span>The <strong>Import SSH Public Key</strong> dialog is displayed: <br><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161232/133161235.png" data-image-src="attachments/133161232/133161235.png" data-unresolved-comment-count="0" data-linked-resource-id="133161235" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ImportinganSSHPublicKey.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161232" data-linked-resource-container-version="3"></span></p></li>
+       <li>Enter:&nbsp;
+        <ul>
+         <li>A name in the&nbsp;<strong>Key Alias</strong>&nbsp;field to identify the key, if required.</li>
+         <li>The path of the key&nbsp;you want to import in the&nbsp;<strong>Filename</strong>&nbsp;field or click the&nbsp;<strong>Browse</strong>&nbsp;link to locate it.</li>
+        </ul></li>
+       <li>Select the <strong>OK</strong> button to import the key.</li>
+       <li><p>If the import is successful, then the new key is added to the list. If it fails, an error message is displayed indicating the reason why it failed. Failure reasons include:</p>
+        <ul>
+         <li>Duplicate key alias.</li>
+         <li>Specified file does not exist.</li>
+         <li>Specified file could not be opened.</li>
+         <li>Specified file is too large (you cannot import files larger than 1MB).</li>
+         <li>Specified file is not the appropriate type of key (you cannot load an SSH private key from the <strong>SSH Public Keys</strong> tab or vice versa).</li>
+         <li>Specified file is not an SSH key.</li>
+        </ul></li>
+      </ol>
+      <h2 id="ManagingSSHPublicKeys-ExportinganSSHPublicKey">Exporting an SSH Public Key</h2>
+      <p>SSH public keys can be exported using either the OpenSSH public key format, or the Secure Shell (RFC4716 format). If an SSH private key is selected on the <strong>SSH Public Keys</strong> tab, then its associated SSH public key is exported. Any user with sufficient access rights to login to Rhapsody IDE is able to export SSH public keys.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Any user with sufficient access rights to log onto Rhapsody IDE is able to export SSH public keys.</p>
+       </div>
+      </div>
+      <p>To export an&nbsp;SSH public key:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li><p>On the <strong>SSH Public Keys</strong> tab, select a key to export and then select the <strong>Export...</strong> button<span>.&nbsp;</span>The <strong>Export SSH Public Key</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161232/133161234.png" data-image-src="attachments/133161232/133161234.png" data-unresolved-comment-count="0" data-linked-resource-id="133161234" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExportinganSSHPublicKey.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161232" data-linked-resource-container-version="3"></span></p></li>
+       <li>Enter a path in the <strong>Filename</strong> field or click the <strong>Browse...</strong> link to select a path&nbsp;to save the key to that location.</li>
+       <li>Select the export format.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to export the public key. The <strong>OK</strong> button only becomes available when the mandatory fields have been entered.</li>
+      </ol>
+      <h2 id="ManagingSSHPublicKeys-RemovinganSSHPublicKey">Removing an SSH Public Key</h2>
+      <p>To remove an&nbsp;SSH public key:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li><p>On the <strong>SSH Public Keys </strong>tab, select the public key you want to remove.</p></li>
+       <li>Select&nbsp;the&nbsp;<strong>Remove</strong>&nbsp;button.&nbsp;A confirmation dialog is displayed.</li>
+       <li><p>Select the <strong>Yes</strong> button on the confirmation dialog to remove the key&nbsp;(you can undo the deletion by selecting the&nbsp;<strong>Undo Remove</strong>&nbsp;button).</p></li>
+      </ol>
+      <h2 id="ManagingSSHPublicKeys-SupportedPublicKeyFormats">Supported Public Key Formats</h2>
+      <p>Rhapsody supports SSH public keys in either the OpenSSH public key format, or the key format described in RFC4716, for example:</p>
+      <ul>
+       <li><p><a href="#ManagingSSHPublicKeys-OpenSSHPublicKeyFormat">OpenSSH Public Key Format</a></p></li>
+       <li><p><a href="#ManagingSSHPublicKeys-RFC4716PublicKeyFormat">RFC4716 Public Key Format</a></p></li>
+      </ul>
+      <h3 id="ManagingSSHPublicKeys-OpenSSHPublicKeyFormat">OpenSSH Public Key Format</h3>
+      <p><span>The following key example must on a single line when loaded into Rhapsody IDE:</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAyW1Mx1t1RzijnjtS4fLGWKHY22zQcFpOsaUW8yUkuQ8EKWLYFwVCn8xY0Rg+jCcpkFpZEwBVeaHtecWZpThWkqT890SOkPEy9rYVGq7ttzIS05L50SriOtEbFp6q1iBupIU1DkoD2fX9fKwmLfPjEJYBxZB7GT9bNOJ62XPDGkSBY/MZFgkOdPdueZEOKP7jaWvvVjKHzYU5j2zU1++eu3EeJCHdFa27gwa/xk16CKA/hn0CM4JuKUZFENUxsFJcTeCXftME3Lco7IX3yRrOkH9rmrliA8u9wzVSsLSfYb2X1wT1Ipms06Bfj3xrV/VrUrjM7vH+N7FszariBqt2Ww==</pre> 
+       </div>
+      </div>
+      <h3 id="ManagingSSHPublicKeys-RFC4716PublicKeyFormat">RFC4716 Public Key Format</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">---- BEGIN SSH2 PUBLIC KEY ----
+AAAAB3NzaC1yc2EAAAABIwAAAQEAyW1Mx1t1RzijnjtS4fLGWKHY22zQcFpOsaUW8yUkuQ
+8EKWLYFwVCn8xY0Rg+jCcpkFpZEwBVeaHtecWZpThWkqT890SOkPEy9rYVGq7ttzIS05L5
+0SriOtEbFp6q1iBupIU1DkoD2fX9fKwmLfPjEJYBxZB7GT9bNOJ62XPDGkSBY/MZFgkOdP
+dueZEOKP7jaWvvVjKHzYU5j2zU1++eu3EeJCHdFa27gwa/xk16CKA/hn0CM4JuKUZFENUx
+sFJcTeCXftME3Lco7IX3yRrOkH9rmrliA8u9wzVSsLSfYb2X1wT1Ipms06Bfj3xrV/VrUr
+jM7vH+N7FszariBqt2Ww==
+---- END SSH2 PUBLIC KEY ----</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

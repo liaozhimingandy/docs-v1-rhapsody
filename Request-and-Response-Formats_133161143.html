@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Request and Response Formats</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Request and Response Formats</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="RequestandResponseFormats-RequestFormat">Request Format</h2>
+      <h3 id="RequestandResponseFormats-RequestHeaders">Request Headers</h3>
+      <h4 id="RequestandResponseFormats-ContentTypes">Content Types</h4>
+      <p>The REST API uses content types to determine which version of an API should be used. REST methods can return data in multiple formats. The API determines which version is to be used through content types in the HTTP headers in the request, which allow the requester to indicate the format of the data that they are providing (if any), and the format they would like to receive the results.</p>
+      <p>The required HTTP headers are:</p>
+      <ul>
+       <li><code>Content-Type</code> – indicates the format of the data sent by the requester.</li>
+       <li><code style="line-height: 13.0pt;">Accept</code><span style="line-height: 13.0pt;background-color: transparent;"> – indicates the expected format of the response.</span></li>
+      </ul>
+      <p>If the request includes input data but no <code>Content-Type</code> header, the REST API could misinterpret the request by incorrectly determining its type; if there is response data but no <code>Accept</code> header in the request, then the REST API chooses a default response type (normally <code>text/html</code> which renders in a web browser).</p>
+      <p>Typically, the REST API expects either no input parameters, or a <code>text/plain</code> or <code>application/json</code> parameter. On output it returns either no data (with a <code>204 No Content</code> response code), <code>text/html</code>, <code>application/json</code>, or <code>text/plain</code>. An automated tool calling the REST API should use either the <code>application/json</code> or <code>text/plain</code> result types as these are designed to be machine readable.</p>
+      <p>Content types can be provided when using cURL by setting the <code>-H</code> parameter, which is set once for each HTTP header to be included:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">curl -v -b cookies.txt -c cookies.txt --cacert myCert.cer -X PUT -H "Content-Type: text/plain" -H "Accept: application/json" -d "21345" https://server:8444/api/someApiMethod
+</pre> 
+       </div>
+      </div>
+      <ul>
+       <li><code>-H</code>: Sets the two HTTP headers.</li>
+       <li><code>-d</code>: Sets the input data for the request (which must be formatted in the format stated by the <code>Content-Type</code> header).</li>
+       <li><code>-X</code>: Sets the type of HTTP method being called which in this case is a <code>PUT</code> (it defaults to <code>GET</code> if not specified).</li>
+      </ul>
+      <h4 id="RequestandResponseFormats-CrossSiteRequestForgeryProtection">Cross Site Request Forgery Protection</h4>
+      <p>Cross Site Request Forgery (CSRF) is a form of malicious exploit where an unauthorized command is (unknowingly) transmitted by a user that the web server already trusts, effectively allowing an unauthorized user to make changes to the web server by utilizing the session of the authenticated user. Details and examples of CSRF attacks can be found at:</p>
+      <ul>
+       <li><a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)" class="external-link" rel="nofollow">Cross-Site Request Forgery (CSRF)</a>.</li>
+       <li><a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery" class="external-link" rel="nofollow">Cross-site request forgery</a>.</li>
+      </ul>
+      <p>Rhapsody prevents CSRF attacks in its web tier through the use of a CSRF token which is randomly generated for each HTTP session that is established (effectively a large random number that is Base64-encoded). This CSRF token must be included in HTTP requests that attempt to modify data, such as&nbsp;PUT,&nbsp;POST&nbsp;or&nbsp;DELETE,&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">from the second request onward. The first request that creates a new session is authenticated using the username and password provided in the&nbsp;</span>Authorization<span style="line-height: 13.0pt;background-color: transparent;">&nbsp;header. The CSRF token must be included in all subsequent&nbsp;</span>PUT<span style="line-height: 13.0pt;background-color: transparent;">,&nbsp;</span>POST<span style="line-height: 13.0pt;background-color: transparent;">&nbsp;or&nbsp;</span>DELETE<span style="line-height: 13.0pt;background-color: transparent;">&nbsp;requests.</span></p>
+      <p>A CSRF token&nbsp;is not required for&nbsp;<code>GET</code>, <code>HEAD</code>, <code>TRACE</code>, or <code>OPTIONS</code> requests, as these only read data and are not vulnerable to CSRF attacks.</p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The CSRF token is made available to requesters in all HTTP responses in an HTTP header called </span><code style="line-height: 13.0pt;">X-CSRF-Token</code><span style="line-height: 13.0pt;background-color: transparent;">. It must be subsequently provided in all </span><code style="line-height: 13.0pt;">PUT</code><span style="line-height: 13.0pt;background-color: transparent;">, </span><code style="line-height: 13.0pt;">POST</code><span style="line-height: 13.0pt;background-color: transparent;">, or </span><code style="line-height: 13.0pt;">DELETE</code><span style="line-height: 13.0pt;background-color: transparent;"> requests using one of the following methods:</span></p>
+      <ul>
+       <li>Set an HTTP header called <code>X-CSRF-Token</code> that includes the token (the preferred approach whenever possible).</li>
+       <li>Provide it as a query parameter called <code>CSRFToken</code> in the request URL (for example, <code><span class="nolink">https://server:8444/api/someMethod?CSRFToken=asdhjk78awd8123asd/ads13=</span></code>).</li>
+       <li>Provide it as a form parameter called <code>CSRFToken</code> if the REST method expects form data to be provided.</li>
+      </ul>
+      <p>Failure to include the correct token results in the request being rejected with a <code>400 Bad Request</code> status code and an error message indicating that the CSRF token was not provided.</p>
+      <p>The CSRF token does not need to be included on the initial request that establishes a new session (and an incorrect CSRF token is ignored in this case) because the fact that a new session has just been established (and authenticated) means that session-riding cannot yet be taking place.</p>
+      <h3 id="RequestandResponseFormats-RequestBody">Request Body</h3>
+      <p>Various parameters can be passed through the Request Body depending on the type of REST API method. Refer to <a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a> for details.</p>
+      <h2 id="RequestandResponseFormats-ResponseFormat">Response Format</h2>
+      <p>The default return type is HTML. An HTML content type is also available to provide a simple rendering of the returned data. The HTML response is primarily intended for testing purposes (both for internal testing, and for user testing of API functionality).</p>
+      <p>The primary return type from each API method is JSON or plain text for simple strings (except for those operations returning no content).</p>
+      <h3 id="RequestandResponseFormats-HTTPResponseStatusCodes">HTTP Response Status Codes</h3>
+      <p>Standard HTTP response codes are used to indicate the type of response. In particular, <code>200 OK</code> is used for successful requests; <code>204 No Content</code> is used when when no content is returned.</p>
+      <p>Error responses are <code>4xx</code> for errors in the incoming request and <code>5xx</code> for server side errors. In some cases, JSON responses are still available in a <code>4xx</code>/<code>5xx</code> response and may contain error information, particularly in the case of validation errors.</p>
+      <p>Requests typically use the following response codes:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Response Code</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>200 OK</p></td>
+          <td class="confluenceTd"><p>The request was processed successfully.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>201 Created</p></td>
+          <td class="confluenceTd"><p>The request was processed and resulted in the creation of a new resource (for example a redirect link to message search results).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>202 Accepted</p></td>
+          <td class="confluenceTd"><p>The request has been accepted for processing, but the processing has not been completed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>204 No Content</p></td>
+          <td class="confluenceTd"><p>The request was successfully processed but has no response.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>400 Bad Request</p></td>
+          <td class="confluenceTd"><p>The request entity (normally JSON) is syntactically or semantically invalid.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>401 Unauthorized</p></td>
+          <td class="confluenceTd"><p>The user has not been authenticated.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>403 Forbidden</p></td>
+          <td class="confluenceTd"><p>The user has been authenticated but does not have the required access rights.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>404 Not Found</p></td>
+          <td class="confluenceTd"><p>The specified identifier or name was not found.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>410 Gone</p></td>
+          <td class="confluenceTd"><p>The search was canceled (some results may be returned) but not yet purged from the internal list.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>426 Upgrade Required</p></td>
+          <td class="confluenceTd"><p>The request was made over HTTP rather than HTTPS when HTTPS was required.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>429 Too Many Requests</p></td>
+          <td class="confluenceTd"><p>Too many requests were made within a short period of time (DOS prevention).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>500 Internal Server Error</p></td>
+          <td class="confluenceTd"><p>An internal error has occured while performing the operation.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="RequestandResponseFormats-ResponseHeaders">Response Headers</h3>
+      <p>Response Headers contain the standard HTTP response header fields.</p>
+      <h3 id="RequestandResponseFormats-ResponseBody">Response Body</h3>
+      <p>The JSON responses follow a standardized pattern containing two top-level fields:</p>
+      <ul>
+       <li><code>data</code> – the response data which may be a primitive, array, hash, or null depending on the type of request.</li>
+       <li><code>error</code>&nbsp;– any error that occurs performing the request.
+        <ul>
+         <li><code>code</code> – a generic error code describing the error at a high level.</li>
+         <li>messages – a list of error messages describing the problems that have occurred.</li>
+        </ul></li>
+      </ul>
+      <p>All display strings are translated prior to sending the response using the locale specified in the incoming request or the default Rhapsody locale if the requested locale is unavailable or not specified.</p>
+      <h3 id="RequestandResponseFormats-ResponseErrors">Response Errors</h3>
+      <p>The format of errors returned from a REST API method depend on the Accept Request Header:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Accept Request Header</th>
+          <th class="confluenceTh">Error</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">HTML</td>
+          <td class="confluenceTd">HTML</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">JSON</td>
+          <td class="confluenceTd">JSON</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Neither HTML nor JSON (for example, XML)</td>
+          <td class="confluenceTd">HTML</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">XML and JSON</td>
+          <td colspan="1" class="confluenceTd">JSON</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>For example, a typical error response for a JSON request would appear as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data":null,
+    "error":
+    {
+        "code":"ERROR_CODE",
+        "errorFields":["errorField1", "errorField2"],
+        "messages":["message1", "message2"],
+        "invalidFields":["invalidField1", "invalidField2"]
+    }
+}&nbsp;</pre> 
+       </div>
+      </div>
+      <p>where:</p>
+      <ul>
+       <li><code>data</code> is the data returned from the REST API.</li>
+       <li><code>code</code> is a string with the error.</li>
+       <li><code>errorFields</code> is a list of strings.</li>
+       <li><code>messages</code> is a list of strings.</li>
+       <li><code>invalidFields</code> is a list of strings.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

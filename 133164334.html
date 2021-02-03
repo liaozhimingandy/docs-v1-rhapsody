@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Running the Rhapsody on *nix</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="GUI-and-Console-Installations_133164313.html">GUI and Console Installations</a></span> </li> 
+       <li> <span><a href="133164332.html">Installing the Rhapsody Engine on *nix</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Running the Rhapsody on *nix</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Use the following commands to start, restart or stop the Rhapsody service/daemon on *nix environments:</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148358" class="wrapped confluenceTable" width="55%">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Enter the command</p></th>
+          <th class="confluenceTh"><p>To</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>./rhapsody.sh start</code></p></td>
+          <td class="confluenceTd"><p>Start the Rhapsody engine.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>./rhapsody.sh restart</code></p></td>
+          <td class="confluenceTd"><p>Restart the Rhapsody <span>engine</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>./rhapsody.sh stop</code></p></td>
+          <td class="confluenceTd"><p>Stop the Rhapsody <span>engine</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>./rhapsody.sh status</code></p></td>
+          <td class="confluenceTd"><p>Check the status of the Rhapsody <span>engine</span>.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148358']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148358',[],'style=&quot;width:36%; text-align: left;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','55%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p></p>
+      <h2 id="RunningtheRhapsodyon*nix-StartingRhapsodyAutomaticallyon*nixEnvironments">Starting Rhapsody Automatically on *nix Environments</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Complete the following steps as the <strong>superuser</strong> or <strong>root</strong>.</p>
+       </div>
+      </div>
+      <p>The Rhapsody startup script (<code>rhapsody.sh</code>) contains references to the relative path of the wrapper tools. To incorporate this file into the boot time startup, you must create a link to the script from the system's startup directory. For example, on most Linux® systems, this is the <code>/etc/init.d</code> directory.</p>
+      <p>To create the link:</p>
+      <ol>
+       <li><p>If the install directory is: <code> <span>/&lt;directory&gt;/rhapsody/rhapsody-engine-6</span></code>,&nbsp;create the link by entering the following command:&nbsp;</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">ln -s /&lt;directory&gt;/rhapsody/rhapsody-engine-6/bin/rhapsody.sh /etc/init.d/rhapsody</pre> 
+         </div>
+        </div></li>
+       <li><p>Incorporate the Rhapsody script into the startup process, as appropriate for the system.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>If the script <code>rhapsody.sh</code> is copied to the <code>/etc/init.d</code> directory, the paths will be incorrect and the wrapper tools will not be available.</p>
+         </div>
+        </div></li>
+      </ol>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

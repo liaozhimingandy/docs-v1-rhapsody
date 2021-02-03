@@ -1,0 +1,576 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Web Services in Rhapsody</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Web-Services_133163490.html">Web Services</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Web Services in Rhapsody</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A web service definition contains the configuration information to host the web service, including its name and namespace, addressing information, the operations and types, and any security.</p>
+      <p>Rhapsody supports two methodologies for creating web services: top-down and bottom-up.</p>
+      <ul>
+       <li>The top-down approach uses an existing Web Services Description Language (WSDL). The WSDL is imported and is used to generate the web service configuration. You can then modify the configuration, and your changes will be reflected in the WSDL that is hosted by Rhapsody.</li>
+       <li>The bottom-up approach does not require a WSDL. Instead, you create a new web service, and configure all the settings manually. We recommend this approach when exposing an existing Rhapsody route as a web service.</li>
+      </ul>
+      <p>The&nbsp;Web Services Manager provides a central location for managing web services:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146986959 {padding: 0px;}
+div.rbtoc1565146986959 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146986959 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146986959"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#WebServicesinRhapsody-ViewingWebServices">Viewing Web Services</a></li> 
+        <li><a href="#WebServicesinRhapsody-ManagingWebServices">Managing Web Services</a></li> 
+        <li><a href="#WebServicesinRhapsody-EditingaWebService">Editing a Web Service</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#WebServicesinRhapsody-GeneralSettings">General Settings</a></li> 
+          <li><a href="#WebServicesinRhapsody-Operations">Operations</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#WebServicesinRhapsody-CustomTypes">Custom Types</a></li> 
+           </ul> </li> 
+          <li><a href="#WebServicesinRhapsody-SecuritySettings">Security Settings</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#WebServicesinRhapsody-SigningandEncryptionParameters">Signing and Encryption Parameters</a></li> 
+           </ul> </li> 
+          <li><a href="#WebServicesinRhapsody-ManagementSettings">Management Settings</a></li> 
+          <li><a href="#WebServicesinRhapsody-GeneratingtheWSDL">Generating the WSDL</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="WebServicesinRhapsody-ViewingWebServices">Viewing Web Services</h2>
+      <p>The Web Services Manager lists the web services hosted by Rhapsody:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163508.png" data-image-src="attachments/133163507/133163508.png" data-unresolved-comment-count="0" data-linked-resource-id="133163508" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServicesRunning.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <p>The<strong>&nbsp;</strong>Web Services&nbsp;Manager displays the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Column</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Name</p></td>
+          <td class="confluenceTd"><p>The name of the web service.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>State</p></td>
+          <td class="confluenceTd"><p>The current state of the web service:</p>
+           <ul>
+            <li><code>Running</code>.</li>
+            <li><code>Configuration Error</code>.<code><br></code></li>
+            <li><code>Retrying</code> - the web service is configured correctly but fails to start due to an error (for example, a binding or socket error).<code><br></code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Namespace</p></td>
+          <td class="confluenceTd"><p>The namespace URI of the web service.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Binding Summary</p></td>
+          <td class="confluenceTd"><p>Whether HTTP or HTTPS is in use, the port, the local address bindings (if in use), and the SOAP bindings supported.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Security Summary</p></td>
+          <td class="confluenceTd"><p>The security binding and authentication mechanism in use.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description</p></td>
+          <td class="confluenceTd"><p>A description of the web service.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Watchlist</p></td>
+          <td class="confluenceTd"><p>The watchlist associated with the web service.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="WebServicesinRhapsody-ManagingWebServices"><span>Managing Web Services</span></h2>
+      <p><span style="color: rgb(0,0,0);">The&nbsp;<span style="color: rgb(0,0,0);">Web Services</span>&nbsp;manager enables you to perform the following actions:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            <span>Action</span>
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            <span>Description</span>
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Add</span></td>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Add a w<span style="color: rgb(0,0,0);">eb service</span> using the <strong><span style="color: rgb(0,0,0);">Web Services</span> Properties</strong> dialog.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);"><a href="#WebServicesinRhapsody-EditingaWebService">Edit</a></span></td>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">Edit a selected <span style="color: rgb(0,0,0);">w</span><span style="color: rgb(0,0,0);">eb service</span> using the <strong><span style="color: rgb(0,0,0);">Web Services</span></strong></span><strong> Properties</strong><span style="color: rgb(0,0,0);"> dialog. </span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">View</span></td>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">View&nbsp;a <span style="color: rgb(0,0,0);">w</span><span style="color: rgb(0,0,0);">eb service</span> using the <strong><span style="color: rgb(0,0,0);">Web Services Properties</span></strong> dialog in read-only mode. </span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Delete</span></td>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Delete a selected <span style="color: rgb(0,0,0);">w</span><span style="color: rgb(0,0,0);">eb service</span>.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Edit Users</td>
+          <td colspan="1" class="confluenceTd">Launch the Web Services User Store manager to manage users. Refer to <a href="Managing-Web-Service-User-Stores_133163497.html">Managing Web Service User Stores</a> for details.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Check Out</span></td>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Check out a selected <span style="color: rgb(0,0,0);">w</span><span style="color: rgb(0,0,0);">eb service</span>.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Check In</span></td>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Check in a selected <span style="color: rgb(0,0,0);">w</span><span style="color: rgb(0,0,0);">eb service</span> using the <strong>Check-in</strong> dialog.</span><p><span style="color: rgb(0,0,0);">Any mandatory or improperly configured fields trigger a warning before you can check in your changes. Refer to<span>&nbsp;</span><span><a href="Checking-In_133161455.html">Checking In</a> </span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Undo Check Out</span></td>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">Undo the changes in a checked out <span style="color: rgb(0,0,0);">w</span><span style="color: rgb(0,0,0);">eb service</span>.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Show Uses</td>
+          <td colspan="1" class="confluenceTd">Display the components a <span style="color: rgb(0,0,0);">w</span><span style="color: rgb(0,0,0);">eb service</span> is being used in.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">View Errors</td>
+          <td colspan="1" class="confluenceTd">Determine why any <span style="color: rgb(0,0,0);">w</span><span style="color: rgb(0,0,0);">eb service</span> are unconfigured.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Filter</td>
+          <td colspan="1" class="confluenceTd">Perform text-based filtering to filter the list of displayed <span style="color: rgb(0,0,0);">w</span><span style="color: rgb(0,0,0);">eb services</span>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="WebServicesinRhapsody-EditingaWebService">Editing a Web Service</h2>
+      <h3 id="WebServicesinRhapsody-GeneralSettings">General Settings</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163519.png" data-image-src="attachments/133163507/133163519.png" data-unresolved-comment-count="0" data-linked-resource-id="133163519" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSGeneralEg.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Service Name</p></td>
+          <td class="confluenceTd"><p>Web service names must not conflict with the Rhapsody API Web service names (namely, <code>RhapsodyComponentsService</code>, <code>MessageSearchingService</code>, <code>RhapsodyStatusService</code> and <code>SystemStatisticsService</code>), nor any service name reserved for future use in the API (names beginning with <code>Rhapsody</code>).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Service Namespace</p></td>
+          <td class="confluenceTd"><p>Every web service needs a unique namespace in order for client applications to distinguish it from other services on the Web. The namespace is typically in the form of an internet URL for an owned domain.</p><p>For example, you can use your company's Internet domain name as part of the namespace, <code>http://www.orionhealth.com/rhapsody/demo</code>.</p><p>The namespace need not point to the actual web service URL.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Service Description</p></td>
+          <td class="confluenceTd"><p>Comments describing the web service.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Protocol</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Options: <code>HTTP</code>, <code>HTTPS</code> Default: <code>HTTP</code>.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>It is strongly recommended that all web services be secured either using HTTPS or the symmetric or asymmetric security bindings.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol</p></td>
+          <td class="confluenceTd"><p>The SSL Protocol that should be used. Disabled if connecting to an older Rhapsody engine that does not support this functionality. Newly created web service clients default to <code>TLSv1.2</code> with FIPS ciphers.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><p>Limits the SSL cipher suites that can be used, allowing a minimum encryption level to be set:</p>
+           <ul>
+            <li style="list-style-type: none;background-image: none;">
+             <ul>
+              <li><code>Very Strong Cipher Suites (AES-256)</code>.</li>
+              <li><code>FIPS Cipher Suites (AES-128, AES-256, TripleDES-168)</code><span> (default)</span>.</li>
+              <li><code>Strong Cipher Suites (AES-128, AES-256, TripleDES-168, RC4-128)</code>.</li>
+             </ul></li>
+           </ul><p>Disabled if connecting to an older Rhapsody engine that does not support this functionality.</p><p><span>Refer to </span><a href="133161183.html">SSL Cipher Suites</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p>The local binding for the HTTP(S) connector. If a value is not specified, it binds to all local addresses. The local address can be set using Rhapsody variables or literals.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>The local port for the HTTP(S) connector. The local port can be set using Rhapsody variables or literals.</p><p>Multiple Web services can run on the same port if the settings on the HTTP(S) connector are compatible.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Private Key</p></td>
+          <td class="confluenceTd"><p>Click the <strong>Select Private Key</strong> link to select an existing private key from the Certificate Manager.</p><p>A private key is required if using HTTPS, or the asymmetric or symmetric security bindings. Only RSA SSL private keys are available for selection if using HTTP.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP 1.1 Binding</p></td>
+          <td class="confluenceTd"><p>Select this checkbox if the Web service applications use SOAP 1.1 binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP 1.2 Binding</p></td>
+          <td class="confluenceTd"><p>Select this checkbox if the Web service applications use SOAP 1.2 binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>WS-Addressing Support</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether WS-Addressing headers are permitted or mandatory:</p>
+            <ul>
+             <li><code>Required</code>.</li>
+             <li><code>Optional</code> (default).</li>
+             <li><code>Prohibited</code><span>. </span></li>
+            </ul>
+            <p>WS-Addressing headers are converted into Rhapsody message properties to allow the user to provide conditional processing and routing.</p>
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/133163507/133163520.jpg" data-image-src="attachments/133163507/133163520.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163520" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="wsaProperties.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Asynchronous Requests</p></td>
+          <td class="confluenceTd"><p><span>Whether <span>Asynchronous Requests</span> are permitted or mandatory:</span></p>
+           <ul>
+            <li><p><code><span>Required</span></code><span> - t<span>he web service will require the <code>wsa:ReplyTo</code> header be set to a non-anonymous address.</span></span></p></li>
+            <li><p><code>Optional</code> - <span>t</span><span>he</span> web service will not check for a valid response address.</p></li>
+            <li><p><code>Prohibited</code> (default) - <span>t</span><span>he</span> web service will reject calls asking for asynchronous messaging.</p></li>
+           </ul><p>This field is only available if you select <code>Required</code> or <code>Optional</code> in the <strong>WS-Addressing Support</strong> field.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServicesinRhapsody-Operations">Operations</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163518.png" data-image-src="attachments/133163507/133163518.png" data-unresolved-comment-count="0" data-linked-resource-id="133163518" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSOperations.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <p>You can perform <strong>Add</strong>, <strong>Edit</strong> and <strong>Remove</strong> operations.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Each of the parameter types (<code>Input</code>, <code>Output</code> and <code>Faults</code>) have the same configuration options.</p>
+       </div>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163516.png" data-image-src="attachments/133163507/133163516.png" data-unresolved-comment-count="0" data-linked-resource-id="133163516" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSOpInput.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Name</p></td>
+          <td class="confluenceTd"><p>The (local) name of the operation to call.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description</p></td>
+          <td class="confluenceTd"><p>A description of the Web service operation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operation Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>In-Only</code>, <code>Request-Response</code> Default: <code>In-Only</code></p><p>If this is an Input Only operation, then the <strong>Output</strong> and <strong>Faults</strong> tabs are not available. If this is a Request-Response operation, then the <strong>Output</strong> parameters are required, but the <strong>Faults</strong> parameters are optional.</p><p>The <strong>Input</strong> parameters are always required.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Action</p></td>
+          <td class="confluenceTd"><p>The expected value in the SOAP Action HTTP header when this operation is called. If this is not set, an appropriate default value is used (<code>urn:&lt;OperationName&gt;</code>).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use existing type</p></td>
+          <td class="confluenceTd"><p>Select from a list of standard XML types or any elements defined in the schema from an imported WSDL (if available), and two special values:</p>
+           <ul>
+            <li><code>&lt;Any Type&gt;</code> - the operation will receive XML in any valid XML format. The datatype is not defined in the web service, so anything is accepted.</li>
+            <li><span><code>&lt;Empty Type&gt;</code> -</span> no data is expected to be received in this operation.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use named type</p></td>
+          <td class="confluenceTd"><p>Select this option if the data type of the operation is defined in a schema related to this web service. The <strong>Name</strong> and <strong>Namespace</strong> reference the data type in the schema.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use custom type</p></td>
+          <td class="confluenceTd"><p>Simple data types can be created within the web service framework using a custom type. Click the <strong>Edit Custom Type</strong> link to create a new custom data type. Refer to <a href="#WebServicesinRhapsody-CustomTypes">Custom Types</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>WS-Addressing Action</p></td>
+          <td class="confluenceTd"><p>The URI of the expected value in the <code>wsa:Action</code> SOAP header when WS-Addressing is enabled. It can only be set if WS-Addressing is enabled for the Web service. If not set, then a default value is automatically generated as defined in the <a href="http://www.w3.org/TR/ws-addr-metadata/#defactionwsdl11" class="external-link" rel="nofollow">WS-Addressing Metadata specification</a>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing/Encryption</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Options to sign and encrypt message content. The messages are effectively always signed and encrypted when using transport security binding as it uses HTTPS.</p>
+            <p>The signing and encryption options are very similar to those at the Web service level. However, each has a new value (which is the default) to use the settings defined at the Web service level. Note that as with the options at the Web service level, these options must be extended to allow the user to map between namespaces and prefixes.</p>
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163517.png" data-image-src="attachments/133163507/133163517.png" data-unresolved-comment-count="0" data-linked-resource-id="133163517" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSOpSigningEncryption.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span><br>The other difference is that the signing and encryption options for Faults always default to <code>Do not Sign</code> or <code>Do not Encrypt</code>, but can be changed. This is because you will rarely want to encrypt faults even if the remainder of the messages are encrypted.</p>
+            <p>Only available when using asymmetric or symmetric security binding.</p>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="WebServicesinRhapsody-CustomTypes">Custom Types</h4>
+      <p>You can add any number of parameters and order them as required. It is perfectly valid to create a custom type with no parameters at all.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163515.png" data-image-src="attachments/133163507/133163515.png" data-unresolved-comment-count="0" data-linked-resource-id="133163515" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="EditCustomType.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Allow additional parameters not listed below</p></td>
+          <td class="confluenceTd"><p>Allows the parameter to accept any other children that may be found by adding an <code>&lt;xs:any&gt;</code> element to the type. This option differs from selecting <code>&lt;Any Type&gt;</code> for a particular parameter in that it provides no control over the incoming top-level element names.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Name</p></td>
+          <td class="confluenceTd"><p>A valid XML NCName.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Type</p></td>
+          <td class="confluenceTd"><p>Select a type from the list. The available types are the standard XML types, types defined in the original WSDL used to generate the Web service (not available for bottom-up Web services), and two special values:</p>
+           <ul>
+            <li><code>&lt;Any Type&gt;</code> - causes a new element to be created with the specified name, containing complex type with mixed content that allows any attributes and any element children.</li>
+            <li><code>&lt;Empty Type&gt;</code> - the same as creating a custom type with no children. <code>&lt;Any Type&gt;</code> is the same as creating a custom type with the <strong>Allow additional parameters not listed below</strong> checkbox selected.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Required</p></td>
+          <td class="confluenceTd"><p>Whether required or optional.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Repeating</p></td>
+          <td class="confluenceTd"><p>Whether repeating or not.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServicesinRhapsody-SecuritySettings">Security Settings</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163514.png" data-image-src="attachments/133163507/133163514.png" data-unresolved-comment-count="0" data-linked-resource-id="133163514" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSSecurityEg.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Security Binding</p></td>
+          <td class="confluenceTd"><p>Asymmetric and symmetric security bindings require a private key to be configured:</p>
+           <ul>
+            <li><code>No Security Binding</code>&nbsp;(default).</li>
+            <li><code>Transport Security Binding</code>&nbsp;<span>- only available if HTTPS is being used.</span></li>
+            <li><code>Asymmetric Security Binding</code></li>
+            <li><code>Symmetric Security Binding</code>&nbsp;</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Authentication Method</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The authentication method:</p>
+            <ul>
+             <li><code>No Authentication</code> (default).</li>
+             <li><code>Basic HTTP Authentication</code> - <span style="color: rgb(51,51,51);">when security binding is enabled for this authentication method, authentication is delegated to HTTP layer. Therefore, the communication point may not send SOAP response if authentication fails, requiring the client side to refer to the HTTP header to determine the cause of failure (for example, a 401 response code).</span></li>
+             <li><code>Username Token Authentication</code></li>
+             <li><code>X509 Token Authentication</code> - only available when asymmetric binding is used, as it requires a private key to be configured.</li>
+             <li><code>HTTPS Client Certificate Authentication</code> - only available if HTTPS is used.</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is strongly recommended that <a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">client authentication</a> is enabled using one of the available methods. As Basic HTTP Authentication and Username Token Authentication can result in an effective plaintext password being sent, it is recommended that these methods only be used with HTTPS.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Authenticated Users</p></td>
+          <td class="confluenceTd"><p>Displays the users in the <a href="Managing-Web-Service-User-Stores_133163497.html">Web Service User Store</a>. Click the <strong style="letter-spacing: 0.0px;">Edit Authenticated Users</strong> link to add or edit users, or edit the certificates associated with the users.</p><p>This property is disabled if <strong>Authentication Method</strong> is set to <code>No Authentication</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Algorithm Suite</p></td>
+          <td class="confluenceTd"><p>Lists the available algorithm suites as defined in the WS-SecurityPolicy 1.1 specification (the default is<span>&nbsp;</span><code>BASIC_256</code>).</p><p>It is only available when using asymmetric or symmetric binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Protection Order</p></td>
+          <td class="confluenceTd"><p>Determines whether messages are signed first or encrypted first:</p>
+           <ul>
+            <li><code>Sign Then Encrypt</code> (default).</li>
+            <li><code>Encrypt Then Sign</code></li>
+           </ul><p>Only available when using asymmetric or symmetric security binding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Header Layout</p></td>
+          <td class="confluenceTd"><p>The header layout strictness:</p>
+           <ul>
+            <li><code>Strict</code> (default).</li>
+            <li><code>Lax</code></li>
+            <li><code>Lax with Timestamp First</code></li>
+            <li><code>Lax with Timestamp Last</code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Include Timestamp in Requests</p></td>
+          <td colspan="1" class="confluenceTd"><p>Determines whether a timestamp is included in the security header of the SOAP request.</p><p>Only available when using transport, asymmetric or symmetric security binding (although it does not add anything when used with transport binding). By default, this checkbox is selected.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Only allow signing of entire headers and body</p></td>
+          <td class="confluenceTd"><p>This checkbox is selected b<span>y default</span>. It does not apply when using the transport security binding.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Use Derived Keys</p></td>
+          <td colspan="1" class="confluenceTd"><p><span>Enables use of the </span><code>&lt;DerivedKeyToken&gt;</code><span> element as defined by the&nbsp;</span><em><a class="external-link" href="http://docs.oasis-open.org/ws-sx/ws-secureconversation/v1.4/os/ws-secureconversation-1.4-spec-os.html" rel="nofollow">WS-SecureConversation 1.4</a>&nbsp;</em><span>document.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Encrypt Signatures</td>
+          <td colspan="1" class="confluenceTd"><span>Encrypts the signature. Refer to Section 6.4 of the&nbsp;</span><a class="external-link" rel="nofollow" href="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html"><em>WS-SecurityPolicy 1.3</em>&nbsp;</a><span>document for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing / Encryption</p></td>
+          <td class="confluenceTd"><p>Options to sign and encrypt message content. The messages are effectively always signed and encrypted when using transport security binding as it uses HTTPS. Refer to <a href="#WebServicesinRhapsody-SigningandEncryptionParameters">Signing and Encryption Parameters</a> for details.</p><p>Only available when using asymmetric or symmetric security binding.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Use Endorsing Supporting Tokens</td>
+          <td colspan="1" class="confluenceTd"><p>Enables Endorsing Supporting Tokens. Refer to Section 8.3 of&nbsp;the&nbsp;<em><a rel="nofollow" class="external-link" href="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/v1.3/ws-securitypolicy.html">WS-SecurityPolicy 1.3</a>&nbsp;</em>document for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="WebServicesinRhapsody-SigningandEncryptionParameters">Signing and Encryption Parameters</h4>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163513.png" data-image-src="attachments/133163507/133163513.png" data-unresolved-comment-count="0" data-linked-resource-id="133163513" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSSigningEncryption.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Inherit settings from web service configuration</p></td>
+          <td class="confluenceTd"><p>Select this checkbox if you want to inherit the signing and encryption settings from the web service.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encryption Mode</p></td>
+          <td class="confluenceTd"><p>Determines whether the messages are encrypted:</p>
+           <ul>
+            <li><code>Do not Encrypt</code> (default).</li>
+            <li><code>Encrypt Entire Body</code>.</li>
+            <li><code>Encrypt Body Parts</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing Mode</p></td>
+          <td class="confluenceTd"><p>Determines whether the messages are signed:</p>
+           <ul>
+            <li><code>Do not Sign</code> (default).</li>
+            <li><code>Sign Entire Body</code>.</li>
+            <li><code>Sign Body Parts</code>.</li>
+           </ul><p>The <code>Sign Body Parts</code> option is not available if the <strong>Only allow signing of entire headers and body</strong> checkbox is selected.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XML Namespace Mapping</p></td>
+          <td class="confluenceTd"><p>Provides a mapping of XML prefixes to namespace URIs. It is used to declare namespace prefixes used in the XPaths that select the components to sign and encrypt. If this map is empty and one of the encryption or signing modes is changed to sign/encrypt parts of the message, then an entry is automatically added here for the service namespace (as that is the namespace that is likely to be used).</p><p>Only available if either the encryption or signing mode indicates that parts of the message body will be encrypted or signed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XPaths to Encrypt</p></td>
+          <td class="confluenceTd"><p>A set of XPaths (one per line) identifying components in the message that should be encrypted. A value here does not mean that the message must include a value at that location. Rather, it means that if the value is present, it must be encrypted.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XPaths to Sign</p></td>
+          <td class="confluenceTd"><p>A set of <span>XPaths</span> (one per line) identifying components in the message that should be signed.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServicesinRhapsody-ManagementSettings">Management Settings</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163512.png" data-image-src="attachments/133163507/133163512.png" data-unresolved-comment-count="0" data-linked-resource-id="133163512" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSManagement.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Custom SOAP Headers</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The custom SOAP headers that are expected in the incoming requests.</p>
+            <p>Custom headers can be enforced by clients by setting the <code>mustUnderstand</code> attribute to <code>true.</code> If this attribute is set, then all customer headers must be defined. Incoming messages will be rejected if the <code>mustUnderstand</code> attribute is set and customer SOAP headers are not defined (as required by the SOAP specification). <span>If a SOAP request contains custom SOAP headers without setting the </span><code>mustUnderstand</code><span> attribute, then it makes no difference whether the header is defined in the configuration.</span></p>
+            <p>If you define any custom headers, then you are responsible for implementing support for them in the Rhapsody configuration.</p>
+            <p>If you want to use a Rhapsody variable that contains XML to set the custom header, ensure you pre-escape the XML to avoid configuration errors. For example, use the following value in a Rhapsody variable:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+              <b>Escaped XML</b>
+             </div>
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&amp;lt;urn:SessionHeader xmlns:urn=&amp;quot;urn:enterprise.soap.sforce.com&amp;quot;&amp;gt;&amp;lt;urn:sessionId&amp;gt;00D630000008yXI!A&amp;lt;/urn:sessionId&amp;gt;&amp;lt;/urn:SessionHeader&amp;gt;</pre> 
+             </div>
+            </div>
+            <p>instead of:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+              <b>Unescaped XML</b>
+             </div>
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;urn:SessionHeader xmlns:urn="urn:enterprise.soap.sforce.com"&lt;urn:sessionId&gt;00D630000008yXI!A&lt;/urn:sessionId&gt;&lt;/urn:SessionHeader&gt;</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServicesinRhapsody-GeneratingtheWSDL">Generating the WSDL</h3>
+      <p>The <strong>WSDL</strong> tab enables you to view the WSDL that will be used for this Web service.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163510.png" data-image-src="attachments/133163507/133163510.png" data-unresolved-comment-count="0" data-linked-resource-id="133163510" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSWSDLEg.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <p>When a web service is generated from an existing WSDL, but existing WSDL has external references to other WSDLs or schemas using absolute paths (for example, <code>http://&lt;server&gt;:&lt;port&gt;/path/to/schema.xsd</code>), those external schemas need to be loaded whenever the web service is reconfigured (for example, startup, RLC load, etc.). Timeouts are applied to connect them. If they are no longer available due to invalid hostnames, for example, during Rhapsody startup or RLC loading, the connection or read timeouts are reported but Rhapsody continues to startup and RLC loading. The default timeout of 10 seconds is used and the value can be changed by setting <code>WebServicesProducerService.wsdl.timeoutInSeconds</code> property in <code>rhapsody.properties</code> file.</p>
+      <p>Selecting the <strong>Generate WSDL</strong> button sends the current configuration to the engine (without checking in any changes) and generates the WSDL for that configuration. The WSDL is then cached until any changes are made to the configuration. Any errors or warnings that are found when generating the WSDL are displayed as follows:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163507/133163511.png" data-image-src="attachments/133163507/133163511.png" data-unresolved-comment-count="0" data-linked-resource-id="133163511" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceValidationError.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163507" data-linked-resource-container-version="2"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

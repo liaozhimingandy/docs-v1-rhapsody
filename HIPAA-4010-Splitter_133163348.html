@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>HIPAA 4010 Splitter</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="X12-Filters_133163343.html">X12 Filters</a></span> </li> 
+       <li> <span><a href="HIPAA-4010-Filters_133163344.html">HIPAA 4010 Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">HIPAA 4010 Splitter</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163348/133163349.jpg" data-image-src="attachments/133163348/133163349.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163349" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image103.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163348" data-linked-resource-container-version="2"></span></p>
+      <p>HIPAA messages can contain multiple interchange batches (ISA-IEA), multiple functional groups within a single batch (GS-GE), and multiple transactions within a single functional group (ST-SE). The <strong>HIPAA 4010 Splitter</strong> filter&nbsp;is used for splitting the input message at the interchange, the functional group, or the transaction level. The filter can also be configured to set various properties that are useful during the re-batching process; refer to the <a href="HIPAA-4010-Rebatcher_133163357.html">HIPAA 4010 Rebatcher</a> for details.</p>
+      <h2 id="HIPAA4010Splitter-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Split at Level</p></td>
+          <td class="confluenceTd"><p>Sets the level of splitting.</p>
+           <ul>
+            <li><code>ISA-IEA</code> (default) - each interchange batch will be returned as a separate message.</li>
+            <li><code>GS-GE</code> - each functional group will be returned as a separate message inside the original <code>ISA-IEA</code> envelope.</li>
+            <li><code>ST-SE</code> - each transaction contained in the input message will be returned as a separate message, inside the original <code>ISA-IEA</code> envelope and the original <code>GS-GE</code> functional group.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Number of interchanges</p></td>
+          <td class="confluenceTd"><p>Identifies the name of the property holding the number of interchange batches (<code>ISA-IEA</code>) contained in the input message.</p><p>The filter creates a property with this name on the output message(s) and sets the number of interchanges as the value for the property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Number of functional groups</p></td>
+          <td class="confluenceTd"><p>Identifies the name of the property holding the number of functional groups (<code>GS-GE</code>) contained in the input message.</p><p>The filter creates a property with this name on the output message(s) and sets the number of functional groups as the value for the property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Number of transactions</p></td>
+          <td class="confluenceTd"><p>Identifies the name of the property holding the number of transactions (<code>ST-SE</code>) contained in the input message.</p><p>The filter creates a property with this name on the output message(s) and sets the number of transactions as the value for the property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Transaction Order</p></td>
+          <td class="confluenceTd"><p>Identifies the name of the property holding the order number of the output message inside the original message. The meaning of the order number is level-dependent.</p>
+           <ul>
+            <li>For <code>ISA-IEA</code> splitting it is the order number of this interchange in the original message.</li>
+            <li>For <code>GS-GE</code> splitting it is the order number of this functional group in the original message.</li>
+            <li>For <code>ST-SE</code> splitting it is the order number of this transaction in the original message.</li>
+           </ul><p>This information is useful during re‑batching; refer to the <a href="HIPAA-4010-Rebatcher_133163357.html">HIPAA 4010 Rebatcher</a> for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

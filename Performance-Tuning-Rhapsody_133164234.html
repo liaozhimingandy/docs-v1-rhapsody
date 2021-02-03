@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Performance Tuning Rhapsody</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Deployment_133164213.html">Deployment</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Performance Tuning Rhapsody</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody is designed to perform well for a wide variety of interface configurations, message volumes, and hardware, but (as with any software) some combinations of configuration, volume and operating environment will result in performance that is below expectation. Rhapsody provides a number of features to help identify performance problems as well as options for resolving them. This section introduces the possible causes of performance bottlenecks, how to identify them and possible resolutions.</p>
+      <h2 id="PerformanceTuningRhapsody-Architecture">Architecture</h2>
+      <p>To understand the performance characteristics of the Rhapsody engine, it is useful to understand the basic architecture of the product, and how it manages messages.</p>
+      <p>Rhapsody stores all data on hard disk in a purpose-built message store. This message store has been designed and optimized for performance, and provides transactions much faster than SQL databases can provide.</p>
+      <h3 id="PerformanceTuningRhapsody-MessageData">Message Data</h3>
+      <p>Message data is stored in specific message storage files. Once stored, this data is not changed until removed from the message archive. If the message body is altered during processing, a new copy of the message is stored. This enables the Management Console to display the message body at each stage of processing.</p>
+      <p>An important thing to realize, from a performance perspective, is that each change to a message body will cause another copy to be stored in the message store. Changes to message properties are not considered part of the message body, but are stored as metadata associated with a message body. This metadata adheres to the same rules as message bodies, but is usually so small that the changes are not considered a performance risk. Indexed properties also store additional information and can cause higher disk activity than non-indexed properties.</p>
+      <h3 id="PerformanceTuningRhapsody-Queues">Queues</h3>
+      <p>The processing of the message is performed by moving a pointer to the message between internal queues. These queues are associated with various communication points and routes defined in the Rhapsody configuration.</p>
+      <p>Each communication point has two queues — one for messages being received (input) and one for messages being sent (output). Routes have a single queue for messages that are currently being processed.</p>
+      <p>When a message arrives on a communication point, it is placed on the communication point's inbound queue. When a route is available to begin processing the message, it is moved from the communication point queue to the route's processing queue. It remains in this queue until it leaves the route and is passed to a communication point's outbound queue (or sometimes another route's processing queue).</p>
+      <h3 id="PerformanceTuningRhapsody-Threading">Threading</h3>
+      <p>Rhapsody provides a number of different threads that perform different tasks within Rhapsody. All threads can be viewed from the Management Console, but the most important threads are the communication point and the route execution threads. For details, refer to&nbsp;<a href="Threads_133163978.html">Threads</a>&nbsp;in the <em>Monitoring Rhapsody</em>.</p>
+      <h4 id="PerformanceTuningRhapsody-CommunicationPointThreads">Communication Point Threads</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Thread</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Controller Thread</p></td>
+          <td class="confluenceTd"><p>Controls the running state of the thread. Used to stop and start other threads when new connections are made or destroyed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Thread</p></td>
+          <td class="confluenceTd"><p>Used to send and receive messages on a connection. There can be many input threads for communication points that support multiple connections.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="PerformanceTuningRhapsody-RouteExecutionThreads">Route Execution Threads</h4>
+      <p>There are a defined number of route execution threads running within a Rhapsody engine at any one time. These threads are used to process messages on routes.</p>
+      <p>By default, there are ten threads created and assigned to message processing. This means that only ten messages may ever be worked on at any one time, as each route thread can only work on a single message at a time.</p>
+      <p>A route execution thread takes the next waiting message from any route and is not tied to a specific route (although route priorities affect which routes are processed first). This means that all threads could be processing multiple messages on the same route at the same time.</p>
+      <h3 id="PerformanceTuningRhapsody-ProcessingOptimization">Processing Optimization</h3>
+      <p>Rhapsody processing has been optimized to ensure there is no loss of data due to poor communication with external systems. Receiving messages is considered the highest priority processing the engine can perform. This ensures the messages are received by Rhapsody and filed. Processing routes are run at a lower priority.</p>
+      <p>Rhapsody also keeps all queues on disk to ensure an accurate recovery should a system failure occur. Messages will begin processing from the exact same state when the system becomes available again.</p>
+      <h2 id="PerformanceTuningRhapsody-I/OThroughput">I/O Throughput</h2>
+      <p>The Rhapsody data store can be configured such that portions of the store are placed on separate devices in order to enhance performance. This is an advanced configuration and enabled by editing the <code>rhapsody.properties</code> file.</p>
+      <p>Generally, two partitions are reasonable, the first containing the message store (message bodies and message meta-data) and the second containing the balance of the data structures including queues, transactions and indexes amongst other components.</p>
+      <p>The performance advantages accrue from splitting the I/O requests onto multiple devices to reduce the amount of disk contention on a single device. The expectation is that each element of the data store configured as a separate item is provided as a separate mount point, not as separate paths on a single drive.</p>
+      <p>The <code>rhapsody.properties</code> file provides for separation of the following items:</p>
+      <ul>
+       <li>Bulk of the store (default case - all of the store and default location for any component with the default path specified)</li>
+       <li>Message store</li>
+       <li>Message events</li>
+       <li>Id generation</li>
+       <li>Index store</li>
+       <li>Logging service</li>
+       <li>Backup service</li>
+       <li>Config</li>
+       <li>Message tables</li>
+       <li>Message tracking service</li>
+       <li>Monitoring service</li>
+       <li>Persistent map service</li>
+       <li>Queue service</li>
+       <li>Statistics store</li>
+       <li>Task scheduler</li>
+       <li>User management</li>
+       <li>Validation service</li>
+      </ul>
+      <p>It is not necessary to separate each of these data stores onto separate devices as many of them include only a small I/O performance cost. However, for deployments where I/O throughput may be a constraint on performance, it is likely that isolating the raw messaging operations (relatively infrequent large operations in the message store) from the other data stores (high request volume but small operations) will incur a throughput increase. This has the effect of parallelizing I/O requests across those I/O devices.</p>
+      <p>Similarly, the same result can be achieved by using the correct disk technology to parallelize the requests. This can be achieved in some sites with SAN deployments which have multiple disk spindles with dynamic spindle allocation. In this case, the Rhapsody data stores can be deployed on a single logical I/O device and the parallelization is managed at the SAN level.</p>
+      <h2 class="pagetitle" id="PerformanceTuningRhapsody-ArchiveCleanupDiskUsageStrategy"><span>Archive Cleanup Disk Usage Strategy</span></h2>
+      <p>When using Rhapsody’s in-built archiving for a limited period, the disk capacity should be sized such that Rhapsody has sufficient disk space to operate. Factors to consider when sizing the disk include the following:</p>
+      <ul>
+       <li>The frequency and size of messages being processed by Rhapsody.</li>
+       <li>The archive cleanup period.</li>
+       <li>The&nbsp;number of properties being indexed and complexity of configuration.</li>
+       <li>The&nbsp;number of message body edits taking place per message (has a multiplicative impact on data store size).</li>
+       <li>The number of message property edits taking place (has a multiplicative impact on data store size).</li>
+       <li>The size of the Rhapsody configuration.</li>
+       <li>The version of Rhapsody (certain older versions include defects in both the transaction and message data store which lead to increased memory consumption).</li>
+      </ul>
+      <h2 id="PerformanceTuningRhapsody-DiagnosingPerformanceIssues">Diagnosing Performance Issues</h2>
+      <p>Refer to <a href="Performance-Problems_133164125.html">Performance Problems</a> for details on diagnosing performance issues.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

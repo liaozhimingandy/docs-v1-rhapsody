@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>SNA LU6.2</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">SNA LU6.2</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162551/133162552.bmp" data-image-src="attachments/133162551/133162552.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162552" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SNA icon 32x32.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162551" data-linked-resource-container-version="2"></span></p>
+      <p>The&nbsp;<strong>SNA LU6.2</strong> communication point&nbsp;enables Rhapsody to exchange messages with hardware compatible with IBM's Systems Network Architecture (SNA). It is only made available for platforms for which IBM's CPIC native libraries are available, in other words <em>Microsoft</em>®&nbsp;<em>Windows</em>®, Linux, and AIX.</p>
+      <p>To use the communication point, you must connect Rhapsody to an IBM Communications Server by installing the IBM Communications Server on the Rhapsody server, or through IBM Communications Server Remote Client software installed on the Rhapsody server.</p>
+      <p>The communication point must be configured to use IBM's CPIC libraries in order to connect to an IBM Communications Server, specifically the CPIC Java library, and the CPIC native libraries. These libraries are distributed with an IBM Communications Server installation.</p>
+      <p>Supported Operational Modes:<em> Input</em>,<em> Output.</em></p>
+      <h2 id="SNALU6.2-EnvironmentVariables">Environment Variables</h2>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The</span> SNA LU6.2 communication point uses environment variables to locate the Java executable to run on.</p>
+      <p>Setting the following environment variables is recommended. <span style="color: rgb(0,0,0);">These variables cannot be set while Rhapsody is running. For the values to be visible to Rhapsody, they must be set from the command line from which you launch the Rhapsody.</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Variable</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>JAVA_HOME</code></td>
+          <td class="confluenceTd"><p>The <em>full</em> directory path to the JVM to use for running the SNA LU6.2 communication point. By default, <span><code>JAVA_HOME</code> is </span>not set,<span> and therefore the JVM used for the <span>SNA LU6.2 communication point </span>defaults</span> to the <span>JVM <span>that Rhapsody runs on, which</span> is included with Rhapsody in the directory <code><span>&lt;<em>RhapsodyInstallDirectory</em>&gt;</span></code></span><code>/Rhapsody/jre</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>PATH</code></td>
+          <td class="confluenceTd">The path to the executable for invoking Java (in other words, <code>$JAVA_HOME/bin</code>), prefixed to the existing value of <code>PATH</code>. The <code>PATH</code> environment variable will always have an existing value that should be retained. For example, if you are setting <code>PATH</code> under Linux, you can use the Bash shell command: <code>export PATH="$JAVA_HOME/bin:$PATH"</code>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br>Setting the following environment variables are optional. They do not normally need to be set, and only examined, for example, if the communication point has failed to start.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Variable</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>LD_PRELOAD</code></td>
+          <td class="confluenceTd"><p>If running IBM Communication Server on Linux Redhat, it is helpful to set this environment variable to the path of the libpLis library, for example <code>/usr/lib64/libpLiS.so</code>.</p><p>On platforms other than Linux Redhat/CentOS, it should not be necessary <span>to set this environment variable</span>.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>LD_BIND_NOW</code></td>
+          <td class="confluenceTd">Setting this <span>environment variable </span>to a value of <code>1</code> will work around an issue with earlier versions of system libraries (for example, glibc) on Linux platforms. This should only be needed on Linux platforms, and only if Java segmentation faults are experienced due to native libraries, for example <code>ld-linux-x86-x64.so</code>.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>LD_LIBRARY_PATH</code><br><code>LD_RUN_PATH</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Only needed if errors are experienced in identifying the supporting native libraries. This can define the directory path to the CPIC native libraries to use, for example <code>/usr/lib64:/opt/ibm/sna/lib64</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SNALU6.2-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Maximum Memory (MB)</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The maximum amount of memory (in megabytes) allocated to the heap for the Java process that will run this communication point (in effect this is used to set the <code>-Xmx</code> flag for the created process). The actual size of the Java process is larger than the heap size. A maximum memory value of 30MB should be more than sufficient.</p>
+            <p>If this property value is left empty, the JVM's default value for the maximum memory will be used. The default value varies from one JVM and platform to another. For example, the IBM JVM will default to 64MB on AIX. While the default maximum memory will almost certainly be sufficient, it is suggested to set the value to 30 to ensure the value used is known.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Ensure the server Rhapsody is running on has enough memory (RAM) for both the Rhapsody process and the SNA LU6.2 communication point process to run. Failure to do so could result in one or both processes running out of memory.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Enable Assertions</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether or not to enable assertions when running the communication point process.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Only enable this setting when <a href="#SNALU6.2-AdvancedDebugging">advanced debugging</a> is required.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Enable Debugging</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether or not to enable remote debugging of the communication point process.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Only enable this setting when <a href="#SNALU6.2-AdvancedDebugging">advanced debugging</a> is required.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Debugging Address</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The port on which to allow Java debugging connections to connect.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Only enable this setting when <a href="#SNALU6.2-AdvancedDebugging">advanced debugging</a> is required.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Additional Classpath Entry</td>
+          <td colspan="1" class="confluenceTd">The file path to the CPIC Java libraries. This should be the full path, including the JAR file itself, for example, <code>/opt/ibm/sna/java/cpic.jar</code>.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Library Entry</td>
+          <td colspan="1" class="confluenceTd">The folder path to the CPIC native libraries. This should be the full path to the folder containing the native libraries for the platform Rhapsody is running on, for example <code>/opt/ibm/sna/lib64/</code>.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">SNA Mode</td>
+          <td colspan="1" class="confluenceTd"><p>Which mode the communication point should operate in. Options:<code> Vanilla LU6.2</code>, <code>Siemens</code>. Default: <code>Vanilla LU6.2</code>.</p><p>When set to <code>Vanilla LU6.2</code> mode, the communication point is able to send messages to the configured <strong>Symbolic Destination Name</strong>, or receive messages for the configured <strong>Transaction Program Name</strong>.</p><p>When set to <code>Siemens</code> mode, the communication point implements additional logic required to communicate with a Siemens system. Refer to <a href="#SNALU6.2-SiemensMode">Siemens Mode</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Sync Level</td>
+          <td colspan="1" class="confluenceTd"><p>The synchronization level of the conversation. Refer to <a href="#SNALU6.2-LU6.2Conversations">LU6.2 Conversations</a> for details. Options: <code>Confirm</code>, <code>None</code>. Default: <code>Confirm</code>.</p><p>This should be set to <code>Confirm</code>&nbsp;if both of the programs support synchronizing in other words, they can request confirmation of receipt of data<span> and respond to such requests</span>, or set to <code>None</code> if synchronization is not supported by one or both of the programs. Note that the protocol default is often <code>None</code>, which differs from Rhapsody's default of <code>Confirm</code>.</p><p><span>This property is only available when <strong>SNA Mode</strong> is set to <code>Vanilla LU6.2</code>, as Siemens systems only operate with a synchronization level of <code>None</code>.&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1">Convert EBCDIC</p></td>
+          <td colspan="1" class="confluenceTd">If enabled the messages that are sent will be converted to an IBM EBCDIC character encoding. Also, messages that are received will be converted from EBCDIC to an ASCII format. If not enabled, messages are sent and received in their original encoding. Note that when Siemens mode is enabled with this property, the Siemens header will also be sent in EBCDIC format.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1">EBCDIC Encoding</p></td>
+          <td colspan="1" class="confluenceTd">When the <strong>Convert EBCDIC</strong> property is enabled, this property defines which IBM EBCDIC character encoding to use. There are three options:<span style="background-color: transparent;line-height: 13.0pt;"><span style="background-color: transparent;line-height: 13.0pt;"> <code>Latin-2 IBM870</code>, an international character set that includes both standard Latin characters and some European characters;</span></span><span style="background-color: transparent;line-height: 13.0pt;"><span style="background-color: transparent;line-height: 13.0pt;"> <code>Latin-1 IBM1047</code> (the default), an English based character set; and </span></span><span style="background-color: transparent;line-height: 13.0pt;"><code>500V1 IBM500</code>.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Maximum Sequence Number Disagreement</td>
+          <td colspan="1" class="confluenceTd"><p><span style="background-color: transparent;line-height: 13.0pt;">The maximum amount by which the sequence numbers can disagree before the communication point will stop in error and require manual intervention. This will default to 10, as is recommended in the Siemens specification. The maximum value that Rhapsody supports is 50.</span></p><p><span style="background-color: transparent;line-height: 13.0pt;">This property is only available when </span><strong style="background-color: transparent;line-height: 13.0pt;">SNA Mode</strong> <span style="background-color: transparent;line-height: 13.0pt;">is set </span>to <code>Siemens</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Sequence Number Length</td>
+          <td colspan="1" class="confluenceTd"><p>The sequence number length to use when reading and writing sequence numbers in display format (right justified string format). This can be set to a value between 4 and 7, which will allow for sequence numbers that range between 1 and 9999, 99999, 999999 or 9999999, respectively.<span style="background-color: transparent;line-height: 13.0pt;">&nbsp;</span></p><p><span style="background-color: transparent;line-height: 13.0pt;">This property is only available when </span><strong style="background-color: transparent;line-height: 13.0pt;">SNA Mode</strong> <span style="background-color: transparent;line-height: 13.0pt;">is set </span>to <code>Siemens</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Region Code</td>
+          <td colspan="1" class="confluenceTd"><p><span style="background-color: transparent;line-height: 13.0pt;">The Region Code to use for Siemens message headers. This is a two-digit alphanumeric field.</span></p><p><span style="background-color: transparent;line-height: 13.0pt;">This property is only available when </span><strong style="background-color: transparent;line-height: 13.0pt;">SNA Mode</strong><span style="background-color: transparent;line-height: 13.0pt;"> is set to</span> <code>Siemens</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Hospital Code</td>
+          <td colspan="1" class="confluenceTd"><p><span>The Hospital Code to use for Siemens message headers. This is a two-digit alphanumeric field.</span></p><p><span>This property is only available when </span><strong>SNA Mode</strong> <span>is set </span>to <code>Siemens</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">System ID</td>
+          <td colspan="1" class="confluenceTd"><p><span>The System ID to use for Siemens message headers. This is a two-digit alphanumeric field.</span></p><p><span>This property is only available when </span><strong>SNA Mode</strong> <span> is set </span>to <code>Siemens</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Deallocation Timeout</td>
+          <td colspan="1" class="confluenceTd">The deallocation timeout in seconds. When no message is received within the deallocation timeout period, the communication point deallocates the conversation with the endpoint. The default timeout is 600 seconds.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Transaction Program Name</td>
+          <td colspan="1" class="confluenceTd"><p>The name of the transaction program that is associated with this communication point. This is the name by which the SNA LU6.2 communication point is identified on the SNA network.</p><p>This property is only available in <em>Input</em> mode.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Symbolic Destination Name</td>
+          <td colspan="1" class="confluenceTd"><p>The symbolic destination name used to access data contained in local side information. The side information configured defines the program the SNA LU6.2 communication point initiates a connection to.</p><p><span>This property is only available in <em>Output</em> mode.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SNALU6.2-LU6.2Conversations">LU6.2 Conversations</h2>
+      <p>In LU6.2 communication protocol, data is transmitted between the two end-points over a 'conversation'. Typically, a conversation only remains in an allocated (connected) state while there is data to be sent. When there is no data to be sent, the conversation is de-allocated (closed). The following sections outline the communication point's behavior in relation to the LU6.2 conversation (applicable to both the Vanilla LU6.2 and Siemens modes):</p>
+      <ul>
+       <li><p><span style="color: rgb(0,105,127);"> <a href="#SNALU6.2-ReceivingMode">Receiving Mode</a> </span></p></li>
+       <li><p><a href="#SNALU6.2-SendingMode">Sending Mode</a></p></li>
+       <li><p><a href="#SNALU6.2-ConversationDetails">Conversation Details</a></p></li>
+      </ul>
+      <h3 id="SNALU6.2-ReceivingMode">Receiving Mode</h3>
+      <ul>
+       <li><span style="color: rgb(0,0,0);">When started, the communication point initializes the conversation, sets the <strong style="color: rgb(0,0,0);">Transaction Program Name</strong> configuration property and enters a listening state waiting for the remote side to allocate the conversation (in other words, to initiate a connection). When the communication point is stopped, a conversation cannot be established with the communication point.</span></li>
+       <li>If the conversation is deallocated, the communication point automatically re-initializes the conversation, sets the Transaction Program Name, and again enters a listening state waiting for the remote side to allocate the conversation.</li>
+      </ul>
+      <h3 id="SNALU6.2-SendingMode">Sending Mode</h3>
+      <ul>
+       <li>When started, the communication point sets the <strong>Symbolic Destination Name</strong> <span style="color: rgb(0,0,0);">configuration property</span>, and initializes and allocates the conversation. The IBM Communication Server uses the CPIC side information to identify the remote program to connect with.</li>
+       <li>When the communication point is in sending mode and has performed no operations (in other words, there is no data to be sent), the conversation is automatically de-allocated. As new messages are queued to be sent, the communication point re-allocates the conversation.</li>
+      </ul>
+      <h3 id="SNALU6.2-ConversationDetails">Conversation Details</h3>
+      <ul>
+       <li>The communication point expects the conversation type to be <code>Mapped</code> (not <code>Basic</code>).</li>
+       <li>The synchronization level can be either <code>Confirm</code> or <code>None</code> (refer to <span>the <strong>Sync Level</strong> configuration property). In Siemens mode, the synchronization level is always <code>None</code>.</span></li>
+       <li>When in Siemens mode, the communication point sends and receives the Siemens commands over the conversation in <code>half-duplex</code> mode. This means that only one side of the conversation can act as the sender at any given time, and the sender alternates between the two end-points with every message sent.</li>
+      </ul>
+      <h2 id="SNALU6.2-SiemensMode">Siemens Mode</h2>
+      <p>Siemens mode enables Rhapsody to act as an interface partner for sending and receiving messages to an OAS Communication Subsystem (OAS Comm Sub) using SNA communications. In order to use this mode, appropriate values must first be determined for the Maximum Sequence Number Disagreement, Sequence Number Length, Region Code, Hospital Code and System ID for the OAS Comm Sub.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Only a single SNA LU6.2 communication point running in <em>Input</em> or <em>Output</em> mode should be used for communicating with each OAS Comm Sub (a one-to-one relationship). Connecting multiple communication points to the same OAS Comm Sub would result in confusion over the sequence numbers. Rhapsody also ensures the communication point only uses a single connection.</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>You must configure appropriate notifications for when the </span>communication point stops in error<span> in order to handle such an event in a timely manner, and thus avoid possible delays in message delivery.</span></p>
+       </div>
+      </div>
+      <h3 id="SNALU6.2-SiemensCommands">Siemens Commands</h3>
+      <p>The communication point handles Siemens commands (ACK, NAK, STRT (start), <span>SHUTDOWN</span>) as follows:</p>
+      <ul>
+       <li>If Rhapsody sends 3STRT commands to the OAS Comm Sub and receives two consecutive NAK messages in response, the communication point stops running and retries negotiations based on the configured connection retries (see&nbsp;<a href="General_133162189.html#General-ConnectionRetries">Connection Retries</a>). If unsuccessful, it stops in error.</li>
+       <li>The communication point only supports Siemens data messages with the last block of data indicator set to 'L' (to indicate the last block of data). Multi-block messages (with last block of data indicator set to 'N') are not supported.</li>
+       <li>When receiving data messages, the sequence number of each message is tracked. Rhapsody expects each message received to increment the sequence number by 1. If a message is received with a sequence number that is too high (for example a sequence number of 4 is received immediately after a sequence number of 1), Rhapsody assumes data loss has occurred and sends a NAK to the remote party with the last successfully received sequence number. The message that is received out-of-order is discarded with the expectation the remote party will re-send the lost messages in order including the discarded message.</li>
+       <li>Similarly, when sending data messages, the communication point includes a sequence number. The value is incremented by 1 for each message that is sent. If a NAK is received in response to a data message, the communication point would attempt automatically to re-send the lost messages from the sequence number the NAK indicates. However, if the sequence number difference between the last message sent and the NAK received is greater than the maximum allowed difference configured, then the communication point would stop in error.</li>
+       <li><span>If Rhapsody receives a SHUTDOWN request from the OAS Comm Sub, it responds with appropriate acknowledgment. The communication point, however, remains in a running state, with the LU6.2 connection maintained, so that it can listen for incoming STRT requests, or initiate its own STRT requests if needing to send messages to the OAS Comm Sub. One exception is when the SHUTDOWN request is due to the sequence number disagreement being too great, in which case the communication point stops in error.</span></li>
+       <li><span>As per the Siemens specification, the communication point attempts to negotiate sequence numbers with the OAS Comm Sub when it is started, and if required it resends messages where there is sequence number disagreement, up to the configured maximum sequence number disagreement. If during negotiation the sequence numbers are found to be out of disagreement by more than the configured maximum sequence number disagreement, the communication point retries negotiations based on the configured connection retries (refer to</span>&nbsp;<a href="General_133162189.html#General-ConnectionRetries">Connection Retries</a>), and then stops in error. At this stage, manual intervention would be required to restart the communication point. Refer to&nbsp;<a href="#SNALU6.2-CorrectingMessageSequenceNumbers">Correcting Message Sequence Numbers</a>&nbsp;for details. It is recommended that disaster recovery plans<span>&nbsp;</span>are designed and implemented for power failure&nbsp;scenarios.</li>
+      </ul>
+      <h3 id="SNALU6.2-CorrectingMessageSequenceNumbers">Correcting Message Sequence Numbers</h3>
+      <p>The following instructions describe how to correct the message sequence numbers used within Rhapsody when the SNA LU6.2 communication point is in Siemens mode and send <span>all unsent messages to the OAS Comm Sub</span>:</p>
+      <ul>
+       <li><span>If maintaining absolute message order is not required:</span> <br>
+        <ol>
+         <li><p><span> <span style="color: rgb(0,0,0);"> <span style="color: rgb(0,0,0);">The messages that need to be resent can be found using <span style="color: rgb(0,0,0);">the Management Console</span> by searching for output messages sent by that communication point:</span> </span> </span></p>
+          <ol>
+           <li><p><span> <span style="color: rgb(0,0,0);">Calculate the difference between the sequence number Rhapsody has locally and the sequence number the remote system has (as reported in the error log message when the communication point stopped in error). Use this difference to determine the messages that need to be resent.</span> </span></p></li>
+           <li><p><span> <span style="color: rgb(0,0,0);"> <span>Enqueue the oldest (lowest sequence number) message first, then the second oldest, and so on</span>.&nbsp;<span>These messages can be re-enqueued for sending by selecting the&nbsp;<strong>Resend</strong>&nbsp;button.</span> </span> </span></p></li>
+          </ol></li>
+         <li><p class="_mce_tagged_br"><span style="color: rgb(51,51,51);">The communication point cannot be started yet as there is still a sequence number disagreement. There is a sequence number stored at either end of the connection, so either the sequence number used in the remote Siemens system can be updated, or the sequence numbers in the Rhapsody communication point can be updated. Updating the sequence numbers in Rhapsody involves editing a file in the Rhapsody datastore:<br> </span></p>
+          <ol>
+           <li><p class="_mce_tagged_br"><span style="color: rgb(51,51,51);">Navigate to the location where the datastore is located, and then navigate to the <code>commpoints/sna</code> folder. As the files within this folder are keyed to individual SNA LU6.2 communication points, it is important to select the correct file.</span></p></li>
+           <li><p class="_mce_tagged_br"><span style="color: rgb(51,51,51);">By viewing the communication point in question in the <span> <span style="color: rgb(0,0,0);"> <span style="color: rgb(0,0,0);"> <span style="color: rgb(0,0,0);">Management Console</span></span></span></span>, the communication point ID can be found in the URL of that page, where it is the number at the end of the URL. In the folder, there is a <code>.record</code> file that has the communication point ID in its name. <br> </span></p></li>
+           <li><p class="_mce_tagged_br"><span style="color: rgb(51,51,51);">This file can be opened and edited in any text editor. The value for <code>last.sent.sequence.number</code> can be adjusted to the agreed value.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>When editing the sequence number file, care should be taken, firstly that the correct file is being edited, and secondly that no extraneous text is added to the file. Care should also be taken not to edit or delete any other files in the data store.</p>
+             </div>
+            </div><p class="_mce_tagged_br"><span style="color: rgb(51,51,51);"> <br> </span></p></li>
+          </ol></li>
+         <li><span style="color: rgb(0,0,0);">Start the </span>SNA LU6.2 communication point. If a <a href="Hold-Queue_133163000.html">Hold Queue</a> filter has been used, ensure the SNA LU6.2 communication point successfully restarts communications and resends the messages that were re-enqueued before releasing the messages that are on the hold queue.<span style="color: rgb(0,0,0);"> <br> </span></li>
+        </ol></li>
+      </ul>
+      <ul>
+       <li><p><span style="background-color: transparent;line-height: 13.0pt;"> <span style="background-color: transparent;line-height: 13.0pt;"> <span style="color: rgb(0,0,0);">If maintaining absolute message order is required:</span> </span> </span></p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>The utmost care should be taken when resending messages manually using the Management Console in order to ensure that the messages are maintained in the correct order. Rhapsody cannot automatically detect out-of-order errors.</p>
+         </div>
+        </div>
+        <ol>
+         <li><p>Stop new messages flowing into the output queue of the communication point, so that messages from the archive can be resent before the new messages. Temporarily place a Hold Filter on the route in front of the communication point.</p></li>
+         <li><p>If messages are already on the queue, delete them, taking careful note of which messages were deleted (information like the message identifier and timestamp will be helpful), as later these messages will need to be found again in the management console and queued up again.&nbsp;<span style="background-color: transparent;line-height: 13.0pt;">&nbsp;</span> <span style="background-color: transparent;line-height: 13.0pt;">&nbsp;</span> <span> <span style="color: rgb(0,0,0);"> <span style="color: rgb(0,0,0);">&nbsp;</span> </span> </span></p></li>
+         <li><p><span> <span style="color: rgb(0,0,0);"> <span style="color: rgb(0,0,0);">The messages that need to be resent can be found using <span style="color: rgb(0,0,0);">the Management Console</span> by searching for output messages sent by that communication point:</span> </span> </span></p>
+          <ol>
+           <li><p><span> <span style="color: rgb(0,0,0);">Calculate the difference between the sequence number Rhapsody has locally and the sequence number the remote system has (as reported in the error log message when the communication point stopped in error). Use this difference to determine the messages that need to be resent.</span> </span></p></li>
+           <li><p><span> <span style="color: rgb(0,0,0);"> <span>Enqueue the oldest (lowest sequence number) message first, then the second oldest, and so on</span>.&nbsp;<span>These messages can be re-enqueued for sending by selecting the&nbsp;<strong>Resend</strong>&nbsp;button.</span> </span> </span></p></li>
+          </ol></li>
+         <li><p class="_mce_tagged_br"><span style="background-color: transparent;line-height: 13.0pt;">When the archived messages have been re-enqueued, if any messages were deleted in step 1, locate those messages using the <span style="color: rgb(0,0,0);"> <span style="color: rgb(0,0,0);">Management Console</span> </span>and re-enqueue them:</span></p>
+          <ol>
+           <li><p class="_mce_tagged_br"><span style="background-color: transparent;line-height: 13.0pt;">Search for messages processed on the route that the SNA LU6.2 communication point is on.</span></p></li>
+           <li><p class="_mce_tagged_br"><span style="background-color: transparent;line-height: 13.0pt;">From this search, the individual messages that were deleted can then be viewed (they will have a message event indicating that they were deleted)</span></p></li>
+           <li><p class="_mce_tagged_br"><span style="background-color: transparent;line-height: 13.0pt;">The<strong> Redirect Copy</strong> button can be used to direct them back to SNA LU6.2 communication point.</span> <span style="color: rgb(51,51,51);">&nbsp;</span></p></li>
+          </ol></li>
+         <li><p class="_mce_tagged_br"><span style="color: rgb(51,51,51);">The communication point cannot be started yet as there is still a sequence number disagreement. There is a sequence number stored at either end of the connection, so either the sequence number used in the remote Siemens system can be updated, or the sequence numbers in the Rhapsody communication point can be updated. Updating the sequence numbers in Rhapsody involves editing a file in the Rhapsody datastore:<br> </span></p>
+          <ol>
+           <li><p class="_mce_tagged_br"><span style="color: rgb(51,51,51);">Navigate to the location where the datastore is located, and then navigate to the <code>commpoints/sna</code> folder. As the files within this folder are keyed to individual SNA LU6.2 communication points, it is important to select the correct file.</span></p></li>
+           <li><p class="_mce_tagged_br"><span style="color: rgb(51,51,51);">By viewing the communication point in question in the Management Console, the communication point ID can be found in the URL of that page, where it is the number at the end of the URL. In the folder, there is a <code>.record</code> file that has the communication point ID in its name. <br> </span></p></li>
+           <li><p class="_mce_tagged_br"><span style="color: rgb(51,51,51);">This file can be opened and edited in any text editor. The value for <code>last.sent.sequence.number</code> can be adjusted to the agreed value.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>When editing the sequence number file, care should be taken, firstly that the correct file is being edited, and secondly that no extraneous text is added to the file. Care should also be taken not to edit or delete any other files in the data store.</p>
+             </div>
+            </div><p class="_mce_tagged_br"><span style="background-color: transparent;line-height: 13.0pt;"> <br> </span></p></li>
+          </ol></li>
+         <li><span style="background-color: transparent;line-height: 13.0pt;">Start the </span>SNA LU6.2 communication point. If a Hold filter has been used, ensure the SNA LU6.2 communication point successfully restarts communications and resends the messages that were re-enqueued before releasing the messages that are on the hold queue.<span style="background-color: transparent;line-height: 13.0pt;">&nbsp;</span></li>
+        </ol></li>
+      </ul>
+      <h2 id="SNALU6.2-AdvancedDebugging">Advanced Debugging</h2>
+      <h3 id="SNALU6.2-EnablingFullDebugLogging">Enabling Full Debug Logging</h3>
+      <p>Logging messages in Rhapsody are set with a 'level' that marks their importance. The levels, ranging from lowest to highest, are TRACE, DEBUG, INFO, WARN, and FATAL. Because the SNA LU6.2 communication point runs in a separate process from the Rhapsody, the logging is managed slightly differently. Logging messages at INFO level and higher is visible as per normal, but if full debug output is required, the Rhapsody's JVM <code>logging.properties</code> file must be edited to render visible all debug logging messages:</p>
+      <ol>
+       <li>Locate the JVM <code>logging.properties</code> file<span style="background-color: transparent;line-height: 13.0pt;"> in the JVM's <code>lib</code> directory:<br> </span>
+        <ul>
+         <li><span style="background-color: transparent;line-height: 13.0pt;">If the JVM being used is the one supplied with Rhapsody, it is located in <code style="background-color: transparent;line-height: 13.0pt;">&lt;Rhapsody Home&gt;/rhapsody/jvm/lib/logging.properties</code>. </span> <br> <span style="background-color: transparent;line-height: 13.0pt;">If the <code>JAVA_HOME</code> environment variable is set correctly, <span style="color: rgb(0,0,0);">the JVM </span>is located in <code>$JAVA_HOME/lib/logging.properties</code> (in a Unix environment) or <code>%JAVA_HOME%/lib/logging.properties</code> (in a <em>Windows</em>® environment).&nbsp;</span></li>
+        </ul></li>
+       <li>Change the default global logging level the <code>logging.properties</code>file to FINE:
+        <ol>
+         <li>Search for the property <code>.level= INFO</code>.</li>
+         <li>Replace the line with <code>.level= FINE</code>.</li>
+        </ol></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The <code>JVM logging.properties</code> file with a root logging level of FINE should only be used for testing purposes and not in a production environment. Ensure you restore the original logging level when you have finished debugging.<span style="color: rgb(51,51,51);"> <br></span></p>
+       </div>
+      </div>
+      <h3 id="SNALU6.2-UsingDevelopmentDebuggingOptions">Using Development Debugging Options</h3>
+      <p>The <strong>Enable Debugging</strong> and <strong>Debugging Address</strong> configuration properties are for developmental use, and should not be enabled in a production environment. These options allow a developer to directly monitor and control the communication point process while it is running in a development environment. When Enable Debugging is enabled, and Debugging Address is set, the developer running Rhapsody will be able to connect to the running SNA LU6.2 communication point using Eclipse (or similar IDE) on the port number defined. The developer can then make use of break-points to halt execution and step through the code.</p>
+      <p>The <strong>Enable Assertions</strong> configuration property, when enabled, causes the SNA Java process to terminate if any of the defined Java assertion checks fail at runtime. This setting is also recommended for developmental use only (not for production), as the error reported in the case of an assertion failure may not be clear to the end user.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

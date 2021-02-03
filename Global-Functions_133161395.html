@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Global Functions</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Global Functions</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The following global functions are available for components that use JavaScript:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147000379 {padding: 0px;}
+div.rbtoc1565147000379 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147000379 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147000379"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#GlobalFunctions-GeneralFunctions">General Functions</a></li> 
+        <li><a href="#GlobalFunctions-JavaScriptCounters">JavaScript Counters</a></li> 
+        <li><a href="#GlobalFunctions-RhapsodyVariables">Rhapsody Variables</a></li> 
+        <li><a href="#GlobalFunctions-Base64">Base64</a></li> 
+        <li><a href="#GlobalFunctions-dataMap">dataMap</a></li> 
+        <li><a href="#GlobalFunctions-LookupTables">Lookup Tables</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is not possible to set properties on the prototypes of standard JavaScript objects. For example,&nbsp;<code>String.prototype.myCustomFunction = function() {return 0;}</code> results in an error.</p>
+       </div>
+      </div>
+      <h2 id="GlobalFunctions-GeneralFunctions">General Functions</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Function</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>generateUuid()</code></td>
+          <td colspan="1" class="confluenceTd"><p>Used to generate a type4 UUID:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">var uuid = generateUuid();</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>dateChangeFormat(string dateTimeString, <br>string oldFormat, string newFormat)</code></td>
+          <td colspan="1" class="confluenceTd"><p>Transforms date-time formats. It takes three parameters:</p>
+           <ul>
+            <li><code>dateTimeString</code> - the original date-time string whose format you want to change.</li>
+            <li><code>oldFormat</code> - the date-time format of the original string. This can be set to a built-in format, <code>HL7</code> (<code>yyyy[MM[dd[HH[mm[ss[.s[s[s[s]]]]]]]]][+/-ZZZZ]</code>) or <code>ISO</code> (<a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>), or a custom format.</li>
+            <li><code>newFormat</code> - the desired date-time format. This can be set to a built-in format, <code>HL7</code> or <code>ISO</code>, or a custom format.</li>
+           </ul><p>The following code excerpt illustrates the conversion of <code>2012/01/02</code> using a custom format to <code>02/01/2012</code>:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">return (dateChangeFormat('2012/01/02', 'YYYY/MM/dd', 'dd/MM/YYYY')); </pre> 
+            </div>
+           </div><p>Invalid formats display errors in the stack trace:</p>
+           <ul>
+            <li><code>Current format is invalid: {0}</code> - the old format is invalid or null.</li>
+            <li><code>Old date format does not match input string</code> - the original date-time string does not match the old format.</li>
+            <li><code>New date format is invalid: {0}</code> - the new format is not valid or null.</li>
+            <li><code>Date text is invalid: {0}</code> - the original date-time string is null.</li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>When invoked on the engine, the <code>DateChangeFormat</code> function converts date-time values with a time zone offset to the local engine time. The function does not print the time zone after converting it to local time when using the HL7 and ISO formats, whereas it does print the time zone when using a custom format.</p>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="GlobalFunctions-JavaScriptCounters"><span style="color: rgb(0,0,0);font-size: 20.0px;">JavaScript Counters</span></h2>
+      <p>The following functions provide the ability to manage general-purpose JavaScript counters:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Function</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getCounter(counterName)</code></p></td>
+          <td class="confluenceTd"><p>Retrieves the current value of the global counter with the specified name. The value is always returned as an integer, and the counter is created with an initial value of zero if it does not currently exist.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>setCounter(counterName, int)</code></p></td>
+          <td class="confluenceTd"><p>Sets the global counter with the specified name to have the value provided. If no counter with the given name exists, one will be created.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>incCounter(counterName[, increment])</code></p></td>
+          <td class="confluenceTd"><p>Increments the global counter with the specified name by the value provided and then returns the new value. This is the safest way to use counters as it will atomically retrieve the current value, increment it, set the new value, and return it. If the <code>increment</code> parameter is not provided then it defaults to 1.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The following example illustrates how the&nbsp;<code>incCounter()</code>&nbsp;method can be used to generate new globally unique IDs. The first time this script is executed, if the&nbsp;<code>MyUID</code>&nbsp;counter does not exist, it will be created with value&nbsp;<code>0</code>. As this is then incremented by&nbsp;<code>1</code>, as specified in the second argument, the counter's initial value is&nbsp;<code>1.</code>&nbsp;The ID is then set as a property on the message.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>Incrementing Counter</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var next = output.append(input[i]);
+
+    // Increment global counter to get new unique ID
+    var myUniqueID = incCounter("MyUID", 1);
+
+    // Set the new ID as a property on the message
+    next.setProperty("UniqueID", myUniqueID);
+}</pre> 
+       </div>
+      </div>
+      <h2 id="GlobalFunctions-RhapsodyVariables">Rhapsody Variables</h2>
+      <p>The following functions provide the ability to manage Rhapsody variables:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Function</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getVariable(variableName[, decryptVariable])</code></p></td>
+          <td class="confluenceTd"><p>Returns the value of the Rhapsody variable with the given name. For example, <code>getVariable("MyVar")</code>. The optional <code>decryptVariable</code> parameter defaults to true, and determines if encrypted Rhapsody variables are decrypted prior to being returned. If it is set to false, then the encrypted variables are instead returned in an obfuscated form that can be used directly by a number of components. Refer to <a href="#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>substituteVariables(string[, decryptVariables])</code></p></td>
+          <td class="confluenceTd"><p>Takes a string which may include coded references to Rhapsody variables and returns a string in which the coded variable references have been substituted with the value of the referenced variables.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>If the variable has not been defined then this function will remove the coded variables reference from the string.</p>
+            </div>
+           </div><p>To reference Rhapsody variables, use the following syntax: <code>$(MyVar)</code>, where <code>MyVar</code> is the variable name. For example, an encoded string such as <code>My variable value is $(MyVar)</code> returns <code>My variable value is 75</code>, if the value of <code>MyVar</code> is <code>75</code>.</p><p>The optional <code>decryptVariables</code> parameter defaults to true, and determines whether encrypted Rhapsody variables are decrypted prior to being returned. If it is set to false, then the encrypted variables are instead returned in an obfuscated form that can be used directly by a number of components. Refer to <a href="#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>substituteExistingVariables(string[, decryptVariables])</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Takes a string which may include coded references to Rhapsody variables and returns a string in which the coded variable references have been substituted with the value of the referenced variables.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>If the variable has not been defined then this function will throw an exception.</p>
+            </div>
+           </div><p>To reference <span>Rhapsody</span> variables, use the following syntax: <code>$(MyVar)</code>, where <code>MyVar</code> is the variable name. For example, an encoded string such as <code>My variable value is $(MyVar)</code> returns<code> My variable value is 75</code>, if the value of <code>MyVar</code> is <code>75</code>.</p><p>The optional <code>decryptVariables</code> parameter defaults to true, and determines if encrypted Rhapsody variables are decrypted prior to being returned. If it is set to false, then the encrypted variables are instead returned in an obfuscated form that can be used directly by a number of components. Refer to <a href="#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a> for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</h3>
+      <p>Encrypted Rhapsody variables are frequently used to store passwords for external systems. In some cases these passwords can be provided dynamically using Rhapsody message properties, thus allowing a single instance of the relevant communication point type to communicate with numerous external systems that use different credentials. However, retrieving the passwords and storing them in a message property means that they are subsequently visible in the Management Console to a user with permissions to view message properties.</p>
+      <p>In order to limit the need for storing passwords in message properties, the following Rhapsody communication points can use the password directly in its obfuscated form:</p>
+      <ul>
+       <li><a href="133162373.html">(S)FTP Client</a></li>
+       <li><a href="FTP-Client_133162354.html">FTP Client</a></li>
+       <li><a href="SFTP-Client_133162547.html">SFTP Client</a></li>
+       <li><a href="HTTP-Client_133162623.html">HTTP Client</a></li>
+       <li><a href="Web-Service-Client_133162592.html">Web Services Client</a></li>
+      </ul>
+      <p>The obfuscated password form can be used by setting the&nbsp;<code>decryptVariable</code>&nbsp;parameter to false when retrieving the password using one of the JavaScript variable functions:&nbsp;<code>getVariable</code>,&nbsp;<code>substituteVariables()</code>, and&nbsp;<code>substituteExistingVariables()</code>. Alternatively, the&nbsp;<a href="Encrypting-Your-Password_133164477.html">Encrypt Password</a>&nbsp;function in Rhapsody IDE can be used if the password is being set directly as a message property, without using a Rhapsody variable.</p>
+      <h2 id="GlobalFunctions-Base64">Base64</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Function</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>decodeBase64(base64encodedString)<br></code></p><p><code>decodeBase64(value[, encoding])</code></p><p><code><br></code></p></td>
+          <td class="confluenceTd"><p><span>Decodes a <span>Base64</span> value to a string:</span></p>
+           <ul>
+            <li><code>value</code> - must either be a byte array or a string. If <code>value</code> is not a valid <span>base64</span> value, a ScriptException is raised.</li>
+            <li><code>encoding</code> (optional) - used to perform the final byte array-to-string conversion after the base64 decoding has completed. It defaults to the default system encoding if not provided.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>decodeBase64ToByteArray(value)</code></td>
+          <td class="confluenceTd"><p>Decodes a <span>Base64</span> value to a byte array:</p>
+           <ul>
+            <li><code>value</code> - must either be a byte array or a string. If <code>value</code> is not a valid Base64 value, a ScriptException is raised. <span>It does not perform character encoding translations.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>encodeBase64(value[, chunked[, encoding]])</span></code></p></td>
+          <td class="confluenceTd"><p>Encodes a value to <span>Base64</span> value:</p>
+           <ul>
+            <li><span style="color: rgb(0,0,0);"><code>value</code> - must either be a byte array (for example, <code>next.body</code>) or a string.</span></li>
+            <li><span style="color: rgb(0,0,0);"><code>chunked</code><span> (optional) - determines whether the encoded <span>Base64</span> value is split over multiple lines or not. If </span><code>chunked</code><span> is not provided or set to </span><code>true</code><span> or </span><code>1</code><span>, the encoded string is formatted as 76 characters per line with crlf at the end of each line; if c</span><code>hunked</code><span> is set to </span><code>false</code><span> or </span><code>0</code><span>, the encoded string is formatted as a single line.</span></span></li>
+            <li><span style="color: rgb(0,0,0);"><code>encoding</code><span> (optional) -</span><span> used to convert the value from a string to a byte array prior to the <span>Base64</span> encode operation. The encoding is ignored if the value is a byte array already as it is not required in that case. It defaults to the default system encoding if not provided.</span></span></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="GlobalFunctions-dataMap">dataMap</h2>
+      <p>dataMap functions&nbsp;translate a string or field using a translation table.&nbsp;Refer to&nbsp;<a href="dataMap-Functions_133161397.html">dataMap Functions</a>&nbsp;for details.</p>
+      <h2 id="GlobalFunctions-LookupTables">Lookup Tables</h2>
+      <p class="with-breadcrumbs">The&nbsp;Global Lookup functions perform lookups on specified lookup tables. Refer to <a href="Lookup-Global-Functions_133161402.html">Lookup Global Functions</a><span style="color: rgb(51,51,51);">&nbsp;for details.</span></p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

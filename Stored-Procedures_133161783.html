@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Stored Procedures</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Stored Procedures</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The syntax for stored procedure SQL used with the database components takes one of the following general forms:</p>
+      <ul>
+       <li><pre>{call &lt;procedure-name&gt;[&lt;arg1&gt;,&lt;arg2&gt;, ...]}</pre></li>
+       <li><pre>{?= call &lt;procedure-name&gt;[&lt;arg1&gt;,&lt;arg2&gt;, ...]}</pre></li>
+      </ul>
+      <p>A procedure may take zero or more parameters and, if a function, also return a value. The parameters for a stored procedure may be either IN parameters or OUT parameters. Within the XML configuration file, stored procedure SQL should be enclosed within <code>&lt;procedure&gt;...&lt;/procedure&gt;</code> tags to indicate that the SQL should be executed as a stored procedure rather than as standard SQL. For stored procedures used without OUT parameters and which return nothing or implicitly return a result set (with the <code>{call &lt;procedure-name&gt;[&lt;arg1&gt;,&lt;arg2&gt;, ...]}</code> syntax), exchanging the <code>&lt;sql&gt;</code> element for the <code>&lt;procedure&gt;</code> element is the only difference between executing standard SQL and calling a stored procedure.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>LONGVARCHAR and CLOB data types are not supported as return types of stored procedures when using Microsoft SQL Server with a Microsoft Driver. This is due to a limitation in the default JDBC Driver (jTDS) used by Rhapsody to communicate with <span>Microsoft </span>SQL Server. The output parameters for a Microsoft SQL Server stored procedure are truncated to 4000 characters. The Microsoft JDBC Driver for Microsoft SQL Server can be used &nbsp;to overcome this limitation.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

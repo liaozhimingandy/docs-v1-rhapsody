@@ -1,0 +1,423 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Variables Administration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Administration-REST-API-Methods_133161103.html">Administration REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Variables Administration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods for managing variables:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005215 {padding: 0px;}
+div.rbtoc1565147005215 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005215 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147005215"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#VariablesAdministration-GET/admin/variables">GET /admin/variables</a></li> 
+        <li><a href="#VariablesAdministration-PUT/admin/variables">PUT /admin/variables</a></li> 
+        <li><a href="#VariablesAdministration-GET/admin/variables/<name>">GET /admin/variables/&lt;name&gt;</a></li> 
+        <li><a href="#VariablesAdministration-PUT/admin/variables/<name>">PUT /admin/variables/&lt;name&gt;</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="VariablesAdministration-GET/admin/variables">GET /admin/variables</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/variables</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Returns a list of all variables and their values.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>All encrypted values are returned as "********".</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code>, <code>text/html<br></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code>Accept: application/vnd.orchestral.rhapsody.6_0+json</code></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The parameters <code>overrideValue</code> and <code>overridden</code> are not applicable to versions of Rhapsody before Rhapsody 6.2.3. Therefore, they are not returned when using this <code>Accept</code> header.</p>
+             </div>
+            </div>
+            <p></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>Accept: application/vnd.orchestral.rhapsody.6_2_3+json</pre></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code>text/html</code> displays a JSP with all the variables in a table; <code>application/json</code> returns a JSON representation of the variables, for example:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":{
+    "variables":[
+      {
+        "value":"********",
+        "encrypted":true,
+        "name":"var10",
+		"overrideValue": "********",
+		"overridden": false
+      },
+      {
+        "value":"abcde",
+        "encrypted":false,
+        "name":"var11",
+		"overrideValue": "defghi",
+		"overridden": true
+      },
+      {
+        "value":"12345",
+        "encrypted":false,
+        "name":"var12",
+		"overrideValue": "67890",
+		"overridden": false
+      }
+    ]
+  },
+  "error":null
+}	
+</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Read variables REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="VariablesAdministration-PUT/admin/variables">PUT /admin/variables</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/variables</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Replaces all existing variables in the engine with the variables and their attributes (values and encryption status) you provide. An optional commit comment can be provided.</p>
+            <div class="confluence-information-macro confluence-information-macro-warning">
+             <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This method should only be used to modify variables for set-up purposes only; it does not update any dependent components referencing those variables. We strongly recommend against modifying Rhapsody variables dynamically (at run-time) via the REST API.</p>
+             </div>
+            </div>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is recommended you use HTTPS when sending the plain text values of variables that are to be encrypted.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="highlight-grey confluenceTh" rowspan="3" data-highlight-colour="grey"><p>Request Header</p><br><br></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a><span>&nbsp;</span><span>&nbsp;</span>&nbsp;&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code>Accept: application/vnd.orchestral.rhapsody.6_0+json<br>Content-Type: application/vnd.orchestral.rhapsody.6_0+json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The parameters <code>overrideValue</code> and <code>overridden</code> are not applicable to versions of Rhapsody before Rhapsody 6.2.3. Therefore, any attempt to use them to make a request using this <code>Accept</code> header <span>in earlier versions </span>would result in a response error.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_2_3+json<br>Content-Type: application/vnd.orchestral.rhapsody.6_2_3+json</code><span>&nbsp;</span><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Parameter</p></th>
+          <td colspan="1" class="confluenceTd"><p><code>commitComment</code>&nbsp;- a string containing the comment to use for the commit. If a commit comment is passed as a request parameter in the URL and present in the request body, then the former overrides the latter.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>An array of variables, for example:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "variables":[    
+      {
+	    "name":"database_password",
+        "value": "pa55w0rd",
+        "encrypted": true,
+		"overrideValue": "alt_pa55w0rd",
+		"overridden": true
+       },
+       {
+		 "name":"_DbServ",
+         "value": "devsql2005",
+         "encrypted": false,
+		 "overrideValue": "prodsql2005",
+		 "overridden": true
+       },
+       {
+		 "name":"_userpass",
+         "value": "servicedelivery",
+         "encrypted": false,
+		 "overrideValue": "",
+		 "overridden": false
+       }
+     ],
+    "commitComment":"myComment"  
+}
+</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - operation successful.<br><code>500 Internal Server Error</code> - the variables could not be modified because a Rhapsody IDE session has them checked out.</p></td>
+         </tr>
+         <tr>
+          <th class="highlight-grey confluenceTh" colspan="1" data-highlight-colour="grey"><strong>Response Body</strong></th>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Write variables REST API'.<br><span>'Locker Edit' (for all lockers where the modified variables are used in the engine).</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="VariablesAdministration-GET/admin/variables/<name>">GET /admin/variables/&lt;name&gt;</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/variables/&lt;name&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Returns the value of the named variable.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>All encrypted values are returned as "********".</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json<br></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span style="color: rgb(0,0,0);"><code>Accept: application/vnd.orchestral.rhapsody.6_0+json</code></span></p>
+            <p><span style="color: rgb(0,0,0);"></span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The parameters <code>overrideValue</code> and <code>overridden</code> are not applicable to versions of Rhapsody before Rhapsody 6.2.3. Therefore, they are not returned when using this <code>Accept</code> header.</p>
+             </div>
+            </div>
+            <br>
+            <p></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>Accept: application/vnd.orchestral.rhapsody.6_2_3+json</pre></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data:
+   {
+    "name":"database_password",
+    "value": "********",
+    "encrypted": true,
+    "overrideValue": "********",
+    "overridden": false
+   },
+  "error":null
+}
+</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Read variables REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="VariablesAdministration-PUT/admin/variables/<name>">PUT /admin/variables/&lt;name&gt;</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/variables/&lt;name&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Updates the parameters (the value and encryption status) of the named variable as specified.&nbsp;If the variable does not exist, a new variable is created with the data provided. An optional commit comment can be provided.</p>
+            <div class="confluence-information-macro confluence-information-macro-warning">
+             <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>This method should only be used to modify variables for set-up purposes only; it does not update any dependent components referencing those variables. We strongly recommend against modifying Rhapsody variables dynamically (at run-time) via the REST API.</span></p>
+             </div>
+            </div>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is recommended you use HTTPS when sending the plain text values of variables that are to be encrypted.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type:application/json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code>Accept: application/vnd.orchestral.rhapsody.6_0+json<br>Content-Type: application/vnd.orchestral.rhapsody.6_0+json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The parameters <code>overrideValue</code> and <code>overridden</code> are not applicable to versions of Rhapsody before Rhapsody 6.2.3. Therefore, any attempt to use them to make a request using this <code>Accept</code> header results in a response error.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_2_3+json<br>Content-Type: application/vnd.orchestral.rhapsody.6_2_3+json</code><span>&nbsp;</span><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>A variable object, for example:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "value": "pa55w000rd",
+    "encrypted": true,
+    "commitComment":"myComment",
+	"overrideValue": "alt_pa55w000rd",
+	"overridden": true
+}
+</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - operation successful.<br><span style="color: rgb(0,0,0);"><code>500 Internal Server Error</code> - the</span> variables could not be modified because a Rhapsody IDE session has them checked out.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Write variables REST API'.<br><span style="color: rgb(0,0,0);">'Locker edit' (for all lockers where the modified variables are used in the engine).</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

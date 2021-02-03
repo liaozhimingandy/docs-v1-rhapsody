@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Zip XSD Validation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="XML-Filters_133162964.html">XML Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Zip XSD Validation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162965/133162967.bmp" data-image-src="attachments/133162965/133162967.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162967" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="newxsd.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162965" data-linked-resource-container-version="3"></span></p>
+      <p>The <strong>Zip XSD Validation</strong> filter&nbsp;is used to validate XML documents against an XML Schema Definition Language (XSD) schema. The filter returns the original XML message if the message is valid and includes the option to route to the error connector, to continue processing the message, or to return an XML document with full error information if the message is invalid. There are three levels of validation error (warn, error and fatal error) which you can set as the minimum validation failure level. During message validation, the filter counts the number of errors which have occurred, both in total and for each level of error, and stores these values in the message properties.</p>
+      <p>The XML Schema Definition Language (XSD) is an XML language for describing and constraining the content of XML documents.</p>
+      <p>This filter validates the XSD that you supply to make sure that it has no errors.</p>
+      <p>Refer to&nbsp;<a href="http://www.w3.org/XML/Schema" class="external-link" rel="nofollow">XML Schema</a> for details.</p>
+      <h2 id="ZipXSDValidation-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Zip File</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The Zip file that contains the XSD file that you would like to use. The zip should also contain all other relevant XSD files that are included using <code>&lt;xs:include&gt;</code> or <code>&lt;xs:import&gt;</code> tags.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If your Zip file is using folder paths or XSD filenames that contain non-ASCII filenames, you should ensure that your zip file has been created with UTF-8 encoding.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XSD Path</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The path (in the Zip file) to the XSD file that you would like to use. This path should not be URL-encoded.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If your XSD file is referencing other XSD files using <code>&lt;xs:include&gt;</code> or <code>&lt;xs:import&gt;</code> tags, and those XSD filenames or the folder paths to them contain non-ASCII filenames, you should ensure that you URL-encode the paths and/or filenames.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Validation Failure</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The action to be performed if validation fails:</p>
+            <ul>
+             <li><code>Send to error connector</code> (default) - the message is sent to the error connector.</li>
+             <li><code>Continue processing on route</code> - the message is routed to the next filter or output communication point to continue processing the message.</li>
+             <li><p><code>Send error report to route</code> - the body of the message is replaced by an XML document containing full error information and the original message and the message is routed to the next filter or output communication point.</p>
+              <div class="confluence-information-macro confluence-information-macro-information">
+               <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>The original message will appear Base64 encoded so that it is preserved no matter what its original encoding was.</p>
+               </div>
+              </div><p>A sample error report as output by <code>Send error report to route </code>is as follows:</p>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0" ?&gt; 
+&lt;XSDValidationReport&gt; 
+   &lt;Errors&gt; 
+      &lt;Error&gt;TargetNamespace.2: Expecting no namespace, but the schema document has a target namespace.&lt;/Error&gt; 
+      &lt;Error&gt;cvc-elt.1: Cannot find the declaration of element 'HeadCount'. &lt;/Error&gt; 
+      &lt;Error&gt;TargetNamespace.2: Expecting no namespace, but the schema document has a target namespace.&lt;/Error&gt; 
+   &lt;/Errors&gt; 
+   &lt;FatalErrors&gt; 
+      &lt;FatalError&gt;The element type "Name" must be terminated by the matching end-tag "&lt;/Name&gt;". &lt;/FatalError&gt; 
+   &lt;/FatalErrors&gt; 
+   &lt;OriginalMessage&gt; PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz3JnLzIwHNkIiBtb29kQ29kdWVzdC12 MS0wIi8+DQoJPHF1ZXJ5RXZc2VtYW50 aWNzVGV4dD5QZXJzb24uRGF0bWJlcj4NCgk8L3F1ZXJ5RXZlbnQ+DQo8L3ZlcmlmeU5IU051bWJlclJlcXVlc3QtdjEt MD4NCg==
+   &lt;/OriginalMessage&gt; 
+&lt;/XSDValidationReport&gt;
+</pre> 
+               </div>
+              </div></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Minimum Validation Failure Level</p></td>
+          <td class="confluenceTd"><p>Options: <code>Warn</code>, <code>Error</code>, <code>Fatal Error</code>. Default: <code>Fatal Error</code> <br class="atl-forced-newline"> The minimum level that the filter decides the message is invalid.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Halt Checking On Error</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to halt checking on error:</p>
+            <ul>
+             <li><p>Enabled (default) - the filter stops checking as soon as a minimum failure level error occurs.</p>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>This option does not apply to fatal errors; validation checking stops on the first fatal error even if this property is dis<span>abled</span>.</p>
+               </div>
+              </div></li>
+             <li><span>Disabled</span> - the filter continues validation checking to the end of the message, even if a minimum failure level error occurs, and decides the message validation failure after the checking is completed.</li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Validation Options</p></td>
+          <td class="confluenceTd"><p>XSD validation checking options. All options set to false by default. If a particular checking option needs to be turned on then select the option and set its value to <code>True</code>. The checking options are:</p>
+           <ul>
+            <li><code>Full schema constraint checking</code> - enables full schema grammar constraint checking, including any checking which may be time-consuming or memory intensive. Particle unique attribution constraint checking and particle derivation restriction checking are controlled by this option. This option checks the schema grammar itself for additional errors that are time-consuming or memory intensive. It does not affect the level of checking performed on document instances that use schema grammars.</li>
+            <li><code>Warn on re-declared duplicate attribute</code> - reports a warning for duplicate attribute declaration.</li>
+            <li><code>Warn on re-declared duplicate entity</code> - reports a warning for duplicate entity declaration.</li>
+            <li><code>Allow Java encoding names in XMLDecl and TextDecl line</code> - the encoding of the file may be specified as a Java encoding name as well as the standard ISO encoding name. Be aware that other XML parsers may not be able to use Java encoding names. If <code>False</code>, an error will be generated if Java encoding names are used.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ZipXSDValidation-PublishedProperties">Published Properties</h2>
+      <p>Published properties for the Zip XSD Validation filter are:</p>
+      <ul>
+       <li><code>WarnCount</code> - the number of warnings which occurred during validation checking.</li>
+       <li><code>ErrorCount</code> - the number of errors which occurred during validation checking.</li>
+       <li><code>FatalErrorCount</code> - the number of fatal errors which occurred during validation checking. <code>FatalErrorCount</code> is either 0 or 1, because the filter stops validation checking on the first fatal error.</li>
+       <li><code>TotalErrorCount</code> - the total number of errors which occurred during validation checking, in other words it is the sum of property values of <code>WarnCount</code>, <code>ErrorCount</code> and <code>FatalErrorCount</code>.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

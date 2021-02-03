@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Execute Process</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Execute Process</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163308/133163310.jpg" data-image-src="attachments/133163308/133163310.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163310" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image083.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163308" data-linked-resource-container-version="21"></span></p>
+      <p>The <strong>Execute Process</strong> filter executes the process (an application or script) specified in the command line, which is used to transform messages as they are processed by the Rhapsody Engine.&nbsp;This filter is typically used in cases where an external process provides functionality which Rhapsody is unable to provide.</p>
+      <p>When processing a message, the filter calls the process, passing and retrieving any relevant arguments and message content.</p>
+      <p>The commands run by the filter are specific to the operating system on which Rhapsody is running. As such, calling <em>Windows</em>-specific commands in Linux will not work, and vice versa. For example, calling the Linux copy command <code>cp</code> would not work in a <em>Windows</em> environment.</p>
+      <h2 id="ExecuteProcess-UsingtheFilter"><span style="color: rgb(51,51,51);">Using the Filter</span></h2>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Although often used interchangeably, the terms parameter and argument will be distinguished <span>for the purposes of describing this filter</span>. A process is said to have parameters. Values passed to the process' parameters by Rhapsody are referred to as arguments.</p>
+       </div>
+      </div>
+      <p><span style="letter-spacing: 0.0px;">A process will often have additional parameters to which arguments can be passed in order to help it produce the expected output. For example</span><span style="letter-spacing: 0.0px;">, in order to produce the necessary output file <span>for an&nbsp;executable called&nbsp;</span><code>Convert.exe</code>, the entire command might be:</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">C:\Programs\Convert.exe -input myInput.txt -output myOutput.txt -type ASCII</pre> 
+       </div>
+      </div>
+      <p>The Execute Process filter has two configuration properties which handle the execution of the process and its parameters:&nbsp;<strong>Command Line</strong>&nbsp;and <strong>Command Parameters</strong>. Additionally, it has a <strong>Standard Error</strong> property to specify how errors are handled.&nbsp;<span style="color: rgb(23,43,77);">The final command&nbsp;which the filter runs&nbsp;consists of the contents of the&nbsp;</span><strong style="color: rgb(23,43,77);font-size: 14.0px;letter-spacing: 0.0px;">Command Line</strong><span style="color: rgb(23,43,77);">&nbsp;property first, followed by the listed items in the&nbsp;</span><strong style="color: rgb(23,43,77);font-size: 14.0px;letter-spacing: 0.0px;">Command Parameters</strong><span style="color: rgb(23,43,77);">&nbsp;property, in order from first to last. Refer to <a href="#ExecuteProcess-Examples">Examples</a> for details.</span></p>
+      <p>By allowing the command to be configured through two configuration property's rather than one, the filter is able to handle certain special cases that would otherwise not execute as intended (such as the use of double quotes).</p>
+      <h2 id="ExecuteProcess-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="color: rgb(23,43,77);font-size: 14.0px;letter-spacing: 0.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <thead>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td class="confluenceTd">Command Line</td>
+          <td class="confluenceTd"><p>The command that is to be executed on all files that are processed by this filter.</p><p>This property is mandatory, and must contain at the very least the process to be called. Additional arguments may either be passed from this property or from <strong style="letter-spacing: 0.0px;">Command Parameters</strong>. The command arguments may include the following:</p>
+           <ul>
+            <li><p>Message properties - the notation for message properties is&nbsp;<code>$propertyName$</code> (<span>note that this notation is different from</span> that used in <strong>Command&nbsp;Parameters</strong>). The entire command can even be the value of a single message property.</p></li>
+            <li><code>%src%</code>&nbsp;- the source message body <span>that is to be passed</span> as an input argument. If it is not provided, <code>stdin</code> is used.</li>
+            <li><code class="powershell plain">%dst%</code> - the destination message body <span>that is to be</span> received as an output argument. If it is not provided, <code>stdout</code> is used. If <code>%dst%</code> is used here, it should not also be used in <strong>Command&nbsp;Parameters</strong>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Command Parameters</td>
+          <td class="confluenceTd"><p>The arguments to be passed to the process. An argument must be one of the following types:</p>
+           <ul>
+            <li>A literal value.</li>
+            <li>A message property - the notation for message properties is&nbsp;<code>$propertyName</code> (note that this notation is different from that used in <strong>Command Line</strong>).</li>
+            <li><code>%src%</code>&nbsp;- the source message body that is to be passed as an input argument. If it is not provided, <code>stdin</code> is used.</li>
+            <li><code>%dst%</code>&nbsp;- the destination message body that is to be received as an output argument. If it is not provided, <code>stdout</code> is used. If <code>%dst%</code> is used in <strong>Command&nbsp;Parameters</strong>, it should not also be used in <strong>Command Line</strong>.</li>
+           </ul><p>An argument must not be a combination of any of the above types. For example, if a path were to be passed in as an argument, it cannot be a combination literal with a message property on the end, such as: <code>C:\data\documents\$FullFilename</code>. The entire path must be contained in the message property (or<span> wholly be a literal)</span>.</p><p>Arguments must be listed individually, as each item is passed as one argument.</p><p>For instance, consider a process, called by the filter, that takes two parameters. If <code>param1</code><span> and </span><code>param2</code> were entered as two separate items in <strong>Command&nbsp;Parameters</strong>, they would be passed to the process as two arguments for its two parameters. However, if <code>param1 param2</code> were entered as a single item in <strong>Command&nbsp;Parameters</strong>, then it would be passed to the process as a single argument for the first of the process' parameters, while the second parameter would not receive an argument.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Standard Error</td>
+          <td colspan="1" class="confluenceTd"><p>How to handle data written by the process to standard error:</p>
+           <ul>
+            <li><code>Discard the error message</code>&nbsp;(default) - the message continues processing on the route.</li>
+            <li><code>Log to the error log</code>&nbsp;- report the error in the standard error log.</li>
+            <li><code>If set as a message property</code>&nbsp;- the data is set as the value of the published property named&nbsp;<code>StandardError</code>&nbsp;on the output message.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ExecuteProcess-Examples"><span style="color: rgb(51,51,51);">Examples</span></h2>
+      <p>The <strong>Command Line</strong> and <strong>Command Parameter</strong> properties enable the filter is able to execute the same command in a number of different ways:</p>
+      <ol>
+       <li><p>The entire command is entered into&nbsp;<strong>Command Line</strong>, making use of&nbsp;<code>%src%</code>,&nbsp;<code>%dst%</code>, and a message property as arguments:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="250" width="487" src="attachments/133163308/149820733.png" data-image-src="attachments/133163308/149820733.png" data-unresolved-comment-count="0" data-linked-resource-id="149820733" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CommandLineFull.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163308" data-linked-resource-container-version="21"></span></p></li>
+       <li><p>All arguments for the process are entered into the&nbsp;<strong>Command Parameters</strong>&nbsp;property individually:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="250" width="487" src="attachments/133163308/149820731.png" data-image-src="attachments/133163308/149820731.png" data-unresolved-comment-count="0" data-linked-resource-id="149820731" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CommandParafull.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163308" data-linked-resource-container-version="21"></span></p></li>
+       <li><p>The arguments are entered into both&nbsp;<strong>Command Line</strong> and <strong>Command Parameters</strong>:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="250" width="486" src="attachments/133163308/149820732.png" data-image-src="attachments/133163308/149820732.png" data-unresolved-comment-count="0" data-linked-resource-id="149820732" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CommandParaPartial.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163308" data-linked-resource-container-version="21"></span></p></li>
+      </ol>
+      <h2 id="ExecuteProcess-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for the Execute Process filter enable programmatic error handling if the command fails:</p>
+      <ul>
+       <li><code>ExitCode</code>&nbsp;- the exit code of the spawned process.</li>
+       <li><code>StandardError</code>&nbsp;- the error output of the spawned process. This will only be set if&nbsp;the&nbsp;<code>StandardError</code>&nbsp;property&nbsp;is set to send an error stream to a message property.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

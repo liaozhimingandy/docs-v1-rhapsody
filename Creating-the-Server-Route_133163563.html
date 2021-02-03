@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Creating the Server Route</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Web-Services_133163490.html">Web Services</a></span> </li> 
+       <li> <span><a href="Tutorials_133163522.html">Tutorials</a></span> </li> 
+       <li> <span><a href="Simple-Patient-Lookup-Service_133163523.html">Simple Patient Lookup Service</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Creating the Server Route</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Click the <strong>New Route</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163563/133163564.png" data-image-src="attachments/133163563/133163564.png" data-unresolved-comment-count="0" data-linked-resource-id="133163564" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_newroute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163563" data-linked-resource-container-version="1"></span> on the standard toolbar, and call it <strong>Server Route</strong>.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/133163563/133163568.png" data-image-src="attachments/133163563/133163568.png" data-unresolved-comment-count="0" data-linked-resource-id="133163568" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateServerRoute0.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163563" data-linked-resource-container-version="1"></span></p>
+      <p>Complete the following:</p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146989324 {padding: 0px;}
+div.rbtoc1565146989324 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146989324 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565146989324"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CreatingtheServerRoute-CreateJavaScriptFilters">Create JavaScript Filters</a></li> 
+        <li><a href="#CreatingtheServerRoute-CreateJavaScriptConditionals">Create JavaScript Conditionals</a></li> 
+        <li><a href="#CreatingtheServerRoute-ConfiguretheServerRoute">Configure the Server Route</a></li> 
+       </ul> 
+      </div>
+      <h2 id="CreatingtheServerRoute-CreateJavaScriptFilters">Create JavaScript Filters</h2>
+      <p>Name: <code>LookupById</code></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>default xml namespace = "http://www.orionhealth.com/rhapsody/2010/03/PatientLookupService"
+
+// Find the id
+var next = output.append(input[0]);
+var id = parseInt(next.xml..id);
+
+// Response template
+var response = 	&lt;lookupByIdResponse&gt;
+					&lt;id/&gt;
+					&lt;name&gt;
+						&lt;firstName/&gt;
+						&lt;lastName/&gt;
+					&lt;/name&gt;
+					&lt;phone/&gt;
+				&lt;/lookupByIdResponse&gt;;
+
+// Handle some ids
+if (id &gt; 0 &amp;&amp; id &lt; 10) {
+	response.id = id;
+	response.name.firstName = "Joe";
+	response.name.lastName = "Bloggs";
+	next.xml = response;
+} else if (id &gt;= 10 &amp;&amp; id &lt; 20) {
+	response.id = id;
+	response.name.firstName = "Fred";
+	response.name.lastName = "Smith";
+	response.phone = "(123) 456-789";
+	next.xml = response;
+} else {
+	next.setProperty("rhapsody:SoapFault", "true");
+	next.setProperty("FaultReason", "Unrecognized identifier");
+} </pre> 
+       </div>
+      </div>
+      <p>Name: <code>LookupByName</code></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>var next = output.append(input[0]);
+
+next.setProperty("id", "15");
+next.setProperty("phone", "(123) 456-789"); </pre> 
+       </div>
+      </div>
+      <h2 id="CreatingtheServerRoute-CreateJavaScriptConditionals">Create JavaScript Conditionals</h2>
+      <p>Name: <code>LookupById</code></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>input.getProperty("rhapsody:InputWebServiceOperation") == "lookupById"</pre> 
+       </div>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163563/133163565.png" data-image-src="attachments/133163563/133163565.png" data-unresolved-comment-count="0" data-linked-resource-id="133163565" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConditionalLookupById.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163563" data-linked-resource-container-version="1"></span></p>
+      <p>Name: <code>LookupByName</code></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>input.getProperty("rhapsody:InputWebServiceOperation") == "lookupByName" </pre> 
+       </div>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163563/133163566.png" data-image-src="attachments/133163563/133163566.png" data-unresolved-comment-count="0" data-linked-resource-id="133163566" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConditionalLookupByName.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163563" data-linked-resource-container-version="1"></span></p>
+      <h2 id="CreatingtheServerRoute-ConfiguretheServerRoute">Configure the Server Route</h2>
+      <p>Set up <strong>Server Route</strong> as follows, and check in your changes.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/133163563/133163567.png" data-image-src="attachments/133163563/133163567.png" data-unresolved-comment-count="0" data-linked-resource-id="133163567" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateServerRoute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163563" data-linked-resource-container-version="1"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

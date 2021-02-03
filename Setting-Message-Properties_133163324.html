@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Setting Message Properties</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="JavaScript_133163317.html">JavaScript</a></span> </li> 
+       <li> <span><a href="Using-the-JavaScript-Filter_133163320.html">Using the JavaScript Filter</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Setting Message Properties</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>In this scenario, the goal is to extract a field value (<code>PatientID</code>) from an HL7 message, modify the value, and set the result as a property on the message. This is a common use of the JavaScript filter if Rhapsody is used to output files to a <strong>Directory</strong> communication point, and those files need to have specific names based, in part, on the message itself.</p>
+      <p>The following screenshot illustrates the configuration of the JavaScript filter:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163324/133163325.png" data-image-src="attachments/133163324/133163325.png" data-unresolved-comment-count="0" data-linked-resource-id="133163325" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="JSFilter.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163324" data-linked-resource-container-version="1"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <ul>
+         <li><code>getField()</code> is used above to pull the value from the message's <code>PID.PatientID</code> field.</li>
+         <li><code>setProperty()</code> then takes two parameters; the property to be specified, and the value to be set. In the above case, the value is the patient id concatenated to a piece of hard-coded text.</li>
+         <li>An HL7 message definition must be present in the Route Properties of that particular route for field and property methods to work.</li>
+         <li>The <code>fileName</code> property, does not have to be declared elsewhere first.</li>
+         <li>JavaScript is case-sensitive</li>
+        </ul>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

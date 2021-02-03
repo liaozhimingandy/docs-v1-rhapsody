@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Installing the Rhapsody Engine Unattended</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="Unattended-Installations_133164341.html">Unattended Installations</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Installing the Rhapsody Engine Unattended</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Rhapsody engine can be installed unattended with customized properties. This is very useful when installing on multiple machines, remote machines, or when carrying out simple unattended installations on a single machine.</p>
+      <p>The <strong>recommended</strong> command to launch the installer silently is:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">[installerName] -q -splash [title] -varfile [fileName] </pre> 
+       </div>
+      </div>
+      <p>Where:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Parameter</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>-q</code></p></td>
+          <td class="confluenceTd"><p>Executes the installer in Unattended mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>-splash [title]</code></p></td>
+          <td class="confluenceTd"><p>Displays a progress window while installing in graphical Linux and <em>Windows®</em> environments. To run with no display at all, omit the <code>-splash</code> parameter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>-varfile [fileName]</code></p></td>
+          <td class="confluenceTd"><p>Specifies a property file containing the installation options you want to set. A DAT file should be used, as the default installation does not start the engine or the <strong>Rhapsody Service Monitor</strong> icon on the <em>Windows®</em> taskbar.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br>For example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">rhapsody-6_4-windows-x64.exe -q -splash "Installing Rhapsody" -varfile response.dat</pre> 
+       </div>
+      </div>
+      <h2 id="InstallingtheRhapsodyEngineUnattended-GeneratingDATFiles">Generating DAT Files</h2>
+      <p>To create and edit a DAT file:</p>
+      <ol>
+       <li>Install the Rhapsody engine in GUI or Console mode.</li>
+       <li>Recover the&nbsp;<code>response.dat</code>&nbsp;file created by the installer from the&nbsp;<code>&lt;RhapsodyInstallDirectory&gt;</code>&nbsp;directory.</li>
+       <li>If you want to change any of the options you provided during the install, edit the DAT file. Refer to <a href="Installation-Options_133164358.html">Installation Options</a> for definitions of the variables you can specify.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>We <strong>strongly recommend</strong> using the generated <code>dat</code>, as the generated file includes the correct versions and is automatically updated each time the installer is changed.</p>
+       </div>
+      </div>
+      <h2 id="InstallingtheRhapsodyEngineUnattended-UsingDATFiles">Using DAT Files</h2>
+      <p>You can apply a&nbsp;DAT file&nbsp;in two ways:</p>
+      <ul>
+       <li>Use the <code>-varfile [fileName]</code> parameter.</li>
+       <li>Place the&nbsp;DAT file&nbsp;in the same folder as the installer, and rename it to use the installer's name with the extension <code>.dat</code>. For example, if the installer is called <code>rhapsody-6_5-windows-x64.exe</code>, the file should be named <code>rhapsody-6_5-windows-x64.dat</code>.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Non-ASCII characters are not allowed in the name of the installation folder and data folders.</p>
+       </div>
+      </div>
+      <h2 id="InstallingtheRhapsodyEngineUnattended-Troubleshooting">Troubleshooting</h2>
+      <p>If the installation fails, examine the <code>error.log</code> file, which can be found in the same folder as the installer.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

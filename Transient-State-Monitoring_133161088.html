@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Transient State Monitoring</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Transient State Monitoring</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods for&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">accessing the&nbsp;<a href="Transient-State_133161272.html">transient state</a>:</span></p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147004187 {padding: 0px;}
+div.rbtoc1565147004187 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147004187 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147004187"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#TransientStateMonitoring-GET/api/transientstate">GET /api/transientstate</a></li> 
+        <li><a href="#TransientStateMonitoring-GET/api/transientstate/<key>">GET /api/transientstate/&lt;key&gt;</a></li> 
+        <li><a href="#TransientStateMonitoring-PUT/api/transientstate/<key>">PUT /api/transientstate/&lt;key&gt;</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="TransientStateMonitoring-GET/api/transientstate">GET /api/transientstate</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/transientstate</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves all transient state values that are visible to the calling user (in other words, values in lockers for which the caller has read access rights). <span>A valid response is returned even if no transient state is available.</span></p><p>The <span>parameter </span><code>expiry</code> is only returned if a particular transient state value is set to expire.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_2+json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>None.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code><span> - returns the transient state information in JSON format.</span></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+             <b>Transient state available</b>
+            </div>
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+  "data": [
+    {
+      "key": "myKey1",
+      "locker": {
+        "id": 1,
+        "name": "Locker1"
+      },
+      "value": "myVal1",
+      "expiry": "2016-05-18T23:17:13Z"
+    },
+    {
+      "key": "myKey2",
+      "locker": {
+        "id": 1,
+        "name": "Locker1"
+      },
+      "value": "myVal2"
+    },
+    {
+      "key": "key3",
+      "locker": {
+        "id": 1,
+        "name": "Locker1"
+      },
+      "value": "myVal3"
+    }
+  ],
+  "error": null
+}</pre> 
+            </div>
+           </div>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+             <b>No transient state available</b>
+            </div>
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data": [],
+  "error": null
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">'Read transient state REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="TransientStateMonitoring-GET/api/transientstate/<key>">GET /api/transientstate/&lt;key&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/transientstate/&lt;key&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves the specified transient state value using the <code><span>&lt;key&gt;</span></code> supplied in the URL, provided the transient state value exists and the caller has the appropriate access rights for the locker containing the transient state value.</p><p><span>The <span>parameter </span><code>expiry</code> is only returned if the particular transient state value is set to expire.</span></p><p><span>The ETag HTTP header is set on the response if the <span>transient state </span>value is returned and contains a hash of the value that can optionally be subsequently used with the PUT method to perform an atomic compare and set rather than an unconditional modification.</span></p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_2+json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>None.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the transient state information in JSON format.<br><span style="line-height: 13.0pt;background-color: transparent;"><code><span>403 Forbidden</span></code> - the caller does not have permission to the appropriate configuration locker.<br></span><code style="line-height: 13.0pt;">404 Not Found</code><span style="line-height: 13.0pt;"> - the specified transient state value cannot be found. </span></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+
+  "data": {
+    "key": "myKey1",
+    "locker": {
+      "id": 1,
+      "name": "Locker1"
+    },
+    "value": "myVal1",
+    "expiry": "2016-05-18T23:17:13Z"
+  },
+  "error": null
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">'Read transient state REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="TransientStateMonitoring-PUT/api/transientstate/<key>">PUT /api/transientstate/&lt;key&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /api/transientstate/&lt;key&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Creates or modifies the specified transient state value for the key provided in URL as <code>&lt;key&gt;</code>.</p><p><span>The parameter <code>value</code> can be omitted or set to an empty string to clear it. The parameter <code>expiry</code> is optional and only required if the value should be automatically expired. If set, it must be in ISO 8601 date/time format.</span></p><p>By default, this performs an unconditional modification. However, the <code>If-Exists</code> HTTP header can optionally be provided to convert this into a conditional PUT operation. If the <code>If-Exists</code> header is set to <code>*</code><span style="color: rgb(0,0,0);">,</span> then this remains an unconditional PUT method; if it is set to <code>none</code>, then the PUT method only succeeds if the specified transient state key does not currently exist; otherwise it must be set to the value returned in the ETag response header from a previous call to the GET method. If the value does not match, then a <code><span>409 Conflict</span></code> status code is returned.</p><p>If a conditional PUT is performed then the compare and set operation is atomic.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_2+json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+  "lockerId": 1,
+  "value": "theValue",
+  "expiry": "2016-05-18T23:17:13Z"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - t<span>he</span> modification is successful.<br><code><code>400 Bad Request</code></code><span> - one of the parameters is invalid (for example, the expiry time is provided but not a valid ISO8601 timestamp), or an attempt has been made to change the owning locker of an existing transient state value.&nbsp;</span><code><br>403 Forbidden</code> - the caller does not have <span>write permission for the</span> transient state on the target configuration locker.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">'Modify transient state REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

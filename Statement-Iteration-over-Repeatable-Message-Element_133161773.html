@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Statement Iteration over Repeatable Message Element</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Statement Iteration over Repeatable Message Element</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>If an incoming message has a repeatable message element and all its values are to be processed by the database, the corresponding statement execution is iterated. To do this, all the repeatable elements should be specified and all the statements should be properly nested. For each statement type, you have</p>
+      <div class="indent20 inline" style="margin-left: 20px;">
+       <style type="text/css">div.inline p:first-child { display: inline; }</style>
+       <p><code>&lt;statement name="..." iterate="..."&gt;</code></p>
+      </div>
+      <p>One repeatable element is specified by the <code>iterate</code> attribute. The statement is executed once for each value of the element. For example, an XML message with three repetitions of <code>DischargeEvent.Diagnosis</code> is as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;&lt;DischargeEvent&gt;
+ ...
+	&lt;Diagnosis&gt;
+		&lt;diagnosis_code value="code"/&gt;
+		&lt;diagnosis_description value="diagnosis"/&gt;
+		&lt;diagnosis_codingSystem value="system1"/&gt;
+		&lt;diagnosis_isPrimary value="Y"/&gt;
+	&lt;/Diagnosis&gt;
+	&lt;Diagnosis&gt;
+		&lt;diagnosis_code value="code"/&gt;
+		&lt;diagnosis_description value="diagnosis2"/&gt;
+		&lt;diagnosis_codingSystem value="system2"/&gt;
+		&lt;diagnosis_isPrimary value="N"/&gt;
+	&lt;/Diagnosis&gt;
+	&lt;Diagnosis&gt;
+		&lt;diagnosis_code value="code"/&gt;
+		&lt;diagnosis_description value="diagnosis3"/&gt;
+		&lt;diagnosis_codingSystem value="system3"/&gt;
+		&lt;diagnosis_isPrimary value="N"/&gt;
+	&lt;/Diagnosis&gt;
+ ...
+&lt;/DischargeEvent&gt;</pre> 
+       </div>
+      </div>
+      <p>If you wish to insert all element values into a table called <code>Diagnosis</code>, then the configuration XML should include a statement similar to the following statement:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="Diagnosis" iterate="DischargeEvent.Diagnosis"&gt;
+	&lt;sql&gt; 
+		insert into Diagnosis(code, description, codingSystem, isPrimary) 
+		values (@DischargeEvent.Diagnosis.diagnosis_code.value, 
+		@DischargeEvent.Diagnosis.diagnosis_description.value, 
+		@DischargeEvent.Diagnosis.diagnosis_codingSystem.value, 
+		@DischargeEvent.Diagnosis.diagnosis_isPrimary.value) 
+	&lt;/sql&gt; 
+&lt;/statement&gt;</pre> 
+       </div>
+      </div>
+      <p>The <code>Diagnosis</code> statement is executed three times, resulting in three rows being inserted into the table.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

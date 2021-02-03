@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Extracting the Values of Elements and Attributes from an XML File</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="JavaScript_133163317.html">JavaScript</a></span> </li> 
+       <li> <span><a href="Using-the-JavaScript-Filter_133163320.html">Using the JavaScript Filter</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Extracting the Values of Elements and Attributes from an XML File</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody uses a language called XPATH to manipulate the data in an XML message. For additional information on what XPATH is and how to use it, refer to the following links for details:</p>
+      <ul>
+       <li><a class="external-link" href="http://www.w3.org/TR/xpath" rel="nofollow">http://www.w3.org/TR/xpath</a></li>
+       <li><a class="external-link" href="http://www.w3schools.com/xpath/" rel="nofollow">http://www.w3schools.com/xpath/</a></li>
+      </ul>
+      <h2 id="ExtractingtheValuesofElementsandAttributesfromanXMLFile-Example">Example&nbsp;</h2>
+      <p>This scenario involves extracting the value of <code>surgery</code>&nbsp;from the <code>&lt;procedure&gt;</code> element, and extracting the value of <code>5555</code>&nbsp;from the <code>pid</code>&nbsp;attribute of the &lt;patient&gt; element in the following sample XML message:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;patient pid="5555"&gt;
+    &lt;name&gt;
+	&lt;surname&gt;Stone&lt;/surname&gt;
+	&lt;firstname&gt;Green&lt;/firstname&gt;
+    &lt;/name&gt;
+    &lt;procedure&gt;surgery&lt;/procedure&gt;
+&lt;/patient&gt;
+</pre> 
+       </div>
+      </div>
+      <p>XPATH can be used within the JavaScript filter. To extract the value from the sample XML message, the JavaScript filter can be configured as shown in the following screenshot:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163322/133163323.png" data-image-src="attachments/133163322/133163323.png" data-unresolved-comment-count="0" data-linked-resource-id="133163323" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="JSFilter2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163322" data-linked-resource-container-version="7"></span></p>
+      <p>The output from the JavaScript filter after it parses the sample XML message would be:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">Patient 5555 is undergoing procedure: surgery</pre> 
+       </div>
+      </div>
+      <p>In this example, the XPATH is used as a parameter within the <code>getField()</code> method. The value <code>surgery</code>&nbsp;is extracted from within the XML message from <code>/patient/procedure</code> into a variable, called <code>proc</code>, which can then be used later. The value of an attribute is extracted in a similar way, except that the&nbsp;<code style="letter-spacing: 0.0px;">@</code>&nbsp;symbol is used to specify the attribute name in the path:&nbsp;<code style="letter-spacing: 0.0px;">/patient/@pid</code>. It is not necessary to have any XML definitions on the route for this to work.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Namespaces cannot be used in the <code>getField()</code> method.</p>
+       </div>
+      </div>
+      <h2 id="ExtractingtheValuesofElementsandAttributesfromanXMLFile-HandlingNamespaces">Handling Namespaces</h2>
+      <p>To handle namespaces in your XML message, use E4X:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">//Get the message body as E4X XML object.
+var msg_as_xml = next.xml;
+
+//Make the most repeating namespace as default so that we don't need to prefix every element within default namespace.
+//In this case make 'sci' as default namespace.
+default xml namespace = "http://www.show.scot.nhs.uk/isd/SCIStore";
+
+//Another namespace in the xml doc.
+var ns_1 = new Namespace("du","http://www.show.scot.nhs.uk/isd/DocumentUpload");
+
+//Yet another namespace in the xml doc.
+var ns_2 = new Namespace("gen", "http://www.show.scot.nhs.uk/isd/General");
+
+//Don't have to prefix namespaces for MessageData, ClinicalData and DocumentSpecialty elements as 'sci' is declared as default namespace on line 7.
+var pSpecialty = msg_as_xml.MessageData.ClinicalData.DocumentSpecialty;
+
+//Using gen namespace available in varible ns_2.
+var pCategory = msg_as_xml.DocumentData.ns_2::DocumentCategory;
+
+//Another example using 'gen' namespace.
+var orgName = msg_as_xml.MessageData.PatientDemographics.ns_2::RegisteredGp.ns_2::EmployingOrganisation.ns_2::OrganisationName;
+
+//Access indexed field.
+var tel_2 = msg_as_xml.MessageData.PatientDemographics.ns_2::RegisteredGp.ns_2::EmployingOrganisation.ns_2::OrganisationTelecom[0].ns_2::UnstructuredTelecom;
+
+next.setProperty("pSpecialty", pSpecialty);
+next.setProperty("pCategory",pCategory);
+next.setProperty("orgName", orgName);
+next.setProperty("telephone2", tel_2);</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

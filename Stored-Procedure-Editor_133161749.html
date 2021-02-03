@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Stored Procedure Editor</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Stored Procedure Editor</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <strong>Stored Procedure Call Editor</strong> is used to edit Stored Procedure Calls in Rhapsody. It allows the procedure call to be edited, output parameters to be defined, and result substitution to be configured.</p>
+      <p>For details on the syntax for&nbsp;stored procedure SQL, refer to&nbsp;<a href="Stored-Procedures_133161783.html">Stored Procedures</a>.</p>
+      <p>To open the <strong>Stored Procedure Call Editor</strong>, double click on the statement you want to maintain from the <strong>Rhapsody Database Configuration Editor</strong>. Alternatively, select the stored procedure and then select the <strong style="letter-spacing: 0.0px;">Edit Statement</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161749/133161752.png" data-image-src="attachments/133161749/133161752.png" data-unresolved-comment-count="0" data-linked-resource-id="133161752" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="window_edit24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161749" data-linked-resource-container-version="2"></span> from the Statement Toolbar. The <strong style="letter-spacing: 0.0px;">Stored Procedure Call Editor</strong> is then displayed:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="680" src="attachments/133161749/133161753.png" data-image-src="attachments/133161749/133161753.png" data-unresolved-comment-count="0" data-linked-resource-id="133161753" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="storedProcedureEditor.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161749" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Stored Procedure Call Editor</strong> comprises the following key sections:</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148452" class="wrapped confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Section</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Statement</p></td>
+          <td class="confluenceTd"><p>The name of the SQL Statement. Click the <strong>Rename</strong> link to display the <strong>Rename Statement</strong> screen, which enables you to enter a new name for the statement. By default, when the statement is created, the statement is assigned a name <code>New Statement</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Comments</p></td>
+          <td class="confluenceTd"><p>Enter any comments for this statement. Comments are shown on the <strong>Rhapsody Database Configuration Editor</strong> and enable users to quickly identify the purpose of the statement.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output</p></td>
+          <td class="confluenceTd"><p>Many stored procedures use output parameters, allowing values to be returned back to the caller. Refer to <a href="#StoredProcedureEditor-outputParameters">Output Parameters</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Stored Procedure Call Editor Pane</p></td>
+          <td class="confluenceTd"><p>The Stored Procedure Call Editor is a color-coded text editor that supports SQL. It allows the SQL statements to be written, field paths to be easily inserted, and results from previous statements to be accessed. In addition, it allows SQL comments to be placed within the SQL code itself, making it easier to document the exact behavior of a particular query. Refer to <a href="SQL-Editor_133161696.html">SQL Editor</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Result Substitution Panel</p></td>
+          <td class="confluenceTd"><p>Once queries have been executed, the results can be inserted into either message properties, fields, or both. Result substitution is primarily used within a Database Lookup filter, where a message is being updated with some values retrieved via one or more database queries. Refer to <a href="Result-Substitution_133161688.html">Result Substitution</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Server Explorer</p></td>
+          <td class="confluenceTd"><p>Displays the database tables, views, and stored procedures. This allows easy reference to the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Structure</p></td>
+          <td class="confluenceTd"><p>Displays the messages structure. This allows easy reference to the message definition and enables you to drag and drop message properties into your query.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148452']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148452',[],'style=&quot;width:15%; text-align: left;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p><br></p>
+      <p><br></p>
+      <h2 id="StoredProcedureEditor-callingStoredProceduresCallingStoredProcedures"><span class="confluence-anchor-link" id="StoredProcedureEditor-callingStoredProcedures"></span>Calling Stored Procedures</h2>
+      <p>The syntax for stored procedure SQL used with the Database communication point and filters takes one of the following two general forms:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>{ call &lt;procedure-name&gt;[&lt;arg1&gt;,&lt;arg2&gt;, ...] }
+{ &lt;returnValue&gt; = call &lt;procedure-name&gt;[&lt;arg1&gt;,&lt;arg2&gt;, ...] }
+</pre> 
+       </div>
+      </div>
+      <p>A procedure may take zero or more parameters and, if a function, also return a value. The parameters for a stored procedure may be IN parameters or OUT parameters.</p>
+      <h3 id="StoredProcedureEditor-outputParametersOutputParameters"><span class="confluence-anchor-link" id="StoredProcedureEditor-outputParameters"></span>Output Parameters</h3>
+      <p>Many stored procedures use output parameters, allowing values to be returned back to the caller. In the <strong>Rhapsody Database Configuration Editor</strong>, output variables must be declared prior to use so that the caller knows the parameter type and can marshal it appropriately. The output parameter editor is shown below:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161749/133161754.png" data-image-src="attachments/133161749/133161754.png" data-unresolved-comment-count="0" data-linked-resource-id="133161754" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="outputParameters.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161749" data-linked-resource-container-version="2"></span></p>
+      <p>The following tables describes the fields associated with Output Parameters.</p>
+      <p><br></p>
+      <div class="table-wrap">
+       <table id="TBL1565043148453" class="wrapped confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Name</p></td>
+          <td class="confluenceTd"><p>The user-defined name of the output parameter. This is the name as it is used within the stored procedure call. It does not have to be the same name that the stored procedure uses internally for the parameter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Type</p></td>
+          <td class="confluenceTd"><p>The type of the output parameter. The type is required and must correspond to either one of the types available by default in the drop-down list, or a vendor-specific type that is specific to the JDBC database driver that is being used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description</p></td>
+          <td class="confluenceTd"><p>An optional user-defined description for this output parameter. This has no effect on the stored procedure call and is present purely for documentation purposes.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Result Set</p></td>
+          <td class="confluenceTd"><p>When using Oracle®-style result sets that are returned as cursors, this flag allows one output parameter to be defined as the result set parameter. The effect of this is that Rhapsody will use this parameter as a result set to retrieve the available columns. Only one such parameter may be designated the result set parameter for each stored procedure call, and the type of this parameter should be the appropriate vendor-specific cursor type.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148453']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148453',[],'style=&quot;width:15%; text-align: left;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p><br></p>
+      <p>An output parameter can be removed by clearing the parameter name.</p>
+      <p><br></p>
+      <h2 id="StoredProcedureEditor-GeneratingStoredProcedureCalls">Generating Stored Procedure Calls</h2>
+      <p>While stored procedure calls can always be manually configured, the <strong>Rhapsody Database Configuration Editor</strong> can automatically generate a stored procedure or function call. This is done by selecting a stored procedure in the Server Explorer, then clicking the <strong>Generate SQL</strong> button as shown in the following diagram:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="680" src="attachments/133161749/133161751.png" data-image-src="attachments/133161749/133161751.png" data-unresolved-comment-count="0" data-linked-resource-id="133161751" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="serverExplorerGeneratingSprocCalls.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161749" data-linked-resource-container-version="2"></span></p>
+      <p>Stored procedure calls can be generated as a procedure or function call (stored procedures whose metadata indicates that they do not have a return value can only be generated as procedure calls). This inserts the appropriate call into the text editor, and replaces the existing output parameters that are declared with the output parameters required to call the selected procedure.</p>
+      <p>Alternatively, stored procedure calls can be generated by right-clicking and draging a stored procedure from the Server Explorer onto the text editor. A context menu is then displayed as shown in the following diagram:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="680" src="attachments/133161749/133161750.png" data-image-src="attachments/133161749/133161750.png" data-unresolved-comment-count="0" data-linked-resource-id="133161750" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="generatingSprocCalls.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161749" data-linked-resource-container-version="2"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

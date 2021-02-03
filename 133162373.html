@@ -1,0 +1,479 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>(S)FTP Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">(S)FTP Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162373/133162384.png" data-image-src="attachments/133162373/133162384.png" data-unresolved-comment-count="0" data-linked-resource-id="133162384" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="FTPTransferIconExportx32_FileTransparent.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162373" data-linked-resource-container-version="12"></span></p>
+      <p>The <strong>(S)FTP Client</strong> communication point&nbsp;is used to connect to an FTP Server to retrieve files from an input directory, or send messages to an output directory, or both. It supports the following transfer protocols:</p>
+      <ul>
+       <li>FTP</li>
+       <li>FTPS (FTP over SSL)</li>
+       <li><span class="confluence-link">SFTP </span>(FTP over SSH)</li>
+      </ul>
+      <p>The communication point can be configured statically or <a href="Dynamic-Mode_133162388.html">dynamically </a>at runtime.<span> The communication point also provides some <a href="#id-(S)FTPClient-ManagingMultipleConnections">multiple connection management</a>.</span></p>
+      <h2 id="id-(S)FTPClient-ConfigurationProperties">Configuration Properties</h2>
+      <p>The following table lists the configuration properties for the (S)FTP Client communication point. As there are many different FTP servers that have different configuration options, there may be properties that are not applicable for the FTP to which you are connecting.</p>
+      <p>The (S)FTP Client communication point supports <em>Input</em>, <em>Output</em> and <em>Out-&gt;In</em> Modes only.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Configuration Property</p></th>
+          <th class="confluenceTh"><p><em>Input</em> Mode</p></th>
+          <th class="confluenceTh"><p><em>Output</em> Mode</p></th>
+          <th colspan="1" class="confluenceTh"><span class="confluence-link"> <em>Out-&gt;In</em> Mode<br> </span></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Configuration-Options_133162402.html#ConfigurationOptions-ConfigurationMode">Configuration Mode</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Configuration-Options_133162402.html#ConfigurationOptions-ConfigurationTemplates">Configuration Templates</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="Configuration-Options_133162402.html#ConfigurationOptions-Protocol">Protocol</a></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="Connection-Details_133162392.html#ConnectionDetails-Server">Server</a></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="Connection-Details_133162392.html#ConnectionDetails-Port">Port</a></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="Connection-Details_133162392.html#ConnectionDetails-ReadTimeout">Read Timeout</a></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ConnectionMode">Connection Mode</a></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-TransferMode">Transfer Mode</a></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ServerValidationMode">Server Validation Mode</a></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="Connection-Details_133162392.html#ConnectionDetails-SSLServerCertificates">SSL Server Certificates</a></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html">Hostname Validation</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html">Cipher Suites</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span><a href="Connection-Details_133162392.html">SSL Client Private Key</a></span></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);"><a href="Connection-Details_133162392.html">SFTP Server Public Key</a></span></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html">SFTP Client Authentication Mode</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html">SFTP Client Private Key</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html">SFTP Compression</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html">SFTP Advanced Configuration Flags</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html">Server Line Endings</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Connection-Details_133162392.html">Username</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html">Password</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html"><span>Character Encoding</span></a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="editable-field inactive" title="Click to edit"><a href="Connection-Details_133162392.html">Connection Establishment Mode</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Advanced-Options_133162403.html">Active Mode IP Address</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Advanced-Options_133162403.html">Active Mode Port Range</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Advanced-Options_133162403.html">FTP Options</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Advanced-Options_133162403.html">FTPS Options</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html">Proxy Server Type</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html">Proxy Server Address</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html">Proxy Server Port</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html">Proxy Server Public Address</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html">Proxy Server Username</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html">Proxy Server Password</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html">Generate Message When No Response</a></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html">Input Directory</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html">Refresh Rate</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Input-Options_133162404.html">Input Pattern Type</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html">Input Pattern</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html">Input Order</a></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html">Comparison Script</a></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-InputDirectoryNavigationMode">Input Directory Navigation Mode</a></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Input-Options_133162404.html">Directory Traversal Mode</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html">Follow Symbolic Links</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Input-Options_133162404.html">Post Download Action</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html">Rename To</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Advanced-Options_133162403.html">Input Locales</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Advanced-Options_133162403.html">Directory Listing Parser</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Advanced-Options_133162403.html">JavaScript Directory Parser</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html">Before Receive Commands</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html">After Receive Commands</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Archiving_133162395.html">Archive Message Bodies</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-MaximumFileSizeforDownload(MB)">Maximum File Size for Download</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Output-Options_133162396.html">Output Directory</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Output-Options_133162396.html">Base Filename</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html">Filename Suffix</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Output-Options_133162396.html">Duplicate Filename Behaviour</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Output-Options_133162396.html">Append Date/Time to Filename</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><a href="Output-Options_133162396.html">Use Temp Files</a></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html">Before Send Commands</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html">After Send Commands</a></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-OutputDirectoryNavigationMode">Output Directory Navigation Mode</a></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td colspan="1" class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="id-(S)FTPClient-ManagingMultipleConnections">Managing Multiple Connections</h2>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Do not configure multiple (S)FTP Client communication points to access the the same file in an input directory in order to avoid race conditions that could occur when they simultaneously attempt to read that file.</p>
+       </div>
+      </div>
+      <p>Because it is possible to use multiple connections to a single server from the same communication point instance, the communication point co-ordinates upload and download activities on a per-server basis. If the communication point detects multiple connections are being made to the same server, it coordinates the connections to ensure they are not trying to do the same thing at the same time. Two connections are considered to be the same if they are connecting to the same server name, on the same port, with the same username.</p>
+      <p>In <em>Output</em> mode, if the communication point detects that multiple connections are being made to the same server, it coordinates&nbsp;the connections to ensure they are not trying to upload a file with the same name to the same directory path at the same time. If this is detected, the second or subsequent connection blocks until the first connection has finished its upload.</p>
+      <p>In <em>Input</em> mode, if the communication point detects that multiple connections are being made to the same server, it coordinates the connections to ensure they are downloading different files. This means the second or subsequent connection instead gets the next available file, or reports that there were no more available files if the first connection is already getting the last available file.</p>
+      <p>The blacklist of files which cannot be deleted or have already been processed (when deletion is disabled) must be shared between multiple connections to the same server. The files remain on the blacklist until:</p>
+      <ul>
+       <li>The number of connections with blacklisted files in the controller reaches the maximum (by default, 20 connections), in which case blacklisted files in the least-recently-used connection are removed.</li>
+       <li>When the connection is idle for a period of time (by default, five minutes).</li>
+      </ul>
+      <p>If the default settings are not suitable, the following properties can be added to the <code>rhapsody.properties</code> file to handle inactive connections:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>FileTransferModule.MaximumInactiveConnectionMetaData</code></td>
+          <td class="confluenceTd">Sets the maximum connection count before the controller attempts to discard the oldest inactive connection. By default, it is 20, but can be set to any value between 5 and 1000. If it is set out of the valid range, then it uses the appropriate minimum or maximum value.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>FileTransferModule.ConnectionMetaDataIdleTimeoutMinutes</code></td>
+          <td class="confluenceTd"><p>Sets the idle timeout for inactive connections. By default, it is 5 minutes, but can be set to any value between 1 and 1440 minutes. If it is set to a value outside of this range, it uses the appropriate minimum or maximum value.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="id-(S)FTPClient-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for the (S)FTP Client communication point are:</p>
+      <ul>
+       <li><code>FullFilename</code> - the full filename of the file associated with the received message.</li>
+       <li><code>BaseFilename</code> - the base filename (that is everything before the last '<code>.</code>' in the full filename) of the file associated with the received message. If there is no '<code>.</code>', then it is equal to the full filename.</li>
+       <li><code>Suffix</code> - the suffix (everything from the last '<code><span>.</span></code>' in the full filename, including the '<code>.</code>') of the file associated with the received message. If there is no '<code>.</code>', then it is empty.</li>
+       <li><code>InputDirectory</code> - the directory path that the file associated with the received message was retrieved from.</li>
+       <li><p><code><span>sftp:</span>BodySize</code>&nbsp;-&nbsp;<span>indicates the size of the file, in bytes, when it is received by the (S)FTP Client&nbsp;communication point (a value of</span>&nbsp;<code>Unknown</code> indicates file size retrieval has failed). This property is not updated when the size of the file changes as the file is processed on the route.</p></li>
+       <li><p><code>sftp:ReplyCode</code><span>&nbsp;- a</span>n FTP server reply code. Refer to <a href="Advanced-Routing_133308065.html">Advanced Routing</a> for details.</p></li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

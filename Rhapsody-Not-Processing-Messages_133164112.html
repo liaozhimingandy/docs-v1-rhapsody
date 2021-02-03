@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Rhapsody Not Processing Messages</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Rhapsody_133164108.html">Troubleshooting Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Examples_133164109.html">Troubleshooting Examples</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Rhapsody Not Processing Messages</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="box contents">
+       <p>If Rhapsody is not processing messages, the first step is to determine whether the issue affects the whole engine, or just a small section of components in the engine. An issue that affects a small selection of components is likely to be a connectivity issue, while an issue that affects the entire engine is likely to be a Rhapsody or infrastructure issue. Sometimes what appears to be a Rhapsody engine that is not processing messages is, in fact, an engine processing messages very slowly.</p>
+       <p>If the issue affects a small subset of components:</p>
+       <ol>
+        <li>Check the input and output communication points in the Management Console relating the appropriate area of the solution to see if any connectivity issues have been logged.</li>
+        <li>Where all communications points appear to be functioning correctly, use the Management Console to find one or more input messages, then trace them through the engine to see where they are getting stuck or lost.</li>
+        <li>Check the Error Queue. If there is a fault in the configuration, or a system starting sending unrecognized messages to Rhapsody, these may end up on the error queue.</li>
+       </ol>
+       <p>If the issue affects the complete Rhapsody engine:</p>
+       <ol>
+        <li>On Rhapsody instances where full garbage collection is used within the JVM, no messages are processed while the garbage collection is taking place. If the garbage collection takes too long, the wrapper watchdog service restarts the Rhapsody engine. This issue is normally caused by either not enough RAM (causing frequent garbage collection events) or too much RAM (causing infrequent but very large garbage collection events) allocated to the Rhapsody process.</li>
+        <li>From the Management Console, review the <a href="Threads_133163978.html">Threads</a> page to check whether all the route threads have become stuck trying to process messages on a particular route. This can occur when a misconfiguration in the route results in an infinite loop (check inside Mapper and JavaScript filters), or there is a very slow processing filter on the route (for example, a Database or Execute Command filter that is taking a very long time to complete).</li>
+       </ol>
+       <p> </p>
+      </div> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Backup and Restore - Rhapsody Integration Engine 6.0 - Orion Health Documentation Wiki</title>
+
+        
+
+                        
+    
+                        
+    
+
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE,chrome=IE7">
+<meta charset="UTF-8">
+<!-- Deprecated since 3.4. To be removed in a future version of Confluence; use AJS.Confluence.getContextPath() -->
+<meta id="confluence-context-path" name="confluence-context-path" content="">
+<meta id="confluence-base-url" name="confluence-base-url" content="https://doki.orionhealth.com">
+
+<meta id="atlassian-token" name="atlassian-token" content="e849839858a0f339cae5af0be1f8b4a81130dc8f">
+
+<meta id="confluence-space-key" name="confluence-space-key" content="RHAPS60">
+<script type="text/javascript">
+    // Deprecated global variables. To be removed in a future version of Confluence.
+    var contextPath = '';
+</script>
+
+    
+
+<!-- include system css resources -->
+
+
+    <!--[if lt IE 9]>
+<link data-atlassian-webresource-contents="confluence.web.resources:userlink[1.0],confluence.web.resources:master-styles[1.0],com.atlassian.auiplugin:ajs-gadgets-base[3.6.5],confluence.web.resources:page-ordering-tree[1.0],confluence.web.resources:aui-forms[1.0],com.atlassian.auiplugin:ajs[3.6.5],confluence.web.resources:icons[1.0],confluence.macros.profile:profile-macro-styles[1.0],confluence.web.resources:page-permissions-editor[1.0]" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/48/_/download/superbatch/css/batch.css?conditionalComment=lt+IE+9" media="all">
+<![endif]-->
+<link data-atlassian-webresource-contents="confluence.macros.advanced:get-more[2.1.11],confluence.web.resources:print-styles[1.0]" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/48/_/download/superbatch/css/batch.css?media=print" media="print">
+<link data-atlassian-webresource-contents="confluence.web.resources:master-styles[1.0],confluence.web.resources:fancy-box[1.0],confluence.web.resources:content-styles[1.0],confluence.web.resources:page-move-resources[1.0],confluence.web.resources:labels-editor[1.0],confluence.web.components:core[1.0],com.atlassian.auiplugin:ajs[3.6.5],com.atlassian.auiplugin:ajs-html5shim[3.6.5],confluence.macros.profile:network-resources-css[1.0],confluence.macros.profile:profile-macro-styles[1.0],confluence.macros.advanced:get-more[2.1.11],com.atlassian.confluence.keyboardshortcuts:confluence-keyboard-shortcuts[4.3.3],confluence.web.resources:create-space[1.0],confluence.web.resources:panel-styles[1.0],com.atlassian.plugins.shortcuts.atlassian-shortcuts-module:shortcuts[1.0],confluence.web.resources:userlink[1.0],confluence.web.resources:view-content[1.0],confluence.macros.advanced:recently-updated-sidebar-resources[2.1.11],confluence.web.resources:search-results-grid[1.0],confluence.web.resources:aui-forms[1.0],com.atlassian.confluence.plugins.gadgets:css[4.3.3],confluence.content.action.menu:linkpopup-resources[1.0],com.atlassian.auiplugin:ajs-gadgets-base[3.6.5],confluence.userstatus:userstatus-resources[1.0],confluence.web.resources:page-ordering-tree[1.0],confluence.web.resources:jquery-autocomplete[1.0],confluence.web.components:property-panel-css[1.0],confluence.web.resources:tooltip[1.0],confluence.web.resources:ajs[1.0],confluence.web.resources:icons[1.0],com.atlassian.confluence.whatsnew:whats-new-resources[4.3.3],confluence.web.resources:dashboard-resources[1.0],confluence.web.resources:page-permissions-editor[1.0]" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/48/_/download/superbatch/css/batch.css" media="all">
+<!--[if lte IE 9]>
+<link data-atlassian-webresource-contents="com.atlassian.auiplugin:ajs[3.6.5]" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/48/_/download/superbatch/css/batch.css?conditionalComment=lte+IE+9" media="all">
+<![endif]-->
+<!--[if IE 9]>
+<link data-atlassian-webresource-contents="com.atlassian.auiplugin:ajs-gadgets-base[3.6.5]" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/48/_/download/superbatch/css/batch.css?conditionalComment=IE+9" media="all">
+<![endif]-->
+<!--[if IE]>
+<link data-atlassian-webresource-contents="com.comalatech.workflow:adhocworkflows-activity[4.3.10],com.comalatech.workflow:bundled[4.3.10],com.atlassian.confluence.plugins.view-source:view-source-menu-resources[4.3.3],com.atlassian.confluence.plugins.editor.confluence-source-editor:atlassian-source-editor-view-storage-javascript[1.0.6],com.atlassian.confluence.plugins.view-storage-format:view-storage-menu-resources[4.3.3],com.atlassian.confluence.plugins.share-page:mail-page-resources[1.23],com.comalatech.workflow:adhocworkflows-resource[4.3.10],confluence.macros.core:flash-autosize[4.3.3]" data-atlassian-webresource-contexts="page" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/6438a2416df9dd5f7df75bb28007a25f/_/download/contextbatch/css/page/batch.css?ieonly=true" media="all">
+<![endif]-->
+<link data-atlassian-webresource-contents="com.comalatech.workflow:adhocworkflows-activity[4.3.10],com.comalatech.workflow:bundled[4.3.10],com.atlassian.confluence.plugins.view-source:view-source-menu-resources[4.3.3],com.atlassian.confluence.plugins.editor.confluence-source-editor:atlassian-source-editor-view-storage-javascript[1.0.6],com.atlassian.confluence.plugins.view-storage-format:view-storage-menu-resources[4.3.3],com.atlassian.confluence.plugins.share-page:mail-page-resources[1.23],com.comalatech.workflow:adhocworkflows-resource[4.3.10],confluence.macros.core:flash-autosize[4.3.3]" data-atlassian-webresource-contexts="page" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/6438a2416df9dd5f7df75bb28007a25f/_/download/contextbatch/css/page/batch.css" media="all">
+<!--[if lt IE 9]>
+<link data-atlassian-webresource-contents="com.atlassian.confluence.plugins.confluence-inline-tasks:inline-tasks-resources[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:drag-and-drop-for-view-content[4.3.3],com.atlassian.confluence.plugins.view-storage-format:view-comment-storage-resources[4.3.3],com.atlassian.confluence.plugins.jira.jira-connector:help-dialog-extension[1.4.2],com.atlassian.confluence.plugins.confluence-sortable-tables:sortable-table-resources[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:support[4.3.3],confluence.web.resources:view-comment[1.0],com.atlassian.auiplugin:jquery-ui-other[3.6.5],com.atlassian.confluence.plugins.confluence-mentions-plugin:help-dialog-extension[1.5.9]" data-atlassian-webresource-contexts="viewcontent" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/b20dff2fc2d32efedb24ac405f27d3a5/_/download/contextbatch/css/viewcontent/batch.css?conditionalComment=lt+IE+9" media="all">
+<![endif]-->
+<link data-atlassian-webresource-contents="com.atlassian.confluence.plugins.confluence-inline-tasks:inline-tasks-resources[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:drag-and-drop-for-view-content[4.3.3],com.atlassian.confluence.plugins.view-storage-format:view-comment-storage-resources[4.3.3],com.atlassian.confluence.plugins.jira.jira-connector:help-dialog-extension[1.4.2],com.atlassian.confluence.plugins.confluence-sortable-tables:sortable-table-resources[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:support[4.3.3],confluence.web.resources:view-comment[1.0],com.atlassian.auiplugin:jquery-ui-other[3.6.5],com.atlassian.confluence.plugins.confluence-mentions-plugin:help-dialog-extension[1.5.9]" data-atlassian-webresource-contexts="viewcontent" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/b20dff2fc2d32efedb24ac405f27d3a5/_/download/contextbatch/css/viewcontent/batch.css" media="all">
+<link data-atlassian-webresource-contents="com.atlassian.confluence.plugins.editor-loader:background-loading-editor[4.3.3],com.atlassian.confluence.plugins.quickcomments:quick-comment-initial[4.3.3],com.atlassian.confluence.plugins.quickcomments:quick-comment-page[4.3.3]" data-atlassian-webresource-contexts="plugin.quick.comment.pre" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/6bbbe36e4bc4b1157f16a9f6e5ffa119/_/download/contextbatch/css/plugin.quick.comment.pre/batch.css" media="all">
+<link data-atlassian-webresource-contents="com.gliffy.integration.confluence:gliffy-global-resources[6.1.2],net.customware.confluence.plugin.scaffolding:view-content-resources[4.6.4],com.atlassian.confluence.plugins.jira.jira-connector:help-dialog-extension[1.4.2],com.atlassian.confluence.plugins.share-page:share-keyboard-shortcut-js-resources[1.23],com.atlassian.confluence.plugins.doctheme:splitter[4.3.3],com.atlassian.confluence.plugins.confluence-mentions-plugin:help-dialog-extension[1.5.9],com.atlassian.confluence.plugins.confluence-inline-tasks:inline-tasks-styles[4.3.3]" data-atlassian-webresource-contexts="main" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/08c8bd049e7aed1526bd9a3777a23d6c/_/download/contextbatch/css/main/batch.css" media="all">
+<link data-atlassian-webresource-contents="com.adaptavist.confluence.contentFormattingMacros:inline-fix[3.0.0],com.adaptavist.confluence.contentFormattingMacros:clickable-resources[3.0.0],com.atlassian.plugins.navigation-link-plugin:rotp-menu[1.2]" data-atlassian-webresource-contexts="atl.general" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/c3b55a312795aa91ac030f7e86b49cbb/_/download/contextbatch/css/atl.general/batch.css" media="all">
+<link data-atlassian-webresource-contents="confluence.extra.information:information-plugin-styles[2.0.8]" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/2.0.8/_/download/batch/confluence.extra.information:information-plugin-styles/confluence.extra.information:information-plugin-styles.css" media="all">
+<link data-atlassian-webresource-contents="confluence.extra.information:information-plugin-styles[2.0.8]" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/2.0.8/_/download/batch/confluence.extra.information:information-plugin-styles/confluence.extra.information:information-plugin-styles.css?media=print" media="print">
+<link data-atlassian-webresource-contents="com.atlassian.confluence.plugins.pagetree:pagetree-resources[2.0.2]" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/2.0.2/_/download/batch/com.atlassian.confluence.plugins.pagetree:pagetree-resources/com.atlassian.confluence.plugins.pagetree:pagetree-resources.css" media="all">
+<link data-atlassian-webresource-contents="com.atlassian.support.stp:stp-license-status-resources[3.5.10]" type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/3.5.10/_/download/batch/com.atlassian.support.stp:stp-license-status-resources/com.atlassian.support.stp:stp-license-status-resources.css" media="all">
+<link type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/1/_/styles/colors.css?spaceKey=RHAPS60" media="all">
+<link type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/4.3.3/_/download/resources/com.atlassian.confluence.plugins.doctheme:documentation/default-theme.css" media="all">
+<link type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/4.3.3/_/download/resources/com.atlassian.confluence.plugins.doctheme:documentation/splitter.css" media="all">
+<link type="text/css" rel="stylesheet" href="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/1/_/styles/custom.css?spaceKey=RHAPS60" media="all">
+
+<!-- end system css resources -->
+
+    <meta name="confluence-request-time" content="1403740946542">
+<!-- Deprecated since 3.4. To be removed in a future version of Confluence; use atl.header -->
+        
+            <script type="text/x-template" title="share-content-popup">
+    <form action="#" method="post" class="aui share-content-popup">
+        <fieldset>
+            <label for="users">User name or email</label>
+            <div class="autocomplete-user-target">
+                <input class="text autocomplete-sharepage" id="users" data-max="10" data-dropdown-target=".autocomplete-user-target" data-none-message="No matching user or email found"/>
+            </div>
+            <ol class="recipients">
+            </ol>
+            <div><label for="note">Note</label></div>
+            <textarea class="textarea" id="note" placeholder="Add an optional note"/>
+        </fieldset>
+        <div class="button-panel">
+            <div class="progress-messages-icon"></div>
+            <div class="progress-messages">
+            </div>
+            <input class="button submit" type="submit" value="Share" disabled/>
+            <a class="close-dialog" href="#">Cancel</a>
+        </div>
+    </form>
+</script>
+
+<script type="text/x-template" title="share-content-popup-recipient-username">
+    <li data-username="{username}" style="display: none">
+        <span>
+            <img src="{thumbnailLink.href}" title="{title}">
+            <span>{title}</span>
+            <span class="remove-recipient"/>
+        </span>
+    </li>
+</script>
+
+<script type="text/x-template" title="share-content-popup-recipient-email">
+    <li data-email="{email}" style="display: none">
+        <span>
+            <img src="{icon}" title="{email}">
+            <span>{email}</span>
+            <span class="remove-recipient"/>
+        </span>
+    </li>
+</script>
+    
+        
+            <meta name="ajs-use-keyboard-shortcuts" content="true">
+            <meta name="ajs-keyboardshortcut-hash" content="c7c4071a574359012ff1407ebf93cbe0">
+            <meta name="gliffy-license-type" content="COMMERCIAL">
+<meta name="gliffy-license-quantity" content="10000">
+
+            <script type="text/x-template" title="gliffy-webpanel-footer">
+        <div class="gliffy-webpanel-footer"><span></span></div>
+</script>
+
+
+            
+    
+            
+    
+    
+            <meta name="ajs-page-id" content="64274367">
+            <meta name="ajs-page-title" content="Backup and Restore">
+            <meta name="ajs-parent-page-title" content="Management">
+            <meta name="ajs-parent-page-id" content="64274358">
+            <meta name="ajs-space-key" content="RHAPS60">
+            <meta name="ajs-space-name" content="Rhapsody Integration Engine 6.0">
+            <meta name="ajs-from-page-title" content="">
+            <meta name="ajs-user-display-name" content="Harmeet Sooden">
+            <meta name="ajs-context-path" content="">
+            <meta name="ajs-base-url" content="https://doki.orionhealth.com">
+            <meta name="ajs-version-number" content="4.3.3">
+            <meta name="ajs-build-number" content="3393">
+            <meta name="ajs-remote-user" content="Harmeet.Sooden@orionhealth.com">
+            <meta name="ajs-static-resource-url-prefix" content="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1977/_">
+            <meta name="ajs-global-settings-attachment-max-size" content="50485760">
+            <meta name="ajs-user-locale" content="en_GB">
+            <meta name="ajs-enabled-dark-features" content="">
+            <meta name="ajs-atl-token" content="e849839858a0f339cae5af0be1f8b4a81130dc8f">
+            <meta name="ajs-confluence-flavour" content="VANILLA">
+            <meta name="ajs-editor.loader.resources" content="&lt;!--[if lt IE 9]&gt;
+&lt;link data-atlassian-webresource-excluded-contexts=&quot;viewcontent,page&quot; data-atlassian-webresource-contents=&quot;com.atlassian.confluence.tinymceplugin:editor-resources[4.3.3],com.atlassian.confluence.plugins.confluence-templates:template-editor-variables-resources[4.3.3],confluence.macros.advanced:editor_includemacro[2.1.11],com.atlassian.confluence.plugins.profile-picture:profile-picture-editor_resources[1.6],confluence.web.resources:page-editor-css[1.0],com.atlassian.plugins.editor:atlassian-rte-javascript-translations[4.3.3],com.atlassian.confluence.plugins.status-macro:editor_status[1.14],com.atlassian.applinks.applinks-plugin:applinks-util-js[3.8.0],com.atlassian.auiplugin:jquery-autocomplete[3.6.5],com.atlassian.confluence.extra.officeconnector:macro-browser-smart-fields[2.1.10],com.atlassian.confluence.plugins.gadgets:macro-browser-for-gadgetsplugin[4.3.3],com.atlassian.confluence.plugins.editor-height-fix:editor-height-fix-resources[1.0],com.atlassian.plugins.editor:atlassian-rte-javascript-tinymce-core[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-youtu.be-rewrite[4.3.3],com.atlassian.confluence.plugins.jira.jira-connector:proxy-js[1.4.2],com.atlassian.confluence.plugins.editor.confluence-source-editor:atlassian-source-editor-css[1.0.6],com.atlassian.confluence.plugins.confluence-paste:autoconvert-cloudapp[4.3.3],com.atlassian.confluence.plugins.confluence-sortable-tables:ConfluenceSortableTablesEditorPlugin[4.3.3],net.customware.confluence.plugin.linking:editor_linkmacros[3.0.2],com.atlassian.confluence.plugins.confluence-templates:template-editor-variables-template-resources[4.3.3],com.atlassian.confluence.plugins.confluence-mentions-plugin:editor-autocomplete-mentions-no-dependencies[1.5.9],com.atlassian.applinks.applinks-plugin:applinks-oauth-ui[3.8.0],com.atlassian.confluence.ext.newcode-macro-plugin:editor-scripts[2.0.16],confluence.web.resources:page-editor-js[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-openphoto[4.3.3],com.atlassian.confluence.image.effects.ImageEffectsPlugin:propertiespanel[1.0.1],com.comalatech.workflow:workflow-rte-resources[4.3.10],confluence.web.resources:draft-changes-js[1.0],com.atlassian.confluence.tinymceplugin:editor-javascript-resources[4.3.3],com.atlassian.plugins.editor:atlassian-rte-css[4.3.3],com.atlassian.confluence.tinymceplugin:editor-autocomplete-resources-only[4.3.3],com.atlassian.confluence.extra.widgetconnector:twitter-autoconvert-webresources[2.1.6],com.atlassian.plugins.editor:atlassian-rte-javascript[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-core[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-google-redirect[4.3.3],com.atlassian.confluence.tinymceplugin:editor-css-resources[4.3.3],confluence.web.components:editor-notifications[1.0],confluence.web.resources:jira-controls[1.0],com.atlassian.gadgets.embedded:gadget-core-resources[3.2.0-m26.1],com.atlassian.confluence.tinymceplugin:editor-autocomplete-resources[4.3.3],com.atlassian.plugins.editor:atlassian-rte-resources[4.3.3],confluence.web.resources:draft-changes[1.0],com.atlassian.confluence.plugins.confluence-paste:paste-resources[4.3.3],confluence.macros.core:macro-browser-smart-fields[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:drag-and-drop-for-editor[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:drop-zone-for-image-dialog[4.3.3],com.gliffy.integration.confluence:gliffy-rte-html5-resources[6.1.2],de.dl.confluence.plugin.imagemap.ImageMapPlugin:macro-browser-smart-fields[1.9],biz.artemissoftware.confluence.multiexcerpt.MultiExcerptMacro:editor_multi-includemacro[4.9.1],com.atlassian.confluence.plugins.jira.jira-connector:dialogsJs[1.4.2],com.atlassian.confluence.keyboardshortcuts:confluence-tinymce-keyboard-shortcuts[4.3.3],confluence.web.resources:draft-changes-css[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-jira[4.3.3],confluence.web.resources:page-editor[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-widget-connector[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-skitch[4.3.3],com.atlassian.confluence.plugins.confluence-mentions-plugin:editor-autocomplete-mentions[1.5.9],com.atlassian.confluence.plugins.confluence-paste:autoconvert-shortcut-links[4.3.3],com.atlassian.confluence.extra.officeconnector:officeconnector-editor-resources[2.1.10],confluence.editor.actions:editor-macro-browser[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-confluence[4.3.3],com.atlassian.plugins.editor:atlassian-rte-javascript-tinymce-extensions[4.3.3]&quot; data-atlassian-webresource-contexts=&quot;editor,macro-browser&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/e705999b7ff41bfa4ab93bfa930d8fe0/_/download/contextbatch/css/editor,macro-browser,-viewcontent,-page/batch.css?conditionalComment=lt+IE+9&quot; media=&quot;all&quot;&gt;
+&lt;![endif]--&gt;
+&lt;link data-atlassian-webresource-excluded-contexts=&quot;viewcontent,page&quot; data-atlassian-webresource-contents=&quot;com.atlassian.confluence.tinymceplugin:editor-resources[4.3.3],com.atlassian.confluence.plugins.confluence-templates:template-editor-variables-resources[4.3.3],confluence.macros.advanced:editor_includemacro[2.1.11],com.atlassian.confluence.plugins.profile-picture:profile-picture-editor_resources[1.6],confluence.web.resources:page-editor-css[1.0],com.atlassian.plugins.editor:atlassian-rte-javascript-translations[4.3.3],com.atlassian.confluence.plugins.status-macro:editor_status[1.14],com.atlassian.applinks.applinks-plugin:applinks-util-js[3.8.0],com.atlassian.auiplugin:jquery-autocomplete[3.6.5],com.atlassian.confluence.extra.officeconnector:macro-browser-smart-fields[2.1.10],com.atlassian.confluence.plugins.gadgets:macro-browser-for-gadgetsplugin[4.3.3],com.atlassian.confluence.plugins.editor-height-fix:editor-height-fix-resources[1.0],com.atlassian.plugins.editor:atlassian-rte-javascript-tinymce-core[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-youtu.be-rewrite[4.3.3],com.atlassian.confluence.plugins.jira.jira-connector:proxy-js[1.4.2],com.atlassian.confluence.plugins.editor.confluence-source-editor:atlassian-source-editor-css[1.0.6],com.atlassian.confluence.plugins.confluence-paste:autoconvert-cloudapp[4.3.3],com.atlassian.confluence.plugins.confluence-sortable-tables:ConfluenceSortableTablesEditorPlugin[4.3.3],net.customware.confluence.plugin.linking:editor_linkmacros[3.0.2],com.atlassian.confluence.plugins.confluence-templates:template-editor-variables-template-resources[4.3.3],com.atlassian.confluence.plugins.confluence-mentions-plugin:editor-autocomplete-mentions-no-dependencies[1.5.9],com.atlassian.applinks.applinks-plugin:applinks-oauth-ui[3.8.0],com.atlassian.confluence.ext.newcode-macro-plugin:editor-scripts[2.0.16],confluence.web.resources:page-editor-js[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-openphoto[4.3.3],com.atlassian.confluence.image.effects.ImageEffectsPlugin:propertiespanel[1.0.1],com.comalatech.workflow:workflow-rte-resources[4.3.10],confluence.web.resources:draft-changes-js[1.0],com.atlassian.confluence.tinymceplugin:editor-javascript-resources[4.3.3],com.atlassian.plugins.editor:atlassian-rte-css[4.3.3],com.atlassian.confluence.tinymceplugin:editor-autocomplete-resources-only[4.3.3],com.atlassian.confluence.extra.widgetconnector:twitter-autoconvert-webresources[2.1.6],com.atlassian.plugins.editor:atlassian-rte-javascript[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-core[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-google-redirect[4.3.3],com.atlassian.confluence.tinymceplugin:editor-css-resources[4.3.3],confluence.web.components:editor-notifications[1.0],confluence.web.resources:jira-controls[1.0],com.atlassian.gadgets.embedded:gadget-core-resources[3.2.0-m26.1],com.atlassian.confluence.tinymceplugin:editor-autocomplete-resources[4.3.3],com.atlassian.plugins.editor:atlassian-rte-resources[4.3.3],confluence.web.resources:draft-changes[1.0],com.atlassian.confluence.plugins.confluence-paste:paste-resources[4.3.3],confluence.macros.core:macro-browser-smart-fields[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:drag-and-drop-for-editor[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:drop-zone-for-image-dialog[4.3.3],com.gliffy.integration.confluence:gliffy-rte-html5-resources[6.1.2],de.dl.confluence.plugin.imagemap.ImageMapPlugin:macro-browser-smart-fields[1.9],biz.artemissoftware.confluence.multiexcerpt.MultiExcerptMacro:editor_multi-includemacro[4.9.1],com.atlassian.confluence.plugins.jira.jira-connector:dialogsJs[1.4.2],com.atlassian.confluence.keyboardshortcuts:confluence-tinymce-keyboard-shortcuts[4.3.3],confluence.web.resources:draft-changes-css[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-jira[4.3.3],confluence.web.resources:page-editor[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-widget-connector[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-skitch[4.3.3],com.atlassian.confluence.plugins.confluence-mentions-plugin:editor-autocomplete-mentions[1.5.9],com.atlassian.confluence.plugins.confluence-paste:autoconvert-shortcut-links[4.3.3],com.atlassian.confluence.extra.officeconnector:officeconnector-editor-resources[2.1.10],confluence.editor.actions:editor-macro-browser[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-confluence[4.3.3],com.atlassian.plugins.editor:atlassian-rte-javascript-tinymce-extensions[4.3.3]&quot; data-atlassian-webresource-contexts=&quot;editor,macro-browser&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/e705999b7ff41bfa4ab93bfa930d8fe0/_/download/contextbatch/css/editor,macro-browser,-viewcontent,-page/batch.css&quot; media=&quot;all&quot;&gt;
+&lt;script data-atlassian-webresource-excluded-contexts=&quot;viewcontent,page&quot; data-atlassian-webresource-contents=&quot;com.atlassian.confluence.tinymceplugin:editor-resources[4.3.3],com.atlassian.confluence.plugins.confluence-templates:template-editor-variables-resources[4.3.3],confluence.macros.advanced:editor_includemacro[2.1.11],com.atlassian.confluence.plugins.profile-picture:profile-picture-editor_resources[1.6],confluence.web.resources:page-editor-css[1.0],com.atlassian.plugins.editor:atlassian-rte-javascript-translations[4.3.3],com.atlassian.confluence.plugins.status-macro:editor_status[1.14],com.atlassian.applinks.applinks-plugin:applinks-util-js[3.8.0],com.atlassian.auiplugin:jquery-autocomplete[3.6.5],com.atlassian.confluence.extra.officeconnector:macro-browser-smart-fields[2.1.10],com.atlassian.confluence.plugins.gadgets:macro-browser-for-gadgetsplugin[4.3.3],com.atlassian.confluence.plugins.editor-height-fix:editor-height-fix-resources[1.0],com.atlassian.plugins.editor:atlassian-rte-javascript-tinymce-core[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-youtu.be-rewrite[4.3.3],com.atlassian.confluence.plugins.jira.jira-connector:proxy-js[1.4.2],com.atlassian.confluence.plugins.editor.confluence-source-editor:atlassian-source-editor-css[1.0.6],com.atlassian.confluence.plugins.confluence-paste:autoconvert-cloudapp[4.3.3],com.atlassian.confluence.plugins.confluence-sortable-tables:ConfluenceSortableTablesEditorPlugin[4.3.3],net.customware.confluence.plugin.linking:editor_linkmacros[3.0.2],com.atlassian.confluence.plugins.confluence-templates:template-editor-variables-template-resources[4.3.3],com.atlassian.confluence.plugins.confluence-mentions-plugin:editor-autocomplete-mentions-no-dependencies[1.5.9],com.atlassian.applinks.applinks-plugin:applinks-oauth-ui[3.8.0],com.atlassian.confluence.ext.newcode-macro-plugin:editor-scripts[2.0.16],confluence.web.resources:page-editor-js[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-openphoto[4.3.3],com.atlassian.confluence.image.effects.ImageEffectsPlugin:propertiespanel[1.0.1],com.comalatech.workflow:workflow-rte-resources[4.3.10],confluence.web.resources:draft-changes-js[1.0],com.atlassian.confluence.tinymceplugin:editor-javascript-resources[4.3.3],com.atlassian.plugins.editor:atlassian-rte-css[4.3.3],com.atlassian.confluence.tinymceplugin:editor-autocomplete-resources-only[4.3.3],com.atlassian.confluence.extra.widgetconnector:twitter-autoconvert-webresources[2.1.6],com.atlassian.plugins.editor:atlassian-rte-javascript[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-core[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-google-redirect[4.3.3],com.atlassian.confluence.tinymceplugin:editor-css-resources[4.3.3],confluence.web.components:editor-notifications[1.0],confluence.web.resources:jira-controls[1.0],com.atlassian.gadgets.embedded:gadget-core-resources[3.2.0-m26.1],com.atlassian.confluence.tinymceplugin:editor-autocomplete-resources[4.3.3],com.atlassian.plugins.editor:atlassian-rte-resources[4.3.3],confluence.web.resources:draft-changes[1.0],com.atlassian.confluence.plugins.confluence-paste:paste-resources[4.3.3],confluence.macros.core:macro-browser-smart-fields[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:drag-and-drop-for-editor[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:drop-zone-for-image-dialog[4.3.3],com.gliffy.integration.confluence:gliffy-rte-html5-resources[6.1.2],de.dl.confluence.plugin.imagemap.ImageMapPlugin:macro-browser-smart-fields[1.9],biz.artemissoftware.confluence.multiexcerpt.MultiExcerptMacro:editor_multi-includemacro[4.9.1],com.atlassian.confluence.plugins.jira.jira-connector:dialogsJs[1.4.2],com.atlassian.confluence.keyboardshortcuts:confluence-tinymce-keyboard-shortcuts[4.3.3],confluence.web.resources:draft-changes-css[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-jira[4.3.3],confluence.web.resources:page-editor[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-widget-connector[4.3.3],com.atlassian.confluence.plugins.confluence-paste:autoconvert-skitch[4.3.3],com.atlassian.confluence.plugins.confluence-mentions-plugin:editor-autocomplete-mentions[1.5.9],com.atlassian.confluence.plugins.confluence-paste:autoconvert-shortcut-links[4.3.3],com.atlassian.confluence.extra.officeconnector:officeconnector-editor-resources[2.1.10],confluence.editor.actions:editor-macro-browser[1.0],com.atlassian.confluence.plugins.confluence-paste:autoconvert-confluence[4.3.3],com.atlassian.plugins.editor:atlassian-rte-javascript-tinymce-extensions[4.3.3]&quot; data-atlassian-webresource-contexts=&quot;editor,macro-browser&quot; type=&quot;text/javascript&quot; src=&quot;/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/e705999b7ff41bfa4ab93bfa930d8fe0/_/download/contextbatch/js/editor,macro-browser,-viewcontent,-page/batch.js&quot; &gt;&lt;/script&gt;
+">
+            <meta name="ajs-date.format" content="dd  MMM, yyyy">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+<link rel="search" type="application/opensearchdescription+xml" href="/opensearch/osd.action" title="Orion Health Documentation Wiki"/>
+
+        <!-- include system javascript resources -->
+                        
+    
+    <!--[if lt IE 9]>
+<script data-atlassian-webresource-contents="com.atlassian.auiplugin:ajs-html5shim[3.6.5]" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/48/_/download/superbatch/js/batch.js?conditionalComment=lt+IE+9" ></script>
+<![endif]-->
+<script data-atlassian-webresource-contents="confluence.web.resources:contentnamesearch[1.0],confluence.web.resources:fancy-box[1.0],confluence.web.resources:page-move-resources[1.0],confluence.web.resources:labels-editor[1.0],confluence.web.resources:atlassian-effects[1.0],confluence.aui.staging:meta[4.3.3],confluence.web.components:core[1.0],com.atlassian.auiplugin:ajs[3.6.5],confluence.web.resources:safe-ajax[1.0],confluence.macros.profile:profile-macro-styles[1.0],com.atlassian.auiplugin:jquery-compatibility[3.6.5],confluence.macros.advanced:get-more[2.1.11],confluence.web.resources:animation[1.0],confluence.aui.staging:dark-features[4.3.3],confluence.macros.advanced:get-more-helper[2.1.11],confluence.web.resources:create-personal-space[1.0],com.atlassian.soy.soy-template-plugin:soy-deps[1.1.5],com.atlassian.confluence.keyboardshortcuts:confluence-keyboard-shortcuts[4.3.3],com.atlassian.confluence.restplugin:confluence-rest[4.3.3],confluence.web.resources:create-space[1.0],com.atlassian.plugins.shortcuts.atlassian-shortcuts-module:shortcuts[1.0],confluence.web.resources:userlink[1.0],confluence.web.resources:keygen[1.0],com.atlassian.confluence.extra.officeconnector:editinoffice[2.1.10],confluence.web.resources:view-content[1.0],confluence.web.components:property-panel-js[1.0],confluence.web.resources:search-results-grid[1.0],com.atlassian.auiplugin:jquery-lib[3.6.5],confluence.web.resources:jquery-json[1.0],confluence.web.resources:raphael[1.0],confluence.content.action.menu:linkpopup-resources[1.0],com.atlassian.auiplugin:ajs-gadgets-base[3.6.5],confluence.userstatus:userstatus-resources[1.0],confluence.web.resources:page-ordering-tree[1.0],confluence.aui.staging:storage-manager[4.3.3],confluence.web.resources:master-scripts[1.0],confluence.web.resources:breadcrumbs[1.0],confluence.web.resources:tooltip[1.0],com.atlassian.confluence.plugins.gadgets:gadget-directory-resources[4.3.3],confluence.web.resources:ajs[1.0],com.atlassian.confluence.whatsnew:whats-new-resources[4.3.3],com.atlassian.auiplugin:aui-core[3.6.5],confluence.web.resources:page-permissions-editor[1.0]" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/48/_/download/superbatch/js/batch.js" ></script>
+<!--[if lte IE 8]>
+<script data-atlassian-webresource-contents="com.atlassian.auiplugin:ajs[3.6.5]" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/48/_/download/superbatch/js/batch.js?conditionalComment=lte+IE+8" ></script>
+<![endif]-->
+<script data-atlassian-webresource-contents="com.comalatech.workflow:adhocworkflows-activity[4.3.10],com.comalatech.workflow:bundled[4.3.10],com.atlassian.confluence.plugins.view-source:view-source-menu-resources[4.3.3],com.atlassian.confluence.plugins.editor.confluence-source-editor:atlassian-source-editor-view-storage-javascript[1.0.6],com.atlassian.confluence.plugins.view-storage-format:view-storage-menu-resources[4.3.3],com.atlassian.confluence.plugins.share-page:mail-page-resources[1.23],com.comalatech.workflow:adhocworkflows-resource[4.3.10],confluence.macros.core:flash-autosize[4.3.3]" data-atlassian-webresource-contexts="page" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/6438a2416df9dd5f7df75bb28007a25f/_/download/contextbatch/js/page/batch.js" ></script>
+<script data-atlassian-webresource-contents="com.atlassian.confluence.plugins.confluence-inline-tasks:inline-tasks-resources[4.3.3],com.atlassian.confluence.plugins.drag-and-drop:drag-and-drop-for-view-content[4.3.3],com.atlassian.confluence.plugins.doctheme:splitter[4.3.3],com.gliffy.integration.confluence:gliffy-global-resources[6.1.2],net.customware.confluence.plugin.scaffolding:view-content-resources[4.6.4],com.atlassian.confluence.plugins.view-storage-format:view-comment-storage-resources[4.3.3],com.atlassian.confluence.plugins.jira.jira-connector:help-dialog-extension[1.4.2],com.atlassian.confluence.plugins.confluence-sortable-tables:sortable-table-resources[4.3.3],com.atlassian.confluence.plugins.share-page:share-keyboard-shortcut-js-resources[1.23],com.atlassian.confluence.plugins.drag-and-drop:support[4.3.3],confluence.web.resources:view-comment[1.0],com.atlassian.auiplugin:jquery-ui-other[3.6.5],com.atlassian.confluence.plugins.confluence-mentions-plugin:help-dialog-extension[1.5.9],com.atlassian.confluence.plugins.confluence-inline-tasks:inline-tasks-styles[4.3.3]" data-atlassian-webresource-contexts="viewcontent,main" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/9504a011e50f51a53d3144fe6768f6b1/_/download/contextbatch/js/viewcontent,main/batch.js" ></script>
+<script data-atlassian-webresource-contents="com.atlassian.confluence.plugins.quickcomments:quick-comment-hide-traditional[4.3.3]" data-atlassian-webresource-contexts="atl.comments" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/a0bb2cb2522edf3295616beb87908b3b/_/download/contextbatch/js/atl.comments/batch.js" ></script>
+<script data-atlassian-webresource-contents="com.atlassian.confluence.plugins.editor-loader:background-loading-editor[4.3.3],com.atlassian.confluence.plugins.quickcomments:quick-comment-initial[4.3.3],com.atlassian.confluence.plugins.quickcomments:quick-comment-page[4.3.3]" data-atlassian-webresource-contexts="plugin.quick.comment.pre" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/6bbbe36e4bc4b1157f16a9f6e5ffa119/_/download/contextbatch/js/plugin.quick.comment.pre/batch.js" ></script>
+<script data-atlassian-webresource-contents="com.adaptavist.confluence.contentFormattingMacros:inline-fix[3.0.0],com.adaptavist.confluence.contentFormattingMacros:clickable-resources[3.0.0],com.atlassian.plugins.navigation-link-plugin:rotp-menu[1.2]" data-atlassian-webresource-contexts="atl.general" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/c3b55a312795aa91ac030f7e86b49cbb/_/download/contextbatch/js/atl.general/batch.js" ></script>
+<script data-atlassian-webresource-contents="org.swift.confluence.tablesorter:tablesorter[2.3.0]" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/2.3.0/_/download/batch/org.swift.confluence.tablesorter:tablesorter/org.swift.confluence.tablesorter:tablesorter.js" ></script>
+<script data-atlassian-webresource-contents="org.swift.confluence.tablesorter:numeral[2.3.0]" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/2.3.0/_/download/batch/org.swift.confluence.tablesorter:numeral/org.swift.confluence.tablesorter:numeral.js" ></script>
+<script data-atlassian-webresource-contents="com.atlassian.confluence.plugins.pagetree:pagetree-resources[2.0.2]" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/2.0.2/_/download/batch/com.atlassian.confluence.plugins.pagetree:pagetree-resources/com.atlassian.confluence.plugins.pagetree:pagetree-resources.js" ></script>
+<script data-atlassian-webresource-contents="com.atlassian.support.stp:stp-license-status-resources[3.5.10]" type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/3.5.10/_/download/batch/com.atlassian.support.stp:stp-license-status-resources/com.atlassian.support.stp:stp-license-status-resources.js" ></script>
+
+    
+    <!-- end system javascript resources -->
+    <script src="/special/jquery.watermarkinput.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    // function saves scroll position
+    function fScroll(what)
+    {
+        var hidScroll = document.getElementById('hidScroll');
+        var val =document.getElementById(what);
+        hidScroll.value = val.scrollTop;
+    }
+
+// function moves scroll position to saved value
+function fScrollMove(what)
+{
+	var hidScroll = document.getElementById('hidScroll');
+	var whatever = document.getElementById(what);
+	if(whatever != null && hidScroll.value !== '') { 
+	  whatever.scrollTop = hidScroll.value;
+	}
+}
+</script>
+
+    
+    <link rel="canonical" href="https://doki.orionhealth.com/display/RHAPS60/Backup+and+Restore">
+    <link rel="shortlink" href="https://doki.orionhealth.com/x/v7-UAw">
+    <meta name="wikilink" content="[RHAPS60:Backup and Restore]">
+    <meta name="page-version" content="4">
+
+</head>
+
+<body             onload="placeFocus()"
+     id="com-atlassian-confluence" class="theme-documentation ">
+
+        
+            <fieldset class="parameters hidden">
+    <input type="hidden" id="workflowStatsUAKey" value="UA-11679828-12"/>
+</fieldset>
+    <div id="full-height-container">
+    <div id="header-precursor">
+        <input type="text" id="hidScroll" name="a" style="display:none;">
+
+<style type="text/css">
+/* why define a style here? well it's either this or overwrite it in every spaces pdf stylesheet!*/
+.pdf-only{
+display:none;
+}
+</style>
+                </div>
+
+<div id="header" class="sectionbottom ">
+        <form id="quick-search" class="quick-search" method="get" action="/dosearchsite.action">
+                <fieldset>
+            <input type="hidden" name="spaceSearch" value="false"/>
+        </fieldset>
+        <fieldset>
+            <legend>Quick Search</legend>
+            <input class="quick-search-query" id="quick-search-query" type="text" accessKey="search-pages-action.accesskey" autocomplete="off" name="queryString" size="25"/>
+            <input class="quick-search-submit" id="quick-search-submit" type="submit"  value="Search Confluence" />
+            <div class="aui-dd-parent quick-nav-drop-down"><!-- Quick nav appears here --></div>
+        </fieldset>
+        <fieldset class="hidden parameters">
+            <input type="hidden" id="quickNavEnabled" value="true" />
+                    </fieldset>
+    </form>
+
+    <ul id="header-menu-bar" class="ajs-menu-bar">
+                    
+            
+            <li class="normal ajs-menu-item">
+        <a id="browse-menu-link" class="browse trigger ajs-menu-title" href="#"><span><span>Browse</span></span></a>         <div class="assistive ajs-drop-down">
+                        <ul  id="browse-menu-link-leading"                 class="section-leading first">
+                                        <li>
+    
+        
+    
+    <a  id="space-pages-link" href="/pages/listpages.action?key=RHAPS60"  class=""   title="Browse pages in the Rhapsody Integration Engine 6.0 space">
+                   <span>Pages</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="space-blogposts-link" href="/pages/viewrecentblogposts.action?key=RHAPS60"  class=""   title="Browse blogs in the Rhapsody Integration Engine 6.0 space">
+                   <span>Blog</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="space-templates-link" href="/pages/templates2/listpagetemplates.action?key=RHAPS60"  class=""   title="Browse and edit templates in the Rhapsody Integration Engine 6.0 space">
+                   <span>Templates</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="space-labels-link" href="/labels/listlabels-heatmap.action?key=RHAPS60"  class=""   title="Browse labels in the Rhapsody Integration Engine 6.0 space">
+                   <span>Labels</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="space-attachments-link" href="/spaces/listattachmentsforspace.action?key=RHAPS60"  class=""   title="Browse attachments in the Rhapsody Integration Engine 6.0 space">
+                   <span>Attachments</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="space-mail-link" href="/mail/archive/viewmailarchive.action?key=RHAPS60"  class=""   title="Browse mail in the Rhapsody Integration Engine 6.0 space">
+                   <span>Mail</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="space-advanced-link" href="/spaces/viewspacesummary.action?key=RHAPS60"  class=""   title="Browse additional space functions in the Rhapsody Integration Engine 6.0 space">
+                   <span>Advanced</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="space-admin-link" href="/spaces/editspace.action?key=RHAPS60"  class=""   title="Administer the Rhapsody Integration Engine 6.0 space">
+                   <span>Space Admin</span></a>        </li>
+                            </ul>
+                        <ul  id="browse-menu-link-global"                 class="section-global">
+                                        <li>
+    
+        
+    
+    <a  id="whats-new-menu-link" href="http://docs.atlassian.com/confluence/docs-43/whatsnew/iframe"  class=""   title="">
+                   <span>What’s New</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="people-directory-link" href="/peopledirectory.action"  class=""   title="Browse the Confluence people directory">
+                   <span>People Directory</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="space-directory-link" href="/spacedirectory/view.action"  class=""   title="Browse the Confluence space directory">
+                   <span>Space Directory</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="feed-builder-link" href="/dashboard/configurerssfeed.action"  class=""   title="Create your custom RSS feed.">
+                   <span>Feed Builder</span></a>        </li>
+                                        <li>
+    
+            
+    
+    <a  id="keyboard-shortcuts-link" href="#"  class=""   title="View available keyboard shortcuts">
+                   <span>Keyboard Shortcuts</span></a>        </li>
+                                        <li>
+    
+            
+    
+    <a  id="gadget-directory-link" href="#"  class="user-item administration-link"   title="Browse gadgets provided by Confluence">
+                   <span>Confluence Gadgets</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="administration-link" href="/admin/console.action"  class="user-item administration-link"   title="Manage and maintain Confluence">
+                   <span>Confluence Admin</span></a>        </li>
+                            </ul>
+                    </div>
+    </li>
+            
+                                                                
+            <li class="normal ajs-menu-item">
+        <a id="user-menu-link" class="user trigger ajs-menu-title" href="#"><span><span>Harmeet Sooden</span></span></a>         <div class="assistive ajs-drop-down">
+                        <ul  id="user-menu-link-user-status"                 class="section-user-status first">
+                                        <li>
+        
+        
+    
+    <a  id="set-user-status-link" href="/display/~Harmeet.Sooden@orionhealth.com"  class="user-item update-user-status"   title="Update your status">
+                   <span>Update Status&hellip;</span></a>        </li>
+                            </ul>
+                        <ul  id="user-menu-link-user-preferences"                 class="section-user-preferences">
+                                        <li>
+    
+        
+    
+    <a  id="view-user-history-link" href="/users/viewuserhistory.action"  class="user-item user-history popup-link"   title="">
+                   <span>Recently Viewed</span></a>        </li>
+                            </ul>
+                        <ul  id="user-menu-link-user-content"                 class="section-user-content">
+                                        <li>
+    
+        
+    
+    <a  id="view-user-profile-link" href="/users/viewmyprofile.action"  class="user-item user-profile"   title="">
+                   <span>Profile</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  href="/users/viewfollow.action?username=Harmeet.Sooden@orionhealth.com"  class="follow-link"   title="">
+                   <span>Network</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  href="/display/status/Harmeet.Sooden@orionhealth.com/list"  class="user-item list-user-status"   title="">
+                   <span>Status Updates</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="user-favourites-link" href="/users/viewmyfavourites.action"  class="user-item"   title="">
+                   <span>Favourites</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="user-watches-link" href="/users/viewnotifications.action"  class="user-item"   title="">
+                   <span>Watches</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="user-drafts-link" href="/users/viewmydrafts.action"  class="user-item"   title="">
+                   <span>Drafts</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="user-settings-link" href="/users/viewmysettings.action"  class="user-item"   title="">
+                   <span>Settings</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="upm-requests-link" href="/plugins/servlet/upm/requests"  class=""   title="">
+                   <span>Atlassian Marketplace</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  href="/users/workflow/view.action"  class=""   title="">
+                   <span>Ad hoc Workflow Tasks</span></a>        </li>
+                            </ul>
+                        <ul  id="user-menu-link-user-operations"                 class="section-user-operations">
+                                        <li>
+    
+        
+    
+    <a  id="logout-link" href="/logout.action"  class="user-item logout-link"   title="">
+                   <span>Log Out</span></a>        </li>
+                            </ul>
+                    </div>
+    </li>
+                        <li class="normal ajs-menu-item">
+            <div id="splitter-button" class="hidden" title="Show or hide sidebar"></div>
+        </li>
+
+    </ul>
+    
+    
+    <ol id="breadcrumbs">
+                    
+                        
+        <li class="first" >
+                                    <span><a href="/dashboard.action" title="Go to Dashboard">Dashboard</a></span>
+                </li>
+                    
+                
+        <li>
+                                    <span><a href="/display/RHAPS60">Rhapsody Integration Engine 6.0</a></span>
+                </li>
+                                        <li id="ellipsis" title="Show all breadcrumbs"><span><strong>&#8230;</strong></span></li>
+                                    
+                
+        <li class="hidden-crumb" >
+                                    <span><a href="/display/RHAPS60/Rhapsody+Integration+Engine+6.0">Rhapsody Integration Engine 6.0</a></span>
+                </li>
+                                
+                
+        <li class="hidden-crumb" >
+                                    <span><a href="/display/RHAPS60/Administration+Manual">Administration Manual</a></span>
+                </li>
+                                
+                
+        <li class="hidden-crumb" >
+                                    <span><a href="/display/RHAPS60/Management+Console">Management Console</a></span>
+                </li>
+                                
+                
+        <li class="hidden-crumb" >
+                                    <span><a href="/display/RHAPS60/Management">Management</a></span>
+                </li>
+                    
+                
+        <li>
+                                    <span><a href="/display/RHAPS60/Backup+and+Restore">Backup and Restore</a></span>
+                </li>
+        </ol>
+
+</div>
+
+    <div id="splitter">
+    <div id="splitter-sidebar" >
+        
+
+                    
+        
+    
+
+<div class="plugin_pagetree">
+
+                <div id="pagetreesearch">
+            <form method="POST" action="/plugins/pagetreesearch/pagetreesearch.action" name="pagetreesearchform">
+                                    <input type="hidden" name="ancestorId" value="64273988">
+                                <input type="hidden" name="spaceKey" value="RHAPS60">
+                <input type="text"  size="20" name="queryString">
+                <input type="submit" value="Search">
+            </form>
+        </div>
+    
+        
+    <ul class="plugin_pagetree_children_list plugin_pagetree_children_list_noleftspace">
+        <div class="plugin_pagetree_children">
+        </div>
+    </ul>
+
+    <fieldset class="hidden">
+        <input type="hidden" name="treeId" value="">
+        <input type="hidden" name="treeRequestId" value="/plugins/pagetree/naturalchildren.action?decorator=none&amp;excerpt=false&amp;sort=position&amp;reverse=false&amp;disableLinks=false">
+        <input type="hidden" name="treePageId" value="64274367">
+
+        <input type="hidden" name="noRoot" value="false">
+        <input type="hidden" name="rootPageId" value="64273988">
+
+        <input type="hidden" name="rootPage" value="">
+        <input type="hidden" name="startDepth" value="0">
+        <input type="hidden" name="spaceKey" value="RHAPS60" >
+
+        <input type="hidden" name="i18n-pagetree.loading" value="Loading...">
+        <input type="hidden" name="i18n-pagetree.error.permission" value="Unable to load page tree. It seems that you do not have permission to view the root page.">
+        <input type="hidden" name="i18n-pagetree.eeror.general" value="There was a problem retrieving the page tree. Please check the server log file for more information.">
+        <input type="hidden" name="loginUrl" value="/login.action?os_destination=%2Fdisplay%2FRHAPS60%2FBackup%2Band%2BRestore">
+
+                <fieldset class="hidden">
+                                                <input type="hidden" name="ancestorId" value="64274358">
+                                    <input type="hidden" name="ancestorId" value="64274305">
+                                    <input type="hidden" name="ancestorId" value="65936984">
+                                    <input type="hidden" name="ancestorId" value="64273988">
+                                    </fieldset>
+    </fieldset>
+</div>
+
+
+
+            </div>
+    <div id="splitter-content">
+
+                    <script type="text/javascript" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1981/4.3.3/_/download/resources/com.atlassian.confluence.plugins.doctheme:resources/doc-theme.js"></script>
+    
+                        
+            
+<div id="main" >
+    <div id="main-header">
+        
+        
+    <div id="navigation" class="content-navigation view">
+                    <ul class="ajs-menu-bar">
+                                <li class="ajs-button normal">
+    
+        
+    
+    <a  id="editPageLink" href="/pages/editpage.action?pageId=64274367"  class="edit"  accessKey="e"  title="Edit">
+                   <span><u>E</u>dit</span></a>        </li>
+                    <li class="ajs-button normal">
+    
+            
+    
+    <a  id="shareContentLink" href="#"  class="share"   title="Share this content by emailing other users">
+                   <span><u>S</u>hare</span></a>        </li>
+                    
+            <li class="normal ajs-menu-item">
+        <a id="add-menu-link" class="add trigger ajs-menu-title" href="#"><span><span>Add</span></span></a>         <div class="assistive ajs-drop-down">
+                        <ul  id="add-menu-link-space"                 class="section-space first">
+                                        <li>
+    
+        
+    
+    <a  id="createPageLink" href="/pages/createpage.action?spaceKey=RHAPS60&amp;fromPageId=64274367"  class="add-page"  accessKey="p"  title="Add a Page">
+                   <span>Page</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="createPageLinkTemplate" href="/pages/createpage-choosetemplate.action?spaceKey=RHAPS60&amp;newSpaceKey=RHAPS60&amp;fromPageId=64274367"  class="add-page-template"  accessKey="p"  title="Add a Page using a template">
+                   <span>Page from template</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="createBlogpostLink" href="/pages/createblogpost.action?spaceKey=RHAPS60"  class="add-news"   title="Add a Blog Post">
+                   <span>Blog Post</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  href="/plugins/gliffy/launch.action?pageId=64274367"  class=""   title="">
+                    <span>
+                <img alt="Gliffy Diagram" src="/download/resources/com.gliffy.integration.confluence/icons/add_diagram_16.gif" height="16" width="16" title="Gliffy Diagram">
+                Gliffy Diagram
+            </span></a>        </li>
+                            </ul>
+                        <ul  id="add-menu-link-page"                 class="section-page">
+                                        <li>
+    
+        
+    
+    <a  id="add-comment-menu-link" href="/display/RHAPS60/Backup+and+Restore?showComments=true&amp;showCommentArea=true#addcomment"  class="add-comment"   title="Add a Comment">
+                   <span>Comment</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="add-attachment-link" href="/pages/viewpageattachments.action?pageId=64274367"  class="add-attachment"  accessKey="a"  title="Add an Attachment">
+                   <span>Attachment</span></a>        </li>
+                                        <li>
+    
+            
+    
+    <a  id="addPageTaskLink" href="#"  class="notTaskable"   title="">
+                    <span>
+                <img alt="Task" src="/download/resources/com.comalatech.workflow:approval/images/tasks.png" height="16" width="16" title="Task">
+                Task
+            </span></a>        </li>
+                            </ul>
+                    </div>
+    </li>
+                    
+            <li class="normal ajs-menu-item">
+        <a id="action-menu-link" class="action trigger ajs-menu-title" href="#"><span><span>Tools</span></span></a>         <div class="assistive ajs-drop-down">
+                        <ul  id="action-menu-link-primary"                 class="section-primary first">
+                                        <li>
+    
+        
+    
+    <a  id="view-attachments-link" href="/pages/viewpageattachments.action?pageId=64274367"  class="action-view-attachments"  accessKey="a"  title="View Attachments">
+                   <span><u>A</u>ttachments (2)</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="action-view-history-link" href="/pages/viewpreviousversions.action?pageId=64274367"  class="action-view-history"   title="">
+                   <span>Page History</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="page-activity" href="/pages/viewpageactivity.action?pageId=64274367"  class=""   title="">
+                    <span>
+                <img alt="Page Activity" src="/download/resources/com.comalatech.workflow:bundled/images/ico-activity-16.png" height="16" width="16" title="Page Activity">
+                Page Activity
+            </span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="action-page-permissions-link" href="/pages/viewinfo.action?pageId=64274367"  class="action-page-permissions"   title="Edit restrictions">
+                   <span>Restrictions</span></a>        </li>
+                            </ul>
+                        <ul  id="action-menu-link-marker"                 class="section-marker">
+                                        <li>
+    
+        
+    
+    <a  id="page-favourite" href="/labels/addfavourite.action?entityId=64274367&amp;atl_token=e849839858a0f339cae5af0be1f8b4a81130dc8f"  class="action-page-favourite"   title="">
+                   <span>Favourite</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="page-watch" href="/pages/addpagenotification.action?pageId=64274367&amp;atl_token=e849839858a0f339cae5af0be1f8b4a81130dc8f"  class="action-page-watching"   title="">
+                   <span>Watch</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="page-unwatch" href="/pages/removepagenotification.action?pageId=64274367&amp;atl_token=e849839858a0f339cae5af0be1f8b4a81130dc8f"  class="action-page-watching selected ie-page-watching-selected inactive"   title="">
+                   <span>Stop Watching</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="manage-watchers-menu-item" href="/pages/managepagenotifications.action?pageId=64274367"  class="action-manage-watchers"   title="Manage page watchers">
+                   <span>Manage Watchers</span></a>        </li>
+                            </ul>
+                        <ul  id="action-menu-link-secondary"                 class="section-secondary">
+                                        <li>
+    
+        
+    
+    <a  id="view-page-info-link" href="/pages/viewinfo.action?pageId=64274367"  class="action-view-info"   title="">
+                   <span>Info</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="link-to-page-link" href="/pages/viewinfo.action?pageId=64274367"  class=""   title="Link to this Page">
+                   <span>Link to this Page&hellip;</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="view-in-hierarchy-link" href="/pages/listpages-dirview.action?key=RHAPS60&amp;openId=64274367#selectedPageInHierarchy"  class=""   title="">
+                   <span>View in Hierarchy</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="action-source-editor-view-storage-link" href="/plugins/viewstorage/viewpagestorage.action?pageId=64274367"  class="action-view-storage view-storage-link popup-link"   title="">
+                   <span>View Storage Format</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="action-view-source-link" href="/plugins/viewsource/viewpagesrc.action?pageId=64274367"  class="action-view-source popup-link"   title="">
+                   <span>View Source</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="action-view-storage-link" href="/plugins/viewstorage/viewpagestorage.action?pageId=64274367"  class="action-view-storage view-storage-link popup-link"   title="">
+                   <span>View Storage Format</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="org.randombits.confluence.metadata.viewmetadata" href="/pages/metadata/viewxml.action?pageId=64274367"  class=""   title="">
+                   <span>View Scaffolding XML</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="action-export-pdf-link" href="/spaces/flyingpdf/pdfpageexport.action?pageId=64274367"  class=""   title="">
+                   <span>Export to PDF</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="action-export-word-link" href="/exportword?pageId=64274367"  class="action-export-word"   title="">
+                   <span>Export to Word</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="import-word-doc" href="/pages/worddav/uploadimport.action?pageId=64274367"  class=""   title="">
+                   <span>Import Word Document</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="evict_survey_feedback" href="/knowledgebase/evictsurveyresults.action?pageId=64274367"  class=""   title="">
+                   <span>Evict Survey Feedback</span></a>        </li>
+                            </ul>
+                        <ul  id="action-menu-link-modify"                 class="section-modify">
+                                        <li>
+    
+        
+    
+    <a  id="action-copy-page-link" href="/pages/copypage.action?idOfPageToCopy=64274367&amp;spaceKey=RHAPS60"  class="action-copy"   title="">
+                   <span>Copy</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="action-move-page-dialog-link" href="/pages/viewpage.action?pageId=64274367"  class="action-move"   title="">
+                   <span>Move</span></a>        </li>
+                                        <li>
+    
+        
+    
+    <a  id="action-remove-content-link" href="/pages/removepage.action?pageId=64274367"  class="action-remove"   title="">
+                   <span>Remove</span></a>        </li>
+                            </ul>
+                    </div>
+    </li>
+            </ul>
+    </div>
+
+        
+        <h1 id="title-heading" class="pagetitle">
+                            <a href="/display/RHAPS60"><img class="logo global custom" src="/download/attachments/27787265/global.logo?version=3&amp;modificationDate=1301528102656" alt=""></a>                
+            <span id="title-text">
+                                        <a href="/display/RHAPS60/Backup+and+Restore">Backup and Restore</a>
+                            </span>
+        </h1>
+    </div>
+
+    
+
+    
+    
+    
+    
+    
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+        
+    
+    
+                    
+    
+
+    
+
+
+<div id="content" class="page view">
+    
+
+<div id="action-messages">
+                        </div>
+
+
+
+    
+<script type="text/x-template" title="movePageDialog">
+    <div class="row information">
+        <div class="inner">
+            <div class="element">
+                Specify the new parent page for this page and its children by space and title.
+            </div>
+        </div>
+    </div>
+    <div class="form">
+        <fieldset>
+                
+
+    <legend class="assistive"><span>Change the Parent Page to a Known Page</span></legend>
+            <div class="row">
+                <label for="new-space">New space:</label>
+                <div class="value new-space-value">
+                    <input id="new-space-key" name="new-space-key" type="hidden" value="RHAPS60">
+                                            <span class="space-input">
+                            <input id="new-space" name="new-space" value="Rhapsody Integration Engine 6.0">
+                        </span>
+                        <span class="description hidden">Start typing a space name to see a list of suggestions.</span>
+                                        <div class="new-space-dropdown aui-dd-parent autocomplete"></div>
+                </div>
+            </div>
+            <div class="row">
+                <label for="new-parent-page">New parent page:</label>
+                <div class="value new-parent-page-value">
+                    <span class="page-input">
+                        <input id="new-parent-page" name="new-parent-page" value="Management">
+                    </span>
+                    <span class="description">Start typing a page title to see a list of suggestions.</span>
+                    <div class="new-parent-page-dropdown aui-dd-parent autocomplete"></div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="location-info">
+        <div class="row">
+            <label>Current location:</label>
+            <div class="value breadcrumbs-container">
+                <div class="breadcrumbs-line">
+                    <ul id="current-parent-breadcrumbs" class="breadcrumbs">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label>New location:</label>
+            <div class="value breadcrumbs-container">
+                <div class="breadcrumbs-line">
+                    <ul id="new-parent-breadcrumbs" class="breadcrumbs">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" title="movePageSearchPanel">
+    <div class="row information">
+        <div class="inner">
+            <div class="element">
+                Search for and select the new parent page for this page and its children.
+            </div>
+        </div>
+    </div>
+    <div id="move-page-search-container" class="row">
+        <div class="search-form">
+            <fieldset>
+                    
+
+    <legend class="assistive"><span>Search for a New Parent Page</span></legend>
+                    
+
+    <label  for="move-page-search-query" class="assistive">Search keywords</label>
+                <input class="search-query" id="move-page-search-query">
+                    
+
+    <label  for="move-page-search-space" class="assistive">Search in space</label>
+                                    <select id="move-page-search-space" class="search-space">
+                        <option value="conf_all" selected="selected">All Spaces</option>
+                        <option value="RHAPS60">Rhapsody Integration Engine 6.0</option>
+                    </select>
+                                <input type="button" value="Search">
+                            </fieldset>
+        </div>
+        <div class="search-results">
+        </div>
+    </div>
+</script>
+<script type="text/x-template" title="searchResultsGrid">
+    <table>
+        <thead>
+            <tr class="header">
+                <th class="search-result-title">Page Title</th>
+                <th class="search-result-space">Space</th>
+                <th class="search-result-date">Updated</th>
+            </tr>
+        </thead>
+    </table>
+</script>
+<script type="text/x-template" title="searchResultsGridCount">
+    <p class="search-result-count">{0}</p>
+</script>
+<script type="text/x-template" title="searchResultsGridRow">
+    <tr class="search-result">
+        <th class="search-result-title"><a href="{1}" class="content-type-{2}"><span>{0}</span></a></th>
+        <td class="search-result-space"><a class="space" href="/display/{4}/" title="{3}">{3}</a></td>
+        <td class="search-result-date"><span class="date" title="{6}">{5}</span></td>
+    </tr>
+</script><!-- Start restrictions section -->
+<script type="text/x-template" title="page-permissions-div">
+<div id="page-permissions-div">
+    <div id="page-permissions-editor-form">
+
+                <div id="page-permissions-error-div" class="hidden">
+            <a href="#" id="permissions-error-div-close">Ok</a>
+            <div></div>
+        </div>
+
+                <div id="page-permissions-type-radios" class="page-permissions-label-rows">
+            <div>
+                <input id="restrictViewRadio" type="radio" checked="checked" name="pagePermissionTypeRadio" value="view"/>
+                <label for="restrictViewRadio">Restrict viewing of this page</label>
+                <input id="restrictEditRadio" type="radio" name="pagePermissionTypeRadio" value="edit"/>
+                <label for="restrictEditRadio">Restrict editing of this page</label>
+            </div>
+        </div>
+        <div id="page-permissions-input" class="page-permissions-label-rows">
+            <div class="page-permissions-label">To:</div>
+            <div id="page-permissions-chooser-box">
+                                    <span id="page-permissions-choose-me" class="ajs-button normal">
+                        <img class="permission-entity-picture" src="/images/icons/profilepics/default.gif" border="0" alt="Me" align="absmiddle"/>
+                        <a href="#">Me</a>
+                        <span class="remote-user-name hidden">Harmeet.Sooden@orionhealth.com</span>
+                    </span>
+                                <span id="page-permissions-choose-user" class="ajs-button">
+                    
+
+
+
+    
+
+
+
+<a href="#" id='userpicker-popup-link-image' onClick="var picker = window.open('/spaces/openuserpicker.action?key=RHAPS60&amp;startIndex=0&amp;onPopupSubmit=AJS.PagePermissions.addUserPermissions', 'EntitiesPicker', 'status=yes,resizable=yes,top=100,left=200,width=700,height=680,scrollbars=yes'); picker.focus(); return false;"><img src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1977/_/images/icons/user_16.gif" height=16 width=16 border=0 align="absmiddle"  title="Choose users" /></a>
+<a href="#" id='userpicker-popup-link-text' onClick="var picker = window.open('/spaces/openuserpicker.action?key=RHAPS60&amp;startIndex=0&amp;onPopupSubmit=AJS.PagePermissions.addUserPermissions', 'EntitiesPicker', 'status=yes,resizable=yes,top=100,left=200,width=700,height=680,scrollbars=yes'); picker.focus(); return false;">Person...</a>
+
+
+                </span>
+                <span id="page-permissions-choose-group" class="ajs-button">
+                    
+
+
+
+    
+
+ 
+
+<a href="#" id='grouppicker-popup-link-image' onClick="var picker = window.open('/spaces/opengrouppicker.action?key=RHAPS60&amp;startIndex=0&amp;actionName=dosearchgroups.action&amp;onPopupSubmit=AJS.PagePermissions.addGroupPermissions', 'EntitiesPicker', 'status=yes,resizable=yes,top=100,left=200,width=580,height=550,scrollbars=yes'); picker.focus(); return false;"><img src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1977/_/images/icons/group_16.gif" height=16 width=16 border=0 align="absmiddle"  title="Choose groups" /></a>
+<a href="#" id='grouppicker-popup-link-text' onClick="var picker = window.open('/spaces/opengrouppicker.action?key=RHAPS60&amp;startIndex=0&amp;actionName=dosearchgroups.action&amp;onPopupSubmit=AJS.PagePermissions.addGroupPermissions', 'EntitiesPicker', 'status=yes,resizable=yes,top=100,left=200,width=580,height=550,scrollbars=yes'); picker.focus(); return false;">Group...</a>
+
+
+                </span>
+            </div>
+            <div id="page-permissions-input-box">
+                <input type="text" id="page-permissions-names-input" name="permissionNames"
+                    placeholder="Enter user or group name" class="autocomplete-user"
+                    data-max="10" data-none-message="No matches"
+                    data-target="#page-permissions-names-hidden" data-template="{username}"
+                    data-dropdown-target="#page-perms-name-dropdown-wrapper" data-resize-to-input="true"
+                    size="30"/>
+                <input
+    type="hidden"
+                            id="page-permissions-names-hidden"           />                <img height="16px" width="1px" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1977/_/images/border/spacer.gif"/>
+                <input type="button" id="add-typed-names" value="Restrict">
+                <div id="page-perms-name-dropdown-wrapper" class="aui-dd-parent autocomplete"></div>
+            </div>
+        </div>
+    </div>
+    <div id="page-permissions-tables">
+        <div id="page-permissions-table-div">
+                        <table id="page-permissions-table" class="page-permissions-table">
+                <tr id="page-permissions-no-views" class="marker-row">
+                    <td colspan="3" class="page-permissions-marker-cell"><span>No view restrictions are defined for this page</span></td>
+                </tr>
+                <tr id="page-permissions-no-edits" class="marker-row">
+                    <td colspan="3" class="page-permissions-marker-cell"><span>No edit restrictions are defined for this page</span></td>
+                </tr>
+            </table>
+        </div>
+        <div id="page-inherited-permissions-table-div" class="hidden">
+            <span id="page-inherited-permissions-table-desc">
+                <a class="icon twisty-closed">Show/Hide</a>
+                <a id="toggle-inherited-permissions" title="Click to see inherited restrictions">This page has restricted parent pages. It can only be seen by users who can see those parent pages.</a>
+            </span>
+            <div id="page-inherited-permissions-tables" class="hidden page-inheritance-togglable"></div>
+        </div>
+    </div>
+</div>
+</script>
+
+<!-- End restrictions section -->
+
+        
+    
+    
+        <fieldset class="hidden parameters">
+            <input type="hidden" title="parentPageId" value="64274358">
+        </fieldset>
+
+        
+                            
+    
+
+                    
+
+        
+        <a href="#page-metadata-end" class="assistive">Skip to end of metadata</a>
+<div id="page-metadata-start" class="assistive"></div>
+
+    <div class="page-metadata">
+        <ul>
+                            <li class="page-metadata-item noprint">
+    
+            
+    
+    <a  id="content-metadata-page-restrictions" href="#"  class="page-metadata-icon page-restrictions hidden"   title="Page restrictions apply. Click the lock icon to view or edit the restriction.">
+                   <span>Page restrictions apply</span></a>        </li>
+                            <li class="page-metadata-item noprint">
+    
+        
+    
+    <a  id="content-metadata-attachments" href="/pages/viewpageattachments.action?pageId=64274367&amp;metadataLink=true"  class="page-metadata-icon action-view-attachments"  accessKey="a"  title="Attachments: 2">
+                   <span><span class="page-metadata-attachments-text">Attachments:</span><span class="page-metadata-attachments-count">2</span></span></a>        </li>
+                        <li class="page-metadata-modification-info">
+                                    Added by <a href="/display/~Harmeet.Sooden@orionhealth.com"
+                          class="url fn confluence-userlink" data-username="Harmeet.Sooden@orionhealth.com"
+                   >Harmeet Sooden</a>, last edited by <a href="/display/~Harmeet.Sooden@orionhealth.com"
+                          class="url fn confluence-userlink" data-username="Harmeet.Sooden@orionhealth.com"
+                   >Harmeet Sooden</a> on 24  Jun, 2014
+                                                                <span class="noprint">&nbsp;(<a id="view-change-link" href="/pages/diffpages.action?pageId=64274367&originalId=70421642">view change</a>)</span>
+                                                </li>
+                    </ul>
+                </div>
+
+
+<a href="#page-metadata-start" class="assistive">Go to start of metadata</a>
+<div id="page-metadata-end" class="assistive"></div>
+        
+        <fieldset class="hidden parameters">
+                        <input type="hidden" title="browsePageTreeMode" value="view">
+        </fieldset>
+
+        <div class="wiki-content">
+                           <div id="workflow-version-info" class="page-metadata"></div>
+<script type="text/x-template" title="adhocworkflows-loading">
+    <div class="progress-messages-icon"></div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-user">
+    <li class="preset"><img src="{pictureUrl}"><a name="{name}"><span>({name}) {shortName}</span></a></li>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-assignee">
+    <li class="assignee" name="{name}">
+        <div>
+            <img src="{pictureUrl}"/>{fullName}
+            <span class="remove-assignee"></span>
+        </div>
+    </li>
+</script>
+
+<script type="text/x-template" title="adhoc-action">
+    <span class="workflow-action {id}" name="{id}"></span>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-approvals">
+    <div class="progress-messages-icon"></div>
+    <div id="workflow-main">
+        <div class="approvals">
+        </div>
+        <form class="aui adhocworkflows">
+            <div class="button-panel dialog">
+                <a href="#" class="parameters">Parameters...</a>
+                <a href="#" class="cancel-dialog">Cancel</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-approval-action-default">
+    <span class="approval-name">{defaultAction.name}</span>
+    <a name="{defaultAction.id}" class="approve workflow-action" href="#"><span>{defaultAction.shortName}</span></a>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-approval-duedate">
+    <div class="task-duedate">due {friendlyDueDate}</div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-approval">
+    <div id="{id}" class="approval {separator}">
+        <div class="approval-header clr">
+            <div class="name {mark}">
+            </div>
+            <div class="approval-duedate">
+            </div>
+            <div class="workflow-actions">
+            </div>
+        </div>
+        <div class="approval-edit">
+            <div class="adhoc-message">
+            </div>
+            <form class="aui approval {signatureType}">
+                <input type="hidden" name="name" value="{name}"/>
+                <fieldset>
+                    <div class="credential-username"><label for="username">User Name</label></div>
+                    <input class="credential-username" type="text" name="username" id="username" width="10" >
+                    <div class="credential-password"><label for="password">Password</label></div>
+                    <input class="credential-password" type="password" name="password" id="password" width="10">
+                                        <input  type="text"
+                            class="text assignee-user"
+                            name="assignee"
+                            placeholder="Assign to..."/>
+                                        <input  type="text"
+                            class="text autocomplete-filtered-user"
+                            users="{filterUsers}"
+                            groups="{filterGroups}"
+                            name="assignee"
+                            data-max="10"
+                            data-template="{username}"
+                            data-none-message="No matching user found"
+                            placeholder="Assign to..."/>
+                    <div class="usersdropdown aui-dd-parent">
+                        <a href="" class="aui-dd-trigger" style="display:none;"></a>
+                        <div class="aui-dropdown aui-dropdown-left hidden">
+                            <ol>
+                            </ol>
+                        </div>
+                    </div>
+                    <ol class="assignees select">
+                    </ol>
+                    <textarea class="textarea" placeholder="Add an optional note"/>
+                </fieldset>
+                <div class="button-panel">
+                    <input type="submit" name="approve" class="approve" value="Approve">
+                    <input type="submit" name="reject" class="reject" value="Reject">
+                    <input type="submit" name="assign" class="assign" disabled="disabled" value="Assign">
+                    <a href="#" class="cancel-approval">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-assignee-option">
+    <option class="assigneename" value="{name}">
+        <img src="{pictureUrl}" title="{fullName}"/>{fullName}
+    </option>
+</script>
+
+
+<script type="text/x-template" title="adhocworkflows-approver">
+    <div id="{id}" class="approval approver">
+        <div class="approval-header clr">
+            <div class="name {mark}">
+                <img src="{user.pictureUrl}" title="{user.fullName}">
+            </div>
+            <div class="workflow-actions">
+            </div>
+        </div>
+        <div class="approval-edit">
+            <form class="aui approval {signatureType}">
+                <input type="hidden" name="name" value="{name}"/>
+                <fieldset>
+                    <div class="credential-username"><label for="username">User Name</label></div>
+                    <input class="credential-username" type="text" name="username" id="username" width="10" >
+                    <div class="credential-password"><label for="password">Password</label></div>
+                    <input class="credential-password" type="password" name="password" id="password" width="10">
+                    <ol class="assignees assignee">
+                    <li style="display:none" name="{user.name}"></li>
+                    </ol>
+                    <textarea class="textarea" placeholder="Add an optional note"/>
+                </fieldset>
+                <div class="button-panel">
+                    <input type="submit" name="approve" class="approve" value="Approve">
+                    <input type="submit" name="reject" class="reject" value="Reject">
+                    <input type="submit" name="assign" class="assign" value="Assign">
+                    <input type="submit" name="unassign" class="delete" value="Unassign">
+                    <a href="#" class="cancel-approval">Cancel</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhoctasks-tasks">
+    <div class="progress-messages-icon"></div>
+    <div id="tasks-main">
+        <div class="tasks">
+        </div>
+        <form class="aui adhocworkflows addtask">
+            <input type="hidden" name="id" value=""/>
+            <fieldset>
+                <span class="workflow-action assign-new-task" name="assign"></span>
+                <input  id="taskName0"
+                        name="taskName0"
+                        class="text taskName active"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName1"
+                        name="taskName1"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName2"
+                        name="taskName2"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName3"
+                        name="taskName3"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName4"
+                        name="taskName4"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName5"
+                        name="taskName5"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName6"
+                        name="taskName6"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName7"
+                        name="taskName7"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName8"
+                        name="taskName8"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="taskName9"
+                        name="taskName9"
+                        class="text taskName"
+                        type="text"
+                        placeholder="Task name..."/>
+                <input  id="newTaskAssignee"
+                        type="text"
+                        class="text autocomplete-user"
+                        name="assignee"
+                        data-max="10"
+                        data-template="{username}"
+                        data-none-message="No matching user found"
+                        placeholder="Assign to..."/>
+                <div class="usersdropdown aui-dd-parent">
+                    <a href="" class="aui-dd-trigger" style="display:none;"></a>
+                    <ul class="aui-dropdown aui-dropdown-left hidden">
+                    </ul>
+                </div>
+                <ol class="assignees select single">
+                </ol>
+                <textarea class="textarea" placeholder="Add an optional note"/>
+            </fieldset>
+            <div class="button-panel">
+                <a href="#" class="add-task">Add task...</a>
+                <input type="submit" name="create" class="create" value="Create">
+                <a href="#" class="cancel-addtask">Cancel</a>
+                <a href="#" class="cancel-dialog">Cancel</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhoctasks-tasks-count">
+    {count} Tasks
+</script>
+
+<script type="text/x-template" title="adhoctasks-tasks-count0">
+    Tasks
+</script>
+
+<script type="text/x-template" title="adhoctasks-tasks-count1">
+    1 Task
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-action-default">
+    <span class="task-name">{name}</span>
+        <a name="{action.id}" class="workflow-action" title="{hint}" href="#">{shortName}</a>
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-name">
+    <span class="task-name">{name}</span>
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-assignee">
+    <img src="{user.pictureUrl}" title="{user.fullName}"> {user.fullName}
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-duedate">
+    <span class="task-duedate">due {friendlyDueDate}</span>
+</script>
+
+<script type="text/x-template" title="adhoctasks-task-completed">
+    <div>
+        {actor.fullName} {lastAction} {date}
+    </div>
+    <blockquote class="note">
+        {comment}
+    </blockquote>
+</script>
+
+<script type="text/x-template" title="adhoctasks-task">
+    <div id="task-{id}" class="task {toggle}">
+        <div class="task-header">
+            <div class="name {completed}">
+            </div>
+            <div class="workflow-actions">
+            </div>
+        </div>
+        <div class="task-edit">
+            <div class="task-caption">
+            </div>
+            <form class="aui">
+                <input type="hidden" name="id" value="{id}"/>
+                <fieldset>
+                    <input  type="text"
+                            class="text autocomplete-user"
+                            name="assignee"
+                            data-max="10"
+                            data-template="{username}"
+                            data-none-message="No matching user found"
+                            placeholder="Assign to..."/>
+                    <div class="usersdropdown aui-dd-parent">
+                        <a href="" class="aui-dd-trigger" style="display:none;"></a>
+                        <ul class="aui-dropdown aui-dropdown-left hidden">
+                        </ul>
+                    </div>
+                    <ol class="assignees select single">
+                    </ol>
+                    <textarea class="textarea" placeholder="Add an optional note"/>
+                </fieldset>
+                <div class="button-panel">
+                    <input type="submit" name="remove" class="remove" value="Delete">
+                    <input type="submit" name="complete" class="complete" value="Complete">
+                    <input type="submit" name="assign" class="assign" value="Assign">
+                    <a href="#" class="cancel-task">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
+<script type="text/x-template" title="adhocworkflows-states">
+    <div class="progress-messages-icon"></div>
+    <div id="workflow-main">
+        <form class="aui state">
+            <fieldset>
+                <span class="workflow-action assign-page" name="assign"></span>
+                <select id="select-workflow-state" name="state">
+                </select>
+                <ol class="assignees assigned">
+                </ol>
+                <input type="text "
+                            class="text newstatename"
+                            placeholder="New State name"/>
+                <input type="text"
+                            class="text autocomplete-user"
+                            name="assignee"
+                            data-max="10"
+                            data-template="{username}"
+                            data-none-message="No matching user found"
+                            placeholder="Assign to..."
+                            placeholder2="Reassign to..."/>
+                <div class="usersdropdown aui-dd-parent">
+                    <a href="" class="aui-dd-trigger" style="display:none;"></a>
+                    <ul class="aui-dropdown aui-dropdown-left hidden">
+                    </ul>
+                </div>
+                <ol class="assignees select single">
+                </ol>
+                <textarea class="textarea" placeholder="Add an optional note"></textarea>
+            </fieldset>
+            <div class="button-panel">
+                <input type="submit" name="change" class="accept" value="Accept">
+                <input type="submit" name="unassign" class="unassign" value="Unassign">
+                <a href="#" class="parameters">Parameters...</a>
+                <a href="#" class="cancel-dialog">Cancel</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-state">
+    <option>{name}</option>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-state-adhoc">
+    <optgroup label="Ad hoc Workflow">
+        <option value="0">Create a new state...</option>
+    </optgroup>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-select">
+    <div class="progress-messages-icon"></div>
+    <form class="aui adhocworkflows">
+        <fieldset>
+            <label for="select-workflow-templates">Workflow</label>
+            <select id="select-workflow-templates" name="workflowTemplate" class="select">
+            </select>
+            <div class="adhoc-states">
+                <label for="adhoc-state-names">State names</label>
+                <input id="adhoc-state-names" type="text" class="state-names" value="In Progress, Approved"/>
+                <span class="description">
+                    This is just an initial list, you will be able to change later
+                </span>
+            </div>
+
+            <span class="description">
+                Learn more about
+                <a target="_blank" href="http://wiki.comalatech.com/x/UAF7">
+                    working with workflows
+                </a>
+            </span>
+        </fieldset>
+        <div class="button-panel">
+            <input type="submit" name="confirm" value="Add">
+            <a href="#" class="close-dialog">Cancel</a>
+        </div>
+
+    </form>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-adhoc-template">
+    <optgroup label="Ad hoc Workflow">
+        <option value="0" title="Use this to define the workflow as you go: at each step allow participants to create tasks and to decide where next to route the document. All the states and tasks will be recorded and you will be able to reuse the workflow.">Start with a blank workflow</option>
+    </optgroup>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-select-template">
+    <option value="{id}" title="{description}">{name}</option>
+</script>
+
+
+<script type="text/x-template" title="adhocworkflows-form">
+    <div class="progress-messages-icon"></div>
+    <div id="workflow-form">
+        <form class="aui ahoc-form">
+            <fieldset>
+                <table>
+
+                </table>
+            </fieldset>
+            <div class="button-panel">
+                <input type="submit" name="accept" class="accept" value="Accept">
+                <a href="#" class="edit-form"><span class="value">Edit</span></a>
+                <a href="#" class="cancel-dialog">Cancel</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield">
+    <tr>
+        <td class="field-name">
+            {name}
+        </td>
+        <td id="{id}" class="value">
+        </td>
+    </tr>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield-text">
+    <span class="value">{value}</span>
+    <input name="{id}" type="text" class="text" value="{value}"/>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield-user">
+    <span class="user value" title="{value}">{value}</span>
+    <input  type="text"
+            class="text autocomplete-user"
+            name="{id}"
+            data-max="10"
+            data-template="{username}"
+            data-none-message="No matching user found"
+            placeholder="Assign to..."
+            value="{value}"/>
+    <div class="usersdropdown aui-dd-parent">
+        <a href="" class="aui-dd-trigger" style="display:none;"></a>
+        <ul class="aui-dropdown aui-dropdown-left">
+        </ul>
+    </div>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield-decorated-user">
+    <img src="{user.pictureUrl}" title="{user.fullName}">
+    <span>{user.fullName}</span>
+</script>
+
+
+<script type="text/x-template" title="adhocworkflows-inputfield-list">
+    <span class="value">
+        {value}
+    </span>
+    <select name="{id}">
+    </select>
+</script>
+
+<script type="text/x-template" title="adhocworkflows-inputfield-list-option">
+    <option {selected}>{option}</option>
+</script>
+
+<fieldset class="parameters hidden">
+    <input type="hidden" id="approvalsLabel" value="Approvals">
+    <input type="hidden" id="statesLabel" value="State">
+    <input type="hidden" id="parametersLabel" value="Parameters">
+    <input type="hidden" id="tasksLabel" value="Tasks">
+    </fieldset>
+
+<div class="table-wrap">
+<table id='TBL1402975989515'  borderColor=#ffcc66 atlassian-macro-output-type=BLOCK bgcolor=#ffffcc class="confluenceTable"><tbody><tr><td class="confluenceTd"><p><em>Menu Path</em> : <strong>Management&gt;Backup and Restore</strong></p></td></tr><tr><td class="confluenceTd"><p><em>Required <a href="/display/RHAPS60/Access+Group+Rights">Access Group Rights</a>:</em></p><ul><li>Login to Web Management Console</li><li><p>Organize backups</p></li></ul></td></tr></tbody></table></div>
+<script type='text/javascript'>
+(new org_swift_TableSorter()).customizeMacroTable('TBL1402975989515',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+''
+);
+AJS.$(document.getElementById('TBL1402975989515')).bind('makeSortable.SortableTables', function(e) { e.preventDefault(); });
+</script>
+
+<script type='text/javascript' src='/includes/js/date.js'></script><p>From the <strong>Backup and Restore</strong> page, you can view, add, and maintain scheduled backups. All users can view the backup schedules, but only administrators can schedule backups, perform actions on schedule (backup/cancel) or restore a backup.</p><div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="/images/icons/emoticons/warning.png" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><p>The backups are platform-dependent. Thus, a backup created on a Rhapsody engine running on a <em>Windows</em><span class="st">®</span> machine, for example, can only be restored on a Rhapsody engine running on a <em>Windows</em><span class="st">®</span> machine.</p></td></tr></table></div><div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="/images/icons/emoticons/warning.png" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><p>The 'Organize backups' access right requires the 'Login to Web Management Console' access right, otherwise it cannot be selected.</p></td></tr></table></div><div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="/images/icons/emoticons/warning.png" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><p>Ensure you back up your configuration before upgrading your engine, particularly when you are upgrading from Rhapsody version 5 or earlier to version 6 or later. Refer to <a href="/display/RHAPS60/Configuration+Migration">Configuration Migration</a> for details.</p></td></tr></table></div><p><br class="atl-forced-newline" /><img class="confluence-embedded-image" src="/download/attachments/64274367/backuppage.png?version=1&amp;modificationDate=1377552802498" data-image-src="/download/attachments/64274367/backuppage.png?version=1&amp;modificationDate=1377552802498"></p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><th class="confluenceTh"><p>Column</p></th><th class="confluenceTh"><p>Description</p></th></tr><tr><td class="confluenceTd"><p>Type</p></td><td class="confluenceTd"><p>The configured type of backup; <code>Full</code> or <code>Incremental</code>. Refer to <a href="#BackupandRestore-FullandIncrementalBackups">Full and Incremental Backups</a> for details.</p></td></tr><tr><td class="confluenceTd"><p>Area</p></td><td class="confluenceTd"><p>The configured area to be backed up: <code>Administration</code>, <code>Configuration</code>, <code>Message Store</code> or <code>All</code>. Refer to <a href="#BackupandRestore-BackupAreas">Backup Areas</a> for details.</p></td></tr><tr><td class="confluenceTd"><p>Directory</p></td><td class="confluenceTd"><p>A unique path where the backup for a schedule will be stored.</p><div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="/images/icons/emoticons/information.png" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><p>It is the directory on the Rhapsody server. If the machine is a Unix® machine, then the path will forward slashes (<code>/home/...</code>), if the machine is <em>Windows®</em>, then the path will use backslashes be (<code>C:\...</code>).</p></td></tr></table></div></td></tr><tr><td class="confluenceTd"><p>Frequency</p></td><td class="confluenceTd"><p>The number of times the backup would take place. A backup can be scheduled to run every x hours (where x is a whole number greater than one) at y minutes past the hour (0 - 59), daily at a specified time, weekly (at a specified day and time), or monthly (at a specified day and time).</p></td></tr><tr><td class="confluenceTd"><p>Last Backup <img class="confluence-embedded-image" src="/download/attachments/64274367/sortable_icon.png?version=1&amp;modificationDate=1361833967329" data-image-src="/download/attachments/64274367/sortable_icon.png?version=1&amp;modificationDate=1361833967329">   </p></td><td class="confluenceTd"><p>The time of the last backup.</p></td></tr><tr><td class="confluenceTd"><p>Status</p></td><td class="confluenceTd"><p>The current state of a backup; <code>Running</code> or <code>Not running</code>.</p></td></tr><tr><td class="confluenceTd"><p>Actions</p></td><td class="confluenceTd"><ul><li>Click the <strong>Add New Schedule</strong> link to add a new backup schedule. Refer to <a href="/display/RHAPS60/i.+Scheduling+a+Backup">Scheduling a Backup</a> for details.</li><li>Click the <strong>Backup Now</strong> link to start a scheduled backup immediately.</li><li>Click the <strong>Edit Schedule</strong> link to schedule a backup. Refer to <a href="/display/RHAPS60/i.+Scheduling+a+Backup#i.SchedulingaBackup-ModifyinganExistingBackupSchedule">Modifying an Existing Backup Schedule</a> for details.</li></ul></td></tr></tbody></table></div><h2 id="BackupandRestore-FullandIncrementalBackups">Full and Incremental Backups</h2><p>The <strong>Backup and Restore</strong> page enables you to schedule full and incremental backups. Full backups will backup all files, while incremental backups only backup files that are new since the previous backup, plus any files that were active in the previous backup (that is, the files that have changed since the last backup).</p><p>It is a good idea to configure an infrequent full backup to the same directory as a frequent incremental; for example, a weekly full backup and a daily incremental backup. Each full backup provides a fresh starting point for further incrementals, rather than having a never-ending chain.</p><p>A new backup will never overwrite a previous backup. All backups (full and incremental) are created in a directory inside the directory you specify in the <strong>Backup</strong> field, with an appropriate name to indicate whether it was full or incremental and the time of the backup; for example, <code>20080211-1420_INCREMENTAL</code>.</p><div class='panelMacro'><table class='warningMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="/images/icons/emoticons/forbidden.png" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><p>Backup directories are not deleted by Rhapsody. It is up to you to determine how long backups should be retained and to delete them once they are no longer required.</p><p>Take care when deleting old backups; to restore a backup you must have a valid starting point (that is an initial full backup), and all subsequent incremental backups. You cannot restore a backup if there is no starting point or if an incremental is missing.</p></td></tr></table></div><p><!-- DO NOT ENABLE EVER- It breaks the Doki and requires a restart -->
+
+<!-- DO NOT REMOVE - Macro error will appear on all Doki pages where it has been used -->
+
+<!-- <div id="pagebreak" style="page-break-before:always;"></div> -->
+
+
+<!-- <div id="pagebreak" class="pagebreak"></div> --></p><h2 id="BackupandRestore-BackupAreas">Backup Areas</h2><p>Backups can be performed on the following <strong>Areas</strong>:</p><ul><li><p>Administration - includes the backup and archive cleanup schedules and user accounts.</p><div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="/images/icons/emoticons/warning.png" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><p>In LDAP mode, the backup does not store the user accounts, instead it stores the settings for connecting to the LDAP server.</p></td></tr></table></div></li><li>Configuration - backs up the engine configuration. This includes all route, communication point and filter configurations, along with any other configuration data (auxiliary files, definitions, watchlists and delivery agent global properties, message tracking schemes, security objects and variables).</li><li><p>Message Store - backs up the logs as well as the message data.</p><div class='panelMacro'><table class='noteMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="/images/icons/emoticons/warning.png" width="16" height="16" align="absmiddle" alt="" border="0"></td><td><p>The license file, <code>log4j.properties</code>, and <code>rhapsody.properties</code> files are <strong>not</strong> backed up by any of the backup areas as these are engine-specific environment-dependent properties. You need to backup these files manually.</p></td></tr></table></div></li></ul><p>When doing a message backup, backup will pause running routes for a short period of time to backup active files. After active files are backed up, any non-active files (those that are changing or not being written to) are backed up, while the engine is running. During this time, the engine should operate as per normal (although it may perform slightly slower due to the demand on IO while copying files).</p><h2 id="BackupandRestore-BackupStateandActions">Backup State and Actions</h2><p>Any scheduled backup displays its current state (<code>running</code> or <code>not running</code>) or when it last ran (if it is currently <code>not running</code>, but has been run at least once at some time). If a backup is not running, you can start a scheduled backup immediately by clicking the <strong>Backup Now</strong> link for the backup.</p><p>Only one backup can be run at a time. If a backup is running, you can cancel the backup by clicking the <strong>Cancel</strong> button.</p><p>											<br class="alt-force-newline" />
+<div id="footernav" class="noprint" align="center"> <a href="/display/RHAPS60/Archive+Cleanup" title="Archive Cleanup" rel="nofollow"><span class="image-wrap" style=""> <img src="/download/attachments/39374109/back_arrow.gif" style="border: 0px solid black" /> </span> Archive Cleanup</a>   |   <a href="#" onclick="document.getElementById('splitter-content').scrollTop=0; return false" rel="nofollow">Top of Page</a>   |   <a href="/display/RHAPS60/i.+Scheduling+a+Backup" title="i. Scheduling a Backup" rel="nofollow">i. Scheduling a Backup <span class="image-wrap" style=""> <img src="/download/attachments/39374109/forward_arrow.gif" style="border: 0px solid black" /> </span></a></div></p>
+    
+        </div>
+
+        <!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+         <rdf:Description
+    rdf:about="https://doki.orionhealth.com/display/RHAPS60/Backup+and+Restore"
+    dc:identifier="https://doki.orionhealth.com/display/RHAPS60/Backup+and+Restore"
+    dc:title="Backup and Restore"
+    trackback:ping="https://doki.orionhealth.com/rpc/trackback/64274367"/>
+</rdf:RDF>
+-->
+
+        <script type="text/x-template" title="labels-dialog-div">
+        <div id="labels-dialog">
+        <div class="labels-editor">
+            <form method="GET" action="" id="add-labels-form">
+                <div id="labelOperationErrorContainer">
+                    <span class="error"><span class="errorMessage" id="labelOperationErrorMessage"></span></span>
+                </div>
+    
+                <div id="label-input-fields">
+                    <input autocomplete="off" id="labelsString" name="labelsString" value="">
+                    <input id="add-labels-editor-button" type="submit" class="add-labels" value="Add">
+                </div>
+                <div id="labelsAutocompleteList" class="aui-dd-parent resize-to-input" style="width: 417px"></div>
+                <div id="dialog-label-list">
+                    <!-- DIV placeholder for labels list, is copied into in labels-dialog.js -->
+                </div>
+                <div id="waitImageAndStatus">
+                    <img class="waiting" alt="Please wait" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1977/_/images/icons/wait.gif">&nbsp;
+                    <span id="labelOperationStatus" class="smalltext"></span>
+                </div>
+                <div class="labels-tip"></div>
+            </form>
+        </div>
+        <div style="display: none;">
+            <div class="labels-section-content content-column"
+    	    		entityid="64274367" entitytype="Page"
+    		>
+	<div class="labels-content">
+		
+
+<ul class="label-list">
+    <li class="no-labels-message-container hidden">
+        <span id="labels-section-title-none" class="no-labels-message">
+            None
+        </span>
+    </li>
+    <li class="label-container">
+<a class="label confluence-label" data-label-id="22511618" href="/label/RHAPS60/monitor" rel="tag">
+    <span>monitor</span>
+    <span class="remove-label" title="Delete"></span>
+</a></li>            <li class="labels-edit-container"><a href="#" class="show-labels-editor editor-icon" title="Edit Labels">
+            <span class="icon icon-edit">Edit Labels</span>
+        </a></li>
+    </ul>
+    </div>
+</div>        </div>
+    </div>
+</script>
+            
+    
+
+
+<div id="labels-section" class="pageSection group">
+    <div class="labels-editor">
+        <span id="labels-section-title" class="label-title">Labels</span>
+        <div class="labels-section-content content-column"
+    	    		entityid="64274367" entitytype="Page"
+    		>
+	<div class="labels-content">
+		
+
+<ul class="label-list">
+    <li class="no-labels-message-container hidden">
+        <span id="labels-section-title-none" class="no-labels-message">
+            None
+        </span>
+    </li>
+    <li class="label-container">
+<a class="label confluence-label" data-label-id="22511618" href="/label/RHAPS60/monitor" rel="tag">
+    <span>monitor</span>
+    <span class="remove-label" title="Delete"></span>
+</a></li>            <li class="labels-edit-container"><a href="#" class="show-labels-editor editor-icon" title="Edit Labels">
+            <span class="icon icon-edit">Edit Labels</span>
+        </a></li>
+    </ul>
+    </div>
+</div>    </div>
+</div>
+
+                    <div id="children-section" class="pageSection children-showing group">
+                
+        <div class="section-header ">
+            <h2 id="children-section-title" class="section-title">
+                <a href="/display/RHAPS60/Backup+and+Restore?showChildren=false#children" class="children-show-hide">
+                                            2 Child Pages
+                                    </a>
+            </h2>
+
+            <a href="/display/RHAPS60/Backup+and+Restore?showChildren=false#children" class="children-show-hide icon"></a>
+            <!--
+            <span class="noprint grey">
+                <a class="children-subtitle" href="/pages/listpages-dirview.action?key=RHAPS60&amp;openId=64274367#selectedPageInHierarchy">Reorder Pages</a>
+                                    &nbsp;|&nbsp;
+                    <a class="children-subtitle" href="/pages/createpage.action?spaceKey=RHAPS60&amp;fromPageId=64274367">
+                        Add Child Page
+                    </a>
+                            </span>
+            -->
+        </div>
+        <div id="page-children" class="pageSectionBody children-loaded">
+                                        <span class="child-display">
+                                 <span class="icon icon-page" title="Page">Page:</span>                 <a href="/display/RHAPS60/i.+Scheduling+a+Backup">i. Scheduling a Backup</a>
+                         </span>
+                            <span class="child-display">
+                                 <span class="icon icon-page" title="Page">Page:</span>                 <a href="/display/RHAPS60/ii.+Restoring+a+Backup">ii. Restoring a Backup</a>
+                         </span>
+                                </div>
+        </div>
+    
+            
+
+
+
+
+            
+    
+
+
+
+
+
+
+
+
+                    
+    
+<div id="comments-section" class="pageSection group">
+    
+    
+    
+    
+            <div class="bottom-comment-panels comment-panels">
+                                    
+    
+
+
+    
+
+<div class="quick-comment-container comment add"><p class="comment-user-logo"><a class="userLogoLink" data-username="Harmeet.Sooden@orionhealth.com" href="/users/editmyprofilepicture.action" title="Add a picture of yourself"><img class="userLogo logo defaultLogo" src="/s/en_GB/3393/fbf97d65fc2202c1ad8db08fef99ff488e0d596b.1977/_/images/icons/profilepics/add_profile_pic.png" alt="User icon: Add a picture of yourself"></a></p><div class="quick-comment-vertical-spacer"></div><div class="quick-comment-body"><div class="quick-comment-loading-container" style="display:none;"><p class="quick-comment-loading-message">Loading the Editor</p></div><form style="display:block;" class="quick-comment-form" method="post" name="inlinecommentform" action="/pages/doaddcomment.action?pageId=64274367" ><div title="Add a Comment" class="quick-comment-prompt"><span>Write a comment…</span></div></form></div></div>
+
+            </div>
+    
+                        <div id="comments-actions" class="aui-toolbar noprint">
+                <p class="toolbar-group">
+                    <span class="toolbar-item"><a href="/display/RHAPS60/Backup+and+Restore?showComments=true&amp;showCommentArea=true#addcomment" id="add-comment-rte" accesskey="m" class="toolbar-trigger">Add Comment</a></span>
+                </p>
+            </div>
+            </div>
+
+
+            
+</div>
+
+
+    
+
+
+
+    
+    
+
+    
+    
+    
+
+
+            
+    
+
+
+    <br class="clear">
+</div>
+  
+    </div>
+</div>
+
+
+        
+            <div id="footer">
+                        
+    <ul id="poweredby">
+        <li class="noprint">Powered by <a href="http://www.atlassian.com/software/confluence" class="hover-footer-link">Atlassian Confluence</a> <span id='footer-build-information'>4.3.3</span>, the <a href="http://www.atlassian.com/software/confluence/tour/enterprise-wiki.jsp" class="hover-footer-link">Enterprise Wiki</a></li>
+        <li class="print-only">Printed by Atlassian Confluence 4.3.3, the Enterprise Wiki.</li>        
+        <li class="noprint"> &nbsp;&middot;&nbsp; <a href="http://jira.atlassian.com/secure/BrowseProject.jspa?id=10470" class="hover-footer-link">Report a bug</a></li>
+        <li class="noprint"> &nbsp;&middot;&nbsp; <a href="http://www.atlassian.com/about/connected.jsp?s_kwcid=Confluence-stayintouch" class="hover-footer-link">Atlassian News</a></li>
+    </ul>
+
+            <!-- Google Analytics Script -->
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+	try {
+		var pageTracker = _gat._getTracker("UA-13189127-1");
+		pageTracker._trackPageview();
+	} catch(err) {}
+</script>
+<!-- Comment Button Alteration Script -->
+<script type="text/javascript">
+	//code for inserting space info into side panel
+	jQuery(document).ready(function(){
+	try {
+                // WCAG compliance
+                var sidebarSearchBox = jQuery("#pagetreesearch input[type='text']");
+                sidebarSearchBox && sidebarSearchBox.attr("title", "Search");
+
+                // WCAG compliance
+                var sidebarToggle = jQuery("#splitter-button");
+                if (sidebarToggle) {
+                    sidebarToggle.attr("tabindex", "0");
+                    sidebarToggle.attr("role", "button");
+                }
+
+		var sidebar = document.getElementById('splitter-sidebar');
+		var breadcrumb = document.getElementById('breadcrumbs');
+		var titleSpace = document.getElementById('title-heading');
+		if (titleSpace) {
+			var manualType = document.createElement('span');
+			manualType.className = 'manual-type';
+			var inside = '<span>&nbsp;</span>';
+			if (sidebar) {
+
+				if (breadcrumb) {
+					var space = document.createElement('h1');
+
+					var insideSpace = breadcrumb.children[1].children[0].innerHTML;
+					space.innerHTML = insideSpace;
+					sidebar.insertBefore(space, sidebar.firstChild);
+				}
+				moveLogo(sidebar);
+
+				// get manual type 
+				breadcrumb = document.getElementById('breadcrumbs');
+				//the 9th child breadcrumb is the manual type but it isn't always displayed
+				var breadcrumbM = breadcrumb.children[4];
+				if (breadcrumbM) {
+					inside = breadcrumbM.children[0].innerHTML;
+				}
+			}
+
+			function moveMetaData() {
+				try {
+					var divs = jQuery('div');
+					var content;
+					for (var i = 0; i < divs.length; i++) {
+						if (divs.item(i).className == "page-metadata") {
+							content = divs.item(i);
+							var nav = document.getElementById('content');
+							nav.appendChild(content);
+						}
+					}
+				} catch(e) {}
+			}
+			if (sidebar) {
+				titleSpace.style.lineHeight = 1.3;
+				manualType.innerHTML = inside;
+				titleSpace.insertBefore(document.createElement('br'), titleSpace.children[0]);
+				titleSpace.insertBefore(manualType, titleSpace.children[0]);
+			}
+			try{moveMetaData();}catch(e){};
+		}
+
+
+
+	function moveLogo(sidebar) {
+		return;
+		try{
+			var titleHeading = document.getElementById('title-heading');
+			var logo = titleHeading.children[0];
+			logo.style.display = 'inline';
+			sidebar.insertBefore(logo, sidebar.firstChild);
+		}catch(e){}
+	}
+
+	/* save the scroll to make the back button work  */
+	if(fScroll){
+		content = jQuery('#splitter-content');
+		if (content) {
+			content.onscroll = function() {
+				fScroll('splitter-content');
+			};
+			var setScroll = function(e) {
+				fScrollMove('splitter-content');
+			};
+			window.onload = setScroll;
+		}
+	}
+	
+
+	/* redirect logo and hide breadcrumbs*/
+	function redirectLogo() {
+		var logoz = jQuery('.logo');
+		//there will only be one logo in the list and it will be inside a link
+		if (logoz) {
+			var logoLink = logoz[0].parentNode;
+			logoLink.href = '/display';
+		}
+	}
+
+
+
+	function hideduplicateCrumb() {
+		var crumbs = document.getElementById('breadcrumbs');
+		if (crumbs && crumbs.children[2]) {
+			crumbs.children[2].style.display = "none";
+		}
+	}
+
+	hideduplicateCrumb();
+	redirectLogo();
+
+	/* move comments. */
+        var labelsSection = document.getElementById('labels-section');
+	var commentSection = document.getElementById('comments-section');
+	var childPagesSection = document.getElementById('children-section');
+
+	var addComments = document.getElementById('add-comment-bottom');
+	var titleComments = document.getElementById('comments-section-title');
+	var secondaryHTML = '<span id="secondary" class="yui-secondary-button yui-push-button"><span class="first-child"><button type="button" tabindex="0" >Add Comment</button></span></span>';
+	reorderSections(commentSection, labels, childPagesSection);
+	/*move comments above tags and childpages */
+
+/* EDITED */
+       function reorderSections(commentSection, labelsSection, childPagesSection) {
+		if (commentSection && labelsSection) {
+			labelsSection.parentNode.insertBefore(commentSection, labelsSection);
+		}
+		if (childPagesSection && labelsSection) {
+			childPagesSection.parentNode.insertBefore(childPagesSection, labels);
+		}
+	}
+/* EDITED */
+
+	makeCommentBar();
+
+
+	function makeCommentBar() {
+		var buttonHTML = '<span id="primary" class="yui-primary-button yui-push-button"><span class="first-child"><button type="button" tabindex="0" >Add a Comment</button></span></span>';
+
+		var commentTop = document.getElementById('add-comment-top');
+		var commentLink = document.getElementById('add-comment-bottom');
+		var commentSection = document.getElementById('comments-section');
+		if (commentSection) {
+			if (commentTop && jQuery('[name=confirm]').length > 0) {
+				addingComment(commentTop, buttonHTML);
+			} else if (commentLink) {
+				addCommentBar(commentLink, commentSection, buttonHTML);
+			}
+		}
+	}
+
+
+
+	function addingComment(commentTop, buttonHTML) {
+		var confirmButton = jQuery('[name=confirm]')[0];
+		var cancelButton = jQuery('[name=cancel]')[0];
+
+		inputAsButton(secondaryHTML, cancelButton);
+		inputAsButton(buttonHTML, confirmButton);
+		/*put int the buttons bg */
+		titleComments.parentNode.className += " buttons";
+
+	}
+	/**
+	 * replaces a button with an input[type=button] so that it can be styled as  a new look button
+	 *@param InnerHTML: the old html form of a button comprising 3 layers 
+	 * of spans with a button in the middle
+	 * @param originalButton: the input[type=button] you want to replace the button in.
+	 **/
+	function inputAsButton(innerHTML, originalButton) {
+		var container = originalButton.parentNode;
+		var outy = document.createElement('span');
+		outy.innerHTML = innerHTML;
+
+		/* re-hackage the button html*/
+		oldButtonNode = outy.firstChild.firstChild;
+		oldButtonNode.replaceChild(originalButton, oldButtonNode.firstChild);
+
+		container.insertBefore(outy, container.firstChild);
+	}
+
+
+
+	function addCommentBar(commentLink, commentSection, buttonHTML) {
+
+		var commentNumber = document.getElementById('comment-show-hide');
+
+		if (commentNumber) {
+			commentSection.appendChild(commentLink.cloneNode(true));
+			existingComments(commentLink, commentNumber);
+
+			var extraCommentLink = document.getElementById('add-comment-top').parentNode;
+			removeElement(extraCommentLink);
+		} else {
+			noComments(commentLink, commentSection);
+		}
+		commentLink.innerHTML = buttonHTML;
+
+		var commentMenuButton = commentLink.cloneNode(true);
+		commentMenuButton.innerHTML = secondaryHTML;
+		attachMenuButton(commentMenuButton);
+
+	}
+
+
+	function existingComments(commentLink, commentNumber) {
+		var buttons = commentNumber.parentNode.parentNode;
+
+		buttons.className += ' buttons';
+		buttons.insertBefore(commentLink, buttons.firstChild);
+	}
+
+
+	function noComments(commentLink, commentSection) {
+		var buttons = document.createElement('div');
+		var commentLinkParent = commentLink.parentNode;
+
+		buttons.className = 'buttons';
+
+		commentLinkParent.replaceChild(buttons, commentLink);
+		buttons.appendChild(commentLink);
+
+		//and move it up 
+		commentSection.insertBefore(commentLinkParent, commentSection.firstChild);
+	}
+
+
+
+	function removeElement(element) {
+		element.parentNode.removeChild(element);
+	}
+
+	/** attaches button to the top menu**/
+	function attachMenuButton(button) {
+		var addLink = document.getElementById('add-menu-link');
+
+		/* insert a new comments link */
+		if (addLink) {
+			var menuBarUL = addLink.parentNode.parentNode;
+			var commentButconLi = document.createElement('li');
+			commentButconLi.className = 'ajs-button normal';
+
+			commentButconLi.appendChild(button);
+			menuBarUL.insertBefore(commentButconLi, menuBarUL.firstChild);
+		}
+	}
+	moveSurvey(commentSection);
+
+
+	function moveSurvey(commentSection) {
+		var survey = document.getElementById('theme-footer');
+		if (survey) {
+			var parent = commentSection.parentNode;
+			parent.insertBefore(survey, commentSection);
+		}
+	}
+	
+		} catch(e) {}
+	});
+
+</script>
+
+
+
+
+
+<script type="text/javascript">
+(function($) {
+$(document).ready(function () {
+		
+		console.log($('legend.assistive').text()=='Bei Confluence anmelden') 	/*DE*/
+		console.log($('legend.assistive').text()=='Log in to Confluence') 		/*EN*/
+		console.log($('legend.assistive').text()=='Connexion à Confluence')		/*FR*/
+		console.log($('legend.assistive').text())
+		
+		if(window.location.href.indexOf("doki.orionhealth.com/login.action")!=-1){
+			if($('legend.assistive').text()=='Bei Confluence anmelden') 	/*DE*/{
+				$('div.login-section').append('<p style="padding-left:30px;">Orion Health Mitarbeiter verwenden folgenden Benutzernamen: vorname.nachname@orionhealth.com<br/><br/>Wenn Sie noch kein DOKI Benutzerkonto haben, dann stehen Ihnen folgende Optionen zur Verfügung um ein Benutzerkonto zu erstellen:</p><p style="padding-left:50px;">a. Beantragen Sie <span class="nobr"><a href="http://www.orionhealth.com/support/doki-account" class="external-link" rel="nofollow">hier<sup><img class="rendericon" src="/images/icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="" border="0"></sup></a></span>ein DOKI Benutzerkonto.<br>b. Nutzen Sie den <span class="nobr"><a href="https://supporttracker.orionhealth.com/concerto/Login.htm" class="external-link" rel="nofollow">Support Tracker<sup><img class="rendericon" src="/images/icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="" border="0"></sup></a></span> wenn Sie darauf Zugriff haben.<br>c. Kontaktieren Sie Ihre IT-Abteilung um ein Benutzerkonto in Ihrem Namen zu beantragen.</p>')			
+			}
+			if($('legend.assistive').text()=='Log in to Confluence') 		/*EN*/{
+				$('div.login-section').append('<p style="padding-left:30px;">Orion Health staff use firstname.lastname@orionhealth.com as username.<br/><br/>If you do not have a Doki user account, please request one by using any of the following options:</p><p style="padding-left:50px;">a. Request a DOKI account <span class="nobr"><a href="http://www.orionhealth.com/support/doki-account" class="external-link" rel="nofollow">here<sup><img class="rendericon" src="/images/icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="" border="0"></sup></a></span>.<br>b. Use <span class="nobr"><a href="https://supporttracker.orionhealth.com/concerto/Login.htm" class="external-link" rel="nofollow">Support Tracker<sup><img class="rendericon" src="/images/icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="" border="0"></sup></a></span>, if you have access to Support Tracker.<br>c. Contact your IT department to request an account on your behalf.</p>');
+				$("#os_username").attr("placeholder", "Enter username here...");
+				$("#os_password").attr("placeholder", "Enter password here...");
+			}
+			if($('legend.assistive').text()=='Connexion à Confluence')		/*FR*/{
+				$('div.login-section').append('<p style="padding-left:30px;">Nom d’utilisateur pour les employés d’Orion Health: prénom.nom@orionhealth.com<br/><br/>Si vous n’avez pas encore de compte utilisateur Doki, merci de sélectionner l’une des options suivantes:</p><p style="padding-left:50px;">a. Faites une demande d’ouverture de compte Doki en cliquant sur ce <span class="nobr"><a href="http://www.orionhealth.com/support/doki-account" class="external-link" rel="nofollow">lien<sup><img class="rendericon" src="/images/icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="" border="0"></sup></a></span>.<br>b. Utilisez l’option <span class="nobr"><a href="https://supporttracker.orionhealth.com/concerto/Login.htm" class="external-link" rel="nofollow">Support Tracker<sup><img class="rendericon" src="/images/icons/linkext7.gif" height="7" width="7" align="absmiddle" alt="" border="0"></sup></a></span> si vous avez accès à cette option.<br>c. Contactez le service Informatique qui fera la demande d’ouverture de compte de votre part.</p>')			
+			}
+		}
+		
+	});
+}(jQuery));
+</script>
+    </div>
+    </div>
+</body>
+</html>

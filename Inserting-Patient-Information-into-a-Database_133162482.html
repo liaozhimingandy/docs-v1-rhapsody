@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Inserting Patient Information into a Database</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Database-Communication-Points_133162442.html">Database Communication Points</a></span> </li> 
+       <li> <span><a href="Database_133162443.html">Database</a></span> </li> 
+       <li> <span><a href="Using-the-Database-Communication-Point_133162447.html">Using the Database Communication Point</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Inserting Patient Information into a Database</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The route takes HL7 formatted messages and puts the appropriate information into two databases, storing patient and address information respectively. The route is composed of a TCP server communication point, an Execute JavaScript filter, a Database communication point and a Directory communication point.</p> 
+      <p>The <strong>Database</strong> communication point takes the message and executes an SQL script using information contained in the HL7 message. Some patients have multiple addresses, all of which should be put into the Address table. This is achieved by specifying that the SQL statement should iterate over all addresses in the PatientAddress field of the PID (PID.PatientAddress).</p> 
+      <p>In this scenario, the patient information database has a single entry for the patient's date of birth. However, the HL7 message contains the date of birth in multiple fields (year, month, day), causing us to process the date of birth before inserting into the database. An Execute Java Script component is used to add a property to the message which contains the date of birth in "datetime" format and allows the SQL statement in the Database configuration file to get this value and put it straight into the database.</p> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162482/133162483.png" data-image-src="attachments/133162482/133162483.png" data-unresolved-comment-count="0" data-linked-resource-id="133162483" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="databaseCpHt-1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162482" data-linked-resource-container-version="1"></span></p> 
+      <p>Although we're using the database communication point to insert information into the database, we can also use it to pass the original message on for further processing by specifying the mode of the communication point. If the message was only to be inserted into the database, the database communication point mode would be set to Output. However, since the message should be moved to a directory once the message has been committed to the database, the communication point must be specified as Out-&gt;In mode.</p> 
+      <p>Technically, this means the communication point will wait for a response message before inserting the next message. However, as we are communicating with a database, and only inserting data, the effect is that the original message is returned and can be passed on for additional processing. If the database communication point was selecting information, then the returned message would include the selected information and not the original message.</p> 
+      <h2 id="InsertingPatientInformationintoaDatabase-DatabaseInsertion">Database Insertion</h2> 
+      <p>The <strong>Database</strong> communication point inserts all required information by running a number of SQL statements:</p> 
+      <ul> 
+       <li>Insert Patient - Inserts the patient identifier, name, sex, and date of birth into the 'Patient' table. This statement is executed once for each message.</li> 
+       <li>Insert Address - Inserts the patient's address into the 'Address' table. This statement is executed once for each patient address in the message. </li> 
+       <li>Insert Next of Kin - Inserts the next of kin's name, sex, relationship, and phone number into the 'NextOfKin' table. This statement is executed once for each next of kin in the message.</li> 
+       <li>Insert Next of Kin Address - Inserts the next of kin's address into the 'NextOfKinAddress' table in the database. This statement is executed once for each address of each next of kin in the message.</li> 
+      </ul> 
+      <h3 id="InsertingPatientInformationintoaDatabase-InsertingthePatientDetails">Inserting the Patient Details</h3> 
+      <p>The insert patient statement is shown in the following diagram. <br class="atl-forced-newline"> <br class="atl-forced-newline"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162482/133162484.png" data-image-src="attachments/133162482/133162484.png" data-unresolved-comment-count="0" data-linked-resource-id="133162484" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="databaseCpHt-2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162482" data-linked-resource-container-version="1"></span></p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

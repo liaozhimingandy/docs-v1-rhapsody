@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Lookup Tables Monitoring</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Lookup Tables Monitoring</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods to perform lookups against a lookup table on the Rhapsody engine:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147002826 {padding: 0px;}
+div.rbtoc1565147002826 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147002826 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147002826"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#LookupTablesMonitoring-POST/api/lookuptable/lookup">POST /api/lookuptable/lookup</a></li> 
+        <li><a href="#LookupTablesMonitoring-POST/api/lookuptable/lookupall">POST /api/lookuptable/lookupall</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="LookupTablesMonitoring-POST/api/lookuptable/lookup">POST /api/lookuptable/lookup</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /api/lookuptable/lookup</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Performs a single lookup against a table in Rhapsody, returning the first matching row.</p><p>Refer to <a href="LookupTable-Object_133161408.html">LookupTable Object</a><span>&nbsp;</span>for details.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:application/json<br>Content-Type: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_1+json<br>Content-Type: application/vnd.orchestral.rhapsody.6_1+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "table":"my_table", 
+  "queryColumns":[
+     {"name":"a","value":"1"},
+     {"name":"b","value":"11"}
+  ], 
+  "returnColumn":"c"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><p><code>200 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p><strong>Response Body</strong></p></th>
+          <td class="confluenceTd"><p>A list of lookup results:</p>
+           <ul>
+            <li><code>name</code> - [str] the column name.</li>
+            <li><p><code>value</code> - [str] the column value.</p></li>
+           </ul>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":[
+    {"name":"c","value":"12"}
+  ],
+  "error": null
+}
+</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Perform lookup REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupTablesMonitoring-POST/api/lookuptable/lookupall"><span>POST /</span>api<span>/</span>lookuptable<span>/lookupall</span></h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>POST /api/lookuptable/lookupall</code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+          <td class="confluenceTd"><p>Performs a lookup against a table in Rhapsody, returning all matching rows (subject to an optional limit).</p><p>Refer to <a href="LookupTable-Object_133161408.html">LookupTable Object</a> for details.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" style="text-align: left;" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><p><code>Accept:application/json</code><br><code>Content-Type: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_4+json</code><br><code>Content-Type: application/vnd.orchestral.rhapsody.6_4+json</code></p></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>The request body has the following structure:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "table":"my_table",
+  "queryColumns":[
+     {"name":"a","value":"1"},
+     {"name":"b","value":"11"}
+   ],
+  "returnColumns":["b", "c"],
+  "sortColumns":[{"name":"b", "sortOrder":"Ascending"}],
+  "limit":10
+}</pre> 
+            </div>
+           </div><p>The sort order is case-sensitive.</p></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh"><strong>Response Status</strong></th>
+          <td class="confluenceTd"><code>200 OK</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh"><strong>Response Body</strong></th>
+          <td class="confluenceTd"><p>A list of lookup results:</p>
+           <ul>
+            <li><span style="color: rgb(51,51,51);"><code>name</code>&nbsp;-&nbsp;<span class="error">[str]</span>&nbsp;the column name.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>value</code>&nbsp;-&nbsp;<span class="error">[str]</span>&nbsp;the column value.</span></li>
+           </ul>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":[
+    [
+      {"name":"b","value":"11"},
+      {"name":"c","value":"111"}
+    ],
+    [
+      {"name":"b","value":"11"},
+      {"name":"c","value":"222"}
+    ],
+    [
+      {"name":"b","value":"11"},
+      {"name":"c","value:"333"}
+    ] 
+  ],
+  "error": null
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Perform lookup REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

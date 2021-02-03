@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Result Substitution</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Result Substitution</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Result Substitution is applicable for Database Lookup filters, and Database communication points running in <em>Out-&gt;In</em>&nbsp;mode, where a message is being updated with some values retrieved via one or more database queries. Once the queries have been executed, the results can be inserted into message properties, fields, or both. The result substitution editor is at the bottom of both the <strong>SQL Editor</strong> and <strong>Stored Procedure Editor</strong>:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161688/133161689.png" data-image-src="attachments/133161688/133161689.png" data-unresolved-comment-count="0" data-linked-resource-id="133161689" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="resultSubstitutionEditor.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161688" data-linked-resource-container-version="1"></span></p>
+      <p>Result substitution can be defined for columns returned via a result set, or stored procedure output parameters that were defined for the current stored procedure call. Each row in the table is used to retrieve the value of a particular column or output parameter, and can be used to insert into both a field path or message property. If there is a need to insert the value into multiple message properties or multiple field paths, then the column or output parameter can be used in multiple rows.</p>
+      <p>A result substitution entry can be removed by clearing the column name.</p>
+      <h2 id="ResultSubstitution-DataforResultSubstitution">Data for Result Substitution</h2>
+      <p>The following table describes the data to be defined for result substitution:</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148457" class="confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Column</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Column</p></td>
+          <td class="confluenceTd"><p>This is the name of the column returned in the result set, or alternatively the output parameter name. If this is a stored procedure call and there is both an output parameter and column with the same name, the output parameter is used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Set Message Property</p></td>
+          <td class="confluenceTd"><p>The name of the message property to set with the value of the selected column or output parameter. If this cell is empty, no message properties are set.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Set Message Field</p></td>
+          <td class="confluenceTd"><p>This is the field path that will receive the column or output parameter value. Field paths can be edited by clicking on the link, or by dragging a field from the Message Structure toolbox onto the cell. Automatically generated field paths will take account of statement iteration when generating the field path. If this cell is empty, no fields are set.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Default Value</p></td>
+          <td class="confluenceTd"><p>The default value is used for column result substitution when no rows were returned in the result set. However, for this to occur, the appropriate option must be disabled in the Statement Options, refer to <a href="SQL-Editor_133161696.html">Statement Options</a> for details. Default values are always ignored for result substitution of output parameters, because output parameters will always have a valid value when result substitution occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Condition</p></td>
+          <td class="confluenceTd"><p>Result substitution can be made conditional by adding a condition in this column. Click the <strong>Create Condition</strong> link to launch the <strong>Condition Editor</strong>, which enables you to create or edit a condition.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148457']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148457',[],'style=&quot;width:12%; text-align: left;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

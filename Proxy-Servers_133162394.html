@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Proxy Servers</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Proxy Servers</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A proxy server is a server that sits between Rhapsody and the remote server, and acts as an intermediary for the requests between them. Typically it is used to allow traffic through firewalls. The following configuration properties determine how the (S)FTP Client communication point connects to proxy servers:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146950163 {padding: 0px;}
+div.rbtoc1565146950163 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146950163 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146950163"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ProxyServers-ProxyServerType">Proxy Server Type</a></li> 
+        <li><a href="#ProxyServers-ProxyServerAddress">Proxy Server Address</a></li> 
+        <li><a href="#ProxyServers-ProxyServerPort">Proxy Server Port</a></li> 
+        <li><a href="#ProxyServers-ProxyServerPublicAddress">Proxy Server Public Address</a></li> 
+        <li><a href="#ProxyServers-ProxyServerUsername">Proxy Server Username</a></li> 
+        <li><a href="#ProxyServers-ProxyServerPassword">Proxy Server Password</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 class="TableContents" id="ProxyServers-ProxyServerType">Proxy Server Type</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p class="TableContents"><strong>Proxy Server Type</strong> determines which type of proxy server to use.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Property Option
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>None<sup>†</sup></code></p></td>
+          <td class="confluenceTd">No proxy server used.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><code>HTTP</code> </code></p></td>
+          <td class="confluenceTd"><p>The server sends traffic via HTTP. This means the FTP traffic is tunneled through HTTP.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             You cannot use an HTTP proxy when using FTP or FTPS with 
+             <a href="Connection-Details_133162392.html">Connection Mode</a> set to active.
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>SOCKS4</code></td>
+          <td colspan="1" class="confluenceTd">The server sends traffic via the SOCKS protocol using TCP.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>SOCKS5</code></td>
+          <td colspan="1" class="confluenceTd">The server operates in the same way as SOCKS4, but allows authentication such that only authenticated users can connect to the proxy server.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p class="TableContents"><sup>† Default option.</sup></p>
+      <h2 class="TableContents" id="ProxyServers-ProxyServerAddress">Proxy Server Address</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+         <li><strong>Proxy Server Type</strong>:<strong>&nbsp;</strong>HTTP,&nbsp;SOCKS4,&nbsp;SOCKS5.</li>
+        </ul> 
+       </div>
+      </div>
+      <p class="TableContents"><strong>Proxy Server Address</strong> is the hostname or IP address of the proxy server.</p>
+      <h2 class="TableContents" id="ProxyServers-ProxyServerPort">Proxy Server Port</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+         <li><strong>Proxy Server Type</strong>:<strong>&nbsp;</strong>HTTP,&nbsp;SOCKS4,&nbsp;SOCKS5.</li>
+        </ul> 
+       </div>
+      </div>
+      <p class="TableContents"><strong>Proxy Server Port</strong> is the port to connect to the proxy server on. This must be a valid port number (between 1 and 65535) otherwise the message will be sent to the error queue. The default is <code>80</code>.</p>
+      <h2 class="TableContents" id="ProxyServers-ProxyServerPublicAddress">Proxy Server Public Address</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+         <li><strong>Proxy Server Type</strong>:<strong>&nbsp;</strong>HTTP,&nbsp;SOCKS4,&nbsp;SOCKS5.</li>
+        </ul> 
+       </div>
+      </div>
+      <p class="TableContents"><strong>Proxy Server Public Address</strong> is the username to authenticate to the proxy server with. This is usually only needed when using FTP or FTPS with <a href="Connection-Details_133162392.html">Connection Mode</a> set to active.</p>
+      <h2 class="TableContents" id="ProxyServers-ProxyServerUsername">Proxy Server Username</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+         <li><strong>Proxy Server Type</strong>:<strong>&nbsp;</strong>HTTP,&nbsp;SOCKS4,&nbsp;SOCKS5.</li>
+        </ul> 
+       </div>
+      </div>
+      <p class="TableContents"><strong>Proxy Server Username</strong> is the username to authenticate to the proxy server with.</p>
+      <h2 class="TableContents" id="ProxyServers-ProxyServerPassword">Proxy Server Password</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Input, Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+         <li><strong>Proxy Server Type</strong>:<strong>&nbsp;</strong>HTTP,&nbsp;SOCKS5.</li>
+        </ul> 
+       </div>
+      </div>
+      <p class="TableContents"><strong>Proxy Server Password</strong> is the password to authenticate to the proxy server with. This is not required for SOCKS4 protocol because it does not support password authentication.</p>
+      <p class="TableContents"> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

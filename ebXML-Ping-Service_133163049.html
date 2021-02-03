@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>ebXML Ping Service</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="ebXML-Filters_133163041.html">ebXML Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">ebXML Ping Service</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163049/133163050.jpg" data-image-src="attachments/133163049/133163050.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163050" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image073.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163049" data-linked-resource-container-version="3"></span></p>
+      <p>The <strong>ebXML Ping Service</strong> filter, in co-ordination with the ebXML filter, implements the Ping Service as defined in the Message Service Specification Version 2.0 produced by the OASIS ebXML Messaging Services Technical Committee.</p>
+      <p>The Ping Service is a mechanism allowing the sender of an ebXML message to determine whether the intended recipient system is currently operating. It may also indicate the liveliness of the recipient system. The ebXML Ping Service filter&nbsp;can operate in one of two modes. It can be configured either to create a Ping message, or to take a Ping message parsed by the ebXML filter&nbsp;and create a corresponding Pong message. It is anticipated that, in general, it is this second mode of operation which will most commonly be used.</p>
+      <p>When set to generate Pong messages, the ebXML Message Status Service Filter requires that incoming messages have already been parsed by the ebXML filter. The filter takes these pre-parsed messages and generates the response messages. The only configuration required is to decide whether the response message should be signed and, if so, what algorithm and key to use.</p>
+      <h2 id="ebXMLPingService-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode of Operation</p></td>
+          <td class="confluenceTd"><p>Whether the filter should generate Ping messages from statically configured values and/or Rhapsody message properties, or parse incoming Ping messages and generate Pong messages in response:</p>
+           <ul>
+            <li><code>Generate Ping Messages</code>.</li>
+            <li><code>Generate Pong Messages</code> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Configuration Contention Rule</p></td>
+          <td class="confluenceTd"><p>Whether to favor dynamic message properties over statically configured configuration settings when both are available.</p>
+           <ul>
+            <li><code>Favour Message Properties</code><span> (default).</span></li>
+            <li><code>Favour Static Configuration</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader /From/PartyID</p></td>
+          <td class="confluenceTd"><p>The value(s) to insert into the ebXML <code>MessageHeader/From/PartyId</code> element(s) and, optionally, the type attribute of this element. An ebXML message requires at least one of these elements. The alternative message properties are <code>eb:From/PartyId</code> and <code>eb:From/PartyId@type</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader /From/Role</p></td>
+          <td class="confluenceTd"><p>The value to insert into the ebXML <code>MessageHeader/From/Role</code> element. An ebXML message requires exactly one of these elements. The alternative message property is <code>eb:From/Role</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader /To/PartyID</p></td>
+          <td class="confluenceTd"><p>The<span> </span>value(s) to insert into the ebXML <code>MessageHeader/To/PartyId</code> element(s) and, optionally, the type attribute of this element. An ebXML message requires at least one of these elements. The alternative message properties are <code>eb:To/PartyId</code> and <code>eb:To/PartyId@type</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader / <br class="atl-forced-newline"> To/Role</p></td>
+          <td class="confluenceTd"><p>The value to insert into the ebXML <code>MessageHeader/To/Role</code> element. An ebXML message requires exactly one of these elements. The alternative message property is <code>eb:To/Role</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader / <br class="atl-forced-newline"> CPAId</p></td>
+          <td class="confluenceTd"><p>The value to insert into the ebXML <code>MessageHeader/CPAId</code> element. An ebXML message requires exactly one of these elements. The alternative message property is <code>eb:CPAId</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader /ConversationID</p></td>
+          <td class="confluenceTd"><p>Whether the filter should generate a unique conversation ID for the current message or use the value provided in message property <code>eb:ConversationId</code> as the value to insert into the ebXML <code>MessageHeader/ConversationId</code> element. As an ebXML message requires exactly one of these elements, if set to <code>As Per Message Property</code> but property <code>eb:ConversationId</code> does not exist or has an empty value, a conversation ID will be auto-generated.</p>
+           <ul>
+            <li><code>Auto-generate Conversation ID</code> (default).</li>
+            <li><code>As Per Message Property</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>StatusRequest/ RefToMessageID</p></td>
+          <td class="confluenceTd"><p>The value for the status request. The message property <code>eb:StatusRequest/RefToMessageID</code> can be used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader / MessageData/ MessageID</p></td>
+          <td class="confluenceTd"><p>Whether the filter should generate a unique message ID for the current message, use the Rhapsody message ID (which is unique) or use the value provided in message property <code>eb:MessageId</code> as the value to insert into the ebXML <code>MessageHeader/MessageData/MessageId</code> element. As an ebXML message requires exactly one of these elements, if set to As Per Message Property but property <code>eb:MessageId</code> does not exist or has an empty value, a message ID will be auto-generated.</p>
+           <ul>
+            <li><code>Auto-generate Message ID</code><span> (default).</span></li>
+            <li><code>Use Rhapsody Message ID</code><span>.</span></li>
+            <li><code>As Per Message Property</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Signing</p></td>
+          <td class="confluenceTd"><p>Whether the filter should sign generated ebXML messages:</p>
+           <ul>
+            <li><code>Do Not Sign Messages</code> (default).</li>
+            <li><p><code>As Per Message Property</code> - use the message property <code>eb:Sign</code> with a value of <code>true</code> or <code>false</code>. If message signing should occur on a message by message basis, set <code>eb:Sign</code> to <code>t</code><code>rue</code> to signify that an acknowledgment should be signed.</p></li>
+            <li><code>Sign Messages</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signature Algorithm</p></td>
+          <td class="confluenceTd"><p>The algorithm to use to sign messages. Currently RSA with SHA-1 and DSA with SHA-1 are supported. The alternative message property is <code>eb:SignatureAlgorithm</code>.</p>
+           <ul>
+            <li><code>rsa-sha1</code><span> (d<span>efault).</span></span></li>
+            <li><code>dsa-sha1</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing Key</p></td>
+          <td class="confluenceTd"><p>The private key to use to sign messages. The alternative message property is <code>eb:SignatureKeyAlias</code> whose value must be the alias of the private key to use.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

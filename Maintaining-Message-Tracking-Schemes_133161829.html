@@ -1,0 +1,371 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Maintaining Message Tracking Schemes</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Message-Tracking-Schemes_133161791.html">Message Tracking Schemes</a></span> </li> 
+       <li> <span><a href="Managing-Message-Tracking-Schemes_133161818.html">Managing Message Tracking Schemes</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Maintaining Message Tracking Schemes</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>When you create a new message tracking scheme from the&nbsp;<strong>Message Tracking Scheme Manager</strong>, or edit an existing one, the tracking scheme is opened in the&nbsp;<strong>Message Tracking Scheme</strong>&nbsp;dialog. The&nbsp;<strong>Message Tracking Scheme</strong>&nbsp;dialog is used to configure the selected tracking scheme via the following tabs:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146986460 {padding: 0px;}
+div.rbtoc1565146986460 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146986460 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146986460"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#MaintainingMessageTrackingSchemes-Messages">Messages</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#MaintainingMessageTrackingSchemes-TrackingMessages">Tracking Messages</a></li> 
+          <li><a href="#MaintainingMessageTrackingSchemes-ResponseMessages">Response Messages</a></li> 
+         </ul> </li> 
+        <li><a href="#MaintainingMessageTrackingSchemes-ResponseHandling">Response Handling</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#MaintainingMessageTrackingSchemes-MaintainingResponseCodeActions">Maintaining Response Code Actions</a></li> 
+          <li><a href="#MaintainingMessageTrackingSchemes-OtherResponseHandlingOptions">Other Response Handling Options</a></li> 
+         </ul> </li> 
+        <li><a href="#MaintainingMessageTrackingSchemes-ErrorHandling">Error Handling</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#MaintainingMessageTrackingSchemes-NoResponseHandling">No Response Handling</a></li> 
+          <li><a href="#MaintainingMessageTrackingSchemes-OtherErrorHandlingOptions">Other Error Handling Options</a></li> 
+          <li><a href="#MaintainingMessageTrackingSchemes-RedirectingErrorstoanAlternativeCommunicationPoint">Redirecting Errors to an Alternative Communication Point</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="MaintainingMessageTrackingSchemes-Messages">Messages</h2>
+      <p>The&nbsp;<strong>Messages</strong>&nbsp;tab of the&nbsp;<strong>Message Tracking Scheme</strong>&nbsp;dialog is used to configure the messages to be tracked by the tracking scheme:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="635" src="attachments/133161829/133161836.png" data-image-src="attachments/133161829/133161836.png" data-unresolved-comment-count="0" data-linked-resource-id="133161836" data-linked-resource-version="5" data-linked-resource-type="attachment" data-linked-resource-default-alias="msgtrk-schememessagespage.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161829" data-linked-resource-container-version="29"></span></p>
+      <p>The&nbsp;<strong>Messages</strong>&nbsp;tab enables you to configure which messages to track, the response messages that are expected, and how the response messages are matched to the original messages.</p>
+      <p>The following table describes the fields and options available on this tab.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Option</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Tracked messages definition / Response messages definition</p></td>
+          <td class="confluenceTd"><p>Message definitions are used to parse the messages sent and received so that tracking information can be extracted and used to match the messages. The message definition can be any of the normal message definitions accepted by Rhapsody. Only message definitions in the same locker as the message tracking scheme can be used. Although separate message definitions can be used to configure the tracked and response messages, in most cases it is expected that the same definition will be used for both. However, this flexibility means that it is possible (for example) for an XML response to be matched to an HL7 2.x (EDI) original message.</p><p>If no message definitions are selected, message types can still be specified, but Rhapsody will treat them as XML. If no message definitions or message types are specified then Rhapsody can still perform message tracking, but any response will be considered a valid response for a message sent.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Tracked Messages</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The messages to be tracked by Rhapsody are configured in this section. Select the <strong>Add</strong> icon to display the <strong>Edit Tracked Messages</strong> dialog, which enables you to define the messages to be tracked. Refer to <a href="#MaintainingMessageTrackingSchemes-TrackingMessages">Tracking Messages</a> for details.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response Messages</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Which messages are categorized as responses are configured in this section. <span>Select</span> the <strong>Add</strong> icon to display the <strong>Edit Response Messages</strong> dialog, which enables you to define the response messages.</p>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MaintainingMessageTrackingSchemes-TrackingMessages">Tracking Messages</h3>
+      <p>Rhapsody enables you to define how different message types are handled; for example, HL7 query messages may be handled differently to other HL7 messages. Adding a new entry displays the <strong>Edit Tracked Messages</strong> dialog:&nbsp;</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="370" src="attachments/133161829/133161837.png" data-image-src="attachments/133161829/133161837.png" data-unresolved-comment-count="0" data-linked-resource-id="133161837" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="msgtrk-trackedmessages.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161829" data-linked-resource-container-version="29"></span><br class="atl-forced-newline"><br class="atl-forced-newline">This allows a specific message to be included in this group of tracked messages. Normally when adding messages to this list, a dialog is displayed allowing those messages to be selected, but if no message definition has been selected, the message names must be typed in manually. Alternatively, Other non-response messages may be selected instead. This means that this group of messages will match all non-response messages as a catch-all. Since the message tracking scheme will use the first group of messages that matches the message being sent, this group should be last in the list of tracked messages.</p>
+      <p>Each group of tracked messages needs to define the message control ID, which may be one or more fields retrieved from the messages. Normally for HL7, this is the&nbsp;<code>MSH/MessageControlID</code>&nbsp;field, but sometimes also includes the&nbsp;<code>MSH/SendingApplication</code>&nbsp;and the&nbsp;<code>MSH/SendingFacility</code>&nbsp;or both.</p>
+      <p>The group of tracked messages must also define which response messages are valid for this group of tracked messages. This is necessary as (for example) HL7 query responses cannot be used to acknowledge HL7 ADT messages. However, the&nbsp;<strong>Any response message</strong>&nbsp;<span>radio button</span>&nbsp;can be selected to allow any valid response message to be used to match messages in this group.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p><span style="color: rgb(0,0,0);">Option</span></p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Tracked messages</p></td>
+          <td class="confluenceTd"><p>These are the messages in this tracking group. The message may either be defined <span>explicitly</span> or, alternatively, by selecting the <strong>All non-response messages</strong> <span>radio button</span> to track all messages that are not defined as responses.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Control ID</p></td>
+          <td class="confluenceTd"><p>This section defines the field or fields that identify this message, allowing it to be matched against a response message. Multiple fields may be defined here, in which case the appropriate fields in the response must be defined in the same order.</p><p>For HL7 messages, this will normally contain just the <code style="letter-spacing: 0.0px;">MSH/MessageControlID</code> field, however, in some situations other fields (such as <code style="letter-spacing: 0.0px;">MSH/SendingApplication</code> and <code style="letter-spacing: 0.0px;">MSH/SendingFacility</code>) may be needed as well.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Valid responses</p></td>
+          <td class="confluenceTd"><p>These are the response messages that can match this group of tracked messages. These messages may be explicitly defined or alternatively select the <strong>Any response message</strong> radio button to allow any response message to match messages in this tracking group.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>An example of multiple tracked messages groups is shown in the following screenshot:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="635" src="attachments/133161829/133161833.png" data-image-src="attachments/133161829/133161833.png" data-unresolved-comment-count="0" data-linked-resource-id="133161833" data-linked-resource-version="6" data-linked-resource-type="attachment" data-linked-resource-default-alias="msgtrk-lotsoftrackedmessages.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161829" data-linked-resource-container-version="29"></span>&nbsp;<br class="atl-forced-newline"><br class="atl-forced-newline">This screenshot shows three groups of tracked messages:</p>
+      <ul>
+       <li>The first group of messages contains only the&nbsp;<code>ADTA01</code>&nbsp;message, which can be acknowledged only by the&nbsp;<code>ACKA01</code>&nbsp;response.</li>
+       <li>The second group of messages contains only the&nbsp;<code>QBPQ22</code>&nbsp;message. This message uses two fields to generate its message control ID (<code>MSH/SendingApplication</code>&nbsp;and&nbsp;<code>MSH/MessageControlID</code>) and may be acknowledged only by the&nbsp;<code>RSPK22</code>&nbsp;response.</li>
+       <li>The final group of tracked messages contains all other messages that are not categorized as response messages. They may be acknowledged by any response message.</li>
+      </ul>
+      <h3 id="MaintainingMessageTrackingSchemes-ResponseMessages">Response Messages</h3>
+      <p>Response messages are configured on the same dialog as the tracked messages. This section configures which messages are categorized as responses, the fields that are used to match the responses to the original messages, and the field that contains the acknowledgment code (which determines whether the response was a success or failure result).</p>
+      <p>Response message groups can be added by selecting the plus icon in the&nbsp;<strong>Response messages</strong>&nbsp;header. Doing so displays the following dialog:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="370" src="attachments/133161829/133161835.png" data-image-src="attachments/133161829/133161835.png" data-unresolved-comment-count="0" data-linked-resource-id="133161835" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="msgtrk-responsemessages.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161829" data-linked-resource-container-version="29"></span></p>
+      <p>Like tracked messages, response messages are configured in groups. The dialog shown above shows the settings for some standard HL7 response messages. For each group of response messages, the response control ID (allowing the response to be matched against the original message), and the response code (to indicate the type of response) must be configured.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p><span style="color: rgb(0,0,0);">Option</span></p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response messages</p></td>
+          <td class="confluenceTd"><p>These are response messages included in this response group. The valid response messages for this group must be explicitly defined.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response Control ID</p></td>
+          <td class="confluenceTd"><p>The response control ID is used to match up a response message with an original message. The values in the response control ID fields must match the corresponding values in the message control ID fields defined for the original message.</p><p>For normal HL7 acknowledgments, the response control ID field is normally <code>MSA/MessageControlID</code>. However, in some circumstances, other fields (such as, <code>MSH/ReceivingApplication</code> and <code>MSH/ReceivingFacility</code>) may also be required.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response code</p></td>
+          <td class="confluenceTd"><p>The response code field contains a value that indicates the type of response that was received. This allows Rhapsody to take different actions depending on the type of response.</p><p>For normal HL7 acknowledgments, the response code field is normally <code>MSA/AcknowledgmentCode</code> and contains the value <code>AA</code> for a positive acknowledgment or <code>AR</code> (Application Reject) or <code>AE</code> (Application Error) for a negative acknowledgment.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>An example of multiple response messages is shown in the following screenshot:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="635" src="attachments/133161829/133161832.png" data-image-src="attachments/133161829/133161832.png" data-unresolved-comment-count="0" data-linked-resource-id="133161832" data-linked-resource-version="9" data-linked-resource-type="attachment" data-linked-resource-default-alias="msgtrk-lotsofresponsemessages.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161829" data-linked-resource-container-version="29"></span></p>
+      <p>This&nbsp;screenshot&nbsp;shows multiple groups of response messages:</p>
+      <ul>
+       <li>The first group contains the response messages:&nbsp;<code>ACK</code>,&nbsp;<code>ACKA02</code>,&nbsp;<code>ACKA03</code>,&nbsp;<code>ACKA04</code>, and&nbsp;<code>ACKA01</code>. These response messages all use&nbsp;<code>MSA/MessageControlID</code>&nbsp;as the response control ID and&nbsp;<code>MSA/AcknowledgmentCode</code>&nbsp;as the response code.</li>
+       <li>The second group contains only one response message:&nbsp;<code>RSPK22</code>. This response message uses the same response code as the first group (<code>MSA/AcknowledgmentCode</code>), but uses two fields for the response control ID (<code>MSH/ReceivingApplication</code>&nbsp;and&nbsp;<code>MSH/MessageControlID</code>).</li>
+      </ul>
+      <h2 id="MaintainingMessageTrackingSchemes-ResponseHandling">Response Handling</h2>
+      <p>The&nbsp;<strong>Response Handling</strong>&nbsp;tab of the&nbsp;<strong>Message Tracking Scheme</strong>&nbsp;dialog&nbsp;enables you to define the actions to take for different response codes:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="635" src="attachments/133161829/133161838.png" data-image-src="attachments/133161829/133161838.png" data-unresolved-comment-count="0" data-linked-resource-id="133161838" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="mstrk-responsehandling.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161829" data-linked-resource-container-version="29"></span>&nbsp;<br class="atl-forced-newline"><br class="atl-forced-newline">The&nbsp;<strong>Response Handling</strong>&nbsp;tab shows all the actions associated with this message tracking scheme. Each separate return value possible in the response code field should have its own response code action. It is also possible to define one action as a wildcard action that matches all response codes.</p>
+      <p>When determining the action to take Rhapsody runs through the list of possible actions in order, searching for an action that matches the response code received. If an action is defined to match all values (that is, the&nbsp;<strong>Any response code</strong>&nbsp;field is selected), it should be placed at the end of the list so all other actions have a chance to be matched before falling through to the wildcard action.</p>
+      <h3 id="MaintainingMessageTrackingSchemes-MaintainingResponseCodeActions">Maintaining Response Code Actions</h3>
+      <p>The following dialog is presented when adding or editing a response code action within a message tracking scheme:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="370" src="attachments/133161829/133161834.png" data-image-src="attachments/133161829/133161834.png" data-unresolved-comment-count="0" data-linked-resource-id="133161834" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="msgtrk-responsecodeaction.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161829" data-linked-resource-container-version="29"></span>&nbsp;<br class="atl-forced-newline"><br class="atl-forced-newline">A response code action takes the value in the response code field, and matches it to one of the known acknowledgment types. For example, the text&nbsp;<code>AA</code>&nbsp;in a specific HL7 field means that the message is a positive acknowledgment message, but a value of&nbsp;<code>AE</code>&nbsp;means that it is an error acknowledgment message.</p>
+      <p>It is also possible to select actions to occur when this response code is received. These actions are default actions and can be overridden at the communication point settings.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p><span style="color: rgb(0,0,0);">Option</span></p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response code</p></td>
+          <td class="confluenceTd"><p>This specifies the text value in the response code field. Each text value must have its own response code action associated with it.</p><p>Selecting the <strong>Any response code</strong> option forces this action to match all values in the response code field. This option may only be selected for one action in each message set, and should be ordered last in the response code action list.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Acknowledgment type</p></td>
+          <td class="confluenceTd"><p>This determines the type of response and consequently the tracking state stored by Rhapsody:</p>
+           <ul>
+            <li><code>ACK</code> - indicates a positive acknowledgment was received. In HL7 this corresponds to a response code of <code>AA</code>.</li>
+            <li><code>NACK</code> - indicates a negative acknowledgment was received. In HL7 this corresponds to a response code of <code>AR</code>.</li>
+            <li><code>ERROR</code> - indicates an error acknowledgment was received. In HL7 this corresponds to a response code of <code>AE</code>.</li>
+            <li><code>UNKNOWN</code> - indicates that the response code is unknown.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Resending</p></td>
+          <td class="confluenceTd"><p>This option determines whether the original message should be resent if this response code is received. In most cases, this is not desired, as the message should not be resent once an acknowledgment has been received.</p><p>However, some systems respond with a certain acknowledgment value to indicate that they cannot process the message now, but may be able to do so later. Consequently, the original message should be resent in this case.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Action when received</p></td>
+          <td class="confluenceTd"><p>This option determines the action taken by Rhapsody after the maximum number of resends (if any) has been reached. The available options are:</p>
+           <ul>
+            <li><code>No further action</code> - no further action is taken by Rhapsody.</li>
+            <li><p><code>Treat as error</code><em> -</em> the message is&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector, and&nbsp;the&nbsp;<code style="letter-spacing: 0.0px;">rhapsody:ErrorCause</code>&nbsp;message property is added to the message and set to&nbsp;<code style="letter-spacing: 0.0px;">tracking.response.code</code>. However, if the error output connector is not connected to other components, the message is sent to the Error Queue.</p></li>
+            <li><code>Shut down communication point</code> - the communication point is shut down, leaving the original message at the head of the queue of messages on the communication point.</li>
+            <li><code>Shut down route (deprecated)</code> - the route the original message came from (the last route it came from if it was processed by multiple routes) is stopped. Messages already on the communication point are still sent by Rhapsody. This option was deprecated in Rhapsody 3.3, and will not stop a route.</li>
+            <li><code>Shut down route and communication point (deprecated)</code> - both the route the original message came from and the communication point it was sent to are shut down immediately. The original message is left at the head of the queue of messages on the communication point. This option was deprecated in Rhapsody 3.3, and will not stop a route and communication point.</li>
+           </ul><p>In addition, a checkbox enables a Rhapsody notification to be generated when this type of response is received (after the maximum number of resends is reached), allowing an administrator to be notified of a potential problem.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MaintainingMessageTrackingSchemes-OtherResponseHandlingOptions">Other Response Handling Options</h3>
+      <p>Several other options are available for configuring the response handling options for a message tracking scheme:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p><span style="color: rgb(0,0,0);">Option</span></p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum number of resends</p></td>
+          <td class="confluenceTd"><p>This is the maximum number of times a message will be resent due to the response code. Once this maximum number of resends is reached, the appropriate (configurable) action is taken.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Delay between resends</p></td>
+          <td class="confluenceTd"><p>Determines the time (in seconds) that Rhapsody will wait before resending the original message if told to resend the message due to a timeout or a negative acknowledgment.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Route response messages</p></td>
+          <td class="confluenceTd"><p>If this option is turned off then response messages arriving on the communication point are not passed on to any connected routes – they are immediately considered 'dead'. When the option is enabled, response messages are passed onto the route normally.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The following screenshot shows a possible response handling configuration for HL7 messages:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="635" src="attachments/133161829/133161839.png" data-image-src="attachments/133161829/133161839.png" data-unresolved-comment-count="0" data-linked-resource-id="133161839" data-linked-resource-version="4" data-linked-resource-type="attachment" data-linked-resource-default-alias="msgtrk-lotsofresponseactions.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161829" data-linked-resource-container-version="29"></span>&nbsp;<br class="atl-forced-newline"><br class="atl-forced-newline">This&nbsp;screenshot&nbsp;shows the following different response actions that have been configured for this message tracking scheme:</p>
+      <ul>
+       <li>The first handles the response code <code>AA</code>, which in HL7 stands for 'Application Accept'. When these responses are received it is considered a successful acknowledgment, and so the response type is <code>ACK</code>. No further action is taken when this type of response is received by Rhapsody using this message tracking scheme.</li>
+       <li><span style="letter-spacing: 0.0px;">The second handles the response code </span><code style="letter-spacing: 0.0px;">AR</code><span style="letter-spacing: 0.0px;">, which in HL7 stands for 'Application Reject'. When these responses are received, they are treated as rejected messages (negative acknowledgment), and the message will be resent. Once the maximum number of resends is reached, the communication point will be shut down. This configuration is assuming the remote system is returning </span><code style="letter-spacing: 0.0px;">AR</code><span style="letter-spacing: 0.0px;"> when it is unable to process the message at the moment, but may be able to later. Consequently, the message is resent, but if all resends fail, the communication point is shut down and a notification is generated.</span></li>
+       <li>The third handles the response code&nbsp;<code>AE</code>, which in HL7 stands for 'Application Error'. When these responses are received, the original message is marked as&nbsp;<code>ERROR</code>&nbsp;and is sent to the error output connector (if it is connected to other components) or&nbsp;the Error Queue. In addition, a notification is generated so it can be examined by an administrator.<span style="letter-spacing: 0.0px;"><br></span></li>
+       <li>The final action handles all other response codes, marking them as&nbsp;<code>UNKNOWN</code>. They are sent to the error output connector (if it is connected to other components) or the Error Queue, and a notification is generated.</li>
+      </ul>
+      <h2 id="MaintainingMessageTrackingSchemes-ErrorHandling">Error Handling</h2>
+      <p>The final configuration dialog for a message tracking scheme is the&nbsp;<strong>Error Handling</strong>&nbsp;dialog:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="665" src="attachments/133161829/133161830.png" data-image-src="attachments/133161829/133161830.png" data-unresolved-comment-count="0" data-linked-resource-id="133161830" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="msgtrk-errorhandling.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161829" data-linked-resource-container-version="29"></span>&nbsp;<br class="atl-forced-newline"><br class="atl-forced-newline">The Error Handling dialog enables you to define how to manage message tracking errors.</p>
+      <h3 id="MaintainingMessageTrackingSchemes-NoResponseHandling">No Response Handling</h3>
+      <p>A number of configuration options are available when handling the situation where no response is received for a message:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p><span style="color: rgb(0,0,0);">Option</span></p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout before resending (sec)</p></td>
+          <td class="confluenceTd"><p>This is the timeout (in seconds) before the original message is resent. If a response is received before the timeout occurs, the message is not resent.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum number of resends</p></td>
+          <td class="confluenceTd"><p>The original message will be resent no more than this many times before the action is taken.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Action after maximum resends</p></td>
+          <td class="confluenceTd"><p>This action is taken after the maximum number of resends has been reached, but no response has been received. The available options are:</p>
+           <ul>
+            <li><code>None</code>.</li>
+            <li><code>Treat as error</code> - the message is&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector, and&nbsp;the&nbsp;<code style="letter-spacing: 0.0px;">rhapsody:ErrorCause</code>&nbsp;message property is added to the message and set to&nbsp;<code>tracking.retries_exceeded</code>. However, if the error output connector is not connected to other components, the message is sent to the Error Queue.</li>
+            <li><code>Shut down communication point</code>.</li>
+            <li><code>Shut down route (deprecated)</code>.</li>
+            <li><code>Shut down route and communication point (deprecated)</code>.</li>
+            <li><code>Redirect to communication point (deprecated)</code> - the message&nbsp;is&nbsp;redirected to another output communication point. Refer to <a href="#MaintainingMessageTrackingSchemes-RedirectingErrorstoanAlternativeCommunicationPoint">Redirecting Errors to an Alternative Communication Point </a>for details.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MaintainingMessageTrackingSchemes-OtherErrorHandlingOptions">Other Error Handling Options</h3>
+      <p>The following general error handling options are available:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p><span style="color: rgb(0,0,0);">Option</span></p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Unrecognized original message</p></td>
+          <td class="confluenceTd"><p>This indicates that a message was sent to a tracked communication point, but the associated message tracking scheme is unable to process the message (the message type is not in any tracked messages group).</p>
+           <ul>
+            <li><code>Ignore</code>&nbsp;- the message is processed through any routes connected to the communication point (message tracking is ignored).</li>
+            <li><code>Treat as error</code>&nbsp;- the message is&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector, and&nbsp;the&nbsp;<code style="letter-spacing: 0.0px;">rhapsody:ErrorCause</code>&nbsp;message property is added to the message and set to&nbsp;<code>tracking.message.unrecognized</code>. However, if the error output connector is not connected to other components, the message is sent to the Error Queue.</li>
+            <li><code>Discard message</code>&nbsp;- the message is immediately deleted.</li>
+            <li><code>Redirect to communication point (deprecated)</code>&nbsp;- the message&nbsp;is&nbsp;redirected to another output communication point. Refer to <a href="#MaintainingMessageTrackingSchemes-RedirectingErrorstoanAlternativeCommunicationPoint">Redirecting Errors to an Alternative Communication Point </a>for details.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Duplicate response message</p></td>
+          <td class="confluenceTd"><p>The same response message is received multiple times by Rhapsody.</p>
+           <ul>
+            <li><code>Ignore</code>&nbsp;- the message is processed through any routes connected to the communication point (message tracking is ignored).</li>
+            <li><code>Treat as error</code>&nbsp;- <span>the message is&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector</span><span>. However, if the error output connector is not connected to other components, the message is sent to the Error Queue</span>.</li>
+            <li><code>Discard message</code>&nbsp;- the message is immediately deleted.</li>
+            <li><code>Redirect to communication point (deprecated)</code>&nbsp;- the message&nbsp;is&nbsp;redirected to another output communication point. Refer to <a href="#MaintainingMessageTrackingSchemes-RedirectingErrorstoanAlternativeCommunicationPoint">Redirecting Errors to an Alternative Communication Point </a>for details.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Late response message</p></td>
+          <td class="confluenceTd"><p>A response message is received, but the response is received after the maximum timeout has occurred and all available resends have been exhausted.</p>
+           <ul>
+            <li><code>Ignore</code>&nbsp;- the message is processed through any routes connected to the communication point (message tracking is ignored).</li>
+            <li><code>Treat as error</code>&nbsp;- <span>the message is&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector</span><span>. However, if the error output connector is not connected to other components, the message is sent to the Error Queue</span>.</li>
+            <li><code>Discard message</code>&nbsp;- the message is immediately deleted.</li>
+            <li><code>Redirect to communication point (deprecated)</code>&nbsp;- the message&nbsp;is&nbsp;redirected to another output communication point.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Unsolicited response message</p></td>
+          <td class="confluenceTd"><p>A response message is received for a message that was never sent or a wrong type of ACK has been received for a previously sent message.</p>
+           <ul>
+            <li><code>Ignore</code>&nbsp;- the message is processed through any routes connected to the communication point (message tracking is ignored).</li>
+            <li><code>Resend original message (only works in Out-&gt;In mode)</code>.</li>
+            <li><code>Treat as error</code>&nbsp;- <span>the message is&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector</span><span>. However, if the error output connector is not connected to other components, the message is sent to the Error Queue</span>.</li>
+            <li><code>Discard message</code>&nbsp;- the message is immediately deleted.</li>
+            <li><code>Redirect to communication point (deprecated)</code>&nbsp;- the message&nbsp;is&nbsp;redirected to another output communication point. Refer to <a href="#MaintainingMessageTrackingSchemes-RedirectingErrorstoanAlternativeCommunicationPoint">Redirecting Errors to an Alternative Communication Point </a>for details.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MaintainingMessageTrackingSchemes-RedirectingErrorstoanAlternativeCommunicationPoint">Redirecting Errors to an Alternative Communication Point</h3>
+      <p>Choosing the <strong>Redirect to communication point</strong> option will allow the message to be redirected to another output mode communication point, after the maximum number of resends have occurred. To enable this option a target communication point must be selected. Select the&nbsp;<strong>Browse</strong>&nbsp;button next to the action that should redirect the message. The&nbsp;<strong>Select Destination Communication Point</strong>&nbsp;dialog, is displayed.</p>
+      <p>Only communication points that are set to operate in an output mode (<em>Output</em>,&nbsp;<em>In→Out</em>,&nbsp;<em>Out→In</em>&nbsp;and&nbsp;<em>Bidirectional</em>) are valid selections and only a single target may be selected. Choosing a communication point folder or root directory will give an error message.</p>
+      <p>Messages which have been redirected in this way have a property named&nbsp;<code>RedirectReason</code>&nbsp;set with one of the following values, depending on the error condition:&nbsp;</p>
+      <ul>
+       <li><code>DuplicateResponse</code>.</li>
+       <li><code>LateResponse</code>.</li>
+       <li><code>UnrecognizedOriginal</code>.</li>
+       <li><code>UnsolicitedResponse</code>.&nbsp;</li>
+       <li><code>MaxResendsTimeout</code>.</li>
+      </ul>
+      <p><span style="color: rgb(255,0,0);"><span style="color: rgb(51,51,51);">The <code>RedirectReason</code> property for <span style="color: rgb(255,0,0);"><span style="color: rgb(51,51,51);">message tracking</span></span> has been deprecated but is still available for use.</span></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

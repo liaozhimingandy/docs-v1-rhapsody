@@ -1,0 +1,504 @@
+<configuration version="7">
+  <rootFolder name="" uuid="e575bcad-01b3-44eb-bbf6-b36c693ef58b"/>
+  <lockers>
+    <locker name="EpicTest Locker" uuid="24b26d41-bd3e-4bfd-aea7-ef64c0bc968c" parent="e575bcad-01b3-44eb-bbf6-b36c693ef58b">
+      <folders>
+        <folder name="Epic Resolute" uuid="03304d5e-66ed-47a3-a691-138bfa50e966" parent="290066c0-e37e-4e08-a1c5-051433719c13"/>
+        <folder name="_Utilities" uuid="261075b3-c19a-4994-b829-e59bccdebfdb" parent="24b26d41-bd3e-4bfd-aea7-ef64c0bc968c"/>
+        <folder name="Epic" uuid="290066c0-e37e-4e08-a1c5-051433719c13" parent="24b26d41-bd3e-4bfd-aea7-ef64c0bc968c"/>
+        <folder name="Notifications" uuid="5a5fdacc-c5d4-412d-bf36-2a756a8801ae" parent="261075b3-c19a-4994-b829-e59bccdebfdb"/>
+        <folder name="Epic Resolute Charges Xlaters" uuid="8d46ed08-c394-4aeb-a0eb-3624915d2933" parent="03304d5e-66ed-47a3-a691-138bfa50e966"/>
+        <folder name="General Error Notifications" uuid="aacc6f77-16e1-46b6-bfa2-3acdad4b14d1" parent="5a5fdacc-c5d4-412d-bf36-2a756a8801ae"/>
+        <folder name="Epic Resolute Charges Outbound" uuid="d6b2a234-e0e3-4b08-8d80-6d1818fc1c34" parent="03304d5e-66ed-47a3-a691-138bfa50e966"/>
+        <folder name="MediLinks to Resolute Xlater" uuid="f0a6cb08-b773-4f25-8608-22e9fd4ee2c0" parent="8d46ed08-c394-4aeb-a0eb-3624915d2933"/>
+      </folders>
+      <communicationPoints>
+        <communicationPoint name="Resolute Charges Outbound Sink" uuid="04cb92f5-0989-4d96-b7b8-189909585457" parent="d6b2a234-e0e3-4b08-8d80-6d1818fc1c34" type="Sink" useNotesAsSupportNotes="false" mode="OUTPUT" startupState="START_LEVEL_1" isStartupStateTrackingEnabled="false">
+          <configuration>
+            <property name="AutoTrack" xml:space="preserve">false</property>
+            <property name="ConnectionErrorRetriesIncludedMessages" xml:space="preserve">0</property>
+            <property name="IdleTimeout" xml:space="preserve">0</property>
+            <property name="InputCharacterEncoding" xml:space="preserve">151</property>
+            <property name="MaxRetryDelayForExponentialRetryStrategy" xml:space="preserve">300000</property>
+            <property name="NotificationRetries" xml:space="preserve">5</property>
+            <property name="NumConnections" xml:space="preserve">1</property>
+            <property name="NumRetries" xml:space="preserve">-1</property>
+            <property name="OnlineModeAction" xml:space="preserve">0</property>
+            <property name="RetryDelay" xml:space="preserve">5000</property>
+            <property name="RetryType" xml:space="preserve">linear</property>
+          </configuration>
+        </communicationPoint>
+        <communicationPoint name="Resolute Charges Outbound Sub" uuid="1b3ee193-8e5a-4857-983b-34c0823077b2" parent="d6b2a234-e0e3-4b08-8d80-6d1818fc1c34" type="rhapsody:router" useNotesAsSupportNotes="false" mode="INPUT" startupState="START_LEVEL_3" isStartupStateTrackingEnabled="true">
+          <configuration>
+            <property name="AutoTrack" xml:space="preserve">false</property>
+            <property name="ConnectionErrorRetriesIncludedMessages" xml:space="preserve">0</property>
+            <property name="IdleTimeout" xml:space="preserve">0</property>
+            <property name="InputCharacterEncoding" xml:space="preserve">151</property>
+            <property name="MaxRetryDelayForExponentialRetryStrategy" xml:space="preserve">300000</property>
+            <property name="NotificationRetries" xml:space="preserve">5</property>
+            <property name="NumConnections" xml:space="preserve">1</property>
+            <property name="NumRetries" xml:space="preserve">-1</property>
+            <property name="OnlineModeAction" xml:space="preserve">0</property>
+            <property name="RetryDelay" xml:space="preserve">5000</property>
+            <property name="RetryType" xml:space="preserve">linear</property>
+            <property name="TargetName" xml:space="preserve">ResoluteOutboundCharges</property>
+            <property name="UniqueTargetName" xml:space="preserve">true</property>
+          </configuration>
+          <receivingRoute>f13150d4-d6ce-421d-a833-dfde62253a22</receivingRoute>
+        </communicationPoint>
+        <communicationPoint name="General Error Notification Pub" uuid="9adaf64a-b57f-4a24-8b9e-05142286c0bc" parent="aacc6f77-16e1-46b6-bfa2-3acdad4b14d1" type="rhapsody:router" useNotesAsSupportNotes="false" mode="OUTPUT" startupState="START_LEVEL_2" isStartupStateTrackingEnabled="true">
+          <configuration>
+            <property name="AutoTrack" xml:space="preserve">false</property>
+            <property name="ConnectionErrorRetriesIncludedMessages" xml:space="preserve">0</property>
+            <property name="DeliveryMode" xml:space="preserve">dynamicDestination</property>
+            <property name="IdleTimeout" xml:space="preserve">0</property>
+            <property name="IndexMessageProperties" xml:space="preserve">false</property>
+            <property name="InputCharacterEncoding" xml:space="preserve">151</property>
+            <property name="MaxRetryDelayForExponentialRetryStrategy" xml:space="preserve">300000</property>
+            <property name="NotificationRetries" xml:space="preserve">5</property>
+            <property name="NumConnections" xml:space="preserve">1</property>
+            <property name="NumRetries" xml:space="preserve">5</property>
+            <property name="OnInvalidDynamicDestination" xml:space="preserve">staticDestination</property>
+            <property name="OnMissingDynamicDestination" xml:space="preserve">staticDestination</property>
+            <property name="OnlineModeAction" xml:space="preserve">0</property>
+            <property name="RetryDelay" xml:space="preserve">5000</property>
+            <property name="RetryType" xml:space="preserve">linear</property>
+            <property name="StaticDestination" xml:space="preserve">@GeneralErrorNotification</property>
+          </configuration>
+        </communicationPoint>
+        <communicationPoint name="Resolute Charges Outbound TCP Client" uuid="f451a706-4296-4b30-9ec2-3f1466ad2650" parent="d6b2a234-e0e3-4b08-8d80-6d1818fc1c34" type="TCPClient" useNotesAsSupportNotes="false" mode="OUT_IN" startupState="START_LEVEL_1" isStartupStateTrackingEnabled="true">
+          <configuration>
+            <property name="AutoTrack" xml:space="preserve">false</property>
+            <property name="BaseSchemeId" xml:space="preserve">5473f2d8-f804-4754-8e81-afe5f1efd8f6</property>
+            <property name="CONNECTION_TIMEOUT" xml:space="preserve">300000</property>
+            <property name="ConnectionMode" xml:space="preserve">0</property>
+            <property name="DYNAMIC_LOGIC" xml:space="preserve">MESSAGE_ERROR</property>
+            <property name="FailAction" xml:space="preserve">0</property>
+            <property name="HOST" xml:space="preserve">$(HOST_Epic)</property>
+            <property name="INCOMING_ENDIAN" xml:space="preserve">0</property>
+            <property name="INCOMING_STRIP_WRAPPERS" xml:space="preserve">true</property>
+            <property name="INCOMING_WRAPPER" xml:space="preserve">0</property>
+            <property name="IdleTimeout" xml:space="preserve">0</property>
+            <property name="InputCharacterEncoding" xml:space="preserve">151</property>
+            <property name="LOCALPORT" xml:space="preserve">0</property>
+            <property name="LOGCONNECTIONS" xml:space="preserve">false</property>
+            <property name="LOGTIME" xml:space="preserve">1</property>
+            <property name="MaxRecvTries" xml:space="preserve">-1</property>
+            <property name="MaxRetryDelayForExponentialRetryStrategy" xml:space="preserve">300000</property>
+            <property name="NotificationRetries" xml:space="preserve">5</property>
+            <property name="NumConnections" xml:space="preserve">1</property>
+            <property name="NumRetries" xml:space="preserve">-1</property>
+            <property name="OUTGOING_ENDIAN" xml:space="preserve">0</property>
+            <property name="OUTGOING_TCP_PACKETS" xml:space="preserve">WRAPPER_IN_SAME_TCP_PACKET</property>
+            <property name="OUTGOING_WRAPPER" xml:space="preserve">0</property>
+            <property name="OnlineModeAction" xml:space="preserve">0</property>
+            <property name="PORT" xml:space="preserve">$(PORT_Outbound_Epic_Resolute)</property>
+            <property name="ResponseTimeout" xml:space="preserve">60000</property>
+            <property name="RetryDelay" xml:space="preserve">60000</property>
+            <property name="RetryType" xml:space="preserve">linear</property>
+            <property name="SECURE" xml:space="preserve">false</property>
+            <property name="SSL_CIPHER_SUITES" xml:space="preserve">STRONG</property>
+            <property name="SSL_MODE" xml:space="preserve">3</property>
+            <property name="TtlRemoveAttributeOnReceivedMessages" xml:space="preserve">False</property>
+          </configuration>
+          <receivingRoute>f13150d4-d6ce-421d-a833-dfde62253a22</receivingRoute>
+        </communicationPoint>
+      </communicationPoints>
+      <routes>
+        <route name="Resolute Charges Outbound" uuid="f13150d4-d6ce-421d-a833-dfde62253a22" parent="d6b2a234-e0e3-4b08-8d80-6d1818fc1c34" priority="3" isTrackingStartupState="true" useNotesAsSupportNotes="false" fifoMode="FIFO_BY_INPUT_ORDER" startupState="START_LEVEL_2">
+          <adminProperties>
+            <property name="PersistenceMode" xml:space="preserve">True</property>
+            <property name="RouteErrorHandlerName" xml:space="preserve">Route Error Handler</property>
+            <property name="RouteErrorHandlerVisible" xml:space="preserve">False</property>
+            <property name="_04cb92f5-0989-4d96-b7b8-189909585457__Position" xml:space="preserve">(1372,819,1449,951)</property>
+            <property name="_1b3ee193-8e5a-4857-983b-34c0823077b2_I_Position" xml:space="preserve">(51,21,150,140)</property>
+            <property name="_6d3baf13-4ead-4b08-a1d5-32a63f5ac017/4fcf473c-c7c9-421e-ba0d-63887b5a18ad_I_Position" xml:space="preserve">(171,150,271,321)</property>
+            <property name="_6d3baf13-4ead-4b08-a1d5-32a63f5ac017/f711d9e7-f408-4d06-9a12-d9dfc3d8a212_I_Position" xml:space="preserve">(4,1000,104,1145)</property>
+            <property name="_76c4d0af-f7b1-47c9-81cd-f4537b6c80aa_I_Position" xml:space="preserve">(23,130,118,236)</property>
+            <property name="_89b743ad-2c0d-4fb4-b48e-8e9318b886b7/9891ad0a-b977-474c-8c49-97b297bb0301_I_Position" xml:space="preserve">(183,429,271,600)</property>
+            <property name="_89b743ad-2c0d-4fb4-b48e-8e9318b886b7/b01b92a9-6f5e-4bfa-bf2b-8b85ab856cc7_I_Position" xml:space="preserve">(48,430,145,575)</property>
+            <property name="_InputWidth" xml:space="preserve">271</property>
+            <property name="_OutputStart" xml:space="preserve">1367</property>
+            <property name="_adc6ede8-be36-495f-a0c1-1e2c4174bccb/7d4934fa-fc04-401e-97d8-e77fdea88e2c_I_Position" xml:space="preserve">(21,520,120,665)</property>
+            <property name="_b6f07d60-7db8-4e30-902a-d538fa15a37c/4fcf473c-c7c9-421e-ba0d-63887b5a18ad_I_Position" xml:space="preserve">(171,709,271,854)</property>
+            <property name="_be360c6b-9948-4148-8c4f-270838729e90/c869389f-01fe-44cb-8e63-2cd317b757c3_I_Position" xml:space="preserve">(160,290,260,461)</property>
+            <property name="_c932788c-6fbf-4de5-b665-d7950f2b7814/4a0c4ffa-d027-40cf-854d-9e75d02ea30e_I_Position" xml:space="preserve">(183,549,271,733)</property>
+            <property name="_dd94e89a-39ab-4aed-871e-6c7718dc44be/4fcf473c-c7c9-421e-ba0d-63887b5a18ad_I_Position" xml:space="preserve">(57,500,145,671)</property>
+            <property name="_f13150d4-d6ce-421d-a833-dfde62253a22/6c822be2-19f2-4d98-b7d8-fee7cb31904a__Position" xml:space="preserve">(194,130,266,249)</property>
+            <property name="_f13150d4-d6ce-421d-a833-dfde62253a22/e26cd4d8-3d40-4d2f-bbf2-d24b18566874__Position" xml:space="preserve">(461,380,539,499)</property>
+            <property name="_f451a706-4296-4b30-9ec2-3f1466ad2650_I_Position" xml:space="preserve">(170,819,250,951)</property>
+            <property name="_f451a706-4296-4b30-9ec2-3f1466ad2650__Position" xml:space="preserve">(1370,350,1450,482)</property>
+            <property name="_ff79d6fc-32f9-49b4-8493-2f30c6e635c1_I_Position" xml:space="preserve">(60,950,140,1095)</property>
+            <property name="_ff79d6fc-32f9-49b4-8493-2f30c6e635c1__Position" xml:space="preserve">(1378,480,1458,625)</property>
+          </adminProperties>
+          <notes>{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Microsoft Sans Serif;}}
+\viewkind4\uc1\pard\b\f0\fs16 Purpose\par
+\b0 Sends charges from various sending systems to Epic\par
+\par
+\b Detail\par
+\b0 Outbound route for Epic charges\par
+\b\par
+Change History\tab\par
+\b0\fs17 03/04/2016\tab  Z. Craig\tab\tab CHG0048923\tab Reconfigure Medilinks as route to route\par
+06-11-2015 \tab  Mike B.\tab\tab Changed Sunquest, CoPath and HCLL Charges to not use a dynamic router.  The dynamic router would only process 50 debatched messages and error the rest stating &quot;caught in a loop&quot;. \par
+12-02-2015  \tab Robert W.\tab Changed Seneca Charges to not use a dynamic router.  The dynamic router would only process 50 debatched messages and error the rest stating &quot;caught in a loop&quot;. \par
+03/09/2016\tab  D. Sweet     \tab  CHG0045410   \tab Moved to Prod\par
+}
+</notes>
+          <filter name="Resolute Outbound Anchor" uuid="f13150d4-d6ce-421d-a833-dfde62253a22/e26cd4d8-3d40-4d2f-bbf2-d24b18566874" type="No-op" useNotesAsSupportNotes="false">
+            <configuration/>
+            <NextDestinations version="1">
+              <Connector>
+                <DestinationId>f451a706-4296-4b30-9ec2-3f1466ad2650</DestinationId>
+              </Connector>
+            </NextDestinations>
+          </filter>
+          <inputCommPoint uuid="1b3ee193-8e5a-4857-983b-34c0823077b2">
+            <firstFilterUuid>f13150d4-d6ce-421d-a833-dfde62253a22/e26cd4d8-3d40-4d2f-bbf2-d24b18566874</firstFilterUuid>
+          </inputCommPoint>
+          <inputCommPoint uuid="f451a706-4296-4b30-9ec2-3f1466ad2650">
+            <firstFilterUuid>04cb92f5-0989-4d96-b7b8-189909585457</firstFilterUuid>
+          </inputCommPoint>
+          <outputCommPointUuid>04cb92f5-0989-4d96-b7b8-189909585457</outputCommPointUuid>
+          <outputCommPointUuid>f451a706-4296-4b30-9ec2-3f1466ad2650</outputCommPointUuid>
+        </route>
+      </routes>
+      <trackingSchemes>
+        <trackingScheme parent="24b26d41-bd3e-4bfd-aea7-ef64c0bc968c" id="5473f2d8-f804-4754-8e81-afe5f1efd8f6" name="Generic NAKs to error queue">
+          <TrackedMessageDefinition name="HL7_Generic.s3d"/>
+          <ResponseMessageDefinition name="HL7_Generic.s3d"/>
+          <TrackedMessageInfos>
+            <TrackedMessageInfo trackAnyNonResponseMessage="true" acceptAnyResponseMessage="false">
+              <MessageControlId>
+                <Field path="MSH.MessageControlID"/>
+              </MessageControlId>
+              <ResponseMessages>
+                <Message name="ACK"/>
+              </ResponseMessages>
+            </TrackedMessageInfo>
+          </TrackedMessageInfos>
+          <ResponseMessageInfos>
+            <ResponseMessageInfo>
+              <ResponseMessages>
+                <Message name="ACK"/>
+              </ResponseMessages>
+              <ResponseControlId>
+                <Field path="MSA.MessageControlID"/>
+              </ResponseControlId>
+              <ResponseCode>
+                <Field path="MSA.AcknowledgementCode"/>
+              </ResponseCode>
+            </ResponseMessageInfo>
+          </ResponseMessageInfos>
+          <PersistResponseMessages/>
+          <RouteResponseMessages route="false"/>
+          <ResponseTimeoutResend maxResends="500" timeout="60"/>
+          <ResponseCodeResend delayBetweenResends="60" maxResends="5"/>
+          <ResponseCodeActions>
+            <ResponseCodeAction acceptAnyResponseCode="false" code="[A,C]A" regex="true" ackType="ACK" resendOriginal="false" action="NoOperation" notify="false"/>
+            <ResponseCodeAction acceptAnyResponseCode="true" ackType="NACK" resendOriginal="true" action="SendToErrorQueue" notify="false"/>
+          </ResponseCodeActions>
+          <ErrorActions>
+            <ErrorAction action="NoOperation" error="UnrecognizedOriginal"/>
+            <ErrorAction action="NoOperation" error="UnsolicitedResponse"/>
+            <ErrorAction action="NoOperation" error="LateResponse"/>
+            <ErrorAction action="NoOperation" error="DuplicateResponse"/>
+            <ErrorAction action="StopCommunicationPoint" error="MaxTimeoutResends"/>
+          </ErrorActions>
+        </trackingScheme>
+      </trackingSchemes>
+      <definitions>
+        <definition name="HL7_Generic.s3d" uuid="207b06a4-5646-4628-9c48-3a973d710b9a" parent="24b26d41-bd3e-4bfd-aea7-ef64c0bc968c" displayDefinitionFilePath="HL7_Generic.s3d">
+          <adminProperties>
+            <property name="serverSize" xml:space="preserve">9276</property>
+            <property name="version" xml:space="preserve">12</property>
+          </adminProperties>
+          <primaryDefinitionFile>
+            <relativeFilePath>HL7_Generic.pcf</relativeFilePath>
+          </primaryDefinitionFile>
+          <secondaryFiles>
+            <file>
+              <relativeFilePath>HL7_Generic.s3d</relativeFilePath>
+            </file>
+          </secondaryFiles>
+        </definition>
+        <definition name="Epic_MediLinks_HL7v2.4.s3d" uuid="b2f06014-9251-4d96-8101-939b5df7f495" parent="24b26d41-bd3e-4bfd-aea7-ef64c0bc968c" displayDefinitionFilePath="Epic_MediLinks_HL7v2.4.s3d">
+          <adminProperties>
+            <property name="serverSize" xml:space="preserve">56220</property>
+            <property name="version" xml:space="preserve">43</property>
+          </adminProperties>
+          <primaryDefinitionFile>
+            <relativeFilePath>Epic_MediLinks_HL7v2.4.pcf</relativeFilePath>
+          </primaryDefinitionFile>
+          <secondaryFiles>
+            <file>
+              <relativeFilePath>Epic_MediLinks_HL7v2.4.s3d</relativeFilePath>
+            </file>
+          </secondaryFiles>
+        </definition>
+        <definition name="MediLinks_Charges_To_Epic.mdf" uuid="c4a189fb-f2dc-4c82-b264-3e6a56148f5b" parent="24b26d41-bd3e-4bfd-aea7-ef64c0bc968c" displayDefinitionFilePath="MediLinks_Charges_To_Epic.mdf">
+          <adminProperties>
+            <property name="serverSize" xml:space="preserve">1417439</property>
+            <property name="version" xml:space="preserve">345</property>
+          </adminProperties>
+          <primaryDefinitionFile>
+            <relativeFilePath>MediLinks_Charges_To_Epic.ecc</relativeFilePath>
+          </primaryDefinitionFile>
+          <secondaryFiles>
+            <file>
+              <relativeFilePath>MediLinks_Charges_To_Epic.mdf</relativeFilePath>
+            </file>
+            <file>
+              <relativeFilePath>MediLinks_Charges_To_Epic.txt</relativeFilePath>
+            </file>
+          </secondaryFiles>
+        </definition>
+      </definitions>
+    </locker>
+    <locker name="ManTest Locker" uuid="340529a0-4ecb-11e6-a95d-001c4227f5a1" parent="e575bcad-01b3-44eb-bbf6-b36c693ef58b">
+      <folders>
+        <folder name="ManFolder" uuid="0ce2604b-d5cb-48b1-bcf9-7aa7c8a4b543" parent="340529a0-4ecb-11e6-a95d-001c4227f5a1"/>
+        <folder name="MannnnFolder" uuid="d5010184-2a51-428f-8ab5-6d283d64a1bc" parent="340529a0-4ecb-11e6-a95d-001c4227f5a1"/>
+      </folders>
+      <communicationPoints>
+        <communicationPoint name="ManSink" uuid="65d5ecf4-828d-4562-8629-3c3e4cf967ab" parent="0ce2604b-d5cb-48b1-bcf9-7aa7c8a4b543" type="Sink" useNotesAsSupportNotes="false" mode="OUTPUT" startupState="DONT_START" isStartupStateTrackingEnabled="false">
+          <configuration>
+            <property name="AutoTrack" xml:space="preserve">false</property>
+            <property name="ConnectionErrorRetriesIncludedMessages" xml:space="preserve">0</property>
+            <property name="IdleTimeout" xml:space="preserve">0</property>
+            <property name="InputCharacterEncoding" xml:space="preserve">151</property>
+            <property name="MaxRetryDelayForExponentialRetryStrategy" xml:space="preserve">300000</property>
+            <property name="NotificationRetries" xml:space="preserve">5</property>
+            <property name="NumConnections" xml:space="preserve">1</property>
+            <property name="NumRetries" xml:space="preserve">5</property>
+            <property name="OnlineModeAction" xml:space="preserve">0</property>
+            <property name="RetryDelay" xml:space="preserve">5000</property>
+            <property name="RetryType" xml:space="preserve">linear</property>
+          </configuration>
+        </communicationPoint>
+        <communicationPoint name="bin_Sink" uuid="ed7b1e19-7395-4721-be30-b9132359808f" parent="d5010184-2a51-428f-8ab5-6d283d64a1bc" type="Sink" useNotesAsSupportNotes="false" mode="OUTPUT" startupState="DONT_START" isStartupStateTrackingEnabled="false">
+          <configuration>
+            <property name="AutoTrack" xml:space="preserve">false</property>
+            <property name="ConnectionErrorRetriesIncludedMessages" xml:space="preserve">0</property>
+            <property name="IdleTimeout" xml:space="preserve">0</property>
+            <property name="InputCharacterEncoding" xml:space="preserve">151</property>
+            <property name="MaxRetryDelayForExponentialRetryStrategy" xml:space="preserve">300000</property>
+            <property name="NotificationRetries" xml:space="preserve">5</property>
+            <property name="NumConnections" xml:space="preserve">1</property>
+            <property name="NumRetries" xml:space="preserve">5</property>
+            <property name="OnlineModeAction" xml:space="preserve">0</property>
+            <property name="RetryDelay" xml:space="preserve">5000</property>
+            <property name="RetryType" xml:space="preserve">linear</property>
+          </configuration>
+        </communicationPoint>
+      </communicationPoints>
+      <routes>
+        <route name="ManRoute" uuid="26e2cb8b-e4bc-4cd0-b00b-5a749cfd0aa0" parent="0ce2604b-d5cb-48b1-bcf9-7aa7c8a4b543" priority="3" isTrackingStartupState="false" useNotesAsSupportNotes="false" fifoMode="FIFO_BY_INPUT_ORDER" startupState="DONT_START">
+          <adminProperties>
+            <property name="RouteErrorHandlerName" xml:space="preserve">Route Error Handler</property>
+            <property name="RouteErrorHandlerVisible" xml:space="preserve">False</property>
+            <property name="_26e2cb8b-e4bc-4cd0-b00b-5a749cfd0aa0/195617e9-2421-4f95-9618-0e8905513a36__Position" xml:space="preserve">(567,280,654,373)</property>
+            <property name="_26e2cb8b-e4bc-4cd0-b00b-5a749cfd0aa0/c3c5a2ca-72c5-4a2e-a9e7-8218a8afe20c__Position" xml:space="preserve">(825,240,916,333)</property>
+            <property name="_InputWidth" xml:space="preserve">70</property>
+            <property name="_OutputStart" xml:space="preserve">936</property>
+          </adminProperties>
+          <filter name="Hold Queue" uuid="26e2cb8b-e4bc-4cd0-b00b-5a749cfd0aa0/195617e9-2421-4f95-9618-0e8905513a36" type="Hold" useNotesAsSupportNotes="false">
+            <configuration/>
+            <NextDestinations version="1"/>
+          </filter>
+          <filter name="No-operation" uuid="26e2cb8b-e4bc-4cd0-b00b-5a749cfd0aa0/c3c5a2ca-72c5-4a2e-a9e7-8218a8afe20c" type="No-op" useNotesAsSupportNotes="false">
+            <configuration/>
+            <NextDestinations version="1"/>
+          </filter>
+        </route>
+        <route name="Mannn Route" uuid="67926bd9-0ee9-42f0-9ddc-5337d22780d3" parent="d5010184-2a51-428f-8ab5-6d283d64a1bc" priority="3" isTrackingStartupState="false" useNotesAsSupportNotes="false" fifoMode="FIFO_BY_INPUT_ORDER" startupState="DONT_START">
+          <adminProperties>
+            <property name="RouteErrorHandlerName" xml:space="preserve">Route Error Handler</property>
+            <property name="RouteErrorHandlerVisible" xml:space="preserve">False</property>
+            <property name="_67926bd9-0ee9-42f0-9ddc-5337d22780d3/274cd826-7d1a-482c-b2e9-f861f35ea5a6__Position" xml:space="preserve">(630,170,710,263)</property>
+            <property name="_67926bd9-0ee9-42f0-9ddc-5337d22780d3/5f802cdf-12b1-4081-8749-188569c22404__Position" xml:space="preserve">(567,300,654,393)</property>
+            <property name="_InputWidth" xml:space="preserve">70</property>
+            <property name="_OutputStart" xml:space="preserve">1350</property>
+          </adminProperties>
+          <filter name="JavaScript" uuid="67926bd9-0ee9-42f0-9ddc-5337d22780d3/274cd826-7d1a-482c-b2e9-f861f35ea5a6" type="ExecuteScript" useNotesAsSupportNotes="false">
+            <configuration>
+              <property name="Script" xml:space="preserve">/* Single input message case */
+// Create the output message 
+var next = output.append(input[0]);
+
+// Get current date/time, and save it in a property as a string
+//var now = new Date();
+//now = now.toString();
+//next.setProperty(&quot;timestamp&quot;, now);
+
+// Get the body of the input message
+//var body = input[0].text;
+
+// Set the body if the body is updated
+//next.text = body;
+
+/* Multiple input messages */
+/*
+// Loop through all the input messages
+for (var i = 0; i &lt; input.length; i++) {
+    var next = output.append(input[i]);
+    // Get the body of the current input message
+    //var body = input[i].text;
+    // Set the body
+    //next.text = body + &quot;\r\nPlus some new stuff.&quot;;
+    // Set a property
+    //next.setProperty(&quot;PropertyName&quot;, &quot;PropertyValue&quot;);
+}
+*/
+
+/* Calling a Shared JavaScript library */
+/*
+//Call require with the Libraries name
+var library = require(&quot;LibraryName&quot;);
+//Call the Function by its name on the resulting object, passing in any parameters required
+var result = library.FunctionName(1, 2, 3);
+*/
+
+// Parsing JSON messages
+//var data = JSON.parse(next.text);
+
+// Serializing to JSON
+//next.text = JSON.stringify(data);</property>
+            </configuration>
+            <NextDestinations version="1"/>
+          </filter>
+          <filter name="Hold Queue" uuid="67926bd9-0ee9-42f0-9ddc-5337d22780d3/5f802cdf-12b1-4081-8749-188569c22404" type="Hold" useNotesAsSupportNotes="false">
+            <configuration/>
+            <NextDestinations version="1"/>
+          </filter>
+        </route>
+      </routes>
+      <restClients>
+        <restClient name="Test123" uuid="879fff76-9e5c-47c1-9121-6b8e5e3f2e7c" parent="340529a0-4ecb-11e6-a95d-001c4227f5a1" version="5">
+          <connection protocol="HTTP">
+            <hostname>asdf</hostname>
+            <port>8097</port>
+            <relativeURL>/</relativeURL>
+            <connectionTimeout>10000</connectionTimeout>
+            <requestHeaders/>
+            <responseHandling>
+              <response statusCode="400" action="MESSAGE_ERROR"/>
+              <response statusCode="500" action="CONNECTION_ERROR"/>
+            </responseHandling>
+            <security authenticationMode="NONE" hostnameVerification="false">
+              <trustedCertificates/>
+              <clientCertificates/>
+            </security>
+          </connection>
+        </restClient>
+      </restClients>
+      <definitions>
+        <definition name="test2.mdf" uuid="076d7cfa-a01b-44c2-95bd-2189053a84bf" parent="340529a0-4ecb-11e6-a95d-001c4227f5a1" displayDefinitionFilePath="test2.mdf">
+          <adminProperties>
+            <property name="serverSize" xml:space="preserve">927161</property>
+            <property name="version" xml:space="preserve">38</property>
+          </adminProperties>
+          <primaryDefinitionFile>
+            <relativeFilePath>test2.ecc</relativeFilePath>
+          </primaryDefinitionFile>
+          <secondaryFiles>
+            <file>
+              <relativeFilePath>test2.mdf</relativeFilePath>
+            </file>
+            <file>
+              <relativeFilePath>test2.txt</relativeFilePath>
+            </file>
+          </secondaryFiles>
+        </definition>
+      </definitions>
+    </locker>
+  </lockers>
+  <webServices>
+    <webService name="ReturnAnAck" guid="79fba266-7e79-4801-8166-f49b11577f83" version="5">
+      <privateKeyAlias>WebServc_Service_Client</privateKeyAlias>
+      <serviceName>
+        <name>ReturnAnAck</name>
+        <namespace>http://www.orionhealth.com/rhapsody/2010/03/ReturnAnAck</namespace>
+      </serviceName>
+      <description>ReturnAnAck</description>
+      <binding>
+        <soap12/>
+        <protocol>HTTPS</protocol>
+        <port>8053</port>
+        <localAddress></localAddress>
+      </binding>
+      <security>
+        <securityBinding>TRANSPORT_SECURITY_BINDING</securityBinding>
+        <sslProtocol>SSL</sslProtocol>
+        <sslCipherSuites>STRONG</sslCipherSuites>
+        <authenticationMode>HTTPS_CLIENT_CERTIFICATE_AUTHENTICATION</authenticationMode>
+        <authenticatedUserId>0</authenticatedUserId>
+        <includeTimestamp>true</includeTimestamp>
+        <algorithmSuite>BASIC_256</algorithmSuite>
+        <protectionOrder>SIGN_THEN_ENCRYPT</protectionOrder>
+        <headerLayout>STRICT</headerLayout>
+        <onlySignEntireHeadersAndBody>true</onlySignEntireHeadersAndBody>
+        <signingAndEncryption>
+          <encryptionMode>DO_NOT_SIGN_ENCRYPT</encryptionMode>
+          <signingMode>DO_NOT_SIGN_ENCRYPT</signingMode>
+        </signingAndEncryption>
+        <useDerivedKeys>false</useDerivedKeys>
+        <useSupportingEndorsingTokens>false</useSupportingEndorsingTokens>
+        <encryptSignature>false</encryptSignature>
+      </security>
+      <addressing>
+        <addressingEnabled required="false"/>
+      </addressing>
+      <operation>
+        <name>ReturnACK</name>
+        <description>ReturnACK</description>
+        <soapAction>urn:ReturnACK</soapAction>
+        <mode>REQUEST_RESPONSE</mode>
+        <input>
+          <style>CUSTOM_TYPE</style>
+          <customType>
+            <allowAdditionalChildren/>
+          </customType>
+        </input>
+        <output>
+          <style>EXISTING_TYPE</style>
+          <existingType>
+            <name>string</name>
+            <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+          </existingType>
+        </output>
+        <fault>
+          <style>EXISTING_TYPE</style>
+          <existingType>
+            <name>string</name>
+            <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+          </existingType>
+        </fault>
+        <adminProperty>
+          <key>faultType</key>
+          <value>STANDARD_XML_TYPE</value>
+        </adminProperty>
+        <adminProperty>
+          <key>inputType</key>
+          <value>ANY_TYPE</value>
+        </adminProperty>
+        <adminProperty>
+          <key>outputType</key>
+          <value>STANDARD_XML_TYPE</value>
+        </adminProperty>
+        <adminProperty>
+          <key>responseTemplate</key>
+          <value>PHJldDpSZXR1cm5BQ0tSZXNwb25zZSB4bWxuczpyZXQ9Imh0dHA6Ly93d3cub3Jpb25oZWFsdGguY29tL3JoYXBzb2R5LzIwMTAvMDMvUmV0dXJuQW5BY2siPg0KICA8cmV0OnBheWxvYWQ+c3RyaW5nPC9yZXQ6cGF5bG9hZD4NCjwvcmV0OlJldHVybkFDS1Jlc3BvbnNlPg==</value>
+        </adminProperty>
+        <adminProperty>
+          <key>soap11FaultTemplate</key>
+          <value>PHNvYXBlbnY6RmF1bHQgeG1sbnM6c29hcGVudj0iaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvc29hcC9lbnZlbG9wZS8iPgogICAgPGZhdWx0Y29kZT5zb2FwZW52OkNsaWVudDwvZmF1bHRjb2RlPgogICAgPGZhdWx0c3RyaW5nPmVycm9yIG9jY3VycmVkPC9mYXVsdHN0cmluZz4KICAgIDxmYXVsdGFjdG9yPm5vZGUgdXJpPC9mYXVsdGFjdG9yPgogICAgPGRldGFpbD4KICAgICAgICA8cmV0OlJldHVybkFDS0ZhdWx0IHhtbG5zOnJldD0iaHR0cDovL3d3dy5vcmlvbmhlYWx0aC5jb20vcmhhcHNvZHkvMjAxMC8wMy9SZXR1cm5BbkFjayI+CiAgICAgICAgICAgIDxyZXQ6cGF5bG9hZD5zdHJpbmc8L3JldDpwYXlsb2FkPgogICAgICAgIDwvcmV0OlJldHVybkFDS0ZhdWx0PgogICAgPC9kZXRhaWw+Cjwvc29hcGVudjpGYXVsdD4K</value>
+        </adminProperty>
+        <adminProperty>
+          <key>soap12FaultTemplate</key>
+          <value>PHNvYXBlbnY6RmF1bHQgeG1sbnM6c29hcGVudj0iaHR0cDovL3d3dy53My5vcmcvMjAwMy8wNS9zb2FwLWVudmVsb3BlIj4KICAgIDxzb2FwZW52OkNvZGU+CiAgICAgICAgPHNvYXBlbnY6VmFsdWU+c29hcGVudjpTZW5kZXI8L3NvYXBlbnY6VmFsdWU+CiAgICAgICAgPHNvYXBlbnY6U3ViY29kZT4KICAgICAgICAgICAgPHNvYXBlbnY6VmFsdWU+c3ViY29kZTwvc29hcGVudjpWYWx1ZT4KICAgICAgICA8L3NvYXBlbnY6U3ViY29kZT4KICAgIDwvc29hcGVudjpDb2RlPgogICAgPHNvYXBlbnY6UmVhc29uPgogICAgICAgIDxzb2FwZW52OlRleHQ+ZXJyb3Igb2NjdXJyZWQ8L3NvYXBlbnY6VGV4dD4KICAgIDwvc29hcGVudjpSZWFzb24+CiAgICA8c29hcGVudjpOb2RlPm5vZGUgdXJpPC9zb2FwZW52Ok5vZGU+CiAgICA8c29hcGVudjpEZXRhaWw+CiAgICAgICAgPHJldDpSZXR1cm5BQ0tGYXVsdCB4bWxuczpyZXQ9Imh0dHA6Ly93d3cub3Jpb25oZWFsdGguY29tL3JoYXBzb2R5LzIwMTAvMDMvUmV0dXJuQW5BY2siPgogICAgICAgICAgICA8cmV0OnBheWxvYWQ+c3RyaW5nPC9yZXQ6cGF5bG9hZD4KICAgICAgICA8L3JldDpSZXR1cm5BQ0tGYXVsdD4KICAgIDwvc29hcGVudjpEZXRhaWw+Cjwvc29hcGVudjpGYXVsdD4K</value>
+        </adminProperty>
+      </operation>
+    </webService>
+  </webServices>
+</configuration>

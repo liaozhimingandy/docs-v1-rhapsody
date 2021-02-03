@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>ASTM TCP Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="ASTM-TCP-Client-and-Server_133162659.html">ASTM TCP Client and Server</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">ASTM TCP Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162660/133162663.jpg" data-image-src="attachments/133162660/133162663.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162663" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_commptdefault.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162660" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>ASTM TCP Client</strong> communication point&nbsp;enables you to send and receive messages using ASTM 1381.</p>
+      <p>Supported Operational Modes: <em>All</em>.</p>
+      <h2 id="ASTMTCPClient-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Host</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the remote host to which to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Port</p></td>
+          <td class="confluenceTd"><p>The port number of the remote host to which to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p>The local interface to which to bind the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p>The local port to which to bind the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to use SSL:</p>
+            <ul>
+             <li>Enabled - secure socket layer is to be used for this connection and all messages will be encrypted.</li>
+             <li>Disabled (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is recommended that SSL be enabled for ASTM TCP Client communication points whenever it is supported by the remote server. <span>Refer to </span><a href="133161183.html">TLS/SSL Support in Rhapsody</a><span> for details. </span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><span>Refer to </span> <a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a> <span>for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><span>Refer to </span> <a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a> <span>for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL Client Mode</p></td>
+          <td class="confluenceTd"><p><span>Whether to use SSL client mode:</span></p>
+           <ul>
+            <li>Enabled (default) - SSL client mode will be enabled. Note that this is <em>not</em> the same as TLS client authentication. TLS client authentication is supported by configuring one or more private keys in the <strong>Secure Keys</strong>&nbsp;configuration property.</li>
+            <li>Disabled.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Identifies the private keys used for authenticating Rhapsody's end of the SSL connection. When configured with a private key, the SSL client supports SSL client authentication if requested by the SSL server.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Refer to <a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a> for details.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Identifies the trusted certificates used at the non-Rhapsody end of the SSL connection. If it is not configured with the SSL server's certificate, then this SSL client operates in anonymous server authentication mode. It is highly recommended that the server's certificate always be provided here to allow server authentication to be performed.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Refer to <a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a> for details.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Timeout</p></td>
+          <td class="confluenceTd"><p>Default: <code>300000</code> <br> The time in milliseconds to wait for a connection to be established before aborting the connection attempt. A value of zero or less is treated as an infinite timeout. In most cases, this does not need to be changed as the connection with either succeed or fail prior to this timeout occurring.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Drop on Collision</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specifies whether this connection should honor an overlapping request from another:</p>
+            <ul>
+             <li>Enabled.</li>
+             <li>Disabled (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>One of the two devices involved in a connection must be configured to drop on collision.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Debug Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br>Specifies if the communication point should be run in debug mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Log the establishing and dropping of all connections.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br>Log all data sent and received by this communication point to a file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br>Write all logged data to the log as hexadecimal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The file to log the connection information to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Options: <code>Log Time</code>, <code>None</code>. Default: <code>Log time</code> <br>Timestamps will be written with each event.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ASTMTCPClient-Bidirectional,In->OutandOut->InMode">Bidirectional, In-&gt;Out and Out-&gt;In Mode</h2>
+      <p>The configuration properties for the ASTM Client communication point in <em>Bidirectional</em>, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes is a combination of the properties described above.</p>
+      <p>Refer to <a href="General_133162189.html">Out-&gt;In and In-&gt;Out Properties</a> for general details on a communication point's <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

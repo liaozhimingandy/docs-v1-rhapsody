@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Custom Communication Point with Bi-directional Blocking Input</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="Creating-Custom-Communication-Points_133161276.html">Creating Custom Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Custom Communication Point with Bi-directional Blocking Input</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="Standard">This follows on from the previous example in <a href="Custom-Communication-Point-with-Polling-Connection_133161278.html">Custom Communication Point with Polling Connection</a>, but describes creating a communication point that blocks in its <code>receiveMessage()</code> method. This is the kind of behaviour you can expect from network protocols – in other words, you issue a <code>read()</code> call to the protocol and the method/function does not return until data is available.</p>
+      <p class="Standard">You can emulate this behavior by having a thread that sleeps before responding with data. This example also removes the polling implementation making it a fully bi-directional communication point that can asynchronously send and receive – in other words, there is no dependency or order expected in when messages are sent or received.&nbsp; If you want to correlate a sent message to a response message you will have to create a <a href="Managing-Message-Tracking-Schemes_133161818.html">Message Tracking Scheme</a> in Rhapsody IDE and associate it with the Communication Point on your route.</p>
+      <p class="Standard"><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147008581 {padding: 0px;}
+div.rbtoc1565147008581 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147008581 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147008581"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CustomCommunicationPointwithBi-directionalBlockingInput-CreatetheProjectbyCopyinganExistingProject">Create the Project by Copying an Existing Project</a></li> 
+        <li><a href="#CustomCommunicationPointwithBi-directionalBlockingInput-ConfiguretheBlockingCommPointToBeBi-directional">Configure the BlockingCommPoint To Be Bi-directional</a></li> 
+        <li><a href="#CustomCommunicationPointwithBi-directionalBlockingInput-ConfiguretheBlockingCommPointConnectionToBeBlocking">Configure the BlockingCommPointConnection To Be Blocking</a></li> 
+        <li><a href="#CustomCommunicationPointwithBi-directionalBlockingInput-ImplementingfinishComms()">Implementing finishComms()</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="CustomCommunicationPointwithBi-directionalBlockingInput-CreatetheProjectbyCopyinganExistingProject">Create the Project by Copying an Existing Project</h2>
+      <ol>
+       <li class="Standard">From Eclipse, right-click on your <code>PollingCommPoint</code> project and select&nbsp;<strong>Copy</strong>. Name the copy <code>BlockingCommPoint</code>.</li>
+       <li class="Standard">Rename the <code>PollingCommPoint</code> class to <code>BlockingCommPoint</code> and rename the connection class to <code>BlockingCommPointConnection.java</code>.</li>
+       <li class="Standard">Change the package name from <code>PollingCommPoint</code> to <code>BlockingCommPoint</code>:</li>
+       <li class="Standard">Within the class files, change the class name, the constructor name and the <code>CLASSNAME</code> constant.</li>
+       <li class="Standard">The&nbsp;<code>getConnection()</code> call will need to be adjusted to construct a&nbsp; <code>BlockingCommPointConnection</code>.</li>
+       <li class="Standard"><p>Modify the Activator registration:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">this.registrations.add(context.registerService(cr, new CommunicationPointRegistration(
+                                                   "BLOCKINGCOMMPOINT", "Example Blocking Communication Point",
+                                                    BlockingCommPoint.class, "/Smiley-32.bmp",
+                        							"/Smiley-16.bmp", null), null));
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Press <strong>Ctrl-Shift-O</strong> to cleanup the imports.</p></li>
+       <li class="Standard"><p class="Standard">Change the package name at the top of the class files (use the Eclipse hint to quickly fix it).</p></li>
+       <li class="Standard"><p class="Standard">Open the <code>OSGI-INF/Service.xml</code> and edit the component definition:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;component name="com.orionhealth.EMEA.rhapsody.module.BlockingCommPoint" immediate="true"&gt;
+                &lt;implementation class="com.orionhealth.EMEA.rhapsody.module.BlockingCommPoint.Activator"/&gt;
+&lt;/component&gt;</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Open the <code>META-INF/MANIFEST.MF</code>, and edit<span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span><code style="line-height: 13.0pt;">Bundle-Name</code><span style="line-height: 13.0pt;background-color: transparent;"> and </span><code style="line-height: 13.0pt;">Bundle-SymbolicName</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BlockingCommPoint
+Bundle-SymbolicName: BlockingCommPoint</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Modify the project name in your Ant <code>build.xml</code> file:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;project name="com.orionhealth.EMEA.rhapsody.module.BlockingCommPoint" default="jar" basedir="."&gt;</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Build and deploy the JAR file then check your communication point has been registered correctly in Rhapsody. If it does not appear, check the logs.</p></li>
+       <li class="Standard"><p class="Standard">Replace the PollingCommPoint on your test route with the new BlockingCommPoint.</p></li>
+      </ol>
+      <p class="Standard">Do not test that the communication point actually works as it is not yet complete.</p>
+      <h2 id="CustomCommunicationPointwithBi-directionalBlockingInput-ConfiguretheBlockingCommPointToBeBi-directional">Configure the BlockingCommPoint To Be Bi-directional</h2>
+      <p class="Standard">Replace the <code>getImplementationKind</code> method supported mode:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public SupportedMode getImplementationKind() {
+	if (null!=getLogger()) {&nbsp;
+		getLogger().debug(CLASSNAME+" "+"getImplementationKind()");
+	}
+    SupportedMode supportedMode = SupportedMode.BIDIRECTIONAL;
+    return supportedMode;
+}
+</pre> 
+       </div>
+      </div>
+      <h2 id="CustomCommunicationPointwithBi-directionalBlockingInput-ConfiguretheBlockingCommPointConnectionToBeBlocking">Configure the BlockingCommPointConnection To Be Blocking</h2>
+      <div>
+       <span><br></span>
+      </div>
+      <div>
+       <span>A blocked read entails the Rhapsody Engine calling&nbsp;</span>
+       <code>receiveMessage()</code>
+       <span>&nbsp;to block immediately after a&nbsp;</span>
+       <code>getConnection()</code>
+       <span>.&nbsp; At some point in time (asynchronously), the network will deliver a message to the communication point. This causes&nbsp;</span>
+       <code>read()</code>
+       <span>&nbsp;to unblock and cause&nbsp;</span>
+       <code>receiveMessage()</code>
+       <span>&nbsp;to return, delivering the message to Rhapsody. Rhapsody immediately calls&nbsp;</span>
+       <code>receiveMessage()</code>
+       <span>&nbsp;again in readiness for the next message. This could happen thousands of times each minute.</span>
+      </div>
+      <div>
+       <span><br></span>
+      </div>
+      <ol>
+       <li class="Standard"><p>Change the interface you are implementing from&nbsp;<span style="line-height: 13.0pt;"><code>PollingInputConnection</code> to&nbsp;</span><code><span style="line-height: 13.0pt;">CommunicationPointConnection</span></code><span style="line-height: 13.0pt;"><span style="line-height: 13.0pt;">:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class BlockingCommPointConnection implements CommunicationPointConnection {
+
+...</pre> 
+         </div>
+        </div><p><span style="line-height: 13.0pt;">&nbsp;</span></p></li>
+       <li class="Standard"><span style="line-height: 13.0pt;background-color: transparent;">Because the </span><code style="line-height: 13.0pt;">@Override</code><span style="line-height: 13.0pt;background-color: transparent;"> annotation has been used, Eclipse highlights that the </span><code style="line-height: 13.0pt;">getRefreshDelay()</code><span style="line-height: 13.0pt;background-color: transparent;"> and </span><code style="line-height: 13.0pt;">isInputAvailable()</code><span style="line-height: 13.0pt;background-color: transparent;"> methods are not from the interface. It is t</span><span style="line-height: 13.0pt;background-color: transparent;">herefore not necessary to delete these two methods.</span></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;">Modify the </span><code style="line-height: 13.0pt;">write()</code><span style="line-height: 13.0pt;background-color: transparent;"> method on the bogus protocol class – the nested class you created </span>called <code style="line-height: 13.0pt;">NetworkProtocolConnection</code>:&nbsp;The new&nbsp;<code>write()</code>&nbsp;method simply "sends" the message (i.e. does nothing in this case).</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private class NetworkProtocolConnection {
+	private boolean state=false; // true=connected, false=not connected
+                               
+    protected NetworkProtocolConnection() {                                    
+    }
+                               
+    ...
+    protected void write(String msg) throws IOException {             
+    }</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;">Implement a </span><code style="line-height: 13.0pt;">read()</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;"> method for the bogus protocol class.&nbsp;<span>The&nbsp;</span><code>read</code><span>&nbsp;method emulates network latency by sleeping for a second.</span></span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">/**
+ * Blocking network read method
+ * @return the input message
+ */
+protected String read(){
+	try {
+    	Thread.sleep(1000);
+    } catch (InterruptedException ignored) {
+    }
+    return "this is an input message";
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">You can delete the variables that are related to polling:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private Boolean isInputAvailable = false;
+private String pretendInputMsg="";</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;">Implement a blocking </span><code style="line-height: 13.0pt;">receiveMessage()</code><span style="line-height: 13.0pt;background-color: transparent;"> method. It will block because the network </span><code style="line-height: 13.0pt;">read()</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">method blocks.</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public boolean receiveMessage(final Message message) throws ConnectionException, MessageException {
+	if (null!=logger) {
+		logger.debug(CLASSNAME+" "+"receiveMessage(msg)");
+	}
+
+    try {
+    	// Block waiting for a single message
+        // Engine will read message when receiveMesssage unblocks and will
+        // again immediately call receiveMessage and block waiting next message.
+                                               
+        // read is blocking
+        String rxMsg = connection.read();
+                                               
+        // following works even though message is final
+        Messages.setBody(message, rxMsg);
+    } catch (IOException io) {
+    	throw new MessageException(io.toString());
+    }
+    return true;
+}
+</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <div>
+       <span style="line-height: 13.0pt;background-color: transparent;">Because it is blocking on reads, Rhapsody needs a mechanism to release any blocked reads – for example if it should need to drop the connection and shut down.&nbsp;</span>
+       <span style="line-height: 13.0pt;background-color: transparent;">Rhapsody signals that it wants to release block reads by calling the </span>
+       <code style="line-height: 13.0pt;background-color: transparent;">finishComms()</code>
+       <span style="line-height: 13.0pt;background-color: transparent;"> method.</span>
+      </div>
+      <h2 id="CustomCommunicationPointwithBi-directionalBlockingInput-ImplementingfinishComms()">Implementing <code>finishComms()</code></h2>
+      <ol>
+       <li>Edit the <code>read()</code> method so it can kill any blocked threads when the communication point shuts down:
+        <ol>
+         <li><p><span style="line-height: 13.0pt;background-color: transparent;">Add a reference to the </span><code style="line-height: 13.0pt;">Thread</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">that will be used in the read:</span></span></span></p>
+          <div class="code panel pdl" style="border-width: 1px;">
+           <div class="codeContent panelContent pdl"> 
+            <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private class NetworkProtocolConnection {                               
+	private Thread readThread = null;
+    ...</pre> 
+           </div>
+          </div><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span></span></p></li>
+         <li><p><span style="line-height: 13.0pt;background-color: transparent;">Add </span>an <code style="line-height: 13.0pt;">unblock()</code><span style="line-height: 13.0pt;background-color: transparent;"> method to that can be called from the </span><code style="line-height: 13.0pt;">finishComms()</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;"> method to kill blocked reads:<br></span></span></p>
+          <div class="code panel pdl" style="border-width: 1px;">
+           <div class="codeContent panelContent pdl"> 
+            <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">protected void unblock() {                                               &nbsp;
+	if (null != readThread) {
+    	readThread.interrupt();
+    }
+}
+&nbsp;</pre> 
+           </div>
+          </div></li>
+         <li><p><span style="line-height: 13.0pt;background-color: transparent;">Modify the </span><code style="line-height: 13.0pt;">read()</code><span style="line-height: 13.0pt;background-color: transparent;"> method to create a thread&nbsp;that sleeps long enough for you to be able to test that </span><code style="line-height: 13.0pt;">finishComms()</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">gets called on shutdown:</span></span></p>
+          <div class="code panel pdl" style="border-width: 1px;">
+           <div class="codeContent panelContent pdl"> 
+            <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">protected String read() {
+                                               
+	readThread = new Thread() {
+		@Override
+    	public void run() {
+        	try {
+            	Thread.sleep(10000); // sleep for 10 seconds
+            } catch (InterruptedException e) {
+				
+            } 
+        }
+    };
+    readThread.start();
+    try {
+    	readThread.join();
+        return "this is an input message";
+    } catch (InterruptedException e) {
+    	return "";
+    } finally {
+        readThread = null;
+    }
+}</pre> 
+           </div>
+          </div></li>
+        </ol></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Deploy the JAR file. Start the communication point and then find its ID using Soap-UI as before.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Configure </span><code style="line-height: 13.0pt;">log4j.properties</code><span style="line-height: 13.0pt;background-color: transparent;"> to create a log for your communication point.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Start the route and communication point and watch the reads process in the log.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Shut down the communication point immediately after a read and well before the next read gets invoked.&nbsp;</span></li>
+       <li><p><span style="line-height: 13.0pt;background-color: transparent;">Verify&nbsp;</span><span style="color: rgb(51,51,51);"><code style="line-height: 13.0pt;">finishComms()</code></span><span style="line-height: 13.0pt;background-color: transparent;"> is called to clear the </span>read&nbsp;<span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">blocks:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: plain; gutter: false; theme: Confluence" data-theme="Confluence">CommunicationPoint.3992] Shutting down communication point execution thread
+CommunicationPoint.3992] Signalling communication point to terminate any blocking receives
+CommunicationPoint.3992] BlockingCommPoint shutdown()
+CommunicationPoint.3992] Signalling communication point to terminate any blocking receives
+CommunicationPoint.3992] BlockingCommPoint shutdown()
+CommunicationPoint.3992] Waiting for communication point execution thread to terminate
+CommunicationPoint.3992] BlockingCommPointConnection finishComms()
+</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

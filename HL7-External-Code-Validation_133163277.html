@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>HL7 External Code Validation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+       <li> <span><a href="HL7-Code-Translation-and-Validation-Filters_133163271.html">HL7 Code Translation and Validation Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">HL7 External Code Validation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163277/133163278.jpg" data-image-src="attachments/133163277/133163278.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163278" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image121.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163277" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>HL7 External Code Validation</strong> filter&nbsp;processes incoming HL7 messages to:</p>
+      <ul>
+       <li>Examine the contents of multiple pre-configured fields.</li>
+       <li>Verify each field for validity against the defined code set.</li>
+      </ul>
+      <p>Messages entering this filter must be syntactically valid and of a type contained in the definition file. Syntactic validation and the filtering of syntactically invalid messages are achieved separately through the use of a validation filter and conditional connectors.</p>
+      <p>If a message is found to contain one or more codes that are invalid for the specified code-set, a property is set to store these validation errors. This property can then be used by the ACK filter to generate a negative acknowledgment. The original message is sent intact from the Code Validation filter, regardless of the validity or otherwise of the codes which it contains.</p>
+      <p>If the database becomes unavailable after the filter started, messages will be directed through the error connector with a message property stating this.</p>
+      <h2 id="HL7ExternalCodeValidation-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition</p></td>
+          <td class="confluenceTd"><p>The definition file for input messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coded Fields</p></td>
+          <td class="confluenceTd"><p>The coded fields to validate. These should be HL7 CE datatypes or CE compatible types. Refer to <a href="Configuration-of-Coded-Fields_133163272.html">Configuration of Coded Fields</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database - url</p></td>
+          <td class="confluenceTd"><p>The JDBC URL with which to connect to the database containing the coding systems. Refer to <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database - username</p></td>
+          <td class="confluenceTd"><p>The username with which to connect to the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database - password</p></td>
+          <td class="confluenceTd"><p>The password with which to connect to the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database - driver</p></td>
+          <td class="confluenceTd"><p>The driver to connect to the database with. Refer to <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Socket Timeout</td>
+          <td colspan="1" class="confluenceTd"><p>Specifies how long, in seconds, the underlying connection should remain open before timing out. The socket timeout prevents Rhapsody from waiting indefinitely for results from a database in the event Rhapsody loses its connection to the database.</p><p>A value of zero indicates the timeout is not configured.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Tables</p></td>
+          <td class="confluenceTd"><p>The code-set with which the coded fields are validated. Refer to <a href="Configuration-of-Coded-Fields_133163272.html">Configuration of the Code Set</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Fail Action</p></td>
+          <td class="confluenceTd"><p>Determines if messages that fail code validation are sent to the error node (the default) or the normal connector to continue processing.</p>
+           <ul>
+            <li>Continue Processing</li>
+            <li>Send to Error Node</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Error Generation Type</p></td>
+          <td class="confluenceTd"><p>If validation errors are found, what format should the error list be reported in?</p>
+           <ul>
+            <li><code>HL7</code> - generates an ERR segment.</li>
+            <li><code>None</code> - do not report the error list.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Property</p></td>
+          <td class="confluenceTd"><p>The message property to which a validation error list should be stored in when validation errors are detected. Defaults to <code>CodeValidationErrors</code>. A leading <code>$</code> in front of this property name is ignored.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Change Identifier and Coding System Case</p></td>
+          <td class="confluenceTd"><p>Determines whether the identifier's/coding system's case should be changed before testing if it is present. This option is to allow for case insensitivity as the filter has no way of knowing how the database handles case-insensitive comparisons or indexes.</p>
+           <ul>
+            <li>No Change</li>
+            <li>Uppercase</li>
+            <li>Lowercase</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Cache Size</p></td>
+          <td class="confluenceTd"><p>The number of coded fields from the database that are stored in memory. The larger the size of the cache, the less database access will be required which will increase performance but requires more memory. This must have a value of <code>1</code> or greater.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Cache Age Limit (minutes)</p></td>
+          <td class="confluenceTd"><p>The age limit specifies how long a coded field will be retained for use by the filter. This allows updates in the database to propagate to the cache. The default value of <code>1440</code> (24 hours) means a database update can take a maximum of 24 hours to effect the filter.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Coded fields are not purged from the cache, but only marked for update. Therefore having a low value will not decrease memory use in low activity periods.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Pool Size</p></td>
+          <td class="confluenceTd"><p>Sets a limit on the number of connections the filter can hold to the database. Once a connection is opened it is not released until the filter is stopped.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Invalid Path Action</p></td>
+          <td class="confluenceTd"><p>The action to perform when a path is not valid for a message:</p>
+           <ul>
+            <li>Ignore</li>
+            <li>Log</li>
+            <li>Throw invalid path selection</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="HL7ExternalCodeValidation-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for the&nbsp;HL7 External Code Validation&nbsp;filter are:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Name</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Property (from configuration)</p></td>
+          <td class="confluenceTd"><p>The list of validation errors this filter detected. This can be used as the input for an ACK filter to generate an acknowledgment.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HasCodeValidationErrors</p></td>
+          <td class="confluenceTd"><p>Specifies whether this message has code validation errors.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>CodeValidationDatabase Unavailable</p></td>
+          <td class="confluenceTd"><p>Specifies whether this message could not complete validation because the database is uncontactable.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>CodeValidationParseFailed</p></td>
+          <td class="confluenceTd"><p>Specifies whether this message could not be validated because the filter is unable to parse the message with the definition provided in the configuration.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>CodeValidationInternal Error</p></td>
+          <td class="confluenceTd"><p>Specifies whether this message could not complete validation because of an internal error (other than database failure) in the filter.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

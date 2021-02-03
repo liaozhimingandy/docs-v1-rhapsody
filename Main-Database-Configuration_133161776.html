@@ -1,0 +1,334 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Main Database Configuration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Main Database Configuration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The following four standard JDBC configuration properties can be specified in the XML configuration file (or using the Database Configuration Editor) or you can configure the connections directly on the database communication points and filters.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When they are configured directly on the communication points or filters using one of the standard databases, the JDBC URL is generated.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Driver</p></td>
+          <td class="confluenceTd"><p>The fully qualified name of a JDBC driver class.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>URL</p></td>
+          <td class="confluenceTd"><p><span>The&nbsp;</span>JDBC URL of the database to connect to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p><span>The d</span>atabase user to connect as.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p><span>The&nbsp;p</span>assword for that user.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>SYNTAX:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;driver&gt;driver name&lt;/driver&gt;
+&lt;url&gt;database url&lt;/url&gt;
+&lt;username&gt;database username&lt;/username&gt;
+&lt;password&gt;database password&lt;/password&gt;</pre> 
+       </div>
+      </div>
+      <p>or</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;driver&gt;driver name&lt;/driver&gt;
+&lt;url&gt;database url&lt;/url&gt;
+&lt;username&gt;$(database_username)&lt;/username&gt;
+&lt;password&gt;$(database_password)&lt;/password&gt;</pre> 
+       </div>
+      </div>
+      <h2 id="MainDatabaseConfiguration-DatabaseDriversandURLsDatabaseDriversandURLs"><span class="confluence-anchor-link" id="MainDatabaseConfiguration-DatabaseDriversandURLs"></span> Database Drivers and URLs</h2>
+      <p>To find the correct database URL, look at the list of URLs in the following tables and follow these steps:</p>
+      <ol>
+       <li>Choose the database</li>
+       <li>Use the given driver name</li>
+       <li>Select the URL from the listed options. Use the top entry in the listed options unless:
+        <ul>
+         <li>The port number is not defaulted, in which case, select the URL which specifies the port number (the default port numbers are given below).</li>
+         <li>The database is a SQL Server instance, in which case, select the URL which specifies the instance.</li>
+        </ul></li>
+      </ol>
+      <h3 id="MainDatabaseConfiguration-MSSQLServer(MicrosoftDriver)">MS&nbsp;<strong>SQL Server (Microsoft Driver)</strong></h3>
+      <ul>
+       <li>{host}: Required: the hostname or IP address of the database server.</li>
+       <li>{database}: Required: the name of the database.</li>
+       <li>{port}: Required if a non-default port is being used: the port number which the database is using.</li>
+       <li>{<span>databaseName</span>}: Required if the database is on an instance: the name of the database.</li>
+       <li>{domain}: Required if the user belongs to an Active Directory domain: the name of the Active Directory domain.</li>
+      </ul>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Default Port</p></td>
+          <td class="confluenceTd"><p><code>1433</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Driver</p></td>
+          <td class="confluenceTd"><p><code>com.microsoft.sqlserver.jdbc.SQLServerDriver</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>URL Choices</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code>jdbc:sqlserver://{host}/{database}</code><br><code>jdbc:sqlserver://{host}:{port}/{database}</code><br><code>jdbc:sqlserver://{host}/{database};databaseName={instance}</code><br><code>jdbc:sqlserver://{host}:{port}/{database};databaseName={instance}</code></p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>You can connect<span> to SQL Server using Active Directory credentials using:</span></p>
+              <p><code>jdbc:sqlserver://{host}:{port}/{database};<span>databaseName</span>={instance};<span>useNTLMv2=true;</span>domain={domain}</code></p>
+              <div>
+               <code><br></code>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Examples</p></td>
+          <td class="confluenceTd"><p><code>jdbc:sqlserver://DatabaseServer/PatientRecords</code><br><code>jdbc:sqlserver://DatabaseServer:5400/PatientRecords</code><br><code>jdbc:sqlserver://DatabaseServer/PatientRecords;<span>databaseName</span>=Live</code><br><code>jdbc:sqlserver://DatabaseServer:5400/PatientRecords;<span>databaseName</span></code><code>=Live</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MainDatabaseConfiguration-MSSQLServer(jTDSDriver)">MS <strong>SQL Server (jTDS Driver)</strong></h3>
+      <ul>
+       <li>{host}: Required: the hostname or IP address of the database server.</li>
+       <li>{database}: Required: the name of the database.</li>
+       <li>{port}: Required if the non-default port is being used: the port number which the database is using.</li>
+       <li>{instance}: Required if the database is on an instance: the name of the instance.</li>
+       <li><span>{domain}: Required if the user belongs to an Active Directory domain: the name of the Active Directory domain.</span></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Default Port</p></td>
+          <td class="confluenceTd"><p><code>1433</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Driver</p></td>
+          <td class="confluenceTd"><p><code>net.sourceforge.jtds.jdbc.Driver</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>URL Choices</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code>jdbc:jtds:sqlserver://{host}/{database</code>}<br><code>jdbc:jtds:sqlserver://{host}:{port}/{database</code>}<br><code>jdbc:jtds:sqlserver://{host}/{database};instance={instance</code>}<br><code>jdbc:jtds:sqlserver://{host}:{port}/{database};instance={instance</code>}</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>You can connect<span style="color: rgb(51,51,51);"> to SQL Server using Active Directory credentials using:</span></p>
+              <p><code>jdbc:jtds:sqlserver://{host}:{port}/{database};instance={instance};<span style="color: rgb(51,51,51);">useNTLMv2=true;</span>domain={domain}</code></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Examples</p></td>
+          <td class="confluenceTd"><p><code>jdbc:jtds:sqlserver://DatabaseServer/PatientRecords</code><br><code>jdbc:jtds:sqlserver://DatabaseServer:5400/PatientRecords</code><br><code>jdbc:jtds:sqlserver://DatabaseServer/PatientRecords;instance=Live</code><br><code>jdbc:jtds:sqlserver://DatabaseServer:5400/PatientRecords;</code><code>instance=Live</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Currently, an MS SQL server that has SSL connections enabled will not let Rhapsody modules connect to it with the default jTDS driver. This can be remedied by adding the <code>ssl=request</code> parameter to the JDBC URL as follows: <br> <code>jdbc:jtds:sqlserver://{host}:{port};ssl=request</code><br> <code>jdbc:jtds:sqlserver://{host}:{port}/{database};instance={instance};</code><br> <code>ssl=request</code><br> &nbsp;<br> <strong>Examples:</strong><br> <code>jdbc:jtds:sqlserver://devsql:1433;ssl=request</code><br> <code>jdbc:jtds:sqlserver://DatabaseServer:5400/PatientRecords;instance=Live;</code><br> <code>ssl=request</code></p>
+       </div>
+      </div>
+      <h3 id="MainDatabaseConfiguration-Oracle">Oracle</h3>
+      <ul>
+       <li>{host}: Required: The hostname or IP address of the database server.</li>
+       <li>{service name}: Required: The database service name.</li>
+       <li>{port}: Required if the non-default port is being used: The port number which the database is using.</li>
+      </ul>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Default Port</p></td>
+          <td class="confluenceTd"><p><code>1521</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Driver</p></td>
+          <td class="confluenceTd"><p><code>oracle.jdbc.driver.OracleDriver</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>URL Choices</p></td>
+          <td class="confluenceTd"><p><code>jdbc:oracle:thin:@{host}:{service name</code>}<br> <code>jdbc:oracle:thin:@{host}:{port}:{service name</code>}</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Examples</p></td>
+          <td class="confluenceTd"><p><code>jdbc:oracle:thin:@DatabaseServer:longterm</code><br> <code>jdbc:oracle:thin:@DatabaseServer:5400:longterm</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MainDatabaseConfiguration-PostgreSQL">PostgreSQL</h3>
+      <ul>
+       <li>{host}: Required: The host name or IP address of the database server.</li>
+       <li>{database}: Required: The database name.</li>
+       <li>{port}: Required if non-default port is being used: The port number which the database is using.</li>
+      </ul>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Default Port</p></td>
+          <td class="confluenceTd"><p><code>5432</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Driver</p></td>
+          <td class="confluenceTd"><p><code>org.postgresql.Driver</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>URL Choices</p></td>
+          <td class="confluenceTd"><p><code>jdbc:postgresql://{host}/{database</code>}<br> <code>jdbc:postgresql://{host}:{port}/{database</code>}</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Examples</p></td>
+          <td class="confluenceTd"><p><code>jdbc:postgresql://DatabaseServer/PatientRecords</code><br> <code>jdbc:postgresql://DatabaseServer:5400/PatientRecords</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MainDatabaseConfiguration-MySQL">MySQL</h3>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Due to GPL restrictions, the MySQL driver is not included with Rhapsody. You must obtain the MySQL driver from <a href="http://www.mysql.com" class="external-link" rel="nofollow">http://www.mysql.com</a>.</p>
+       </div>
+      </div>
+      <ul>
+       <li>{host}: The hostname or IP address of the database server. If the hostname is not specified, it defaults to 127.0.0.1.</li>
+       <li>{database}: Required: The database name.</li>
+       <li>{port}: Required if the non-default port is being used: The port number which the database is using.</li>
+      </ul>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Default Port</p></td>
+          <td class="confluenceTd"><p><code>3306</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Driver</p></td>
+          <td class="confluenceTd"><p><code>com.mysql.jdbc.Driver</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>URL Choices</p></td>
+          <td class="confluenceTd"><p><code>jdbc:mysql://[\host:port],[host:port].../[database]</code></p><p>[]Square brackets indicate optional parameters</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Examples</p></td>
+          <td class="confluenceTd"><p><code>jdbc:mysql://DatabaseServer/PatientRecords</code><br><code>jdbc:mysql://DatabaseServer:5400/PatientRecords</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MainDatabaseConfiguration-MicrosoftAccess">Microsoft Access</h3>
+      <ul>
+       <li>{database}: Required. The data source. The data source must be a System Data Source, that is available to all users.</li>
+      </ul>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p>Driver</p></td>
+          <td class="confluenceTd"><p><code>sun.jdbc.odbc.JdbcOdbcDriver</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>URL Choices</p></td>
+          <td class="confluenceTd"><p><code>jdbc:odbc:{data source</code>}</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Examples</p></td>
+          <td class="confluenceTd"><p><code>jdbc:odbc: Database1.accdb</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MainDatabaseConfiguration-CustomDrivers">Custom Drivers</h3>
+      <ul>
+       <li>Databases other than MS SQL server, Oracle, ODBC.</li>
+       <li>Alternative drivers for the databases that are bundled with Rhapsody.</li>
+      </ul>
+      <p>Custom drivers must be placed in the <code>data\lib</code> directory. On <em>Windows</em>®, the default directory is:</p>
+      <ul>
+       <li><code>C:\Program Files\<span>Rhapsody</span>\Rhapsody Engine 6\rhapsody\data\lib</code></li>
+      </ul>
+      <p>Alternatively, the drivers can be attached as an auxiliary file to the communication point or filter that needs it (this is useful if deferent versions of the same driver are needed for different connections).</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <p class="title">Important!</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Custom database drivers must be added to both the <code>data\lib</code> and <code>&lt;Rhapsody IDE&gt;\DatabaseStructureReader</code> directories. Refer to <a href="Database-Connections_133161700.html#DatabaseConnections-UsingCustomDatabaseDrivers">Using Custom Database Drivers</a> for details.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

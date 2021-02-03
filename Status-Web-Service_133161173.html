@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Status Web Service</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="SOAP-API_133161152.html">SOAP API</a></span> </li> 
+       <li> <span><a href="Web-Services-API_133161170.html">Web Services API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Status Web Service</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Rhapsody Status service provides some simple operations to determine the status of the Rhapsody engine. This is limited to simple information that can be obtained without logging on to the Management Console or Rhapsody IDE. Primarily, this is status information while Rhapsody is starting up, and a ping operation to verify that it is still responding. No authentication is required to access any of the operations in this service.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>WSDL Location</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>RhapsodyStatusService?wsdl</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>SOAP 1.1 Endpoint</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>RhapsodyStatusService.</code><code>RhapsodyStatusServiceHttpsSoap11Endpoint</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>SOAP 1.2 Endpoint</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>RhapsodyStatusService.</code><code>RhapsodyStatusServiceHttpsSoap12Endpoint</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><strong>In This Section</strong></p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005877 {padding: 0px;}
+div.rbtoc1565147005877 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005877 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565147005877"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#StatusWebService-Operations">Operations</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#StatusWebService-ping">ping</a></li> 
+          <li><a href="#StatusWebService-getStatus">getStatus</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <h2 id="StatusWebService-Operations">Operations</h2>
+      <h3 id="StatusWebService-ping">ping</h3>
+      <p>Sends a ping request to the Rhapsody engine, which will be responded to if this service is running. Note that a successful ping in no way guarantees messages are actually flowing through Rhapsody. For further information, one of the other services should be used to check for message flow, idle times, and backlogs.</p>
+      <p>This operation takes no parameters and has no return value.</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyStatusService"&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:ping/&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:pingResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyStatusService"/&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <h3 id="StatusWebService-getStatus">getStatus</h3>
+      <p>Requests the current status of the engine and its main internal services. This provides the same information that is available on the <a href="Startup-and-Shutdown-Messages_133163999.html">Rhapsody Engine Starting/Shutting Down...</a> page of the Rhapsody Management Console.</p>
+      <p>This operation takes no parameters and returns an object with the current state. For example, <code>activating</code>, <code>deactivating</code>, <code>running</code>, and whether or not some of the internal Rhapsody services are running.</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyStatusService"&gt;
+   &lt;soap:Header/&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:getStatus/&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getStatusResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyStatusService"&gt;
+         &lt;ns1:status status="Ready"&gt;
+            &lt;ns1:service name="Archive Cleanup Service" running="true"/&gt;
+            &lt;ns1:service name="Backup Service" running="true"/&gt;
+            &lt;ns1:service name="Communication Point Execution Service" running="true"/&gt;
+            &lt;ns1:service name="Configuration Service" running="true"/&gt;
+            &lt;ns1:service name="ID Generator Factory Service" running="true"/&gt;
+            &lt;ns1:service name="Index Service" running="true"/&gt;
+            &lt;ns1:service name="Initialisation Service" running="true"/&gt;
+            &lt;ns1:service name="Logging Service" running="true"/&gt;
+            &lt;ns1:service name="Message Path Service" running="true"/&gt;
+            &lt;ns1:service name="Message Service" running="true"/&gt;
+            &lt;ns1:service name="Message Table Service" running="true"/&gt;
+            &lt;ns1:service name="Message Tracking Service" running="true"/&gt;
+            &lt;ns1:service name="Model Service" running="true"/&gt;
+            &lt;ns1:service name="Notification Service" running="true"/&gt;
+            &lt;ns1:service name="Persistent Map Service" running="true"/&gt;
+            &lt;ns1:service name="Query Service" running="true"/&gt;
+            &lt;ns1:service name="Queue Service" running="true"/&gt;
+            &lt;ns1:service name="Reporting Service" running="true"/&gt;
+            &lt;ns1:service name="Route Execution Service" running="true"/&gt;
+            &lt;ns1:service name="Statistics Service" running="true"/&gt;
+            &lt;ns1:service name="Tracking Persistence Service" running="true"/&gt;
+            &lt;ns1:service name="Transaction Service" running="true"/&gt;
+            &lt;ns1:service name="User Management Service" running="true"/&gt;
+            &lt;ns1:service name="Validation Service" running="true"/&gt;
+         &lt;/ns1:status&gt;
+      &lt;/ns1:getStatusResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>ISO8601 Date-Time Format</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">ISO8601 Date-Time Format</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>All incoming date-times or time durations must be in ISO8601 format. For date-times, either the basic (for example, <code>20120922T170102.123Z</code>) or extended version (for example, <code>2012-09-22T17:01:02.123Z</code>) is acceptable and the milliseconds precision is optional. For durations, either the standard (for example, P3Y6M4DT12H30M5S) or alternate extended form (for example, <code>P0003-06-04T12:30:05</code>) is acceptable. Where either a date-time or duration can be provided, it is an error to provide both.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="http://en.wikipedia.org/wiki/ISO_8601" class="external-link" rel="nofollow">ISO_8601</a> for details.</p>
+       </div>
+      </div>
+      <p>Providing no time range information in a search time is valid (that is, no time limits are placed on the search results). If a range is provided, then the following combinations are acceptable:</p>
+      <ul>
+       <li>Start and end date-time.</li>
+       <li>Start date-time only.</li>
+       <li>End date-time only.</li>
+       <li>Duration only.</li>
+      </ul>
+      <p>If both a start and end time are provided, then the start date-time must not be later than the end date-time (they are allowed to be the same). Providing start and end date-times in the future is also acceptable, provided that the start date-time is not later than the end date-time. Different timezones may be provided for the start and end date-times: they are converted to UTC prior to comparison.</p>
+      <p>If a duration is provided then it must be a positive duration. This sets the end date-time to now, and the start date-time to the end date-time less the provided duration (a negative duration means that the start date-time is later than the end date-time which is not permitted).</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

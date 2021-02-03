@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Web Service Hosting Message Properties</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Web-Service-Hosting_133162537.html">Web Service Hosting</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Web Service Hosting Message Properties</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Web Service Hosting communication point uses a number of message properties to provide additional information or configuration data.</p>
+      <h2 id="WebServiceHostingMessageProperties-IncomingSOAPRequests">Incoming SOAP Requests</h2>
+      <p>The following message properties can be set by the communication point on incoming messages in order to provide information about the incoming SOAP request (requests entering a route):</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Not all of these message properties are set on all incoming SOAP requests.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Message Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:InputWebService</code></td>
+          <td class="confluenceTd">The name of the Rhapsody web service that received this message.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:InputWebServiceOperation</code></td>
+          <td colspan="1" class="confluenceTd">The name of the operation in the Rhapsody web service that received this message.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:WebServiceUser</code></td>
+          <td colspan="1" class="confluenceTd">The name of the authenticated user from the web services user store. This property is not set if no authentication was performed.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:WebServiceAsynchronousRequest</code></td>
+          <td colspan="1" class="confluenceTd">Set to true if the incoming request used WS-Addressing to make an asynchronous request (in other words, the <code>wsa:ReplyTo</code> header was set to a non-anonymous address). This property is not set when the request is synchronous.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:InputSoapEnvelopeNamespace</code></td>
+          <td colspan="1" class="confluenceTd">The namespace URI of the incoming SOAP envelope, allowing the use of SOAP 1.1 and 1.2 to be differentiated from each other.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:WebServiceIncomingUsernameToken</code></td>
+          <td colspan="1" class="confluenceTd">Set if the incoming SOAP request includes a username token. The property is set even if the web service is not performing username token authentication.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:WebServiceIncomingCertificateSubject</code></td>
+          <td colspan="1" class="confluenceTd">Set to the subject X.500 distinguished name in the certificate used to make the SOAP request. This will only be set when the client making the request provides an SSL certificate. This means that the web service must be configured to either use HTTPS with client authentication, or to perform X509 token authentication.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:ReceivedUsingMTOM</code></td>
+          <td colspan="1" class="confluenceTd">Set to true if the incoming request used MTOM. This property is not set if MTOM was not used for the request.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:BodySetFromXopData</code></td>
+          <td colspan="1" class="confluenceTd">Set to true if the incoming request set the Rhapsody message body using a binary value provided using XOP in an MTOM request. This property is not set otherwise.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:XopFieldsNamespaces</code></td>
+          <td colspan="1" class="confluenceTd"><span>Set as a property list containing the namespace prefixes and URIs that should be used to evaluate the XPaths in the </span><code>rhapsody:XopFields</code><span> message property. Each value in this property list is in the form: </span><code>prefix=uri</code><span>, for example, </span><code>test=<span class="nolink">http://www.example.com/test</span></code><span>.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:WebServiceCallerIPAddress</code></td>
+          <td colspan="1" class="confluenceTd">If available this message property is set to the IP address of the caller. Note that this may report the address of a intermediate firewall if Network Address Translation (NAT) is in use.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:WebServiceIncomingCertificateIssuer</code></td>
+          <td colspan="1" class="confluenceTd"><span>Set to the issuer X.500 distinguished name in the certificate used to make the SOAP request. This will only be set when the client making the request provides an SSL certificate. This means that the web service must be configured to either use HTTPS with client authentication, or to perform X509 token authentication.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:WebServiceIncomingCertificateSerialNumber</code></td>
+          <td colspan="1" class="confluenceTd">Set the serial number of the <span>certificate used to make the SOAP request. This will only be set when the client making the request provides an SSL certificate. This means that the web service must be configured to either use HTTPS with client authentication, or to perform X509 token authentication.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:WebServiceIncomingCertificateSubjectKeyIdentifier</code></td>
+          <td colspan="1" class="confluenceTd">Set to the hex encoded subject key identifier (SKI) of the certificate used to make the SOAP request. This is only set when the client making the request provides an SSL certificate which includes the SubjectKeyIdentifier extension.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:From</code></td>
+          <td class="confluenceTd">The value of the WS-Addressing From SOAP header if present. This property is not set if the <code>wsa:From</code> header <span>is </span>not found in the incoming SOAP request.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:To</code></td>
+          <td class="confluenceTd"><span>The value of the WS-Addressing To SOAP header if present. This property is not set if the <code>wsa:To</code> header <span>is </span>not found in the incoming SOAP request.</span>&nbsp;</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:ReplyTo</code></td>
+          <td class="confluenceTd"><span>The value of the WS-Addressing ReplyTo SOAP header if present. This property is not set if the <code>wsa:ReplyTo</code> header is not found in the incoming SOAP request.</span>&nbsp;</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:FaultTo</code></td>
+          <td class="confluenceTd"><span>The value of the WS-Addressing FaultTo SOAP header if present. This property is not set if the <code>wsa:FaultTo</code> header <span>is </span>not found in the incoming SOAP request.</span>&nbsp;</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:Action</code></td>
+          <td class="confluenceTd"><span>The value of the WS-Addressing Action SOAP header if present. This property is not set if the <code>wsa:Action</code> header <span>is </span>not found in the incoming SOAP request.</span>&nbsp;</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wsa:MessageID</code></td>
+          <td class="confluenceTd"><span>The value of the WS-Addressing MessageID SOAP header if present. This property is not set if the <code>wsa:MessageID</code> header <span>is </span>not found in the incoming SOAP request.</span>&nbsp;</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="WebServiceHostingMessageProperties-OutgoingSOAPResponses">Outgoing SOAP Responses</h2>
+      <p>The following message properties can be set on outgoing messages&nbsp;in order to configure the communication point's behavior (messages exiting a route):</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Message Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>rhapsody:SoapFault</code></td>
+          <td class="confluenceTd">If set the response message is treated as a SOAP fault rather than a SOAP response.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:WebServiceDiscardAsynchronousResponse</code></td>
+          <td colspan="1" class="confluenceTd">If set and the request was made asynchronously, then this response is discarded without being sent. This is used when the <em>In-&gt;Out</em> nature of the communication point requires a response but there is nothing to send.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:XopFields</code></td>
+          <td colspan="1" class="confluenceTd">Set as a property list containing the <span>XPaths</span> of elements in the outgoing message that should be extracted and sent using MTOM/XOP rather than left as embedded XML values.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>rhapsody:XopFieldsNamespaces</code></td>
+          <td colspan="1" class="confluenceTd">Set as a property list containing the namespace prefixes and URIs that should be used to evaluate the XPaths in the <code>rhapsody:XopFields</code> message property. Each value in this property list is in the form: <code><span>prefix=uri</span></code>, for example, <code>test=http://www.example.com/test</code>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <p>&nbsp;</p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

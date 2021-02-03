@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Installing Rhapsody IDE Unattended</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="Unattended-Installations_133164341.html">Unattended Installations</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Installing Rhapsody IDE Unattended</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody IDE can be installed unattended from the command line or from within a script. This is useful for administrators who want to install or uninstall Rhapsody IDE without user intervention and perform the operation quickly over many machines.</p>
+      <h2 id="InstallingRhapsodyIDEUnattended-CommandLineOptions">Command Line Options</h2>
+      <p>There are several parameters you can use to launch the Rhapsody IDE installer silently.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Parameter</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>/S</code></p></td>
+          <td class="confluenceTd"><p>Runs the installer or uninstaller silently.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>/USERNAME</code></p></td>
+          <td class="confluenceTd"><p>User to install as.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>/D</code></p></td>
+          <td class="confluenceTd"><p>Sets the default installation directory (<code>$INSTDIR</code>), overriding <code>InstallDir</code> and <code>InstallDirRegKey</code>. It must be the last parameter in the command line and must not contain any quotes, even if the path contains spaces. Only absolute paths are supported.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>_?</code></p></td>
+          <td class="confluenceTd"><p>Sets <code>$INSTDIR</code>. It also stops the uninstaller from copying itself to the temporary directory and running from there. It can be used along with <code>ExecWait</code> to wait for the uninstaller to finish. It must be the last parameter in the command line and must not contain any quotes, even if the path contains spaces.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="InstallingRhapsodyIDEUnattended-Examples">Examples</h2>
+      <h3 id="InstallingRhapsodyIDEUnattended-Installing">Installing</h3>
+      <p>To execute the installer, ensure you are in the directory where you have downloaded the installer to:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: bash; gutter: false; theme: Confluence" data-theme="Confluence">RhapsodyIDE.exe /S
+RhapsodyIDE.exe /D=C:\Program Files (x86)\Rhapsody\Rhapsody IDE
+RhapsodyIDE.exe /S /D=C:\Program Files (x86)\Rhapsody\Rhapsody IDE
+RhapsodyIDE.exe /S /USERNAME=string with spaces /D=C:\Program Files (x86)\Rhapsody\Rhapsody IDE  &nbsp;</pre> 
+       </div>
+      </div>
+      <h3 id="InstallingRhapsodyIDEUnattended-Uninstalling">Uninstalling</h3>
+      <p>To execute the uninstaller, ensure you are in the directory where you installed Rhapsody IDE:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: bash; gutter: false; theme: Confluence" data-theme="Confluence">uninst.exe /S _?=C:\Program Files (x86)\Rhapsody\Rhapsody IDE
+
+# uninstall old version
+ExecWait '"$INSTDIR\uninst.exe" /S _?=$INSTDIR' </pre> 
+       </div>
+      </div>
+      <h2 id="InstallingRhapsodyIDEUnattended-RelatedTopics"><span style="color: rgb(0,0,0);">Related Topics</span></h2>
+      <ul>
+       <li><a href="Configuring-Rhapsody-IDE-Unattended_133164342.html">Configuring Rhapsody IDE Unattended</a></li>
+       <li><a href="Installing-the-Rhapsody-Engine-Unattended_133164357.html">Installing the Rhapsody Engine Unattended</a></li>
+       <li><a href="http://nsis.sourceforge.net/Docs" class="external-link" rel="nofollow">NSIS Users Manual</a></li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

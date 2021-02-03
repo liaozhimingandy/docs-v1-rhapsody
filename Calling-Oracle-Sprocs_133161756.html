@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Calling Oracle Sprocs</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Stored-Procedure-Editor_133161749.html">Stored Procedure Editor</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Calling Oracle Sprocs</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Oracle® and other similar databases allow both stored procedures and functions to be defined. A stored function is very similar to a stored procedure, but is allowed to return a primitive result in addition to using normal output parameters. Unlike Transact-SQL style databases such as SQL Server, Oracle does not allow result sets to be returned implicitly from stored procedures and functions. Instead result sets are returned indirectly using cursors. This requires some additional configuration to allow Rhapsody to identify the result set cursor correctly.</p>
+      <p>Currently neither of the commonly used Oracle JDBC drivers (the Oracle thin driver and i-net Gate driver) provide the return types of stored functions. Consequently, when using stored functions, the function itself should be examined to determine the appropriate return type.</p>
+      <p>The following examples provide some different types of stored procedures and show how they can be called from within the Rhapsody engine.</p>
+      <h2 id="CallingOracleSprocs-Example:StoredProcedurewithanOutputParameter">Example: Stored Procedure with an Output Parameter</h2>
+      <p>This example uses a stored procedure to insert patient information into a table. The stored procedure generates the primary key for the table using an internal <code>SEQUENCE</code>. This newly generated identifier is returned as an output parameter from the stored procedure. The stored procedure is shown in the following script:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>CREATE OR REPLACE PROCEDURE InsertPatient(
+    surname VARCHAR,
+    firstname VARCHAR,
+    prefix VARCHAR,
+    sex VARCHAR,
+    dob DATE,
+    newPatientId OUT INT)
+AS
+BEGIN
+    SELECT identifiers.nextval INTO newPatientId FROM dual;
+    INSERT INTO Patient (PatientID, FamilyName, GivenName, Title, Gender, DateOfBirth)
+        VALUES (newPatientId, surname, firstname, prefix, sex, dob);
+END;
+</pre> 
+       </div>
+      </div>
+      <h3 id="CallingOracleSprocs-OutputParameterDefinition">Output Parameter Definition</h3>
+      <p>The following output parameter should be declared to enable this stored procedure to be called:</p>
+      <ul>
+       <li>Name - <code>patientID</code></li>
+       <li>Type - <code>NUMBER</code></li>
+      </ul>
+      <p>It should NOT be configured as the result set parameter.</p>
+      <h3 id="CallingOracleSprocs-CallingtheStoredProcedure">Calling the Stored Procedure</h3>
+      <p>The stored procedure should be called as follows:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>{
+    CALL InsertPatient(
+        @PID.PatientName[0].FamilyName.Surname,
+        @PID.PatientName[0].GivenName,
+        @PID.PatientName[0].Prefix,
+        @PID.Sex,
+        $DateOfBirth
+        #patientID)
+}
+</pre> 
+       </div>
+      </div>
+      <p>Rhapsody automatically detects that the stored procedure call is using a newly defined output parameter, and so declares it as such when calling the procedure via JDBC.</p>
+      <h2 id="CallingOracleSprocs-Example:StoredProcedurewithaResultSet">Example: Stored Procedure with a Result Set</h2>
+      <p>This example uses a stored procedure to retrieve some patient information from a table. This stored procedure uses a cursor output parameter to return the result set. The stored procedure is shown in the following script:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>CREATE OR REPLACE PROCEDURE LookupPatient (
+    patientId INT,
+    p_cursor out SYS_REFCURSOR)
+AS
+BEGIN
+    OPEN p_cursor FOR SELECT FamilyName, GivenName, Title, Gender, DateOfBirth FROM Patient WHERE PatientID = patientId;
+END;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Output Parameter Definition</strong><br> The following output parameter should be declared to enable this stored procedure to be called:</p>
+      <ul>
+       <li>Name - <code>cursor</code></li>
+       <li>Type - <code>oracle.jdbc.driver.OracleTypes.CURSOR</code> (Oracle thin driver) or <code>com.inet.ora.OraDriver.CURSOR</code> (i-net Gate driver)</li>
+      </ul>
+      <p>It MUST be configured as the result set parameter.</p>
+      <p>Setting this output parameter as the result set parameter informs Rhapsody to use this parameter as a result set once the stored procedure call has completed. This allows access to the columns in the result set referenced by the cursor.</p>
+      <h3 id="CallingOracleSprocs-CallingtheStoredProcedure.1">Calling the Stored Procedure</h3>
+      <p>The stored procedure should be called as follows:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>{
+    CALL LookupPatient(  $PatientID, #cursor )
+}
+</pre> 
+       </div>
+      </div>
+      <p>Result substitution can then be used to update the incoming message with the values returned in the result set.</p>
+      <h2 id="CallingOracleSprocs-Example:StoredFunctionReturningaResultSet">Example: Stored Function Returning a Result Set</h2>
+      <p>This example uses a stored function to retrieve some patient information from a table. This stored function returns a cursor to give the caller access to return the result set. The stored function is shown in the following script:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&nbsp;
+CREATE OR REPLACE FUNCTION LookupPatient(
+    patientId INT)
+RETURN SYS_REFCURSOR
+AS
+    p_cursor SYS_REFCURSOR;
+BEGIN
+    OPEN p_cursor FOR SELECT FamilyName, GivenName, Title, Gender, DateOfBirth FROM PAtient WHERE PatientID = patientId;
+    RETURN P_cursor;
+END;</pre> 
+       </div>
+      </div>
+      <h3 id="CallingOracleSprocs-OutputParameterDefinition.1">Output Parameter Definition</h3>
+      <p>The following output parameter should be declared to enable this stored procedure to be called:</p>
+      <ul>
+       <li>Name - <code>cursor</code></li>
+       <li>Type - <code>oracle.jdbc.driver.OracleTypes.CURSOR</code> (Oracle thin driver) or <code>com.inet.ora.OraDriver.CURSOR</code> (i-net Gate driver)</li>
+      </ul>
+      <p>It <em>must</em> be configured as the result set parameter.</p>
+      <p>Setting this output parameter as the result set parameter informs Rhapsody to use this parameter as a result set once the stored procedure call has completed. This allows access to the columns in the result set referenced by the cursor.</p>
+      <h3 id="CallingOracleSprocs-CallingtheStoredFunction">Calling the Stored Function</h3>
+      <p>Stored functions are called very differently when using Oracle as compared with SQL Server. Instead of the standard JDBC syntax, the Oracle specific syntax shown below should be used:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>begin #cursor := LookupPatient( $PatientID ); end;
+</pre> 
+       </div>
+      </div>
+      <p>Result substitution can then be used to update the incoming message with the values returned in the result set.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,443 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Configuring Check-in Comment Rules</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Managing-Configurations_133161412.html">Managing Configurations</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Configuring Check-in Comment Rules</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148378" class="wrapped confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path:</em> <strong>Rhapsody&gt;Check-in Comment Rules</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Required <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li><span style="color: rgb(0,0,0);">Make changes with the IDE</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Optional <em><a href="Access-Rights_133161013.html">Access Rights</a>:</em><br></em></p>
+           <ul>
+            <li>Configure check-in comment rule</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148378']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148378',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>You can use the<strong> Check-in Comment Rules</strong> dialog to enforce check-in comments and to manage rules for check-in comments:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146938497 {padding: 0px;}
+div.rbtoc1565146938497 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146938497 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146938497"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ConfiguringCheck-inCommentRules-AddingCheck-inCommentRules">Adding Check-in Comment Rules</a></li> 
+        <li><a href="#ConfiguringCheck-inCommentRules-EnforcingCheck-inCommentRules">Enforcing Check-in Comment Rules</a></li> 
+        <li><a href="#ConfiguringCheck-inCommentRules-EditingCheck-inCommentRules">Editing Check-in Comment Rules</a></li> 
+        <li><a href="#ConfiguringCheck-inCommentRules-ViewingCheck-inCommentRules">Viewing Check-in Comment Rules</a></li> 
+        <li><a href="#ConfiguringCheck-inCommentRules-ViewingCheck-inCommentRulesinRead-onlyMode">Viewing Check-in Comment Rules in Read-only Mode</a></li> 
+        <li><a href="#ConfiguringCheck-inCommentRules-DeletingCheck-inCommentRules">Deleting Check-in Comment Rules</a></li> 
+        <li><a href="#ConfiguringCheck-inCommentRules-DisablingCheck-inCommentRules">Disabling Check-in Comment Rules</a></li> 
+        <li><a href="#ConfiguringCheck-inCommentRules-RegularExpressionsSupport">Regular Expressions Support</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p>If more&nbsp;than&nbsp;one&nbsp;rule has been enabled,&nbsp;all&nbsp;enabled&nbsp;rules are applied&nbsp;to&nbsp;validate&nbsp;the&nbsp;check-in&nbsp;comment.&nbsp;The check-in comment&nbsp;must&nbsp;pass&nbsp;all&nbsp;enabled&nbsp;rules.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161494/133161496.png" data-image-src="attachments/133161494/133161496.png" data-unresolved-comment-count="0" data-linked-resource-id="133161496" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CheckInCommentRules.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161494" data-linked-resource-container-version="5"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Dialog Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Mandatory check-in comments checkbox</td>
+          <td class="confluenceTd">Enable or disable enforcement of mandatory comments on commits. By default, check-in comments are not enforced by Rhapsody.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Add Rule button</td>
+          <td colspan="1" class="confluenceTd">Add a rule.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Edit Rule button</td>
+          <td colspan="1" class="confluenceTd">Edit a rule.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Remove Rule button</td>
+          <td colspan="1" class="confluenceTd">Delete a rule.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Rules panel</td>
+          <td colspan="1" class="confluenceTd">Lists the name and composition of each added rule, and allows you to enable or disable each rule with a checkbox.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Select All link</td>
+          <td colspan="1" class="confluenceTd">Select all rules.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Deselect All link</td>
+          <td colspan="1" class="confluenceTd">Deselect all rules.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Test Comment field</td>
+          <td colspan="1" class="confluenceTd">Accepts a test comment.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Test button</td>
+          <td colspan="1" class="confluenceTd">Initiate a test.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Test Result area (adjacent to the Test button)</td>
+          <td colspan="1" class="confluenceTd"><p>Displays a message indicating the result of the test. An automatic test result message is provided if the test passes or fails, but you are able to configure a customized message to indicate a&nbsp;check-in comment has failed a specified&nbsp;rule.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ConfiguringCheck-inCommentRules-AddingCheck-inCommentRules">Adding Check-in Comment Rules</h2>
+      <p>To add a check-in comment rule:</p>
+      <ol>
+       <li>Navigate to <strong>Rhapsody&gt;Check-in Comment Rules</strong> to open the <strong>Check-in Comment Rules</strong> dialog.</li>
+       <li>Check the <strong>Mandatory check-in comments</strong> checkbox if you want to enforce comments on check-ins.</li>
+       <li><p>Select the <strong>Add Rule</strong> button to display the <strong>Check-in Comment Rule</strong> dialog:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161494/133161495.png" data-image-src="attachments/133161494/133161495.png" data-unresolved-comment-count="0" data-linked-resource-id="133161495" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CommitCommentRule.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161494" data-linked-resource-container-version="5"></span></p></li>
+       <li>Enter the following information in the appropriate fields:
+        <ul>
+         <li>The rule format expressed as a regular expression that the comment has to match. Refer to <a href="#ConfiguringCheck-inCommentRules-RegularExpressionsSupport">Regular Expressions Support</a> for details.</li>
+         <li>The text of the failure message if the comment fails to match the regular expression.</li>
+        </ul></li>
+       <li>Test your rule:
+        <ol>
+         <li>Enter a test comment in the <strong>Test Comment</strong> field.</li>
+         <li>Select the <strong>Test</strong> button.</li>
+         <li>Observe the test result message to verify the rule behaves according to your requirements.</li>
+        </ol></li>
+       <li>Select&nbsp;the <strong>OK</strong> button to add a new rule or the <strong>Cancel</strong> button to revert your changes.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button&nbsp;in the <strong>Check-in Comment Rules</strong> dialog to save your changes or the <strong>Cancel</strong> button to revert your changes.</li>
+      </ol>
+      <h2 id="ConfiguringCheck-inCommentRules-EnforcingCheck-inCommentRules">Enforcing Check-in Comment Rules</h2>
+      <p>By default, Rhapsody does not enforce&nbsp;check-in comment rules. To enforce check-in comment rules:</p>
+      <ol>
+       <li>Navigate to <strong>Rhapsody&gt;Check-in Comment Rules</strong> to open the <strong>Check-in Comment Rules</strong> dialog.</li>
+       <li>Check the <strong>Mandatory check-in comments</strong> checkbox to enforce comments on commits.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to save your changes or the <strong>Cancel</strong> button to revert your changes.</li>
+      </ol>
+      <h2 id="ConfiguringCheck-inCommentRules-EditingCheck-inCommentRules">Editing Check-in Comment Rules</h2>
+      <p>To edit an check-in comment rule:</p>
+      <ol>
+       <li>Navigate to <strong>Rhapsody&gt;Check-in Comment Rules</strong> to open the <strong>Check-in Comment Rules</strong> dialog.</li>
+       <li>Select the rule you want to edit and select the <strong>Edit Rule</strong> button, or double-click the rule you want to edit to display the <strong>Check-in Comment Rule</strong> dialog.</li>
+       <li>Make the appropriate changes in the <strong>Check-in Comment Rule</strong> dialog.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to update the rule or the <strong>Cancel</strong> button to revert your changes.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button in the <strong>Check-in Comment Rules</strong> dialog to save your changes or the <strong>Cancel</strong> button to revert your changes.</li>
+      </ol>
+      <h2 id="ConfiguringCheck-inCommentRules-ViewingCheck-inCommentRules">Viewing Check-in Comment Rules</h2>
+      <p>To view a check-in comment rule:</p>
+      <ol>
+       <li>Navigate to <strong>Rhapsody&gt;Check-in Comment Rules</strong> to open the <strong>Check-in Comment Rules</strong> dialog.</li>
+       <li>Double-click on a rule to view its details in the <strong>Check-in Comment Rule</strong> dialog.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to close the <strong>Check-in Comment Rule</strong> dialog or the <strong>Cancel</strong> button to revert your changes.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to close the <strong>Check-in Comment Rules</strong> dialog or the <strong>Cancel</strong> button to revert your changes.</li>
+      </ol>
+      <h2 id="ConfiguringCheck-inCommentRules-ViewingCheck-inCommentRulesinRead-onlyMode">Viewing Check-in Comment Rules in Read-only Mode</h2>
+      <p>You are only able to open in the <strong>Check-in Comment Rules</strong> dialog in read-only mode if:</p>
+      <ul>
+       <li>You do not have the 'Configure check-in comment rule' access right.</li>
+       <li>The<strong> Check-in Comment Rules</strong> dialog is already open in another Rhapsody IDE session.</li>
+      </ul>
+      <p>In read-only mode, you can double-click on an existing rule in the&nbsp;<strong>Check-in Comment Rules</strong> dialog to view its details in the <strong>Check-in Comment Rule</strong> dialog.</p>
+      <h2 id="ConfiguringCheck-inCommentRules-DeletingCheck-inCommentRules">Deleting Check-in Comment Rules</h2>
+      <p>To delete a check-in comment rule:</p>
+      <ol>
+       <li>Navigate to <strong>Rhapsody&gt;Check-in Comment Rules</strong> to open the <strong>Check-in Comment Rules</strong> dialog.</li>
+       <li>Select the rule you want to delete and select the <strong>Remove Rule</strong> button.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to save your changes or the <strong>Cancel</strong> button to revert your changes.</li>
+      </ol>
+      <h2 id="ConfiguringCheck-inCommentRules-DisablingCheck-inCommentRules">Disabling Check-in Comment Rules</h2>
+      <p>To disable a check-in comment rule:</p>
+      <ol>
+       <li>Navigate to <strong>Rhapsody&gt;Check-in Comment Rules</strong> to open the <strong>Check-in Comment Rules</strong> dialog.</li>
+       <li>Uncheck the checkbox associated with the rule you want to disable.</li>
+       <li>Select&nbsp;the <strong>OK</strong> button to save your changes or the <strong>Cancel</strong> button to revert your changes.</li>
+      </ol>
+      <h2 id="ConfiguringCheck-inCommentRules-RegularExpressionsSupport">Regular Expressions Support</h2>
+      <p>Rhapsody supports the Java regex&nbsp;library. Refer to <a href="http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html" class="external-link" rel="nofollow">http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html</a> for details.</p>
+      <p>Rhapsody uses the following regex&nbsp;modes&nbsp;of&nbsp;operation:</p>
+      <ul>
+       <li>Case-sensitive matching.</li>
+       <li>Partial matching - if an exact match is required, place <code>^</code>&nbsp;at the beginning and <span><code>$</code> at&nbsp;</span>the end of the entire input sequence.</li>
+       <li>DOTALL mode can be enabled by placing the embedded flag expression&nbsp;<code>(?s)</code>&nbsp;<span>at the beginning of the regular expressio</span><span>n</span>.</li>
+      </ul>
+      <p>For example, the regular expression check-in comment rule:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146938572 {padding: 0px;}
+div.rbtoc1565146938572 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146938572 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146938572"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ConfiguringCheck-inCommentRules-Example1:Enforcetheticketnumberincheck-incomment">Example 1: Enforce the ticket number in check-in comment</a></li> 
+        <li><a href="#ConfiguringCheck-inCommentRules-Example2:Enforceauthor,ticketnumber,reviewerincheck-incommentsregardlessoforder">Example 2: Enforce author, ticket number, reviewer in check-in comments regardless of order</a></li> 
+        <li><a href="#ConfiguringCheck-inCommentRules-Example3:Enforceauthor,ticketnumber,reviewerincheck-incommentinorder">Example 3: Enforce author, ticket number, reviewer in check-in comment in order</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h3 id="ConfiguringCheck-inCommentRules-Example1:Enforcetheticketnumberincheck-incomment">Example 1: Enforce the ticket number in check-in comment</h3>
+      <p>Since regular expressions use partial matching, a single rule can address the requirement to enforce inclusion of the ticket number in a check-in comment.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Text</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">Include the ticket number</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Regular Expression</td>
+          <td class="confluenceTd"><pre>(?i)Ticket:</pre></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Error Message</td>
+          <td colspan="1" class="confluenceTd">Please include the ticket number in the check-in comment, the format is "Ticket:xxxx"</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><code>(?i)</code>&nbsp;enables case-insensitive matching. Refer to <a href="http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#CASE_INSENSITIVE" class="external-link" rel="nofollow">http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html#CASE_INSENSITIVE</a> for details.</p>
+      <h4 id="ConfiguringCheck-inCommentRules-ValidCheck-inComments">Valid Check-in Comments</h4>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Modified the JavaScript filter in Laboratory Route
+&nbsp;
+Ticket: AA-1</pre> 
+       </div>
+      </div>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Modified the JavaScript filter in Laboratory Route
+&nbsp;
+ticket: AA-1</pre> 
+       </div>
+      </div>
+      <h4 id="ConfiguringCheck-inCommentRules-InvalidCheck-inComments">Invalid Check-in Comments</h4>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Modified the JavaScript filter in Laboratory Route</pre> 
+       </div>
+      </div>
+      <h3 id="ConfiguringCheck-inCommentRules-Example2:Enforceauthor,ticketnumber,reviewerincheck-incommentsregardlessoforder">Example 2: Enforce author, ticket number, reviewer in check-in comments regardless of order</h3>
+      <p>Three rules can be created separately to address author, ticket number and reviewer.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Text</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">Include the author</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Regular Expression</td>
+          <td class="confluenceTd"><pre>(?i)Author:</pre></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Error Message</td>
+          <td colspan="1" class="confluenceTd">Please include the&nbsp;author in the commit message, the format is "Author:xxxx"</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Text</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">Include the ticket number</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Regular Expression</td>
+          <td class="confluenceTd"><pre>(?i)Ticket:</pre></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Error Message</td>
+          <td colspan="1" class="confluenceTd">Please include the ticket number in the check-in comment, the format is "Ticket:xxxx"</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Text</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">Include the reviewer</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Regular Expression</td>
+          <td class="confluenceTd"><pre>(?i)Reviewer:</pre></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Error Message</td>
+          <td colspan="1" class="confluenceTd">Please include the&nbsp;reviewer in the check-in comment, the format is "Reviewer:xxxx"</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="ConfiguringCheck-inCommentRules-ValidCheck-inComments.1">Valid Check-in Comments</h4>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Modified the JavaScript filter in Laboratory Route
+
+Author: James&nbsp;
+Ticket: AA-1
+Reviewer: Bob</pre> 
+       </div>
+      </div>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Modified the JavaScript filter in Laboratory Route
+
+Author: James&nbsp;
+Reviewer: Bob
+Ticket: AA-1</pre> 
+       </div>
+      </div>
+      <h4 id="ConfiguringCheck-inCommentRules-InvalidCheck-inComments.1">Invalid Check-in Comments</h4>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Modified the JavaScript filter in Laboratory Route
+
+Ticket: AA-1
+Author: James </pre> 
+       </div>
+      </div>
+      <h3 id="ConfiguringCheck-inCommentRules-Example3:Enforceauthor,ticketnumber,reviewerincheck-incommentinorder">Example 3: Enforce author, ticket number, reviewer in check-in comment in order</h3>
+      <p>A single rule can be created.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Text</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">Include the author, ticket number, reviewer in sequence</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Regular Expression</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <pre>(?s)(?i)Author:.*Ticket:.*Reviewer:</pre>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><code>(?s)</code><span>&nbsp;enables DOTALL mode which uses&nbsp;</span><code>.</code><span>&nbsp;to match&nbsp;any character, including the line terminator. Refer to&nbsp;</span><a href="http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#DOTALL" class="external-link" rel="nofollow">http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html#DOTALL</a><span>&nbsp;for details.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Error Message</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Please include the author, ticket number, reviewer in the check-in comment in sequence, the format is:</p>
+            <div class="preformatted panel" style="border-width: 1px;">
+             <div class="preformattedContent panelContent"> 
+              <pre>xxxxxxxxxxxxxxxxxx
+Author: xxx
+Ticket: xxx
+Reviewer: xxx
+xxxxxxxxxxxxxxxxxx</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="ConfiguringCheck-inCommentRules-ValidCheck-inComments.2"><span style="color: rgb(51,51,51);">Valid Check-in Comments</span></h4>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Modified the JavaScript filter in Laboratory Route
+
+Author: James&nbsp;
+Ticket: AA-1
+Reviewer: Bob</pre> 
+       </div>
+      </div>
+      <h4 id="ConfiguringCheck-inCommentRules-InvalidCheck-inComments.2">Invalid Check-in Comments</h4>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Modified the JavaScript filter in Laboratory Route.
+
+Reviewer: Bob&nbsp;
+Author: James 
+Ticket: AA-1</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

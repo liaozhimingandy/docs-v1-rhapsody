@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using .NET</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="SOAP-API_133161152.html">SOAP API</a></span> </li> 
+       <li> <span><a href="Calling-the-Web-Services-API_133161158.html">Calling the Web Services API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using .NET</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>There are a number of different ways to call Web services from .NET code. This example uses the Web Services Extensions (WSE 3.0) provided by <em>Microsoft</em>®. This must be downloaded and installed manually. It provides both a standalone user interface and integrates with Visual Studio. This example uses C# in Visual Studio 2008, but the approach also works with both Visual Studio 2005 and 2010 and with any other .NET language.</p>
+      <h2 id="Using.NET-AddingtheServiceReference">Adding the Service Reference</h2>
+      <p>Once a project has been created, select <strong>Add Service Reference</strong> from the <strong>Project</strong> menu, click the <strong>Advanced...</strong> button, and then click the <strong>Add Web Reference...</strong> button. This displays the <strong>Add Web Reference</strong> form. Type or paste in the WSDL URL and click the <strong>Go</strong> button to get it to retrieve the WSDL and display the available services and operations. Note that if <em>Windows</em>® is not configured to trust the certificate used to publish the Web service, a number of warnings will be displayed at this point to that effect. These can either be ignored, or the certificate can be added to the trust store.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161168/133161169.png" data-image-src="attachments/133161168/133161169.png" data-unresolved-comment-count="0" data-linked-resource-id="133161169" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="addWebReference.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161168" data-linked-resource-container-version="1"></span></p>
+      <p>Give the service a name and then click the <strong>Add Reference</strong> button. Visual Studio will then create the appropriate classes to match the type information in the WSDL and proxy objects for the Web service.</p>
+      <p></p>
+      <h2 id="Using.NET-ChangetheProxyBaseClass">Change the Proxy Base Class</h2>
+      <p>The default base class chosen during the type generation does not provide access to the SOAP headers, which is needed in order to add the username token for authentication. This is done as follows:</p>
+      <ol>
+       <li>From the <strong>Project</strong> menu, select <strong>Add Reference...</strong>, and from the <strong>.NET</strong> tab of the <strong>Add Reference</strong> form, find the <code>Microsoft.Web.Services3</code> component.</li>
+       <li>From the <strong>Project</strong> menu, select <strong>Show All Files</strong> so that the generated type classes are visible in the project tree.</li>
+       <li>Underneath the Rhapsody Components service in the project tree in Solution Explorer, find the <code>Reference.cs</code> file and open it.</li>
+       <li>Find the <code>RhapsodyComponentsService</code> class in that file and change its base class to <code>Microsoft.Web.Services3.WebServicesClientProtocol</code>.</li>
+      </ol>
+      <p>The <code>WebServicesClientProtocol</code> is a class derived from the <code>SoapHttpClientProtocol</code> that provides far more control over how the SOAP request is generated.</p>
+      <h2 id="Using.NET-CallingtheWebService">Calling the Web Service</h2>
+      <p>The entire code to call one of these Web services is shown in the following code excerpt. It uses a WS-Security username token for authentication, and starts the specified communication point:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>private static bool CertCallback(object sender, X509Certificate certificate, X509Chain certChain, SslPolicyErrors errors)
+{
+        return true;
+}
+
+static void Main(string[] args)
+{
+        // Ignore errors from HTTPS certificates that we don't recognize
+        ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CertCallback);
+
+        // Start the communication point
+        RhapsodyComponentsService service = new RhapsodyComponentsService();
+        service.RequestSoapContext.Security.Tokens.Add(new UsernameToken("administrator", "r", PasswordOption.SendPlainText));
+        service.startComponent("Tracking - Load Testing/System1/System1 Sink", componentType.COMMUNICATION_POINT);
+} </pre> 
+       </div>
+      </div>
+      <p>The first method and first line of the main method are used to ignore security errors raised because the Web service's certificate is not trusted. They are not required if a custom certificate is being used for the Rhapsody Web Services API and if the <em>Windows</em>® machine running this application trusts that certificate.</p>
+      <p>The second to last line adds the WS-Security username token to the SOAP request.</p>
+      <p></p>
+      <p>The last line performs the start operation. During the import a method on the generated <code>RhapsodyComponentsService</code> class was created for each operation in the Web service. As many of the operations have fairly simple parameters, calling each operation can be a fairly trivial matter.</p>
+      <p>In this case, the start along with the stop and restart operations take just two parameters. The first is either the identifier or path of the component to start or stop, and the second is the type of component (communication point, route or Web service) that is being started or stopped.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Web services can only be restarted.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,296 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Rhapsody Variables</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Rhapsody Variables</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148422" class="wrapped confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path:</em> <strong>View&gt; Variables Manager...</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><em>Toolbar:</em> <strong><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163434/133163439.png" data-image-src="attachments/133163434/133163439.png" data-unresolved-comment-count="0" data-linked-resource-id="133163439" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_variablesManager_arrow.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163434" data-linked-resource-container-version="3"></span>&gt; Variables Manager</strong></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><em>Read <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Log in to <span>Rhapsody IDE</span></li>
+            <li>View locker</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><em>Write <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Make changes with Rhapsody IDE</li>
+            <li>Edit locker</li>
+            <li>Edit Rhapsody variables</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148422']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148422',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>Rhapsody variables&nbsp;provide a mechanism for specifying environment-specific parameters when setting configuration properties for components, such as port numbers, hostnames and directory paths. Variables usage is global, meaning a Rhapsody variable can be used simultaneously in the configuration of any communication point, filter or conditional pathway in any folder or locker on the Rhapsody engine.</p>
+      <p>Rhapsody variables are specified using the notation:&nbsp;<code>$(<em>VariableName</em>)</code>,&nbsp;for example <code>$(Port)</code>. Some component configuration properties can be specified using a combination of a variable and a hard-coded literal value, for example&nbsp;<code>$(Output_Dir)\Output</code>.&nbsp;Rhapsody variables can also be referenced using this notation in JavaScript, for example by the JavaScript filter.</p>
+      <p>The Variables Manager provides a central location for managing Rhapsody variables:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146985798 {padding: 0px;}
+div.rbtoc1565146985798 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146985798 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146985798"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#RhapsodyVariables-ViewingVariables">Viewing Variables</a></li> 
+        <li><a href="#RhapsodyVariables-ManagingVariables">Managing Variables</a></li> 
+        <li><a href="#RhapsodyVariables-AddingVariables">Adding Variables</a></li> 
+        <li><a href="#RhapsodyVariables-EditingVariables">Editing Variables</a></li> 
+        <li><a href="#RhapsodyVariables-DeletingVariables">Deleting Variables</a></li> 
+        <li><a href="#RhapsodyVariables-EncryptingVariables">Encrypting Variables</a></li> 
+        <li><a href="#RhapsodyVariables-ShowingUsesofVariables">Showing Uses of Variables</a></li> 
+        <li><a href="#RhapsodyVariables-OverridingVariables">Overriding Variables</a></li> 
+        <li><a href="#RhapsodyVariables-SettingaComponentConfigurationProperty">Setting a Component Configuration Property</a></li> 
+        <li><a href="#RhapsodyVariables-RhapsodyEnvironmentVariablesandConfigurationLoading">Rhapsody Environment Variables and Configuration Loading</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="RhapsodyVariables-ViewingVariables"><span style="color: rgb(0,0,0);font-size: 20.0px;">Viewing Variables</span></h2>
+      <p>To launch the Variables Manager:</p>
+      <ul>
+       <li>From the&nbsp;<strong>View</strong>&nbsp;menu, select<strong>&nbsp;Variables Manager</strong>.</li>
+       <li>Alternatively, press&nbsp;<strong>Ctrl+SHIFT+A</strong>.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163434/133163436.png" data-image-src="attachments/133163434/133163436.png" data-unresolved-comment-count="0" data-linked-resource-id="133163436" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="VariablesManager.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163434" data-linked-resource-container-version="3"></span></p>
+      <p>The&nbsp;Variables Manager&nbsp;displays the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <thead>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Column
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">Displays the variable name.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Encrypted</td>
+          <td class="confluenceTd">Indicates whether the variable value is encrypted.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Value</td>
+          <td class="confluenceTd">Displays the variable's value.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Overriden</td>
+          <td colspan="1" class="confluenceTd">Indicates whether the variable value has been overridden by the override value.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Override Value</td>
+          <td colspan="1" class="confluenceTd">Displays the variable's override value.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="RhapsodyVariables-ManagingVariables"><span style="color: rgb(0,0,0);">Managing Variables</span></h2>
+      <p>You can perform the following actions relating to variables from the Variables Manager:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#RhapsodyVariables-AddingVariables">Add</a></td>
+          <td class="confluenceTd">Add a new variable.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#RhapsodyVariables-EditingVariables">Edit</a></td>
+          <td colspan="1" class="confluenceTd">Edit a variable.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#RhapsodyVariables-DeletingVariables">Delete</a></td>
+          <td class="confluenceTd"><span>Delete a variable.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#RhapsodyVariables-ShowingUsesofVariables">Show Uses</a></td>
+          <td class="confluenceTd"><span>Show where a variable is being used.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#RhapsodyVariables-DeletingVariables">Delete Unused Variables</a></td>
+          <td colspan="1" class="confluenceTd">Find and delete unused variables automatically.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Search</td>
+          <td colspan="1" class="confluenceTd">Filter the list of variables by entering search criteria in the search box and selecting the&nbsp;<strong>Search</strong>&nbsp;icon.&nbsp;The filtered list contains all the variables whose name&nbsp;or&nbsp;value matches the search criteria.&nbsp;You can clear the search criteria by clicking the&nbsp;<strong>Cancel</strong>&nbsp;link.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Rhapsody-Variables_133163434.html">Encrypt</a></td>
+          <td colspan="1" class="confluenceTd"><span>Encrypt a variable's value by selecting the <strong>Encrypted</strong> checkbox.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#RhapsodyVariables-OverridingVariables">Override</a></td>
+          <td colspan="1" class="confluenceTd"><span>Override a variable's value by selecting the </span><strong>Overridden</strong><span> checkbox.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Rhapsody variables can also be managed through the&nbsp;<a href="Variables-Administration_133161133.html">REST API</a>.</p>
+      <h2 id="RhapsodyVariables-AddingVariables">Adding Variables</h2>
+      <p>To add a new variable, select the&nbsp;<strong style="color: rgb(51,51,51);font-size: 14.0px;">Add</strong><span style="color: rgb(51,51,51);">&nbsp;button.&nbsp;New variables must have a unique name.</span></p>
+      <p>When adding a new variable, you can also copy the variable name to the clipboard, by right-clicking on it and selecting <strong>Copy Variable Name</strong>. You can also copy-paste variable values using the&nbsp;right-click menu.</p>
+      <h2 id="RhapsodyVariables-EditingVariables">Editing Variables</h2>
+      <p>To edit a variable value, type directly into the&nbsp;<strong>Value</strong>&nbsp;column.&nbsp;<span>You can only edit a variable when&nbsp;you have the 'Edit Locker' access right for all lockers where the variable is used.</span></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Avoiding situations where you use the same variable across multiple lockers, and limiting the users who can edit variables, will reduce the occurrence of issues where changes to a variable have unexpected effects in other lockers.</p>
+       </div>
+      </div>
+      <h2 id="RhapsodyVariables-DeletingVariables">Deleting Variables</h2>
+      <p>To delete Rhapsody variables manually:</p>
+      <ol>
+       <li>Multi-select the variables to delete.</li>
+       <li>Select the <strong>Delete</strong> button.</li>
+       <li>If the variables are being used by one or more components, you will be required to confirm deletion.</li>
+      </ol>
+      <p>To find and delete unused variables automatically:</p>
+      <ol>
+       <li>Select the&nbsp;<strong>Delete Unused Variables</strong>&nbsp;button.</li>
+       <li><p>After scanning the variables, the Variables Manager presents you with the&nbsp;<strong>Delete Unused Rhapsody Variables</strong> dialog:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163434/133163437.png" data-image-src="attachments/133163434/133163437.png" data-unresolved-comment-count="0" data-linked-resource-id="133163437" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DeleteUnusedRhapsodyVariables.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163434" data-linked-resource-container-version="3"></span></p></li>
+       <li>Review the identified unused variables list, and ensure only the variables you want to delete are selected.</li>
+       <li>Select the <strong>Delete</strong> button to proceed with the deletion, or the <strong>Cancel</strong> button to abort.</li>
+      </ol>
+      <h2 id="RhapsodyVariables-EncryptingVariables">Encrypting Variables</h2>
+      <p>The Variables Manager&nbsp;displays all variables that have been created, and their values. If you do not wish the value of the variable to be visible in the Variables Manager&nbsp;or in the communication point or filter referencing the variable, select the&nbsp;<strong>Encrypted</strong>&nbsp;checkbox. The entered value is then displayed as&nbsp;<code>&lt;encrypted&gt;</code>. If this checkbox is subsequently cleared, the variable value is lost and must be re-entered; if this is not done, all items that reference this variable will lose that configuration property.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When an encrypted variable is assigned to a route property, its value is decrypted and stored in the property as plain text. As a consequence, the value is visible when the message is viewed in <a href="Message-View_133163772.html">Message View</a> in the Management Console.</p>
+       </div>
+      </div>
+      <h2 id="RhapsodyVariables-ShowingUsesofVariables">Showing Uses of Variables</h2>
+      <p>The<strong>&nbsp;Variable Uses</strong>&nbsp;dialog displays a list of the components and shared JavaScript functions&nbsp;that use variables you have selected. The list includes any&nbsp;objects that could be affected as a result of the variables being modified or deleted.</p>
+      <p>To view a list of objects that use particular variables:</p>
+      <ol>
+       <li><p>In the Variables Manager, select a variable or multi-select variables, and then select the&nbsp;<strong>Show Uses</strong>&nbsp;button&nbsp;(or right-click on the variable and select <strong>Show Uses</strong>). The&nbsp;name and path of all components using the selected variables are displayed in the&nbsp;<strong>Show Uses</strong>&nbsp;tab in the&nbsp;<strong>Information</strong>&nbsp;panel of Rhapsody IDE:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="256" width="667" src="attachments/133163434/133163435.png" data-image-src="attachments/133163434/133163435.png" data-unresolved-comment-count="0" data-linked-resource-id="133163435" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="VariablesManagerShowUses.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163434" data-linked-resource-container-version="3"></span></p></li>
+       <li>To view or edit the configuration properties of a component using the variable:&nbsp;
+        <ul>
+         <li>Double-click on the component path.</li>
+         <li>Or alternatively, from the right-click menu, select&nbsp;<strong>Open Properties</strong>.</li>
+        </ul></li>
+      </ol>
+      <p>In the case where the variable is used by components in lockers you do not have permission to access, only the count of uses for that locker is displayed, instead of the actual components.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>Where variables are passed as parameters in JavaScript code, the variables search functionality cannot distinguish between</span> a variable name and a string enclosed in single or double quotes&nbsp;that match the variable name. Therefore, ensure you observe <a href="Naming-Conventions_133163659.html#NamingConventions-RhapsodyVariables">best practise guidelines</a> when naming Rhapsody variables.</p>
+       </div>
+      </div>
+      <h2 id="RhapsodyVariables-OverridingVariables"><span style="color: rgb(0,0,0);font-size: 20.0px;">Overriding Variables</span></h2>
+      <p>On occasion, you may want to modify the value of a variable temporarily, without losing the original value.</p>
+      <p>To override a variable value:</p>
+      <ol>
+       <li>Enter the temporary&nbsp;<strong>Override Value&nbsp;</strong>for the variable you want to override.</li>
+       <li>Select the&nbsp;<strong>Overridden</strong>&nbsp;checkbox to override the variable's original value.</li>
+       <li>Check in your changes to the variable.</li>
+      </ol>
+      <p>To restore a variable value:</p>
+      <ol>
+       <li>Deselect the&nbsp;<strong>Overridden</strong>&nbsp;checkbox&nbsp;to restore the variable's original value&nbsp;(unchecking the&nbsp;<strong>Overridden</strong>&nbsp;checkbox does not delete the override value).</li>
+       <li>Check in your changes to the variable.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Rhapsody Variable Manager's variables override functionality has changed as of Rhapsody 6.2.1:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p><span>Override behavior before Rhapsody 6.2.1</span></p></th>
+            <th class="confluenceTh"><p>Override behavior as of Rhapsody 6.2.1</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Entering the override value automatically <br>results in the <strong>Overridden</strong> checkbox being selected.</p></td>
+            <td class="confluenceTd"><p>Entering an override value does not result <br>in the <strong>Overridden</strong> checkbox being selected.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Deselecting the <strong>Overridden</strong> checkbox results in the<br>override value being deleted.</p></td>
+            <td class="confluenceTd"><p><span><span>Deselecting</span> the </span><strong>Overridden</strong><span> checkbox does not <br>result in the override value being deleted.</span></p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+        <p>If you use a Rhapsody IDE version 6.2.1 or later to connect to an engine version older than 6.2.1, the override behavior existing <span>before Rhapsody 6.2.1 applies.</span></p>
+       </div>
+      </div>
+      <h2 id="RhapsodyVariables-SettingaComponentConfigurationProperty">Setting a Component Configuration Property</h2>
+      <p>The variables listed in the Variables Manager are accessed when configuring a communication point or filter by&nbsp;entering&nbsp;<span style="color: rgb(255,0,0);"><code>$(</code></span>&nbsp;as&nbsp;the first part of the value for the selected configuration&nbsp;property. A context menu is displayed, listing the variables that may be selected. Highlighting any one&nbsp;variable displays its value in a tooltip, except for encrypted variables (in such cases the tool-tip simply reads&nbsp;<code>encrypted</code>). Select a variable from the list by double-clicking its entry; this places the name of the variable (not its value) as the configuration&nbsp;property value in the&nbsp;<strong>Configuration</strong>&nbsp;dialog:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="308" width="512" src="attachments/133163434/133163438.png" data-image-src="attachments/133163434/133163438.png" data-unresolved-comment-count="0" data-linked-resource-id="133163438" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="VariableSelection.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163434" data-linked-resource-container-version="3"></span></p>
+      <p>If a configuration property value is updated in the Variables Manager, all items that reference that value&nbsp;are&nbsp;automatically updated after being checked in.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody can use a combined variable and literal string to define the properties of a number of communication points and filters, for example, <code>C:\$(workingDirectory)\Input</code>. When a variable is used as a part of a configuration property value for a communication point or a filter and the referencing variable is missing, all affected communication points or filters enter an unconfigured state.</p>
+       </div>
+      </div>
+      <h2 id="RhapsodyVariables-RhapsodyEnvironmentVariablesandConfigurationLoading">Rhapsody Environment Variables and Configuration Loading</h2>
+      <p>One of the major benefits of using environment variables is that it makes the process of migrating configurations from Development to Test to Production much simpler. Environment variables should be used for any configuration parameters that are specific to the machine and environment the particular Rhapsody engine is running on. If environment variables are set up on both Rhapsody engines, then the new configuration can be loaded simply by loading the new RLC file. The loaded configuration will automatically use the variables defined on each engine.</p>
+      <p>Therefore, environment variables are ideal for those configuration parameters that need to be different between the development, test and production systems. For example, if a database communication point is used to update a database with information extracted from a message, it is important that the test Rhapsody engine cannot modify the production database. By setting up the Database communication point to use an environment variable for the database to modify, the appropriate database is automatically selected. Environment variables are always saved when creating an RLC from a loaded configuration, no specific steps need to be taken to enable this.</p>
+      <p>Environment variables are automatically loaded when loading the configuration from an RLC, however, if the environment variable already exists on the target Rhapsody engine, the current value is not overwritten. If the value does not yet exist then it will take the values from the RLC. This means that once the environment variables are set up correctly on the test and production servers, the production server will save its own variable values, even when an updated configuration from the test environment is loaded.</p>
+      <p>When environment variables are loaded through the REST API, if the environment variable already exists on the target Rhapsody engine, the current value is overwritten. I<span>f the environment variable already exists on the target Rhapsody engine but not in the new configuration, the variable is deleted.</span>&nbsp;The affected communication points or filters enter an&nbsp;unconfigured state due to missing referencing variables.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,465 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>S/MIME</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">S/MIME</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162936/133162938.bmp" data-image-src="attachments/133162936/133162938.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162938" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SMIME_Filter.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162936" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>S/MIME</strong> filter&nbsp;enables transformation between the MIME message format and Rhapsody message format. This includes the ability to create signed and/or encrypted MIME messages, to decrypt encrypted MIME messages, to verify the signatures of signed MIME messages, and to create or split multi-part MIME messages.</p>
+      <p>All certificates and private keys that are used with this filter need to be stored in the <a href="Managing-Certificates-and-Keys_133161222.html">Certificate Manager</a>.</p>
+      <h2 id="S/MIME-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Transformation Direction</p></td>
+          <td class="confluenceTd"><p>Options: <code>Rhapsody message to MIME message</code>, <code>MIME message to Rhapsody message</code>. Default: <code>Rhapsody message to MIME message</code>.</p><p>Sets the message processing operation of the filter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encryption and Signing Order</p></td>
+          <td class="confluenceTd"><p>This field is only available if the Transformation direction field is set to <code>Rhapsody message to MIME message</code>.<br class="atl-forced-newline">Options: <code>Encrypt then sign</code>, <code>Sign then encrypt</code>, <code>Sign only</code>, <code>Encrypt Only</code>, <code>Don't sign or encrypt</code>. Default: <code>Sign then Encrypt</code>.</p><p>When <code>Don't sign or encrypt</code> is selected, no signing or encryption is performed on the incoming Rhapsody message. However, the Rhapsody message will be converted into a MIME message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Dynamic Key</p></td>
+          <td class="confluenceTd"><p>This field is only available if the <strong>Transformation Direction</strong> field is set to <code>Rhapsody message to MIME message</code> and signing is enabled, in other words <strong>Encryption and Signing Order</strong> field is set to <code>Encrypt then sign</code>, <code>Sign then encrypt</code> or <code>Sign only</code>. <br class="atl-forced-newline">Options: <code>Use static private key</code>, <code>Get private key from message property</code>. Default: <code>Use static private key</code>.</p><p>When <code>Use static private key</code> is selected, the same private key is used to sign all messages. When <code>Get private key from message property</code> is selected, then all messages are checked for the message property <code>smime:Key</code>, which should contain the name that the private key is known by in the Certificate Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Private Key</p></td>
+          <td class="confluenceTd"><p>This field is only available if the <strong>Dynamic Key</strong> field is set to <code>Use static private key</code>.</p><p>The Private Key is used to sign the MIME message. The private key is chosen from the Certificate Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Digest Algorithm</p></td>
+          <td class="confluenceTd"><p>Only available if the <strong>Transformation Direction</strong> field is set to <code>Rhapsody message to MIME message</code> and signing is enabled. <br class="atl-forced-newline">Options: <code>SHA256</code>, <code>SHA1</code>, <code>MD5 (weak)</code>. Default: <code>SHA256</code>.</p><p>The digest algorithm to use when generating the signature.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>The MD5 algorithm is regarded as weak, and not recommended for use unless there is some specific requirement to support it.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Dynamic Certificate</p></td>
+          <td class="confluenceTd"><p>This field is only available if the <strong>Transformation Direction</strong> field is set to <code>Rhapsody message to MIME message</code> and encryption is enabled, in other words the <strong>Encryption and Signing Order</strong> field is set to <code>Encrypt then sign</code>, <code>Sign then encrypt</code> or <code>Encrypt only</code>. <br class="atl-forced-newline">Options: <code>Use static recipient certificate</code>, <code>Get recipient certificate from message property</code>. Default: <code>Use static recipient certificate</code>.</p><p>When <code>Use static recipient certificate</code> is selected, the same certificate will be used to encrypt all messages. When <code>Get recipient certificate from message property</code> is selected, then all messages will be checked for the message property <code>smime:Certificate</code>, which should contain the name that the certificate is known by in the Certificate Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Recipient Certificate</p></td>
+          <td class="confluenceTd"><p>This field is only available if the <strong>Dynamic Certificate</strong> field is set to <code>Use static recipient certificate</code></p><p>The public certificate of the recipient is used to encrypt the MIME message, which allows the recipient to decrypt it when they receive it. The certificate is chosen from the Certificate Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encryption Algorithm</p></td>
+          <td class="confluenceTd"><p>Only available if the <strong>Transformation Direction</strong> field is set to <code>Rhapsody message to MIME message</code> and encryption is enabled. <br class="atl-forced-newline">The algorithm to use to encrypt the MIME message. Options: <code>AES_128_CBC</code>, <code>AES_192_CBC</code>, <code>AES_256_CBC</code>, <code>DES_EDE3_CBC</code>. Default: <code>AES_128_CBC</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Batch Messages</p></td>
+          <td class="confluenceTd"><p>Only available if the <strong>Transformation Direction</strong> field is set to <code>Rhapsody message to MIME message</code>. <br class="atl-forced-newline">Options: <code>false</code>, <code>true</code>. Default: <code>true</code>.</p><p>If <code>true</code>, the incoming Rhapsody message(s) is batched into a <code>multipart/mixed</code> MIME message before performing the action specified in the <strong>Encryption and Signing Order</strong> field. If more than one incoming Rhapsody message are to be batched, a <strong>Message Collector</strong> should be enabled on the filter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Split Multipart</p></td>
+          <td class="confluenceTd"><p>Only available if the <strong>Transformation Direction</strong> field is set to <code>MIME message to Rhapsody message</code>. <br class="atl-forced-newline">Options: <code>No split</code>, <code>Split multipart message</code>, <code>Split based on content</code>. Default: <code>No split</code></p>
+           <ul>
+            <li>If <code>No split</code> is selected, the incoming MIME message is treated as a single Rhapsody message.</li>
+            <li>If <code>Split multipart message</code> is selected, an incoming MIME message that has a <code>multipart/*</code> content type will be split into multiple Rhapsody messages, each of which represent an individual body part of the MIME message.</li>
+            <li>If <code>Split based on content</code> is selected, an incoming MIME message that has a <code>multipart/*</code> content type will be split into multiple Rhapsody messages based on a particular algorithm. Refer to <a href="#S/MIME-SplitMultipart">Split Multipart </a>for details.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Certificate Revocation Checking</p></td>
+          <td class="confluenceTd"><p>Options: <code>false</code>, <code>true</code>. Default: <code>true</code>.</p><p>If <code>true</code>, all certificates and private keys used by this filter will be subject to revocation checking during the message transformation process. Certificate revocation checking allows for greater security when dealing with S/MIME messages. Refer to <a href="#S/MIME-CertificateRevocationChecking">Certificate Revocation Checking </a>for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="S/MIME-Details">Details</h2>
+      <p>This section outlines the following configuration details for the S/MIME Filter:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146979577 {padding: 0px;}
+div.rbtoc1565146979577 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146979577 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146979577"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#S/MIME-RhapsodyMessagetoMIMEMessage">Rhapsody Message to MIME Message</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#S/MIME-SpecifyingaMIMEType">Specifying a MIME Type</a></li> 
+          <li><a href="#S/MIME-Character-EncodingforTextContent-Types">Character-Encoding for Text Content-Types</a></li> 
+          <li><a href="#S/MIME-OutputofEncryption">Output of Encryption</a></li> 
+         </ul> </li> 
+        <li><a href="#S/MIME-MIMEMessagetoRhapsodyMessage">MIME Message to Rhapsody Message</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#S/MIME-VerificationofSignedMIMEMessages">Verification of Signed MIME Messages</a></li> 
+          <li><a href="#S/MIME-DecryptionofEncryptedMIMEMessages">Decryption of Encrypted MIME Messages</a></li> 
+          <li><a href="#S/MIME-SplitMultipart">Split Multipart</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#S/MIME-SplitBasedOnContent">Split Based On Content</a></li> 
+            <li><a href="#S/MIME-TypicalUse-CasesForSplitBasedOnContent">Typical Use-Cases For Split Based On Content</a></li> 
+           </ul> </li> 
+          <li><a href="#S/MIME-OutgoingRhapsodyMessageProperties">Outgoing Rhapsody Message Properties</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#S/MIME-SplitMessages">Split Messages</a></li> 
+            <li><a href="#S/MIME-MIMEHeaderInformation">MIME Header Information</a></li> 
+            <li><a href="#S/MIME-CertificateInformationFromSignatureVerification">Certificate Information From Signature Verification</a></li> 
+            <li><a href="#S/MIME-SplitBasedonContent">Split Based on Content</a></li> 
+           </ul> </li> 
+         </ul> </li> 
+        <li><a href="#S/MIME-CertificateChainValidation">Certificate Chain Validation</a></li> 
+        <li><a href="#S/MIME-CertificateRevocationChecking">Certificate Revocation Checking</a></li> 
+        <li><a href="#S/MIME-TypicalConfigurationWhenUsingTheS/MIMEFilterwiththeE-mailClientCommunicationPoint">Typical Configuration When Using The S/MIME Filter with the E-mail Client Communication Point</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#S/MIME-E-mailClientCommunicationPointinInputMode">E-mail Client Communication Point in Input Mode</a></li> 
+          <li><a href="#S/MIME-E-mailClientCommunicationPointinOutputMode">E-mail Client Communication Point in Output Mode</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h3 id="S/MIME-RhapsodyMessagetoMIMEMessage">Rhapsody Message to MIME Message</h3>
+      <h4 id="S/MIME-SpecifyingaMIMEType">Specifying a MIME Type</h4>
+      <p>When transforming a message from a Rhapsody format to a MIME message, the message to be transformed MUST have the property <code>smime:ContentType</code> set, with a value that corresponds with the MIME type of the message (for example, an HL7 message could be sent as <code>text/plain</code> or <code>text/xml</code>). If a message is specified to be a MIME type other than <code>text/*</code> or <code>multipart/*</code> (for example <code>application/*</code>), then it is base64-encoded. The MIME part will have the <code>Content-Transfer-Encoding</code> header updated to reflect this.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody does not validate content type beyond ensuring it meets the format <code>primary/subtype</code>. It is recommended you use compliant and known MIME types as per IANA and/or IETF specifications.</p>
+       </div>
+      </div>
+      <h4 id="S/MIME-Character-EncodingforTextContent-Types">Character-Encoding for Text Content-Types</h4>
+      <p>If a message is of a&nbsp;<code>text/* </code>content type, when it is processed by Rhapsody, Rhapsody will ensure that the MIME content-type has the character-encoding added. This can be controlled by changing the value of the message property <code>smime:SpecifyEncoding</code>, as detailed in the following table. If the message property is not included, the default behavior is to add the character-encoding that is specified on the Rhapsody message. For example, the MIME content-type header is changed from <code>text/plain</code> to <code>text/plain; charset=windows-1252</code>.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property value</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>ignore</code></p></td>
+          <td class="confluenceTd"><p>No changes will be made to the character-encoding. This means that the default behaviour will not occur, and also that any existing encoding information will not be changed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>add</code></p></td>
+          <td class="confluenceTd"><p>If character-encoding information already exists, it will not be changed. If no character-encoding information exists, it will be added.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>replace</code></p></td>
+          <td class="confluenceTd"><p>If character-encoding information already exists, it will be changed to the character-encoding specified on the Rhapsody message. If no character-encoding information exists, it will be added.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="S/MIME-OutputofEncryption">Output of Encryption</h4>
+      <p>If a message has been transformed using the <code>Encrypt Only</code> or <code>Sign then Encrypt</code> modes, it should be noted that the message body will then contain binary data. If the message is then sent out of the E-mail Client Communication Point, then the transport layer will encode this data as base64 during transport, as according to the SMTP specification. If the message is not going to be sent out of the E-mail Client Communication Point, and will instead be transferred by a different protocol, you may wish to use a Base64 Encoding Filter to encode the data if required.</p>
+      <h3 id="S/MIME-MIMEMessagetoRhapsodyMessage">MIME Message to Rhapsody Message</h3>
+      <h4 id="S/MIME-VerificationofSignedMIMEMessages">Verification of Signed MIME Messages</h4>
+      <p>When signature verification is performed, the sender's public certificate is used to verify their signature. This certificate is looked up from the <strong>Certificate Manager</strong>.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The entire certificate chain is checked, so you will need the certificate that signed the sender's certificate (and so on, up to the root trust anchor) to also be in your Certificate Manager</p>
+       </div>
+      </div>
+      <p>If you know that the messages are from a specific sender, you can use the message property <code>smime:SignatureVerificationCertificate</code> to specify the name under which the sender's certificate is known in the Certificate Manager. The value of that property will be used to find the certificate to verify the signature. If that message property is not present, the information contained in the message signature will be used to look up the certificate in the Certificate Manager.</p>
+      <h4 id="S/MIME-DecryptionofEncryptedMIMEMessages">Decryption of Encrypted MIME Messages</h4>
+      <p>When decryption is performed, a private key in the Rhapsody <strong>Certificate Manager</strong> is used to decrypt the message.&nbsp;The private key to be used in the decryption process MUST be specified on the incoming message using the message property <code>smime:DecryptKey</code>. The value of this property should specify the name under which the private key is known in the Certificate Manager.</p>
+      <h4 id="S/MIME-SplitMultipart">Split Multipart</h4>
+      <p>This field is only available if <strong>Transformation direction</strong> field is set to <code>MIME message to Rhapsody message</code>. If enabled, the split option is applied to supported <code>multipart/*</code> MIME messages or MIME body parts. The supported <code>multipart/*</code> MIME types are:</p>
+      <ul>
+       <li><code>multipart/mixed</code></li>
+       <li><code>multipart/form-data</code></li>
+       <li><code>multipart/alternative</code></li>
+       <li><code>multipart/related</code></li>
+      </ul>
+      <p>The split option does not interfere with the processing of incoming MIME messages that are signed or encrypted. A signed MIME message (MIME type <code>multipart/signed</code>) will be verified first, then upon successful signature verification, the signed content will be processed for any split to be performed. Likewise, if the incoming MIME message is encrypted (MIME type <code>application/pkcs7-mime</code> or <code>application/x-pkcs7-mime</code>), the message will be decrypted and then further processed for splitting.</p>
+      <p>All messages that have been split will have message properties set on them based on how many parts were in the original message, and which part of the original message it is. For example if a message has three parts, and this is the second of those parts, both of these details will be available in the message properties. Refer to <a href="#S/MIME-OutgoingRhapsodyMessageProperties">Outgoing Rhapsody Message Properties</a> for details.</p>
+      <h5 id="S/MIME-SplitBasedOnContent">Split Based On Content</h5>
+      <p class="confluence-link">When <code>Split based on content</code> is selected, the incoming MIME message is split based on the MIME body parts but also based on the content-type of those MIME body parts. Any MIME part that is an attachment, a file or does not contain text content (i.e. not of <code>text/*</code> content-type) will become the message body of a Rhapsody message (which could mean that multiple messages are output from the filter). Any MIME part that does not fall into these categories will have its MIME part content added to the message properties of each outgoing message. This means that a multipart message that contained only <code>text/*</code> content type would have an empty message body and all <code>text/*</code> parts transferred to message properties. Refer to <a href="#S/MIME-OutgoingRhapsodyMessageProperties">Outgoing Rhapsody Message Properties</a> for details.</p>
+      <ul>
+       <li>Attachment or file content is determined by checking the message property <code>smime:ContentDisposition</code> for the presence of the text <em>attachment</em> or <em>filename=</em>.</li>
+       <li>The content type for determining if a message is text or not is determined by checking the message property <code>smime:ContentType</code>.</li>
+      </ul>
+      <h5 id="S/MIME-TypicalUse-CasesForSplitBasedOnContent">Typical Use-Cases For Split Based On Content</h5>
+      <ul>
+       <li>Splitting <code>multipart/form-data</code>, where the form data is for example some type of file and associated meta-data about that file. In this case the file data will form the Rhapsody message body, and the meta-data will become message properties on that message, which would allow further processing to be done to the message based on that meta-data. The form-data could come from a HTTP Server Communication Point.</li>
+       <li>Splitting email that contains attachments, where the attachment is for example some type of file, and the email body is some information related to the attachment. In this case the attachment file data will form the Rhapsody message body, and the email body will become a message property on that message.</li>
+       <li>Splitting <code>multipart/related</code> content that has been received in a SOAP MTOM/XOP message, for example from a Web Services Communication Point. In this case the SOAP message will contain a data type that is typically <code>application/soap+xml</code> and also for example an <code>image/*</code> file. In this case these would be split into two messages, and then, if desired, further processing could be done in Rhapsody on the <code>application/soap+xml</code> part of the message to extract any meta-data related to the image file.</li>
+      </ul>
+      <h4 id="S/MIME-OutgoingRhapsodyMessageProperties">Outgoing Rhapsody Message Properties</h4>
+      <p>The following outlines message properties that can be present after the transformation from an incoming MIME message to a Rhapsody message.</p>
+      <h5 id="S/MIME-SplitMessages">Split Messages</h5>
+      <p>If a message has been processed with the <strong>Split Multipart</strong> option set to <code>Split </code><code>multipart message </code>or <code>Split based on content</code>, the following message properties will be added to the message.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property name</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:MimeMessagePassThrough</code></p></td>
+          <td class="confluenceTd"><p>This boolean property is present (has a value of <code>true</code>) if a valid MIME message has been processed but no split has been performed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:MultipartSplitIndex</code></p></td>
+          <td class="confluenceTd"><p>Present if the message has been split. The numeric value indicates the index in the split messages, starting from 1.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:MultipartSplitTotal</code></p></td>
+          <td class="confluenceTd"><p>Present if the message has been split. The numeric value indicates the total number of split multi-part messages.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h5 id="S/MIME-MIMEHeaderInformation">MIME Header Information</h5>
+      <p>If the following headers are found in a MIME part, they will be added to the message as message properties.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property name</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:ContentType</code></p></td>
+          <td class="confluenceTd"><p>As the <code>Content-Type</code> header is always present in a MIME message or MIME part, this property is always present in the outgoing Rhapsody message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:ContentDisposition</code></p></td>
+          <td class="confluenceTd"><p>Optional property which is only present if <code>Content-Disposition</code> header is found in the associated MIME part.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:ContentDescription</code></p></td>
+          <td class="confluenceTd"><p>Optional property which is only present if <code>Content-Description</code> header is found in the associated MIME part.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:ContentID</code></p></td>
+          <td class="confluenceTd"><p>Optional property which is only present if <code>Content-ID</code> header is found in the associated MIME part.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:FileName</code></p></td>
+          <td class="confluenceTd"><p>This property is present if the optional parameter <code>filename </code>is found in the <code>Content-Disposition header</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h5 id="S/MIME-CertificateInformationFromSignatureVerification">Certificate Information From Signature Verification</h5>
+      <p>Upon successful signature verification, the certificate information is added to the outgoing Rhapsody message. This includes:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property name</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:IncomingIssuerFromCertificate</code></p></td>
+          <td class="confluenceTd"><p>Issuer of the certificate.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:IncomingSubjectFromCertificate</code></p></td>
+          <td class="confluenceTd"><p>Subject of the certificate.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:IncomingSerialNumberFromCertificate</code></p></td>
+          <td class="confluenceTd"><p>Serial number of the certificate.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:IncomingSubjectKeyIdentifierFromCertificate</code></p></td>
+          <td class="confluenceTd"><p>Subject key identifier (SKI) of the certificate. This property is only present if it is found in the certificate.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h5 id="S/MIME-SplitBasedonContent">Split Based on Content</h5>
+      <p>When a message has been split based on content, and <code>text/*</code> parts have been placed in message properties, then for each <code>text/*</code> part that was in the message, the following message properties will be added:</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><em>'index</em>' refers to the index of each <code>text/*</code> body part in the original message (excluding the content).</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].Body</code></p></td>
+          <td class="confluenceTd"><p>The text content of the <code>text/*</code> MIME body part.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].ContentType</code></p></td>
+          <td class="confluenceTd"><p>The <code>Content-Type</code> header from the <code>text/*</code> MIME body part.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].ContentDisposition</code></p></td>
+          <td class="confluenceTd"><p>Optional property which is only present if <code>Content-Disposition</code> header is found in the <code>text/*</code> MIME body part.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].ContentDescription</code></p></td>
+          <td class="confluenceTd"><p>Optional property which is only present if <code>Content-Description</code> header is found in the <code>text/*</code> MIME body part.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].ContentID</code></p></td>
+          <td class="confluenceTd"><p>Optional property which is only present if <code>Content-ID</code> header is found in the <code>text/*</code> MIME body part.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].ContentTransferEncoding</code></p></td>
+          <td class="confluenceTd"><p>Optional property which is only present if <code>Content-Transfer-Encoding</code> header is found in the <code>text/*</code> MIME body part.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Additionally, if the <code>text/*</code> body part was originally part of a signed MIME part, the following message properties will be added:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].IncomingIssuerFromCertificate</code></p></td>
+          <td class="confluenceTd"><p>The issuer of the certificate for the associated <em>index.</em></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].IncomingSubjectFromCertificate</code></p></td>
+          <td class="confluenceTd"><p>The subject of the certificate for the associated <em>index.</em></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].IncomingSerialNumberFromCertificate</code></p></td>
+          <td class="confluenceTd"><p>The serial number of the certificate for the associated <em>index.</em></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>smime:Part[</code> <em>index</em> <code>].IncomingSubjectKeyIdentifierFromCertificate</code></p></td>
+          <td class="confluenceTd"><p>Subject key identifier (SKI) of the certificate for the associated <em>index</em>. This property is only present if it is found in the certificate.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="S/MIME-CertificateChainValidation">Certificate Chain Validation</h3>
+      <p>All certificates and private keys used in this filter are checked for validity, in other words that they are not expired, or are not only valid in the future (not valid yet). This check is performed whenever any signing, encryption, decryption, or signature verification is performed.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The entire certificate chain is validated, so you will need the certificate that signed any certificate you are using (and so on, up to the root trust anchor) to also be in your Certificate Manager. When checking private keys, the certificate chain is usually included in the key file itself, however you should ensure the private key has been explicitly generated with the full certificate chain included.</p>
+       </div>
+      </div>
+      <h3 id="S/MIME-CertificateRevocationChecking">Certificate Revocation Checking</h3>
+      <p>Certificate revocation checking involves checking that a certificate, and the chain of certificates that signed it, have not been revoked. Certificates are revoked by the entity that issued them, for a variety of reasons, for example if it is believed they may have been compromised. If certificate revocation checking has been enabled, this check is performed whenever any signing, encryption, decryption, or signature verification is performed. To check if the certificates are revoked, Rhapsody connects via HTTP to a remote server (that is specified within the certificates themselves) to obtain revocation information. Most certificate issuing entities maintain these servers. Since certificate revocation information is usually only updated every few hours or days, Rhapsody caches this information in memory, to avoid excessive HTTP requests.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The entire certificate chain is checked, so you will need the certificate that signed any certificate you are using (and so on, up to the root trust anchor) to also be in your Certificate Manager. When checking private keys, the certificate chain is usually included in the key file itself, however you should ensure the private key has been explicitly generated with the full certificate chain included.</p>
+       </div>
+      </div>
+      <h3 id="S/MIME-TypicalConfigurationWhenUsingTheS/MIMEFilterwiththeE-mailClientCommunicationPoint">Typical Configuration When Using The S/MIME Filter with the E-mail Client Communication Point</h3>
+      <h4 id="S/MIME-E-mailClientCommunicationPointinInputMode">E-mail Client Communication Point in Input Mode</h4>
+      <p>In this configuration, the filter would typically be set with a transformation direction of <code>MIME message to Rhapsody message</code>. The following configuration should be enabled on the <a href="Email-Client_133162342.html">E-mail Client</a> communication point:</p>
+      <ul>
+       <li><strong>Receiving Mode</strong> should be set to <code>Receive Raw E-mail Body</code>.</li>
+       <li><p>The following mappings should be set in the <strong>Extracted Headers</strong> section:</p>
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>E-mail Header Name</p></th>
+            <th class="confluenceTh"><p>Property Name</p></th>
+            <th class="confluenceTh"><p>Transformation</p></th>
+            <th class="confluenceTh"><p>Repeat Handling</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Content-Type</p></td>
+            <td class="confluenceTd"><p><code>smime:ContentType</code></p></td>
+            <td class="confluenceTd"><p>Decode and Unfold</p></td>
+            <td class="confluenceTd"><p>Retrieve First</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Content-Disposition</p></td>
+            <td class="confluenceTd"><p><code>smime:ContentDisposition</code></p></td>
+            <td class="confluenceTd"><p>Decode and Unfold</p></td>
+            <td class="confluenceTd"><p>Retrieve First</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Content-Description</p></td>
+            <td class="confluenceTd"><p><code>smime:ContentDescription</code></p></td>
+            <td class="confluenceTd"><p>Decode and Unfold</p></td>
+            <td class="confluenceTd"><p>Retrieve First</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Content-Transfer-Encoding</p></td>
+            <td class="confluenceTd"><p><code>smime:ContentTransferEncoding</code></p></td>
+            <td class="confluenceTd"><p>Decode and Unfold</p></td>
+            <td class="confluenceTd"><p>Retrieve First</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Using a large number of E-mail Client Communication Points to poll many email folders may have a performance impact on Rhapsody. It is recommended that if multiple email folders need to be checked, a rule is set up on the mail server that forwards the appropriate email to a single mail folder that Rhapsody can then check.</p>
+       </div>
+      </div>
+      <h4 id="S/MIME-E-mailClientCommunicationPointinOutputMode">E-mail Client Communication Point in Output Mode</h4>
+      <p>In this configuration, the filter would typically be set with a transformation direction of <code>Rhapsody message to MIME message</code>. The following configuration should be enabled on the E-mail Client Communication Point:</p>
+      <ul>
+       <li><strong>Sending Mode</strong> should be set to <code>Send Raw E-mail Body</code>.</li>
+       <li><strong>MIME content type</strong> should be set to <code>$smime:ContentType</code> (as the filter will have populated this property with the correct MIME type).</li>
+       <li><p>The following mappings should be set in the <strong>E-mail Headers</strong> section:</p>
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Property Name</p></th>
+            <th class="confluenceTh"><p>E-mail Header Name</p></th>
+            <th class="confluenceTh"><p>Transformation</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>smime:ContentDescription</code></p></td>
+            <td class="confluenceTd"><p>Content-Description</p></td>
+            <td class="confluenceTd"><p>Encode and Fold</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>smime:ContentDisposition</code></p></td>
+            <td class="confluenceTd"><p>Content-Disposition</p></td>
+            <td class="confluenceTd"><p>Encode and Fold</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

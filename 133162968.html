@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>XML Signing / Verifying</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="XML-Filters_133162964.html">XML Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">XML Signing / Verifying</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162968/133162969.jpg" data-image-src="attachments/133162968/133162969.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162969" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image165.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162968" data-linked-resource-container-version="4"></span></p>
+      <p>The <strong>XML Signing / Verifying</strong> filter&nbsp;creates or verifies a digital signature for XML messages.</p>
+      <p>XML signatures are digital signatures designed for use in XML transactions and they are represented by the Signature element which has the following structure:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;ds:Signature&gt; &lt;ds:SignedInfo Id?&gt; &lt;ds:CanonicalizationMethod/&gt; &lt;ds:SignatureMethod/&gt; ( &lt;ds:Reference URI? &gt; 
+( &lt;ds:Transforms&gt; )? &lt;ds: DigestMethod/&gt; &lt;ds: DigestValue/&gt; &lt;/ds:Reference&gt; )\+ &lt;/ds:SignedInfo&gt; 
+&lt;ds:SignatureValue/&gt; ( &lt;ds:KeyInfo&gt; ) ? ( &lt;ds:Object Id?&gt; ) \* &lt;/ds:Signature&gt;
+</pre> 
+       </div>
+      </div>
+      <p>Refer to <a href="http://www.w3.org/TR/xmldsig-core" class="external-link" rel="nofollow">XML Signature Syntax and Processing</a> for details about XML Signatures.</p>
+      <h2 id="XMLSigning/Verifying-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Sign or Verify</p></td>
+          <td class="confluenceTd"><p>Identifies whether an XML message processed by this filter is to be signed or verified:</p>
+           <ul>
+            <li><code>Sign</code><span> (default).</span></li>
+            <li><code>Verify</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signature Type</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The signature type to use. An enveloped signature is a signature of a document, where the XML signature will itself be embedded within the signed document. An enveloping signature is a signature where the signed data is actually embedded within the XML signature structure.</p>
+            <ul>
+             <li><p><code>Enveloped Signature</code> (default) - the outgoing XML message has the following structure:</p>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;message&gt; 
+  &lt;header&gt; 
+    &lt;ds:Signature&gt; 
+      &lt;ds:SignedInfo&gt; ... &lt;/ds:SignedInfo&gt; 
+      &lt;ds:SignatureValue&gt; ... &lt;/ds:SignatureValue&gt; 
+    &lt;/ds:Signature&gt; 
+  &lt;/header&gt; 
+  &lt;body&gt;Original incoming message body&lt;/body&gt; 
+&lt;/message&gt;</pre> 
+               </div>
+              </div></li>
+             <li><p><code>Enveloping Signature</code> - the outgoing XML message has the following structure:</p>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ds:Signature&gt;
+  &lt;ds:SignedInfo&gt; ... &lt;/ds:SignedInfo&gt; 
+  &lt;ds:SignatureValue&gt; ... &lt;/ds:SignatureValue&gt; 
+  &lt;ds:Object&gt;Original incoming message&lt;/ds:Object&gt; 
+&lt;/ds:Signature&gt;</pre> 
+               </div>
+              </div></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signature ID</p></td>
+          <td class="confluenceTd"><p>The optional signature id; the value for id attribute of the Signature element.<br> <code>&lt;ds:Signature Id="Signature ID"&gt;</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Parent Element of Signature Element</p></td>
+          <td class="confluenceTd"><p>The XPath where the signature element is appended; the XPath of the parent element of the signature element.</p><p><span>Only available if </span><strong>Signature Type</strong><span> is set to </span><code>Enveloped Signature</code><span>. </span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Object ID</p></td>
+          <td class="confluenceTd"><p>The URI attribute of Reference element which identifies the data object to be signed. If "Data" is set to this property then the XML has the following Reference element:</p><p><code>&lt;ds:Reference URI="#Data"/&gt; .... &lt;ds:Object Id="Data"&gt;Original incoming message&lt;/ds:Object&gt;</code></p><p><span>Only available if </span><strong>Signature Type</strong><span> is set to </span><code>Enveloped Signature</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use MAC Algorithm</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to use MAC (Message Authentication Codes; hmac-sha1) algorithm for SignatureMethod instead of Signature Algorithm:</p>
+            <ul>
+             <li>Enabled - the SignatureMethod element has the following structure:</li>
+            </ul>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#hmac-sha1"&gt; &lt;ds:HMACOutputLength&gt;128&lt;/ds:HMACOutputLength&gt; &lt;/ds:SignatureMethod&gt;</pre> 
+             </div>
+            </div>
+            <ul>
+             <li>Disabled.</li>
+            </ul>
+            <p><br></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signature Algorithm</p></td>
+          <td class="confluenceTd"><p>The asymmetric crypto algorithm to be used for signing the XML. Available signature algorithms are:</p>
+           <ul>
+            <li><code>DSA with SHA1</code>.</li>
+            <li><code>PKCS1 (RSA with SHA1)</code>.</li>
+            <li><code>RSA with SHA256</code> (default).</li>
+            <li><code>RSA with SHA384</code>.</li>
+            <li><code>RSA with SHA512</code>.</li>
+           </ul><p><span>Only available if </span><strong>Use MAC Algorithm</strong><span> is dis<span>a</span><span>bled</span></span>.<span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing Key</p></td>
+          <td class="confluenceTd"><p>The private key to be used for signing the XML.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Public Key for KeyInfo</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The certificate in which contains the public key to be enclosed in the KeyInfo element. If this property is set, the KeyInfo element has the following structure:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ds:KeyInfo&gt; 
+  &lt;ds:X509Data&gt; 
+    &lt;ds:X509Certificate&gt; ... &lt;/ds:X509Certificate&gt; 
+  &lt;/ds:X509Data&gt;
+  &lt;ds:KeyValue&gt;
+    &lt;ds:RSAKeyValue&gt;
+      &lt;ds:Modulus&gt; ... &lt;/ds:Modulus&gt; 
+      &lt;ds:Exponent&gt; ... &lt;/ds:Exponent&gt; 
+    &lt;/ds:RSAKeyValue&gt; 
+  &lt;/ds:KeyValue&gt; 
+&lt;/ds:KeyInfo&gt;</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MAC key cipher</p></td>
+          <td class="confluenceTd"><p>The name of the cipher used for the MAC Key.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secret Key for MAC</p></td>
+          <td class="confluenceTd"><p>The shared secret key to be used for signing and verifying the XML document when HMAC is used for SignatureMethod.</p><p><span>Only available if </span><strong>Use MAC Algorithm</strong><span> is <span>ena</span><span>bled</span></span>.<span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HMAC Output Length</p></td>
+          <td class="confluenceTd"><p>If it is set to <code>0</code> then HMACOutputLength element is not specified and all the bits of the hash are output.</p><p><span>Only available if </span><strong>Use MAC Algorithm</strong><span> is ena<span>bled</span></span>.<span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Transform Algorithms</p></td>
+          <td class="confluenceTd"><p>The algorithms to be used for transformation of the XML content. Some algorithms may need to specify parameters. For example, XPath Filtering transform algorithm requires XPath as a mandatory parameter and XPath Namespace context as an optional parameter. Available transform algorithms are:</p>
+           <ul>
+            <li>Base 64</li>
+            <li>Canonicalization with comment</li>
+            <li>Canonicalization without comment</li>
+            <li>Enveloped Signature Transform</li>
+            <li>Exclusive Canonicalization with comment</li>
+            <li>Exclusive Canonicalization without comment</li>
+            <li>XPath Filtering</li>
+            <li>XSLT Transform</li>
+           </ul><p>If<code>Enveloped Signature</code> is set, then '<code>Enveloped Signature Transform</code>' is automatically used as the first transform algorithm regardless of whether it is selected or not.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Canonicalization Algorithm</p></td>
+          <td class="confluenceTd"><p>The algorithm to be used for canonicalization of the XML content. Available canonicalization algorithms are:</p>
+           <ul>
+            <li><p>Canonicalization with comment.</p></li>
+            <li>Canonicalization without comment.</li>
+            <li>Exclusive Canonicalization with comment.</li>
+            <li>Exclusive Canonicalization without comment.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Verify With</p></td>
+          <td class="confluenceTd"><p>What to use to verify the signature:</p>
+           <ul>
+            <li><code>KeyInfo Element</code> (default) - the KeyValue element in the KeyInfo element is used to verify the signature.</li>
+            <li><code>Secret Key</code> - a secret key should be supplied for Verifying Key.</li>
+            <li><code>Certificates</code> - a certificate having a public key should be supplied for the Verifying Key.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Verifying Secret Key</p></td>
+          <td class="confluenceTd"><p>The secret key to be used for verifying the signed XML document. If a Message Authentication Code (MAC) is used when the XML is signed then a secret key should be used for verifying it.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Verifying Certificates</p></td>
+          <td class="confluenceTd"><p>The certificate which contains the public key to be used for verifying the signed XML document. If Signature Algorithm is used when the XML is signed then a public key should be used for verifying it. If more than one certificate is selected, each certificate is tried one by one until a public key in one of the certificates verifies the signature.</p><p><span>Only available if </span><strong>Verify With</strong><span> is set </span>to <code>Certificates</code>.<span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Un-sign XML</p></td>
+          <td class="confluenceTd"><p>If <code>True</code>, it un-signs the signed XML; it un-envelopes an enveloping signatured XML or strips the signature element away from the XML with an enveloped signature. If <code>False</code>, it routes the original signature message to the next filter or the output communication point.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Signature Verification Failure</p></td>
+          <td class="confluenceTd"><p>Sets an action after the signature validation fails:</p>
+           <ul>
+            <li><code>Send to error connector</code> - it returns the message to the error connector.</li>
+            <li><code>Continue processing on route</code> - it routes the original message to the next filter or the output communication point and continues processing the messages.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

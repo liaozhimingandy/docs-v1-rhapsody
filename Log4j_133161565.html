@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Log4j</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Directory-Structure_133161562.html">Rhapsody Directory Structure</a></span> </li> 
+       <li> <span><a href="Rhapsody-Log_133161563.html">Rhapsody Log</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Log4j</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody uses the log4j framework for its logging capabilities, which provides significant control to the user at runtime. The logging framework is configured in the <code>log4j.properties</code> file, found in the <code>&lt;Rhapsody&gt;\rhapsody</code> folder (and through the Management Console for communication points and routes). When Rhapsody has been started, log4j monitors this configuration file, and reloads changes while Rhapsody is running (normally this takes approximately one minute). This means that the logging levels can be modified without any downtime.</p>
+      <p>Log4j primarily relies on two concepts for logging: <a href="#Log4j-Loggers">loggers</a>, and <a href="#Log4j-Log4jAppenders">appenders</a>.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Making inconsistent changes to the <code>log4j.properties</code> file while the engine is running could have unintended side effects such as the inability to log into Rhapsody IDE or the Management Console. For example, if you are changing the type of appender, ensure that only the settings relevant to the new appender type are specified before saving the <code>log4j.properties</code> file.</p>
+       </div>
+      </div>
+      <h2 id="Log4j-Loggers">Loggers</h2>
+      <p>Log4j allows for multiple loggers to be created, operating in a hierarchical manner. The root logger, called 'Rhapsody', contains all logging information produced by Rhapsody, whereas all other loggers are lower in the hierarchy and so contain a subset of that information.</p>
+      <p>Rhapsody defines a number of loggers internally, within the hierarchy provided by log4j. This hierarchy is described below:</p>
+      <ul>
+       <li><strong>Rhapsody</strong> - this is the root logger, and all log messages are always sent to this log. Consequently, the threshold of this logger is normally set higher than the other loggers, as otherwise too much logging information may be reported.</li>
+       <li><strong>Symphonia</strong> - the Symphonia logger contains all logging information produced by the parsing engine, which is used for processing EDI messages, and mapping messages. It contains all logging information that are in one of its sub-categories.
+        <ul>
+         <li>load - logging information in the parser relating to loading message definitions.</li>
+         <li>parse - logging information in the parser relating to parsing messages.</li>
+         <li>validate - logging information in the parser relating to validating messages.</li>
+        </ul></li>
+       <li><strong>Database</strong> - this logger contains debug information about all SQL commands executed by Rhapsody, both for its internal persistence mechanism, and for all database communication points and filters. Consequently, this logs a lot of information when enabled, and consequently must be enabled specifically by adding the following line to the <code>rhapsody.properties</code> file; <code>RhapsodyDriverManager.DebugMode=true</code>.</li>
+       <li><strong>ArchiveCleanupScheduler</strong> - this logger contains logging information about the archive cleanup mechanism in Rhapsody, and when it is being run.</li>
+       <li><strong>&lt;Communication Point/Filter ID&gt;</strong> - each communication point and filter has its own category at this level, with the category name the same as the component ID. These loggers will contain information specific to that communication point or filter.</li>
+      </ul>
+      <p>The full category name is determined by joining together the various levels of the hierarchy. For example, the full category name for loading EDI message definitions is&nbsp;<code>Rhapsody.Symphonia.load</code>.</p>
+      <h2 id="Log4j-Log4jAppenders">Log4j Appenders</h2>
+      <p>Log4j appenders are what actually perform the logging of tracing information to disk or via another method. Appenders are attached to loggers, and define how the logging information is logged and the threshold for reporting logging information. Any number of appenders at different thresholds may be attached to a single logger. Log4j defines a number of default appenders that may be used including the following:</p>
+      <ul>
+       <li>RollingFileAppender - a log file on disk that is automatically rolled over when it reaches a set maximum file size. Meaning that the oldest information is perpetually overwritten by new information on a cyclic basis.</li>
+       <li>NTEventLogAppender - an appender that can write to the <em>Windows</em>® NT event log.</li>
+      </ul>
+      <h2 id="Log4j-LoggingLevels">Logging Levels</h2>
+      <p>Log4j&nbsp;employs a system of logging levels in order to determine what log statements are written to the log files. The standard log levels are as follows from lowest to highest (where lowest is the most detailed level of tracing):</p>
+      <ul>
+       <li>OFF - no logging information is reported.</li>
+       <li>FATAL - logs very severe error events that generally cause the application to stop.</li>
+       <li>ERROR - logs error events that generally still allow the application to continue running.</li>
+       <li>WARN - logs potentially harmful situations.</li>
+       <li>INFO - logs informational messages that highlight the progress of the application at a coarse-grained level.</li>
+       <li>DEBUG - all debugging information is reported. Non-error tracing information that is logged on a per message basis should always be logged at this level. It contains fine-grained informational events that are useful for debugging.</li>
+       <li>TRACE - all tracing information is reported.&nbsp;It contains additional fine-grained informational events that are useful for debugging.</li>
+       <li>ALL - all logging information is reported.</li>
+      </ul>
+      <p>When setting a log level in the&nbsp;<code>log4j.properties</code>&nbsp;file or in the Management Console, any log entries at the same or higher level than the log level set on a logger are written to the log file set in any stipulated log appenders. For example, if the log level is set to Info, then all Info, Warn, Error and Fatal log messages are written to the log file.</p>
+      <p>The logging system relies on two key behaviors for fine-grained control of logging on a per component and per level basis:</p>
+      <ul>
+       <li>Overrides - the logging system employs a hierarchical structure of components whereby different components can have different logger objects associated. Logging levels in sub-components override any logging level set in parent components.</li>
+       <li>Appender Additivity - logger objects themselves are additive in that log messages go to all relevant appenders for a specific component. Therefore, if a logger object is created for a child object, messages go to the appenders defined for the new logger object as well as to any parent loggers defined (for example, the root logger).</li>
+      </ul>
+      <h2 id="Log4j-Log4jLayoutFormat">Log4j Layout Format</h2>
+      <p>All the default appenders for Rhapsody use the PatternLayout log4j layout. The conversion pattern for these layouts can be configured reasonably extensively.</p>
+      <p>The conversion pattern is closely related to the conversion pattern of the print function in C. A conversion pattern is composed of literal text and format control expressions called conversion specifiers.</p>
+      <p>Each conversion specifier starts with a percent sign (%) and is followed by optional format modifiers and a conversion character. The conversion character specifies the type of data; for example, category, priority, date, thread name. The format modifiers control such things as field width, padding, left and right justification. The following is a simple example.</p>
+      <div class="panel" style="border-width: 1px;">
+       <div class="panelContent"> 
+        <p>Let the conversion pattern be <code>"%-5p [%t]: %m%n"</code> and assume that the log4j environment was set to use a PatternLayout.</p>
+        <ul>
+         <li>Category root = Category.getRoot();</li>
+         <li>root.debug("Message 1");</li>
+         <li>root.warn("Message 2");</li>
+         <li>would yield the output...</li>
+         <li>DEBUG [main]: Message 1</li>
+         <li>WARN [main]: Message 2</li>
+        </ul> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>There is no explicit separator between text and conversion specifiers. The pattern parser knows when it has reached the end of a conversion specifier when it reads a conversion character. In the example above the conversion specifier <code>%-5p</code> means the priority of the logging event should be left justified to a width of five characters.</p>
+       </div>
+      </div>
+      <p>The recognized conversion characters are described in the following table:</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148366" class="confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Conversion Character</p></th>
+          <th class="confluenceTh"><p>Effect</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>c</p></td>
+          <td class="confluenceTd"><p>Used to output the category of the logging event. The category conversion specifier can be optionally followed by precision specifier that is a decimal constant in brackets.</p><p>If a precision specifier is given, then only the corresponding number of right most components of the category name will be printed. By default, the category name is printed in full. For example, for the category name <code>a.b.c</code>, the pattern <code>%c{2</code>} will output <code>b.c</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>C</p></td>
+          <td class="confluenceTd"><p>Used to output the fully qualified class name of the caller issuing the logging request. This conversion specifier can be optionally followed by precision specifier, which is a decimal constant in brackets.</p><p>If a precision specifier is given, then only the corresponding number of right most components of the class name will be printed. By default, the class name is output in fully qualified form.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>d</p></td>
+          <td class="confluenceTd"><p>Used to output the date of the logging event. The date conversion specifier may be followed by a date format specifier enclosed between braces.</p><p>For example, <code>%d{HH:mm:ss,SSS}</code> or <code>%d{dd MMM yyyy HH:mm: ss,SSS}</code>. If no date format specifier is given then ISO8601 format is assumed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>F</p></td>
+          <td class="confluenceTd"><p>Used to output the file name where the logging request was issued.</p>
+           <div class="confluence-information-macro confluence-information-macro-warning">
+            <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Generating caller location information is extremely slow. Its use should be avoided unless execution speed is not an issue.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>l</p></td>
+          <td class="confluenceTd"><p>Used to output location information of the caller which generated the logging event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>L</p></td>
+          <td class="confluenceTd"><p>Used to output the line number from where the logging request was issued.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>m</p></td>
+          <td class="confluenceTd"><p>Used to output the application supplied message associated with the logging event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>M</p></td>
+          <td class="confluenceTd"><p>Used to output the method name where the logging request was issued.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>n</p></td>
+          <td class="confluenceTd"><p>Outputs the platform dependent line separator character or characters.</p><p>This conversion character offers practically the same performance as using non-portable line separator strings such as <code>\n</code>, or <code>\r\n</code>. Thus, it is the preferred way of specifying a line separator.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>p</p></td>
+          <td class="confluenceTd"><p>Used to output the priority of the logging event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>r</p></td>
+          <td class="confluenceTd"><p>Used to output the number of milliseconds elapsed since the start of the application until the creation of the logging event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>t</p></td>
+          <td class="confluenceTd"><p>Used to output the name of the thread that generated the logging event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>x</p></td>
+          <td class="confluenceTd"><p>Used to output the NDC (nested diagnostic context) associated with the thread that generated the logging event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>X</p></td>
+          <td class="confluenceTd"><p>Used to output the MDC (mapped diagnostic context) associated with the thread that generated the logging event. The X conversion character must be followed by the key for the map placed between braces, as in <code>%X{clientNumber}</code> where clientNumber is the key. The value in the MDC corresponding to the key will be output.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>%</p></td>
+          <td class="confluenceTd"><p>The sequence <code>%%</code> outputs a single percent sign.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148366']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148366',[],'style=&quot;width:10%; text-align: center;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>Refer to&nbsp;<a href="http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html" class="external-link" rel="nofollow">Class PatternLayout</a> for details.</p>
+      <h2 id="Log4j-LoggingtotheWindowsEventLogLoggingtotheWindowsEventLog"><span class="confluence-anchor-link" id="Log4j-LoggingtotheWindowsEventLog"></span>Logging to the Windows Event Log</h2>
+      <p>The <code>NTEventLogAppender.dll</code> file is included in the <code>\Rhapsody\bin</code> directory, so that Log4j can log events to the <em>Windows®</em> Event Log.</p>
+      <p>To enable logging to the <em>Windows® NT</em> event log:</p>
+      <ol>
+       <li><p>Uncomment the following lines in the <code>log4j.properties</code> file:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence"># Windows NT Event Log Appender
+log4j.appender.NT=org.apache.log4j.nt.NTEventLogAppender
+log4j.appender.NT.layout=org.apache.log4j.PatternLayout
+log4j.appender.NT.layout.ConversionPattern=%d{DATE} %-5p [%t] (%c) %m%n
+log4j.appender.NT.Threshold=ERROR
+log4j.appender.NT.Source=Rhapsody </pre> 
+         </div>
+        </div></li>
+       <li><p>Add <code>NT</code> to the <code>log4j.rootLogger=INFO,NormalAppender</code> line at the top of the <code>log4j.properties</code> file:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence"># Default Logging Setting
+log4j.rootLogger=INFO,NormalAppender,NT</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h2 id="Log4j-ViewingRawSOAPRequestsandResponses">Viewing Raw SOAP Requests and Responses</h2>
+      <p>The transformation of Rhapsody messages to and from SOAP messages occurs within the communication points, and is therefore not visible in the message path. However, you can turn on logging for the raw requests, responses and faults.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This produces a large number of log messages, and is therefore disabled by default.</p>
+       </div>
+      </div>
+      <p>There are four logging points for each web service. This allows logging both before and after any signing/encryption transformations are carried out. Modifying the <code>log4j.properties</code> file enables all these logging points:</p>
+      <ul>
+       <li>Incoming message before security (transport.request/transport.response).</li>
+       <li>Incoming message after security (dispatch.request/dispatch.response).</li>
+       <li>Outgoing message before security (dispatch.response/dispatch.request).</li>
+       <li>Outgoing message after security (transport.response/transport.request).</li>
+      </ul>
+      <p>The request/response names are reversed for the web service client and web service host.</p>
+      <p>To enable logging for a web service hosted by Rhapsody, add the following line to the <code>log4j.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">log4j.logger.WebService.&lt;id&gt;=TRACE</pre> 
+       </div>
+      </div>
+      <p>To enable logging for a web service client, add the following line to the <code>log4j.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">log4j.logger.CommunicationPoint.&lt;id&gt;.webservice=TRACE</pre> 
+       </div>
+      </div>
+      <p><code>&lt;id&gt;</code>&nbsp;is the integer identifier of the web service. View the service in the <a href="Management-Console_133163667.html">Management Console</a> to locate the&nbsp;<code>&lt;id&gt;</code>.</p>
+      <h2 id="Log4j-LoggingUserandGroupPermissionChanges">Logging User and Group Permission Changes</h2>
+      <p>When a user is created, the groups it is added to are audit logged at the INFO level:&nbsp;</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">17 May 2018 13:25:12,678 [INFO ] {Session-/127.0.0.1:50545} (User.Administrator) Added user 'bob' 
+17 May 2018 13:25:12,678 [INFO ] {Session-/127.0.0.1:50545} (User.Administrator) Added users 'bob' to the 'Administrator' group 
+17 May 2018 13:25:12,678 [INFO ] {Session-/127.0.0.1:50545} (User.Administrator) Added users 'bob' to the 'Developer' group&nbsp;</pre> 
+       </div>
+      </div>
+      <p>When the groups a user belongs to groups are modified, the changes are audit logged:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">17 May 2018 14:31:00,933 [INFO ] {Session-/127.0.0.1:50545} (User.Administrator) Removed users 'bob' from the 'Developer' group 
+17 May 2018 14:32:17,433 [INFO ] {Session-/127.0.0.1:50545} (User.Administrator) Added users 'bob' to the 'Dashboard' group</pre> 
+       </div>
+      </div>
+      <p>When a group is created or modified, a&nbsp;full list of access rights for the group is audit logged:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">10 May 2018 13:46:41,551 | 174477      [INFO] {Session-/127.0.0.1:52821} (User.Administrator) Group 'Developer' global and default locker rights:
+	Login to IDE,
+	Make changes with IDE,
+	Login to Web Management Console,
+Group 'Developer', locker 'New Locker' access rights:
+	View Locker,
+	Run Intelligent Mapper tests,
+	View message in an emergency
+Group 'Developer', locker 'Locker' access rights:
+	View Locker,
+	Edit Locker,
+	Search Message Queues,
+	Search Error and Hold Queues,
+	View Support Notes,</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

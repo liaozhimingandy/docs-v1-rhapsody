@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Default Logging in Rhapsody</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Directory-Structure_133161562.html">Rhapsody Directory Structure</a></span> </li> 
+       <li> <span><a href="Rhapsody-Log_133161563.html">Rhapsody Log</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Default Logging in Rhapsody</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody ships with a default <code>log4j.properties</code> file that initializes several loggers and a number of appenders to these loggers. As all of this logging information is defined in the <code>log4j.properties</code> file, it can be changed dynamically by simply modifying the properties file and saving it.</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146936459 {padding: 0px;}
+div.rbtoc1565146936459 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146936459 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146936459"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#DefaultLogginginRhapsody-Log4j">Log4j</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-RootLogger">Root Logger</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-MainRhapsodyLog">Main Rhapsody Log</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-ConsoleAppender">Console Appender</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-WindowsNTAppender(Windows®Only)">Windows NT Appender (Windows® Only)</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-CommunicationPointandRouteLoggers">Communication Point and Route Loggers</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-RhapsodyIDECommandandEventLog">Rhapsody IDE Command and Event Log</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-Third-partyLibraryLoggers">Third-party Library Loggers</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-ArchiveCleanupLogging">Archive Cleanup Logging</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-SystemAppender">System Appender</a></li> 
+        <li><a href="#DefaultLogginginRhapsody-AuditLogger">Audit Logger</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="DefaultLogginginRhapsody-Log4j">Log4j</h2>
+      <p>Rhapsody uses the log4j framework for its logging capabilities. Refer to&nbsp;<a href="Log4j_133161565.html">Log4j</a>&nbsp;for details.</p>
+      <h2 id="DefaultLogginginRhapsody-RootLogger">Root Logger</h2>
+      <p>The <strong>Root Logger</strong> defines the main Rhapsody logger. It is special in that it always exists and defines the default settings for logging of all components within the Rhapsody application. The logging system is structured in a hierarchical manner such that certain components can be logged at a different level.</p>
+      <p>The appenders generally override this logging level and use their own if their logging level is higher than the root level. For example, if the root logger is set at the Info level and a logger for a child component is set at the Warn level, then messages at the Warn level and higher appears in the log appender associated with the logger for the child component as well as in the root logger. However, if the child component is set at the Trace level, then that child component is logged at the Trace level in both the child logger and root logger.</p>
+      <p>By default, it is defined in the <code>log4j.properties</code> file as follows:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># The default logging setting. Logs to the Normal appender.
+log4j.rootLogger=INFO,NormalAppender</pre> 
+       </div>
+      </div>
+      <p>The first parameter to this property is the default logging level, which in this case is <code>INFO</code>. Generally the <code>INFO</code> level should be used for Rhapsody engines in production situations. If additional debugging information is required, you can set this to <code>DEBUG</code>.</p>
+      <p>Other parameters are the various log4j appenders that are configured by default. These are described in the following sections.</p>
+      <h2 id="DefaultLogginginRhapsody-MainRhapsodyLog">Main Rhapsody Log</h2>
+      <p>The main Rhapsody log file is created in the <code>&lt;Rhapsody&gt;/log</code>&lt;s&gt; folder and is called <code>Rhapsody.log&lt;log.txt&gt;</code>. This log file is attached to the main Rhapsody logger, and thus has all logging events available to it. It is configured as follows:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># Normal Appender
+log4j.appender.NormalAppender=org.apache.log4j.RollingFileAppender
+log4j.appender.NormalAppender.File=log/log.txt
+log4j.appender.NormalAppender.MaxBackupIndex=9
+log4j.appender.NormalAppender.MaxFileSize=5MB
+log4j.appender.NormalAppender.encoding=UTF-8
+log4j.appender.NormalAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.NormalAppender.layout.ConversionPattern=%d{DATE} [%-5p] {%t} (%c) %m%n</pre> 
+       </div>
+      </div>
+      <p>This creates an appender of type RollingFileAppender which writes the logging events to disk, and automatically rolls over to a new log file when the current log file reaches the maximum file size.&nbsp;Older log files have a sequential number appended to the filename, making them easy to find.</p>
+      <h2 id="DefaultLogginginRhapsody-ConsoleAppender">Console Appender</h2>
+      <p>Rhapsody includes a&nbsp;<strong>Console Appender</strong>&nbsp;to output the main Rhapsody logger to the console (standard output - stdout). This allows current activity to be easily monitored when running Rhapsody from the command line. However, Rhapsody usually runs as a service and therefore is not able to write to the console. When this is the case, anything logged to the console will be ignored.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># Console Appender
+log4j.appender.ConsoleAppender=org.apache.log4j.ConsoleAppender
+log4j.appender.ConsoleAppender.encoding=UTF-8
+log4j.appender.ConsoleAppender.Target=System.out
+log4j.appender.ConsoleAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.ConsoleAppender.layout.ConversionPattern=%d{DATE} | %-11r [%-5p] {%t} (%c) %m%n</pre> 
+       </div>
+      </div>
+      <p>By default, this appender operates at the&nbsp;<code>INFO</code>&nbsp;level. It can be useful to use the Console Appender when manually running the&nbsp;<code>wrapper.exe</code>&nbsp;instead of starting Rhapsody as a service.</p>
+      <p>The Console Appender is disabled by default. To enable console logging, append the Console Appender to the Root Logger:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>log4j.rootLogger=INFO,NormalAppender,ConsoleAppender</pre> 
+       </div>
+      </div>
+      <h2 id="DefaultLogginginRhapsody-WindowsNTAppender(Windows®Only)">Windows NT Appender (<em>Windows<span>® </span></em> Only)</h2>
+      <p>The Windows NT Appender enables you to log errors to the <em>Windows</em>® NT event log.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This appender can only be installed and used on a <em>Windows</em>® system and requires the <code>NTEventLogAppender.dll</code> in a directory that is on the PATH of the Windows system. This is installed by Rhapsody during the installation process. (Otherwise, you will get a <code>java.lang.UnsatisfiedLinkError</code>.)</p>
+       </div>
+      </div>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># Windows NT Event Log Appender
+#log4j.appender.NT=org.apache.log4j.nt.NTEventLogAppender
+#log4j.appender.NT.layout=org.apache.log4j.PatternLayout
+#log4j.appender.NT.layout.ConversionPattern=%d{DATE} %-5p [%t] (%c) %m%n
+#log4j.appender.NT.Threshold=ERROR
+#log4j.appender.NT.Source=Rhapsody </pre> 
+       </div>
+      </div>
+      <p>The Windows NT Appender is disabled by default. Refer to <a href="Log4j_133161565.html#Log4j-LoggingtotheWindowsEventLog">Logging to the Windows Event Log</a> for details on enabling this feature.</p>
+      <h2 id="DefaultLogginginRhapsody-CommunicationPointandRouteLoggers">Communication Point and Route Loggers</h2>
+      <p>These loggers provide informational logging about communication points and routes.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># Internal loggers
+log4j.logger.CommunicationPoint=INFO
+log4j.logger.Route=INFO</pre> 
+       </div>
+      </div>
+      <p>Additionally, loggers can be enabled for specific communication points or routes by adding the object ID (which is displayed in the Management Console) to the logger definition, for example:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>log4j.logger.CommunicationPoint.5=INFO</pre> 
+       </div>
+      </div>
+      <h2 id="DefaultLogginginRhapsody-RhapsodyIDECommandandEventLog">Rhapsody IDE Command and Event Log</h2>
+      <p>The Rhapsody IDE Command and Event logs enable you to activate debug logging to handle commands sent between clients and the server.</p>
+      <p>All the information contained within the command audit trail log is actually available from the main Rhapsody log. However, extracting it into a seperate log file is useful for two reasons:</p>
+      <ul>
+       <li>It makes viewing the commands much simpler as they are all available in one place, rather than scattered among all the other Rhapsody log statements.</li>
+       <li>Most of the logging statements in the Rhapsody IDE command and event log are reported at the debug level, but the main Rhapsody log normally operates at the info level. Consequently this would mean that all of these events would be lost if only sent to the main log file.</li>
+      </ul>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># Rhapsody IDE Command and Event Log
+#log4j.logger.com.orchestral.rhapsody.admin=DEBUG,IdeAppender
+#log4j.logger.com.orchestral.rhapsody.event=DEBUG,IdeAppender
+#
+#log4j.appender.IdeAppender=org.apache.log4j.RollingFileAppender
+#log4j.appender.IdeAppender.File=log/ide-log.txt
+#log4j.appender.IdeAppender.MaxBackupIndex=9
+#log4j.appender.IdeAppender.MaxFileSize=5MB
+#log4j.appender.IdeAppender.encoding=UTF-8
+#log4j.appender.IdeAppender.layout=org.apache.log4j.PatternLayout
+#log4j.appender.IdeAppender.layout.ConversionPattern=%d{DATE} [%-5p] {%t} (%c) %m%n</pre> 
+       </div>
+      </div>
+      <h2 id="DefaultLogginginRhapsody-Third-partyLibraryLoggers">Third-party Library Loggers</h2>
+      <p>Any warning errors reported by third-party libraries are logged to the WARN level.</p>
+      <p>To disable logging done by third party libraries:</p>
+      <ul>
+       <li><p>Add a hash (#) symbol to the start of the line you want to disable.</p>
+        <div class="preformatted panel" style="border-width: 1px;">
+         <div class="preformattedContent panelContent"> 
+          <pre># Disable logging done by 3rd party libraries
+log4j.logger.org.apache.xml.security=WARN
+log4j.logger.org.apache.commons=WARN
+log4j.logger.org.apache.struts=WARN
+log4j.logger.org.mortbay=WARN
+log4j.logger.org.quartz=WARN
+log4j.logger.org.jfree=WARN
+log4j.logger.org.directwebremoting=WARN
+log4j.logger.org.apache.axis2.engine.AxisEngine=FATAL
+log4j.logger.org.apache.axis2.transport.http.HTTPSender=FATAL
+log4j.logger.org.apache.commons.httpclient.HttpMethodDirector=ERROR
+log4j.logger.com.enterprisedt=WARN
+log4j.logger.com.enterprisedt.AsyncService=OFF</pre> 
+         </div>
+        </div></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>We do not recommend disabling these loggers.</p>
+       </div>
+      </div>
+      <h2 id="DefaultLogginginRhapsody-ArchiveCleanupLogging">Archive Cleanup Logging</h2>
+      <p>Diagnostic information is captured during the Archive Cleanup process. This information is logged to a separate log file and does not propagate up to the Root Logger. The default level is <code>DEBUG</code> which can produce a lot of output which is why it is kept separate from the main Rhapsody log. The Archive Cleanup&nbsp;log file is created in the&nbsp;<code>&lt;Rhapsody&gt;/log/archiveCleanupLog</code> folder and is called <code>cleanup_log.txt</code>.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># Archive Cleanup
+log4j.logger.ArchiveCleanup=DEBUG,ArchiveCleanupAppender
+log4j.additivity.ArchiveCleanup=false
+log4j.appender.ArchiveCleanupAppender=org.apache.log4j.RollingFileAppender
+log4j.appender.ArchiveCleanupAppender.File=log/archiveCleanupLog/cleanup_log.txt
+log4j.appender.ArchiveCleanupAppender.MaxBackupIndex=9
+log4j.appender.ArchiveCleanupAppender.MaxFileSize=5MB
+log4j.appender.ArchiveCleanupAppender.encoding=UTF-8
+log4j.appender.ArchiveCleanupAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.ArchiveCleanupAppender.layout.ConversionPattern=%d{DATE} [%-5p] {%t} (%c) %m%n</pre> 
+       </div>
+      </div>
+      <h2 id="DefaultLogginginRhapsody-SystemAppender">System Appender</h2>
+      <p>There is a separate System Appender for logging messages for core system components. This logs to a separate log file so that these important messages are not obscured by other logging that may occur in the main Rhapsody log.&nbsp;The System log file is created in the&nbsp;<code>&lt;Rhapsody&gt;/log</code>&nbsp;folder and is called <code>system.txt</code>.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># System Appender
+log4j.appender.SystemAppender=org.apache.log4j.RollingFileAppender
+log4j.appender.SystemAppender.File=log/system.txt
+log4j.appender.SystemAppender.MaxBackupIndex=9
+log4j.appender.SystemAppender.MaxFileSize=5MB
+log4j.appender.SystemAppender.Threshold=WARN
+log4j.appender.SystemAppender.encoding=UTF-8
+log4j.appender.SystemAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.SystemAppender.layout.ConversionPattern=%d{DATE} [%-5p] {%t} (%c) %m%n</pre> 
+       </div>
+      </div>
+      <p>The following is a list of the loggers for core system components which will be logged to the System Appender:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># Loggers to include in system appender
+log4j.logger.com.orchestral.common.file=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.backup=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.blobstore=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.btree=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.cleanup=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.execution=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.index=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.initialisation=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.message=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.query=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.queue=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.security=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.statistics=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.store=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.taskscheduler=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.transaction=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.usermanagement=,SystemAppender
+log4j.logger.com.orchestral.rhapsody.validate=,SystemAppender</pre> 
+       </div>
+      </div>
+      <p>These will log at the same level that is configured for the Root Logger (<code>INFO</code>&nbsp;by default).</p>
+      <h2 id="DefaultLogginginRhapsody-AuditLogger">Audit Logger</h2>
+      <p>The Audit Logger enables you to separate out audit logging from your main log file.</p>
+      <p>All the information contained within the audit log is available in the main Rhapsody log. However, extracting the audit logs&nbsp;into a separate log file makes analyzing them much easier.</p>
+      <p>To enable audit logging, uncomment&nbsp;the following properties:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># Audit Logger
+#log4j.logger.User=INFO,AuditAppender
+#log4j.additivity.User=false
+
+# Audit Log Appender
+#log4j.appender.AuditAppender=org.apache.log4j.RollingFileAppender
+#log4j.appender.AuditAppender.File=log/audit/audit.txt
+#log4j.appender.AuditAppender.MaxBackupIndex=9
+#log4j.appender.AuditAppender.MaxFileSize=5MB
+#log4j.appender.AuditAppender.encoding=UTF-8
+#log4j.appender.AuditAppender.layout=org.apache.log4j.PatternLayout
+#log4j.appender.AuditAppender.layout.ConversionPattern=%d{DATE} [%-5p] {%t} (%c) %m%n</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

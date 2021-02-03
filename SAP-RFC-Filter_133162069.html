@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>SAP RFC Filter</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Toolkits_133162036.html">Toolkits</a></span> </li> 
+       <li> <span><a href="SAP-Toolkit_133162037.html">SAP Toolkit</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">SAP RFC Filter</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162069/133162070.png" data-image-src="attachments/133162069/133162070.png" data-unresolved-comment-count="0" data-linked-resource-id="133162070" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SAP.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162069" data-linked-resource-container-version="3"></span></p>
+      <p>The&nbsp;<strong>SAP RFC</strong>&nbsp;filter&nbsp;<span>provides the ability to execute Remote Function Calls (RFCs) on a SAP server from within Rhapsody. It can be used to do either insertions or lookups.</span><span style="line-height: 13.0pt;">&nbsp;Lookup operations are</span><span style="line-height: 13.0pt;">&nbsp;typically used to lookup missing data from the SAP server, so that message fields can be filled in the message.&nbsp;Insertion operations are typically used to update data in the SAP server, for example by inserting the contents of an IDoc message into the SAP server (however the SAP communication point is more suitable for these operations).</span></p>
+      <h2 id="SAPRFCFilter-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            <p>Property</p>
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            <p>Description</p>
+           </div></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Maximum Concurrency</td>
+          <td colspan="1" class="confluenceTd">The maximum level of concurrency for this filter. A setting of&nbsp;<code>0</code>&nbsp;(zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to&nbsp;<a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a>&nbsp;for details.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Settings</p></td>
+          <td class="confluenceTd"><p><span style="letter-spacing: 0.0px;">Specifies how the SAP server connection details will be obtained:</span></p>
+           <ul>
+            <li><code>From Config File</code> (default).</li>
+            <li><code>Manual Setting</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">SAP Router</td>
+          <td colspan="1" class="confluenceTd"><p>The SAP Router string. Typically the format of this string is:<code> /H/&lt;server&gt;/S/&lt;port&gt;</code> where <code>server</code> is the IP address or name of your server that is entitled to access SAP's network, and <code>port</code> is the SAP Router port. If you use the default port (3299), then you can omit the section <code>/S/&lt;port&gt;</code>. <span>Refer to your SAP documentation for more information on SAP Router strings.</span></p><p>This option is only available when&nbsp;<strong>Connection Settings</strong>&nbsp;is set to&nbsp;<code>Manual Setting</code>.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">SAP Host Name</td>
+          <td colspan="1" class="confluenceTd"><p>The hostname or IP address of the SAP server.</p><p>This option is only available when&nbsp;<strong>Connection Settings</strong>&nbsp;is set to&nbsp;<code>Manual Setting</code>.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">System Number</td>
+          <td colspan="1" class="confluenceTd"><p>The SAP system number.</p><p>This option is only available when&nbsp;<strong>Connection Settings</strong>&nbsp;is set to&nbsp;<code>Manual Setting</code>.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">SAP Client</td>
+          <td colspan="1" class="confluenceTd"><p>The ID of the SAP client on the SAP server.</p><p>This option is only available when&nbsp;<strong>Connection Settings</strong>&nbsp;is set to&nbsp;<code>Manual Setting</code>.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">User Name</td>
+          <td colspan="1" class="confluenceTd"><p><span>The username to use when connecting to the SAP server.</span></p><p><span>This option is only available when&nbsp;</span><strong>Connection Settings</strong><span>&nbsp;is set to&nbsp;</span><code>Manual Setting</code><span>.&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Password</td>
+          <td colspan="1" class="confluenceTd"><p>The password to use when connecting to the SAP server.</p><p>This option is only available when&nbsp;<strong>Connection Settings</strong>&nbsp;is set to&nbsp;<code>Manual Setting</code>.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">SAP Language</td>
+          <td colspan="1" class="confluenceTd"><p>The language to use to communicate with the SAP server. This must be a valid ISO 639-1 language code.</p><p>This option is only available when&nbsp;<strong>Connection Settings</strong>&nbsp;is set to&nbsp;<code>Manual Setting</code>.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Configuration File</td>
+          <td colspan="1" class="confluenceTd"><p>This is an XML file that controls how the filter interacts with the SAP server.&nbsp;</p><p>To launch the SAP RFC Configuration Editor, click the&nbsp;<strong>Create Configuration</strong>&nbsp;link (if a configuration has not yet been created) or the&nbsp;<strong>Edit Configuration</strong>&nbsp;link (if a configuration exists) in the Configuration File field. Refer to&nbsp;<a href="SAP-Configuration-Editor_133162039.html">SAP Configuration Editor</a>&nbsp;for details.&nbsp;</p><p>Alternatively, to add an existing configuration:</p>
+           <ol>
+            <li>Click the&nbsp;<strong>Browse</strong>&nbsp;button in the <strong>Configuration File</strong> field to display the&nbsp;<em>Windows</em>® <strong>Open</strong> dialog.</li>
+            <li>Search for and add the configuration file to the filter.</li>
+            <li>To update the configuration file, click the&nbsp;<strong>Edit Configuration</strong>&nbsp;link. The SAP RFC Configuration Editor is then displayed, which enables you to edit the configuration file.</li>
+           </ol></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Definition File</td>
+          <td colspan="1" class="confluenceTd">Identifies the message definition used to parse a message. The SAP RFC filter can be configured to extract fields from the message to use in the remote function call, or to insert the results of an RFC into message fields. If this is done, a message definition is required so the message can be parsed.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Conversion Error Behavior<p><br></p><p><br></p></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span style="letter-spacing: 0.0px;">Specifies whether conversion errors encountered when inserting data into a SAP table should be treated as message errors or ignored:</span></p>
+            <ul>
+             <li><code>Treat As Message Errors</code> (default).</li>
+             <li><code>Ignore Conversion Errors</code>.</li>
+            </ul>
+            <p>A conversion error typically happens when the wrong data type is used, for example trying to insert a string into a numeric field.</p>
+            <div class="confluence-information-macro confluence-information-macro-warning">
+             <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is recommended you not ignore conversion errors unless you have some specific requirement to do this. Ignoring conversion errors could potentially result in loss or corruption of data.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

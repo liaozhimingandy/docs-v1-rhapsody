@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Web Service Hosting Operations</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Web-Service-Hosting_133162537.html">Web Service Hosting</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Web Service Hosting Operations</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Each instance of the Web Service Hosting communication point can implement one or more operations for a single web service.</p>
+      <h2 id="WebServiceHostingOperations-AddingandEditingOperations">Adding and Editing Operations</h2>
+      <p>The <strong>Add Operation</strong> button lets you select a new web service operation to implement. You cannot select an operation that this communication point already implements.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162542/133162543.png" data-image-src="attachments/133162542/133162543.png" data-unresolved-comment-count="0" data-linked-resource-id="133162543" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddHostingOperation1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162542" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>Edit Operation</strong> button displays a dialog so that you can edit the mapping between the SOAP messages and the Rhapsody messages.</p>
+      <h3 id="WebServiceHostingOperations-Input">Input</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162542/133162545.png" data-image-src="attachments/133162542/133162545.png" data-unresolved-comment-count="0" data-linked-resource-id="133162545" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="EditHostingOperation1b.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162542" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>The web service mode:</p>
+           <ul>
+            <li><code>Use SOAP body contents as Rhapsody message body</code> (default).</li>
+            <li><code>Use entire SOAP envelope as Rhapsody message body</code>.</li>
+            <li><code>Extract contents from SOAP message into Rhapsody message body and properties</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XML Namespace Mapping</p></td>
+          <td class="confluenceTd"><p>Used to handle clients that use unexpected prefixes for the incoming messages. The namespace mapping automatically defines the prefix <code>ns1</code> to the web service namespace. The prefix <code>soapenv</code> is also automatically defined (internally) as the namespace of the SOAP envelope. This will differ depending on whether the SOAP 1.1 or SOAP 1.2 binding is used.</p><p>If you define the <code>soapenv</code> prefix, then your setting overrides the internal setting.</p><p>This field is only available if the mode is <code>Extract contents from SOAP message into Rhapsody message body and properties</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Extraction</p></td>
+          <td class="confluenceTd"><p>Uses XPaths to extract some content into message properties, and other content into the message body. The message body and each property can only be used once.</p><p>This field is only available if the mode is <code>Extract contents from SOAP message into Rhapsody message body and properties</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServiceHostingOperations-Output">Output</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162542/133162544.png" data-image-src="attachments/133162542/133162544.png" data-unresolved-comment-count="0" data-linked-resource-id="133162544" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="EditHostingOperation2b.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162542" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><span>The web service mode:</span></p>
+           <ul>
+            <li><code>Use the Rhapsody message body as the contents of the SOAP body</code> (default).</li>
+            <li><code>Use the Rhapsody message body as the entire SOAP envelope</code>.</li>
+            <li><code>Construct the contents of the SOAP body using a template and values from the Rhapsody message body and properties</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Template</p></td>
+          <td class="confluenceTd"><p>The XML template to use to build the contents of the SOAP body:</p>
+           <ul>
+            <li>To view the default template for the operation, select the <strong>View Template</strong> button.</li>
+            <li>To set the template to the default, select the <span><strong>Reload Template</strong> button.</span></li>
+           </ul><p>This field is only available if the mode is <code>Construct the contents of the SOAP body using a template and values from the Rhapsody message body and properties</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Insertion</p></td>
+          <td class="confluenceTd"><p>Allows values to be inserted into the template that are retrieved from message properties or the entire message body. <br class="atl-forced-newline">Unlike the <strong>Input</strong> tab, each property and the message body can be used more than once. There is also no need to define namespace mappings as the user controls the template, and hence the prefixes in use.</p><p>The Content Type determines whether the value should be treated as <code>Text</code> or <code>XML</code>. If treated as text, then any embedded XML special characters will be escaped, however, if it is treated as XML then it is inserted as an XML structure at the indicated location (that is, the XML tags will not be escaped).</p><p>This field is only available if the mode is <code>Construct the contents of the SOAP body using a template and values from the Rhapsody message body and properties</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServiceHostingOperations-Fault"><span style="color: rgb(0,0,0);">Fault</span></h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162542/133162546.png" data-image-src="attachments/133162542/133162546.png" data-unresolved-comment-count="0" data-linked-resource-id="133162546" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="EditHostingOperation3a.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162542" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>The web service mode:</p>
+           <ul>
+            <li><code>Use the Rhapsody message body as the contents of the SOAP body</code> (default).</li>
+            <li><code>Use the Rhapsody message body as the entire SOAP envelope</code>.</li>
+            <li><code>Construct the contents of the SOAP body using a template and values from the Rhapsody message body and properties</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Template</p></td>
+          <td class="confluenceTd"><p>The XML template to use to build the contents of the SOAP body.</p><p>This field is only available if the mode is <code>Construct the contents of the SOAP body using a template and values from the Rhapsody message body and properties</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Insertion</p></td>
+          <td class="confluenceTd"><p>Allows values to be inserted into the template that are retrieved from message properties or the entire message body.</p><p>Unlike the <strong>Input</strong> tab, each property and the message body can be used more than once. There is also no need to define namespace mappings as the user controls the template, and hence the prefixes in use.</p><p>The Content Type determines whether the value should be treated as <code>Text</code> or <code>XML</code>. If treated as text, then any embedded XML special characters will be escaped, however, if it is treated as XML then it is inserted as an XML structure at the indicated location (that is, the XML tags will not be escaped).</p><p>This field is only available if the mode is <code>Construct the contents of the SOAP body using a template and values from the Rhapsody message body and properties</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="WebServiceHostingOperations-RemovingOperations">Removing Operations</h2>
+      <p>The <strong>Remove Operation</strong> button enables you to delete the selected operation after prompting you to confirm the action.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

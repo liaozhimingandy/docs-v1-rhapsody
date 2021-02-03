@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Managing SSL Private Keys</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Managing-Certificates-and-Keys_133161222.html">Managing Certificates and Keys</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Managing SSL Private Keys</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Private keys are used in the configuration of the Asymmetric Cryptography filter and in other Rhapsody components when the <strong>Use SSL</strong> property is selected. A private key is an encrypted Personal Information Exchange (<code>*.pfx</code>) file and must be sourced from a recognized Certification Authority, or exported from an existing Rhapsody installation.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <div class="user-content-block">
+         <p>Rhapsody does not support PFX files with more than one private key. Before importing any PFX file that contains multiple private keys, ensure you convert it into multiple PFX files, with each containing a single private key.</p>
+        </div>
+       </div>
+      </div>
+      <h2 id="ManagingSSLPrivateKeys-ViewingSSLPrivateKeys">Viewing SSL Private Keys</h2>
+      <p>To view the SSL Private Keys&nbsp;registered on the Rhapsody server, navigate to<strong>&nbsp;View&gt;</strong><strong>Certificate and Key Manager</strong>&nbsp;to display the&nbsp;<strong>Certificate and Key Manager</strong>&nbsp;and select the&nbsp;<strong>SSL Private Keys&nbsp;</strong>tab:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="720" src="attachments/133161251/133161252.png" data-image-src="attachments/133161251/133161252.png" data-unresolved-comment-count="0" data-linked-resource-id="133161252" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="ssl_private_keys.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161251" data-linked-resource-container-version="3"></span></p>
+      <p>The<strong>&nbsp;</strong>tab provides the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Alias</td>
+          <td class="confluenceTd">The unique user-defined name for the key.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Key Type</td>
+          <td class="confluenceTd">Identifies the encryption algorithm used.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Key Size</td>
+          <td class="confluenceTd">The bit size of the key.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can perform the following actions from the tab via buttons or the right-click menu:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingSSLPrivateKeys-ImportingSSHPublicKeys">Import...</a></td>
+          <td class="confluenceTd">Add an SSL private key.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingSSLPrivateKeys-ExportingSSLPrivateKeys">Export...</a></td>
+          <td colspan="1" class="confluenceTd">Save an SSL private key by exporting it.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingSSLPrivateKeys-GeneratingaNewCertificateandPrivateKey">Generate New...</a></td>
+          <td colspan="1" class="confluenceTd">Generate a new SSL private key.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingSSLPrivateKeys-RemovingSSHPublicKeys">Remove</a></td>
+          <td class="confluenceTd">Delete an SSL private key.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Show Uses</td>
+          <td colspan="1" class="confluenceTd"><span>Open the </span><strong>Security Object Uses</strong><span> dialog to display the components an <span>SSL private key</span></span><span> is being used in. Double-click a component to view or edit its configuration properties.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Filter</td>
+          <td colspan="1" class="confluenceTd">Perform text-based filtering to filter the list of displayed&nbsp;SSL <span>private key</span>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ManagingSSLPrivateKeys-ImportingSSLPrivateKeys">Importing SSL Private Keys</h2>
+      <p>You can import a private key and certificate pair (<code>*.pfx</code> file) that has previously been obtained from a recognized Certification Authority such as <em>Microsoft</em>®, <em>Verisign</em> or <em>Thwaite</em>, or exported from another Rhapsody installation.</p>
+      <p>To import a private key:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li><p>On the <strong>SSL Private Keys </strong>tab, select the <strong>Import...</strong> button. The <strong>Import Private Key</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161251/133161254.png" data-image-src="attachments/133161251/133161254.png" data-unresolved-comment-count="0" data-linked-resource-id="133161254" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ImportPrivateKey.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161251" data-linked-resource-container-version="3"></span></p></li>
+       <li>Enter:&nbsp;
+        <ul>
+         <li>A name in the&nbsp;<strong>Key Alias</strong>&nbsp;field to identify the key, if required.</li>
+         <li>The path of the key&nbsp;you want to import in the&nbsp;<strong>Filename</strong>&nbsp;field or click the&nbsp;<strong>Browse</strong>&nbsp;link to locate it.</li>
+         <li>The password to decrypt the file&nbsp;in the&nbsp;<strong>Password</strong>&nbsp;field.</li>
+        </ul></li>
+       <li>Select the <strong>Import</strong> button to import the key.</li>
+      </ol>
+      <h2 id="ManagingSSLPrivateKeys-ExportingSSLPrivateKeys">Exporting SSL Private Keys</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The 'Export SSL private keys' access right is required to export SSL private keys. By default, this privilege is only given to the root Administrator user.</p>
+       </div>
+      </div>
+      <p>You can export a private key and certificate pair to a <code>*.pfx</code> file, which can then be imported into another Rhapsody server.</p>
+      <p>To export a private key:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;<strong>Certificate and Key Manager</strong></strong>.</li>
+       <li><p>On the <strong>Private Key Management</strong> tab, select the key you want to export, and then select the <strong>Export...</strong> button. The <strong>Export SSL Private Key</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161251/133161253.png" data-image-src="attachments/133161251/133161253.png" data-unresolved-comment-count="0" data-linked-resource-id="133161253" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExportSSLPrivateKey.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161251" data-linked-resource-container-version="3"></span></p></li>
+       <li>Enter the&nbsp;password to encrypt the file.</li>
+       <li>Confirm your password, and select the <strong>OK</strong> button.</li>
+       <li>If required, change the name of the <code>.pfx</code> file, and select the <strong>Save</strong> button.</li>
+      </ol>
+      <h2 id="ManagingSSLPrivateKeys-GeneratingaNewCertificateandPrivateKey">Generating a New Certificate and Private Key</h2>
+      <p>Rhapsody can generate both self-signed and issuer-signed certificates. You can use a private key and certificate pair for:</p>
+      <ul>
+       <li>TCP communication points that use SSL/TLS</li>
+       <li>HTTPS communication points</li>
+       <li>Web service hosting</li>
+       <li>The HTTPS connector for the Management Console</li>
+      </ul>
+      <p>To generate a new certificate and private key pair:</p>
+      <ol>
+       <li>Navigate to <strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li><p>On the <strong>SSL Private Keys </strong>tab, select the <strong>Generate New...</strong> button (the<span> button is only available if the engine you are connected to supports certificate generation). </span>The <strong>Generate New Certificate</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161251/133161255.png" data-image-src="attachments/133161251/133161255.png" data-unresolved-comment-count="0" data-linked-resource-id="133161255" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GenerateNewCertificateScreen.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161251" data-linked-resource-container-version="3"></span></p></li>
+       <li><p>Enter the following details:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Field</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+           </tr>
+           <tr>
+            <th class="confluenceTh"><p>Certificate Subject Name</p></th>
+            <th class="confluenceTh"><p><br></p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Common Name</p></td>
+            <td class="confluenceTd"><p><em>Required.</em> The common name of the entity to which you want to issue the certificate.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Organization Unit</p></td>
+            <td class="confluenceTd"><p><em>Optional.</em> The unit within the organization to which you want to issue the certificate.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Organization</p></td>
+            <td class="confluenceTd"><p><em>Optional.</em> The organization to which you want to issue the certificate.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Locality</p></td>
+            <td class="confluenceTd"><p><em>Optional.</em> The address of the organization to which you want to issue the certificate.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>State</p></td>
+            <td class="confluenceTd"><p><em>Optional.</em> The state in which the organization is located.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Country</p></td>
+            <td class="confluenceTd"><p><em>Optional.</em> The country in which the organization is located.</p></td>
+           </tr>
+           <tr>
+            <th class="confluenceTh"><p>Certificate Parameters</p></th>
+            <th class="confluenceTh"><p><br></p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Key Algorithm</p></td>
+            <td class="confluenceTd"><p><em>Optional.</em> Whether <code>DSA</code> or <code>RSA</code>. The key algorithm defines the steps followed by Rhapsody to produce the encrypted file.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Key Size (bits)</p></td>
+            <td class="confluenceTd"><p><em>Optional.</em> Size of the key. The size must be valid for the key algorithm, and is automatically updated when you select the <strong>Key Algorithm</strong>.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Signature Algorithm</p></td>
+            <td class="confluenceTd"><p><em>Optional.</em> The algorithm you want to use to sign the certificate. It helps verify that the data has not been changed after it is signed, thus providing message integrity. <br> The signature algorithm is automatically updated when you select the <strong>Key Algorithm</strong>.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Expiry Date</p></td>
+            <td class="confluenceTd"><p><em>Required.</em> The expiry date you select must be in the future. If you do not select an expiry date, the certificate is set to expire within one year of creation, by default.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Sign using existing private key</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p><em>Optional.</em> If you want to sign the certificate using a key from the Rhapsody certificate store, select this checkbox, then click the <strong>Select Private Key</strong> link to locate the key.</p>
+              <div class="confluence-information-macro confluence-information-macro-information">
+               <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>You can sign certificates with an existing key only if you have the appropriate access rights.</p>
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <th class="confluenceTh"><p>Certificate DNS Names</p></th>
+            <th class="confluenceTh"><p><br></p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Enter the DNS names to include in the certificate (one per line)</p></td>
+            <td class="confluenceTd"><p><em>Optional.</em></p></td>
+           </tr>
+           <tr>
+            <th class="confluenceTh"><p>New Certificate Location</p></th>
+            <th class="confluenceTh"><p><br></p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Filename</p></td>
+            <td class="confluenceTd"><p><em>Required.</em> Click the <strong>Browse</strong> link to select the location to which you want to save the certificate and private key.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Password</p></td>
+            <td class="confluenceTd"><p><em>Required.</em> The password you want to use to encrypt the generated <code>PKCS#12</code> file containing the private key and password.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Confirm</p></td>
+            <td class="confluenceTd"><p><em>Required.</em> Confirm your password.</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+       <li><p>Select the <strong>Generate</strong> button to generate the certificate and private key. If successful, a dialog is displayed with the following message:<br><em>The certificate and private key were successfully saved to &lt;filename&gt;. Import the private key into Rhapsody's certificate store?</em></p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>You are prompted to import the private key into Rhapsody only if you have the '<a href="Access-Rights_133161013.html#AccessRights-CertificatesandKeys">Edit certificates and keys'</a> access right.</p>
+         </div>
+        </div><p>If you select the <strong>Yes</strong> button, the <strong>Import SSL Private Key</strong> dialog is displayed. Enter a name to identify the private key, then select the <strong>Import</strong> button.</p></li>
+      </ol>
+      <h2 id="ManagingSSLPrivateKeys-RemovingaCertificateandPrivateKey">Removing a Certificate and Private Key</h2>
+      <p>Deleting a private key automatically deletes the certificate associated with the private key.</p>
+      <p>To delete a certificate and private key pair:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li>On the <strong>SSL Private Keys </strong>tab, select the key you want to remove.</li>
+       <li><p>Select the <strong>Remove </strong>button<span>. A</span>&nbsp;confirmation is displayed with the following message:<br> <em>The certificate associated with this private key will be automatically removed when you remove the private key. Are you sure you want to delete private key "&lt;name&gt;" from the server?</em></p></li>
+       <li>Select the <strong>Yes</strong> button to remove the key&nbsp;(you can undo the deletion by selecting the&nbsp;<strong>Undo Remove</strong>&nbsp;button).</li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

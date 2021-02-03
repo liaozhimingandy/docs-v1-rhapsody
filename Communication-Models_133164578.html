@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Communication Models</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Learning-Rhapsody_133164369.html">Learning Rhapsody</a></span> </li> 
+       <li> <span><a href="What-Rhapsody-Does_133164569.html">What Rhapsody Does</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Communication Models</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="main">Rhapsody is a high-performance messaging system capable of handling millions of messages per day on standard hardware configurations. It supports a wide range of connection methods and communications protocols and provides an extensive set of tools which allow business logic to be applied to messages as they traverse the engine.</p>
+      <p class="main">The integrity of messages is maintained by a high-performance data store to which messages are persisted (stored) whenever a change is made to a message. The combination of business logic and message persistence allows Rhapsody to guarantee the delivery of messages.</p>
+      <p class="main">The engine supports a number of communication models on a path-by-path basis, including:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146921206 {padding: 0px;}
+div.rbtoc1565146921206 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146921206 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146921206"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CommunicationModels-Store-and-Forward">Store-and-Forward</a></li> 
+        <li><a href="#CommunicationModels-Pass-through">Pass-through</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p>A single instance of the Rhapsody engine is able to support multiple communication models, as required by the endpoints with which it communicates.</p>
+      <h2 id="CommunicationModels-Store-and-Forward">Store-and-Forward</h2>
+      <p>The engine accepts responsibility for a message and then ensures it is correctly received by the ultimate recipient:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164578/133164580.png" data-image-src="attachments/133164578/133164580.png" data-unresolved-comment-count="0" data-linked-resource-id="133164580" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Route_Store_and_Forward_model_2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164578" data-linked-resource-container-version="2"></span></p>
+      <h2 class="main" id="CommunicationModels-Pass-through">Pass-through</h2>
+      <p><span>The engine acts as arbitrator and manager for the messages and passes responses from the recipient back to the sending system:</span></p>
+      <p><span>&nbsp;</span> <span> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164578/133164579.png" data-image-src="attachments/133164578/133164579.png" data-unresolved-comment-count="0" data-linked-resource-id="133164579" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Route_Pass_Through_1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164578" data-linked-resource-container-version="2"></span> </span></p>
+      <h2 id="CommunicationModels-ExamplesofImplementation">Examples of Implementation</h2>
+      <p><strong>HL7 Version Management</strong> - systems from different vendors often handle different versions of HL7 or custom variants of the same HL7 version. Rhapsody can accept and transform the input version to the version required by the downstream systems.</p>
+      <p><strong>Communications Management</strong> - in situations where a downstream system may be erratic in its response and impacting the ability of an upstream system to meet its performance requirements, Rhapsody can accept the input messages and manage the transmission process to the downstream system. When communications protocols supported by upstream and downstream systems are incompatible, Rhapsody can arbitrate between the systems by managing communications with each system appropriately.</p>
+      <p><strong>Format Transformation</strong> - Rhapsody supports the complete transformation of a message from one format to another. For example, a sending system may transmit messages in XML <span>(Extensible Markup Language)</span> format, but the receiving system requires the message to be in an HL7 version.</p>
+      <p><span> <br> </span></p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

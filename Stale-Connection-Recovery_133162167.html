@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Stale Connection Recovery</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Configuring-Communication-Points_133162165.html">Configuring Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Stale Connection Recovery</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Stale Connection Recovery is a feature supported by the <a href="TCP-Server_133162501.html">TCP Server</a> and <a href="JavaScript-TCP-Server_133162415.html">JavaScript TCP Server</a> communication points when operating in a single connection mode (that is, the <strong>Number of Connections</strong> configuration property has been set to <code>1</code>). It can be used to re-establish a silently dropped connection without requiring a restart of the communication point.</p>
+      <p><span style="color: rgb(51,51,51);">When TCP connections are silently dropped without undergoing the full connection termination phase, the <a href="TCP-Server_133162501.html">TCP Server</a> and <a href="JavaScript-TCP-Server_133162415.html">JavaScript TCP Server</a> communication points still count the connection towards their maximum number of connections. This can lead to the communication points having to be manually restarted for a TCP client to be able to reconnect. The Stale Connection Recovery options allow Rhapsody to treat a connection that has been idle for the specified time period as stale. If a new connection request is received while the existing connection is stale then the stale connection will be closed and the new connection will be established.</span></p>
+      <p><span style="color: rgb(51,51,51);">These options are not available when the <a href="TCP-Server_133162501.html">TCP Server</a> or <a href="JavaScript-TCP-Server_133162415.html">JavaScript TCP Server</a> communication points allow multiple connections, as in that case the new connection can be established immediately, and the <strong>Idle Timeout</strong> configuration property used to eventually drop the stale connections.</span></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This option should only be enabled if absolutely required, and never on a public facing server, as it could potentially be used to denial of service the expected client by repeating causing its connection to be dropped.</p>
+       </div>
+      </div>
+      <p><span style="color: rgb(51,51,51);">Stale Connection Recovery is configured using the following configuration properties:</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Stale Connection Recovery</td>
+          <td class="confluenceTd"><p><span>Whether to enable <span>Stale Connection Recovery:</span></span></p>
+           <ul>
+            <li><code>False</code><span> (default).</span></li>
+            <li><code>True</code> - Stale Connection Recovery is enabled.</li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>This setting only takes effect if the <strong>Number of Connections</strong> configuration property is set to <code>1</code>.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Stale Connection Timeout</td>
+          <td colspan="1" class="confluenceTd">The idle timeout in seconds after which a connection is regarded as stale and so replaceable if a new connection is established.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

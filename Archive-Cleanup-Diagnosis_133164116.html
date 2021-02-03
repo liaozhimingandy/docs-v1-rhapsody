@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Archive Cleanup Diagnosis</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Rhapsody_133164108.html">Troubleshooting Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Examples_133164109.html">Troubleshooting Examples</a></span> </li> 
+       <li> <span><a href="Archive-Cleanup-Problems_133164114.html">Archive Cleanup Problems</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Archive Cleanup Diagnosis</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="Textbody">The purpose of this document is to provide instructions on how to diagnose and audit the archive cleanup process in Rhapsody. The intended audience is for users of Rhapsody versions 5.4 and later who need to diagnose the Archive Cleanup process, specifically Client Support Services.</p>
+      <p class="Textbody"><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147032680 {padding: 0px;}
+div.rbtoc1565147032680 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147032680 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147032680"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ArchiveCleanupDiagnosis-ArchiveCleanupRecord">Archive Cleanup Record</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ArchiveCleanupDiagnosis-ArchiveCleanup">Archive Cleanup</a></li> 
+          <li><a href="#ArchiveCleanupDiagnosis-ArchiveCleanupLog">Archive Cleanup Log</a></li> 
+         </ul> </li> 
+        <li><a href="#ArchiveCleanupDiagnosis-ArchiveCleanupTracing">Archive Cleanup Tracing</a> 
+         <ul class="toc-indentation"> 
+          <ul class="toc-indentation"> 
+           <li><a href="#ArchiveCleanupDiagnosis-ArchiveCleanupwithTracing">Archive Cleanup with Tracing</a></li> 
+           <li><a href="#ArchiveCleanupDiagnosis-SimulatedArchiveCleanupwithTracing">Simulated Archive Cleanup with Tracing</a></li> 
+           <li><a href="#ArchiveCleanupDiagnosis-ExportingTraceLogasCSV">Exporting Trace Log as CSV</a></li> 
+          </ul> 
+          <li><a href="#ArchiveCleanupDiagnosis-TraceLogCSVExport">Trace Log CSV Export</a></li> 
+          <li><a href="#ArchiveCleanupDiagnosis-MetaFileReferences">Meta File References</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#ArchiveCleanupDiagnosis-InputQueue/InputQueueArchive">Input Queue / Input Queue Archive</a></li> 
+            <li><a href="#ArchiveCleanupDiagnosis-OutputQueue">Output Queue</a></li> 
+            <li><a href="#ArchiveCleanupDiagnosis-ProcessingQueue">Processing Queue</a></li> 
+            <li><a href="#ArchiveCleanupDiagnosis-ErrorQueue">Error Queue</a></li> 
+            <li><a href="#ArchiveCleanupDiagnosis-HoldQueue">Hold Queue</a></li> 
+            <li><a href="#ArchiveCleanupDiagnosis-MessageTracking">Message Tracking</a></li> 
+            <li><a href="#ArchiveCleanupDiagnosis-OutputQueueArchive">Output Queue Archive</a></li> 
+            <li><a href="#ArchiveCleanupDiagnosis-RouteQueueArchive">Route Queue Archive</a></li> 
+            <li><a href="#ArchiveCleanupDiagnosis-RedirectedMessageArchive">Redirected Message Archive</a></li> 
+           </ul> </li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 class="Textbody" id="ArchiveCleanupDiagnosis-ArchiveCleanupRecord">Archive Cleanup Record</h2>
+      <p class="Textbody">Archive Cleanup goes through the files in the data store and determines which ones can be removed safely without losing any live or archived messages. Once Archive Cleanup has identified the files to be removed it will attempt to delete them. Since it is up to the Operating System to actually delete the file there is no guarantee that these files will actually be deleted. In addition to this, there have also been some reported cases where files cannot be removed because it appears as though the Rhapsody process itself is holding a lock on the file.</p>
+      <p class="Textbody">Previously, Archive Cleanup would log to the Rhapsody log when it attempts to delete a file but it always assumed that this deletion succeeded. This also meant that in the cases where files could not be deleted, the number of files removed and disk space recovered was incorrectly reported.</p>
+      <p class="Textbody">In Rhapsody 5.4, the Archive Cleanup Process was modified to be aware of when a file was successfully deleted or if it failed. It now maintains a separate record of all files that it tried to remove and whether it was successful or not. This also means that the Archive Cleanup results can show the correct number of files removed and disk space recovered.</p>
+      <h3 id="ArchiveCleanupDiagnosis-ArchiveCleanup">Archive Cleanup</h3>
+      <p class="Textbody">The results of an Archive Cleanup are displayed on the Archive Cleanup page within the Management Console. This displays the number of files removed and the amount of disk space recovered. Under normal circumstances, these numbers should always match the actual changes on disk. The following is an example of successful Archive Cleanup:</p>
+      <p class="Textbody">&nbsp;<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="126" width="545" src="attachments/133164116/133164120.png" data-image-src="attachments/133164116/133164120.png" data-unresolved-comment-count="0" data-linked-resource-id="133164120" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CleanUpStatus.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164116" data-linked-resource-container-version="1"></span></p>
+      <p class="Textbody">If Archive Cleanup fails to remove a file for some reason then this page will show the number of files removed and the amount of disk space that could not be deleted. The most likely reason for this to occur is when something is still holding onto a lock on the file. This could be some other application or Rhapsody itself.</p>
+      <p class="Textbody">The first thing to check is what is holding a lock on the file. Sysinternals provides some tools for this such as Handle and Process Explorer. One likely scenario is that anti-virus has not been disabled on the data directory. Generally, no other application should be accessing the Rhapsody data store.</p>
+      <p class="Textbody">If it is Rhapsody itself holding onto the lock then it could be intended behavior or a possible bug. When Rhapsody reads or writes to a file then it caches the file handle for five minutes. If Archive Cleanup is run within this period then it will fail to delete the file. Running Archive Cleanup again after five minutes should delete this file, unless it has been read or written to since. If this problem persists and you are certain that nothing else is reading from the file (for example, viewing the message) then it could be a potential file leak. File leaks are difficult for us to identify but this should be raised with the Development team with as much information provided as possible. One important thing to check is whether there are any custom Communication Points or Filters which could be behaving badly since they will also run within the Rhapsody process.</p>
+      <p class="Textbody">In the worst case scenario where the file cannot be deleted, it will be marked for deletion on JVM exit but this requires Rhapsody to be restarted.</p>
+      <h3 id="ArchiveCleanupDiagnosis-ArchiveCleanupLog">Archive Cleanup Log</h3>
+      <p class="Textbody">When Archive Cleanup attempts to remove files, the results are recorded in a separate log. Each entry in this log will show the path to the file and whether the deletion was successful or not. This can be used to verify whether or not Rhapsody removed a file from the data store or to find files that could not be removed.</p>
+      <p class="Textbody">The log file is configured using the Rhapsody <code>log4j.properties</code> file. There is a new logger called ArchiveCleanup and a new appender called ArchiveCleanupAppender. By default, this appender is a RollingFileAppender with a max file size of 5MB, nine backups, and at the logs are stored in <code>log/archiveCleanupLog/cleanup_log.txt</code>.</p>
+      <p>The following example is a sample of what entries may be contained in the log:</p>
+      <p><code>08 Nov 2013 14:27:14,302 [DEBUG] {Task Guardian Execution Thread - Archive Cleanup} (ArchiveCleanup) Successfully deleted unused file E:\Source\Rhapsody-trunk\Rhapsody\deploy\rhapsody\data\messagestore\meta\0000000253.meta</code></p>
+      <p><code>08 Nov 2013 14:27:14,306 [WARN] {Task Guardian Execution Thread - Archive Cleanup} (ArchiveCleanup) Failed to delete unused file E:\Source\Rhapsody-trunk\Rhapsody\deploy\rhapsody\data\messagestore\meta\0000000251.meta</code></p>
+      <h2 id="ArchiveCleanupDiagnosis-ArchiveCleanupTracing">Archive Cleanup Tracing</h2>
+      <p>If you discover&nbsp;old Meta Files with a modified time older than their archive period in the datastore, you can&nbsp;run Archive Cleanup with Tracing to determine why&nbsp;the Meta Files are being kept by Rhapsody.</p>
+      <p class="Textbody"><span style="color: rgb(0,0,0);font-size: 16.0px;font-weight: bold;">Archive Cleanup Traces</span></p>
+      <p class="Textbody">The Archive Cleanup Traces page in the Management Console enables users to run Archive Cleanup with Tracing:</p>
+      <p class="Textbody"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="265" width="467" src="attachments/133164116/133164119.png" data-image-src="attachments/133164116/133164119.png" data-unresolved-comment-count="0" data-linked-resource-id="133164119" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ArchiveCleanupTracePage.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164116" data-linked-resource-container-version="1"></span></p>
+      <p class="Textbody">This page is not accessible via normal menu navigation, the users must enter the URL manually. The URL to this page is to be provided to the customer when they raise a support request. The URL is:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">/rhapsody/system/cleanup/trace/ViewArchiveCleanupTraces.action</pre> 
+       </div>
+      </div>
+      <p class="Textbody">A Rhapsody consultant should work with the customer and explain how to run Archive Cleanup with Tracing and explain the results of the trace.</p>
+      <h4 id="ArchiveCleanupDiagnosis-ArchiveCleanupwithTracing">Archive Cleanup with Tracing</h4>
+      <p class="Textbody">The main action on this page is <strong class="Textbody">Cleanup Now with Trace</strong>. This action performs the same actions as the normal Archive Cleanup but with the addition of recording a trace of all the reasons why a Meta File was not eligible for cleanup. Clicking this action will start the Archive Cleanup with Tracing which can be canceled at any time by clicking the <strong>Cancel Running Cleanup</strong> link which appears when an Archive Cleanup is running.</p>
+      <p class="Textbody">Archive Cleanup with Tracing generates a Trace Log when it completes. The drop-down list allows you to view one of the Trace Logs. At most, five of the Trace Logs are kept. Once Archive Cleanup with Tracing completes and the page refreshes, then the drop-down list will select the Trace Log for the Archive Cleanup that just completed. The Trace Log is displayed with a link to export and a table which lists all the Meta Files that were ineligible for cleanup, for example:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+      <p class="Textbody">&nbsp;<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="489" width="552" src="attachments/133164116/133164118.png" data-image-src="attachments/133164116/133164118.png" data-unresolved-comment-count="0" data-linked-resource-id="133164118" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ReferencedMetaFiles.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164116" data-linked-resource-container-version="1"></span></p>
+      <p class="Textbody">The table displays all <em>Referenced Meta Files</em>. The table containing the Meta File references shows the file name and the last modified time. The table is sorted by last modified time so the oldest one is shown at the top. Clicking on a row in the table displays a page containing the reasons why that Meta File was ineligible for cleanup, for example:</p>
+      <p class="Textbody">&nbsp;<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="289" width="606" src="attachments/133164116/133164117.png" data-image-src="attachments/133164116/133164117.png" data-unresolved-comment-count="0" data-linked-resource-id="133164117" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="TraceDetails.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164116" data-linked-resource-container-version="1"></span></p>
+      <p class="Textbody">The trace details table lists all the reasons that the Meta File is being held. The columns are:</p>
+      <ul>
+       <li class="Textbody">Source – the component or message table that has a reference to the Meta File. Also referred to as the queue.</li>
+       <li class="Textbody">Reason – describes the type of reference.</li>
+       <li class="Textbody">Message Id – the Id of the latest message that is in the Meta File and is referenced by the source for the given reason.</li>
+       <li class="Textbody">Created Date – the date and time that the message was created. This is not necessarily the same as the time that the message was received by Rhapsody.</li>
+      </ul>
+      <p class="Textbody">Refer to <a href="#ArchiveCleanupDiagnosis-MetaFileReferences">Meta File References</a> for a description of the different reasons that a Meta File may be referenced.</p>
+      <h4 id="ArchiveCleanupDiagnosis-SimulatedArchiveCleanupwithTracing">Simulated Archive Cleanup with Tracing</h4>
+      <p class="Textbody">Another action on the Archive Cleanup Traces page is to run a Simulated Archive Cleanup with Tracing. This is the same as Archive Cleanup with Tracing except that no files are removed and archive pointers are not updated. This allows the user to see what is referencing certain Meta Files without deleting files that are eligible for cleanup. Normally this is not required as the user wants the eligible Meta Files to be cleaned up and is only interested in why the ineligible Meta Files could not be deleted.</p>
+      <h4 id="ArchiveCleanupDiagnosis-ExportingTraceLogasCSV">Exporting Trace Log as CSV</h4>
+      <p class="Textbody">When a Trace Log is selected, an <strong>Export trace as CSV</strong> link is displayed. This loads all the results for an Archive Cleanup with Tracing and allows them to be downloaded as a CSV file. When this link is clicked, the browser downloads a ZIP archive containing the CSV file. Refer to <a href="Archive-Cleanup-Diagnosis_133164116.html">Trace Log CSV Export</a> for details on the contents of the file.</p>
+      <h3 id="ArchiveCleanupDiagnosis-TraceLogCSVExport">Trace Log CSV Export</h3>
+      <p class="Textbody">Archive Cleanup Traces can be exported to a Zip archive containing a CSV file. This is primarily so that the results can be provided to CSS for offline analysis. Another usage may be to perform custom sorting using a spreadsheet application.</p>
+      <p class="Textbody">The columns in this file are:</p>
+      <ul>
+       <li class="Textbody">Message Meta File Identifier – the id of the Meta File.</li>
+       <li class="Textbody">Reason – why the message in the Meta File was not eligible for cleanup.</li>
+       <li class="Textbody">Queue Identifier – the id of the queue that the message is on (if applicable).</li>
+       <li class="Textbody">Component Name – the name of the component that owns the queue that the message is on (if applicable).</li>
+       <li class="Textbody">Message Identifier – the id of the message that stopped the Meta File from being cleaned up (if known without having to search the queue).</li>
+       <li class="Textbody">Queue File Identifier – the id of the specific queue file that the message is on (if applicable).</li>
+      </ul>
+      <h3 id="ArchiveCleanupDiagnosis-MetaFileReferences">Meta File References</h3>
+      <p class="Textbody">There are several reasons why a Meta File might be referenced. They can be broken down into two categories:</p>
+      <ol>
+       <li class="Textbody">Live messages on:
+        <ul>
+         <li><a href="#ArchiveCleanupDiagnosis-InputQueue/InputQueueArchive">Input Queue</a></li>
+         <li><a href="#ArchiveCleanupDiagnosis-OutputQueue">Output Queue</a></li>
+         <li><a href="#ArchiveCleanupDiagnosis-ProcessingQueue">Processing Queue</a></li>
+         <li><a href="#ArchiveCleanupDiagnosis-ErrorQueue">Error Queue</a></li>
+         <li><a href="#ArchiveCleanupDiagnosis-HoldQueue">Hold Queue</a></li>
+         <li><a href="#ArchiveCleanupDiagnosis-MessageTracking">Message Tracking</a></li>
+        </ul></li>
+       <li>Archived messages that are within the archive period on:
+        <ul>
+         <li><a href="#ArchiveCleanupDiagnosis-InputQueue/InputQueueArchive">Input Queue Archive</a></li>
+         <li><a href="#ArchiveCleanupDiagnosis-OutputQueueArchive">Output queue Archive</a></li>
+         <li><a href="#ArchiveCleanupDiagnosis-ProcessingQueueArchive">Route Queue Archive</a></li>
+         <li><a href="#ArchiveCleanupDiagnosis-RedirectedMessageArchive">Redirected Message Archive</a></li>
+        </ul></li>
+      </ol>
+      <h4 id="ArchiveCleanupDiagnosis-InputQueue/InputQueueArchive">Input Queue / Input Queue Archive</h4>
+      <p class="Textbody">Messages that are live on an input queue or are within the archive period on the input queue archive will be displayed for the same reason. These two cases cannot be distinguished without looking at the message due to the way the input queue has been implemented.</p>
+      <p class="Textbody">If Meta Files are referenced for this reason then there are two likely scenarios:</p>
+      <ol>
+       <li class="Textbody">There is a Communication Point which has messages on its input queue. In this scenario the messages are live. If all the Routes that receive messages from the Communication Point are stopped, then starting at least one of the Routes will release the messages onto the processing queue of the Routes and these references should be removed. Note that the messages will likely fall into scenario two once the messages leave the input queue of the Communication Point.</li>
+       <li class="Textbody">The time that the message was received on a Communication Point is within the archive period. Either wait for the message to be older than the archive period or reduce the archive period, then run Archive Cleanup again.</li>
+      </ol>
+      <h4 id="ArchiveCleanupDiagnosis-OutputQueue">Output Queue</h4>
+      <p class="Textbody">If Meta Files are referenced for this reason, then there is a Communication Point which is stopped and has messages on its output queue. In this case, the messages are live. Starting the Communication Point will release the messages for sending and these references should be removed. Note that the messages will likely be referenced by the Output Queue Archive once the messages leave the output queue of the Communication Point.</p>
+      <h4 id="ArchiveCleanupDiagnosis-ProcessingQueue">Processing Queue</h4>
+      <p class="Textbody">If Meta Files are referenced for this reason, then there is a Route which has messages on its processing queue. In this case, the messages are live. If the Route is stopped, then starting the Route will allow it process these messages. If the Route is already running then wait for the Route to process the messages. These references should be removed once the messages leave the Route. Note that the messages will likely be referenced by the Route Queue Archive once the messages leave the Route.</p>
+      <p class="Textbody">If there are a large number of messages on the Processing Queue of a Route or are there for a long time, then the throughput of the Route may be too low. Check filters for bottlenecks or unnecessary splitting of messages.</p>
+      <h4 id="ArchiveCleanupDiagnosis-ErrorQueue">Error Queue</h4>
+      <p class="Textbody">Meta Files with references on the Error Queue are considered live and remain in that state until they are removed from the Error Queue. Messages should not be left on the Error Queue for long periods of time and the reason for them being in an Error state should be identified and resolved. Once the issue is resolved, these messages should be removed from the Error Queue by either releasing, re-injecting, or deleting, whichever action is most appropriate.</p>
+      <h4 id="ArchiveCleanupDiagnosis-HoldQueue">Hold Queue</h4>
+      <p class="Textbody">Meta Files with references on the Hold Queue are considered live and remain in that state until they are removed from the Hold Queue. The Hold Queue is intended to be used during testing and is not designed to be used in a production environment so this case should not be seen in normal circumstances. Once testing is completed, these messages should be removed from the Hold Queue by either releasing, re-injecting, or deleting, whichever action is most appropriate.</p>
+      <h4 id="ArchiveCleanupDiagnosis-MessageTracking">Message Tracking</h4>
+      <p class="Textbody">Communication Points that have Message Tracking configured on them hold onto messages for the configured time period. If the time period is too long, then a large number of messages may be held onto. If this occurs, consider reducing the time period to a more reasonable value.</p>
+      <h4 id="ArchiveCleanupDiagnosis-OutputQueueArchive">Output Queue Archive</h4>
+      <p class="Textbody">Once a Communication Point successfully sends a message, then it is kept while it is within the archive period so that it can be viewed later. If there are too many messages being held then consider reducing the archive period.</p>
+      <h4 id="ArchiveCleanupDiagnosis-RouteQueueArchive">Route Queue Archive</h4>
+      <p class="Textbody">Once a Route successfully processes a message, then it is kept while it is within the archive period so that it can be viewed later. If there are too many messages being held, then consider reducing the archive period.</p>
+      <h4 id="ArchiveCleanupDiagnosis-RedirectedMessageArchive">Redirected Message Archive</h4>
+      <p class="Textbody">If a message is redirected to another component, then it is kept while it is within the archive period so that it can be viewed later. If there are too many messages being held, then consider reducing the archive period or reduce the number of messages that are redirected.</p>
+      <p class="Textbody"> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

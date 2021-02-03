@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Clinicom Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Clinicom-Client-and-Server_133162668.html">Clinicom Client and Server</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Clinicom Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162669/133162672.jpg" data-image-src="attachments/133162669/133162672.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162672" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_commptdefault.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162669" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>Clinicom Client</strong> communication point&nbsp;enables messages to be exchanged with the Clinicom Patient Management System.</p>
+      <p>Supported Operational Modes: <em>Input</em>, <em>Output</em>.</p>
+      <h2 id="ClinicomClient-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Host</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the remote host to which you want to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Port</p></td>
+          <td class="confluenceTd"><p>The port number to which you want to connect on the remote host.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p>The local interface to which you want to bind the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p>The local port to which you want to bind the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br class="atl-forced-newline">If this property is set to <code>True</code>, secure socket layer is be used for this connection and all messages will be encrypted.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details on TLS/SSL (Transport Layer Security/Secure Sockets Layer) support in Rhapsody.</p>
+            </div>
+           </div><p><span>It is recommended that SSL </span>be<span> enabled for Clinicom Client communication points whenever it is supported by the remote server.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL Client Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>True</code> <br class="atl-forced-newline"> If this property is set to <code>True</code>, SSL client mode will be enabled. Note that this is NOT the same as TLS client authentication. TLS client authentication is supported by configuring one or more private keys in the <strong>Secure Keys</strong>&nbsp;configuration property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>Identifies the private keys used for authenticating Rhapsody's end of the SSL connection. When configured with a private key, the SSL client supports SSL client authentication if requested by the SSL server.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Identifies the trusted certificates used at the non-Rhapsody end of the SSL connection. If it is not configured with the SSL server's certificate, then this SSL client operates in anonymous server authentication mode. It is highly recommended that the server's certificate always be provided here to allow server authentication to be performed.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Timeout</p></td>
+          <td class="confluenceTd"><p>The time in milliseconds to wait for a connection to be established before aborting the connection attempt. A value of zero or less is treated as an infinite timeout. In most cases, this does not need to be changed as the connection will either succeed or fail prior to this timeout occurring.</p><p>The default value is<span>&nbsp;</span><code>300000</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Debug Info</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br class="atl-forced-newline"> If the debug information should be output to the Rhapsody log.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Include DAT Header</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>True</code><br class="atl-forced-newline"> If the messages (both those received and to be sent) should include the DAT header.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Block Separator</p></td>
+          <td class="confluenceTd"><p>If non-empty received blocks will be searched for a terminating separator which, if found, will be stripped. Sent blocks will have the separator added.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Log the establishing and dropping of all connections.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br class="atl-forced-newline"> Log all data sent and received by this communication point to a file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br class="atl-forced-newline"> Write all logged data to the log as hexadecimal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The file to log the connection information to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Options: <code>Log Time</code>, <code>None</code> . Default: <code>Log Time</code> <br class="atl-forced-newline"> Timestamps will be written with each event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Sequence number property name</p></td>
+          <td class="confluenceTd"><p>The name of a property to populate with a sequence ID.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ClinicomClient-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Host</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the remote host to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Port</p></td>
+          <td class="confluenceTd"><p>The port number to which you want to connect on the remote host.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p>The local interface to which you want to bind the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p>The local port to which you want to bind the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br class="atl-forced-newline"> If this property is set to true, secure socket layer will be used for this connection and all messages will be encrypted.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details on TLS/SSL (Transport Layer Security/Secure Sockets Layer) support in Rhapsody.</p>
+            </div>
+           </div><p><span>It is recommended that SSL </span>be<span> enabled for Clinicom Client communication points whenever it is supported by the remote server.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL Client Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: True<br class="atl-forced-newline"> If this property is set to&nbsp;<code>True</code>, SSL client mode will be enabled. Note that this is NOT the same as TLS client authentication. TLS client authentication is supported by configuring one or more private keys in the&nbsp;<strong>Secure Keys</strong>&nbsp;configuration property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>Identifies the private keys used for authenticating Rhapsody's end of the SSL connection. When configured with a private key, the SSL client supports SSL client authentication if requested by the SSL server.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Identifies the trusted certificates used at the non-Rhapsody end of the SSL connection. If it is not configured with the SSL server's certificate, then this SSL client operates in anonymous server authentication mode. It is highly recommended that the server's certificate always be provided here to allow server authentication to be performed.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Timeout</p></td>
+          <td class="confluenceTd"><p>The time in milliseconds to wait for a connection to be established before aborting the connection attempt. A value of zero or less is treated as an infinite timeout. In most cases, this does not need to be changed as the connection will either succeed or fail prior to this timeout occurring.</p><p>The default value is <code>300000</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Debug Info</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code></p><p>Whether the debug information should be output to the Rhapsody log.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Include DAT Header</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>True</code><br class="atl-forced-newline"> <span>Whether</span> the messages (both those received and to be sent) should include the DAT header.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Block Separator</p></td>
+          <td class="confluenceTd"><p>If non-empty received blocks will be searched for a terminating separator which, if found, will be stripped. Sent blocks will have the separator added.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Log the establishing and dropping of all connections.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br class="atl-forced-newline"> Log all data sent and received by this communication point to a file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data as Hex</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br class="atl-forced-newline"> Write all logged data to the log as hexadecimal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The file to log the connection information to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Options: <code>Log Time</code>, <code>None</code>. Default: <code>Log Time</code> <br class="atl-forced-newline"> Timestamps will be written with each event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Enforce 256 maximum block size</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>True</code><br class="atl-forced-newline"> If true, message blocks bigger than 256 bytes will be split into multiple blocks when sent.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

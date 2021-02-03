@@ -1,0 +1,341 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Regular Expressions in Conditional Connectors</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Connectors_133162108.html">Connectors</a></span> </li> 
+       <li> <span><a href="Managing-Conditional-Connectors_133162114.html">Managing Conditional Connectors</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Regular Expressions in Conditional Connectors</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A regular expression consists of a character string where some characters are given special meaning with regard to pattern matching. Regular expressions provide a powerful and efficient way to parse, interpret and search and replace text within an application.</p>
+      <p>The following meta-characters can be used in regular expressions for conditional connectors:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146942679 {padding: 0px;}
+div.rbtoc1565146942679 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146942679 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146942679"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#RegularExpressionsinConditionalConnectors-PositionalOperators">Positional Operators</a></li> 
+        <li><a href="#RegularExpressionsinConditionalConnectors-One-characterOperators">One-character Operators</a></li> 
+        <li><a href="#RegularExpressionsinConditionalConnectors-CharacterClassOperator">Character Class Operator</a></li> 
+        <li><a href="#RegularExpressionsinConditionalConnectors-Sub-expressionsandBackReferences">Sub-expressions and Back References</a></li> 
+        <li><a href="#RegularExpressionsinConditionalConnectors-Branching(Alternation)Operator">Branching (Alternation) Operator</a></li> 
+        <li><a href="#RegularExpressionsinConditionalConnectors-RepeatingOperators">Repeating Operators</a></li> 
+        <li><a href="#RegularExpressionsinConditionalConnectors-Stingy(Minimal)Matching">Stingy (Minimal) Matching</a></li> 
+        <li><a href="#RegularExpressionsinConditionalConnectors-Lookahead">Lookahead</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="RegularExpressionsinConditionalConnectors-PositionalOperators">Positional Operators</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Operator</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>^</code></p></td>
+          <td class="confluenceTd"><p>Matches at the beginning of a line.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>$</code></p></td>
+          <td class="confluenceTd"><p>Matches at the end of a line.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\A</code></p></td>
+          <td class="confluenceTd"><p>Matches the start of the entire string.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\Z</code></p></td>
+          <td class="confluenceTd"><p>Matches the end of the entire string.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\b</code></p></td>
+          <td class="confluenceTd"><p>Matches at a word break (Perl5 syntax only).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\B</code></p></td>
+          <td class="confluenceTd"><p>Matches at a non-word break; opposite of <code>\b</code> (Perl5 syntax only).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\&lt;</code></p></td>
+          <td class="confluenceTd"><p>Matches at the start of a word (egrep syntax only).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\&gt;</code></p></td>
+          <td class="confluenceTd"><p>Matches at the end of a word (egrep syntax only).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="RegularExpressionsinConditionalConnectors-One-characterOperators">One-character Operators</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Operator</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>.</code></p></td>
+          <td class="confluenceTd">Matches any single character.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\d</code></p></td>
+          <td class="confluenceTd">Matches any decimal digit.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\D</code></p></td>
+          <td class="confluenceTd">Matches any non-digit.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\n</code></p></td>
+          <td colspan="1" class="confluenceTd">Matches a newline character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\r</code></p></td>
+          <td colspan="1" class="confluenceTd">Matches a return character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\s</code></p></td>
+          <td colspan="1" class="confluenceTd">Matches any whitespace character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\S</code></p></td>
+          <td colspan="1" class="confluenceTd">Matches any non-whitespace character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\t</code></p></td>
+          <td colspan="1" class="confluenceTd">Matches a horizontal tab character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\w</code></p></td>
+          <td colspan="1" class="confluenceTd">Matches any word (alphanumeric) character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\W</code></p></td>
+          <td colspan="1" class="confluenceTd">Matches any non-word (alphanumeric) character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\x</code></p></td>
+          <td colspan="1" class="confluenceTd">Matches the character <code>x</code>, if <code>x</code> is not one of the above-listed escape sequences.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="RegularExpressionsinConditionalConnectors-CharacterClassOperator">Character Class Operator</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Operator</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>[abc]&nbsp;</code></p></td>
+          <td class="confluenceTd">Matches any character in the set <code>a</code>, <code>b</code> or <code>c</code>.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>[^abc]&nbsp;</code></td>
+          <td class="confluenceTd">Matches any character not in the set <code>a</code><span>, </span><code>b</code><span> or </span><code>c</code>.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>[a-z]&nbsp;</code></td>
+          <td class="confluenceTd">Matches any character in the range <code>a</code> to <code>z</code>, inclusive.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>-</code></td>
+          <td colspan="1" class="confluenceTd"><p>A leading or trailing dash will be interpreted literally.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Within a character class expression, the following sequences have special meaning if the syntax bit <code>RE_CHAR_CLASSES</code> is on:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Operator</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>[:alnum:]</code></td>
+          <td class="confluenceTd">&nbsp;Any alphanumeric character.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>[:alpha:]</code></td>
+          <td class="confluenceTd">&nbsp;Any alphabetical character.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>[:blank:]</code></td>
+          <td class="confluenceTd">&nbsp;A space or horizontal tab.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>[:cntrl:]</code></td>
+          <td colspan="1" class="confluenceTd">A control character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>[:digit:]</code></td>
+          <td colspan="1" class="confluenceTd">A decimal digit.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>[:graph:]</code></p></td>
+          <td colspan="1" class="confluenceTd">A non-space, non-control character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>[:lower:]</code></p></td>
+          <td colspan="1" class="confluenceTd">A lowercase letter.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>[:print:]</code></p></td>
+          <td colspan="1" class="confluenceTd">Same as graph, but also space and tab.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>[:punct:]</code></p></td>
+          <td colspan="1" class="confluenceTd">A punctuation character.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>[:space:]</code></p></td>
+          <td colspan="1" class="confluenceTd">Any whitespace character, including newline and return.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>[:upper:]</code></p></td>
+          <td colspan="1" class="confluenceTd">An uppercase letter.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>[:xdigit:]</code></p></td>
+          <td colspan="1" class="confluenceTd">A valid hexadecimal digit.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="RegularExpressionsinConditionalConnectors-Sub-expressionsandBackReferences">Sub-expressions and Back References</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Operator</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>(abc)&nbsp;</code></p></td>
+          <td class="confluenceTd">Matches whatever the expression <code>abc</code> would match, and saves it as a subexpression. Also used for grouping.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>(?:...)</code></td>
+          <td class="confluenceTd">Pure grouping operator; does not save contents.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>(?#...)&nbsp;</code></td>
+          <td class="confluenceTd">Embedded comment; ignored by engine.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\n</code></p></td>
+          <td colspan="1" class="confluenceTd">Matches the same thing the <code>n</code>th subexpression matched (where 0 &lt; <code>n</code> &lt; 10).</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="RegularExpressionsinConditionalConnectors-Branching(Alternation)Operator">Branching (Alternation) Operator</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Operator</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>a|b</code></td>
+          <td class="confluenceTd">&nbsp;Matches whatever the expression <code>a</code> would match, or whatever the expression <code>b</code> would match.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="RegularExpressionsinConditionalConnectors-RepeatingOperators">Repeating Operators</h2>
+      <p>The following symbols operate on the previous atomic expression:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Operator</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>?</code></td>
+          <td class="confluenceTd">Matches the preceding expression or the null string.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>*</code></td>
+          <td class="confluenceTd">Matches the null string or any number of repetitions of the preceding expression.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>+</code></td>
+          <td class="confluenceTd">Matches one or more repetitions of the preceding expression.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>{m}</code></td>
+          <td colspan="1" class="confluenceTd">Matches exactly <code>m</code> repetitions of the one-character expression.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>{m,n}</code></td>
+          <td colspan="1" class="confluenceTd">Matches between <code>m</code> and <code>n</code> repetitions of the preceding expression, inclusive.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>{m,}</code></td>
+          <td colspan="1" class="confluenceTd">Matches <code>m</code> or more repetitions of the preceding expression.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="RegularExpressionsinConditionalConnectors-Stingy(Minimal)Matching">Stingy (Minimal) Matching</h2>
+      <p>If a repeating operator (above) is immediately followed by <code>a ?</code>, the repeating operator stops at the smallest number of repetitions that can complete the rest of the match.</p>
+      <h2 id="RegularExpressionsinConditionalConnectors-Lookahead">Lookahead</h2>
+      <p>Lookahead refers to the ability to match part of an expression without consuming any of the input text. There are two variations to this:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Operator</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>&nbsp;(?=foo)</code></td>
+          <td class="confluenceTd">Matches at any position where foo would match, but does not consume any characters of the input.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>&nbsp;(?!foo)</code></td>
+          <td class="confluenceTd">Matches at any position where foo would not match, but does not consume any characters of the input.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

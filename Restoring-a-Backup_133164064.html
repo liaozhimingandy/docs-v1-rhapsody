@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Restoring a Backup</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Management_133164048.html">Management</a></span> </li> 
+       <li> <span><a href="Backup-and-Restore_133164059.html">Backup and Restore</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Restoring a Backup</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Restoring a backup is performed from the Management Console. A restore can be thought of as restarting the engine, with a new configuration, message store and administration information swapped in while the engine is stopped. During a restore:</p>
+      <ul>
+       <li>All message processing will stop.</li>
+       <li>All communication points and routes will be stopped.</li>
+       <li>The Management Console will be unavailable (apart from a restore progress page).</li>
+      </ul>
+      <h2 id="RestoringaBackup-Caveats">Caveats</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Ensure you read the caveats before attempting to restore a backup.</p>
+       </div>
+      </div>
+      <ul>
+       <li>Restoring a backup replaces all corresponding components in the target engine. For example, restoring a backup containing the message store completely replaces the existing Rhapsody message store in the engine - it does not merge the data.</li>
+       <li><p>Restoring a backup can only be performed on an engine that is of the same or later version as the engine that was backed up. For example, a backup file of a Rhapsody 6 engine cannot be restored on a Rhapsody 5 engine.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>If, however, you are restoring a pre-Rhapsody 6.0 backup that includes the configuration area to a Rhapsody engine version 6.0 or later, the restore fails due to the different way in which the configuration is stored across the versions. To work around the issue, if you are attempting to restore a Rhapsody 5.x backup to a Rhapsody 6.x engine, for example, first restore the backup on a <span>Rhapsody 5.x engine and then migrate the backup by upgrading to </span><span>Rhapsody 6.x.</span></p>
+         </div>
+        </div></li>
+       <li>Restoring a backup can only be performed on an engine on the same platform as the engine that was backed up.&nbsp;For example, a backup file of an engine on&nbsp;<em>Windows<span style="color: rgb(84,84,84);">®</span></em>&nbsp;cannot be restored on an engine on Unix.</li>
+       <li>Rollbacking the restore process is not possible (other than restoring a different backup).</li>
+      </ul>
+      <h2 id="RestoringaBackup-StandardRestore">Standard Restore</h2>
+      <p>To restore a backup:</p>
+      <ol>
+       <li>Navigate to <strong>Management&gt;Backup and Restore</strong> to display the <strong>Backup and Restore</strong> page.</li>
+       <li>In the <strong>Restore</strong> panel:<br>
+        <ol>
+         <li>Select the area you want to restore (<code>Administration</code>, <code>Configuration</code>, <code>Message Store</code>, or <code>All</code>) from the <strong>Area</strong> drop-down list.</li>
+         <li><p>Enter the location of the backup directory.</p>
+          <div class="confluence-information-macro confluence-information-macro-information">
+           <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p>If restoring an incremental backup, this directory should contain all backup increments. If multiple backups are found in this directory, the most recent will be restored. If restoring a full backup, the directory of the full backup can be entered.</p>
+           </div>
+          </div></li>
+         <li><p>If you want to perform a Forensic Restore to check message data in a new install, select the <strong>Yes</strong> button. Refer to <a href="#RestoringaBackup-ForensicRestore">Forensic Restore</a> for details.</p>
+          <div class="confluence-information-macro confluence-information-macro-information">
+           <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p>A forensic restore allows a backup to be loaded into a non-production engine for analysis purposes. An engine being used for forensic restore does not allow components to be started and archive cleanup will not run.</p>
+           </div>
+          </div><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="273" width="860" src="attachments/133164064/133164065.png" data-image-src="attachments/133164064/133164065.png" data-unresolved-comment-count="0" data-linked-resource-id="133164065" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="restore.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164064" data-linked-resource-container-version="2"></span></p></li>
+        </ol></li>
+       <li>Select the <strong>Restore&nbsp;</strong>button to start the restore. When starting a restore, Rhapsody checks whether:
+        <ul>
+         <li>The supplied directory contains a backup or backups.</li>
+         <li>The supplied backup(s) contains at least one backup for the specified area.</li>
+         <li><p>There is at least one full backup for the specified area.</p>
+          <div class="confluence-information-macro confluence-information-macro-note">
+           <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p>This does not have to be scheduled as a full backup. The first incremental backup is implicitly a full if there is no previous data in the specified directory.</p>
+           </div>
+          </div></li>
+         <li><p>The set of backup increments is complete; that is, no backup increments have been manually removed.</p>
+          <div class="confluence-information-macro confluence-information-macro-note">
+           <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p>If you are missing an incremental backup, you can restore up until the missing incremental <span>backup</span>. To do this, you need to move all incremental backups after the missing incremental <span>backup </span>from the backup directory to another directory.</p>
+           </div>
+          </div></li>
+        </ul></li>
+       <li>If any of these requirements are not met, an error is displayed and you cannot proceed with the restore.</li>
+       <li>If the backups are valid, the restore begins. When the restore starts, all bundles that have backed up data, and any bundles that depend on these are stopped, and are restored by copying the appropriate files. As the restore is taking place, the <strong>Restore Process</strong> status screen is displayed, which indicates that the restore is in progress, what bundles are active, and the percentage progress of the restore. Once all files are copied, the bundles are restarted.</li>
+      </ol>
+      <h2 id="RestoringaBackup-ForensicRestore">Forensic Restore</h2>
+      <p>A backup can be used to investigate messages that no longer exist because they have been cleaned up. If an external receiving system advises that a message received is incorrect after the message has been cleaned up from the Rhapsody archive, a backup can be used to ascertain where things went wrong.</p>
+      <p>A Forensic Restore restores the message store, and optionally the configuration, to an engine. This engine does not require a license (that is, it may be a clean install) and operates in <strong>Archive</strong> mode.</p>
+      <p>When in Archive mode the archive cleanup is disabled (no message processing is done so messages aren't inadvertently lost), and communication points or routes will not start (automatically or manually).</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Archive mode freezes the engine. Nothing is started and so nothing is processed. It is used for inspecting messages and configuration. If you so choose, a frozen engine can be moved out of archive mode and made to run again.</p>
+       </div>
+      </div>
+      <p>While running in Archive mode, a banner is displayed in the Management Console, to inform the user that the engine is in this state, and how to resume the engine to its normal operation. Connecting an administrator and making configuration changes is possible, but meaningless (until out of archive mode).</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>You can also enable Archive mode manually, by adding an <code>archive.mode</code> file to the Rhapsody data directory.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Rhapsody Diagnostic Tools</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Rhapsody_133164108.html">Troubleshooting Rhapsody</a></span> </li> 
+       <li> <span><a href="General-Troubleshooting_133164128.html">General Troubleshooting</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Rhapsody Diagnostic Tools</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="main">eRhapsody provides a number of diagnostic tools provided within the following Rhapsody applications:</p>
+      <p class="main"><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147031398 {padding: 0px;}
+div.rbtoc1565147031398 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147031398 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147031398"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#RhapsodyDiagnosticTools-ManagementConsole">Management Console</a></li> 
+        <li><a href="#RhapsodyDiagnosticTools-RhapsodyLogs">Rhapsody Logs</a></li> 
+        <li><a href="#RhapsodyDiagnosticTools-RhapsodyIDE">Rhapsody IDE</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="RhapsodyDiagnosticTools-ManagementConsole">Management Console</h2>
+      <p>The <a href="Management-Console_133163667.html">Management Console</a> is the main application for monitoring the state of the Rhapsody engine and inspecting messages that have been processed. Depending on the nature of the issue, a group of messages can be individually inspected to understand what processing has occurred to them. Log files for one or more components of the system can be reviewed (for example, a communications point that is unable to connect to an external system frequently generates log messages that indicate why the connection failure has occurred). Performance information can be inspected&nbsp;to assist in understanding any performance problems that might have been reported. Specifically:</p>
+      <ul>
+       <li>You can <a href="Find-Messages_133163841.html">search for specific messages</a> and determine how they have been processed in <a href="Message-View_133163772.html">Message View</a>.</li>
+       <li>You can&nbsp;<a href="Generate-Thread-Dump_133163955.html">generate a thread dump</a>, or download a <a href="Generate-System-State_133163951.html">zip archive</a> of the Rhapsody log files and system details when diagnosing a problem.</li>
+       <li><span style="color: rgb(51,51,51);"> <span style="color: rgb(0,0,0);">You can generate reports relating to</span> message latency,<span style="color: rgb(0,0,0);"> <a href="Response-Latency_133163881.html">response latency</a>, <a href="Performance-Statistics_133163873.html">performance statistics</a>, <a href="Message-Breakdown_133163870.html">message breakdown</a> and <a href="Engine-Uptime_133163867.html">engine uptime</a>.</span> </span></li>
+       <li><span style="color: rgb(51,51,51);"> <span style="color: rgb(0,0,0);">You can inspect <a href="System-Log_133163966.html">system</a> or <a href="Audit-Log_133163971.html">audit</a> logs.</span> </span></li>
+       <li><span style="color: rgb(51,51,51);"> <span style="color: rgb(0,0,0);">You can <a href="Archive-Cleanup-Diagnosis_133164116.html">diagnose archive clean up</a>&nbsp;problems.</span> </span></li>
+      </ul>
+      <h2 id="RhapsodyDiagnosticTools-RhapsodyLogs">Rhapsody Logs</h2>
+      <p>When the issue is preventing Rhapsody from running or is affecting many parts of the Rhapsody, the on-disk log files often provide additional information. Refer to <a href="Rhapsody-Log-Files_133161566.html">Rhapsody Log Files</a> for details. Log files can be found in the log directory under the main Rhapsody installation folder. A number of log files are created in this directory:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Filename</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>log.txt</code></td>
+          <td class="confluenceTd">Contains a text version of the main log information for Rhapsody. The information presented in this file is the same log information as presented as part of each Rhapsody component in the Management Console. By default every time the log file exceeds 5 MB in size, a new file is created and the existing file renamed with a numeric suffix. Only the ten most recent files are retained. Any older files are automatically deleted.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wrapper.log</code></td>
+          <td class="confluenceTd">The wrapper log file contains information from the service wrapper. This will typically contain basic service start/stop information along with information related to any Java crashes or unexpected restarts. The log file also contains memory garbage collection information that can be of value when diagnosing memory or crash related issues.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>When Rhapsody is running on a <em>Windows®</em>&nbsp;machine, information is also written to the <em>Windows®</em>&nbsp;Event Log. The information logged mirrors information in any Rhapsody notification events generated.&nbsp;Refer to <a href="Third-party-Diagnostic-Tools_133164129.html#Third-partyDiagnosticTools-Windows®-EventViewer"><em>Windows</em>® Event Viewer</a> for details.</p>
+      <h2 id="RhapsodyDiagnosticTools-RhapsodyIDE">Rhapsody IDE</h2>
+      <p>If a problem with the Rhapsody configuration is suspected, then Rhapsody IDE can be used to gain an understanding of how the configuration has been developed. The <a href="Testing-Filter-Configurations_133162685.html">Test Filter Configuration</a> feature of Rhapsody&nbsp;IDE can be used to check the behavior of individual filters for issues.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164137/142322059.png" data-image-src="attachments/133164137/142322059.png" data-unresolved-comment-count="0" data-linked-resource-id="142322059" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="TestFilter-scaled.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164137" data-linked-resource-container-version="5"></span></p>
+      <p>Any documentation associated with either routes, filters or communications points is viewable from Rhapsody IDE. When used in conjunction with the Management Console, Rhapsody&nbsp;IDE can be used to troubleshoot the reason why a particular message or group of messages has been processed a certain way.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Generated Self-Signed SSL Certificates</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Using-SSL-Certificates_133161217.html">Using SSL Certificates</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Generated Self-Signed SSL Certificates</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Whenever a Rhapsody engine is started, it checks whether it has been provided with an SSL certificate to use for these connections. If no certificate is found, it generates a new self-signed SSL certificate that is used for the Management Console and IDE connections. This SSL certificate is:</p>
+      <ul>
+       <li>Self-signed.</li>
+       <li>A 2048-bit RSA key signed using SHA-256.</li>
+       <li>Valid for five years from the time it is generated.</li>
+       <li>Includes all hostnames that can be retrieved for the local machine (except for <code>localhost</code>).</li>
+      </ul>
+      <p>Using a generated self-signed certificate for secure communications with the engine results in a <span class="confluence-link">warning </span>in the Rhapsody IDE and web browsers because the self-signed certificate would not have been verified by a third party trusted by the client. The warning is raised because anyone can create a certificate claiming to be whomever they choose. Refer to <a href="Untrusted-Self-signed-Certificate-Warning_133161198.html">Untrusted Self-signed Certificate Warning </a>for details.</p>
+      <p>You can suppress these warnings by explicitly trusting the self-signed certificate. During startup Rhapsody generates three files in the <code>&lt;Rhapsody&gt;/rhapsody directory</code> called <code>managementConsole.sha1.txt</code>, <code>ide.sha1.txt</code>, and <code>soapApi.sha1.txt</code> in order to assist with this process. These files contain the <a href="#GeneratedSelf-SignedSSLCertificates-Thumbprints"> <span class="confluence-link">SHA-1 thumbprint </span> </a>of the SSL certificates used for the Management Console, IDE connection, and SOAP API respectively and can be used to verify that the certificate seen in the Rhapsody IDE or a web browser is the same certificate that Rhapsody is using.</p>
+      <p>Certificate generation can fail if Rhapsody is unable to determine any hostnames for the machine it is running on. If no alternative certificate has been provided for the IDE connection, Rhapsody would to fail to start. You can resolve this issue by fixing the hostname resolution on that machine so Rhapsody can retrieve the hostname, however, it can be circumvented by <a href="Using-a-User-defined-Certificate_133161221.html">using a custom SSL certificate</a>.</p>
+      <h2 class="pagetitle" id="GeneratedSelf-SignedSSLCertificates-Thumbprints"><span> Thumbprints </span></h2>
+      <div class="page view">
+       <div class="wiki-content">
+        <p>For an RSA key, the thumbprint is the MD5 value of the encoded key, which is the algorithm name followed by the public exponent and the modulus. For a DSA key, the encoded format is the algorithm name followed by the parameters P, Q, G, and Y (in that order).</p>
+        <p>An example of a thumbprint in the <code>managementConsole.sha1.txt</code> is depicted in the following screenshot:</p>
+        <p><span class="image-wrap"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161218/133161219.png" data-image-src="attachments/133161218/133161219.png" data-unresolved-comment-count="0" data-linked-resource-id="133161219" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="managementConsole-sha1-txt.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161218" data-linked-resource-container-version="1"></span> </span></p>
+        <p>This SHA-1 thumbprint can then be compared to the certificate thumbprint within a web browser connecting to the Management Console:</p>
+        <p><span class="image-wrap"> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="522" width="419" src="attachments/133161218/133161220.png" data-image-src="attachments/133161218/133161220.png" data-unresolved-comment-count="0" data-linked-resource-id="133161220" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CertificateThumbprint.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161218" data-linked-resource-container-version="1"></span> </span></p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

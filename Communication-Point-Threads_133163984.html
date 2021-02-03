@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Communication Point Threads</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="System-State_133163948.html">System State</a></span> </li> 
+       <li> <span><a href="Threads_133163978.html">Threads</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Communication Point Threads</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Communication point threads are organized by the folder hierarchy. For an example, refer to the <a href="Communication-Point-Types_133162205.html">Communication Point Types</a> page. This enables threads for specific communication points to be found quickly, even when a large number are running. There are two types of communication point threads:</p>
+      <ul>
+       <li><strong>Controller Threads</strong> - the communication point controller thread is responsible for creating new connections, and managing the communication point state. The communication point stops when the controller thread exits.</li>
+       <li><strong>Connection Threads</strong> - the communication point connection threads run the individual communication point connections. There are either two (for bidirectional communication points) or one (all other communication points) threads per connection. The communication point can continue to run even when the connection threads exit (depending on the retry settings and the type of communication point).</li>
+      </ul>
+      <p>Communication point threads cannot be interrupted or stopped by the user if they are currently in one of the following states and have been so for less than 1 minute:</p>
+      <ul>
+       <li>Stopping.</li>
+       <li>Stopped.</li>
+       <li>Initializing new connection.</li>
+       <li>Saving message to Rhapsody.</li>
+       <li>Registering message for tracking.</li>
+       <li>Processing tracking response.</li>
+      </ul>
+      <p>Additionally, controller threads cannot be interrupted or stopped by the user if they are waiting for connections to close while stopping, and have been so for less than 2 minutes.</p>
+      <p>Any attempt to interrupt or stop a communication point thread in one of these conditions will fail. The threads page is redisplayed with an error message indicating the problem.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <ul>
+         <li>Interrupting a connection thread will sometimes cause the connection to be closed. This is intended, but there is no guarantee that this will work. Stopping a connection thread will close the connection.</li>
+         <li>Interrupting a controller thread will generally cause the communication point to be shut down. This is intended, but if the controller thread is blocked the communication point may not be shut down. Stopping the controller thread will shut down the communication point.</li>
+        </ul>
+       </div>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163984/133163985.png" data-image-src="attachments/133163984/133163985.png" data-unresolved-comment-count="0" data-linked-resource-id="133163985" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="threads-commpoint.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163984" data-linked-resource-container-version="2"></span></p>
+      <p>&nbsp;</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field/Action</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Communication Point</p></td>
+          <td class="confluenceTd"><p>The communication point that the threads belong to. This is a hyperlink to the <a href="Communication-Point-Details_133163702.html">Communication Point Details</a> page. Communication point threads are organized by the folder hierarchy (as on the communication points page). This enables threads for specific communication points to be found quickly, even when a large number are running.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Thread Name</p></td>
+          <td class="confluenceTd"><p>The internal thread name. A running communication point has one controller thread, and one or two threads per active connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>State</p></td>
+          <td class="confluenceTd"><p>The thread state, which differs depending on the thread type. <br class="atl-forced-newline"> Communication point connection threads will have the following states:</p>
+           <ul>
+            <li>Starting.</li>
+            <li>Stopping.</li>
+            <li>Receiving message.</li>
+            <li>Saving message to Rhapsody.</li>
+            <li>Waiting for message to send.</li>
+            <li>Sending message.</li>
+            <li>Waiting to perform retry.</li>
+            <li>Throttling.</li>
+            <li>Registering message for tracking.</li>
+            <li><p>Processing tracking response.</p>
+             <div class="confluence-information-macro confluence-information-macro-note">
+              <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+              <div class="confluence-information-macro-body">
+               <p>Bidirectional communication points have two threads per connection.</p>
+              </div>
+             </div><p>Communication point controller threads will have the following states:</p></li>
+            <li>Starting.</li>
+            <li>Stopping.</li>
+            <li>Establishing new connection.</li>
+            <li>Initializing new connection</li>
+            <li>Maximum connections reached - waiting for connection to close.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Time in State</p></td>
+          <td class="confluenceTd"><p>The amount of time the thread has been in its current state.</p>
+           <ul>
+            <li><code>&lt; 1 second</code> - if less than a second.</li>
+            <li>The number of seconds - if less than a minute.</li>
+            <li>The number of minutes - if less than an hour.</li>
+            <li>The number of hours - if greater than an hour.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Thread Actions</p></td>
+          <td class="confluenceTd">
+           <ul>
+            <li><strong>Stack Trace</strong> - Opens a popup window showing a stack trace for the thread. A popup window is used to allow multiple stack traces of different threads to open simultaneously, without having to pre-generate the stack traces before displaying this page.</li>
+            <li><strong>Disconnect</strong> - Disconnects the communication point connection. The underlying connection is disconnected, but the thread itself is normally not touched. The communication point will generally continue to run (depends on the retry settings and communication point type). This is primarily relevant for TCP-based connections where the internal socket is closed.</li>
+            <li><p><strong>Interrupt</strong> - Interrupts the thread. You must confirm this action. This sets a flag on the thread letting it know it has been interrupted. If the thread is blocked performing some operation, it normally wakes up immediately and processes the interrupt. If the thread is busy, it may not notice the interrupt.</p>
+             <div class="confluence-information-macro confluence-information-macro-note">
+              <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+              <div class="confluence-information-macro-body">
+               <p>While Rhapsody handles interrupts correctly, examples for existing Java code have shown incorrect ways of doing this. If you write a custom component that does not handle interrupts correctly, then it may do nothing.</p>
+              </div>
+             </div><p>Interrupts are generally ignored if the thread is blocked within native code.</p></li>
+            <li><p><strong>Terminate</strong> - Stops the thread. You must confirm this action. This calls the <code>Java Thread.stop()</code> method. This does not terminate the thread immediately, but causes it to throw <code>ThreadDeath</code> internally. This will almost always break out of any Java code, however, it is not likely to have an effect if the thread is stuck within native code.<br class="atl-forced-newline">Stopping a connection thread will only stop the connection. The communication point will generally keep running (depending on the type of communication point and the retry settings). The communication point will detect that it has less than the maximum number of connections, and will recreate the connection.</p>
+             <div class="confluence-information-macro confluence-information-macro-note">
+              <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+              <div class="confluence-information-macro-body">
+               <p>Rhapsody will automatically create a new thread to take the place of the thread that has been stopped.</p>
+              </div>
+             </div></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

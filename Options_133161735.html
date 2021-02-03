@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Options</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Using-the-Database-Configuration-Editor_133161705.html">Using the Database Configuration Editor</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Options</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>To display the <strong>Options</strong> screen, select the <strong>Options</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161735/133161739.png" data-image-src="attachments/133161735/133161739.png" data-unresolved-comment-count="0" data-linked-resource-id="133161739" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon database options.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161735" data-linked-resource-container-version="1"></span> in the top left of the <strong>Rhapsody Database Configuration Editor</strong>. The <strong>Options</strong> screen enables you to configure global options:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161735/133161736.png" data-image-src="attachments/133161735/133161736.png" data-unresolved-comment-count="0" data-linked-resource-id="133161736" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="databaseOptions.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161735" data-linked-resource-container-version="1"></span></p>
+      <p>The following tables describe the options available on this screen.</p>
+      <h3 id="Options-GeneralOptions">General Options</h3>
+      <div class="table-wrap">
+       <table id="TBL1565043148449" class="confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Commit each statement immediately</p></td>
+          <td class="confluenceTd"><p>If this field is selected, the auto commit flag is set on the database connection. This means that each statement is committed immediately to the database. If this field is not selected, all statements are executed within a single transaction.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Convert missing fields to empty strings</p></td>
+          <td class="confluenceTd"><p>If this field is not selected, null values are used for any field paths that are used in the configuration but do not exist.</p><p>If this field is selected, empty strings are used instead of null values if the field path does exist. In neither case does this affect any field paths where data is available.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Base64 encode binary values when converting them to strings</td>
+          <td colspan="1" class="confluenceTd"><p>If this option is enabled, then values retrieved from binary columns or binary stored procedure output parameters are base64-encoded by Rhapsody if it needs to convert the values to a string. Conversion into a string is required if the binary value is:</p>
+           <ul>
+            <li style="list-style-type: none;background-image: none;">
+             <ul>
+              <li>Inserted into a message property.</li>
+              <li>Inserted into a field in the input message.</li>
+              <li>Used to generate an XML message containing results from a number of columns and/or rows.</li>
+             </ul></li>
+           </ul><p style="list-style-type: none;background-image: none;">The conversion does not take place if subsequent SQL queries implicitly or explicitly change the effective column type (for example, by casting the result to another SQL datatype). The conversion only occurs in the scenarios listed above, and then only when the Rhapsody database components know that the datatype is a binary type. The <a href="Column-Data-Type-Setting_133161768.html"><span class="confluence-link">&lt;columnType&gt;</span></a><span class="confluence-link">&nbsp;</span> XML element can be explicitly added to the Rhapsody database configuration to assist Rhapsody to detect a binary type. In particular, conversion is not required when using the <strong>Message Body Column</strong> configuration parameter for the <a href="Database_133162443.html">Database Communication Point</a> or <a href="Database-Message-Extraction_133163070.html">Database Message Extraction Filter</a>, because in those cases the binary value is directly inserted into the Rhapsody message body without any conversion being required.</p><p style="list-style-type: none;background-image: none;">If this option is not enabled, then the binary value is instead converted into a string by UTF-8 decoding it. Unless the binary value is known to be a UTF-8 encoded string, this is not an appropriate selection and may result in runtime errors if the value cannot be converted.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Allow dynamic table and column names in SQL statements</td>
+          <td colspan="1" class="confluenceTd">This option must be enabled to allow the use of dynamic table and column names in SQL statements. Refer to <a href="Using-Dynamic-Table-and-Column-Names_133161686.html">Using Dynamic Table and Column Names</a> for details.</td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148449']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148449',[],'style=&quot;width:20%; text-align: left;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h3 id="Options-OutputMessageOptions">Output Message Options</h3>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>These options are only available when the component is in the <em>Input</em> mode.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table id="TBL1565043148450" class="confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use attributes for column names</p></td>
+          <td class="confluenceTd"><p>If this field is not selected, the name of the XML element is the name of the column itself. If this field is selected, the column XML element is called 'column', and the 'name' attribute contains the actual column name. For example, <code>&lt;column name="firstName"&gt;</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use attributes for row names</p></td>
+          <td class="confluenceTd"><p>If this field is not selected, the name of the XML element is the name of the statement. If this field is selected, the XML element is called 'row', and the 'name' attribute contains the name of the statement. For example, <code>&lt;row name="main"&gt;</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use attributes for values</p></td>
+          <td class="confluenceTd"><p>If this field is not selected, the value retrieved from the database is contained as the XML element value (that is, between the tags). If this field is selected, the 'value' attribute contains the data instead. For example, <code>&lt;column name="firstName" value="Bloggs"/&gt;</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Number of rows used to generate a message</p></td>
+          <td class="confluenceTd"><p>This is the number of rows returned from the root statement used to generate an XML message. Generally this is left as the default value of <code>0</code>, which means that a single XML message is generated for all the new rows in the table. Changing this value limits the number of rows that will be included in each XML message. For example, setting this value to <code>1</code> causes a separate XML message to be generated for each row.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148450']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148450',[],'style=&quot;width:20%; text-align: left;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>&nbsp;</p>
+      <h2 id="Options-XMLMessageGeneration">XML Message Generation</h2>
+      <p>The structure of the XML message mirrors the structure of the database configuration, so statement groups in the generated XML message will be nested according to how the statements are nested in the configuration. The <strong>Output Message Options</strong> enable you to modify the structure of the generated XML message.</p>
+      <p>The <strong>Database</strong> communication point running in input mode and the database message extraction filter both generate XML messages corresponding to the result sets returned by the database. This XML message can then be processed by Rhapsody normally.</p>
+      <p>The general form of the generated XML message is as follows:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;message&gt;
+ &lt;statementName1&gt;
+  &lt;columnName1&gt;column value&lt;/columnName1&gt;
+  &lt;columnName2&gt;column value&lt;/columnName2&gt;
+  &lt;columnName3&gt;column value&lt;/columnName3&gt;
+  ... 
+ &lt;/statementName1&gt;
+ &lt;statementName2&gt;
+  &lt;columnName1&gt;column value&lt;/columnName1&gt;
+  &lt;columnName2&gt;column value&lt;/columnName2&gt;
+  &lt;columnName3&gt;column value&lt;/columnName3&gt;
+  ... 
+ &lt;/statementName2&gt;
+ &lt;statementName3&gt;
+  &lt;columnName1&gt;column value&lt;/columnName1&gt;
+  &lt;columnName2&gt;column value&lt;/columnName2&gt;
+  &lt;columnName3&gt;column value&lt;/columnName3&gt;
+  ... 
+ &lt;/statementName3&gt;
+&lt;/message&gt;
+</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

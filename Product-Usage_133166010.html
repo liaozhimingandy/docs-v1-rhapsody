@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Product Usage</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Management_133164048.html">Management</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Product Usage</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148545" class="wrapped confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <colgroup>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path</em> : <strong>Management&gt;Product Usage</strong></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><em>Read <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li><p>Log in to Management Console</p></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Write <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Manage product usage</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148545']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148545',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>Rhapsody collects anonymous product usage information in order to improve the product and support for customers.&nbsp;</p>
+      <p><span style="letter-spacing: 0.0px;">Product usage information does not contain any of the data processed by the Rhapsody engine, and does not include any personally identifiable information (including health information) associated with an engine configuration.&nbsp;</span>For details on the type of information collected, refer to&nbsp;<a href="#ProductUsage-PreviewingDataCollection">Previewing Data Collection</a>.</p>
+      <p>Product usage information will <em>not</em> be shared with or otherwise distributed to third parties outside the Rhapsody group of companies.&nbsp;A&nbsp;full copy of your product usage information held by Rhapsody can be provided upon request.</p>
+      <p>To disable the collection of your data or preview the data that your engine is collecting, you may do so through the Management Console. Refer to&nbsp;<a href="#ProductUsage-ManagingDataCollection">Managing Data Collection</a>.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Product usage data is not collected for engines running on AIX, HPUX and Solaris operating systems.</p>
+       </div>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="1000" src="attachments/133166010/137097465.png" data-image-src="attachments/133166010/137097465.png" data-unresolved-comment-count="0" data-linked-resource-id="137097465" data-linked-resource-version="6" data-linked-resource-type="attachment" data-linked-resource-default-alias="ProductUsage.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133166010" data-linked-resource-container-version="30"></span></p>
+      <h2 id="ProductUsage-ManagingDataCollection">Managing Data Collection</h2>
+      <h3 id="ProductUsage-EnablingorDisablingDataCollection">Enabling or Disabling Data Collection</h3>
+      <p>To enable or disable the collection of your data:</p>
+      <ol>
+       <li>Set the <strong>Product usage data collection</strong> checkbox to enable or disable data collection.</li>
+       <li>Select the <strong>Apply</strong> button to save your changes, or the <strong>Discard</strong> button to abort.</li>
+      </ol>
+      <p>You can also manage Product Usage settings via the REST API. Refer to&nbsp;<a href="Product-Usage-Settings_133308383.html">Product Usage Settings</a> for details.</p>
+      <h3 id="ProductUsage-ConnectionVerification">Connection Verification&nbsp;</h3>
+      <p>Connection Verification indicates whether the engine has the ability to connect to Rhapsody's Product Usage server. If you want to send your data to Rhapsody, ensure your engine is permitted to connect to&nbsp;<code>grpcservices.api.rhapsody.global:443</code>.</p>
+      <p>The connection is only verified when users navigate to the Product Usage page.</p>
+      <h2 id="ProductUsage-PreviewingDataCollection">Previewing Data Collection</h2>
+      <p>Rhapsody collects the following data in a text file containing read-only JSON-like objects:</p>
+      <ul>
+       <li><a href="#ProductUsage-ConfigurationData">Configuration data</a> - data related to how objects are configured in your configuration. This data is collected every 2 weeks.</li>
+       <li><a href="#ProductUsage-Metrics">Metrics</a> - data related to engine and communication point metrics in your configuration, including engine uptime and message counts. This data is collected every 24 hours.</li>
+      </ul>
+      <p>To view the data your engine has collected to send to Rhapsody at a particular point in time:</p>
+      <ul>
+       <li>Select the type of data you want to download by checking the relevant checkboxes, and select the&nbsp;<strong>Download</strong>&nbsp;button.</li>
+       <li>Alternatively, select the&nbsp;<strong>Download All</strong>&nbsp;button to download all the preview data.</li>
+      </ul>
+      <h3 id="ProductUsage-Metrics">Metrics</h3>
+      <p>Rhapsody collects the following metrics:</p>
+      <ul>
+       <li>Timestamp</li>
+       <li>Configuration hash</li>
+       <li>Engine fingerprint:
+        <ul>
+         <li>Licenses:
+          <ul>
+           <li>Client_code</li>
+           <li>Environment_type</li>
+           <li>License_key</li>
+          </ul></li>
+        </ul></li>
+      </ul>
+      <ul>
+       <li style="list-style-type: none;background-image: none;">
+        <ul>
+         <li>Installation directory path</li>
+         <li>Hostname</li>
+         <li>Registered environment type</li>
+         <li>Mac addresses:
+          <ul>
+           <li>Mac address</li>
+           <li>Network</li>
+          </ul></li>
+        </ul></li>
+       <li>Engine metrics:</li>
+      </ul>
+      <ul>
+       <li style="list-style-type: none;background-image: none;">
+        <ul>
+         <li>Received message count</li>
+         <li>Processed message count</li>
+         <li>Sent message count</li>
+         <li>Failed&nbsp;message count</li>
+        </ul></li>
+      </ul>
+      <ul>
+       <li>Communication point metrics:
+        <ul>
+         <li>Identifier</li>
+         <li>Message counts</li>
+         <li>Communication point&nbsp;type</li>
+        </ul></li>
+      </ul>
+      <ul>
+       <li>Engine uptime</li>
+      </ul>
+      <h3 id="ProductUsage-ConfigurationData">Configuration Data</h3>
+      <p>Rhapsody collects the following configuration data:</p>
+      <ul>
+       <li>Timestamp</li>
+       <li>Configuration hash</li>
+       <li>Engine fingerprint:
+        <ul>
+         <li>Licenses:
+          <ul>
+           <li>Client_code</li>
+           <li>Environment_type</li>
+           <li>License_key</li>
+          </ul></li>
+        </ul></li>
+      </ul>
+      <ul>
+       <li style="list-style-type: none;background-image: none;">
+        <ul>
+         <li>Installation directory path</li>
+         <li>Hostname</li>
+         <li>Registered environment type</li>
+         <li>Mac addresses:
+          <ul>
+           <li>Mac address</li>
+           <li>Network</li>
+          </ul></li>
+        </ul></li>
+       <li>Configuration:
+        <ul>
+         <li>Communication points</li>
+         <li>Filters</li>
+         <li>Folders&nbsp;</li>
+         <li>Intelligent Mapper projects</li>
+         <li>JavaScript Functions</li>
+         <li>JavaScript&nbsp;Libraries</li>
+         <li>Lockers</li>
+         <li>LookupTables</li>
+         <li>Message definitions</li>
+         <li>REST clients</li>
+         <li>Routes</li>
+         <li>Templates</li>
+         <li>Message tracking schemes</li>
+         <li>Web services</li>
+         <li>X12 projects</li>
+        </ul></li>
+      </ul>
+      <h3 id="ProductUsage-RedactedData">Redacted Data</h3>
+      <p>PHI, customer IP, security-related information, and large files are redacted from your configuration data before being sent to Rhapsody:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Rhapsody Object</th>
+          <th class="confluenceTh">Redacted <span style="color: rgb(51,51,51);">Configuration Data</span></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Communication points</p></td>
+          <td class="confluenceTd">
+           <ul>
+            <li>Notes and support notes.</li>
+            <li>Passwords, directory paths, hostnames, and usernames.</li>
+            <li>Auxiliary files content.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Filters</td>
+          <td class="confluenceTd">
+           <ul>
+            <li>Notes and support notes.</li>
+            <li>Test messages.</li>
+            <li>JavaScript.</li>
+            <li>Passwords, hostnames, and usernames.</li>
+            <li><p>Auxiliary files content.</p></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Intelligent Mapper projects</p></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Sample messages</li>
+            <li>Mapping project rules and mapping code.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>JavaScript functions</p></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Function body</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Shared JavaScript&nbsp;libraries</p></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><span>Shared JavaScript&nbsp;functions</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Lookup tables</p></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Lookup table values.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Message definitions</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Definition files.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">REST Clients</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Passwords, hostnames, and usernames.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Routes</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Notes and support notes.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Templates</p></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Notes and support notes.</li>
+            <li>Test messages.</li>
+            <li>JavaScript.</li>
+            <li>Passwords, <span>directory paths</span>, hostnames, and usernames.</li>
+            <li><p>Auxiliary files content.</p></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Web services</p></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Security parameters.</li>
+            <li>Authenticated users.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>X12 projects</p></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>X12 definitions.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Information related to message definitions, Rhapsody variables and security objects is not collected at all.&nbsp;</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

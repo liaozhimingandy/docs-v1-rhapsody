@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Symmetric Cryptography</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Deprecated-Components_133162090.html">Deprecated Components</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Symmetric Cryptography</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162096/133162099.jpg" data-image-src="attachments/133162096/133162099.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162099" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image018.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162096" data-linked-resource-container-version="2"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <p class="title">Deprecated Component</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is recommended you replace all Symmetric Cryptography filters in your configuration with the <a href="Asymmetric-Cryptography_133163005.html">Asymmetric Cryptography</a> filter.</p>
+       </div>
+      </div>
+      <p>The <strong>Symmetric Cryptography</strong> filter&nbsp;encrypts or decrypts messages using a symmetric algorithm.</p>
+      <h2 id="SymmetricCryptography-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Cipher Name</p></td>
+          <td class="confluenceTd"><p>The symmetric algorithm to use (such as AES). For block algorithms you must specify a cipher block mode in the Cipher Mode field and padding scheme in the Padding Scheme field to use with the algorithm. If in doubt as to which to use, CBC block mode with NoPadding is the default. RC4 is a streaming algorithm that does not use a block mode or padding scheme.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Cipher Mode</p></td>
+          <td class="confluenceTd"><p>The name of the cipher block mode to use.</p><p>All the cipher block modes except ECB require an Initialization Vector (IV), generally of either 8 or 16 bytes (depending on the algorithm being used). This vector is configured as a hex string using the IV parameter; for example, an 8 byte IV could be "d654c2511003931c" or for 16 bytes "718b916cf57feb7ec76f5bdb12c41235".</p><p>If no initialization vector is specified for an encryption filter when one is needed then it is generated automatically. The same IV is required for decryption as was used for encryption.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Padding Scheme</p></td>
+          <td class="confluenceTd"><p>The cipher block padding scheme to use. The cipher block padding schemes available for use are:</p>
+           <ul>
+            <li>NoPadding</li>
+            <li>PKCS7Padding</li>
+            <li>WithCTS</li>
+            <li>X9.23Padding</li>
+            <li>ISO10126Padding</li>
+           </ul><p><span style="line-height: 13.0pt;">Some combinations of cipher block modes and padding schemes are not compatible. In general CTS padding can only be used with the CBC and ECB block modes. Also, if you use NoPadding and the CBC or ECB block modes, your input data must be an exact multiple of the block size for the given algorithm.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encrypt or Decrypt</p></td>
+          <td class="confluenceTd"><p>Options: <code>Encrypt</code>, <code>Decrypt</code>. Default: <code>Encrypt</code><br>Identifies whether a file processed by this filter is to be encrypted or decrypted.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Symmetric Key Name</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The user-defined name of the key from the Certificate Manager to use for the encryption/decryption. Click the <strong>Browse</strong> button to display the <strong>Symmetric Keys</strong> screen, shown in the following screenshot:<br> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162096/133162101.jpg" data-image-src="attachments/133162096/133162101.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162101" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image154.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162096" data-linked-resource-container-version="2"></span> <br> Select the key you need to use, or click the <strong>Generate key...</strong> button to generate a new symmetric key.<br> A symmetric key generated in this way is listed on the <strong>Symmetric Key</strong> tab of the <strong>Certificate Manager</strong> and can be managed using this tool.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Initialisation Vector</p></td>
+          <td class="confluenceTd"><p>This is required for most cipher modes. This is a string of either 8 or 16 bytes, depending on the selected algorithm. If no initialization vector is specified for an encryption filter when one is required, one will be generated automatically. The initialization vector is a hex coded vector used to initialize the cipher.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SymmetricCryptography-KeyandBlockSizes">Key and Block Sizes</h2>
+      <p>The key and block sizes for the various algorithms are shown in the following table.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Algorithm</p></th>
+          <th class="confluenceTh"><p>Key Size (bits)</p></th>
+          <th class="confluenceTh"><p>Block Size</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>AES</p></td>
+          <td class="confluenceTd"><p>0 .. 256 (192)</p></td>
+          <td class="confluenceTd"><p>128 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Blowfish</p></td>
+          <td class="confluenceTd"><p>0 .. 448 (448)</p></td>
+          <td class="confluenceTd"><p>64 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>CAST5</p></td>
+          <td class="confluenceTd"><p>0 .. 128(128)</p></td>
+          <td class="confluenceTd"><p>64 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>CAST6</p></td>
+          <td class="confluenceTd"><p>0 .. 256(256)</p></td>
+          <td class="confluenceTd"><p>128 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>DES</p></td>
+          <td class="confluenceTd"><p>64</p></td>
+          <td class="confluenceTd"><p>64 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>DESede</p></td>
+          <td class="confluenceTd"><p>128, 192</p></td>
+          <td class="confluenceTd"><p>64 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>IDEA</p></td>
+          <td class="confluenceTd"><p>128 (128)</p></td>
+          <td class="confluenceTd"><p>64 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>RC2</p></td>
+          <td class="confluenceTd"><p>0 .. 1024 (128)</p></td>
+          <td class="confluenceTd"><p>64 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>RC5</p></td>
+          <td class="confluenceTd"><p>0 .. 128 (128)</p></td>
+          <td class="confluenceTd"><p>64 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>RC6</p></td>
+          <td class="confluenceTd"><p>0 .. 256 (128)</p></td>
+          <td class="confluenceTd"><p>128 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Rijndael</p></td>
+          <td class="confluenceTd"><p>0 .. 256 (192)</p></td>
+          <td class="confluenceTd"><p>128 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Skipjack</p></td>
+          <td class="confluenceTd"><p>0 .. 128 (128)</p></td>
+          <td class="confluenceTd"><p>64 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Twofish</p></td>
+          <td class="confluenceTd"><p>128, 192, 256 (256)</p></td>
+          <td class="confluenceTd"><p>128 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Serpent</p></td>
+          <td class="confluenceTd"><p>128, 192, 256 (256)</p></td>
+          <td class="confluenceTd"><p>128 bit</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>RC4</p></td>
+          <td class="confluenceTd"><p>40 .. 2048 bits (128)</p></td>
+          <td class="confluenceTd"><p>N/A</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

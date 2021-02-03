@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Logs</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Logs</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following method to&nbsp;export system logs or audit logs:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147004235 {padding: 0px;}
+div.rbtoc1565147004235 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147004235 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147004235"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#Logs-POST/api/logs/export">POST /api/logs/export</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="Logs-POST/api/logs/export">POST /api/logs/export</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>POST /api/logs/export</code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+          <td class="confluenceTd">Exports system logs or audit logs for the given time range.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><p><code>Accept: application/json&nbsp;</code><br><code>Content-Type: application/zip</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Accept: application/vnd.orchestral.rhapsody.6_5+json&nbsp;</span></code><br><code><span>Content-Type: application/vnd.orchestral.rhapsody.6_5+zip</span></code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>The search parameter data object structure is as follows:</p>
+           <ul>
+            <li><code>logType</code><span style="color: rgb(0,51,102);">&nbsp;-<span style="color: rgb(51,51,51);">&nbsp;<span class="error">[enumerated string]</span>&nbsp;the log type, either&nbsp;<code>AUDIT</code>&nbsp;or&nbsp;<code>SYSTEM</code>.</span></span></li>
+            <li><span style="color: rgb(51,51,51);"><code>timeRange</code>&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;defaults to no time restrictions - either a start/end time or a duration can be provided but not both.</span>
+             <ul>
+              <li><span style="color: rgb(51,51,51);"><code>startTime</code> -&nbsp;<span class="error">[str]</span>&nbsp;date-time in ISO8601 format.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>endTime</code>&nbsp;-&nbsp;<span class="error">[str]</span>&nbsp;date-time in ISO8601 format.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>duration</code>&nbsp;-&nbsp;<span class="error">[str]</span>&nbsp;ISO8601 format duration relative to the current date-time.</span></li>
+             </ul></li>
+            <li><span style="color: rgb(51,51,51);"><code>locale</code>&nbsp;-&nbsp;<span class="error">[str]</span>&nbsp;the local to return the logs in.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>200 OK</code>&nbsp;- returns the configuration in ZIP format.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">A zipped file of pipe-delimited logs.&nbsp;This is the same format as provided by the Management Console export functionality.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Export logs REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

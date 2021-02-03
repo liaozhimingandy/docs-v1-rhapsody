@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Wrapped Serial (RS-232)</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Serial_133162510.html">Serial</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Wrapped Serial (RS-232)</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162515/133162516.jpg" data-image-src="attachments/133162515/133162516.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162516" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_commptdefault.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162515" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Wrapped Serial</strong> communication point transfers messages utilizing a serial (RS/232) port. Messages are wrapped with a user-defined header and/or trailer.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Serial-Port-Problems-on-UNIX_133164126.html">Serial Port Problems on UNIX</a> for details about common problems when running serial communication points on Unix.</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Serial communication points are only available on <em>Windows</em> and Linux (unavailable on HPUX, Solaris and AIX).</p>
+       </div>
+      </div>
+      <p>Supported Operational Modes: <em>All</em>.</p>
+      <h2 id="WrappedSerial(RS-232)-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port Name</p></td>
+          <td class="confluenceTd"><p>Specifies the name of the port to which you want to connect:</p>
+           <ul>
+            <li><code>COM3</code> (default).</li>
+            <li><code>LPT1</code>.</li>
+            <li><code>LPT2</code> - <em>Windows</em>® environment only.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Baud Rate</p></td>
+          <td class="confluenceTd"><p><span>Specifies the speed of the serial connection </span>between <code>50</code> and <code>115200</code> baud<span> (the default </span>is <code>9600</code> baud<span>).</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Data Bits</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span><span> the</span> number of data-bits (the default is <code>8</code>).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Stop Bits</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span><span> the</span> number of stop-bits<span> (the default is</span> <code>1</code>).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Parity</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span><span> the</span> data parity mode:</p>
+           <ul>
+            <li><code>Even</code><span>.</span></li>
+            <li><code>Mark</code><span>.</span></li>
+            <li><code>None</code><span> (default). </span></li>
+            <li><code>Odd</code><span>.</span></li>
+            <li><code>Space</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="_mce_tagged_br">Flow Control</p></td>
+          <td class="confluenceTd"><p>Specifies the Flow Control mode:</p>
+           <ul>
+            <li><code>None</code> (default).</li>
+            <li><code>RTS/CTS</code>.</li>
+            <li><code>XON/XOFF</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Init Sequence</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The sending/expected sequence pairs which will be used for the serial transport initialization before sending the message to the remote host.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This property only accepts unescaped ASCII characters with the exception of the following escape sequences: <code>\t</code>, <code>\n</code>, <code>\r</code>, and <code>\b</code>. All other escape sequences are ignored. If you want to use a specific hexadecimal byte sequence, you can use a tool such as a HEX editor to create the byte sequences and paste them as ASCII text into the property field (even if the ASCII characters are non-printable). Unprintable characters may display incorrectly in the editor, but the actual byte sequence is recorded in the property.</p>
+             </div>
+            </div>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If you want to use this communication point to listen for a response without first having sent a byte sequence, then populate the Expected Sequence field as normal and leave the&nbsp;Sending Sequence field blank.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Init Timeout</p></td>
+          <td class="confluenceTd"><p>How long (in milliseconds) to wait for the init sequence to be processed. (<code>0</code> (zero) means no limit).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to log connections:</p>
+            <ul>
+             <li><code>True</code> - <span>establishing and dropping of all connections to the communication point are logged to the log file specified in the </span><strong>Connection Log File</strong><span> property.</span></li>
+             <li><code>False</code> (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Use of this logging facility slows the communication point down considerably. It is intended for debugging purposes and should not generally be used.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Whether to log data:</p>
+           <ul>
+            <li><code>True</code> - all data passed over the connections of the communication point is logged to the log file. This is potentially a large amount of data.</li>
+            <li><code>False</code> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p><span>Whether to log data in hexadecimal form:</span></p>
+           <ul>
+            <li><code>True</code> - the hexadecimal representation of the data is logged to the log file.</li>
+            <li><code>False</code>&nbsp;(default) - the data is logged exactly as it is as it passes over the communication point connection.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The full file name (path and file name) of the file on the server to which to log the information.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Whether to log extra information:</p>
+           <ul>
+            <li><code>None</code>.</li>
+            <li><code>Log Time</code> (default) - log timestamps with each event.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Incoming Wrapper</p></td>
+          <td class="confluenceTd"><p><span>Message wrapping around messages received over the socket connection.</span></p>
+           <ul>
+            <li><code>Minimal</code> - HL7 minimal LLP protocol.</li>
+            <li><code>User</code> (default) - user-defined header and/or trailer.</li>
+           </ul><p>Refer to <a href="Configuration_133162170.html">Wrapper Options</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Strip Wrapping</p></td>
+          <td class="confluenceTd"><p>Whether or not to strip the wrapping off received messages:</p>
+           <ul>
+            <li><code>True</code> <span>(default)</span>.</li>
+            <li><code>False</code>.</li>
+           </ul><p>Refer to <span class="confluence-link"><a href="Configuration_133162170.html">Strip Wrapping</a></span> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Incoming Header</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Defines the header that identifies the start of a message on the socket connection.</p>
+            <p><span>Only available when the </span><strong>Incoming Wrapper</strong><span> field is set </span>to <code>User</code>.<span>&nbsp;</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This property only accepts unescaped ASCII characters with the exception of the following escape sequences: <code>\t</code>, <code>\n</code>, <code>\r</code>, and <code>\b</code>. All other escape sequences are ignored. If you want to use a specific hexadecimal byte sequence, you can use a tool such as a HEX editor to create the byte sequences and paste them as ASCII text into the property field (even if the ASCII characters are non-printable). Unprintable characters may display incorrectly in the editor, but the actual byte sequence is recorded in the property.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Incoming Trailer</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Defines the trailer that identifies the end of a message on the socket connection.</p>
+            <p><span>Only available when the </span><strong>Incoming Wrapper</strong><span> field is set </span>to <code>User</code>.<span>&nbsp;</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This property only accepts unescaped ASCII characters with the exception of the following escape sequences: <code>\t</code>, <code>\n</code>, <code>\r</code>, and <code>\b</code>. All other escape sequences are ignored. If you want to use a specific hexadecimal byte sequence, you can use a tool such as a HEX editor to create the byte sequences and paste them as ASCII text into the property field (even if the ASCII characters are non-printable). Unprintable characters may display incorrectly in the editor, but the actual byte sequence is recorded in the property.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Incoming Endian-ness</p></td>
+          <td class="confluenceTd"><p>The incoming endian-ness:</p>
+           <ul>
+            <li><code>Big</code> - most significant byte first <span>endian order</span>.</li>
+            <li><code>Little</code> - least significant byte first endian order.</li>
+           </ul><p>Only available when the <strong>Incoming Wrapper</strong> field is set to <code>User</code>.</p><p>Certain codes used in the header and trailer definitions can output binary data.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="WrappedSerial(RS-232)-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port Name</p></td>
+          <td class="confluenceTd"><p>Options: <code>COM3</code>, <code>LPT1</code>, <code>LPT2</code>. (<em>Windows</em>® environment only).<br>Identifies the name of the port to which to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Baud Rate</p></td>
+          <td class="confluenceTd"><p>Options: <code>50 - 115200</code>. Default: <code>9600</code> <br>Identifies the speed of the serial connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Data Bits</p></td>
+          <td class="confluenceTd"><p>The number of data-bits. Default: <code>8</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Stop Bits</p></td>
+          <td class="confluenceTd"><p>The number of stop-bits. Default: <code>1</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Parity</p></td>
+          <td class="confluenceTd"><p>Options: <code>Even</code>, <code>Mark</code>, <code>None</code>, <code>Odd</code>, <code>Space</code> . Default: <code>None</code> <br> Identifies the data parity mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Flow Control</p></td>
+          <td class="confluenceTd"><p>Options: <code>None</code>, <code>RTS/CTS</code>, <code>XON/XOFF</code>. Default: <code>None</code> <br> The type of flow control to use.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Init Sequence</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The sending/expected sequence pairs which will be used for the serial transport initialization before sending the message to the remote host.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This property only accepts unescaped ASCII characters with the exception of the following escape sequences: <code>\t</code>, <code>\n</code>, <code>\r</code>, and <code>\b</code>. All other escape sequences are ignored. If you want to use a specific hexadecimal byte sequence, you can use a tool such as a HEX editor to create the byte sequences and paste them as ASCII text into the property field (even if the ASCII characters are non-printable). Unprintable characters may display incorrectly in the editor, but the actual byte sequence is recorded in the property.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Init Timeout</p></td>
+          <td class="confluenceTd"><p>How long (in milliseconds) to wait for the initialization sequence to be processed. (0 (zero) means no limit).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br> If <code>True</code>, establishing and dropping of all connections to the communication point are logged to the log file specified in the <strong>Connection Log File</strong> field.<br> Use of this logging facility slows the communication point down considerably. It is intended for debugging purposes and should not generally be used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code> <br> If <code>True</code>, all data passed over the connections of the communication point is logged to the log file. This is potentially a lot of data.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code></p>
+           <ul>
+            <li>If <code>True</code>, the hexadecimal representation of the data is logged to the log file.</li>
+            <li>If <code>False</code> , the data is logged exactly as it is as it passes over the communication point connection.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The full file name (path and file name) of the file on the server to which to log the information.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Options: <code>None</code>, <code>Log Time</code>. Default: <code>Log Time</code> <br> If set to <code>Log Time</code>, the timestamps will be logged with each event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Wrapper</p></td>
+          <td class="confluenceTd"><p>Options: <code>Minimal</code>, <code>User</code>. Default: <code>User</code> <br> Message wrapping around messages received over the socket connection.</p>
+           <ul>
+            <li><code>Minimal</code> - HL7 minimal LLP protocol.</li>
+            <li><code>User</code>- user-defined header and/or trailer.<br> Refer to <a href="Configuration_133162170.html">Wrapper Options</a>, described in General Communication Point Properties, for details.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Header</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Only available when the <strong>Outgoing Wrapper</strong> field is set to <code>User</code>.<br> This property defines the header that identifies the start of a message on the socket connection.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This property only accepts unescaped ASCII characters with the exception of the following escape sequences: <code>\t</code>, <code>\n</code>, <code>\r</code>, and <code>\b</code>. All other escape sequences are ignored. If you want to use a specific hexadecimal byte sequence, you can use a tool such as a HEX editor to create the byte sequences and paste them as ASCII text into the property field (even if the ASCII characters are non-printable). Unprintable characters may display incorrectly in the editor, but the actual byte sequence is recorded in the property.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Trailer</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Only available when the <strong>Outgoing Wrapper</strong> field is set to <code>User</code>. <br> This property defines the trailer that identifies the end of a message on the socket connection.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This property only accepts unescaped ASCII characters with the exception of the following escape sequences: <code>\t</code>, <code>\n</code>, <code>\r</code>, and <code>\b</code>. All other escape sequences are ignored. If you want to use a specific hexadecimal byte sequence, you can use a tool such as a HEX editor to create the byte sequences and paste them as ASCII text into the property field (even if the ASCII characters are non-printable). Unprintable characters may display incorrectly in the editor, but the actual byte sequence is recorded in the property.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Endian-ness</p></td>
+          <td class="confluenceTd"><p>Options: <code>Big</code> (most significant byte first), <code>Little</code> (least significant byte first) endian order.<br> Only available when the <strong>Outgoing Wrapper</strong> field is set to <code>User</code>. <br> Certain codes used in the header and trailer definitions can output binary data.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="WrappedSerial(RS-232)-Bidirectional,In->OutandOut->InMode">Bidirectional, In-&gt;Out and Out-&gt;In Mode</h2>
+      <p>The configuration properties for the Wrapped Serial (RS/232) communication point in <em>Bidirectional</em>, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes is a combination of the properties described above.</p>
+      <p>Refer to <a href="General_133162189.html">Out-&gt;In and In-&gt;Out Properties</a> for general details on a communication point's <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

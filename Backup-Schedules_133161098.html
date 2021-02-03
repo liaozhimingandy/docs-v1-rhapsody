@@ -1,0 +1,339 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Backup Schedules</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Backup Schedules</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods for managing backup schedules and backup restores:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147002046 {padding: 0px;}
+div.rbtoc1565147002046 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147002046 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147002046"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#BackupSchedules-PUT/api/backup/schedules">PUT /api/backup/schedules</a></li> 
+        <li><a href="#BackupSchedules-GET/api/backup/schedules">GET /api/backup/schedules</a></li> 
+        <li><a href="#BackupSchedules-GET/api/backup/schedules/<id>">GET /api/backup/schedules/&lt;id&gt;</a></li> 
+        <li><a href="#BackupSchedules-POST/api/backup/schedules/<id>">POST /api/backup/schedules/&lt;id&gt;</a></li> 
+        <li><a href="#BackupSchedules-"></a></li> 
+        <li><a href="#BackupSchedules-DELETE/api/backup/schedules/<id>">DELETE /api/backup/schedules/&lt;id&gt;</a></li> 
+        <li><a href="#BackupSchedules-POST/api/backup/restore">POST /api/backup/restore</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="BackupSchedules-PUT/api/backup/schedules">PUT /api/backup/schedules</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>PUT /api/backup/schedules</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Creates a new backup schedule.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_3+json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "backupAreas":["ALL"],
+    "directory": "test",
+    "cronExpression": "0 0 * * * ?",
+    "backupType": "INCREMENTAL"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Manage backups REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="BackupSchedules-GET/api/backup/schedules">GET /api/backup/schedules<br><a name="Deleteabackupschedule" title="Follow link" rel="nofollow"></a></h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>GET /api/backup/schedules</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td class="confluenceTd">Get a list of all backup schedules.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><strong>Request Header</strong></td>
+          <td class="confluenceTd"><p><code>Accepts: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accepts: application/vnd.orchestral.rhapsody.6_2+json</code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Request Body</strong></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><code>200 OK</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+	"data":[{
+		"id":1,
+		"backupAreas":["ALL"],
+		"directory":"C\u003A\u005CDev",
+		"cronExpression":"0\u00200\u0020\u002A\u0020\u002A\u0020\u002A\u0020\u003F",
+		"backupType":"FULL",
+		"timestamp":1444096806360
+	}],
+	"error":null
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'Get backup information REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="BackupSchedules-GET/api/backup/schedules/<id>">GET /api/backup/schedules/&lt;id&gt;</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>GET /api/backup/schedules/&lt;id&gt;</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Gets the status of a specific backup schedule.</td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Accept: <span>application</span>/<span>json</span></code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: text/vnd.orchestral.rhapsody.6_3+plain</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Accept: application/vnd.orchestral.rhapsody.6_4+json&nbsp;</span></code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>Empty.</p><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+	"data": {
+		"id": 1,
+		"backupAreas": [
+		"ALL"
+		],
+		"directory": "c:/output",
+		"cronExpression": "0 0 * * * ?",
+		"backupType": "INCREMENTAL",
+		"currentStatus": "NOT_RUNNING",
+		"lastRunResult": "SUCCEEDED",
+		"lastRunCompletedTime": "20180515T160000.937+1200",
+		"lastRunTimeTaken": "PT0.848S"
+	},
+	"error": null
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Get backup information REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="BackupSchedules-POST/api/backup/schedules/<id>"><a name="Setthestatusofabackupschedule" title="Follow link" rel="nofollow"></a>POST /api/backup/schedules/&lt;id&gt;</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>POST /api/backup/schedules/&lt;id&gt;</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Sets the status of a backup schedule, start or stop the schedule.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Content-Type: text/plain</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: text/vnd.orchestral.rhapsody.6_3+plain<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><code>START</code> or <code>STOP</code>.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code><span>204 No Content</span></code> - operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Manage backups REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="BackupSchedules-"><a name="Performarestore" title="Follow link" rel="nofollow"></a></h2>
+      <h2 id="BackupSchedules-DELETE/api/backup/schedules/<id>">DELETE /api/backup/schedules/&lt;id&gt;</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>DELETE /api/backup/schedules/&lt;id&gt;</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Deletes a backup schedule.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Manage backups REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="BackupSchedules-POST/api/backup/restore">POST /api/backup/restore</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>POST /api/backup/restore</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Performs a restore operation.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Content-Type: application/json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th colspan="1" class="confluenceTh">&nbsp;</th>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_3+json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "restoreAreas" : ["ALL"],
+    "directory":"qwerty",
+    "forensicRestore": true
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Manage backups REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

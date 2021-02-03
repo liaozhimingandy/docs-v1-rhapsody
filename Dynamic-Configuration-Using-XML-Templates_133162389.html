@@ -1,0 +1,1333 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Dynamic Configuration Using XML Templates</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+       <li> <span><a href="Dynamic-Mode_133162388.html">Dynamic Mode</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Dynamic Configuration Using XML Templates</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="line-height: 13.0pt;">The (S)FTP Client communication point can be configured dynamically using a single XML configuration templates file. A configuration templates file is a set of configuration parameters that override the statically defined configuration and are </span> <span class="vk_ans vk_bk" style="line-height: 13.0pt;">uniquely</span> <span style="line-height: 13.0pt;"> identified using an identifier attribute. When a message is sent (</span> <em style="line-height: 13.0pt;">Output</em> <span style="line-height: 13.0pt;">mode) or used to trigger input (</span> <em style="line-height: 13.0pt;">Out-&gt;In</em> <span style="line-height: 13.0pt;">mode) a single message property is set on the outgoing message that indicates which template should be used. This effectively allows a single (S)FTP Client communication point to be configured with multiple independent configurations, with one of these configurations subsequently selected at runtime.</span></p>
+      <p><span style="line-height: 13.0pt;">Refer to <a href="#DynamicConfigurationUsingXMLTemplates-Examples">Examples</a> for examples of templates.<br> </span></p>
+      <p>Configuration templates are provided by setting the&nbsp;<strong>Configuration Mode</strong>&nbsp;configuration property to&nbsp;<code>Dynamic Using XML Configuration Templates</code>&nbsp;and then providing the XML configuration templates in the&nbsp;<strong>Configuration Templates</strong>&nbsp;property. Each configuration template can provide any number of configuration parameters which will override those settings configured in the static configuration. These configuration templates are then validated as part of the communication point configuration process.</p>
+      <p>Each configuration template is treated independently and merged with the static configuration settings. Settings configured in the template override those configured in the static configuration on the communication point.</p>
+      <p>As part of this merge operation, the configuration is validated to ensure that it can be used in the communication point. For example, if the template enables SFTP, then at least one SSH public key must have been configured in order to validate the SFTP server. This validation is performed on each template individually,&nbsp;as if the resolved values in that template were configured as the static configuration.</p>
+      <p class="confluence-link">Refer to <a href="#DynamicConfigurationUsingXMLTemplates-XMLElements">XML Elements </a>for details on how each XML element&nbsp;in a configuration template is validated.</p>
+      <div class="confluence-information-macro confluence-information-macro-tip">
+       <span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is important to verify each configuration template is configured correctly to ensure that the expected configuration settings are being overridden or inherited from the static configuration. The (S)FTP Client communication point provides two ways to do this:</p>
+        <ul>
+         <li><p>The resolved configuration for each configuration template is logged at the INFO level whenever the communication point is configured. This shows the merged configuration for each configuration template and so can be compared to the expected values.</p></li>
+         <li class="confluence-link"><p>An <a href="attachments/133162389/133162390.xsd" data-linked-resource-id="133162390" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ftpConfigurationTemplate.xsd" data-linked-resource-content-type="application/xml" data-linked-resource-container-id="133162389" data-linked-resource-container-version="4">XSD</a> file is provided that can validate the XML configuration templates to ensure that they are configured correctly.</p></li>
+        </ul>
+       </div>
+      </div>
+      <p><span>The (S)FTP Client Communication Point can also be configured dynamically using message properties. Refer to&nbsp;</span><a href="Dynamic-Configuration-Using-Message-Properties_133162391.html">Dynamic Configuration Using Message Properties</a><span> for details on the differences between the two configuration modes.</span></p>
+      <h2 id="DynamicConfigurationUsingXMLTemplates-XMLElements">XML Elements</h2>
+      <p>This section describes the permissible XML elements used in the configuration templates. The attached <a href="attachments/133162389/133162390.xsd" data-linked-resource-id="133162390" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ftpConfigurationTemplate.xsd" data-linked-resource-content-type="application/xml" data-linked-resource-container-id="133162389" data-linked-resource-container-version="4">XSD</a> file can validate these XML templates to check that they are valid.</p>
+      <h3 id="DynamicConfigurationUsingXMLTemplates-<ConfigurationTemplates>"><code>&lt;ConfigurationTemplates&gt;</code></h3>
+      <p>The root element in the configuration templates XML document must be the&nbsp;<code>&lt;ConfigurationTemplates&gt;</code>&nbsp;element. It has no attributes.</p>
+      <p>The following child elements are permitted:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Child Element Name
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Template</code></td>
+          <td class="confluenceTd">The <code>&lt;Template&gt;</code> element is used once for each individual template within this set of configuration templates <code>&lt;ConfigurationTemplates&gt;</code>. Each template is independent of the other templates. They are all (individually) merged with the static configuration in order to generate their final configuration, and each must have a unique identifier. The order in which the templates are defined in the XML is not relevant - they are referenced at runtime using their unique identifiers.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="DynamicConfigurationUsingXMLTemplates-<Template>"><code>&lt;Template&gt;</code></h3>
+      <p>The&nbsp;<code>&lt;Template&gt;</code>&nbsp;element is used once for each configuration template. In all cases a configuration template inherits its settings from the static configuration unless explicitly overridden within the template. This means that a configuration template only needs to specify settings that are different to the static configuration.</p>
+      <p>The following attributes can be set on the&nbsp;<code>&lt;Template&gt;</code>&nbsp;element:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Attribute Name
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Default Value
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>id</code></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The unique identifier for this template. This attribute is mandatory, must not be empty, and must be unique with respect to all other configuration templates configured on this communication point.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Note that the id is not case-sensitive. This means that "ONE" and "one" are considered to be the same id, not unique.</p>
+             </div>
+            </div>
+           </div></td>
+          <td class="confluenceTd">None</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The following child elements are permitted:&nbsp;</p>
+      <div class="evencolumns"> 
+       <div class="table-wrap">
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <colgroup>
+           <col>
+           <col>
+           <col>
+           <col>
+          </colgroup>
+          <tbody>
+           <tr>
+            <th class="confluenceTh">Configuration Property</th>
+            <th class="confluenceTh">Child Element Name</th>
+            <th class="confluenceTh">Values</th>
+            <th class="confluenceTh">Example</th>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Configuration-Options_133162402.html#ConfigurationOptions-Protocol" rel="nofollow">Protocol</a></td>
+            <td colspan="1" class="confluenceTd"><code>ConnectionType</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> type of connection protocol to use:</p>
+             <ul>
+              <li><code>FTP</code></li>
+              <li><code>FTPSImplicit</code></li>
+              <li><code>FTPSExplicit</code></li>
+              <li><code>SFTP</code></li>
+             </ul><p>It defaults to the value configured in the static configuration if it is not set. A configuration error occurs if it is set to an empty value, or set to an invalid value.</p><p>If the port is set to 0 then this controls the selected port (it uses the appropriate default port for the selected protocol).</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ConnectionType&gt;
+  FTPSExplicit
+&lt;/ConnectionType&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-Server" rel="nofollow">Server</a></td>
+            <td colspan="1" class="confluenceTd"><code>ServerHostname</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> hostname or IP address of the FTP / FTPS / SFTP server. It is mandatory to provide a hostname either in the template or in the static configuration.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ServerHostname&gt;
+  myFtpServer
+&lt;/ServerHostname&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-Port" rel="nofollow">Port</a></td>
+            <td colspan="1" class="confluenceTd"><code>ServerPort</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> port number that the FTP / FTPS / SFTP server is listening on. If this is set to zero, then the default port for the selected protocol is used (in other words, <code>21</code> for FTP and FTPS explicit; <code>22</code> for SFTP; and <code>990</code> for FTPS implicit). The port number cannot be set to a negative value.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ServerPort&gt;
+  1234
+&lt;/ServerPort&gt;</pre> 
+               </div>
+              </div>
+              <p><span style="font-family: monospace;">&nbsp;</span></p>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ReadTimeout" rel="nofollow">Read Timeout</a></td>
+            <td colspan="1" class="confluenceTd"><code>ReadTimeout</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> socket read timeout used when expecting a response from the FTP server. This is configured in milliseconds and must be at least 1000ms.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ReadTimeout&gt;
+  25000
+&lt;/ReadTimeout&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ConnectionMode" rel="nofollow">Connection Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>ConnectionMode</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> connection mode to use for data channels when connecting to an FTP or FTPS server:</p>
+             <ul>
+              <li><code>active</code></li>
+              <li><code>passive</code></li>
+             </ul><p>It defaults to the static configuration if not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ConnectionMode&gt;
+  passive
+&lt;/ConnectionMode&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-TransferMode" rel="nofollow">Transfer Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>TransferMode</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> data transfer mode to use when uploading and downloading files:</p>
+             <ul>
+              <li><code>binary</code></li>
+              <li><code>ascii</code></li>
+              <li><code>ebcdic</code></li>
+             </ul><p>It defaults to the static configuration if not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;TransferMode&gt;
+  ascii
+&lt;/TransferMode&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ServerValidationMode" rel="nofollow">Server Validation Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>ServerValidationMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines how the SSL certificates or SSH public keys are found for an FTPS or SFTP connection. See the <a href="Connection-Details_133162392.html#ConnectionDetails-ServerValidationMode" rel="nofollow">Server Validation Mode</a>&nbsp;property description for details about each option.</p>
+             <ul>
+              <li><code>requirePreconfiguredKeys</code></li>
+              <li><code>allowDynamicKeyLookup</code></li>
+              <li><code>autoAddKeysForNewServers</code></li>
+             </ul><p>If set to an empty string or an invalid value then it is ignored and the statically configured value is used instead.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ServerValidationMode&gt;
+  allowDynamicKeyLookup
+&lt;/ServerValidationMode&gt;&nbsp;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-xxx" rel="nofollow">SSL Server Certificates</a></td>
+            <td colspan="1" class="confluenceTd"><code>SslServerCertificate</code></td>
+            <td colspan="1" class="confluenceTd">Used to indicate which SSL certificate should be used for server authentication when using FTPS. It can be provided any number of times in order to provide multiple SSL certificates, with each element containing the alias of a single SSL certificate. If FTPS (implicit or explicit) is being used, it is mandatory to provide at least one SSL certificate either in the static configuration or in the configuration template unless the <strong>Server Validation Mode</strong> does not require this. Empty aliases are just ignored, however, an error is raised if the specified alias cannot be found in the <a href="Managing-Certificates-and-Keys_133161222.html" rel="nofollow">Rhapsody Certificate and Key Manager</a>.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SslServerCertificate&gt;
+  filezilla
+&lt;/SslServerCertificate&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-xxx" rel="nofollow">Hostname Validation</a></td>
+            <td colspan="1" class="confluenceTd"><code>SslHostnameValidation</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines whether or not SSL hostname validation is performed when connecting to an FTPS server. If enabled then the hostname used to connect to the FTPS server must match either the Subject's CommonName,&nbsp;or a DNS name in the SubjectAlternativeName extension in the SSL certificate presented by the server. This element is set to one of the following values:</p>
+             <ul>
+              <li><code>enabled</code></li>
+              <li><code>disabled</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p><p>Note that hostname validation is never performed if the configured hostname is either <code>localhost</code> or <code>127.0.0.1</code>.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SslHostnameValidation&gt;
+  enabled
+&lt;SslHostnameValidation&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-CipherSuites" rel="nofollow">Cipher Suites</a></td>
+            <td colspan="1" class="confluenceTd"><code>CipherSuites</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> level of SSL cipher suites or SSH algorithms that should be enabled for this connection:</p>
+             <ul>
+              <li><code>VERY_STRONG</code></li>
+              <li><code>FIPS</code></li>
+              <li><code>STRONG</code></li>
+              <li><code>WEAK</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;CipherSuites&gt;
+  VERY_STRONG
+&lt;/CipherSuites&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SSLClientPrivateKey" rel="nofollow">SSL Client Private Key</a></td>
+            <td colspan="1" class="confluenceTd"><code>SslClientPrivateKey</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> alias of the SSL private key used for SSL client authentication when connecting to an FTPS server. An error is raised if the specified private key cannot be found. If this element is not set then it defaults to the static configuration, however, if it is explicitly set to an empty string then it will clear any configured SSL private key in the static configuration.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SslClientPrivateKey&gt;
+  myKey
+&lt;/SslClientPrivateKey&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPServerPublicKey" rel="nofollow">SFTP Server Public Key</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshServerPublicKey</code></td>
+            <td colspan="1" class="confluenceTd">Used to indicate which SSH public key should be used for server authentication when using SFTP. It can be provided any number of times in order to provide multiple SSH public keys, with each element containing the alias of a single SSH public key. If SFTP is being used, it is mandatory to provide at least one SSH public key either in the static configuration or in the configuration template unless the <strong>Server Validation Mode</strong> does not require this. Empty aliases are just ignored, however, an error is raised if the specified alias cannot be found in the <a href="Managing-Certificates-and-Keys_133161222.html" rel="nofollow">Rhapsody Certificate and Key Manager</a>.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SshServerPublicKey&gt;
+  linux-test-rsa
+&lt;/SshServerPublicKey&gt;
+&lt;SshServerPublicKey&gt;
+  linux-test-dsa
+&lt;/SshServerPublicKey&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPClientAuthenticationMode" rel="nofollow">SFTP Client Authentication Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshClientAuthMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Sets the type of SSH client authentication that will be performed:</p>
+             <ul>
+              <li><code>password</code></li>
+              <li><code>publickey</code></li>
+              <li><code>passwordpublickey</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SshClientAuthMode&gt;
+  publickey
+&lt;/SshClientAuthMode&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPClientPrivateKey" rel="nofollow">SFTP Client Private Key</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshClientPrivateKey</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> alias of the SSH private key used for SSH public key authentication when connecting to an SFTP server. The SSH client authentication mode must include public key authentication. An error is raised if the specified alias cannot be found in the <a href="Managing-Certificates-and-Keys_133161222.html" rel="nofollow">Rhapsody Certificate and Key Manager</a>.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SshClientPrivateKey&gt;
+ myPrivateKey
+&lt;/SshClientPrivateKey&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPCompression" rel="nofollow">SFTP Compression</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshCompressionMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Used to configure which SSH compression modes are supported by the communication point when connecting to an SFTP server. This element can be included multiple times with each occurrence containing one of the following values:</p>
+             <ul>
+              <li><code>none</code></li>
+              <li><code>zlib</code></li>
+              <li><code>zlib@ssh.com</code> (zlib delayed)</li>
+             </ul><p>Empty values are ignored but invalid values will cause an error to be raised. If no compression modes are selected, the static configuration will be used. If the static configuration has not been set, then the communication point automatically enables all the options by default.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SshCompressionMode&gt;
+  zlib
+&lt;/SshCompressionMode&gt; 
+&lt;SshCompressionMode&gt;
+  zlib@ssh.com
+&lt;/SshCompressionMode&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPAdvancedConfigurationFlags" rel="nofollow">SFTP Advanced Configuration Flags</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshConfigFlag</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Used to configure</span> the advanced SSH configuration flags which are primarily used to work around known bugs and quirks in various SFTP servers. It can be included multiple times with each occurrence containing one of the following values:</p>
+             <ul>
+              <li><code>disableChmodOnPut</code></li>
+              <li><code>disableWaitOnChannelClose</code></li>
+              <li><code>disableChmodOnMkdir</code></li>
+             </ul><p>Empty values in this element are ignored, but unknown values cause an error to be raised. However, if a single empty <code>SshConfigFlag</code> element is present (for example, <code>&lt;SshConfigFlag/&gt;</code>), then it would clear any of these options set in the static configuration rather than inheriting them.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SshConfigFlag&gt;
+  disableWaitOnChannelClose
+&lt;/SshConfigFlag&gt;
+&lt;SshConfigFlag&gt;
+  disableChmodOnMkdir
+&lt;/SshConfigFlag&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ServerLineEndings" rel="nofollow">Server Line Endings</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshRemoteEol</code></td>
+            <td colspan="1" class="confluenceTd"><p>Sets which line endings expected on the server. This is only used when connected to an SFTP server and performing ASCII mode file transfer:</p>
+             <ul>
+              <li><code>autoDetect</code></li>
+              <li><code>windows</code></li>
+              <li><code>unix</code></li>
+              <li><code>mac</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SshRemoteEol&gt;
+  unix
+&lt;/SshRemoteEol&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-Username" rel="nofollow">Username</a></td>
+            <td colspan="1" class="confluenceTd"><code>Username</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> username to use to login to the FTP server.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;Username&gt;
+  someUser
+&lt;/Username&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-Password" rel="nofollow">Password</a></td>
+            <td colspan="1" class="confluenceTd"><code>Password</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> password to use to login to the FTP server. Note that the password is not used if connecting to an SFTP server using SSH public key authentication. Passwords can be provided either in plaintext, encrypted using the Rhapsody&gt;Encrypt Password function in Rhapsody IDE, or using <a href="#DynamicConfigurationUsingXMLTemplates-RhapsodyVariables" rel="nofollow">Rhapsody Variables</a>.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;Password&gt;
+  somePassword
+&lt;/Password&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-CharacterEncoding" rel="nofollow">Character Encoding</a></td>
+            <td colspan="1" class="confluenceTd"><code>&nbsp;CharacterEncoding</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> character encoding to use for the FTP control connection. It must be set to the name of a valid Java character encoding.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;CharacterEncoding&gt;
+  UTF-8
+&lt;/CharacterEncoding&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ConnectionEstablishmentMode" rel="nofollow">Connection Establishment Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>ConnectionEstablishmentMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Specifies whether to maintain a constant connection to the FTP server or to disconnect the connection immediately after it becomes idle.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ConnectionEstablishmentMode&gt;
+   maintainConnection
+&lt;/ConnectionEstablishmentMode&gt;&nbsp;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-ActiveModeIPAddress" rel="nofollow">Active Mode IP Address</a>&nbsp;</td>
+            <td colspan="1" class="confluenceTd"><code>&nbsp;ActiveModeIpAddress</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> IP address that the communication point will listen on for active mode FTP / FTPS connections. If set, it must be a valid IPv4 address.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ActiveModeIpAddress&gt;
+  192.168.23.12
+&lt;/ActiveModeIpAddress&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-ActiveModePortRange" rel="nofollow">Active Mode Port Range</a></td>
+            <td colspan="1" class="confluenceTd"><code>&nbsp;ActiveModePortRange</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> range of allowed ports that the communication point will listen on for active mode FTP / FTPS connections. If set it must be a valid port range in the format <code>&lt;start&gt;-&lt;end&gt;</code>.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ActiveModePortRange&gt;
+  11000-11099
+&lt;/ActiveModePortRange&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-FTPOptions" rel="nofollow">FTP Options</a></td>
+            <td colspan="1" class="confluenceTd"><code>&nbsp;FtpOption</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets</span> a number of advanced FTP options that are primarily used for working around known bugs or quirks in various FTP and FTPS servers. This element can be included multiple times, and each element must contain one of the following values:</p>
+             <ul>
+              <li><code>autoSubstituteIp</code></li>
+              <li><code>forceUniqueNames</code></li>
+              <li><code>enableCompression</code></li>
+             </ul><p>Empty values in this element are ignored, but unknown values cause an error to be raised. However, if a single empty <code>FtpOption</code> element is present (for example, <code>&lt;FtpOption/&gt;</code>), then it would clear any of these options set in the static configuration rather than inheriting them.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;FtpOption&gt;
+  autoSubstituteIp
+&lt;/FtpOption&gt;
+&lt;FtpOption&gt;
+  enableCompression
+&lt;/FtpOption&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-FTPSOptions" rel="nofollow">FTPS Options</a></td>
+            <td colspan="1" class="confluenceTd"><code>&nbsp;FtpsOption</code></td>
+            <td colspan="1" class="confluenceTd"><p>Sets a number of advanced FTPS options that are primarily used for working around known bugs or quirks in various FTPS servers. This element can be included multiple times, with each occurrence containing one of the following values:</p>
+             <ul>
+              <li><code>disableControlClosure</code></li>
+              <li><code>disableControlWait</code></li>
+              <li><code>disableDataClosure</code></li>
+              <li><code>disableDataWait</code></li>
+              <li><code>startWithClearChannels</code></li>
+              <li><code>disableSessionResumption</code></li>
+             </ul><p>Empty values in this element are ignored, but unknown values cause an error to be raised. However, if a single empty <code>FtpsOption</code> element is present (for example, <code>&lt;FtpsOption/&gt;</code>) then it will clear any of these options set in the static configuration rather than inheriting them.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <p><code>&nbsp;</code></p>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;FtpsOption&gt;
+  disableSessionResumption
+&lt;/FtpsOption&gt; 
+&lt;FtpsOption&gt;
+   startWithClearChannels
+&lt;/FtpsOption&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerType" rel="nofollow">Proxy Server Type</a></td>
+            <td colspan="1" class="confluenceTd"><code>&nbsp;ProxyServerType</code></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Selects which type of proxy server to use:</p>
+             <ul>
+              <li class="TableContents"><code>none</code></li>
+              <li class="TableContents"><code>http</code></li>
+              <li class="TableContents"><code>socks4</code></li>
+              <li class="TableContents"><code>socks5</code></li>
+             </ul><p class="TableContents">Note that you cannot use an HTTP proxy when using FTP(S) with Connection Mode set to active.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ProxyServerType&gt;
+  http
+&lt;/ProxyServerType&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerAddress" rel="nofollow">Proxy Server Address</a></td>
+            <td colspan="1" class="confluenceTd"><code>ProxyServerAddress</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> hostname or IP address of the proxy server.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ProxyServerAddress&gt;
+  myProxyServer
+&lt;/ProxyServerAddress&gt;&nbsp;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerPort" rel="nofollow">Proxy Server Port</a></td>
+            <td colspan="1" class="confluenceTd"><code>ProxyServerPort</code></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><span>Sets the</span> port to connect to the proxy server on. It must be a valid port number (between 1 and 65535).</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ProxyServerPort&gt;
+  80
+&lt;/ProxyServerPort&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerPublicAddress" rel="nofollow">Proxy Server Public Address</a></td>
+            <td colspan="1" class="confluenceTd"><code>ProxyServerPublicAddress</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> public address of the proxy server. This is usually only needed when using FTP(S) with Active Connection Mode.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ProxyServerPublicAddress&gt;
+  23.59.196.226
+&lt;/ProxyServerPublicAddress&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerUsername" rel="nofollow">Proxy Server Username</a></td>
+            <td colspan="1" class="confluenceTd"><code>ProxyServerUsername</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> username to authenticate to the proxy server with.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ProxyServerUsername&gt;
+  proxyUser
+&lt;/ProxyServerUsername&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerPassword" rel="nofollow">Proxy Server Password</a></td>
+            <td colspan="1" class="confluenceTd"><code>ProxyServerPassword</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> password to authenticate to the proxy server with. This is not required for SOCKS4 as the SOCKS4 protocol does not support password authentication. Passwords can be provided either in plaintext, encrypted using the <strong>Rhapsody&gt;Encrypt Password</strong> function in Rhapsody IDE, or using <a href="#DynamicConfigurationUsingXMLTemplates-RhapsodyVariables" rel="nofollow">Rhapsody Variables</a>.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ProxyServerPassword&gt;
+  proxyPass
+&lt;/ProxyServerPassword&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-GenerateMessageWhenNoResponse" rel="nofollow">Generate Message When No Response</a></td>
+            <td colspan="1" class="confluenceTd"><code>GenerateResponseMessage</code></td>
+            <td colspan="1" class="confluenceTd"><p>Enables the 'generatemessagewhen no response' mode:</p>
+             <ul>
+              <li><code>enabled</code></li>
+              <li><code>disabled</code></li>
+             </ul><p>If an invalid value is detected, it uses the static value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;GenerateResponseMessage&gt;
+ enabled
+&lt;/GenerateResponseMessage&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-InputDirectory" rel="nofollow">Input Directory</a></td>
+            <td colspan="1" class="confluenceTd"><code>InputDirectory</code></td>
+            <td colspan="1" class="confluenceTd">Sets the base input directory to use when downloading files.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;InputDirectory&gt;
+  dir1/dir2
+&lt;/InputDirectory&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-InputPatternType" rel="nofollow">Input Pattern Type</a></td>
+            <td colspan="1" class="confluenceTd"><code>InputPatternType</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> type of the input pattern used for matching files for download:</p>
+             <ul>
+              <li><code>wildcard</code></li>
+              <li><code>regex</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;InputPatternType&gt;
+   regex
+&lt;/InputPatternType&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-InputPattern" rel="nofollow">Input Pattern</a></td>
+            <td colspan="1" class="confluenceTd"><code>InputPattern</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> input pattern used for matching files for download. It is mandatory to provide an input pattern either in the static configuration or in the configuration template. In addition, if the pattern type is a regular expression, this pattern must be a valid regular expression.</p><p><span>The (S)FTP communication point supports </span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html" class="external-link" rel="nofollow">Java Regex</a><span>.</span></p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;InputPattern&gt;
+  [A-Za-z0-9]+\.txt
+&lt;/InputPattern&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-InputDirectoryNavigationMode" rel="nofollow">Input Directory Navigation Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>InputDirectoryNavigationMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Specifies whether to use FTP commands to&nbsp;access the target directory&nbsp;directly, or&nbsp;navigate to the target directory via&nbsp;the home directory:</p>
+             <ul>
+              <li><code>changeDirectly</code></li>
+              <li><code>navigateViaHomeDirectory&nbsp;</code></li>
+             </ul></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;InputDirectoryNavigationMode&gt;
+  navigateViaHomeDirectory
+&lt;/InputDirectoryNavigationMode&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-DirectoryTraversalMode" rel="nofollow">Directory Traversal Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>DirectoryTraversalMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines whether the communication point will just download files from the configured input directory or will instead traverse child directories in order to find matching files. It must be set to one of the following:</p>
+             <ul>
+              <li><p><code>inputDirOnly</code></p></li>
+              <li><p><code>recurse</code></p></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;DirectoryTraversalMode&gt;
+  recurse
+&lt;/DirectoryTraversalMode&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-FollowSymbolicLinks" rel="nofollow">Follow Symbolic Links</a></td>
+            <td colspan="1" class="confluenceTd"><code>SymbolicLinkAction</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines how the communication point handles symbolic links when downloading files from the FTP server:</p>
+             <ul>
+              <li><code>ignore</code></li>
+              <li><code>followFile</code></li>
+              <li><code>followDir</code></li>
+              <li><code>followAll&nbsp; &nbsp;</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;SymbolicLinkAction&gt;
+  ignore
+&lt;/SymbolicLinkAction&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-PostDownloadAction" rel="nofollow">Post Download Action</a></td>
+            <td colspan="1" class="confluenceTd"><code>PostDownloadAction</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines what the communication point does with the remote files after they have been downloaded:&nbsp;</p>
+             <ul>
+              <li><code>delete</code></li>
+              <li><code>leave</code></li>
+              <li><code>rename</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;PostDownloadAction&gt;
+  rename
+&lt;/PostDownloadAction&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-RenameTo" rel="nofollow">Rename To</a></td>
+            <td colspan="1" class="confluenceTd"><code>RenameTo</code></td>
+            <td colspan="1" class="confluenceTd">Sets the target filename for a rename after downloading a file. This is ignored if not renaming files after downloading them,but otherwise is required to be configured either in the static configuration or the configuration template. This may contain a number of variables described in the <a href="Input-Options_133162404.html#InputOptions-RenameTo" rel="nofollow">Rename To</a> configuration property to reference the old filename or current date/time. If renaming files after downloading them is enabled, this must be set either in the XML template or in the static configuration. It must not be set to exactly <code>%filename%</code>.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;RenameTo&gt;
+  ../done/%filename%
+&lt;/RenameTo&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-InputLocales" rel="nofollow">Input Locales</a></td>
+            <td colspan="1" class="confluenceTd"><code>InputLocale</code></td>
+            <td colspan="1" class="confluenceTd"><span>Used</span> to set which Java locales are used when parsing directory listings from the FTP or FTPS server. It can be provided multiple times with each occurrence containing the identifier of a Java locale. Empty values in this element are ignored, but unknown values cause an error to be raised. However, if a single empty <code>InputLocale</code> element is present (for example <code>&lt;InputLocale/&gt;</code>) then it will clear any input locales set in the static configuration rather than inheriting them.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;InputLocale&gt;jp&lt;InputLocale&gt;
+&lt;InputLocale&gt;en_US&lt;/InputLocale&gt;
+&lt;InputLocale&gt;en_NZ&lt;/InputLocale&gt;
+&lt;InputLocale&gt;en&lt;/InputLocale&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-DirectoryListingParser" rel="nofollow">Directory Listing Parser</a></td>
+            <td colspan="1" class="confluenceTd"><code>DirectoryListingParser</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> directory listing parser type to use when parsing directory listings from the FTP or FTPS server:</p>
+             <ul>
+              <li><code>autoDetect</code></li>
+              <li><code>unix</code></li>
+              <li><code>windows</code></li>
+              <li><code>vms</code></li>
+              <li><code>netware</code></li>
+              <li><code>mvs</code></li>
+              <li><code>os400</code></li>
+              <li><code>javascript</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;DirectoryListingParser&gt;
+  vms
+&lt;/DirectoryListingParser&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-JavaScriptDirectoryParser" rel="nofollow">JavaScript Directory Parser</a></td>
+            <td class="confluenceTd"><code>JavaScriptDirectoryParser</code></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p><span>Sets the</span> custom JavaScript directory parser to use to parse directory listings from the FTP or FTPS server. It is ignored if the directory listing parser type is not JavaScript,otherwise a JavaScript parser must be provided either in the static configuration or in the configuration template. An error is raised if this is not set when required or if the provided JavaScript fails to compile.</p>
+              <div class="confluence-information-macro confluence-information-macro-warning">
+               <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>Exercise caution when editing this script as it is provided within an XML element. The script needs to be correctly JavaScript-escaped. To avoid this the JavaScript directory parser can be declared within a CDATA section.</p>
+               </div>
+              </div>
+             </div></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;JavaScriptDirectoryParser&gt;
+  &lt;![CDATA[
+    if (line.length &gt; 49) {&nbsp;
+      contents.add({
+        name: line.substring(49),
+        isDirectory: line[0] == 'd'
+      });
+    }
+  ]]&gt;
+&lt;/JavaScriptDirectoryParser&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><a href="Custom-Commands_133162397.html" rel="nofollow">Before Receive Commands</a></td>
+            <td class="confluenceTd"><code>BeforeReceiveCommand</code></td>
+            <td class="confluenceTd"><span>Used</span> to configure custom commands sent to the FTP server prior to downloading a file. It can be set multiple times to configure multiple custom commands. Refer to&nbsp;<a href="#DynamicConfigurationUsingXMLTemplates-CustomCommands" rel="nofollow">Custom Commands </a>for details.</td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;BeforeReceiveCommand
+  command='/usr/bin/myCommand %filename%'
+  onError='blacklist'/&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><a href="Custom-Commands_133162397.html" rel="nofollow">After Receive Commands</a></td>
+            <td class="confluenceTd"><code>AfterReceiveCommand</code></td>
+            <td class="confluenceTd">Used to configure custom commands sent to the FTP server after downloading a file. It can be set multiple times to configure multiple custom commands. Refer to&nbsp;<a href="#DynamicConfigurationUsingXMLTemplates-CustomCommands" rel="nofollow">Custom Commands </a>for details.</td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;AfterReceiveCommand&nbsp;
+  command='rm %filename%'
+  onError='ignore'/&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Archiving_133162395.html" rel="nofollow">Archive Message Bodies</a></td>
+            <td colspan="1" class="confluenceTd"><code>ArchivingStrategy</code></td>
+            <td colspan="1" class="confluenceTd"><p>Indicates whether messages arriving on this communication point are to be archived as per standard archiving strategies:</p>
+             <ul>
+              <li><code>normal</code></li>
+              <li><code>cleanupAfterSendingMessage</code></li>
+             </ul></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ArchivingStrategy&gt;
+  normal
+&lt;/ArchivingStrategy&gt;&nbsp;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-MaximumFileSizeforDownload" rel="nofollow">Maximum File Size for Download</a></td>
+            <td colspan="1" class="confluenceTd"><code>MaxDownloadFileSize</code></td>
+            <td colspan="1" class="confluenceTd"><span>Specifies the maximum size of a file in megabytes that can be downloaded.</span></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;MaxDownloadFileSize&gt;
+  1
+&lt;/MaxDownloadFileSize&gt;&nbsp;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-OutputDirectory" rel="nofollow">Output Directory</a></td>
+            <td colspan="1" class="confluenceTd"><code>OutputDirectory</code></td>
+            <td colspan="1" class="confluenceTd">Sets the base output directory to use when uploading files.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;OutputDirectory&gt;
+  uploads
+&lt;/OutputDirectory&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-BaseFilename" rel="nofollow">Base Filename</a></td>
+            <td colspan="1" class="confluenceTd"><code>BaseFilename</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> base filename to use when generating the filename for uploaded files. Note that this can be overridden on a per message basis using the <code>BaseFilename</code> message property even when configuration templates are in use.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;BaseFilename&gt;
+  file
+&lt;/BaseFilename&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-FilenameSuffix" rel="nofollow">Filename Suffix</a></td>
+            <td colspan="1" class="confluenceTd"><code>Suffix</code></td>
+            <td colspan="1" class="confluenceTd">The filename suffix to use when generating the filename for uploaded files. Note that this can be overridden on a per message basis using the <code>Suffix</code> message property even when configuration templates are in use.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;Suffix&gt;
+  txt
+&lt;/Suffix&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-DuplicateFilenameBehaviour" rel="nofollow">Duplicate Filename Behaviour</a></td>
+            <td colspan="1" class="confluenceTd"><code>DuplicateBehavior</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines how duplicate filenames are handled by the communication point:</p>
+             <ul>
+              <li><code>rename</code></li>
+              <li><code>appendDateTime</code></li>
+              <li><code>doNotCheck</code></li>
+              <li><code>appendToFile&nbsp;</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;DuplicateBehavior&gt;
+  rename
+&lt;/DuplicateBehavior&gt;&nbsp;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-AppendDate/Time" rel="nofollow">Append Date/Time</a></td>
+            <td colspan="1" class="confluenceTd"><code>AppendDateFormatForOutputFile</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines if the current date/time is appended to the outgoing filename or not:</p>
+             <ul>
+              <li><code>doNotAppendDateTime</code></li>
+              <li><code>appendDateTime</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p><p>This setting is ignored if the evaluated duplicate behavior mode is to append to an existing file.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;AppendDateFormatForOutputFile&gt;
+  appendDateTime
+&lt;/AppendDateFormatForOutputFile&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-AppendDate/TimeFormat" rel="nofollow">Append Date/Time Format</a></td>
+            <td colspan="1" class="confluenceTd"><code><span>AppendDateTimeFormat</span></code></td>
+            <td colspan="1" class="confluenceTd"><span>Defines the date-time format when the date-time is appended to the filename. The default date-time format is&nbsp;</span><code>yyyy-MM-dd-HH-mm-ss-SSS</code><span>&nbsp;and is used if this property is left blank. The format should follow the specification in SimpleDateFormat in Java.</span></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;AppendDateTimeFormat&gt;
+  yyyy-MM-dd-HH-mm-ss-SSS
+&lt;/AppendDateTimeFormat&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-UseTempFiles" rel="nofollow">Use Temp Files</a></td>
+            <td colspan="1" class="confluenceTd"><code>TemporaryFileUsage</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines if temporary files will be used during uploads. It can be set to one of the following:</p>
+             <ul>
+              <li><code>noTempFiles</code></li>
+              <li><code>useTempFiles</code></li>
+             </ul><p>It defaults to the static configuration if is not set, set to an empty value, or set to an invalid value.</p><p>This setting is ignored if the evaluated duplicate behavior mode is to append to an existing file.</p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;TemporaryFileUsage&gt;
+  useTempFiles
+&lt;/TemporaryFileUsage&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html" rel="nofollow">Before Send Commands</a></td>
+            <td colspan="1" class="confluenceTd"><code>BeforeSendCommand</code></td>
+            <td colspan="1" class="confluenceTd"><span>Used</span> to configure custom commands sent to the FTP server prior to uploading a file. It can be set multiple times to configure multiple custom commands. Refer to&nbsp;<a href="#DynamicConfigurationUsingXMLTemplates-CustomCommands" rel="nofollow">Custom Commands </a>for details.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;BeforeSendCommand 
+  command='/usr/bin/myCommand %filename%'
+  onError='connectionError'/&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html" rel="nofollow">After Send Commands</a></td>
+            <td colspan="1" class="confluenceTd"><code>AfterSendCommand</code></td>
+            <td colspan="1" class="confluenceTd">Used to configure custom commands sent to the FTP server after uploading a file. It can be set multiple times to configure multiple custom commands. Refer to&nbsp;<a href="#DynamicConfigurationUsingXMLTemplates-CustomCommands" rel="nofollow">Custom Commands </a>for details.</td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;AfterSendCommand
+  command='/usr/bin/myCommand %filename%'&nbsp;
+  onError='errorQueue'/&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-DirectoryNavigationMode" rel="nofollow">Directory Navigation Mode</a><span>&nbsp;</span></td>
+            <td colspan="1" class="confluenceTd"><code><span>DirectoryNavigationMode</span></code></td>
+            <td colspan="1" class="confluenceTd"><p>Specifies whether to use FTP commands to traverse the target directory path and create the target directory if required during the file upload, or perform a direct file upload to the target directory:</p>
+             <ul>
+              <li><code>uploadAfterNavigating</code></li>
+              <li><code>uploadWithoutNavigating</code></li>
+             </ul><p><br></p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;DirectoryNavigationMode&gt;
+  uploadWithoutNavigating
+&lt;/DirectoryNavigationMode&gt;</pre> 
+               </div>
+              </div>
+             </div></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div> 
+      </div>
+      <h3 id="DynamicConfigurationUsingXMLTemplates-CustomCommands">Custom Commands</h3>
+      <p>The custom command elements (<code>&lt;BeforeReceiveCommand&gt;</code>, <code>&lt;AfterReceiveCommand&gt;</code>, <code>&lt;BeforeSendCommand&gt;</code>, and <code>&lt;AfterSendCommand&gt;</code>) are used to define custom commands that are sent to the FTP server. If no custom command elements are included for the relevant set of commands, they are inherited from the static configuration. However, it is possible to clear the inherited commands by adding a single custom command element with its 'command' attribute not set or set to an empty string.</p>
+      <p>The following attributes can be set:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Attribute Name
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>command</code></td>
+          <td class="confluenceTd">The command to execute. This is arbitrarily defined by the user but it can use <code>%filename%</code> and <code>%directory%</code> to represent the filename and directory respectively. The custom command element is ignored if this attribute is not set or is empty.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>onError</code></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Determines the action to take if an error is detected while executing the custom command:</p>
+            <ul>
+             <li><code>ignore</code></li>
+             <li><code>connectionError</code></li>
+             <li><code>errorQueue</code></li>
+             <li><code>blacklist</code></li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              The Error Queue option is only available for the custom send commands, and the blacklist option is only available for the custom receive commands.
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="DynamicConfigurationUsingXMLTemplates-RhapsodyVariables">Rhapsody Variables</h3>
+      <p>It is possible to use Rhapsody variables within configuration templates to allow any of the settings to be retrieved from a Rhapsody variable rather than defined within the template itself. This is done by referencing the Rhapsody variable as <code> <span>$(variableName)</span></code>&nbsp;from within the appropriate configuration template. In addition, it is possible to use multiple variables or a mixture of variables and literals in order to provide a configuration setting. For example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ConfigurationTemplates&gt;
+  &lt;Template id="one"&gt;
+    &lt;InputDirectory&gt;$(baseDirectory)/subDir&lt;/InputDirectory&gt;
+  &lt;/Template&gt;
+&lt;/ConfigurationTemplates&gt;</pre> 
+       </div>
+      </div>
+      <p>However, it is important to note that the Rhapsody variables are evaluated on each configuration setting individually after the XML document has been parsed. This means that it is not possible to include XML extracts within Rhapsody variables in order to set multiple configuration settings simultaneously by including an XML fragment.</p>
+      <h2 id="DynamicConfigurationUsingXMLTemplates-MessageProperties">Message Properties</h2>
+      <p>The following message properties can be set while configuration templates are in use. Other message properties are ignored by the communication point.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Property Name
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>TemplateId</code></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The identifier of the configuration template that should be used. This message property is mandatory when configuration templates are enabled and must correspond to one of the configured templates.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The id is not case-sensitive. This means for example, if there was a template with id "one", that a value of "ONE" or "one" could be used to reference that template.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>BaseFilename</code></td>
+          <td colspan="1" class="confluenceTd">The base filename to use for uploaded files. This will override any value configured in the configuration template or in the static configuration. It only applies to <em>Output</em> mode.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Suffix</code></td>
+          <td colspan="1" class="confluenceTd">The filename suffix to use for uploaded files. This will override any value configured in the configuration template or in the static configuration. It only applies to <em>Output</em> mode.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="DynamicConfigurationUsingXMLTemplates-Examples">Examples</h2>
+      <h3 id="DynamicConfigurationUsingXMLTemplates-Simple">Simple</h3>
+      <p>The following XML excerpt is an example of a simple configuration template:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0"?&gt;
+&lt;ConfigurationTemplates&gt;
+    &lt;Template id="one"&gt;
+        &lt;ConnectionType&gt;SFTP&lt;/ConnectionType&gt;
+        &lt;ServerHostname&gt;$(server1)&lt;/ServerHostname&gt;
+        &lt;ServerPort&gt;22&lt;/ServerPort&gt;
+        &lt;SshServerPublicKey&gt;sshPubKey1&lt;/SshServerPublicKey&gt;
+        &lt;SshClientAuthMode&gt;password&lt;/SshClientAuthMode&gt;
+        &lt;SshCompressionMode&gt;zlib@ssh.com&lt;/SshCompressionMode&gt;
+        &lt;SshConfigFlag&gt;disableWaitOnChannelClose&lt;/SshConfigFlag&gt;
+        &lt;SshConfigFlag&gt;disableChmodOnMkdir&lt;/SshConfigFlag&gt;
+        &lt;SshRemoteEol&gt;unix&lt;/SshRemoteEol&gt;
+    &lt;/Template&gt;
+    &lt;Template id="two"&gt;
+        &lt;ConnectionType&gt;SFTP&lt;/ConnectionType&gt;
+        &lt;ServerHostname&gt;$(server2)&lt;/ServerHostname&gt;
+        &lt;SshServerPublicKey&gt;sshPubKey2&lt;/SshServerPublicKey&gt;
+        &lt;SshClientAuthMode&gt;publickey&lt;/SshClientAuthMode&gt;
+        &lt;SshClientPrivateKey&gt;sshPrvKey1&lt;/SshClientPrivateKey&gt;
+    &lt;/Template&gt;
+&lt;/ConfigurationTemplates&gt;</pre> 
+       </div>
+      </div>
+      <p>This example defines two templates with the identifiers&nbsp;<code>one</code>&nbsp;and&nbsp;<code>two</code>. Each template is required to have a unique identifier. A template is then selected by an outgoing message by setting a message property called <code>TemplateId</code> to the template identifier. If the selected template cannot be found, or if no template is specified for a message, then the outgoing message will be sent to the error queue.</p>
+      <h3 id="DynamicConfigurationUsingXMLTemplates-Complex">Complex</h3>
+      <p>The following XML excerpt is an example of a more complex configuration template:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;&lt;ConfigurationTemplates&gt;
+    &lt;Template id="server1"&gt;
+        &lt;ConnectionType&gt;FTP&lt;/ConnectionType&gt;
+        &lt;ServerHostname&gt;server1&lt;/ServerHostname&gt;
+        &lt;ServerPort&gt;12003&lt;/ServerPort&gt;
+        &lt;Username&gt;server1User&lt;/Username&gt;
+        &lt;Password&gt;$(server1Password)&lt;/Password&gt;
+        &lt;TransferMode&gt;ascii&lt;/TransferMode&gt;
+        &lt;OutputDirectory/&gt;
+        &lt;DuplicateBehavior&gt;appendToFile&lt;/DuplicateBehavior&gt;
+    &lt;/Template&gt;
+    &lt;Template id="server2"&gt;
+        &lt;ConnectionType&gt;FTPSImplicit&lt;/ConnectionType&gt;
+        &lt;ServerHostname&gt;server2&lt;/ServerHostname&gt;
+        &lt;Username&gt;bob&lt;/Username&gt;
+        &lt;Password&gt;secret&lt;/Password&gt;
+        &lt;SslServerCertificate&gt;server2ssl&lt;/SslServerCertificate&gt;
+        &lt;CipherSuites&gt;VERY_STRONG&lt;/CipherSuites&gt;
+        &lt;AppendDateTime&gt;appendDateTime&lt;/AppendDateTime&gt;
+    &lt;/Template&gt;
+    &lt;Template id="server3"&gt;
+        &lt;ConnectionType&gt;FTPSExplicit&lt;/ConnectionType&gt;
+        &lt;ServerHostname&gt;server3&lt;/ServerHostname&gt;
+        &lt;Username&gt;fred&lt;/Username&gt;
+        &lt;SslServerCertificate&gt;server3ssl&lt;/SslServerCertificate&gt;
+        &lt;SslClientPrivateKey&gt;fred@server3&lt;/SslClientPrivateKey&gt;
+        &lt;FtpOption&gt;enableCompression&lt;/FtpOption&gt;
+        &lt;ConnectionMode&gt;passive&lt;/ConnectionMode&gt;
+        &lt;TemporaryFileUsage&gt;useTempFiles&lt;/TemporaryFileUsage&gt;
+    &lt;/Template&gt;
+    &lt;Template id="server4"&gt;
+        &lt;ConnectionType&gt;SFTP&lt;/ConnectionType&gt;
+        &lt;ServerHostname&gt;server4&lt;/ServerHostname&gt;
+        &lt;Username&gt;george&lt;/Username&gt;
+        &lt;SshServerPublicKey&gt;server4-rsa&lt;/SshServerPublicKey&gt;
+        &lt;SshServerPublicKey&gt;server4-dsa&lt;/SshServerPublicKey&gt;
+        &lt;SshClientAuthMode&gt;publickey&lt;/SshClientAuthMode&gt;
+        &lt;SshClientPrivateKey&gt;george@server4&lt;/SshClientPrivateKey&gt;
+        &lt;SshCompressionMode&gt;zlib@ssh.com&lt;/SshCompressionMode&gt;
+        &lt;SshConfigFlag&gt;disableWaitOnChannelClose&lt;/SshConfigFlag&gt;
+        &lt;SshConfigFlag&gt;disableChmodOnMkdir&lt;/SshConfigFlag&gt;
+    &lt;/Template&gt;
+&lt;/ConfigurationTemplates&gt;</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Analyzing Messages</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Intelligent-Mapper_133161894.html">Intelligent Mapper</a></span> </li> 
+       <li> <span><a href="Mapping-Project-Editor_133161904.html">Mapping Project Editor</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Analyzing Messages</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is recommended you only run mapping analyses in a Development environment and save the associated mapping projects in an RLC for importing into a Production environment.</p>
+       </div>
+      </div>
+      <p>The Message Analyzer is used to analyze sample messages associated with a mapping project, input messages and corresponding output messages that have been transformed by a system, in order to obtain the rules that map the&nbsp;<span>input messages to output messages.&nbsp;</span></p>
+      <p><span>When&nbsp;</span><span>you have created a new mapping project, you can select the source and target directories containing a set of input and output messages, respectively.&nbsp;</span><span style="background-color: transparent;">The Message Analyzer&nbsp;is by default configured to match source and target messages using the Control ID (MSH.10), but you can use other fields to perform the matching. A field in the source message can be matched to a different field in the target message. If you define more than one matching criterion, they all are required to match.</span></p>
+      <p>After setting the message directories and match criteria, you can initiate the message analysis. If an analysis has been previously completed, the existing messages are cleared before the new messages are analyzed. You will be asked to confirm the clearing of the old message analysis in this case.</p>
+      <p>The overall analysis process consists of the following steps:</p>
+      <ol>
+       <li>Preparing – compressing and copying the messages to the engine.</li>
+       <li>Parsing – Parsing each message at the composite level into a database.</li>
+       <li>Analyzing – Matching the messages using message identifiers to create matched pairs, and using the matched message pairs to generate the&nbsp;<a href="Reviewing-and-Editing-Mapping-Rules_133161928.html#ReviewingandEditingMappingRules-MappingRules">mapping rules</a>&nbsp;that define the mapping across source and target message sets.</li>
+      </ol>
+      <p>Progress of the process is displayed for each stage in the progress indicator. As this process could take some time to perform, you can cancel it at any time.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For composites in sample messages containing large values, the message analysis performs mapping on the basis of the first 400 characters only. In general, however, <span>the larger the number or size of sample messages, the longer it may take the Message Analyzer to complete an analysis.</span></p>
+       </div>
+      </div>
+      <p>When the analysis has completed, the Message Analyzer displays&nbsp;the counts of matched messages and fields. You&nbsp;are notified if unmatched messages are present with a message box. If you elect to continue, these messages are ignored by the subsequent analysis. If there are a large number or no matches were possible,&nbsp;you will need to review the supplied messages or the matching criteria.&nbsp;<span>The field matching information gives you an indication of how many fields could be matched to other fields (the same field or a different one) and constant values.</span></p>
+      <p>The time the analysis starts and finishes is recorded in the audit log.&nbsp;</p>
+      <p><span>You can&nbsp;<span>set limits on the number and size of messages&nbsp;that the Message Analyzer can analyze, as well as the number of concurrent analyses it can run.&nbsp;</span></span><span>Refer to&nbsp;</span><a href="#AnalyzingMessages-ConfiguringtheMessageAnalyzer">Configuring the Message Analyzer</a><span>&nbsp;for details.</span></p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161923/133161924.png" data-image-src="attachments/133161923/133161924.png" data-unresolved-comment-count="0" data-linked-resource-id="133161924" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MessageAnalyzer.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161923" data-linked-resource-container-version="1"></span></p>
+      <p><span>The Message Analyzer contains the following editable fields:</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Source directory</td>
+          <td class="confluenceTd">The directory containing the sample source (input) HL7v2 messages to compare.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Target directory</td>
+          <td class="confluenceTd">The directory containing the sample target (output) HL7v2 messages to compare.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Fields to match messages on</td>
+          <td class="confluenceTd">The source and target fields used to match the messages on. By default, the Message Control ID (MSH.10.1) is used.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><span>You can perform the following actions through the Message Analyzer:</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#AnalyzingMessages-RunningaMessageAnalysis">Start</a></td>
+          <td class="confluenceTd">Initiate the message analysis.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Viewing-Messages_133161933.html">View Messages</a></td>
+          <td class="confluenceTd"><p>Launch the <strong>Messages</strong> window that displays the matched messages and the field differences between them. The messages are categorized across three tabs as: matched message pairs, unmatched source messages, and unmatched target messages. Selecting a message in any of these lists displays the message, or a message diff in the case of matched message pairs.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="AnalyzingMessages-ConfiguringtheMessageAnalyzer"><span>Configuring the Message Analyzer</span></h2>
+      <p>The Message Analyzer&nbsp;can be configured through the&nbsp;following configuration properties in the&nbsp;<code>rhapsody.properties</code>&nbsp;file:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner" style="margin-left: 0.0px;">
+            <div class="tablesorter-header-inner">
+             Property
+            </div>
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner" style="margin-left: 0.0px;">
+            <div class="tablesorter-header-inner">
+             Default Value
+            </div>
+           </div></th>
+          <th colspan="1" class="confluenceTh">
+           <div class="tablesorter-header-inner" style="margin-left: 0.0px;">
+            <div class="tablesorter-header-inner">
+             Description
+            </div>
+           </div></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>IntelligentMapperService.NumOfConcurrentAnalysis</code></td>
+          <td colspan="1" class="confluenceTd"><code>5</code></td>
+          <td colspan="1" class="confluenceTd"><p>Enables you to set the maximum number of mapping project analysis sessions that can be run concurrently.</p><p>Setting the property to a value of 0 disables the analysis. The upper limit for the maximum number of concurrent analysis sessions is 50. Any value greater than 50 is interpreted as 50.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>IntelligentMapperService.MaxNumberOfMessagesPerAnalysis</code></td>
+          <td colspan="1" class="confluenceTd"><code>2000</code></td>
+          <td colspan="1" class="confluenceTd"><p>Enables you to set the maximum number of source and target messages allowed per mapping project analysis.</p><p>The lower limit for the maximum number of messages is 2. Any value less than 2 is replaced by the value 2.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>IntelligentMapperService.MaxMessageSizeDuringAnalysis</code></p></td>
+          <td colspan="1" class="confluenceTd"><code>50</code></td>
+          <td colspan="1" class="confluenceTd">Enables you to set the maximum size (in kB) for messages permissible for a mapping project analysis.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>If you attempt to analyze messages that violate the thresholds set through the configuration properties, the Message Analyzer will not perform the analysis.</p>
+      <h2 id="AnalyzingMessages-RunningaMessageAnalysis">Running a Message Analysis</h2>
+      <p>To analyze messages:</p>
+      <ol>
+       <li>Set or check the configuration properties for the Message Analyzer. Refer to&nbsp;<a href="#AnalyzingMessages-ConfiguringtheMessageAnalyzer">Configuring the Message Analyzer</a>&nbsp;for details.</li>
+       <li>From the Mapping Project Editor,&nbsp;select the&nbsp;<strong>Analyze Messages</strong>&nbsp;button to display the&nbsp;Message Analyzer.</li>
+       <li>Enter the following information:
+        <ul>
+         <li><p>Select the directories that contain the source and target sample messages that you want to analyze.</p>
+          <div class="confluence-information-macro confluence-information-macro-note">
+           <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p><span>Ensure your sample HL7v2 messages are i</span><span>n UTF-8 format, the only format supported by the Message Analyzer. Also, ensure your sample messages conform to the property parameters you have <a href="#AnalyzingMessages-ConfiguringtheMessageAnalyzer">configured</a> for the Message Analyzer.</span></p>
+           </div>
+          </div></li>
+         <li><p>Enter the source and target fields you want to match the messages on.</p></li>
+        </ul></li>
+       <li>Select the&nbsp;<strong>Start</strong>&nbsp;button to initiate the message analysis.</li>
+       <li><p>When the analysis is complete, the analysis results summary is displayed:</p>
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh">Field</th>
+            <th class="confluenceTh">Description</th>
+           </tr>
+           <tr>
+            <td class="confluenceTd">Matched</td>
+            <td class="confluenceTd">The number of matched message pairs found.</td>
+           </tr>
+           <tr>
+            <td class="confluenceTd">Unmatched</td>
+            <td class="confluenceTd">The number of unmatched message pairs found.</td>
+           </tr>
+           <tr>
+            <td class="confluenceTd">Fields Fully Mapped</td>
+            <td class="confluenceTd"><p><span>The percentage of mapping rules that are fully mapped, that is mapping rules that map across 100% of set of matched message pairs.</span></p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd">Fields Partially Mapped</td>
+            <td class="confluenceTd"><p>The percentage of mapping rules that are partially mapped, that is mapping rules that map across more than 10% and less than 100% of the set of matched message pairs.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd">Fields Not Mapped</td>
+            <td class="confluenceTd"><p>The percentage of mapping rules that are fully mapped, that is mapping rules that map across 10% or less of the set of matched message pairs<span>.</span></p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Percentages are rounded up or down to the nearest integer, and therefore may not represent the exact number of mapping rules.</p>
+         </div>
+        </div></li>
+       <li>Select the&nbsp;<strong>View Message</strong>&nbsp;link if you want to view the differences between matched messages. Refer to&nbsp;<a href="Viewing-Messages_133161933.html">Viewing Messages</a>&nbsp;for details.</li>
+       <li>Select:
+        <ul>
+         <li>The&nbsp;<strong>OK</strong>&nbsp;button to save your analysis results and return to the&nbsp;Mapping Project Editor.</li>
+         <li>The&nbsp;<strong>Cancel</strong>&nbsp;button&nbsp;to discard your analysis results and&nbsp;return to the Mapping Project Editor.</li>
+        </ul></li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

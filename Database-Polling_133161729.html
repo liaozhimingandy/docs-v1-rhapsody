@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Database Polling</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Using-the-Database-Configuration-Editor_133161705.html">Using the Database Configuration Editor</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Database Polling</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A Database communication point running in input mode essentially watches one main table. Every time new rows are inserted into this table, the database communication point will retrieve these rows and return the information contained in them as an XML message. Retrieval of these rows is the responsibility of the root SQL statement.</p>
+      <p>The input database polling options are used only for <em>input</em> Database communication points. These properties determine how frequently the communication polls the database, and how it detects new rows. Click the <strong>Database Polling</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161729/133161732.png" data-image-src="attachments/133161729/133161732.png" data-unresolved-comment-count="0" data-linked-resource-id="133161732" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon database polling.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161729" data-linked-resource-container-version="2"></span> at the top left of the<strong>&nbsp;Database Configuration Editor</strong> to display the <strong>Database Polling Options</strong> dialog:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161729/133161733.png" data-image-src="attachments/133161729/133161733.png" data-unresolved-comment-count="0" data-linked-resource-id="133161733" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="databasePollingOptions.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161729" data-linked-resource-container-version="2"></span></p>
+      <p>The following table describes the fields on this dialog:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Key Column</p></td>
+          <td class="confluenceTd"><p>The name of the column in the result set that is used for the key to detect new rows. The value of this column is stored internally within Rhapsody so that the same rows are not retrieved again. <br class="atl-forced-newline">When running in input mode, the <strong>Database</strong> communication point can be used with or without key column. Refer to <a href="#DatabasePolling-PollingWithoutKey">Database Polling without a Key Column</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Initial Key Value</p></td>
+          <td class="confluenceTd"><p>The initial value of the key column to use when Rhapsody does not have a value stored internally for it.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Refresh Rate (ms)</p></td>
+          <td class="confluenceTd"><p>Determines how frequently the queries should be executed to retrieve new rows in the main table when no new data is returned by the input query. Refer to <span><a href="#DatabasePolling-RefreshRate">Refresh Rate</a> for details.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If input polling options are defined, the <strong>Polling Options</strong> icon <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="24" width="21" src="attachments/133161729/133161734.png" data-image-src="attachments/133161729/133161734.png" data-unresolved-comment-count="0" data-linked-resource-id="133161734" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="dbpollingicon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161729" data-linked-resource-container-version="2"></span> is shown in the top left corner of the<strong> Database Configuration Editor</strong>:<br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161729/133161731.png" data-image-src="attachments/133161729/133161731.png" data-unresolved-comment-count="0" data-linked-resource-id="133161731" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="databasePollingOverviewEditor.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161729" data-linked-resource-container-version="2"></span></p>
+       </div>
+      </div>
+      <h2 id="DatabasePolling-DatabasePollingUsingaKeyColumn">Database Polling Using a Key Column</h2>
+      <p>A <strong>Key</strong> column for the main table is used by the root statement to order and restrict the rows returned from the main table. In addition, the queries it runs must be static; that is, they cannot be parameterized based on values from a message.</p>
+      <p>The root SQL statement must always have the following general form:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>SELECT col_1, col_2, ...
+FROM the_main_table
+WHERE some_other_conditions
+AND key_column &gt; @key_column
+ORDER BY key_column ASC
+</pre> 
+       </div>
+      </div>
+      <p>Or</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>SELECT col_1, col_2, ...
+FROM the_main_table
+WHERE some_other_conditions
+AND key_column &lt; @key_column
+ORDER BY key_column DESC
+</pre> 
+       </div>
+      </div>
+      <p>The set of columns returned (<code>col_1</code>, <code>col_2</code>, <code>...</code>) must contain the <strong>Key</strong> column so that it can be stored and used for the next query. The current value of the <strong>Key</strong> column is stored internally within Rhapsody after each successful query, and is unique for each communication point. This means the value is saved and if Rhapsody is restarted, the Database communication point will pick up where it left off.</p>
+      <p>The first time the Database communication point is run, no value will exist within Rhapsody for the key value. In this case, the initial key value property must be used to set an initial value for the property. If a value exists in the Rhapsody database for the key, the initial key value property is ignored. The SQL for the root statement must return a column with the name of the key column and should have appropriate where and order by clauses referring to the key column to prevent the same row being returned more than once.</p>
+      <h2 id="DatabasePolling-PollingWithoutKeyDatabasePollingWithoutaKeyColumn"><span class="confluence-anchor-link" id="DatabasePolling-PollingWithoutKey"></span> Database Polling Without a Key Column</h2>
+      <p>When not using a key value, a <strong>Key</strong> column is specified in the configuration, but the script <em>must</em> update the row so that it does not get read again.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When not using a key value, Rhapsody does not track which rows have been read. Therefore, it is important that the SQL that reads the row, also updates the row so that it is not re-read; for example, if the query is:</p>
+        <div class="preformatted panel" style="border-width: 1px;">
+         <div class="preformattedContent panelContent"> 
+          <pre> Select id, patientid, name, etc... from patient where state = 'new' </pre> 
+         </div>
+        </div>
+        <p>a second statement must also be:</p>
+        <div class="preformatted panel" style="border-width: 1px;">
+         <div class="preformattedContent panelContent"> 
+          <pre> UPDATE Patient SET state = 'inprogress' WHERE id = @id </pre> 
+         </div>
+        </div>
+        <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161729/133161730.png" data-image-src="attachments/133161729/133161730.png" data-unresolved-comment-count="0" data-linked-resource-id="133161730" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="dbpolling.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161729" data-linked-resource-container-version="2"></span></p>
+       </div>
+      </div>
+      <h2 id="DatabasePolling-RefreshRate">Refresh Rate</h2>
+      <p>The refresh rate is only invoked if no new data is returned by the input query. If the SQL query is returning data, the query is called continuously until no new data is found. That is, if the query is always returning data, the database communication point is continuously polling the database. This can cause the database to spin and makes the communication point difficult to stop.</p>
+      <p>For example, the following query:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;SELECT patientid, name from updates;</pre> 
+       </div>
+      </div>
+      <p>will be called continuously until something deletes all the data in the table.</p>
+      <p>Alternatively, the following query can be used:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">SELECT TOP 1 id, patientid, name FROM updates WHERE state = 'new'</pre> 
+       </div>
+      </div>
+      <p>with the nested statement:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">UPDATE updates SET state = 'inprogress' WHERE id = @id</pre> 
+       </div>
+      </div>
+      <p>or the following query by date:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">SELECT patientid, name, Now() As RC07NowTime FROM updates WHERE (Now() &gt; (DateAdd('s', 60, @RC07NowTime)))</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is recommended that you design the database query to ensure the refresh interval is invoked most of the time. If not, the database communication point would be continually polling the database table and could cause processing overheads.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Condition Editor</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Using-the-Database-Configuration-Editor_133161705.html">Using the Database Configuration Editor</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Condition Editor</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Rhapsody database communication points and filters allow a statement to be executed conditionally. A conditional statement checks a user-defined condition before execution, and will only be run if the condition evaluates to true.</p>
+      <p>The<strong>&nbsp;Database Configuration Editor</strong> provides a condition editor to allow these conditions to be built up. To launch the <strong>Condition Editor</strong>, click the <strong>Configure Statement Conditions</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161741/133161742.png" data-image-src="attachments/133161741/133161742.png" data-unresolved-comment-count="0" data-linked-resource-id="133161742" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="condition24x24.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161741" data-linked-resource-container-version="15"></span> for the selected statement or stored procedure. The <strong>Condition Editor</strong> is then displayed:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161741/133161743.png" data-image-src="attachments/133161741/133161743.png" data-unresolved-comment-count="0" data-linked-resource-id="133161743" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="conditionEditor.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161741" data-linked-resource-container-version="15"></span></p>
+      <h2 id="ConditionEditor-BuildingConditionalExpressions">Building Conditional Expressions</h2>
+      <p>Conditional expressions are built using some built-in functions that are used to check conditions and compare values. They can be combined using the <code>and</code> operator and the <code>or</code> operator to produce complex expressions. Parentheses can be used to provide nesting of conditions and to change the evaluation order. By default, expressions joined by an <code>and</code> operator are evaluated before expressions joined by an <code>or</code> operator. Parentheses can be used to modify this.</p>
+      <p>An example of a complex conditional expression is as follows:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>NotNull (@NK1[0]) and (NotNull(@NK1[0].NextOfKinName or NotNull(@NK1[0].Address[0]))
+</pre> 
+       </div>
+      </div>
+      <p>This conditional expression evaluates to true if <code>NK1[0]</code> exists, AND either <code>NK1[0].NextOfKinName</code> or <code>NK1[0].Address</code> exists.</p>
+      <h3 id="ConditionEditor-Functions">Functions</h3>
+      <p>The conditional expression evaluator in Rhapsody provides a number of standard functions that can be used to check conditions and compare values. <span style="color: rgb(51,51,51);">The comparator functions perform a string comparison (number comparison is not supported).&nbsp;</span>All function names are case-insensitive. These are described in the following table:</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148447" class="wrapped confluenceTable" width="100%">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Function Name</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>Equals(parameter1, parameter2)</code></p></td>
+          <td class="confluenceTd"><p>This function performs a case-sensitive comparison of the two parameters. It returns true if the two parameters are equal, or false if they are not equal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>EqualsIgnoreCase(parameter1, parameter2)</code></p></td>
+          <td class="confluenceTd"><p>This function performs a case-insensitive comparison of the two parameters. It returns true if the two parameters are equal, or false if they are not equal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>NotEqual(parameter1, parameter2)</code></p></td>
+          <td class="confluenceTd"><p>This function performs a case-sensitive comparison of the two parameters. It returns false if the two parameters are equal, or true if they are not equal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>NotEqualIgnoreCase(parameter1, parameter2)</code></p></td>
+          <td class="confluenceTd"><p>This function performs a case-insensitive comparison of the two parameters. It returns false if the two parameters are equal, or true if they are not equal.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>NotNull(parameter)</code></p></td>
+          <td class="confluenceTd"><p>This function tests whether a parameter is null or the empty string. It returns false if the parameter is null, or true if it is not null.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>Null(parameter)</code></p></td>
+          <td class="confluenceTd"><p>This function tests whether a parameter is null or the empty string. It returns true if the parameter is null, or false if it is not null.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148447']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148447',[],'style=&quot;width:20%; text-align: left;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>Parameters can be of the following type:</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148448" class="wrapped confluenceTable" width="100%">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Parameter Type</p></th>
+          <th class="confluenceTh"><p>Usage</p></th>
+          <th class="confluenceTh"><p>Example</p></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">Literal value</span></td>
+          <td colspan="1" class="confluenceTd">Encapsulate the literal value in single quotes.</td>
+          <td colspan="1" class="confluenceTd"><code><span style="color: rgb(51,51,51);">'some literal value'</span></code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message property</p></td>
+          <td class="confluenceTd"><p>Insert a dollar sign (<code>$</code>) in front of the message property name.</p></td>
+          <td class="confluenceTd"><p><code>$myProperty</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>A field within a message</p></td>
+          <td class="confluenceTd"><p>Insert an at sign (<code>@</code>) in front of the full path to the message field.</p></td>
+          <td class="confluenceTd"><p><code>@PID.PatientName[0].FamilyName.Surname</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Column From a previous result set</p></td>
+          <td class="confluenceTd"><p>Insert an at sign (<code>@</code>) in front of the column name.</p></td>
+          <td class="confluenceTd"><p><code>@PatientName</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Stored procedure output parameter</p></td>
+          <td class="confluenceTd"><p>Insert a hash sign (<code>#</code>) in front of the parameter name.</p></td>
+          <td class="confluenceTd"><p><code>#newPatientId</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message body as a string</p></td>
+          <td class="confluenceTd"><p>Insert <code>$messageContent</code>.</p></td>
+          <td class="confluenceTd"><p><code>$messageContent</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">XPath expression of a message field in an XML input</td>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">Insert a backquote (<code>`</code>) in front of the XPath expression.</span></td>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);"><code>`MSH/SendingApplication/UniversalID</code></span></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148448']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148448',[],'style=&quot;width:20%; text-align: left;&quot;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h3 id="ConditionEditor-Examples">Examples</h3>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh"><span style="color: rgb(51,51,51);">Example Function</span></th>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>EQUALS(@MSH.SendingApplication.UniversalID, 'System A')</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span style="letter-spacing: 0.0px;">Compares a field in an HL7 v2 message with a literal value.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If the second parameter is a literal value, encapsulation in single quotes is not required. For example, <code>EQUALS(@MSH.SendingApplication.UniversalID, System A)</code>. However, for <span>intelligibility</span>, it is recommended you always encapsulate literals in single quotes.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>EQUALS($SendingApplication, 'System A')</code></p></td>
+          <td class="confluenceTd"><p><span style="letter-spacing: 0.0px;"><span>Compares</span> a property with a literal value.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>EQUALS(@systemName, $system)</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span style="letter-spacing: 0.0px;"><span>Compares</span> a column from a previous result set with a property.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If the first parameter is the column value, the prefixing at sign (<code>@</code>) is not required. For example, as in <code>EQUALS(systemName, $system)</code>. However, for intelligibility, it is recommended you always prefix column values with <span>@</span>.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>EQUALS(#storedProc_out_system, 'System A')</code></p></td>
+          <td class="confluenceTd"><p><span style="letter-spacing: 0.0px;"><span>Compares</span> a stored procedure output parameter with a literal.&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>EQUALS(#storedProc_out_system, `/MSH/SendingApplication/Name)</code></p></td>
+          <td class="confluenceTd"><p><span style="letter-spacing: 0.0px;"><span>Compares</span> a stored procedure output parameter with a field in an XML message.&nbsp;</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p></p>
+      <h2 id="ConditionEditor-InsertingPriorResults">Inserting Prior Results</h2>
+      <p>At times a statement should only be executed if a particular result was returned from a previous database query. The<strong> Database Configuration Editor</strong>&nbsp;provides the ability to insert results generated from previous queries to make it easier to access these values. These are accessed from the&nbsp;<strong>Insert Prior Result</strong>&nbsp;toolbar button:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161741/133161744.png" data-image-src="attachments/133161741/133161744.png" data-unresolved-comment-count="0" data-linked-resource-id="133161744" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="conditionEditorInsertPriorResult.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161741" data-linked-resource-container-version="15"></span></p>
+      <p>Selecting a prior result automatically inserts the appropriate value (with the correct prefix depending on its type) at the current cursor location in the text editor. When the&nbsp;<strong>Condition Editor</strong>&nbsp;is opened, available prior results for all previous statements are located and added to the menu.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The only types of <span>available </span>prior results are: declared output parameters for stored procedure calls, and any columns whose values are saved using result substitution.</p>
+       </div>
+      </div>
+      <br> 
+      <p></p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

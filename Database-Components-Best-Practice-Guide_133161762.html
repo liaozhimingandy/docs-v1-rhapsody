@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Database Components Best Practice Guide</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Database Components Best Practice Guide</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="color: rgb(58,57,58);">This section outlines general best practice guidelines for using database components</span>:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146999212 {padding: 0px;}
+div.rbtoc1565146999212 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146999212 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146999212"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#DatabaseComponentsBestPracticeGuide-WherePossibleUsetheDatabaseCommunicationPointinPreferencetoFilters">Where Possible Use the Database Communication Point in Preference to Filters</a></li> 
+        <li><a href="#DatabaseComponentsBestPracticeGuide-ChoosetheCorrectDatabaseComponents">Choose the Correct Database Components</a></li> 
+        <li><a href="#DatabaseComponentsBestPracticeGuide-UseConfigurationPropertiestoHandleConnectionFailuresProperly">Use Configuration Properties to Handle Connection Failures Properly</a></li> 
+        <li><a href="#DatabaseComponentsBestPracticeGuide-UseNotifications">Use Notifications</a></li> 
+        <li><a href="#DatabaseComponentsBestPracticeGuide-UseStoredProceduresandViewsinPreferencetoSQLStatements">Use Stored Procedures and Views in Preference to SQL Statements</a></li> 
+        <li><a href="#DatabaseComponentsBestPracticeGuide-ConfigureandDesignDatabaseComponentsEfficiently">Configure and Design Database Components Efficiently</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="DatabaseComponentsBestPracticeGuide-WherePossibleUsetheDatabaseCommunicationPointinPreferencetoFilters">Where Possible Use the Database Communication Point in Preference to Filters</h2>
+      <p>Communication points are much better than filters at handling database connections due to their&nbsp;configurability&nbsp;relating to connection failures. They also have their own queues for processing which consequently do not block message flow, and have a greater ability to ensure FIFO is maintained. In contrast, connection errors at a filter’s level require relatively more effort to ensure FIFO is maintained as a communication point may simply retry the queued message.</p>
+      <ul>
+       <li>Use the&nbsp;<a href="Database_133162443.html">Database</a>&nbsp;communication point in&nbsp;<em>Out-&gt;In</em>&nbsp;mode instead of&nbsp;<a href="Database-Lookup_133163067.html">Database Lookup</a>&nbsp;filter when possible.</li>
+       <li>Use the&nbsp;<a href="Database_133162443.html">Database</a>&nbsp;communication point in&nbsp;<em>Input</em>&nbsp;mode rather than&nbsp;<a href="Database-Message-Extraction_133163070.html">Database Message Extraction</a>&nbsp;filter if possible.</li>
+       <li>If a database filter is used, use Error Processing on the filter or the Route Error Handler to handle error messages properly.</li>
+       <li>Special consideration is required when using a database filter to query data that may need updating/inserting by a message that preceded the current message being processed. Even though FIFO is configured, the previous message may not have reached the downstream system and therefore the database filter may be querying data that is not yet current.</li>
+      </ul>
+      <h2 id="DatabaseComponentsBestPracticeGuide-ChoosetheCorrectDatabaseComponents">Choose the Correct Database Components</h2>
+      <ul>
+       <li>If you want to retrieve data from a database table, use the&nbsp;<a href="Database_133162443.html">Database</a>&nbsp;communication point in&nbsp;<em>Input</em>&nbsp;mode. It polls a database regularly to detect changes using a static query.</li>
+       <li>If you want to insert or update one row into a database table for every message it receives, use the&nbsp;<a href="Database-Insertion_133162485.html">Database Insertion</a>&nbsp;communication point.</li>
+       <li>If you want to retrieve data from a database table for every message it receives, use the&nbsp;<a href="Database-Message-Extraction_133163070.html">Database Message Extraction</a>&nbsp;filter, keeping in mind the&nbsp;caveats&nbsp;of the filter.</li>
+       <li>If you want to insert or update data retrieved from a message and continue processing after that, use the&nbsp;<i>Database</i>&nbsp;communication point in&nbsp;<em>Out-&gt;In</em>&nbsp;mode or the&nbsp;<a href="Database-Lookup_133163067.html">Database Lookup</a>&nbsp;filter. They can also be used to insert directly into messages,&nbsp; populate&nbsp;message properties or&nbsp;replace an entire message body using retrieved values from a database table.</li>
+      </ul>
+      <h2 id="DatabaseComponentsBestPracticeGuide-UseConfigurationPropertiestoHandleConnectionFailuresProperly">Use Configuration Properties to Handle Connection Failures Properly</h2>
+      <ul>
+       <li>Set the query timeout limit by configuring the&nbsp;<strong>Query Timeout</strong>&nbsp;configuration property (only works for MS-SQL and Oracle) to prevent hanging database connections.</li>
+       <li><span style="color: rgb(51,51,51);">Set socket timeout to recover from hanging connections.</span></li>
+       <li><span style="color: rgb(51,51,51);">Set the&nbsp;<strong>Idle Timeout</strong>&nbsp;configuration property for the Database communication point to drop inactive database connections automatically. We recommend using a timeout value less than an hour.</span></li>
+       <li>If&nbsp;<span class="confluence-link">database</span>&nbsp;filters are used, do not use an infinite value (<code>0</code>) for the&nbsp;<strong>Maximum Concurrency</strong>&nbsp;configuration property. Limiting the level of concurrency limits the number of concurrent databases transactions and the memory used by the filter.</li>
+       <li>When configuring FIFO-enabled routes with database filters, bear in mind that a long-running transaction will block the route and cause message build-up while it waits to commit. So where possible, disable FIFO.</li>
+      </ul>
+      <h2 id="DatabaseComponentsBestPracticeGuide-UseNotifications">Use Notifications</h2>
+      <ul>
+       <li>Turn on the&nbsp;<strong>Message Potentially Stuck While Sending</strong>&nbsp;notification for the&nbsp;<a href="Database_133162443.html">Database</a>&nbsp;communication point in&nbsp;<em>Output</em>&nbsp;mode and in&nbsp;<em>Out-&gt;In</em>&nbsp;mode to get notified when the sending message process does not complete within the specified time. This notification is turned on by default.</li>
+       <li>Turn on the&nbsp;<strong>Message Time In Filter Exceeded</strong>&nbsp;notification for the&nbsp;<a href="Database-Lookup_133163067.html">Database Lookup</a>&nbsp;filter and&nbsp;<a href="Database-Message-Extraction_133163070.html">Database Message Extraction</a>&nbsp;filter to get notified when message processing in the filter does not complete within the specified time. This notification is turned on by default.</li>
+      </ul>
+      <h2 id="DatabaseComponentsBestPracticeGuide-UseStoredProceduresandViewsinPreferencetoSQLStatements">Use Stored Procedures and Views in Preference to SQL Statements</h2>
+      <p>Use of Stored Procedures and Views can simplify the configuration within the SQL editor of the component and the process of executing multiple statements.</p>
+      <p>Views should be used for lookup workflows; stored procedures should be used for update workflows, particularly where return values or multiple execution logic steps are required (such as execute an insert then retrieve the resultant row of data)</p>
+      <p>Calling a pre-configured view or stored procedure supports:</p>
+      <ul>
+       <li>Reuse of the query.</li>
+       <li>Simplified layout and parameter/return value passing.</li>
+       <li>Abstraction of database object names in the underlying query that may change per environment.</li>
+       <li>The ability&nbsp;of&nbsp;the database administrator to assess the performance of the SQL statements and executing plans within their database environment.</li>
+      </ul>
+      <h2 id="DatabaseComponentsBestPracticeGuide-ConfigureandDesignDatabaseComponentsEfficiently">Configure and Design Database Components Efficiently</h2>
+      <ul>
+       <li>Avoid unnecessary SQL script or long running SQL queries within the database configuration to avoid database contention (deadlocking and blocking). If the script is generating data that can be done in Rhapsody use the filters instead, in other&nbsp;words&nbsp;do as much pre-processing as possible prior to sending the message to a database component. If a query takes an unreasonable time, it is recommended you run the query outside Rhapsody and let Rhapsody read the results later.</li>
+       <li>Avoid retrieving large result sets. Where possible, break potentially large results sets into several smaller ones.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

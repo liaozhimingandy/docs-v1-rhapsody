@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>ebXML Filters</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">ebXML Filters</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163041/133163042.jpg" data-image-src="attachments/133163041/133163042.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163042" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image059.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163041" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>ebXML</strong> filter&nbsp;handles the creation and parsing of ebXML messages. ebXML (Electronic Business using eXtensible Markup Language) is "a modular suite of specifications that enables enterprises of any size and in any geographical location to conduct business over the Internet." The ebXML filter, in conjunction with other ebXML-related filters described elsewhere in this documentation, implements the Message Service Specification Version 2.0 produced by the OASIS ebXML Messaging Services Technical Committee. Refer to <a href="http://www.ebxml.org" class="external-link" rel="nofollow">http://www.ebxml.org</a> for details on the eBXML specification, or ebXML in general.</p>
+      <p>ebXML messages conform to the SOAP Messages With Attachments specification. This implies that they are XML messages, potentially encapsulated (along with any payload data) in a MIME multi-part message. Therefore, in order to create an ebXML message, its various XML elements and attributes need to be configured. The ebXML filter provides two ways to do this - these values can be configured statically via the properties dialog (in which case they will apply to all messages), or properties can be set dynamically on messages prior to their entering the ebXML filter (in which case they may be different from message to message). The static configuration settings and their alternative dynamic message properties are detailed below.</p>
+      <p>The ebXML payload(s) are created from the body of the Rhapsody messages entering the filter. If a single ebXML message should contain more than one payload, then a collector can be placed on the filter to allow multiple Rhapsody messages to be presented to the filter as a batch. ebXML messages created by the ebXML filter must contain at least one payload (that is, Rhapsody messages with zero-length bodies are not allowed).</p>
+      <p>When the ebXML filter is set to parse ebXML messages, it extracts the same set of element and attribute values as are inserted when creating an ebXML message. These extracted values are set as properties on the message. The ebXML payload becomes the body of the Rhapsody message. If there are multiple payloads, multiple Rhapsody messages are output from the filter. If there are no payloads, a single Rhapsody message is output with the raw ebXML message as its body.</p>
+      <p>The ebXML Message Service Specification is extensible. That is, it defines a limited set of required and optional elements, but permits users to include other XML elements and attributes as they see fit. As such, the ebXML filter can be configured to insert XML fragments at arbitrary locations, specified by simple XPath expressions, when creating ebXML messages. When parsing ebXML messages, the filter can be configured to extract XML fragments at arbitrary locations, again specified by simple XPath expressions, and add them as properties on the Rhapsody message.</p>
+      <p>The ebXML filter supports message signing and signature verification. As with ebXML element and attribute values, configuring the signing mode, the signature algorithm and the signing key can be achieved either statically through the properties dialog or dynamically through message properties. Signature verification, for signed ebXML messages parsed by the ebXML filter, can only be configured statically. The ebXML filter does not itself support encryption. However, the Encrypting/Decrypting XML filter contains special provision for encrypting and decrypting ebXML messages. Note that when both signing and encryption are required on a message, signing must precede encryption. The Encrypting/Decrypting XML filter should, therefore, be placed after the ebXML filter.</p>
+      <p>The ebXML filter validates messages as part of its message parsing functionality. If a parsed message is found to be invalid according to either the ebXML Message Service Specification or the SOAP Messages With Attachments specification, the filter will generate a new ebXML message with an &lt;ErrorList&gt; element containing details of the problem. As this form of error handling is built into the ebXML Message Service Specification, these error messages exit the ebXML filter in the same way as standard, valid messages, rather than through the error connector. As such, it is advisable to use conditional routing after the ebXML filter (when parsing messages) to check for this case, and to route the error message directly back to the sender. In the event that an error message is generated by the filter, the property <code>eb:IsErrorMessage</code>, with a value of true will also be set on the message, and this property can be tested for in a conditional connector for appropriate routing of the message.</p>
+      <p>In addition to <code>eb:IsErrorMessage</code>, there are a number of other properties that are also set on the Rhapsody message output by the ebXML filter to indicate that special routing requirements exist for the message in question. These are detailed in the following table. Note that, although these properties will have a value of true, it is their existence or non-existence on the Rhapsody message which is important, rather than their value.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>eb:IsAcknowledgementRequest</code></p></td>
+          <td class="confluenceTd"><p>The ebXML message contains an <code>&lt;AckRequested&gt;</code> element, signifying that an acknowledgment to this message should be created and returned. The message should be routed through an ebXML Ack filter or ebXML AutoReply filter, in addition to being routed for normal processing.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>eb:IsPingRequest</code></p></td>
+          <td class="confluenceTd"><p>The ebXML message is a Ping message and requires a Pong message in response. The message should be routed through an <a href="ebXML-Ping-Service_133163049.html">ebXML Ping Service</a> filter or <a href="ebXML-AutoReply_133163043.html">ebXML AutoReply</a> filter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>eb:IsStatusRequest</code></p></td>
+          <td class="confluenceTd"><p>The ebXML message is a StatusRequest message and requires a StatusResponse message in response. The message should be routed through an <a href="ebXML-Message-Status-Service_133163052.html">ebXML Message Status Service</a> filter or <a href="ebXML-AutoReply_133163043.html">ebXML AutoReply</a> filter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>eb:IsErrorMessage</code></p></td>
+          <td class="confluenceTd"><p>The original ebXML message received contains SOAP or ebXML validation errors, and the current message is an ebXML error message created in response. The message should be routed directly back to the sender.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>eb:IsDuplicateMessage</code></p></td>
+          <td class="confluenceTd"><p>Reliable messaging has been enabled, this ebXML message contains a <code>&lt;DuplicateElimination&gt;</code> element, and this is a duplicate of a previously received message. The message should be routed to a Delete filter or <a href="Sink_133162411.html">Sink</a> communication point.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>eb:IsAutoReplyMessage</code></p></td>
+          <td class="confluenceTd"><p>The ebXML message is an acknowledgment request, a Ping message, a StatusRequest message or an error message. This property will be set in addition to the individual properties indicating these message types.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Refer to the&nbsp;<a href="ebXML-Acknowledgement_133163046.html">ebXML Acknowledgement</a>, <a href="ebXML-Ping-Service_133163049.html">ebXML Ping Service</a>, <a href="ebXML-Message-Status-Service_133163052.html">ebXML Message Status Service</a> and <a href="ebXML-AutoReply_133163043.html">ebXML AutoReply</a>&nbsp;filters for details.</p>
+      <p>The ebXML Message Service Specification also defines reliable messaging functionality. On the sending side, enabling reliable messaging allows acknowledgment messages to be requested for messages sent, and for controlled message resending to take place if an acknowledgment is not received. On the receiving side, enabling reliable messaging allows for duplicate messages to be detected, and supports the ebXML Message Status Service filter in responding to StatusRequest messages (checking on the status of previously sent messages).</p>
+      <p>Much of the reliable messaging functionality overlaps with that of the message tracking functionality built into Rhapsody. Because of this, the current ebXML implementation is based on the native message tracking functionality. This has both its advantages and drawbacks. The main advantage is that messages sent reliably (that is, requesting an acknowledgment) can be monitored on the message tracking page of the Web Monitoring Application. The main drawback is that if a single route contains more than one ebXML filter with reliable messaging enabled, all filters must be configured with the same values for message timeouts and maximum resends.</p>
+      <h2 id="ebXMLFilters-GeneralProperties">General Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode of Operation</p></td>
+          <td class="confluenceTd"><p>Options: <code>Generate ebXML Messages</code>, <code>Parse ebXML Messages</code>. Default: <code>Generate ebXML Messages</code>.<br class="atl-forced-newline">Whether the filter should generate ebXML messages from statically configured values and/or Rhapsody message properties, or parse incoming ebXML messages and set the parsed values as properties on the Rhapsody message(s) output.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Configuration Contention Rule</p></td>
+          <td class="confluenceTd"><p>Options: <code>Favour Message Properties</code>, <code>Favour Static Configuration</code>. Default: <code>Favour Message Properties</code><br class="atl-forced-newline">Whether to favor dynamic message properties over statically configured configuration settings when both are available.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/From/PartyId</p></td>
+          <td class="confluenceTd"><p>The value(s) to insert into the ebXML MessageHeader/From/PartyId element(s) and, optionally, the type attribute of this element. An ebXML message requires at least one of these elements. The alternative message properties are <code>eb:From/PartyId</code> and <code>eb:From/PartyId@type</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/From/Role</p></td>
+          <td class="confluenceTd"><p>The value to insert into the ebXML MessageHeader/From/Role element. An ebXML message requires exactly one of these elements. The alternative message property is <code>eb:From/Role</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/To/PartyId</p></td>
+          <td class="confluenceTd"><p>The value(s) to insert into the ebXML MessageHeader/To/PartyId element(s) and, optionally, the type attribute of this element. An ebXML message requires at least one of these elements. The alternative message properties are <code>eb:To/PartyId</code> and eb:To/PartyId@type.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/To/Role</p></td>
+          <td class="confluenceTd"><p>The value to insert into the ebXML MessageHeader/To/Role element. An ebXML message requires exactly one of these elements. The alternative message property is <code>eb:To/Role</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/CPAId</p></td>
+          <td class="confluenceTd"><p>The value to insert into the ebXML MessageHeader/CPAId element. An ebXML message requires exactly one of these elements. The alternative message property is <code>eb:CPAId</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/ConversationId</p></td>
+          <td class="confluenceTd"><p>Options: <code>Auto-generate Conversation ID</code>, <code>As Per Message Property</code>. Default: <code>Auto-generate Conversation ID</code><br class="atl-forced-newline"> Whether the filter should generate a unique conversation ID for the current message or use the value provided in the message property <code>eb:ConversationId</code> as the value to insert into the ebXML MessageHeader/ConversationId element. As an ebXML message requires exactly one of these elements, if set to As Per Message Property but property <code>eb:ConversationId</code> does not exist or has an empty value, a conversation ID will be auto-generated.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/Service</p></td>
+          <td class="confluenceTd"><p>The value to insert into the ebXML MessageHeader/Service element and, optionally, the type attribute of this element. An ebXML message requires exactly one of these elements. The alternative message properties are <code>eb:Service</code> and <code>eb:Service@type</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/Action</p></td>
+          <td class="confluenceTd"><p>The value to insert into the ebXML MessageHeader/Action element. An ebXML message requires exactly one of these elements. The alternative message property is <code>eb:Action</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/MessageData/ MessageId</p></td>
+          <td class="confluenceTd"><p>Options: <code>Auto-generate Message ID</code>, <code>Use Rhapsody Message ID</code>, <code>As Per Message Property</code>. Default: <code>Auto-generate Message ID</code><br class="atl-forced-newline"> Whether the filter should generate a unique message ID for the current message, use the Rhapsody message ID (which is unique) or use the value provided in message property <code>eb:MessageId</code> as the value to insert into the ebXML MessageHeader/MessageData/MessageId element. As an ebXML message requires exactly one of these elements, if set to As Per Message Property but property <code>eb:MessageId</code> does not exist or has an empty value, a message ID will be auto-generated.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/MessageData/ TimeToLive</p></td>
+          <td class="confluenceTd"><p>The value to use to create the ebXML MessageHeader/MessageData/TimeToLive element. The value is an integer representing the number of seconds since message creation time, after which the message expires. As this is an optional element in an ebXML message, a value of zero or less may be used to signify that the element should not be present in the message. The default value is <code>-1</code>. The alternative message property is <code>eb:TimeToLive</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageHeader/ DuplicateElimination</p></td>
+          <td class="confluenceTd"><p>Options: <code>As Per Message Property</code>, <code>Request Duplicate Elimination</code>. Default: <code>As Per Message Property</code><br class="atl-forced-newline"> Whether the filter should insert an ebXML MessageHeader/DuplicateElimination element into the message, to request that any duplicates of this message be discarded. To statically configure all messages to request duplicate elimination, set this property to Request Duplicate Elimination. It is strongly recommended that messages which have the <code>eb:Content-Type</code> property <code>eb:DuplicateElimination</code> set to True (case-insensitive) will have the MessageHeader/DuplicateElimination element added.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SyncReply</p></td>
+          <td class="confluenceTd"><p>Options: <code>As Per Message Property</code>, <code>Request Synchronous Reply</code>. Default: <code>As Per Message Property</code><br class="atl-forced-newline"> Whether the filter should insert an ebXML SyncReply element into the message, to request that a response message be sent back in the same transmission. SyncReply mode applies to synchronous transmission protocols such as HTTP. To statically configure all messages to request synchronous replies, set this property to Request Synchronous Reply. Otherwise, only messages that have message property <code>eb:SyncReply</code> set to true (case-insensitive) will have the SyncReply element added.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Custom Elements (Outgoing)</p></td>
+          <td class="confluenceTd"><p>Optional, user-defined XML elements to insert into the ebXML message. This is a list of zero or more pairs of simple XPath expressions defining the insertion point, and the XML fragment to insert at that point. All insertion points should be specified relative to the ebXML document element which, being an extension to the SOAP Messages With Attachments specification, is the Envelope element. For example, to insert an XML fragment rooted at a MetaData element into the ebXML Manifest element, use an XPath expression like <code>soap-env:Body/eb:Manifest</code> and an XML fragment value like <code>&lt;MetaData&gt;...&lt;/MetaData&gt;</code>.</p><p>The alternative message properties are <code>be:CustomElementXPath</code> and <code>be:CustomElementXML</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Custom Elements (Incoming)</p></td>
+          <td class="confluenceTd"><p>Optional, user-defined XML elements to extract from the ebXML message. This is a list of zero or more pairs of simple XPath expressions defining the extraction point, and the Rhapsody message property whose value to set as the XML fragment extracted from that point. All extraction points should be specified relative to the ebXML document element which, being an extension to the SOAP Messages With Attachments specification, is the Envelope element. For example, to extract an XML fragment rooted at a MetaData element which is a child of the ebXML Manifest element, use an XPath expression like <code>soap-env:Body/eb:Manifest</code>.</p><p>As this property applies to incoming ebXML messages which are to be parsed by the ebXML filter, there is no alternative message property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Signing</p></td>
+          <td class="confluenceTd"><p>Options: <code>Do Not Sign Messages</code>, <code>As Per Message Property</code>, <code>Sign Messages</code>. Default: <code>Do Not Sign Messages</code><br class="atl-forced-newline"> Whether the filter should sign generated ebXML messages. If message signing should occur on a message by message basis, use property <code>eb:Sign</code> with a value of <code>true</code> to signify that a message should be signed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signature Algorithm</p></td>
+          <td class="confluenceTd"><p>Options: <code>rsa-sha1</code>, <code>dsa-sha1</code>. Default: <code>rsa-sha1</code><br class="atl-forced-newline">The algorithm to use to sign messages. Currently, RSA with SHA-1 and DSA with SHA-1 are supported. The alternative message property is <code>eb:SignatureAlgorithm</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing Key</p></td>
+          <td class="confluenceTd"><p>The private key to use to sign messages. The alternative message property is <code>eb:SignatureKeyAlias</code>, whose value must be the alias of the private key to use.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Verification</p></td>
+          <td class="confluenceTd"><p>Options: <code>Do Not Verify Messages</code>, <code>Verify Messages</code>. Default: <code>Do Not Verify Messages</code><br class="atl-forced-newline"> Whether the filter should verify the signature of parsed ebXML messages. As this property applies to incoming ebXML messages which are to be parsed by the ebXML filter, there is no alternative message property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Verification Certificates</p></td>
+          <td class="confluenceTd"><p>The certificate(s) to use to verify messages. This is a list of one or more certificates corresponding to the recognized private keys with which incoming ebXML messages may be signed. As this property applies to incoming ebXML messages which are to be parsed by the ebXML filter, there is no alternative message property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Default Content-Type</p></td>
+          <td class="confluenceTd"><p>The default value of the Content-Type MIME header of the payload portion of generated ebXML messages, to be used if individual Rhapsody messages do not have the <code>eb:ContentType</code> property set. The default value is <code>application/octet-stream</code>. It is strongly recommended that this be changed to a more specific content type, representative of the type of data most commonly being sent through this filter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Enable Reliable Messaging</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br class="atl-forced-newline"> Whether to enable reliable messaging.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>AckRequested@signed</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br class="atl-forced-newline"> Whether to request that acknowledgment messages sent back are signed, when reliable messaging is enabled. If set to <code>False</code>, use message property <code>eb:AckRequested@signed</code> with a value of <code>True</code> to request signed acknowledgments for specific messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Acknowledgment Message Timeout</p></td>
+          <td class="confluenceTd"><p>The number of seconds within which an acknowledgment message must be received, before the original message is resent or fails. Use a value of zero or less to signify that there is no timeout. The default is <code>-1</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Message Resends</p></td>
+          <td class="confluenceTd"><p>The maximum number of times that an unacknowledged message will be resent before failing. Use a value of zero to signify that the message should not be resent, <code>-1</code> to signify that the message should continually be resent until acknowledged. The default is <code>-1</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="ebXMLFilters-MessageDefinition">Message Definition</h3>
+      <p>The message definition (<code>*.s3d file</code>) defines a message structure in various EDI message formats (HL7 2.1 - 2.4, X.12, HIPAA, EDIFACT, UB92, ASTM, NCPDP). The definition files can be created using the EDI Message Designer application and a message can be verified using the EDI Explorer application.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

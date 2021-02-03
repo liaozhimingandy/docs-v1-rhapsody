@@ -1,0 +1,398 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Connection</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Configuring-Communication-Points_133162165.html">Configuring Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Connection</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="color: rgb(51,51,51);">There are a number of connection configuration options available to all communication points regardless of their type. These common connection configuration properties are found on the <strong>Connection</strong> tab of the communication point properties dialog:</span></p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162193/133162194.png" data-image-src="attachments/133162193/133162194.png" data-unresolved-comment-count="0" data-linked-resource-id="133162194" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Timer-Connection.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162193" data-linked-resource-container-version="17"></span></p>
+      <p>The options available on the&nbsp;<strong>Connection</strong>&nbsp;tab are described in the following sections:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146943661 {padding: 0px;}
+div.rbtoc1565146943661 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146943661 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146943661"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#Connection-ConnectionProperties">Connection Properties</a></li> 
+        <li><a href="#Connection-ConnectionRetries">Connection Retries</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#Connection-ConnectionRetriesforServerCommunicationPoints">Connection Retries for Server Communication Points</a></li> 
+          <li><a href="#Connection-RedirectingtoaCommunicationPoint">Redirecting to a Communication Point</a></li> 
+          <li><a href="#Connection-DynamicRetriesPerMessage">Dynamic Retries Per Message</a></li> 
+          <li><a href="#Connection-InteractionwithMessageTracking">Interaction with Message Tracking</a></li> 
+         </ul> </li> 
+        <li><a href="#Connection-In->OutandOut->InProperties">In-&gt;Out and Out-&gt;In Properties</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#Connection-In->OutMode">In-&gt;Out Mode</a></li> 
+          <li><a href="#Connection-Out->InMode">Out-&gt;In Mode</a></li> 
+          <li><a href="#Connection-Time-To-Live">Time-To-Live</a></li> 
+         </ul> </li> 
+        <li><a href="#Connection-ConnectionTracking">Connection Tracking</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#Connection-In->OutMode.1">In-&gt;Out Mode</a></li> 
+          <li><a href="#Connection-BidirectionalMode">Bidirectional Mode</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="Connection-ConnectionProperties">Connection Properties</h2>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162193/133162195.png" data-image-src="attachments/133162193/133162195.png" data-unresolved-comment-count="0" data-linked-resource-id="133162195" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConnectionProperties.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162193" data-linked-resource-container-version="17"></span></p>
+      <p>A communication point's Connection Properties determine how it connects to an external system and exchanges messages with it:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p><span style="color: rgb(0,0,0);">Option</span></p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Mode</p></td>
+          <td class="confluenceTd"><p>The communication point's operational mode:</p>
+           <ul>
+            <li><code>Bi-directional</code> - messages can be both sent and received simultaneously. Used when incoming and outgoing messages are sent and received independently of each other.</li>
+            <li><code>Input</code> - used to receive messages only.</li>
+            <li><code>Output</code> - used to send messages only.</li>
+            <li><code>In-&gt;Out</code> - when a message is received, the communication point will refuse to accept further messages until a response has been sent.</li>
+            <li><code>Out-&gt;In</code> - when a message is sent, the communication point waits for a response before sending the next message.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Continue routing</td>
+          <td colspan="1" class="confluenceTd"><p>When enabled, an output communication point on the output side of a route and can be placed on the input side and connected to a filter or an output communication point on a secondary route path. Upon successfully sending the message, the communication point then resends the message via the secondary path. Refer to <a href="Continued-Routing-on-Success_142330783.html">Continued Routing on Success</a>, an Advanced Routing mode, for details.</p><p>Only available when&nbsp;<strong>Connection Mode</strong>&nbsp;is set to&nbsp;<code>Output</code><strong>.</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Idle Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>The period, in milliseconds, of inactivity that must pass before the communication point automatically closes a connection. When the idle timeout is set to the default value of <code>0</code> (zero), the communication point keeps connections open even if they are inactive.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Number of Connections</p></td>
+          <td class="confluenceTd"><p>A communication point may maintain multiple connections to remote systems at any time.</p><p>For the <a href="Directory_133162648.html">Directory</a> communication point, for example, only one connection is required so this value should be left as <code>1</code>. For other communication points, such as the <a href="TCP-Server_133162501.html">TCP Server</a>, multiple connections may be very useful.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Messages</p></td>
+          <td class="confluenceTd"><p>Determines how Rhapsody sends outgoing messages when a communication point is running in <em>Bidirectional</em> or <em>In-&gt;Out</em> mode and when operating in a potentially multi-connection environment. Refer to <a href="#Connection-ConnectionTracking">Connection Tracking</a> for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="Connection-ConnectionRetries">Connection Retries</h2>
+      <p>If any&nbsp;error occurs when connecting to a remote system or the connection is dropped, Rhapsody can attempt to reconnect to the system based on user-configurable retry settings.</p>
+      <p>Rhapsody usually treats connection errors as a problem with the connection to the remote system, rather than a problem with the specific message being sent. This is often the correct approach. Too many connection errors result in notifications being raised and ultimately the communication point being&nbsp;shut down&nbsp;in the error state (which also raises notifications).</p>
+      <p>However, if the connection errors are actually due to some dynamic configuration relating to the particular message being sent, shutting down the communication point is undesirable as this prevents messages being sent to other systems where there may be no connection errors.</p>
+      <p>Per-message&nbsp;retries&nbsp;enables&nbsp;connection errors to be tracked against both the communication point and an individual message. If the same message has too many connection errors, then a configurable action takes place, possibly resulting in the communication point moving onto the next message in the queue. This means that a communication point that talks to many remote systems do not fail if a single one of those remote systems&nbsp;is&nbsp;down.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162193/133162200.png" data-image-src="attachments/133162193/133162200.png" data-unresolved-comment-count="0" data-linked-resource-id="133162200" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConnectionRetries.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162193" data-linked-resource-container-version="17"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p><span>Option</span></p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Retry Type</p></td>
+          <td class="confluenceTd"><p>The type of retry:</p>
+           <ul>
+            <li><code>No retry</code> - Rhapsody does not attempt to restart a communication point once a connection has been lost.</li>
+            <li><code>Immediate</code> - Rhapsody attempts to restart the communication point immediately and continuously retries until the maximum number of retries has been reached.</li>
+            <li><code>Linear</code> - Rhapsody waits for the period specified in the <strong>Initial Retry Delay</strong> field before making each attempt to restore the connection.</li>
+            <li><p><code>Exponential</code> - Rhapsody employs an exponential strategy for its retry period. The strategy uses the following formula to calculate the retry delay between connection attempts: Retry Delay = Initial Retry Delay (ms) x 2^(Current Retry Count). The maximum delay value when the delay does not increment any further is set using the <strong>Maximum Retry Delay</strong> property.</p></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Number of Retries</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The maximum number of retries Rhapsody should attempt before considering the connection failed and stopping the communication point. During this period, a<span>ny messages sent to output communication points accumulate in their Out Queue.</span></p>
+            <p>To prevent a communication point from stopping after too many failed connections, set the number of retries to <code>-1</code> (infinite). The communication point is then never stopped and continually attempts to connect to the service.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>In order to make Rhapsody's server communication points more tolerant to connection failures from clients or misconfigured clients, it is recommended that you set the connection retry count to infinite.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Initial Retry Delay (ms)</p></td>
+          <td class="confluenceTd"><p>The period of time Rhapsody should wait before attempting to restore the connection. If you set the value to less than 10 ms, Rhapsody uses the minimum value of 10 ms.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Maximum Retry Delay (ms)</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The cut-off period at which point the delay does not increase any further:</p>
+            <ul class="alternate">
+             <li>The minimum value for <strong>Maximum Retry Delay</strong> is one second.</li>
+             <li>When <strong>Maximum Retry Delay </strong>is set to 0, the maximum value of&nbsp;2,147,483,647 (2<sup>31</sup>-1) is used.</li>
+             <li><strong>Maximum Retry Delay</strong> should be set to be greater than the <strong>Initial Retry Delay</strong>. If <strong>Maximum Retry Delay</strong> is less than <strong>Initial Retry Delay</strong>, then <strong>Maximum Retry Delay</strong> is used when making retry attempts.</li>
+            </ul>
+            <p>For example, if <strong>Maximum Retry Delay</strong> is set to 100000 ms and the <strong>Initial Retry Delay</strong> to 5000 ms and <strong>Number of Retries</strong> to 10, retry attempts are made at the following intervals: 5, 10, 20, 40, 80, 100, 100, 100, 100, and 100 seconds.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              The property is only enabled when the user chooses the 
+              <code>Exponential</code> retry option on the new engine that supports this feature.
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Retries Per Message</p></td>
+          <td colspan="1" class="confluenceTd"><p>The maximum number of retries allowed per message when the operation fails due to a connection either being closed or a connection error. If set to <code>Infinite</code>, the maximum number of retries per message is unlimited.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Message Retry Delay (ms)</p></td>
+          <td colspan="1" class="confluenceTd"><p>The period of time, in milliseconds, Rhapsody should wait before attempting to send a message when it&nbsp;fails to send due to a connection being closed or a connection error.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Retries Exceeded Action</p></td>
+          <td colspan="1" class="confluenceTd"><p>The action taken by the communication point when the retries per message have been exceeded for the given message:</p>
+           <ul>
+            <li><code>Shutdown communication point</code> (default).<code><br></code></li>
+            <li><code>Discard message</code>.</li>
+            <li><p><code>Treat as error</code> - <span>the message is&nbsp;re-routed via the </span><span>communication point's </span><span>error output connector, and </span>the <code>rhapsody:ErrorCause</code> message property is added to the message and set to <code>connection.retries_exceeded</code>. However, if the error output connector is not connected to other components, the message is sent to the Error Queue.</p></li>
+            <li><code>Redirect to Input communication point (deprecated)</code>.</li>
+            <li><code>Redirect to Output communication point (deprecated)</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);">Redirect Target</span></td>
+          <td colspan="1" class="confluenceTd"><p><span style="color: rgb(0,0,0);">When <strong>Retries Exceeded Action</strong> is set to <span><code>Redirect to Input Communication Point</code> or </span><span><code>Redirect to Output Communication Point</code>, </span></span><span>you can select the target communication point for redirection by clicking the </span><strong>Select Communication Point</strong><span> link.</span></p><p><span>Refer to <a href="#Connection-RedirectingtoaCommunicationPoint">Redirecting to a Communication Point</a> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Included Messages</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>This setting determines what types of messages are included when determining whether a connection error should be counted against the message or not. It is not available in either <em>Output</em> or <em>Bidirectional</em> mode because in those cases only the outgoing messages can be included. For <em>Out→In </em>mode, the available options are:</p>
+            <ul>
+             <li><code>All messages</code> (default) - a connection error is counted against the maximum number of retries for a single message if the connection error occurs while sending the output message, waiting for the response, or while receiving the response.</li>
+             <li><code>Response messages only</code> - a connection error is counted against the maximum number of retries for a single message only if the connection error occurs while waiting for the response or while receiving the response. A connection error that occurs while sending the output is only counted against the maximum connection retries for the communication point, and is not tracked against the configured <strong>Retries Per Message</strong>. Consequently, the difference between this and the other option is whether a connection error that occurs while sending the output message is tracked against both the configured <strong>Retries Per Message</strong> and <strong>Number of Retries</strong>, or just against <strong>Retries Per Message</strong>.</li>
+            </ul>
+            <p>This setting has no effect if there is no maximum number of retries per message.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The default option for communication points introduced as of Rhapsody 5.5 is <code>All Messages</code>; for communication points introduced before Rhapsody 5.5, it is <code>Response Messages Only</code>. The conditional default options are provided so that upgrading to Rhapsody versions 5.5 and later accommodates the behavior of any communication points existing before Rhapsody 5.5.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>A connection error is normally counted against both the outgoing&nbsp;message,&nbsp;and the communication point itself. If the communication point retry limit is reached then the communication point will be stopped in the error state. The retry will take place after the configured retry delay in the communication point settings. In contrast, connection closures do not count against the communication point itself and are instead retried immediately without the configured delay.</p>
+      <p>The communication point retry count is reset in the following cases:</p>
+      <ul>
+       <li>When the communication point is restarted.</li>
+       <li>After a message is successfully sent via the connection.</li>
+       <li>After a message is successfully received from the connection.</li>
+      </ul>
+      <p>The&nbsp;per-message&nbsp;retry counts are reset in the following cases:</p>
+      <ul>
+       <li>When the communication point is restarted (retry counts for all messages on the communication point).</li>
+       <li>When a connection error occurs establishing a connection prior to retrieving a message to send (retry counts for all messages on the communication point).</li>
+       <li>After the message is successfully sent in&nbsp;<em>Output</em>&nbsp;or&nbsp;<em>Bidirectional</em>&nbsp;mode (retry count for the sent message only).</li>
+       <li>After the response message is successfully received in&nbsp;<em>Out-&gt;In</em>&nbsp;mode&nbsp;(retry count for the sent message only).</li>
+       <li>A timeout occurs while sending the message&nbsp;(retry count for the sent message only).</li>
+       <li>A timeout occurs while waiting for the response message in&nbsp;<em>Out-&gt;In</em>&nbsp;mode&nbsp;(retry count for the sent message only).</li>
+      </ul>
+      <p>If per message retries are enabled for a communication point, a message path event is added to the outgoing message whenever a connection error or closure occurs and it is being counted against the message in question. Additional message path events are also added when the maximum number of retries is reached and the Retries Exceeded Action is to either discard the message or send it to the error queue.</p>
+      <h3 id="Connection-ConnectionRetriesforServerCommunicationPoints">Connection Retries for Server Communication Points</h3>
+      <p>For Rhapsody's server communication points (the TCP Server communication point, for example),&nbsp;to "retry the connection" actually means to "<em>wait</em>&nbsp;for the next incoming connection". As such, it is recommended that&nbsp;<strong>Number of Retries</strong>&nbsp;for server communication points should be set to infinite.</p>
+      <p>If a connection error occurs while sending a message in <em>Output</em> or <em>Out→In</em> mode, then the server communication point attempts to send the same message out on the next incoming connection (which could be from a different remote client) – that is unless the&nbsp;<strong>Retries per Message</strong>&nbsp;are exhausted, in which case the&nbsp;<strong>Retries Exceeded Action</strong>&nbsp;is executed.</p>
+      <p>In <em>In→Out</em>&nbsp;mode, the outgoing message&nbsp;is either discarded or sent to the Error Queue depending on&nbsp;the <a href="#Connection-ConnectionTracking">connection tracking</a> options.</p>
+      <p>In <em>Bidirectional</em> mode, outgoing messages are generally treated the same as in&nbsp;<em>Output</em> mode unless a message is being sent back out on the same communication point it came in on and connection tracking is enabled, in which case the behavior is the same as for <em>In-&gt;Out</em> mode.</p>
+      <p>When a server communication point starts up, it attempts to bind a server socket. If this fails, then the communication point may retry the bind operation before shutting down. In versions of Rhapsody prior to&nbsp;Rhapsody 6.4, these retries are controlled by the connection retries settings on the communication point properties dialog's <strong>General</strong> tab. As of&nbsp; Rhapsody 6.4, server socket retries are controlled by two properties in the <code>rhapsody.properties</code> file:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>CommunicationPointExecutionService.ServerSocketRetries</pre></td>
+          <td class="confluenceTd">Determines the number of times that the server socket will be retried (default value of 5).</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>CommunicationPointExecutionService.ServerSocketRetryDelay</pre></td>
+          <td class="confluenceTd"><p>Determines the delay, in milliseconds, between retry attempts (default value of 5000).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Connection-RedirectingtoaCommunicationPoint">Redirecting to a Communication Point</h3>
+      <p>You can configure&nbsp;the communication point (source) to redirect a message to an input or output communication point (target) when the&nbsp;maximum number of retries&nbsp;has been exceeded.</p>
+      <p>The target communication point must be in the same configuration locker as the source communication point and also&nbsp;support the source communication point's configured Connection Mode.</p>
+      <p class="_mce_tagged_br">If the configured number of per message retries&nbsp;is reached, then the message is redirected to the selected communication point by placing the message directly on the appropriate input or output queue:</p>
+      <ul>
+       <li><p>If placed on an output queue, then the message is available for sending by the target communication point if it is running.</p></li>
+       <li><p>If placed&nbsp;on&nbsp;an input queue, then the message is available to be picked up by any route that has the target communication point as an input. This mode operates in a similar way to the Dynamic Router communication point in that the target communication point does&nbsp;<em>not</em>&nbsp;need to be running for this to occur, as the message is placed directly on its input queue.</p></li>
+      </ul>
+      <h3 id="Connection-DynamicRetriesPerMessage">Dynamic Retries Per Message</h3>
+      <p>If per message retries have been enabled for a communication point, it is possible to dynamically change the maximum number of retries for a particular message. This is done by setting a message property&nbsp;called&nbsp;<code>rhapsody:MaximumMessageConnectionRetries</code>&nbsp;to&nbsp;the number of retries to use. It must be set to a non-negative integer otherwise it is ignored and the default value used instead. It is permissible to set it to zero to indicate that no retries should be performed for this message.</p>
+      <h3 id="Connection-InteractionwithMessageTracking">Interaction with Message Tracking</h3>
+      <p>Connection Retries interacts with message tracking as follows:</p>
+      <ul>
+       <li>Message tracking is automatically canceled if the message exceeds the maximum number of retries per message, and the selected action is to either discard the&nbsp;message,&nbsp;or send the message to the Error Queue.</li>
+       <li>If a connection error occurs while sending the message and the maximum retries per message have not yet been reached, then the 'send' does not count from the perspective of message tracking since it never completed. The message is instead placed back on the communication point output queue for re-sending.</li>
+      </ul>
+      <h2 id="Connection-In->OutandOut->InProperties"><em>In-&gt;Out</em> and <em>Out-&gt;In</em> Properties</h2>
+      <p>The <em>In→Out</em> and <em>Out→In</em> modes for a communication point enforce the order in which messages are sent and received.</p>
+      <h3 id="Connection-In->OutMode"><em>In-&gt;Out</em> Mode</h3>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="93" width="480" src="attachments/133162193/133162198.png" data-image-src="attachments/133162193/133162198.png" data-unresolved-comment-count="0" data-linked-resource-id="133162198" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="In-OutMode.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162193" data-linked-resource-container-version="17"></span></p>
+      <p>When running in <em>In→Out</em>, a message is received and then a response is sent. The communication point initially starts in <em>Input</em> mode. While in <em>Input</em>&nbsp;mode, the communication point will not send any messages until a message is received. Once a message is received, the communication point enters <em>Output</em>&nbsp;mode. While in <em>Output</em>&nbsp;mode, the communication point will refuse to accept further messages. The communication point remains in <em>Output</em> mode until either a response has been sent or the response timeout period has elapsed, at which point it goes back to <em>Input</em>&nbsp;mode.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p><span style="color: rgb(0,0,0);">Option</span></p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>Specifies how long the communication point should wait for a response before taking further action. The timeout also impacts the <a href="#Connection-Time-To-Live">Time-To-Live </a>functionality of the message.</p><p>To disable&nbsp;<em>In→Out</em>&nbsp;settings, set an infinite response timeout, that is, set the <strong>Response Timeout</strong> to&nbsp;<code>0</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Discard message once timeout occurs</p></td>
+          <td class="confluenceTd"><p>This determines whether <a href="#Connection-Time-To-Live">Time-To-Live</a> functionality is enabled for messages arriving on the communication point.</p><p><span>This checkbox is only available when the communication point is in </span><em>In→Out</em><span> mode.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Connection-Out->InMode"><em>Out-&gt;In</em> Mode</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162193/133162199.png" data-image-src="attachments/133162193/133162199.png" data-unresolved-comment-count="0" data-linked-resource-id="133162199" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Out-InMode.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162193" data-linked-resource-container-version="17"></span></p>
+      <p>When running in <em>Out→In</em> mode, a message is sent and then a response is received. The communication point initially starts in <em>Output</em>&nbsp;mode. While in <em>Output</em>&nbsp;mode, the communication point will refuse to accept messages. Once a message is sent, the communication point enters <em>Input</em>&nbsp;mode. While in <em>Input</em>&nbsp;mode, the communication point will not send any messages. The communication point remains in <em>Input</em>&nbsp;mode until either a response has been received or the response timeout&nbsp;period has elapsed, at which point it goes back to <em>Output</em>&nbsp;mode.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Option</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>Specifies how long the communication point should wait for a response before taking further action.</p><p>To disable&nbsp;<em>Out→In</em>&nbsp;settings, set an infinite response timeout, that is, set <strong>Response Timeout</strong> to&nbsp;<code>0</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Suspend message timeout once response is received</p></td>
+          <td class="confluenceTd"><p>This checkbox is only available when the communication point is in the <em>Out→In</em> mode. This determines whether <a href="#Connection-Time-To-Live">Time-To-Live</a> functionality is disabled for messages arriving on the communication point.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Retry Count</p></td>
+          <td class="confluenceTd"><p><span>Specifies the maximum number of times the message should be resent after a <span>response timeout has occurred</span>. This can be set to </span><code>Infinite</code><span> or </span><code><span>-1</span></code><span>, to indicate that the communication point should continually retry (an infinite number of retries)</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Fail Action</p></td>
+          <td class="confluenceTd"><p>The action executed when the <strong>Retry Count</strong> (the maximum number of resends) has been reached:</p>
+           <ul>
+            <li><code>Treat as error</code> - the message is&nbsp;re-routed via the <span>communication point's </span>error output connector, and the <code>rhapsody:ErrorCause</code> message property is added to the message and set to <code>tracking.retries_exceeded</code>. However, <span>if the </span><span>error output </span><span>connector is not connected to other components, the message is sent to the Error Queue.</span></li>
+            <li><code>Close connection</code>.</li>
+            <li><code><span>Treat as error</span> and close connection</code>.</li>
+           </ul><p>The <code>Close connection</code> fail action has the following phases:</p>
+           <ol>
+            <li>The current connection is closed.</li>
+            <li>A new connection is established.</li>
+            <li>The message is sent over the new connection.</li>
+            <li>If no response is received, and the <strong>Response Timeout</strong> and <strong>Retry Count</strong> have been reached, the fail action (<code>Close connection</code>) is re-executed.</li>
+           </ol></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When a message tracking scheme is attached to a communication point, it automatically overrides the <em>Out→In</em> retry settings. Therefore, the settings for any communication point with a message tracking scheme attached are ignored.</p>
+       </div>
+      </div>
+      <h3 id="Connection-Time-To-Live">Time-To-Live</h3>
+      <p>Time-To-Live is a setting that permits an administrator to dictate the upper threshold for the life-cycle of a message. It is used to discard messages that have exceeded their Time-To-Live timeout. When messages are discarded due to exceeding their Time-To-Live timeout, a message path event is added to the message and this is logged in the Rhapsody logs under the Debug level for communication point logging.</p>
+      <p>This is managed with the message property <code>rhapsody:TimeToLive</code> which contains a string representation of an expiry time specified as milliseconds since epoch. This property is checked in the following circumstances:</p>
+      <ul>
+       <li>Prior to the processing of a message in a filter.</li>
+       <li>Prior to sending the message via a communication point in output mode.</li>
+       <li>Prior to sending the message via a communication point in <em>Out-&gt;In</em> mode.</li>
+       <li>After receiving a message and prior to sending it via a communication point in <em><em>In</em><em>-&gt;</em>Out </em>mode.</li>
+      </ul>
+      <p>T<span>o disable the Time-To-Live message&nbsp;property, set the value of the&nbsp;<code>TimeToLive</code>&nbsp;property to null</span><span>:&nbsp;</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">setProperty("rhapsody:TimeToLive", null)</pre> 
+       </div>
+      </div>
+      <p>The Time-To-Live&nbsp;message&nbsp;property can be set by a&nbsp;Rhapsody configuration at any point in order to control message discard behavior due to expiry.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">The property can also be set automatically on a message by the Rhapsody Engine as follows:</span></p>
+      <ul>
+       <li>Enabled on messages received by a communication point configured in <em><em>In→</em>Out </em>mode with the <code>Discard message once timeout occurs</code> property enabled. The Time-To-Live expiry is set to the receive time plus the response timeout configured in the&nbsp;<em>Out-&gt;In</em> properties.</li>
+       <li>Disabled on messages received by a communication point configured in <em>Out→In</em> mode with the <code>Suspend message timeout once response is</code><code> received</code> property enabled.</li>
+      </ul>
+      <p>This allows Rhapsody to set an upper limit on message lifetime within the Rhapsody Engine for messages which are coming in via a request-response model.</p>
+      <p>When&nbsp;resending or redirecting&nbsp;the message, the Time-To-Live&nbsp;message&nbsp;property is removed from the message. However, t<span style="line-height: 13.0pt;background-color: transparent;">he Time-To-Live&nbsp;message&nbsp;property is updated when reinjecting the message to a communication point which is in&nbsp;Time-To-Live&nbsp;mode and has a finite (non-zero) Response Timeout, and the Time-To-Live message&nbsp;property is not empty. If any of these conditions are not met, then the message property is removed from the message.</span></p>
+      <p>The property is also removed from the message when resending or redirecting the message.</p>
+      <h2 id="Connection-ConnectionTracking">Connection Tracking</h2>
+      <p>Rhapsody communication points can create multiple simultaneous connections which operate independently of each other. However, once multiple connections are in use, care must be taken to ensure that response messages generated by Rhapsody are sent back to the same connection as the original message. According to the options set, a message that is received by a communication point and subsequently returned by the same communication point is sent to the same connection.</p>
+      <p>The <strong>Outgoing Messages</strong> field, on the <strong>General</strong> tab of the communication point's <strong>Properties</strong> window, determines how Rhapsody sends outgoing messages when a communication point is running in either <em>In-&gt;Out</em> or <em>Bidirectional</em> mode in a potentially multi-connection environment.</p>
+      <h3 id="Connection-In->OutMode.1"><em>In-&gt;Out</em> Mode</h3>
+      <p>When a communication point is operating in <em>In→Out</em> mode, Rhapsody always attempts to send an outgoing message back to the same connection that generated the original message. However, if that connection has since been dropped, Rhapsody needs to know what to do with the message. Due to the nature of the <em>In→Out</em> mode, it is not possible to leave messages waiting on the output queue until the connection is re-established. A re-established connection will immediately receive a new message which requires a new (and different) response.</p>
+      <p>The options available in <em>In→Out</em> mode are:</p>
+      <ul>
+       <li><code><span>Send via original connection (d</span><span>iscard if original connection has closed)</span></code>&nbsp;- messages are discarded if they are destined for a connection that has been closed. The Rhapsody log will be updated to note that a message was discarded, but no errors will be generated. This is generally the desired behavior when configuring an HTTP Server, as it means that the client canceled the request before the response was sent.</li>
+       <li><code><span>Send via original connection (m</span><span>ove to Error Queue if original connection has closed)</span></code>&nbsp;- messages are sent to the Error Queue&nbsp;if they are destined for a connection that has been closed.</li>
+      </ul>
+      <h3 id="Connection-BidirectionalMode"><em>Bidirectional</em> Mode</h3>
+      <p>When a communication point is operating in <em>Bidirectional</em> mode, Rhapsody has several additional options. In this mode, it is possible to resend the message after the connection is reestablished, or alternatively to send the message to a different connection entirely. Depending on the circumstances, either of these options may be valid.</p>
+      <p>The available options in <em>Bidirectional</em> mode are:</p>
+      <ul>
+       <li><code>Send via first available connection</code>&nbsp;- enables the communication point to send outgoing messages via any available connection, rather than just to the connection that generated the original message. This is the default option, and must be used if the bidirectional communication point is truly asynchronous (input and output are completely independent), or if it is output driven (that is, it is effectively operating in an asynchronous <em>Out-&gt;In</em> mode).</li>
+       <li><code>Send via&nbsp;<span>original connection</span> (keep until connection is available)</code>&nbsp;- the communication point keeps the message waiting on the output queue until the original connection is available. If the connection is still present, the message will be sent immediately. However, if the connection has been closed, the message will wait on the output queue until it is available again.</li>
+       <li><code><span>Send via&nbsp;<span>original connection</span> (d</span>iscard if original connection has closed)</code>&nbsp;- messages are discarded if they are destined for a connection that has been closed. The Rhapsody log will be updated to note that a message was discarded, but no errors will be generated. This is generally the desired behavior when configuring an HTTP Server, as it simply means that the client canceled the request before the response was sent.</li>
+       <li><code><span>Send via&nbsp;<span>original connection</span> (m</span>ove to Error Queue if original connection has closed)</code>&nbsp;- messages are sent to the Error Queue if they are destined for a connection that has been closed.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

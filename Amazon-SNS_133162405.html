@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Amazon SNS</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Amazon SNS</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162405/133162406.bmp" data-image-src="attachments/133162405/133162406.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162406" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SNS-32x32.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162405" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>Amazon SNS</strong> communication point enables you to connect to an <a href="https://aws.amazon.com/sns/" class="external-link" rel="nofollow">Amazon Simple Notification Service (Amazon SNS)</a>, a push notification service that can send individual messages or broadcast messages to large numbers of recipients.</p>
+      <p>Supported Operational Modes:&nbsp;<em>Output.</em></p>
+      <h2 id="AmazonSNS-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Endpoint URL</td>
+          <td class="confluenceTd"><p>The endpoint URL to use to publish messages to SNS.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Destination Type</p></td>
+          <td colspan="1" class="confluenceTd"><p>Determines whether the message is delivered to:</p>
+           <ul>
+            <li><code>SNS Topic ARN</code> - <span>all subscribers of an SNS topic.</span></li>
+            <li><code>SNS Target ARN</code> - <span>directly to a specific SNS target.</span></li>
+            <li><code>Phone Number (SMS)</code> - <span>a specific phone number as an SMS message (the phone number is provided in E.164 format).</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>SNS Destination</p></td>
+          <td colspan="1" class="confluenceTd"><p>The SNS destination for the message. I<span>f&nbsp;</span><strong>Destination Type</strong><span>&nbsp;is set to&nbsp;</span><code>SNS Topic ARN</code>, then the ARN of the SNS topic must be provided. <span>If<span>&nbsp;</span><strong>Destination Type</strong><span>&nbsp;is set to&nbsp;</span></span>SNS Target ARN<span>, then the ARN of the SNS target must be provided.</span></p><p>A message property may be used here by prefixing the message property name with <code>$</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>AWS Access Key Id</p></td>
+          <td colspan="1" class="confluenceTd"><p>The AWS access key identifier to use to send messages to SNS. This can be left blank if this is running in EC2 with an IAM role that grants the required permissions.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>AWS Secret Key</p></td>
+          <td colspan="1" class="confluenceTd"><p>The AWS access secret key to use to send messages to SNS. This can be left blank if this is running in EC2 with an IAM role that grants the required permissions.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Notification Subject</p></td>
+          <td colspan="1" class="confluenceTd"><p>The optional subject to set on the published notification. Note that this will only be visible to e-mail subscribers. A message property may be used here by prefixing the message property name with <code>$</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Message Structure</p></td>
+          <td colspan="1" class="confluenceTd"><p>Determines whether the notification is sent as a string or in JSON format:</p>
+           <ul>
+            <li><code>String</code>.</li>
+            <li><code>JSON</code>.</li>
+           </ul><p><span>JSON format should only be used when there is a need to send different information to different types of subscribers.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Connection Timeout (ms)</p></td>
+          <td colspan="1" class="confluenceTd"><p>The connection timeout, in milliseconds, to use when attempting to connect to Amazon SNS.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Read Timeout (ms)</p></td>
+          <td colspan="1" class="confluenceTd"><p>The read timeout, in milliseconds, to use when waiting for a response from Amazon SNS.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

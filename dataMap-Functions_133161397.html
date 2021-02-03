@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>dataMap Functions</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+       <li> <span><a href="Global-Functions_133161395.html">Global Functions</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">dataMap Functions</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>We recommend using <a href="Lookup-Tables_133163450.html">Lookup Tables</a> for code translation instead of <code>dataMap</code> Functions.</p>
+       </div>
+      </div>
+      <p><code>dataMap</code> translates a string or field from the input into a string or field in the output using a translation table stored in a text file.</p>
+      <p>There are two <code>dataMap</code> functions:</p>
+      <ul>
+       <li>One for translating a field in-place.</li>
+       <li>One to translate a passed in string.</li>
+      </ul>
+      <p>The <code>dataMap</code> function always uses the first column to lookup the input, and the second column to extract the output. The <code>dataMapColumns</code> function has extra arguments for the column to lookup the input, and the column to extract the output.</p>
+      <p>Transform an input string:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>output = dataMap(inputString, file)
+output = dataMap(inputString, file, separator)
+output = dataMap(inputString, file, separator, default)
+output = dataMapColumns(inputString, inputColumn, outputColumn, file)
+output = dataMapColumns(inputString, inputColumn, outputColumn, file, separator)
+output = dataMapColumns(inputString, inputColumn, outputColumn, file, separator, default)
+</pre> 
+       </div>
+      </div>
+      <p>Transform a field in place:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>message.dataMap(fieldPath, file)
+message.dataMap(fieldPath, file, separator)
+message.dataMap(fieldPath, file, separator, default)
+message.dataMapColumns(fieldPath, inputColumn, outputColumn, file)
+message.dataMapColumns(fieldPath, inputColumn, outputColumn, file, separator)
+message.dataMapColumns(fieldPath, inputColumn, outputColumn, file, separator, default)
+</pre> 
+       </div>
+      </div>
+      <p>For example, if a JavaScript filter needs to translate city abbreviations (<code>AKL</code>, <code>WGTN</code>, <code>CHCH</code>) into the city names (<code>Auckland</code>, <code>Wellington</code>, <code>Christchurch</code>), the input message could be:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>MSH|^~\&amp;|||||||ZZZ|||
+ZZZ|AKL| 
+</pre> 
+       </div>
+      </div>
+      <p>The output message would be:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>MSH|^~\&amp;|||||||ZZZ|||
+ZZZ|Auckland|
+</pre> 
+       </div>
+      </div>
+      <p>The first field of the ZZZ segment has been translated from <code>AKL</code> to <code>Auckland</code>.</p>
+      <p>If <code>C:\city-translations.txt</code> contains the translation table as below:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>AKL,Auckland,City of Sails
+WGTN,Wellington,Capital City
+CHCH,Christchurch,Garden City
+%default%,unknown,unknown
+</pre> 
+       </div>
+      </div>
+      <p>The following JavaScript could use the translation file to convert the <code>ZZZ/City</code> field in-place from a city abbreviation to a city name:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var next = output.append(input[i]);
+
+    next.dataMap("ZZZ/City", "C:\\city-translation.txt") ;
+}</pre> 
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">To store the output of a </span><code style="line-height: 13.0pt;">dataMap()</code><span style="line-height: 13.0pt;background-color: transparent;"> in a property, instead of changing a field in-place, use the other form of </span><code style="line-height: 13.0pt;">dataMap</code><span style="line-height: 13.0pt;background-color: transparent;">:</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var next = output.append(input[i]);
+
+    var cityAbbreviation = input[i].getField("ZZZ/City");
+    var cityName =  dataMap(cityAbbreviation, "C:\\city-translation.txt") ;
+    next.setProperty("city", cityName);
+}</pre> 
+       </div>
+      </div>
+      <p>To store the city's slogan in a property, the <code>dataMapColumns</code> function can be used:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var next = output.append(input[i]);
+
+    var cityAbbreviation = input[i].getField("ZZZ/City");
+    var citySlogan = dataMapColumns(cityAbbreviation, 0, 2, "C:\\city-translation.txt");
+    next.setProperty("citySlogan", citySlogan);
+}&nbsp;</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Creating a Client Route</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Web-Services_133163490.html">Web Services</a></span> </li> 
+       <li> <span><a href="Tutorials_133163522.html">Tutorials</a></span> </li> 
+       <li> <span><a href="Basic-Service-to-Process-HL7-Messages_133163603.html">Basic Service to Process HL7 Messages</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Creating a Client Route</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Click the <strong>New Route</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163611/133163621.png" data-image-src="attachments/133163611/133163621.png" data-unresolved-comment-count="0" data-linked-resource-id="133163621" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_newroute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163611" data-linked-resource-container-version="1"></span> on the standard toolbar, and call it <strong>Client Route</strong>. Add the <code>HL7v2.3.1.s3d</code> definition to the route.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133163611/133163613.png" data-image-src="attachments/133163611/133163613.png" data-unresolved-comment-count="0" data-linked-resource-id="133163613" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="T2CreateRoute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163611" data-linked-resource-container-version="1"></span></p>
+      <p>Complete the following:</p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146988235 {padding: 0px;}
+div.rbtoc1565146988235 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146988235 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565146988235"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CreatingaClientRoute-CreateaTimerCommunicationPoint">Create a Timer Communication Point</a></li> 
+        <li><a href="#CreatingaClientRoute-CreateaSinkCommunicationPoint">Create a Sink Communication Point</a></li> 
+        <li><a href="#CreatingaClientRoute-ConfiguretheClientRoute">Configure the Client Route</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#CreatingaClientRoute-Filter1">Filter 1</a></li> 
+          <li><a href="#CreatingaClientRoute-Filter2">Filter 2</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <h2 id="CreatingaClientRoute-CreateaTimerCommunicationPoint">Create a Timer Communication Point</h2>
+      <p>Click the <strong>New Communication Point</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163611/133163622.png" data-image-src="attachments/133163611/133163622.png" data-unresolved-comment-count="0" data-linked-resource-id="133163622" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_newcommpoint.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163611" data-linked-resource-container-version="1"></span> on the standard toolbar to create a new <strong>Timer</strong> communication point called <strong>HL7 Message Timer</strong>. This will be used on the client route as the HL7 Message feeder. Ensure that you have a sample HL7 message before continuing (<a href="attachments/133163611/133163620.edi" data-linked-resource-id="133163620" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="HL7WebServiceMessage.edi" data-linked-resource-content-type="application/octet-stream" data-linked-resource-container-id="133163611" data-linked-resource-container-version="1">download a sample</a>).</p>
+      <p><strong>Configuration Tab</strong></p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163611/133163612.png" data-image-src="attachments/133163611/133163612.png" data-unresolved-comment-count="0" data-linked-resource-id="133163612" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="T2Timer.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163611" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Body Template File</p></td>
+          <td class="confluenceTd"><p><code>HL7WebServiceMessage.edi</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CreatingaClientRoute-CreateaSinkCommunicationPoint">Create a Sink Communication Point</h2>
+      <p>Click the <strong>New Communication Point</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163611/133163622.png" data-image-src="attachments/133163611/133163622.png" data-unresolved-comment-count="0" data-linked-resource-id="133163622" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_newcommpoint.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163611" data-linked-resource-container-version="1"></span> on the standard toolbar to create a new <strong>Sink</strong> communication point called <strong>HL7 Message Sink</strong>.</p>
+      <h2 id="CreatingaClientRoute-ConfiguretheClientRoute">Configure the Client Route</h2>
+      <p>From the Filter Toolbox (<strong>Utility</strong> menu), create two <strong>Base64 Encoding</strong> filters as follows:</p>
+      <h3 id="CreatingaClientRoute-Filter1">Filter 1</h3>
+      <p><strong>General Tab</strong></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Filter Name</p></td>
+          <td class="confluenceTd"><p><code>Base64 Encoding</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><strong>Configuration Tab</strong></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Encode</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="CreatingaClientRoute-Filter2">Filter 2</h3>
+      <p><strong>General Tab</strong></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Filter Name</p></td>
+          <td class="confluenceTd"><p><code>Base64 Decoding</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><strong>Configuration Tab</strong></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Decode</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Set up <strong>Client Route</strong> as follows, and check in your changes.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133163611/133163614.png" data-image-src="attachments/133163611/133163614.png" data-unresolved-comment-count="0" data-linked-resource-id="133163614" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="T2ClientRoute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163611" data-linked-resource-container-version="1"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

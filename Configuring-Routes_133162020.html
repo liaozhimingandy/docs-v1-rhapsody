@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Configuring Routes</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Routes_133161995.html">Routes</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Configuring Routes</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A route is a defined pathway that determines how messages will travel from input to output communication points. A route has input communication points to receive messages and output communication points to which it delivers messages. Between these communication points, a route may contain any number of filters.</p>
+      <p>Routes are configured through a route's<strong>&nbsp;Properties</strong> dialog:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162020/133162021.png" data-image-src="attachments/133162020/133162021.png" data-unresolved-comment-count="0" data-linked-resource-id="133162021" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RouteProperties.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162020" data-linked-resource-container-version="4"></span></p>
+      <p>You can configure the following configuration properties for a route:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146941067 {padding: 0px;}
+div.rbtoc1565146941067 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146941067 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146941067"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ConfiguringRoutes-RouteName">Route Name</a></li> 
+        <li><a href="#ConfiguringRoutes-RouteMessageDefinition">Route Message Definition</a></li> 
+        <li><a href="#ConfiguringRoutes-RoutePriority">Route Priority</a></li> 
+        <li><a href="#ConfiguringRoutes-StartupState">Startup State</a></li> 
+        <li><a href="#ConfiguringRoutes-FIFOMode">FIFO Mode</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="ConfiguringRoutes-RouteName">Route Name</h2>
+      <p>You can edit the route name in the <strong>Route Name</strong> field.</p>
+      <h2 id="ConfiguringRoutes-RouteMessageDefinition">Route Message Definition</h2>
+      <p>Adding a message definition (an S3D file) to a route allows Rhapsody to intelligently process matching messages. Associated definitions are listed as tabs at the top of the route's&nbsp;<strong>Properties</strong>&nbsp;dialog; switch to viewing a definition's properties by selecting the corresponding tab title.&nbsp;</p>
+      <p>To associate a new definition with the route, select the&nbsp;<strong>Add Definition...</strong>&nbsp;button; this can be repeated to add multiple definitions. The added message definition is displayed as a tab in route's&nbsp;<strong>Properties</strong>&nbsp;dialog. To remove it from the route, right-click a definition's&nbsp;tab. Refer to&nbsp;<a href="Adding-a-Definition-to-a-Route_133163429.html">Adding a Definition to a Route</a> for details.</p>
+      <p>It is unlikely you would ever need to associate definition files of other types, such as a Mapper definition (<code>.mdf)</code>&nbsp;or stylesheet (<code>.xsd</code>), with a route.</p>
+      <h2 id="ConfiguringRoutes-RoutePriority">Route Priority</h2>
+      <p>Rhapsody is often used for online message processing where realtime messaging is expected, regardless of background processing tasks that may be taking place.</p>
+      <p>When creating a route, you can select the route priority from the <strong>Route Priority</strong> drop-down list:</p>
+      <ul>
+       <li><code>Low</code></li>
+       <li><code>Below Normal</code></li>
+       <li><code>Normal</code></li>
+       <li><code>Above Normal</code></li>
+       <li><code>High Realtime&nbsp;</code></li>
+      </ul>
+      <p>The default priority is <code>Normal</code>, however, you can select the required priority for each route. If you select a route priority&nbsp;of&nbsp;<code>Realtime</code>, Rhapsody ensures that messages on these routes are not impacted by message flows elsewhere.</p>
+      <p>If there are messages:</p>
+      <ul>
+       <li>Available for processing on a realtime priority route, these always take priority over messages waiting on a non-realtime route (that is, no attempt to prevent starvation of lower priority routes is made in this scenario).</li>
+       <li>Waiting on multiple realtime priority routes, scheduling is done so that one realtime route does not starve another realtime route.</li>
+      </ul>
+      <h2 id="ConfiguringRoutes-StartupState">Startup State</h2>
+      <p>The startup state of a route determines if it is automatically started when the Rhapsody engine is started. It also allows some control over the order that routes are started in.</p>
+      <p>Rhapsody normally waits for all communication points and routes in a given startup level to start before progressing to the next level. If a route cannot be configured and is not runnable, this component is ignored and the startup level progression is continued.</p>
+      <p>There are six available options for the startup state:</p>
+      <ul>
+       <li><code>Manual Restart Required</code>&nbsp;- the route is not automatically started by Rhapsody. It needs to be manually restarted by an administrator.</li>
+       <li><code>Startup First</code>, ...,&nbsp;<code>Startup Last</code>&nbsp;- allows the startup order to be controlled. All routes at the same startup level are started at approximately the same time.</li>
+      </ul>
+      <p>The&nbsp;<strong>Start only if previously running</strong>&nbsp;checkbox is only available when the startup state&nbsp;is not set to&nbsp;<code>Manual Restart Required</code>. If selected, Rhapsody remembers the startup state of the route even after the engine is restarted.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If the route is stopped in error, this state will persist across a restart of the engine.</p>
+       </div>
+      </div>
+      <p>If a route is not started because its tracked startup state is 'should not be started', then a log message is generated in&nbsp;<code>&lt;RhapsodyInstallDirectory&gt;\logs\log.txt</code>.</p>
+      <h2 id="ConfiguringRoutes-FIFOMode">FIFO Mode</h2>
+      <p>FIFO Mode enables an administrator to configure FIFO rules on a route and each route can have different FIFO behavior. The FIFO mode can be configured by selecting the required option from the<strong>&nbsp;FIFO Mode</strong>&nbsp;drop-down list:</p>
+      <ul>
+       <li><code>Disable FIFO Enforcement</code>&nbsp;- there is no restriction on the message order when they leave a route. Rhapsody will attempt to process messages in order, but this is not guaranteed.</li>
+       <li><code>Enforce FIFO By Route Input Order</code>&nbsp;(default)&nbsp;- messages must enter and leave the route in the same order. If messages are split, they are treated equally from that point on. Rhapsody will attempt to process messages within a route in order, but this is not guaranteed (this is the default behavior).</li>
+       <li><code>Enforce FIFO By Absolute Message Order (De-batching)</code>&nbsp;- messages must enter and leave the route in the same order. If messages are split or debatched within a route, they are kept in the same order in which they were split or debatched. Rhapsody will attempt to process messages within a route in order, but this is not guaranteed.</li>
+       <li><code>Enforce FIFO Within Route (Single-Threaded)</code>&nbsp;- messages must enter and leave the route in the same order. If messages are split or debatched within a route, they are kept in the same order in which they were split or debatched. Additionally, only a single thread will process messages on this route at a time, therefore ensuring that messages are processed in order.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Messages sent to a message collector prevent messages leaving the route, but do not prevent other messages being processed on the route.</p>
+       </div>
+      </div>
+      <p>When loading an RLC file, the route FIFO mode is saved and loaded as a part of the standard Rhapsody configuration. If a route without a FIFO mode is loaded from an RLC, the default setting is used.</p>
+      <h3 id="ConfiguringRoutes-MaintainingFIFOOrderforErrorMessages">Maintaining FIFO Order for Error Messages</h3>
+      <p>When a message is sent to the Error Queue from a route, it is removed from the route and the FIFO ordering of the original messages is lost. Reprocessing the message adds it to the end of the route processing queue. FIFO ordering is applied to the reprocessed message as if the message has been newly received by the route.</p>
+      <p>To&nbsp;maintain FIFO order in the event messages are sent to the Error Queue:</p>
+      <ol>
+       <li>Ensure the route is single-threaded and check the&nbsp;<strong>Stop the route when a message is sent to the Error Queue&nbsp;</strong>checkbox to enable the 'stop on error message' option.&nbsp;Rhapsody then stops the route when it sends a message to the Error Queue and alerts users to the presence of an error message and that the route has stopped in error through notifications.&nbsp;</li>
+       <li>Manually resolve the error message&nbsp;and reprocess it on the route.</li>
+       <li>Restart the route. The error message is the next message to be processed, thereby preserving FIFO ordering.</li>
+      </ol>
+      <p>If the route is not single-threaded, then as a workaround:</p>
+      <ol>
+       <li>Enable the route 'stop on error message' option.</li>
+       <li>Create a duplicate copy of the route to process the error message.</li>
+       <li>Restart the original route to continue processing all other queued messages.</li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Conditional Execution for Lookups</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="Database-Filters_133163055.html">Database Filters</a></span> </li> 
+       <li> <span><a href="Using-the-Database-Filters_133163056.html">Using the Database Filters</a></span> </li> 
+       <li> <span><a href="Database-Lookups_133163060.html">Database Lookups</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Conditional Execution for Lookups</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>In this scenario, the goal is to check whether a patient is being admitted or discharged. If the patient is being admitted, then their details need to be inserted into a table. If they are being discharged, then their details should be removed from the table. Conditional execution of the appropriate statements in the Database Configuration file of the filter are used to achieve this goal.</p>
+      <h2 id="ConditionalExecutionforLookups-DatabaseConfigurationFile">Database Configuration File</h2>
+      <p>The database configuration file contains the database details, and specifies where the conditional execution occurs.</p>
+      <p>For this example, it is assumed that earlier in the route a message property (<code>$messageEvent</code>) has been set to be <code>admit</code> or <code>discharge</code>. In the database configuration file example below, the value of <code>$messageEvent</code> is tested as equal to <code>Admit</code> or <code>Discharge</code>. If the value is <code>Admit</code>, then the SQL statement is run, which inserts a row into the table (<code>patientLocationTable</code>). If the value is <code>Discharge</code>, then a second SQL statement is run which deletes a row from the table.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163061/133163062.png" data-image-src="attachments/133163061/133163062.png" data-unresolved-comment-count="0" data-linked-resource-id="133163062" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DatabaseQuery3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163061" data-linked-resource-container-version="1"></span></p>
+      <p>In this example, <code>EQUALS()</code> has been used to perform the conditional execution.</p>
+      <h2 id="ConditionalExecutionforLookups-MultipleParameters">Multiple Parameters</h2>
+      <p>You can also perform a conditional execution on database fields. For example, you can compare a&nbsp;message property with a database field:&nbsp;<code>EQUALS($messageEvent,&nbsp;@databaseField)</code>.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

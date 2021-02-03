@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Writing a Message to a JMS Message Queue</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162556.html">JMS (Java Message Service)</a></span> </li> 
+       <li> <span><a href="Java-Messaging-Queue_133162429.html">Java Messaging Queue</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Writing a Message to a JMS Message Queue</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This scenario involves reading a standard UTF-8 encoded message from Rhapsody and onto a message queue currently running a JMS service. To do this a new JMS communication point must be created in Rhapsody and set to <em>Output</em> operational mode.</p>
+      <h2 id="WritingaMessagetoaJMSMessageQueue-ConfiguringtheCommunicationPoint">Configuring the Communication Point</h2>
+      <p>This communication point is configured to load messages onto a message queue hosted on a weblogic JMS Server. These settings are configured in the communication point properties under the configuration tab.</p>
+      <p>To do this the JMS communication point requires two things:</p>
+      <ul>
+       <li>A way to interface to the JMS server.</li>
+       <li>Details of where the JMS server is broadcasting from and how to address the specific message queues.</li>
+      </ul>
+      <p>Interfacing to the JMS server involves adding the appropriate thin drivers to Rhapsody's class path and then referencing them in the configuration parameters. In practice, this is done by adding the appropriate <code>.jar</code> files to the <code>&lt;Rhapsody&gt;\rhapsody\data\lib</code> directory. In this case we are using Weblogic so you should add <code>wlclient.jar</code> and <code>wljmsclient.jar</code> to the <code>lib</code> directory. If you were using JbossMQ, the <code>jbossmq-client.jar</code> and <code>jnp-client.jar</code> would be used. These files are usually located with your JMS server.</p>
+      <p>It is important to ensure that <code>JMS.jar</code> is not included in the lib directory or the class path for Rhapsody (which includes being embedded in any custom components).</p>
+      <p>The JMS communication point is then be pointed to the new client drivers. This is done by configuring the <code>InitialContextFactory</code>, <code>TopicConnectionFactory</code>, and <code>QueueConnectionFactory</code> parameters, as shown in the following screenshot:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162430/133162431.png" data-image-src="attachments/133162430/133162431.png" data-unresolved-comment-count="0" data-linked-resource-id="133162431" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Weblogic_Configuration.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162430" data-linked-resource-container-version="1"></span></p>
+      <p>The JMS communication point must be configured to reference the actual server at its broadcasting address and the message queue you intend to write to. This is done by configuring the <code>ProviderURL</code> and <code>Output Destination</code> parameters.</p>
+      <p>The completed JMS configuration is shown in the following screenshot:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162430/133162432.png" data-image-src="attachments/133162430/133162432.png" data-unresolved-comment-count="0" data-linked-resource-id="133162432" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="JMSWriteConfiguration.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162430" data-linked-resource-container-version="1"></span></p>
+      <p>The JMS queue is then ready to write messages to the server.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Generate System State</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="System-State_133163948.html">System State</a></span> </li> 
+       <li> <span><a href="Export-Tools_133163949.html">Export Tools</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Generate System State</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148563" class="confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path:</em> <strong>System State&gt;Export Tools</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Write <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Log in to Management Console</li>
+            <li>Generate system information</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148563']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148563',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p><strong>Generate System State</strong> export tool creates a ZIP archive of the current system state, providing a simple way of collecting general information about the deployment and system when requesting support:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147029198 {padding: 0px;}
+div.rbtoc1565147029198 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147029198 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147029198"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#GenerateSystemState-GeneratingSystemStateArchivefromtheManagementConsole">Generating System State Archive from the Management Console</a></li> 
+        <li><a href="#GenerateSystemState-GeneratingSystemStateArchivefromtheCommandLine">Generating System State Archive from the Command Line</a></li> 
+        <li><a href="#GenerateSystemState-SystemStateZIPFileStructure">System State ZIP File Structure</a></li> 
+        <li><a href="#GenerateSystemState-ConfiguringGenerateSystemStateExportTool">Configuring Generate System State Export Tool</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Generate System State copies all Rhapsody logs. You must ensure the Rhapsody log files do not contain any private health information (this may happen, for example, if custom filters or communication points have been written that do not follow best practices by logging message contents to the Rhapsody log file).</p>
+       </div>
+      </div>
+      <h2 id="GenerateSystemState-GeneratingSystemStateArchivefromtheManagementConsole">Generating System State Archive from the Management Console</h2>
+      <p>To generate a system state ZIP archive from the Management Console:</p>
+      <ol>
+       <li><p>Navigate to&nbsp;<strong>System State&gt;Export Tools</strong>&nbsp;to display <strong>Export Tools</strong> page:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="900" src="attachments/133163951/133163954.png" data-image-src="attachments/133163951/133163954.png" data-unresolved-comment-count="0" data-linked-resource-id="133163954" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="gatherState_start.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163951" data-linked-resource-container-version="2"></span></p></li>
+       <li><p>Click the <strong>Start</strong> button to generate a ZIP file or, if there is a previously generated ZIP file, the <strong>Regenerate</strong>&nbsp;button to regenerate the ZIP archive:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="900" src="attachments/133163951/133163953.png" data-image-src="attachments/133163951/133163953.png" data-unresolved-comment-count="0" data-linked-resource-id="133163953" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="gatherState_running.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163951" data-linked-resource-container-version="2"></span></p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>If the Rhapsody deployment contains a large configuration and or logs, the <span>Zip</span> file may take several minutes to generate. The <strong>Download</strong> link appears after the Zip file generation is complete. When the configuration and logs are large, the ZIP file generated is also large. The <strong>Generate System State</strong> export tool warns you if there is not enough disk space available. Refer to the&nbsp;<a href="#GenerateSystemState-ConfiguringGenerateSystemStateExportTool">Configuring Generate System State Export Tool</a> for details on how to configure the output directory where the resulting ZIP files are to be placed.</p>
+         </div>
+        </div></li>
+       <li><p>Click on the <strong>Download</strong> link to download the generated&nbsp;<span>Zip</span> file to your local machine. Check the date the&nbsp;<span>Zip</span> file was generated on before downloading, as old&nbsp;<span>Zip</span> files may not accurately reflect the current system state.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="900" src="attachments/133163951/133163952.png" data-image-src="attachments/133163951/133163952.png" data-unresolved-comment-count="0" data-linked-resource-id="133163952" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="gatherState_finished.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163951" data-linked-resource-container-version="2"></span></p></li>
+      </ol>
+      <h2 id="GenerateSystemState-GeneratingSystemStateArchivefromtheCommandLine">Generating System State Archive from the Command Line</h2>
+      <p>You can also invoke the Generate System State export tool from command line. To generate a system state&nbsp;<span>Zip</span> archive from the command line:</p>
+      <ol>
+       <li>Navigate to <code>tools/GenerateSystemState</code> in the Rhapsody installation directory.</li>
+       <li>Check the configuration file <code>generateSystemState.conf</code> exists in this directory. If it does not exist, Rhapsody may not have been started after upgrading. Rhapsody needs to have been started at least once after upgrading before the command line export tool is available.</li>
+       <li><p>Run the command <code>generateSystemState.bat</code> (<em>Windows</em>) or <code>generateSystemState.sh</code> (Unix). The following parameters can be used when invoking the command:</p>
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh">Parameter</th>
+            <th class="confluenceTh">Description</th>
+           </tr>
+           <tr>
+            <td class="confluenceTd">-d &lt;Rhapsody installation directory&gt;</td>
+            <td class="confluenceTd"><p class="p1">Path to the Rhapsody install directory (required).</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd">-o &lt;ZIP output directory&gt;</td>
+            <td class="confluenceTd"><p class="p1">Path to output directory (required).</p>
+             <div class="confluence-information-macro confluence-information-macro-note">
+              <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+              <div class="confluence-information-macro-body">
+               <p class="p1">Earlier copies of support ZIP files and <span class="s1">temp</span>orary files are removed from this directory.</p>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd">-s</td>
+            <td class="confluenceTd"><p class="p1">Skip copying of configuration files.</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd">-i</td>
+            <td colspan="1" class="confluenceTd"><p class="p1">Collect system information only.</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd">-c</td>
+            <td colspan="1" class="confluenceTd"><p class="p1">Clear output directory without prompt.</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd">-v</td>
+            <td colspan="1" class="confluenceTd"><p class="p1">Verbose logging output.</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If Rhapsody is running and Generate System State&nbsp;export tool is invoked from the command line, the Rhapsody data directories <code>config</code> and <code>store</code> are not included in the ZIP archive. It is recommended you invoke Generate System State export tool from the Management Console when Rhapsody is running.</p>
+       </div>
+      </div>
+      <h2 id="GenerateSystemState-SystemStateZIPFileStructure">System State ZIP File Structure</h2>
+      <p>The following information is included in the generated support ZIP archive:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">File/Directory in ZIP archive</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">version.txt</td>
+          <td class="confluenceTd">Gives the Rhapsody version number</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">systemReport.xml</td>
+          <td class="confluenceTd"><p>XML report giving a summary of the system state. This report includes:</p>
+           <ul>
+            <li>Rhapsody version</li>
+            <li>Time and timezone</li>
+            <li>Hostname</li>
+            <li>Domain name</li>
+            <li>Operating system</li>
+            <li>System architecture</li>
+            <li>Rhapsody installation location</li>
+            <li>Disk space free in the Rhapsody installation directory and data directory.</li>
+            <li>Installed licenses</li>
+            <li>System memory details</li>
+            <li>CPU details</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">log4jLogs</td>
+          <td class="confluenceTd">This directory within the Zip file holds a copy of the Rhapsody text-based logs.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">install</td>
+          <td class="confluenceTd"><p>This directory holds a selection of configuration files within the Rhapsody installation directory:</p>
+           <ul>
+            <li>bin/wrapper.conf</li>
+            <li>bin/wrapper-license.conf</li>
+            <li>bin/wrapper-local.conf</li>
+            <li>bin/wrapper-platform.conf</li>
+            <li>Copy of the licenses directory</li>
+            <li>rhapsody/log4j.properties (text-based logging configuration)</li>
+            <li>rhapsody/rhapsody.properties (Rhapsody configuration)</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">data</td>
+          <td class="confluenceTd"><p>This directory holds a copy of several Rhapsody data directories:</p>
+           <ul>
+            <li>config</li>
+            <li>idgeneration</li>
+            <li>lib</li>
+            <li>logs (Rhapsody binary logs)</li>
+            <li>lookuptable</li>
+            <li>modules</li>
+            <li>store</li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>If a data directory is empty, it does not appear in the ZIP file.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">systemInformation</td>
+          <td colspan="1" class="confluenceTd"><p>This directory holds a number of reports on the system, including the following:</p>
+           <ul>
+            <li>dataDiskUsage.txt - lists the size of directories under the data directory in order of size.&nbsp;</li>
+            <li>dataFileList.txt - lists files in the data directory.&nbsp;</li>
+            <li>installFileList.txt - lists files in the install directory.&nbsp;</li>
+            <li>cpuInformation.txt - lists details of the CPU and CPU cores on the system.</li>
+            <li>diskFreeInformation.txt - lists the free disk space available for each mounted filesystem.&nbsp;</li>
+            <li>freeMemoryInformation.txt - lists the amount of free memory on the system.&nbsp;</li>
+            <li>networkInformation.txt - lists the network details of the system, including hostname, IP address etc.&nbsp;</li>
+            <li>networkInterfaces.xml - lists the network interfaces setup on the system.</li>
+            <li>processStatusInformation.txt - tab-delimited report on all processes currently running on the system.&nbsp;</li>
+            <li>routeInformation.txt - lists network routes on the system, including destination, gateway, interface etc.</li>
+            <li>systemInformation.txt - textual report on the system covering the operating system, CPU, memory etc.</li>
+            <li>systemUptimeInformation.txt - uptime of the system.&nbsp;</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="GenerateSystemState-ConfiguringGenerateSystemStateExportTool">Configuring Generate System State Export Tool</h2>
+      <p>The output directory where the ZIP archive file is placed can be configured by update the <code>rhapsody.properties</code> file.<span>&nbsp;</span></p>
+      <div>
+       <p>&nbsp;</p>
+       <div class="table-wrap">
+        <table class="confluenceTable">
+         <tbody>
+          <tr>
+           <th class="confluenceTh">Property</th>
+           <th class="confluenceTh">Description</th>
+           <th colspan="1" class="confluenceTh">Default Value</th>
+          </tr>
+          <tr>
+           <td class="confluenceTd"><p class="p1">GenerateSystemState.outputDirectory</p></td>
+           <td class="confluenceTd"><p class="p1">The Generate System State export tool output directory. The path given is relative to the Rhapsody install directory, unless an absolute path is given</p></td>
+           <td colspan="1" class="confluenceTd"><span style="color: rgb(0,0,0);"><code>/generateSystemStateOutpu</code></span>t</td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+       <p>&nbsp;</p>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

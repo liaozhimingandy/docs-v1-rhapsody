@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Multiple Coding Systems with Single Coding</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+       <li> <span><a href="HL7-Code-Translation-and-Validation-Filters_133163271.html">HL7 Code Translation and Validation Filters</a></span> </li> 
+       <li> <span><a href="Configuration-of-Coded-Fields_133163272.html">Configuration of Coded Fields</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Multiple Coding Systems with Single Coding</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>To configure the Code Validation Filter to use a table which describes a number of coding systems, but restricts the validation to a single coding system, the filter requires:</p> 
+      <ul> 
+       <li>The name of the table.</li> 
+       <li>The column which holds the identifiers.</li> 
+       <li>The column in the table which holds the Coding System's names.</li> 
+       <li>The name of the coding system.</li> 
+      </ul> 
+      <p>Tables which describe multiple coding systems should have indexes on the combination of columns <strong>Identifier</strong>, <strong>Coding System Name</strong>. <br class="atl-forced-newline"></p> 
+      <h3 id="MultipleCodingSystemswithSingleCoding-Example">Example </h3> 
+      <p>This example is a twist on using a table which describes multiple coding systems. Although the table contains multiple coding systems, this example only uses one of the coding systems in the table. Configuration is a combination of how a Single Coding System Table and a Multiple Coding System Table is configured. Both a Coding System Name and a column for a Coding System Name, is provided in the configuration. <br class="atl-forced-newline"> </p> 
+      <h4 id="MultipleCodingSystemswithSingleCoding-Configuration">Configuration</h4> 
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody> 
+         <tr> 
+          <th class="confluenceTh"><p> Property </p></th> 
+          <th class="confluenceTh"><p> Value </p></th> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> Table Name </p></td> 
+          <td class="confluenceTd"><p> MultipleA </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> Identifier Column </p></td> 
+          <td class="confluenceTd"><p> Identifier </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> Description Column </p></td> 
+          <td class="confluenceTd"><p> <br class="atl-forced-newline"> </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> Coding System </p></td> 
+          <td class="confluenceTd"><p> CS 2 </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> Version </p></td> 
+          <td class="confluenceTd"><p> <br class="atl-forced-newline"> </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> Coding System Column </p></td> 
+          <td class="confluenceTd"><p> System </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> Version Column </p></td> 
+          <td class="confluenceTd"><p> <br class="atl-forced-newline"> </p></td> 
+         </tr> 
+        </tbody>
+       </table>
+      </div> 
+      <h4 id="MultipleCodingSystemswithSingleCoding-ExampleMessage(OK)">Example Message (OK)</h4> 
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody> 
+         <tr> 
+          <td class="confluenceTd"><p> Coding System Name </p></td> 
+          <td class="confluenceTd"><p> CS 2 </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> Identifier </p></td> 
+          <td class="confluenceTd"><p> B </p></td> 
+         </tr> 
+        </tbody>
+       </table>
+      </div> 
+      <h4 id="MultipleCodingSystemswithSingleCoding-ExampleMessage(CodingSystemWrong)">Example Message (Coding System Wrong)</h4> 
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody> 
+         <tr> 
+          <td class="confluenceTd"><p> Coding System Name </p></td> 
+          <td class="confluenceTd"><p> CS 1 </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> Identifier </p></td> 
+          <td class="confluenceTd"><p> C </p></td> 
+         </tr> 
+        </tbody>
+       </table>
+      </div> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using Dynamic Table and Column Names</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using Dynamic Table and Column Names</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Generally, the SQL queries executed by the database filters and communication points are considered static: the queries themselves are provided at configuration time, but the values used in the queries are dynamically provided while processing the message. Internally, this uses prepared statements so that the queries are compiled once at configuration time, and then the values sent to the database separately when they are executed. This approach has benefits both for performance (as the query only needs to be compiled once rather than compiled every single time that it is used), and for security, in that it effectively prevents SQL injection attacks.</p>
+      <p>For example, consider the following SQL statement:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">INSERT INTO MyTable (col1, col2, col3) VALUES ('literal', $property, @path.to.field)</pre> 
+       </div>
+      </div>
+      <p>The example SQL statement is transformed into the following prepared statement at configuration time by the database filters and communication points:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">INSERT INTO MyTable (col1, col2, col3) VALUES (?, ?, ?)</pre> 
+       </div>
+      </div>
+      <p>The values are then provided separately for each message that requires the execution of this SQL statement.</p>
+      <h2 id="UsingDynamicTableandColumnNames-DynamicTableandColumnNames">Dynamic Table and Column Names</h2>
+      <p>While normal statement parametrization can handle a large number of cases, there may be situations where a more dynamic approach is required. In order to support this, t<span style="line-height: 13.0pt;background-color: transparent;">he database filters and communication points allow dynamic SQL queries where the table and column names used in the query can be changed at runtime using Rhapsody message properties. When this approach is used, the SQL statement is still converted into a prepared statement for processing, but the conversion takes place just before the message is processed through the filter or communication point. The relevant syntax is a double dollar symbol preceding the name of the message property. For example:</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;INSERT INTO $$TableNameProperty (col1, col2, $$ColumnNameProperty) VALUES ('literal', $property, @path.to.field)</pre> 
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The trade-off when using this functionality is a minor performance hit as the query is recompiled repeatedly (although this is probably not noticeable), and an increased security risk as the prepared statements no longer provide complete protection against SQL injection. It is critical to ensure that the message properties containing table and column names are set to safe values from trusted sources. In no circumstances should these message properties ever be set to values retrieved from an incoming message.</span></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If dynamic table and column names are used from Rhapsody message properties, then the configuration must never allow these message properties to be set to any data found in an incoming message. If this is allowed then the configuration could be subject to an SQL injection attack, allowing an attacker to send a specially crafted message that causes unintended changes in your database.</p>
+        <p>While it is fine to determine&nbsp;dynamically which tables and columns should be used in a query based on the incoming message, this should be implemented in a way that effectively chooses between one of a number of hard-coded examples.</p>
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">An example of how these message properties can be safely set in JavaScript is as follows:</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">var next = output.append(input[0]);
+var type = next.getField('MSH/MessageType/MessageType');
+var tableName, columnName;
+switch (type) {
+  case 'ADT':
+    tableName = 'ADT';
+    columnName = 'adtColumn';
+    break;
+  case 'ORU':
+    tableName = 'ORU';
+    columnName = 'oruColumn';
+    break;
+  default:
+    tableName = 'Unknown';
+    columnName = 'col3';
+    break;
+}
+
+
+next.setProperty('TableNameProperty', tableName);
+next.setProperty('ColumnNameProperty', columnName);&nbsp;</pre> 
+       </div>
+      </div>
+      <h2 id="UsingDynamicTableandColumnNames-EnablingDynamicQueries"><span style="line-height: 13.0pt;background-color: transparent;">Enabling Dynamic Queries<br></span></h2>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">As dynamic SQL queries are only rarely required and can introduce a security risk if not implemented properly, they are disabled by default in database filters and communication points. They can be enabled at any time in the <a href="Options_133161735.html">Options</a> window of the <span style="color: rgb(0,0,0);"><a href="Database-Configuration_133161571.html">Database Configuration</a></span> by selecting the <strong>Allow dynamic table and column names in SQL statements</strong> option.</span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">If dynamic SQL queries are used without enabling this option, the database filters and communication points would fail to configure with an error indicating that support for dynamic queries is disabled. Additionally, the <span style="color: rgb(0,0,0);">Database Configuration Editor </span>displays a warning when saving the configuration, indicating that this option needs to be enabled for the configuration to run:</span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161686/133161687.png" data-image-src="attachments/133161686/133161687.png" data-unresolved-comment-count="0" data-linked-resource-id="133161687" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="dynamicSqlWarning.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161686" data-linked-resource-container-version="1"></span></span></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For backwards compatibility this option is not enforced until the database configuration in question has been edited in Rhapsody versions 6.0 onward. The Dynamic SQL Warning is presented to the user when changes are first made to a database component after upgrading.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

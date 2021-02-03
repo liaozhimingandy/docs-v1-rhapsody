@@ -1,0 +1,382 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>JMS (Java Message Service)</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">JMS (Java Message Service)</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162556/133162557.jpg" data-image-src="attachments/133162556/133162557.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162557" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image058.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162556" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Java Message Service (JMS)</strong> communication point&nbsp;is used to send and receive messages from a JMS Queue (point-to-point connection) or Topic (publish/subscribe connection). The JMS communication point provides a generic way of uploading and downloading messages to a JMS service. It has a JMS 1.1-compatible interface which facilitates the sending and receiving of JMS-compatible messages between third-party messaging services.</p>
+      <p>A Java Naming and Directory Interface (JNDI) is used to provide a JMS 1.1-compatible implementation at runtime. The <strong>InitialContextFactory</strong> and <strong>ProviderURL</strong> properties define the type and location of the JNDI provider used by the communication point, while the connection factory implementation is retrieved from the JNDI provider and is used to establish connections to the messaging service. The retrieved connection factory automatically configures, among other connection details, the appropriate host, port, channel and queue manager.</p>
+      <p>The IBM Series implementation does not use a JNDI provider and instead implements the connection factory locally and sets the host, port, channel and queue manager manually.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Both the JNDI and IBMSeries implementations require the appropriate <code>.jar</code> files to be added to the <strong>Auxiliary Files</strong> tab. For example, when using a JMS communication point:</p>
+        <ul>
+         <li>To connect to a JMS server such as JBossMQ, the required files are:
+          <ul>
+           <li><code>jbossmq-client.jar</code></li>
+           <li><code>jnp-client.jar</code></li>
+          </ul></li>
+         <li>For a JNDI implementation, using LDAP server, the required files are:
+          <ul>
+           <li><code>ldap.jar</code>, <code>providerUtil.jar</code></li>
+           <li><code>jta.jar</code>, <code>dhbcore.jar</code></li>
+           <li><code>com.ibm.mq.jar</code></li>
+           <li><code>com.ibm.mqjms.jar</code></li>
+          </ul></li>
+         <li>For a manual implementation, the required files are:
+          <ul>
+           <li><code>jta.jar</code>, <code>connnector.jar</code></li>
+           <li><code>dhbcore.jar</code></li>
+           <li><code>com.ibm.mq.jar</code></li>
+           <li><code>com.ibm.mqjms.jar</code></li>
+          </ul></li>
+        </ul>
+       </div>
+      </div>
+      <p>The connection created by the connection factory is used to create:</p>
+      <ul>
+       <li>Input message consumer.</li>
+       <li>Output queue sender or topic publisher.</li>
+      </ul>
+      <p>For examples on how to configure the JMS communication point:</p>
+      <ul>
+       <li>In general, refer to&nbsp;<a href="Java-Messaging-Queue_133162429.html">Java Messaging Queue</a>.</li>
+       <li><p>To connect to Apache ActiveMQ, refer to&nbsp;<a href="Connecting-to-Apache-ActiveMQ_133162560.html">Connecting to Apache ActiveMQ</a>.</p></li>
+      </ul>
+      <p>Supported Operational Modes: <em>All</em></p>
+      <h2 id="JMS(JavaMessageService)-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Implementation</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>How the connection factory and destinations (Queue/Topic) are created or retrieved:</p>
+            <ul>
+             <li><code>IBM Series</code><span>.</span></li>
+             <li><code>JNDI</code><span> (default).</span></li>
+             <li><code>Glassfish v2</code><span>.</span><span>&nbsp;</span></li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If you are using Glassfish, it is recommended you disable the logging of broker and connection information to prevent the Rhapsody log from growing very large. To disable the logging, add the following to the <code>log4j.properties</code> file to disable the log entries:</p>
+              <p><code>log4j.logger.javax.resourceadapter.mqjmsra.outbound.connection=OFF</code> <br> <br>For the changes in the <code>log4j.properties</code> file to take effect, Rhapsody does not need to be restarted. <span class="overlay-icon aui-icon aui-icon-small aui-iconfont-edit">&nbsp;</span>&nbsp;</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>InitialContextFactory</p></td>
+          <td class="confluenceTd"><p>The classname of the JNDI initial context factory.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>ProviderURL</p></td>
+          <td class="confluenceTd"><p>The URL used to connect to the JMS provider.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Topic Connection Factory</p></td>
+          <td class="confluenceTd"><p>The JNDI name or classname of the Topic connection factory.</p><p><span>This property is only available</span> if <code>Topic</code> is selected in the <strong>Input Destination Type</strong>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Queue Connection Factory</p></td>
+          <td class="confluenceTd"><p>The JNDI name or classname of the Queue connection factory.</p><p><span>This property is only available</span> if <code>Queue</code> is selected in the <strong>Input Destination Type</strong>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Host Name</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the system that runs the Queue Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Host Port</p></td>
+          <td class="confluenceTd"><p>The port number on which the Queue Manager listens.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Queue Manager</p></td>
+          <td class="confluenceTd"><p>The name of the Queue Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Channel</p></td>
+          <td class="confluenceTd"><p>The name of the channel for the Queue Manager to communicate with Rhapsody.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Broker Queue Manager</p></td>
+          <td class="confluenceTd"><p>The name of the controlling broker if different from the Queue Manager name. Required for Topic connection types.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>ClientID</p></td>
+          <td class="confluenceTd"><p>The client identifier to use with the destination connection. The identifier associates a connection and its objects with a state maintained on behalf of the client by a provider. In other words, the messaging provider can group messages by the client identifier.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Username</p></td>
+          <td class="confluenceTd"><p>The username to use when opening a connection socket to the Queue Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Password</p></td>
+          <td class="confluenceTd"><p>The password to use when opening a connection socket to the Queue Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd"><p>Whether to use SSL for this connection:</p>
+           <ul>
+            <li><span><span>Enabled</span>.</span></li>
+            <li><code>false</code><span> (default).</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Cipher Suite</p></td>
+          <td class="confluenceTd"><p>The cipher suite to use when creating an SSL connection.</p><p>This property is only available if <strong>Use SSL</strong> <span>is </span><span>enabled</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>Click <strong>...</strong> to select the private keys to use when authenticating Rhapsody's end of the SSL connection.</p><p><span>This property is only available</span> if <strong>Use SSL</strong> <span>is </span><span>enabled</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Click <strong>...</strong> to select the certificates to use when authenticating Rhapsody's end of the SSL connection.</p><p><span>This property is only available</span> if <strong>Use SSL</strong> <span>is </span><span>enabled</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Additional Parameters</p></td>
+          <td class="confluenceTd"><p>Click <strong>...</strong> to provide additional standard JMS configuration parameters when configuring the initial JMS context.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Custom Parameters</p></td>
+          <td class="confluenceTd"><p>Click <strong>...</strong> to provide additional custom parameters when configuring the initial JMS context.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Selector</p></td>
+          <td class="confluenceTd"><p>Determines which messages are read from the destination. This is an SQL92 style expression.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Destination</p></td>
+          <td class="confluenceTd"><p>The JNDI name of the Queue or Topic, associated with the Queue Manager, where messages will be received.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Destination Type</p></td>
+          <td class="confluenceTd"><p>Whether the Input Destination is a Queue (point-to-point connection) or Topic (publish/subscribe connection):</p>
+           <ul>
+            <li><code>Queue</code> (default).</li>
+            <li><code>Topic</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JMS Input Properties</p></td>
+          <td class="confluenceTd"><p>A list of property names that will be read from the incoming JMS message and set on the Rhapsody message. The Rhapsody property will have the same name as the properties defined in this list. Click <strong>...</strong> to set the input JMS property name and its corresponding Rhapsody property name.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>User Input Properties</p></td>
+          <td class="confluenceTd"><p>User-defined properties to copy from the JMS message to the Rhapsody message. Click <strong>...</strong> to set the properties.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Subscription Name</p></td>
+          <td class="confluenceTd"><p>The name of the durable subscription.</p><p><span>This property is only available</span> if <code>Topic</code> is selected in the <strong>Input Destination Type</strong>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Ignore Local Messages</p></td>
+          <td class="confluenceTd"><p>Whether locally generated messages should be ignored:</p>
+           <ul>
+            <li><span>Enabled</span>.</li>
+            <li><code>False</code> (default).</li>
+           </ul><p><span>This property is only available</span> if <code>Topic</code> is selected in the <strong>Input Destination Type</strong>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Message Encoding</p></td>
+          <td class="confluenceTd"><p>If the incoming message is a text message, the character set to use for encoding input text messages to bytes. The default message encoding is <code>UTF-8</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Receiving Mode</p></td>
+          <td class="confluenceTd"><p>How Rhapsody is to receive messages from the JMS Server:</p>
+           <ul>
+            <li><code>Listening</code> - implements the MessageListener interface in the JMS API when the JMS Server pushes JMS messages to the communication point.</li>
+            <li><code>Polling</code> (default) - the communication point pulls messages from the server.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="JMS(JavaMessageService)-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Implementation</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>How the connection factory and destinations (Queue/Topic) are created or retrieved:</p>
+            <ul>
+             <li><code>IBM Series</code>.</li>
+             <li><code>JNDI</code> (default).</li>
+             <li><code>Glassfish v2</code>.&nbsp;</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If you are using Glassfish, it is recommended you disable the logging of broker and connection information to prevent the Rhapsody log from growing very large. To disable the logging, add the following to the <code>log4j.properties</code> file to disable the log entries:</p>
+              <p><code>log4j.logger.javax.resourceadapter.mqjmsra.outbound.connection=OFF</code> <br> <br>For the changes in the <code>log4j.properties</code> file to take effect, Rhapsody does not need to be restarted. <span class="overlay-icon aui-icon aui-icon-small aui-iconfont-edit">&nbsp;</span>&nbsp;</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>InitialContextFactory</p></td>
+          <td class="confluenceTd"><p>The classname of the JNDI initial context factory.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>ProviderURL</p></td>
+          <td class="confluenceTd"><p>The URL used to connect to the JMS provider.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Topic Connection Factory</p></td>
+          <td class="confluenceTd"><p>The JNDI name or classname of the Topic connection factory.</p><p><span>This property is only available</span> if <code>Topic</code> is selected in the <strong>Input Destination Type</strong>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Queue Connection Factory</p></td>
+          <td class="confluenceTd"><p>The JNDI name or classname of the Queue connection factory.</p><p><span>This property is only available</span> if <code>Queue</code> is selected in the <strong>Input Destination Type</strong>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Host Name</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the system that runs the Queue Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Host Port</p></td>
+          <td class="confluenceTd"><p>The port number on which the Queue Manager listens.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Queue Manager</p></td>
+          <td class="confluenceTd"><p>The name of the Queue Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Channel</p></td>
+          <td class="confluenceTd"><p>The name of the channel for the Queue Manager to communicate with Rhapsody.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Broker Queue Manager</p></td>
+          <td class="confluenceTd"><p>The name of the controlling broker if different from the Queue Manager name. Required for Topic connection types.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>ClientID</p></td>
+          <td class="confluenceTd"><p>The client identifier to use with the destination connection. The identifier associates a connection and its objects with a state maintained on behalf of the client by a provider. In other words, the messaging provider can group messages by the client identifier.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Username</p></td>
+          <td class="confluenceTd"><p>The username to use when opening a connection socket to the Queue Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Password</p></td>
+          <td class="confluenceTd"><p>The password to use when opening a connection socket to the Queue Manager.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd"><p>Whether to use SSL for this connection:</p>
+           <ul>
+            <li><span>Enabled</span>.</li>
+            <li><code>False</code> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Cipher Suite</p></td>
+          <td class="confluenceTd"><p>The cipher suite to use when creating an SSL connection.</p><p><span>This property is only available</span> if <strong>Use SSL</strong> <span>is </span><span>enabled</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>Click <strong>...</strong> to select the private keys to use when authenticating Rhapsody's end of the SSL connection.</p><p><span>This property is only available</span> if <strong>Use SSL</strong> is <span>enabled</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Click <strong>...</strong> to select the certificates to use when authenticating Rhapsody's end of the SSL connection.</p><p><span>This property is only available</span> if <strong>Use SSL</strong> is <span>enabled</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Additional Parameters</p></td>
+          <td class="confluenceTd"><p>Click <strong>...</strong> to provide additional standard JMS configuration parameters when configuring the initial JMS context.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Custom Parameters</p></td>
+          <td class="confluenceTd"><p>Click <strong>...</strong> to provide additional custom parameters when configuring the initial JMS context.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Destination</p></td>
+          <td class="confluenceTd"><p>The JNDI name of the Queue or Topic, associated with the Queue Manager, where messages will be sent.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Destination Type</p></td>
+          <td class="confluenceTd"><p>Whether the Output Destination is a Queue (point-to-point connection) or Topic (publish/subscribe connection):</p>
+           <ul>
+            <li><code>Queue</code><span> (default).</span></li>
+            <li><code>Topic</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JMS Output Properties</p></td>
+          <td class="confluenceTd"><p>A list of property names that will be read from the Rhapsody message and set on the outgoing JMS message. The JMS property will have the same name as the properties defined in this list. Click <strong>...</strong> to set the output JMS property name and its corresponding Rhapsody property name.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>User Output Properties</p></td>
+          <td class="confluenceTd"><p>User-defined properties to copy from the Rhapsody message to the JMS message. Click <strong>...</strong> to set the properties.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Message Type</p></td>
+          <td class="confluenceTd"><p>JMS message type to output:</p>
+           <ul>
+            <li><code>Bytes</code><span>.</span></li>
+            <li><code>Object</code><span> (default). </span></li>
+            <li><code>Text</code><span>. </span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Message Encoding</p></td>
+          <td class="confluenceTd"><p>If the outgoing message is a text message, the character set to use for encoding output text messages to bytes. The default encoding is <code>UTF-8</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="JMS(JavaMessageService)-Bidirectional,In->OutandOut->InMode">Bidirectional, In-&gt;Out and Out-&gt;In Mode</h2>
+      <p>The configuration properties for the JMS communication point in <em>Bidirectional</em>, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes are a combination of the properties described above.</p>
+      <p>Refer to <a href="Connection_133162193.html#Connection-In-&amp;amp;gt;OutandOut-&amp;amp;gt;InProperties">In-&gt;Out and Out-&gt;In Properties</a> for general details on a communication point's <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

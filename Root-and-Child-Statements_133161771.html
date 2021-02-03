@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Root and Child Statements</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Root and Child Statements</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Whenever the root statement returns some number of rows, any child statements of the root statement are executed for every row returned. This allows other tables to be referenced for further details related to the basic information in the first table.</p>
+      <p>These child statements can also have child statements which will be executed for every row returned by its direct parent statement, allowing any number of related tables to be queried. All these child statements can contain parameters in them of the form <code>@column_name</code> where <code>column_name</code> must be the name of one of the columns returned by the parent statement. Then, before the statement is executed for each row, the value of the column for that row is used in place of the parameter.</p>
+      <p>For example, a child statement had the form:</p>
+      <div class="indent20 inline" style="margin-left: 20px;">
+       <style type="text/css">div.inline p:first-child { display: inline; }</style>
+       <p><code>SELECT firstname, secondname FROM patientDetails WHERE patientID = @patientID</code></p>
+      </div>
+      <p>And the parent statement had returned a result set including:</p>
+      <div class="indent20 inline" style="margin-left: 20px;">
+       <style type="text/css">div.inline p:first-child { display: inline; }</style>
+       <p><code>PatientID</code><br> <code>---------</code><br> <code>12345</code><br> <code>54321</code><br> <code>62943</code></p>
+      </div>
+      <p>The child statement would be executed three times, once for each row returned, the first time with <code>@patientID</code> replaced by <code>12345</code>, the second time replaced with <code>54321</code> and the third time replaced with <code>62943</code>.</p>
+      <p>Once all the statements have been executed and all the information gathered from the database, an XML message is built which contains all the gathered data.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

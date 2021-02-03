@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Oracle-style Result Sets</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+       <li> <span><a href="Stored-Procedures_133161783.html">Stored Procedures</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Oracle-style Result Sets</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>For some RDBMSs such as SqlServer, returning one or more result sets from a stored procedure is relatively straightforward. You simply include in your procedure a select statement, and the result is returned as a result set. Not so with Oracle®. In Oracle, it is necessary to first create a cursor reference, open it on a select statement, and either set the cursor as the return value (for stored functions) or set it as an OUT parameter (for stored procedures).</p>
+      <p>To handle the Oracle-style result sets in the database communication point and filters, a new attribute <code>resultSetParam</code> has been added to the <code>&lt;procedure&gt;</code> element. The attribute specifies the name of an OUT parameter declared in the scope of the current &lt;statement&gt; element. The following example will illustrate:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement&gt;
+    &lt;outParam name="resultSet" type="oracle.jdbc.driver.OracleTypes.CURSOR"/&gt;
+    &lt;procedure resultSetParam="resultSet"&gt;
+        begin #resultSet := some_function(); end;
+    &lt;/procedure&gt;
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p>When executing Oracle-style stored procedures which return a result set this way, it is likely that the statement will fail unless the method attribute of <code>&lt;statement&gt;</code> is set to execute or simply omitted (in which case it defaults to execute).</p>
+      <p>For completeness, the following code presents an example of how a stored procedure and function may be written in PL/SQL to return a result set:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">-- First create a package which defines an alias for the type REF CURSOR.
+CREATE OR REPLACE PACKAGE my_types
+AS
+TYPE cursor_type IS REF CURSOR;
+END;
+
+-- For stored procedures, use an OUT parameter.
+CREATE OR REPLACE PROCEDURE some_procedure(
+the_cursor OUT my_types.cursor_type) IS
+BEGIN
+OPEN the_cursor for
+SELECT some_column FROM some_table WHERE some_condition;
+END;
+
+-- For stored functions, return the cursor.
+CREATE OR REPLACE FUNCTION some_function() RETURN my_types.cursor_type AS
+the_cursor my_types.cursor_type;
+BEGIN
+OPEN the_cursor for
+SELECT some_column FROM some_table WHERE some_condition;
+RETURN the_cursor;
+END;
+</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

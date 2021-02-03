@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>DICOM JPEG Converter</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="DICOM-Filters_133163332.html">DICOM Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">DICOM JPEG Converter</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163333/133163334.jpg" data-image-src="attachments/133163333/133163334.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163334" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image051.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163333" data-linked-resource-container-version="30"></span></p>
+      <p>The <strong>DICOM JPEG Converter</strong>&nbsp;filter extracts the image pixel data of a DICOM message and outputs or transforms it into one or more JPEG images. It takes a DICOM message as input and returns one or more JPEG images as outgoing messages.</p>
+      <p><span style="letter-spacing: 0.0px;">DICOM (Digital Imaging and Communications in Medicine) is a standard designed to allow medical image files to be transferred, stored and viewed on different makes of computers. A single DICOM message contains both a header (which stores information about the patient's name, the type of scan, image dimensions, etc.), as well as all of the image data (which can contain information in three dimensions). Refer to the </span><a href="https://www.dicomstandard.org/current/" class="external-link" rel="nofollow">DICOM Standard</a><span style="letter-spacing: 0.0px;">&nbsp;for details.</span></p>
+      <p>DICOM Transfer Syntax is a set of encoding rules that allows Application Entities to unambiguously negotiate the encoding techniques (for example, Data Element structure, byte ordering, compression) they are able to support, thereby allowing these Application Entities to communicate. It has a direct influence on how the Pixel Data Element (7FE0, 0010) shall be used for the exchange of encoded graphical image data. Pixel data may be sent either in a Native (uncompressed) format or in a compressed format defined outside the DICOM standard.</p>
+      <p>The DICOM JPEG Converter filter currently supports reading DICOM messages whose contents have either native or compressed data that has been written using the following Transfer Syntaxes:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Transfer Syntax UID</th>
+          <th style="text-align: left;" class="confluenceTh">Transfer Syntax Name</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1.2.840.10008.1.2</td>
+          <td class="confluenceTd">Implicit VR Endian: Default Transfer Syntax for DICOM</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1.2.840.10008.1.2.1</td>
+          <td class="confluenceTd">Explicit VR Little Endian</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1.2.840.10008.1.2.2</td>
+          <td class="confluenceTd">Explicit VR Big Endian</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1.2.840.10008.1.2.4.50</td>
+          <td class="confluenceTd">JPEG Baseline (Process 1): Default Transfer Syntax for Lossy JPEG 8-bit Image Compression</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1.2.840.10008.1.2.4.80</td>
+          <td class="confluenceTd">JPEG-LS Lossless Image Compression</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1.2.840.10008.1.2.4.81</td>
+          <td class="confluenceTd">JPEG-LS Lossy (Near- Lossless) Image Compression</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1.2.840.10008.1.2.4.90</td>
+          <td class="confluenceTd">JPEG 2000 Image Compression (Lossless Only) &nbsp;</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1.2.840.10008.1.2.4.91</td>
+          <td class="confluenceTd">JPEG 2000 Image Compression</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1.2.840.10008.1.2.5</td>
+          <td class="confluenceTd">RLE Lossless</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>As of Rhapsody 6.5, the <a href="142319834.html"><span>DICOM to XML / XML</span> to DICOM</a> and <a href="DICOM-JPEG-Extraction_142319828.html">DICOM JPEG Extraction</a> filters have been discontinued and replaced by the DICOM XML Converter&nbsp;and DICOM JPEG Converter filters, respectively, that are supported on both 32-bit and 64-bit engines. If you want to use an RLC that contains the discontinued filters, you must replace them with their supported counterparts. Users should contact <a href="Rhapsody-Support_133163665.html">Rhapsody Support</a> to assist with the migration.</p>
+       </div>
+      </div>
+      <p></p>
+      <h2 id="DICOMJPEGConverter-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Extract All Images</td>
+          <td colspan="1" class="confluenceTd"><p>Whether to extract all of the images from a multiframe DICOM message:</p>
+           <ul>
+            <li>Enabled&nbsp;(default) - a message will be output for each frame in the DICOM message.</li>
+            <li>Disabled&nbsp;- a single message will be output for the first frame and the other frames will be ignored.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Finding No Images</p></td>
+          <td class="confluenceTd"><p>Sets an action when no image data is found in the input DICOM message:</p>
+           <ul>
+            <li><code>Send message to error connector</code>&nbsp;(default) - the message is sent to the error connector.</li>
+            <li><code>Output original message</code>&nbsp;- the message is passed through the filter unmodified.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="DICOMJPEGConverter-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for&nbsp;the DICOM JPEG Extraction filter are:</p>
+      <ul>
+       <li><code>FrameCount</code> - the total number of frames (images) which are included in the input DICOM message.</li>
+       <li><code>FrameSetID</code> - a unique id that indicates the original DICOM message; users may use this property with <code>FrameIndex</code>&nbsp;message property for a message collector to collect a whole set of images from a DICOM message.</li>
+       <li><code>FrameIndex</code> - the outgoing message's (JPEG image) frame index that indicates the position in the whole set of images.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,611 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Route Design Considerations</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Routes_133161995.html">Routes</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Route Design Considerations</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Configuration best practices entail route design considerations. Some important route design considerations are as follows:</p>
+      <ul>
+       <li>Every filter that modifies the message body results in a write to the disk. The new message body which is the output of the filter is written to disk.</li>
+       <li>Every filter that modifies the properties of a message (adds, deletes, or modifies the existing value of a message property) results in a write to the disk. All of the message properties of the message are written to the disk with their current value even when only some of them are modified.</li>
+       <li>When the message body is modified, the amount of data written to disk is proportional to the size of the&nbsp;message body.</li>
+       <li>The amount of data written to disk is proportional to the total size of&nbsp;the message property values. If more data is stored in message properties, then more data will be written to disk every time the message is modified.</li>
+       <li>Every additional filter the message has to pass through adds a performance cost, even if the filter does not modify the message or properties. This includes No-operation filters.</li>
+       <li>The size of the configuration increases with additional routes, filters, communication points, and message definitions. The total size of the configuration impacts the performance of Rhapsody IDE, the engine, and the Management Console.</li>
+      </ul>
+      <p>There is typically a trade-off between the performance of a configuration and its readability or modularity. The following recommendations attempt to strike a balance between the two:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146941608 {padding: 0px;}
+div.rbtoc1565146941608 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146941608 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146941608"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#RouteDesignConsiderations-NamingComponentsinRoutes">Naming Components in Routes</a></li> 
+        <li><a href="#RouteDesignConsiderations-OrganizingFolders">Organizing Folders</a></li> 
+        <li><a href="#RouteDesignConsiderations-OrganizingLockers">Organizing Lockers</a></li> 
+        <li><a href="#RouteDesignConsiderations-In-RouteDocumentation">In-Route Documentation</a></li> 
+        <li><a href="#RouteDesignConsiderations-RouteDesign">Route Design</a></li> 
+        <li><a href="#RouteDesignConsiderations-QueueDepth">Queue Depth</a></li> 
+        <li><a href="#RouteDesignConsiderations-CommunicationPointConsiderations">Communication Point Considerations</a></li> 
+        <li><a href="#RouteDesignConsiderations-FilterConsiderations">Filter Considerations</a></li> 
+        <li><a href="#RouteDesignConsiderations-ConditionalConnectorConsiderations">Conditional Connector Considerations</a></li> 
+        <li><a href="#RouteDesignConsiderations-DatabaseConsiderations">Database&nbsp;Considerations</a></li> 
+        <li><a href="#RouteDesignConsiderations-JavaScriptUseandFeatures">JavaScript Use and Features</a></li> 
+        <li><a href="#RouteDesignConsiderations-MessageMappingOptionsandConsiderations">Message Mapping Options and Considerations</a></li> 
+        <li><a href="#RouteDesignConsiderations-LookupTables">Lookup Tables</a></li> 
+        <li><a href="#RouteDesignConsiderations-CustomComponents">Custom Components</a></li> 
+        <li><a href="#RouteDesignConsiderations-MessageProperties">Message Properties</a></li> 
+        <li><a href="#RouteDesignConsiderations-RhapsodyVariables">Rhapsody Variables</a></li> 
+        <li><a href="#RouteDesignConsiderations-TestingandPeerReview">Testing and Peer Review</a></li> 
+        <li><a href="#RouteDesignConsiderations-SecurityandAccessControls">Security and Access Controls</a></li> 
+        <li><a href="#RouteDesignConsiderations-OtherGeneralConsiderations">Other General Considerations</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="RouteDesignConsiderations-NamingComponentsinRoutes">Naming Components in Routes</h2>
+      <p>Components should be named per function and purpose. Activities which would benefit from a sound naming convention include:</p>
+      <ul>
+       <li>Searching for a component in the&nbsp;<a href="Management-Console_133163667.html">Management Console</a>.</li>
+       <li>Applying a hierarchy to components displayed within Rhapsody IDE.</li>
+       <li>Analyzing and understanding the processing logic.</li>
+       <li>Streamlining onboarding and knowledge transfer to new team members assigned to a given project and for ongoing support activities.</li>
+      </ul>
+      <p>Refer to <a href="Naming-Conventions_133163659.html">Naming Conventions</a> for details.</p>
+      <h2 id="RouteDesignConsiderations-OrganizingFolders">Organizing Folders</h2>
+      <p>Folders group a set of related components. They are utilized in Rhapsody IDE (and Management Console) to provide structure and organization to the configuration. Use of a structure and meaningful names is important for the following reasons:</p>
+      <ul>
+       <li>To mitigate long route and communication point names and provide an easily searchable structure.</li>
+       <li>As a high-level indication of function/purpose of routes held under the folder (for example, a folder might be used to group processing logic for input from a specific host;&nbsp;the host system type might be included in the folder name).</li>
+       <li>As an indicator of a source and/or target system for messaging for the child routes (for example <code>PAS_ADT</code> or <code>PAS_to_RIS</code>).</li>
+      </ul>
+      <p>The folder structure will be aligned with the requirements of a solution. There are two folder structure paradigms that are most&nbsp;commonly used: <a href="#RouteDesignConsiderations-SOA/DecoupledParadigm">SOA/Decoupled&nbsp;Paradigm</a> and <a href="Route-Design-Considerations_133162026.html">Interface/Solution Paradigm</a>. However, a degree of flexibility in the folder structure may be required in order to ensure alignment with customer solution requirements.</p>
+      <h3 id="RouteDesignConsiderations-SOA/DecoupledParadigm">SOA/Decoupled Paradigm</h3>
+      <p>Under the SOA/Decoupled Paradigm, folders are organized under the respective locker by system name (for example, <code>PAS</code>, <code>LIS</code>). Each folder typically has subfolders that allow grouping of routes and related configurable components such as:</p>
+      <ul>
+       <li>Input.</li>
+       <li>Processing (such as Normalisation, EMPI enrichment, identifier resolution, common code translation).</li>
+       <li>Output.</li>
+       <li>Common (for components that are shared for some or all of the above such as the Dynamic Router or Web Service Client communication points).</li>
+      </ul>
+      <p>Folders which are not required can be omitted.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="400" src="attachments/133162026/133162034.png" data-image-src="attachments/133162026/133162034.png" data-unresolved-comment-count="0" data-linked-resource-id="133162034" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SOAFolderStructure.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162026" data-linked-resource-container-version="4"></span></p>
+      <p>Advantages:</p>
+      <ul>
+       <li>Already developed components are easily identifiable based on the source, destination or any processing requirements. This makes it easy to identify common components (such as the input part of an interface) that can be reused to meet the requirements of a new interface requiring the same data and/or processing to be output to a new system via a new interface.</li>
+       <li>This supports decoupling of systems participating in an end-to-end interface as Rhapsody is the mediator and source or destination may be replaced with change being restricted to the set of components targeted for the new system.</li>
+      </ul>
+      <p>Disadvantages:</p>
+      <ul>
+       <li>It would not be clear to developers using Rhapsody IDE or administrators performing support actions what components are contributing to an end-to-end interface.</li>
+       <li>Management Console users would typically have to start from the input to be able to identify other components that may be related to the interface or problem at hand.</li>
+       <li>Additional auxiliary documentation is required over and above what is available within in-route and support note documentation to capture the relationship of the components which together are required for an end-to-end interface – this documentation may not be available within the inbuilt route notes and support notes features.</li>
+      </ul>
+      <h3 id="RouteDesignConsiderations-Interface/SolutionParadigm">Interface/Solution Paradigm</h3>
+      <p>Under the&nbsp;Interface/Solution Paradigm, folders are organized based on the interface or solution information (for example <code>OrionReferralNotificationsToGP</code>, <code>PasADTToLab</code>, <code>PasToEMPI</code>, <code>AllDataToCDR</code>, <code>EMPIToSystems</code>, <code>ToMyHR</code>). Within the parent folder, the following subfolders are typically used:</p>
+      <ul>
+       <li>Input.</li>
+       <li>Processing (such as Normalisation, EMPI enrichment, identifier resolution, common code translation).</li>
+       <li>Output.</li>
+       <li>Common&nbsp;(for components that are shared for some or all of the above such as the Dynamic Router or Web Service Client communication points).</li>
+      </ul>
+      <p>The folders are always present. If they are not required or, more commonly, reused from other interfaces, they can be left empty.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" width="236" src="attachments/133162026/133162033.png" data-image-src="attachments/133162026/133162033.png" data-unresolved-comment-count="0" data-linked-resource-id="133162033" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="InterfaceSolutionFolderStructure.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162026" data-linked-resource-container-version="4"></span></p>
+      <p>Advantages:</p>
+      <ul>
+       <li>The interface/solution purpose of the components is grouped by the parent folder name. This relationship is obvious to users of both the IDE and the management console and streamlines the process of searching for&nbsp;related components within the&nbsp;management console for support purposes. Generally, the link to the reusable components (which folder path they are in) can be captured in the newly deployed components and this combined with sensible parent folder names reduces overhead in day-to-day maintenance and management.</li>
+      </ul>
+      <p>Disadvantages:</p>
+      <ul>
+       <li>Reusable components are not as readily identified as the&nbsp;SOA/Decoupled Paradigm – even though they may still be loosely coupled, they are deployed within the first interface that required them; future interfaces will need to rely on sensible naming of parent folders and auxiliary documentation to be able to identify if there are one or more components available for reuse in a new interface (this is generally not a major issue).</li>
+      </ul>
+      <h2 id="RouteDesignConsiderations-OrganizingLockers">Organizing Lockers</h2>
+      <p>Lockers&nbsp;are used for compartmentalizing the configuration in a way that allows access to that configuration to be controlled. Like a folder, a locker can be used to organize and group components, but a locker also has tools to restrict access (through the Managing Users component) so that only certain users can see and edit the configuration of a given locker, and so that only certain users can view the messages that are processed by the components in the locker.</p>
+      <p>Best practice guidance with respect to this is to determine the locker requirement on a project-by-project basis – lockers can be added as required to:</p>
+      <ul>
+       <li>Segregate components to ensure team members are not able to modify components that are not related to their solution or tenancy.</li>
+       <li>Ensure that administrative users are only able to access a subset of message data and components within the Management Console (for example, to restrict access to patient data only from their site, or to ensure they are only able to start/stop components under their jurisdiction).</li>
+      </ul>
+      <p>Messages may be directed from one Locker to another however they are only able to be distributed between lockers via the use of Dynamic Router communication points.</p>
+      <p>Segregating your configuration into lockers is not recommended unless there is a driving requirement to do so, as it increases the maintenance effort. Usage of multiple lockers requires the following Rhapsody objects and related configuration to be within the same locker for messages to flow correctly:</p>
+      <ul>
+       <li>Communication points.</li>
+       <li>Message definition.</li>
+       <li>Message tracking scheme.</li>
+       <li>Chained/linked route.</li>
+      </ul>
+      <p>Accordingly, they would need to be duplicated into different lockers for message flows across lockers. This results in additional efforts to maintain the components in multiple locations (for example, to add or change a message type in a definition).</p>
+      <h2 id="RouteDesignConsiderations-In-RouteDocumentation">In-Route Documentation</h2>
+      <h3 id="RouteDesignConsiderations-Notes">Notes</h3>
+      <p>All routes, filters and communication points, where appropriate, should contain the following minimum documentation within their Notes.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Item</th>
+          <th class="confluenceTh">Purpose</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Author</td>
+          <td class="confluenceTd">The user who initially configured the component.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Creation</td>
+          <td class="confluenceTd">The date the component was created or copied.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Purpose</td>
+          <td class="confluenceTd">The description of the purpose of the component that explains what the component's intended use is and a summary of how that is achieved.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">History</td>
+          <td class="confluenceTd">Modification history of the component after development (for example, BAU, fixed&nbsp;issue&nbsp;found in UAT). One line per change, each line contains the initials or name of the person making the change, the date, and the change description (include feature/bug ticket reference if available).</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p class="WordSection41">For example:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="502" width="801" src="attachments/133162026/133162035.png" data-image-src="attachments/133162026/133162035.png" data-unresolved-comment-count="0" data-linked-resource-id="133162035" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Notes.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162026" data-linked-resource-container-version="4"></span></p>
+      <p>Comprehensive documentation of your configuration aids ongoing maintenance and is also provided in the Rhapsody self-generated documentation.&nbsp;For&nbsp;<a href="Shared-JavaScript-Libraries_133161861.html">shared JavaScript library</a>&nbsp;functions,&nbsp;<a href="JavaScript_133163317.html">JavaScript</a> filters and&nbsp;<a href="Mapper_133163007.html">Mapper</a> filters this will be included at the start of the code and a summary will be included within the Notes section.</p>
+      <h3 id="RouteDesignConsiderations-Check-inComments">Check-in Comments</h3>
+      <p>For environments that are shared across multiple team members, ensure suitable comments are entered when checking in changes. It can be beneficial to follow a standard format agreed for the project. For example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">Description of your changes
+Issue: CPO-123456
+Reviewer: Jane Doe</pre> 
+       </div>
+      </div>
+      <p><br></p>
+      <div class="page" title="Page 5">
+       <div class="layoutArea">
+        <div class="column">
+         <h2 id="RouteDesignConsiderations-RouteDesign"><span style="color: rgb(58,57,58);">Route Design</span></h2>
+        </div>
+       </div>
+      </div>
+      <h3 id="RouteDesignConsiderations-DiscardBeforeProcessing">Discard Before Processing</h3>
+      <p>In general, conditional filtering of messages should occur as early as possible in the processing pipeline to ensure that additional processing of the message is not incurred (particularly expensive operations such as transformation, output mapping, JavaScript filter operations). There are various methods to do so, for example:</p>
+      <ul>
+       <li>Conditional connector.</li>
+       <li>Conditional logic within the filters that support it (for example, the JavaScript filter).</li>
+      </ul>
+      <h3 id="RouteDesignConsiderations-Fail-safe,Fail-early">Fail-safe, Fail-early</h3>
+      <p>Do not assume that data sent to a route will always match the specified format. Always ensure that if a given route requires data in a certain format, it is verified within that route before further processing and invalid data is handled specifically (for example, discarded via the No Match connector or passed to an error handling process as may be required depending on the route function).</p>
+      <p>Error detection should occur as early as practical so that messages are trapped or discarded before additional processing steps are incurred. For example, if a given type of message will always be discarded for a given output ensure that this is detected in the early stages of the output sequence rather than in the later stages.</p>
+      <h3 id="RouteDesignConsiderations-Intra-RouteErrorHandlingandExceptionProcessing">Intra-Route Error Handling and Exception Processing</h3>
+      <p>Error handling covers a wide range of topics, but the goal is to create a configuration where errors are the exception. Error handling should be actively planned and included as a part of the interface design. Route Error Handlers should be added to each route to handle edge cases/exceptions but it can also be used to direct known errors to appropriate destinations such as email notifications or a sink. The goal should be minimizing the number of errors that go to the Error Queue.</p>
+      <p>If the Error Queue is left to grow over time without careful management, then it will reduce the data volume available for the live message store. In severe cases, this can lead to disk space for available data running out earlier than calculated or expected.</p>
+      <p>In-filter processing can also be used to detect certain error conditions (missing information, logical error in a combination of fields, change of the input message type compared to a&nbsp;known structure, a message that is not valid based on business rules rather than format/definition). The JavaScript filter can be used to call the&nbsp;<code>addErrors()</code>&nbsp;method in these types of scenarios to add specific information about the error and then cause the message to be output to the error connector/path of the route</p>
+      <p>The method for handling the errors will be determined based on the interface pattern and requirements. However, in all cases, Error Handling should be designed and implemented (as per pattern and customer requirements) so that it is adopted from initial configuration forwards rather than added on at the end.</p>
+      <p>Options for handling errors include:</p>
+      <ul>
+       <li>Unhandled - the message is sent to the Error Queue (this should be the last resort, not the norm).</li>
+       <li>Direct handling - logic is implemented to manage messages with known errors; the error detail is available from the message object by calling the getErrors() method in a JavaScript filter. Once processing is complete, the message may then be:
+        <ul>
+         <li>Ignored, as this is a known error which does not require further processing, and output to a Sink.</li>
+         <li>Handled explicitly by output to a Communication Point/Route for this purpose (for example, to automate raising a helpdesk ticket or to email specific people with the event details).</li>
+         <li>Re-routed to the Error Queue.</li>
+        </ul></li>
+      </ul>
+      <p>Errors relating to filter failure (rather than processing of the message content) bypass the Error Output connection and are placed directly into the Error Queue. For example, system level errors will result in this behavior.</p>
+      <h3 id="RouteDesignConsiderations-RouteLayoutandProcessingComplexity">Route Layout and Processing Complexity</h3>
+      <p>In essence, the route design canvas of the IDE presents a map or a flowchart of the high-level logic required to process messages. The following guidelines are recommended to ensure that the flow of data through a route can be easily interpreted and checked to ensure that the route logic is consistent with the requirements as well as for streamlining support and maintenance:</p>
+      <ul>
+       <li>Message path flows generally from left to right (input to output).</li>
+       <li>For some scenarios, the route may output then return to an input path such as when processing a message and then the Acknowledgement via an Out-&gt;In communication point. This is a normal scenario and the flow is still generalized as left to right, similar to the operation of a cursor on a page of typing.</li>
+       <li>Input connections should be made from a component to the left of the filter.</li>
+       <li>Output connections should be made to components to the right of the filter (this also includes No-match and Error connection points).</li>
+       <li>No-match connections should generally be made above and to the right of the filter.</li>
+       <li>Error connections should generally be made below and to the right of the filter.</li>
+       <li>Note that the use of the Route Error Handler may streamline error processing and avoid requiring individual paths from Error Connectors, as well as No-Match Connectors in some scenarios (if a condition is not met and there is no path from the No-Match the message will route to the error path).</li>
+       <li>Connector paths do not cross each other (this can often be achieved through the use of additional No Operation Filters).</li>
+       <li>Avoid loops in the configuration that bring the message back to an earlier point in the same route.</li>
+      </ul>
+      <p>Overly complex routes with multiple significant branching and/or return to filter components generally indicate that the configuration is attempting to achieve too much in a single route. In this case, consider splitting the single route into several route stages, each of which performs a specific function before passing the message to the next stage for processing. This can be achieved either using Dynamic Routers or through <a href="#RouteDesignConsiderations-Linking/ChainingRoutes">Linking/Chaining Routes</a>.</p>
+      <p>The following screenshot shows an example of a monolithic route that would be better deployed as a series of route stages to simplify the overall layout and avoid potential logic issues:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="453" width="800" src="attachments/133162026/133162032.png" data-image-src="attachments/133162026/133162032.png" data-unresolved-comment-count="0" data-linked-resource-id="133162032" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image007.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162026" data-linked-resource-container-version="4"></span></p>
+      <p>The following screenshots show an example of simplifying layout and targeting smaller, more specific, areas of functionality using several route stages.&nbsp;</p>
+      <p>A Simplified Route Layout - Stage 1:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="800" src="attachments/133162026/133162031.jpg" data-image-src="attachments/133162026/133162031.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162031" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image009.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162026" data-linked-resource-container-version="4"></span></p>
+      <p>A Simplified Route Layout - Stage 2:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="800" src="attachments/133162026/133162027.jpg" data-image-src="attachments/133162026/133162027.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162027" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image010.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162026" data-linked-resource-container-version="4"></span></p>
+      <p>A Simplified Route Layout - Stage 3:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="800" src="attachments/133162026/133162030.jpg" data-image-src="attachments/133162026/133162030.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162030" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image011.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162026" data-linked-resource-container-version="4"></span></p>
+      <h3 id="RouteDesignConsiderations-Linking/ChainingRoutes"><span style="color: rgb(0,0,0);">Linking/Chaining Routes</span></h3>
+      <p>In a complex configuration, it is often&nbsp;useful to distribute the processing logic across multiple routes, limiting each route to one high-level function and ensuring that the clarity and purpose of each route are maintained.</p>
+      <p>In some scenarios, it may be beneficial to directly link the routes in a chain (this is generally the case where the overall requirement cannot be achieved unless all the links in the chain execute in sequence). For other cases, the use of dynamic routers would be recommended to separate the stages of the route processing.</p>
+      <p>When routes are chained there is a risk that re-arrangement of filters or changes to message paths may lead to disconnection of the link. For this reason, when chaining routes together follow the following process to ensure the connections are managed properly and can easily be identified:</p>
+      <ul>
+       <li>Place a No-operation filter as the last processing element in the up-stream route.</li>
+       <li>Place a No-operation filter as the first processing element in the downstream route.</li>
+       <li>Drag the downstream route (selected from the configuration workspace) onto the output side of the up-stream route.</li>
+       <li>Connect the No-operation filter on the upstream route to the route icon in the output frame. This will place the connection into the correct location on the paired route.</li>
+       <li>Connect the No-operation filter on the downstream route to the connection icon in the Input frame.</li>
+       <li>Check in both routes to save the configuration.</li>
+      </ul>
+      <p>This model is often described as providing bookends to the routes, and generally protects the connections between the routes. It is, however, prudent to confirm the connectivity between the routes if changes are made to either route.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="800" src="attachments/133162026/133162029.jpg" data-image-src="attachments/133162026/133162029.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162029" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image012.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162026" data-linked-resource-container-version="4"></span></p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="800" src="attachments/133162026/133162028.jpg" data-image-src="attachments/133162026/133162028.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162028" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image013.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162026" data-linked-resource-container-version="4"></span></p>
+      <p>Multiple input connections may be made to the output route icon in the up-stream route. Each will result in a separate input connection to the downstream route, thereby allowing separation of processing for each path.</p>
+      <h3 id="RouteDesignConsiderations-MessageDefinitionsandParsing">Message Definitions and Parsing</h3>
+      <p>If a message definition is placed on the route, message parsing will occur prior to processing by the first filter on the route. This ensures that properties defined at route level are available to condition connectors and certain filters.</p>
+      <p>Message parsing is required by the following communication points and filters:</p>
+      <ul>
+       <li>HL7 Acknowledgement Generation&nbsp;filter.</li>
+       <li>EDI Message Validation&nbsp;filter.</li>
+       <li>Content Population&nbsp;filter.</li>
+       <li>Code Validation&nbsp;filter.</li>
+       <li>Date Validation&nbsp;filter.</li>
+       <li>Mapper filter.</li>
+       <li>Code Translation&nbsp;filter.</li>
+       <li>JavaScript filter (if the message has not previously been parsed)</li>
+       <li>XSD Validator&nbsp;filter.</li>
+       <li>HIPAA filters.</li>
+       <li>Database filters and communication points that use message fields in the query.</li>
+      </ul>
+      <p>As message parsing&nbsp;incurs a processing cost, it should only be undertaken when necessary. Use the following guidelines to avoid unnecessary re-parsing of messages:</p>
+      <ol>
+       <li>Place only one message definition on a route if parsing is required for the route to operate.</li>
+       <li>A message definition is not required for the following routes:
+        <ol>
+         <li>Pass-through routes.</li>
+         <li>Routes with messages that are processed purely using the following methods:
+          <ol>
+           <li>String-based processing.</li>
+           <li>XML processing via E4X.</li>
+           <li>XPath processing of well-formed XML.</li>
+           <li>HAPI message processing (as HAPI does not require a message definition).</li>
+           <li>Using only the HL7 Message Modifier filter.</li>
+           <li>JSON processing.</li>
+           <li>Certain scenarios using Web Services or Database Orchestration</li>
+          </ol></li>
+        </ol></li>
+       <li>Avoid using multiple filters which require message parsing when possible:
+        <ol>
+         <li>JavaScript filters cause a message parse operation for each filter – where possible combine multiple JavaScript filters into a single filter (the use of shared JavaScript libraries can be used to offset the overall complexity and maintenance effort for single JavaScript filters. Refer to <a href="#RouteDesignConsiderations-JavaScriptUseandFeatures">JavaScript Use and Features</a>).</li>
+         <li>Message Validation filters on a route with JavaScript or Mapper filters – often the validation component can be achieved within the other filter, allowing removal of a parse operation.</li>
+         <li>Property Population filters which map message fields to properties on a route with JavaScript or Mapper filters – again, these filters can typically achieve all the required functionality</li>
+        </ol></li>
+       <li>Avoid adding multiple message definitions to a single route. Rhapsody does not guarantee which message definition will be used in this scenario. The first definition which allows a successful parse may not necessarily be the expected one, which can lead to inconsistent results. Typically, if a pattern looks like more than one definition is required on a route to achieve the outcome then it is probable that:
+        <ol>
+         <li>The solution is performing a mapping operation that is better suited to the Mapper.</li>
+         <li>The route should be split into multiple stage routes each targeting a specific area of functionality and only requiring at most a single definition per stage.</li>
+        </ol></li>
+      </ol>
+      <p><br></p>
+      <div class="WordSection47">
+       <h3 id="RouteDesignConsiderations-Multi-threadingversusSingle-threading">Multi-threading versus Single-threading</h3>
+       <p>Rhapsody is a multi-threaded Java application and uses 10 worker threads (by default) to manage all the route processing. In general, the processing cycle&nbsp;typically has the following states:</p>
+       <ol>
+        <li>Route worker thread becomes available.</li>
+        <li>Next route operation selected from the queue (each operation equates to processing one message through a single filter).</li>
+        <li>Processing transaction starts.</li>
+        <li>Message processed by the filter logic.</li>
+        <li>Processing transaction completes.</li>
+        <li>Route worker thread becomes available.</li>
+       </ol>
+       <p>This design enables multiple messages on a route to complete processing by a filter at more or less the same time, unless either filter concurrency restricts processing or the route is constrained to processing in strict message order by FIFO constraints.</p>
+       <p>The filter concurrency is normally set to zero which allows the multiple and potentially out of order processing (note however when FIFO is set on a route even though the messages may be processed out of order due to different paths or complexity of messages in a given route, the messages will always leave the route in the FIFO order received). It may be necessary to limit concurrency in one of the following cases:</p>
+       <ul>
+        <li>Message processing order is significant - messages must process in the order of receipt (particularly if there is an in-route orchestration and the processing result of a later message would be different if the earlier message has not processed).</li>
+        <li>Slow filter processing - in these cases, under moderate to high loads, it may be possible for all of the worker threads to be processing messages through an instance of the same filter at the same time which will effectively block other processing.</li>
+       </ul>
+       <p>Filter Concurrency is available as a filter property for filter types likely to experience this issue. Setting the concurrency to a non-zero value limits the number of messages able to be processed through the filter instance to that value. The Database and Execute Process filters are particularly prone to needing attention to concurrency.</p>
+       <h3 id="RouteDesignConsiderations-DynamicRouters">Dynamic Routers</h3>
+       <p>Use of the Dynamic Router communication point (dynamic router) is recommended for decoupling routes which publish and distribute data, process data or subscribe to, or receive and send data to downstream systems. Earlier versions of Rhapsody were constrained to the use of chained routes to achieve the same outcome. Use of dynamic routers at the boundaries of internal routes are advantageous because new consumers of existing data can be added in the future without needing to modify existing, validated, in-production configuration, thus mitigating the risk of introducing issues or regressions to the current function.</p>
+       <p>However, because data is Published/Subscribed to in a dynamic fashion there is potential to introduce issues within configuration if the following guidance is not followed:</p>
+       <p>Subscribers (routes which use a dynamic router&nbsp;configured for input mode):</p>
+       <ul>
+        <li>A route which contains that input dynamic router should verify the data is of the required type before performing any operations. This prevents errors or exceptions as data sent to the input dynamic router could change after deployment. For example, a source system could start sending new data types via an existing input interface or a newly deployed configuration could match an existing target name of an input dynamic router.</li>
+        <li>If present, the&nbsp;<code>router:Destination</code>&nbsp;property should have the current value removed (set the property value to null if it is not required, or to a specific value as required) to ensure that processing through any down-stream output dynamic routers does not result in route loops.</li>
+       </ul>
+       <p>Publishing routes (routes which use a dynamic router configured for output mode and may use dynamic destination lists set via in route JavaScript processing):</p>
+       <ul>
+        <li>Use Target Name (for example, <code>@theTarget</code>) if possible, multiple receivers can be configured with the same target name to receive the set of data from the output dynamic router. This method is simpler to manage and less prone to error than the path method. It supports delivery to multiple components with the same target name. In addition, the path value would have to be updated if the component is moved within the IDE to a different path.</li>
+        <li>While a single instance of a dynamic router, using dynamic destinations, can be used in multiple routes to reduce communication point clutter, there are disadvantages to this approach which need to be balanced for a given solution’s requirements:
+         <ul>
+          <li>The Archive queue will contain data sets from the multiple routes – this may obfuscate the cause of issues or increase overhead for some Management Console administrative tasks.</li>
+          <li>If the communication point must be shut down for any reason it will block the output (and result in queuing) for all routes that this output component is contained in.</li>
+         </ul></li>
+        <li>Where destinations are set dynamically, care must be taken if the list of destinations being set within the JavaScript filter is populated from a source which can change (for example, a lookup table). If a target name does not exist, the message&nbsp;will&nbsp;be&nbsp;routed&nbsp;as per&nbsp;the&nbsp;configuration&nbsp;setting for <strong>On Missing Dynamic Destination</strong>.
+         <ul>
+          <li>We recommend immediately adding an input dynamic router with a matching Target Name and checking in the component whenever making changes to dynamically generated destination lists.</li>
+          <li>Where retiring a component, remove the destination from the generated property list first then retire the matching input dynamic router component/route</li>
+         </ul></li>
+       </ul>
+      </div>
+      <h3 id="RouteDesignConsiderations-IdentifyingBottlenecksintheRoute">Identifying Bottlenecks in the Route</h3>
+      <p>When you create a route, it is recommended you identify the bottlenecks in order to optimize performance. In the Management Console, there are a number of reporting options available that can help with this. The&nbsp;<a href="Performance-Statistics_133163873.html">performance statistics report</a>&nbsp;can be used to identify which filters in the route take the most time to process the message. However, as&nbsp;there is a processing overhead when running a performance statistics report, it is recommended running it in a non-production environment.</p>
+      <h2 class="_mce_tagged_br" id="RouteDesignConsiderations-QueueDepth">Queue Depth</h2>
+      <p>Communication points (depending on type) have an input and/or an output queue (depending on their directionality) while routes have a processing queue. In general, messages&nbsp;flow through the Rhapsody engine more or less unhindered. Messages may queue on some&nbsp;components&nbsp;at&nbsp;some stages because of load, slow processing or some external factors, but queuing is generally transient.</p>
+      <p>Factors which can impact the size of queues include:</p>
+      <ul>
+       <li>A requirement to throttle messages or only send messages to downstream systems during certain hours</li>
+       <li>An issue at the receiving system end that will result in a backlog within Rhapsody until the issue is resolved</li>
+       <li>A system which sends messages in large batches or bursts (either due to the nature of the information exchange or because it has been offline and needs to send a large amount of data that would normally flow over a longer period at a lower rate of messages per minute)</li>
+       <li>A system is decommissioned while messages are still being processed within Rhapsody</li>
+       <li>Resource intensive message processing and/or very large message processing within a route</li>
+       <li>Single threaded/Strict FIFO requirements</li>
+      </ul>
+      <p>Attention should be paid during route development to the potential for messages to queue (particularly with respect to the last two list items above which are controlled by Rhapsody). To reduce the potential for queueing:</p>
+      <ul>
+       <li>Develop a solution using standard product-supplied Rhapsody communication points and filters in preference to developing custom components. This reuses code libraries as typically the product-supplied components align with, and are tested with respect to, Rhapsody performance and multi-threading capabilities (which in turn generally avoid large processing queues in most scenarios).</li>
+       <li>Constrain the use of Strict FIFO or interfaces with filter processing that requires no concurrency to only those use cases which absolutely require it to ensure minimal impact to engine performance and queue depth.</li>
+       <li>Ensure components are correctly configured with Auto Start parameters to ensure queues do not form because one of the components has not started.</li>
+      </ul>
+      <p>There are several significant impacts of queuing on the engine:</p>
+      <ul>
+       <li>Queues are managed as memory objects; consequently, large queues will lock memory for the queue and make it unavailable for normal processing.</li>
+       <li>When an engine restarts, the active objects are validated before processing can resume; consequently, large queues will take a finite time to validate and delay the resumption of normal processing by the engine.</li>
+       <li>Messages on queues are not eligible for removal from the data store by the Rhapsody Archive Cleanup process (for the scenario of a decommissioned system the messages may need to be manually deleted from the queue so they are eligible for clean-up).</li>
+      </ul>
+      <h2 id="RouteDesignConsiderations-CommunicationPointConsiderations">Communication Point Considerations</h2>
+      <ul>
+       <li>Wherever possible use an instance of a communication point on a single route only. This provides advantages in terms of storage, queue management, and message tracking.
+        <ul>
+         <li>There may be limitations and considerations for a specific solution (such as the licensed number of communication points) that need to be considered.</li>
+         <li>In some cases, it is advantageous to reuse a communication point on multiple routes to reduce maintenance overhead and effort for those communication points with significant configuration components – web service clients connecting to the same service with a number of different methods are an example of this. Database communication points used to log/store all received messages may be another.</li>
+        </ul></li>
+       <li>Use multiple sinks rather than a single, general purpose sink. This allows you to see how many messages are being discarded for a particular system.
+        <ul>
+         <li>Communication points such as sinks and dynamic routers where messages do not enter or leave the engine instance do not count towards the licensed number of communication points.</li>
+        </ul></li>
+       <li>De-batch large messages in a Directory communication point instead of a de-batching filter (either the Batch/De-batch or Zip/Unzip filter). This is more efficient as the communication point can read each message out of the batch from disk without loading the complete batch into memory.</li>
+       <li>Ensure the&nbsp;<strong>Connection Retries</strong>&nbsp;property for a communication point is set appropriately for the system that it is connecting to, and has been tested to ensure it is tuned appropriately.</li>
+       <li>Where multiple actions need to be performed on a message when it is received on a given route, it should be received on the route then split via the use of a No-operation filter for each action. Do not directly split the input from the input communication point as this results in duplicate parsing of the message and duplicate storage of the input message and properties within the Rhapsody datastore.</li>
+       <li>Where connections between two Rhapsody instances is required, the <a href="Rhapsody-Connector_133162574.html">Rhapsody Connector</a> communication point should be used instead of the TCP communication points.</li>
+      </ul>
+      <h2 id="RouteDesignConsiderations-FilterConsiderations">Filter Considerations</h2>
+      <ul>
+       <li>Pay attention to earlier recommendations for combining filter functions where possible to avoid multiple message parses and increased data store volume use.</li>
+       <li>Only set filter concurrency to a non-zero number if performance analysis indicates the filter is consuming large amounts of resources and is negatively impacting overall system performance. Setting filter concurrency to 1 will greatly reduce the throughput (as the route will become single-threaded) and is only required in a small number of use cases (such as where absolute FIFO is required within the route, rather than simply for end-to-end message delivery).</li>
+       <li>The use of database filters is only suited to certain scenarios, as outlined in the&nbsp;<span style="color: rgb(255,0,0);"><a href="#RouteDesignConsiderations-DatabaseConsiderations">Database Considerations</a><span style="color: rgb(51,51,51);">.</span></span></li>
+       <li>Avoid using excessive No-Operation filters for route commenting – this practice introduces excessive growth of the events within the Message Store and has been demonstrated to negatively impact large-scale deployments. No-operation filters should only be used to:
+        <ul>
+         <li>Split message processing paths.</li>
+         <li>Improve route layout by avoiding crossed connectors.</li>
+         <li>Support Message Collection (if this feature is used, ensure that the name of the filter reflects this).</li>
+        </ul></li>
+      </ul>
+      <h2 id="RouteDesignConsiderations-ConditionalConnectorConsiderations">Conditional Connector Considerations</h2>
+      <h3 id="RouteDesignConsiderations-OverridetheConditionDescription">Override the Condition Description</h3>
+      <p>Always override the default condition description for the connector and replace it with the shortest text that makes sense to describe the condition (for example, <code>is Required Message Type</code>, <code>eReferral Only</code>).</p>
+      <h3 id="RouteDesignConsiderations-RhapsodyVariablesinConditionalConnectors">Rhapsody Variables in Conditional Connectors</h3>
+      <p>Though Rhapsody variables can be used for any value that may require an update in future, it is not recommended they be used in Conditional Connectors for the following reasons:</p>
+      <ul>
+       <li>The condition they are matching is not immediately obvious when viewing the component or troubleshooting condition test results – the user must access the&nbsp;<a href="Rhapsody-Variables_133163434.html">Variables Manager</a>&nbsp;which cannot be opened at the same time as the UI component of the Conditional Connector.</li>
+       <li>In the current Rhapsody version (and all previous versions) they are not exported between environments unless you select the <strong>Export Unused Rhapsody Variables</strong> option – this can result in a lot of unnecessary clutter in the downstream environments which will have to be manually mediated.</li>
+      </ul>
+      <h2 id="RouteDesignConsiderations-DatabaseConsiderations">Database&nbsp;Considerations</h2>
+      <p>Refer to&nbsp;<a href="Database-Components-Best-Practice-Guide_133161762.html">Database Components Best Practice Guide</a>&nbsp;for details.</p>
+      <h2 id="RouteDesignConsiderations-JavaScriptUseandFeatures"><span>JavaScript Use and Features</span></h2>
+      <h3 id="RouteDesignConsiderations-CodingGuidelines">Coding Guidelines</h3>
+      <p>The following&nbsp;general guidelines are the general guidelines for writing JavaScript code within Rhapsody.</p>
+      <p>Dos:</p>
+      <ul>
+       <li>Use <a href="Shared-JavaScript-Libraries_133161861.html">shared JavaScript libraries</a> to add functions that can be re-used across JavaScript filters.</li>
+       <li>Improve code readability and self-documentation through the longhand versions of constructs such as the ternary operator.</li>
+       <li>Code within the JavaScript filter or the function within the JavaScript Library should follow the same documentation convention as the route notes for capturing the date, author, purpose and modification history.</li>
+      </ul>
+      <p>Don'ts:</p>
+      <ul>
+       <li>Avoid using multiple JavaScript filters in the same route. Instead try to combine into a single JavaScript filter where possible, and utilize the shared JavaScript feature to reduce filter code complexity.</li>
+       <li>Do not use system commands, for example&nbsp;<code>System.getProperty()</code>. These calls are generally synchronized so that two calls cannot be made at one time.</li>
+       <li>Do not use&nbsp;<code>System.exit()</code>&nbsp;in any JavaScript filter as this will cause processing to halt.</li>
+       <li>Do not create delays in the code of a JavaScript filter. If a delay is needed,&nbsp;If a delay is needed, use&nbsp;<a href="133163388.html">Message Collection</a>&nbsp;functionality in the route.</li>
+       <li>Avoid intermingling&nbsp;<code>setField</code>&nbsp;and&nbsp;<code>GetText</code>&nbsp;calls in your code. This switches the editing models (from parsed message to message text).</li>
+       <li>Avoid excessive commenting – code developed following the above guidelines should be readable and self-documenting, comments should be used to identify major features, executions or considerations of the code.</li>
+      </ul>
+      <h3 id="RouteDesignConsiderations-UsingSharedJavaScriptLibraryFunctions">Using Shared JavaScript Library Functions</h3>
+      <p>We recommend using&nbsp;<a href="Shared-JavaScript-Libraries_133161861.html">shared JavaScript library</a>&nbsp;functions wherever possible as this ensures a central location for management, testing, and updates (rather than requiring each JavaScript filter that may contain a copy of the code to be updated). This, in turn, streamlines the code within shared JavaScript filters and supports scenarios where multiple JavaScript filters can be combined into a single filter without combining large amounts of JavaScript code in the single filter.</p>
+      <p>When creating shared JavaScript library functions take the following into consideration:</p>
+      <ul>
+       <li>The shared JavaScript&nbsp;library function does not have scope visibility of the standard JavaScript objects available to the JavaScript filter (such as the Input and Output message or the log). Ensure you pass these as parameters where required.</li>
+       <li>Shared JavaScript&nbsp;library functions can only access other shared functions that are contained in the same library in the current version.</li>
+       <li>For debugging during initial development, it is often better to build and test the function within a JavaScript filter and then promote it to the shared JavaScript library (taking into consideration any scope dependencies as previously noted).</li>
+      </ul>
+      <h3 id="RouteDesignConsiderations-ConsiderationsforMultipleJavaScriptFiltersandParsing/RoutePerformance">Considerations for Multiple JavaScript Filters and Parsing/Route Performance</h3>
+      <p>The use of multiple JavaScript filters can have an impact on the performance as each filter requires a parse of the message, thereby resulting in multiple parses (note this is not the case if there is no message definition on the route in question). In some cases, multiple JavaScript filters may be required due to reasons such as:</p>
+      <ul>
+       <li>Processing logic – for example after a message has been processed by a JavaScript filter, it needs to be split because one path requires the message/properties at that state while the other path requires additional processing by a separate JavaScript filter before being&nbsp;output from the route.</li>
+       <li>Separating complex JavaScript operations into discrete units of function to simplify testing and maintenance. There are two strategies for solving this issue:
+        <ul>
+         <li>Move the unit into multiple shared JavaScript Library functions (which are tested and validated separately, and may be maintained separately) and then call the functions from within a single JavaScript filter. This is the preferred method – particularly where the presence of a message definition on a route would otherwise cause multiple parses of the message.</li>
+         <li>If there is a compelling reason to use multiple JavaScript filters for a given solution’s requirement to separate the processing into functional units, ensure that this method is only used on routes that do not have a message definition associated with them. This can be mitigated for routes that do have a message definition associated with them if the performance testing demonstrates no significant difference in route transit time for the use of multiple JavaScript filters compared to a single filter.</li>
+        </ul></li>
+      </ul>
+      <h2 id="RouteDesignConsiderations-MessageMappingOptionsandConsiderations">Message Mapping Options and Considerations</h2>
+      <h3 id="RouteDesignConsiderations-GeneralConsiderations">General Considerations</h3>
+      <p>Message mapping and transformation is supported through a number of Rhapsody features and components. Previously, the general rule was to use the&nbsp;<a href="Mapper_133163007.html">Mapper</a> filter as the compiled code was more efficient than the other available options. However, improvements in engine efficiency mean that while this is still generally true, the difference in execution time is often insignificant and several other factors and constraints must now be considered when deciding how to manage message mapping:</p>
+      <ul>
+       <li>The&nbsp;<a href="Mapper_133163007.html">Mapper</a> filter requires a Mapper Definition File, which in turn requires an input definition and output definition file for the message formats. The usage of the Mapper filter is generally better suited to scenarios where there is a significant difference between the input and output format and where&nbsp;significant effort is required in mapping between them.</li>
+       <li>Mapping or transformation that involves a small number of fields is better suited to the&nbsp;<a href="JavaScript_133163317.html">JavaScript</a> filter (which may include the use of the <a href="Shared-JavaScript-Libraries_133161861.html">shared JavaScript libraries</a>) since the transformations can be grouped as execution lines and readily identified when maintaining the solution. This is often the case when the input and output formats share a format definition. Even for cases where the definitions are different,&nbsp;the same requirement can be achieved for smaller&nbsp;transformations by either using the HAPI libraries or splitting the transformation into an input and output stage each with a separate message definition (providing that while different, the definitions are still compatible).</li>
+       <li>Mapping HL7 to XML or vice versa can be achieved through either the use of E4X template processing within the JavaScript filter or by using the Mapper filter. Please consider the following exception scenarios:
+        <ul>
+         <li>When dealing with scenarios that require insertion of XML snippets into an existing XML document, these are currently best suited to delivery via mapping in JavaScript filter using E4X processing.</li>
+         <li>When parsing large XML files while performing mapping to and from XML, these are currently best suited to delivery via mapping in Mapper filter.</li>
+        </ul></li>
+       <li>Mapping where features required are only exposed through JavaScript Objects will require the use of the JavaScript filter, for example:
+        <ul>
+         <li><a href="HAPIMessage-Object_133161404.html">HAPIMessage Object</a>.</li>
+         <li><a href="JSON-Object_133161407.html">JSON object</a>.</li>
+         <li>Snapshot loading and processing (especially where multiple snapshots are used).</li>
+        </ul></li>
+       <li>Mapping and transformation of messages that are known to not always conform to a strict message format are generally best handled within the JavaScript filter (this is often true for like-for-like migrations of legacy interfaces where input messages may need to be processed without definitions to correct or retain format/value issues within the message) as there may be the potential to correct or ignore the error and continue processing. Use of the Mapper in this scenario will either fail or ignore depending on the <strong>Fail on Errors</strong> property configuration of the Mapper filter.</li>
+       <li>Mapping via the use of the <a href="Intelligent-Mapper_133161894.html">Intelligent Mapper</a> will require the development of the mapping within an Intelligent Mapper mapping project along with the use of the Intelligent Mapper filter (this is effectively a specialized version of a JavaScript filter that only supports the use of the read-only JavaScript Mapping developed within the project).</li>
+      </ul>
+      <h3 id="RouteDesignConsiderations-SpecificConsiderationsfortheMapperFilter">Specific Considerations for the Mapper Filter</h3>
+      <ul>
+       <li>Use submaps for code reuse and easy maintenance.</li>
+       <li>Structure your maps based on the output message structure.</li>
+       <li>When using the Automap feature of the Map Designer care must be taken. This feature is best suited to message types where the input is very similar to the output; where this is not the case some components may not be auto mapped and “To Do” sections will exist which require manual coding for the mapping. Therefore, always ensure that if the&nbsp;Automap is used&nbsp;the code is searched globally for “To Do” sections and these are completed prior to use in the engine.</li>
+      </ul>
+      <h2 id="RouteDesignConsiderations-LookupTables">Lookup Tables</h2>
+      <p><a href="Lookup-Tables_133163450.html">Lookup tables</a> within Rhapsody provide more flexible options and better performance than database filters such as the <a href="Generic-Code-Translation_133163073.html">Generic Code Translation</a> filter. They are typically suited to situations where less than 600,000 rows are expected. Moreover, they may be accessed directly from within <a href="JavaScript_133163317.html">JavaScript</a> and <a href="Mapper_133163007.html">Mapper</a> filters as part of message manipulation operations rather than requiring a separate component execution (communication point or filter).</p>
+      <p>Care must still be taken to ensure code which uses these features is safe. However, as they are part of engine runtime processes, they are less prone to errors as may be encountered with database filters (such as connectivity failures).</p>
+      <h2 id="RouteDesignConsiderations-CustomComponents">Custom Components</h2>
+      <p>Custom components, which are developed using&nbsp;<a href="Rhapsody-Development-Kit_133161275.html">Rhapsody RDK</a>, should only be used when the required functionality cannot be achieved using standard Rhapsody communication points and filters. The default position should be to use the Rhapsody standard components if they can achieve the outcome because:</p>
+      <ul>
+       <li>Custom components may not provide the same level of detail for logging and Management Console.</li>
+       <li>Custom components&nbsp;typically require a different skill set to produce and maintain when compared to standard Rhapsody components.</li>
+       <li>They are not supported by Rhapsody&nbsp;– any issues with custom components are the responsibility of the client to maintain and resolve.</li>
+       <li>Reuse of existing customer libraries via the RDK can lead to issues due to:
+        <ul>
+         <li>Java version issues.</li>
+         <li>Execution of multiple functions which negates the message inspection, logging, and management aspects of Rhapsody.</li>
+        </ul></li>
+      </ul>
+      <p>Custom components may be required or considered where:</p>
+      <ul>
+       <li>Connectivity to a system or function is provided by a third-party software component (API, EJB, etc.) that is not directly supported by current Rhapsody components, for example calling Oracle HMPI EJB functions to retrieve a patient Single Best Record.</li>
+       <li>The functional requirement is of significant benefit to the solution or is a key requirement for the solution but cannot be achieved by the current out-of-box components (for example development of signing and encryption filters using ADHA libraries to upload documents to My Health Record).</li>
+      </ul>
+      <p>When developing a custom component follow these processes:</p>
+      <ul>
+       <li>Raise a Jira ticket for development review of the proposed component development to ensure that:
+        <ul>
+         <li>Similar functionality is not on the roadmap.</li>
+         <li>The proposal is sanity checked.</li>
+        </ul></li>
+       <li>If the feature is beneficial to multiple customers or the product, there is an opportunity to uplift the component to become a standard feature of the product</li>
+       <li>Ensure the target functionality of the component is specific - the component should not generally encapsulate multiple unrelated functions (unless this is the requirement for the component such as may be required to manage a distributed transaction with orchestration). This is to streamline troubleshooting and maintenance efforts.</li>
+       <li>Ensure the logging events are in line with standard Rhapsody components so that the information presented to the user within the Management Console is consistent with other standard components.</li>
+      </ul>
+      <p>Refer to <a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a> for details on how to build custom components.</p>
+      <h2 id="RouteDesignConsiderations-MessageProperties">Message Properties</h2>
+      <h3 id="RouteDesignConsiderations-AvoidAssigningtheMessageBodytoaProperty">Avoid Assigning the Message Body to a Property</h3>
+      <p>Some implementation scenarios require capturing a snapshot of a message body as a property so that it can later be retrieved. In versions of Rhapsody before Rhapsody 6.2.1, message properties were used for this purpose. However, message properties are not designed to convey large amounts of data. Doing so has a negative impact on performance as well as increasing the amount of data store used for each message operation. This can be avoided as of Rhapsody 6.2.1 by one of the following methods:</p>
+      <ul>
+       <li>Using the Snapshot Save filter to save the current message and its properties. This can then be used to achieve the desired outcome by:
+        <ul>
+         <li>Using the Snapshot Load filter for simple scenarios where you want to replace the message on the path with the previously saved snapshot.</li>
+         <li>Using the JavaScript Object functions to load the snapshot or load a snapshot by ID. While the&nbsp;<code>rhapsody:SnapshotMessageId</code>&nbsp;property contains only the most recent saved snapshot, it is possible to save and retrieve multiple snapshots using custom properties and then load them through the JavaScript <code>loadMessageSnapshotForId</code> method</li>
+        </ul></li>
+       <li>Saving a temporary message into a database using a Database communication point (via a&nbsp;stored procedure) and store the return value (a unique link to the stored message) as a message property. This can then be used by a downstream process to retrieve the saved message from the database and process it (refer to <a href="#RouteDesignConsiderations-DatabaseConsiderations">Database Considerations</a>). This is crucial because message snapshots can only be loaded while they are present within the Rhapsody Data Store (within a single cluster only), in other words, while they have yet to be removed by the Archive Cleanup process, or processed to a different cluster. In most scenarios, this is not an issue as a snapshot is not eligible for removal in the time frame where a typical sequence of route processes is executing in a single cluster. However, there can be a significant delay (from days to weeks) between the process that stores a temporary message and the process that completes the output, or where the message is sent to another functional cluster via a Rhapsody Connector.</li>
+      </ul>
+      <h3 id="RouteDesignConsiderations-ManagingMessageProperties">Managing Message Properties</h3>
+      <p>As they flow through the engine, messages can accumulate message properties. This can result in 'message property spam' in later routes where large numbers of message properties have to be managed and understood in downstream use. This can impact the effort required to analyze message property changes on a message path in the Management Console. Large numbers of properties also impact the size of data store use and overall engine performance.</p>
+      <p>The following strategies are recommended for managing properties:</p>
+      <ul>
+       <li>Custom properties which are important for use in downstream routes deployed by a solution should be documented in a property register for easy reference by future teams maintaining or extending the solution (for example, the set of properties set by the publisher of data which can be used by subscribers to determine if the data should be processed or filtered out).</li>
+       <li>Custom properties received by a downstream route that are no longer required should be removed after use when possible (by setting the property value to null).</li>
+      </ul>
+      <p>As this typically requires a filter, this should be done when a given route stage would already be utilizing a filter such as the JavaScript filter which can update the properties rather than adding a filter solely for this purpose, unless the downstream properties are unmanageable in number.</p>
+      <p>If a large number of properties are required for downstream processing consider creating a JSON object to contain all the property-value pairs, this could be set as the message text and saved as a snapshot for use in downstream routes and filters rather than polluting the message properties with large numbers of properties.</p>
+      <h3 id="RouteDesignConsiderations-IndexingandSearching"><span>Indexing and Searching</span></h3>
+      <p>By default, Rhapsody properties are not searchable within the Management Console. Message properties can be defined as indexed to be used for message searches in the Management Console based on the content of this property, obviating the need for a full meta-search across all messages.</p>
+      <p>In order to prevent unnecessary processing and disk utilization by the message property indexing logic, ensure indexing is restricted solely to fields that are required for fast lookups on message searches.</p>
+      <h2 id="RouteDesignConsiderations-RhapsodyVariables">Rhapsody Variables</h2>
+      <p>Avoid hardcoding values of ports, IP addresses, hostnames, and other configurable parameters into your routes or communication points. These parameters should be configured through Rhapsody variables so that they are easy to access and change. Using variables exposes configuration settings in one single location that would otherwise be embedded in routes and communication points.</p>
+      <p>Use Rhapsody Variables for environment-specific parameters such as:</p>
+      <ul>
+       <li>File paths/directories.</li>
+       <li>Email addresses.</li>
+       <li>Remote system host and port details.</li>
+       <li>Local service host and port details.</li>
+       <li>Connection details for external systems and databases such as username.</li>
+       <li>Web service URLs.</li>
+       <li>Access credentials.</li>
+      </ul>
+      <p>Using Rhapsody variables in this way is also useful when migrating a configuration from a non-production environment to production. Rhapsody variables allow for differences in system configurations between environments and provide a smooth transition of configuration to the production environment as the variables are not overridden by default when Rhapsody configuration is imported from one environment to another. This allows different configuration settings to be used in production and non-production environments. The use of variables also helps expose configurations settings that would otherwise be embedded and hidden, making for quick access and change.</p>
+      <h2 id="RouteDesignConsiderations-TestingandPeerReview">Testing and Peer Review</h2>
+      <p>Peer review is recommended during development and is required before promotion of a solution between environments or merging into a master repository. Peer review should take into consideration the documentation (including route self-documentation, test results, and any documented deviations or design decisions which are not normally considered best practice). The reviewer is typically not the same person who develops the solution.</p>
+      <h3 id="RouteDesignConsiderations-DevelopmentTesting">Development Testing</h3>
+      <p>A solution will require testing and validation to demonstrate the soundness of the solution. Evidence of the completion and result of testing will typically be required by the peer review process and ultimately the customer. The level of testing and related documentation may differ by customer/contract however evidence of completion of the following is expected at minimum before promotion out of the development environment:</p>
+      <ul>
+       <li>Unit testing of filters and conditional connectors via the inbuilt test feature for:
+        <ul>
+         <li>Invalid cases</li>
+         <li>Valid cases</li>
+         <li>Both of which may require permutations based on the number of conditions or branches executed in a given component</li>
+        </ul></li>
+       <li>Unit testing of message flow (input, output, property and message change throughout the route as per the message flow in the Management Console) for individual routes
+        <ul>
+         <li>For both valid and invalid messages, messages which demonstrate conditions of the route end to end.</li>
+        </ul></li>
+       <li>End to end message testing for the sequence of routes related to a given interface or set of interfaces for the current solution under development.</li>
+      </ul>
+      <p class="_mce_tagged_br">Note the following:</p>
+      <ul>
+       <li class="_mce_tagged_br">In some cases, it is not effective to test certain conditions at a unit level within the filter test function – particularly if the filter requires the result of processing from earlier route components; in these cases, the testing will revert to the route level unit testing.</li>
+      </ul>
+      <div class="WordSection65">
+       <ul>
+        <li>Where a filter test requires a message snapshot the configured property must contain the ID of a message still within the message store if tested within the filter. This may require the use of a hold queue to ensure the identified message is available.</li>
+       </ul>
+       <h2 id="RouteDesignConsiderations-SecurityandAccessControls">Security and Access Controls</h2>
+       <div class="page view">
+        <div class="wiki-content">
+         <div class="WordSection41">
+          <p>Most communication points support secure transport and/or authentication protocol. Therefore, Rhapsody's default best practice recommendation is to always enable the secure transport options. Refer to&nbsp;<a href="https://doki.orionhealth.com/pages/viewpage.action?pageId=128715499" class="external-link" rel="nofollow">TLS/SSL Support in Rhapsody</a>&nbsp;for details.</p>
+          <p>In addition, where authentication is required (for example, basic authentication, WSS for SOAP, etc.), it is recommended you always opt for encrypted/hashed passwords. This mitigates the risk of plain text credentials being captured in the message log as part of the transported message.</p>
+          <p>It is also the best practice to keep the security setting identity between the production environments and at least one non-production environment.</p>
+         </div>
+        </div>
+       </div>
+       <h2 id="RouteDesignConsiderations-OtherGeneralConsiderations">Other General Considerations</h2>
+       <h3 id="RouteDesignConsiderations-AssignaSpecificUsertoRuntheRhapsodyProcess">Assign a Specific User to Run the Rhapsody Process</h3>
+       <p>On the server where Rhapsody is installed, instead of running the application services the default administrator user, set up a separate user to run the Rhapsody service. The two key benefits to this approach are:</p>
+       <ul>
+        <li>The ability to detect issues that relate to the operating system and Rhapsody interactions and for configuration of operating system and environment settings specific to Rhapsody. For example, setting the maximum number of file handles that can be assigned to the Rhapsody process.</li>
+        <li>Ensure that resources assigned to the Rhapsody execution user are not shared with other processes that are not related to the Rhapsody Engine on the server system.</li>
+       </ul>
+       <p>The service account should have access to the requisite network resources and the password policy for the account should be set to never expire.</p>
+       <h3 id="RouteDesignConsiderations-AccountAccesstoRhapsodyIDEandManagementConsole">Account Access to Rhapsody IDE and Management Console</h3>
+       <p>Avoid re-using the default administrator account for multiple users as this makes auditing and tracking of user actions difficult. Ensure that a new account is created for access (either via LDAP or the inbuilt Rhapsody user management) with appropriate roles assigned for each new user. This will enable:</p>
+       <ul>
+        <li>Restriction of access to Rhapsody IDE features or Management Console functions by role.</li>
+        <li>Ability to easily disable a user’s access when required.</li>
+        <li>Ability to determine the user responsible for an action based on their user ID (for example, who checked in a given change to Rhapsody IDE).</li>
+       </ul>
+       <h3 id="RouteDesignConsiderations-CleaningUpArchivedMessages">Cleaning Up Archived Messages</h3>
+       <ul>
+        <li>Schedule routine operations of the <a href="Archive-Cleanup_133164049.html">Archive Cleanup</a>.</li>
+        <li>Schedule the Error Queue Defragmentation process.</li>
+       </ul>
+       <h3 id="RouteDesignConsiderations-Backups">Backups</h3>
+       <ul>
+        <li>Consider when to schedule backups – a message backup will pause routes for a short period of time to back up active files.</li>
+        <li>Configure an infrequent full backup to the same directory as a frequent incremental; for example, a weekly full backup and a daily incremental backup.</li>
+        <li>Each full backup provides a fresh starting point for further incremental backups, rather than having a never-ending chain.</li>
+       </ul>
+       <p>Backups are not deleted by Rhapsody. Refer to&nbsp;<a href="Archive-Cleanup_133164049.html">Archive Cleanup</a>&nbsp;for details.</p>
+      </div>
+      <h3 id="RouteDesignConsiderations-NotificationSchemes">Notification Schemes</h3>
+      <p>How notification schemes in the Management Console are configured varies highly from customer to customer depending on their size, priorities of different interfaces and the number of resources in the team administering Rhapsody. At a minimum, the following notification functionality should be configured and tested for every environment:</p>
+      <ul>
+       <li>The configuration is set up to send notifications to a default administrative user email account or distribution list name.</li>
+       <li>Thresholds for warnings and alerts (for example, large queues, communication point shut down, etc.) have been configured inline&nbsp;with&nbsp;the&nbsp;minimum solution/customer requirements.</li>
+       <li>The notification event history is included in the scheduled Archive Cleanup configuration&nbsp;as this can build up over time and take up a considerable amount of disk space.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

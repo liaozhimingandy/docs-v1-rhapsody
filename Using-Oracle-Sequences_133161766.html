@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using Oracle Sequences</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+       <li> <span><a href="Examples_133161764.html">Examples</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using Oracle Sequences</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Oracle® and similar databases implement a feature called sequences. Sequences are objects that can be created within the database and used to generate unique identifiers. Those unique identifiers can then be used as unique primary keys when performing inserts into tables. Unlike SQL Server identity columns, sequences must be manually retrieved and used as part of the <code>INSERT</code> statement.</p>
+      <p>In some cases, this can be very useful to ensure unique identifiers are generated for a particular table. While Oracle® does not guarantee that the values are continuous (that is, there may be gaps in the numbers that are allocated), it does guarantee that the values are unique. Frequently sequences are used to generate a unique identifier for some data, and then this identifier is subsequently used as a foreign key when inserting into other tables that are related in some way.</p>
+      <p>Using sequences in the <strong>Rhapsody Database Configuration Editor</strong> is fairly simple using <a href="Compound-SQL-Statements_133161695.html">compound SQL statements</a>. The first statement retrieves the next available sequence number, and then an <code>INSERT</code> statement is used to insert this value into the table. This example retrieves a new identifier from a sequence called <code>PatientID</code>, and then inserts it as the first column into the <strong>Patient</strong> table:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">SELECT identifiers.nextval As PatientID FROM dual;
+
+INSERT INTO Patient(PatientID, FamilyName, GivenName, Title, Gender, DateOfBirth)
+  VALUES (
+    @PID.PatientID,
+    @PID.PatientName[0].FamilyName.Surname,
+    @PID.PatientName[0].GivenName,
+    @PID.PatientName[0].Prefix,
+    @PID.Sex,
+    $DateOfBirth
+)</pre> 
+       </div>
+      </div>
+      <p>Once this is done the identifier is then available for subsequent statements to use, they would reference it as <code>@PatientID</code>, or for <a href="Result-Substitution_133161688.html">Result Substitution</a>.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

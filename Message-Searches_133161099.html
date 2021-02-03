@@ -1,0 +1,881 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Message Searches</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Message Searches</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods to perform message searches:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147003872 {padding: 0px;}
+div.rbtoc1565147003872 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147003872 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147003872"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#MessageSearches-RunningMessageSearches">Running Message Searches</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#MessageSearches-StartingArchiveSearches">Starting Archive Searches</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#MessageSearches-POST/api/search/errorqueue">POST /api/search/errorqueue</a></li> 
+            <li><a href="#MessageSearches-POST/api/search/holdqueue">POST /api/search/holdqueue</a></li> 
+           </ul> </li> 
+          <li><a href="#MessageSearches-RetrievingandContinuingSearchResults">Retrieving and Continuing Search Results</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#MessageSearches-GET/api/search/resultset/<id>">GET /api/search/resultset/&lt;id&gt;</a></li> 
+            <li><a href="#MessageSearches-POST/api/search/resultset/<id>/next">POST /api/search/resultset/&lt;id&gt;/next</a></li> 
+            <li><a href="#MessageSearches-POST/api/search/resultset/<id>/previous">POST /api/search/resultset/&lt;id&gt;/previous</a></li> 
+           </ul> </li> 
+         </ul> </li> 
+        <li><a href="#MessageSearches-SearchManagement">Search Management</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#MessageSearches-GET/api/search/resultset">GET /api/search/resultset</a></li> 
+          <li><a href="#MessageSearches-DELETE/api/search/resultset/<id>">DELETE /api/search/resultset/&lt;id&gt;</a></li> 
+          <li><a href="#MessageSearches-DELETE/api/search/resultset">DELETE /api/search/resultset</a></li> 
+          <li><a href="#MessageSearches-GET/api/search/admin/resultset">GET /api/search/admin/resultset</a></li> 
+          <li><a href="#MessageSearches-DELETE/api/search/admin/resultset/<id>">DELETE /api/search/admin/resultset/&lt;id&gt;</a></li> 
+          <li><a href="#MessageSearches-DELETE/api/search/admin/resultset">DELETE /api/search/admin/resultset</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="MessageSearches-RunningMessageSearches">Running Message Searches</h2>
+      <p>Searches are started by posting a request to the appropriate resource for the desired type of search. Each search takes a JSON parameter providing the search parameters, and returns a <code>201 Created</code> response if the search was successfully started. Search results are subsequently retrieved using the provided result set URL.</p>
+      <p>A specific access right is required for performing any full text searches using any of the searching API methods, which is in addition to any other access right required by the specific REST API method. If a full text parameter is provided but the caller does not have this access right then the search request fails with a <code>403 Forbidden</code> error. This requirement is in place because the full text searches are by far the most resource intensive searches, and a poorly constructed full text search can take a significant amount of time to run.</p>
+      <h3 id="MessageSearches-StartingArchiveSearches">Starting Archive Searches</h3>
+      <h4 id="MessageSearches-POST/api/search/errorqueue">POST /api/search/errorqueue</h4>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /api/search/errorqueue</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Starts a search over the Error Queue. Search parameters include limiting results by time range and component. The search is limited to lockers for which the user has the search permissions for the Error and Hold Queues.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:</code> <code>application/json</code> <br><code>Content-Type:</code> <code>application/json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept:</code> &nbsp; <code>application/<code>json</code> </code> &nbsp; <br><code>Content-Type:</code> &nbsp; <code>application/vnd.orchestral.rhapsody.6_0+json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The search parameter data object structure as follows:</p>
+            <ul>
+             <li><code>sortOrder</code> - [enumerated string] <code>ASCENDING</code> or <code>DESCENDING</code> for the order in which the search is run, the default being <code>DESCENDING</code>.</li>
+             <li><code>maxResults</code> - [int] the maximum number of search results to return - no more than the default of <code>1000</code>.</li>
+             <li><code>receivedTimeRange </code>- [object] defaults to no time restrictions - either a start/end time or a duration can be provided but not both.
+              <ul>
+               <li><code>startTime</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>.</li>
+               <li><code>endTime</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>.</li>
+               <li><code>duration</code> - [str] <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a> duration relative to the current date/time.</li>
+              </ul></li>
+             <li><code>receivedBy</code> - [array] of numbers representing communication point identifiers of the communication points that the messages must have been received by (defaults to all communication points).</li>
+             <li><code>messageTableArrivalTimeRange </code>- [object] defaults to no time restrictions - either a start/end time or a duration can be provided but not both.
+              <ul>
+               <li><code>startTime</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>.</li>
+               <li><code>endTime</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>.</li>
+               <li><code>duration</code> - [str] duration in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a> relative to the current date-time.</li>
+              </ul></li>
+             <li><code>sentFrom</code> - [array] of numbers representing communication point identifiers of the communication points that sent the messages to the error queue - defaults to all communication points.</li>
+             <li><code>routes</code> - [array] of numbers representing route identifiers of the routes that sent the messages to the error queue (defaults to all routes).</li>
+             <li><code>fullText </code>- [object] defaults to no full text search.
+              <ul>
+               <li><code>mode</code> - [enumerated string] <code>CASE_SENSITIVE</code>, <code>CASE_INSENSITIVE</code>, or <code>REGULAR_EXPRESSION</code>.</li>
+               <li><code>value</code> - [str] value to search for.</li>
+              </ul></li>
+             <li><code>properties </code>- [array] of message properties to search on.
+              <ul>
+               <li><code>name</code> - [str] name of the property to search on.</li>
+               <li><p><code>value </code>- [str] property value to search for.</p>
+                <div class="confluence-information-macro confluence-information-macro-note">
+                 <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+                 <div class="confluence-information-macro-body">
+                  <p>In each field in the data model, all search parameters are optional and provide for defaults (or are not used in some cases). Consequently, an empty JSON object (<code>{}</code>) is a set of valid search parameters.</p>
+                 </div>
+                </div>
+                <div class="confluence-information-macro confluence-information-macro-note">
+                 <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+                 <div class="confluence-information-macro-body">
+                  <p>If message properties are used as search parameters then these must be indexed against the output message in order to match (the indexes are written as the message arrives on the error or hold queue).</p>
+                 </div>
+                </div></li>
+              </ul></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code>201 Created</code> - redirect with the location header set to the result set URL:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":{
+    "state":"COMPLETED",
+    "limitedByDataValidation":false,
+    "results":[
+       {
+         "timestamp":"20121005T120107\u002E415\u002B1300",
+         "messageIdentifier":"1\u002E621952\u002E9318",
+         "rootMessageIdentifier":"1\u002E621952\u002E9312"
+       },
+       {
+         "timestamp":"20121005T120105\u002E440\u002B1300",
+         "messageIdentifier":"1\u002E622208\u002E9335",
+         "rootMessageIdentifier":"1\u002E622208\u002E9313"
+       },
+       {
+         "timestamp":"20121005T120103\u002E401\u002B1300",
+         "messageIdentifier":"1\u002E611712\u002E9210",
+         "rootMessageIdentifier":"1\u002E611712\u002E9205"
+       },
+    ],
+    "searchTime":"PT0\u002E006S",
+    "completionTime":"20121017T111121\u002E371\u002B1300",
+    "moreResults":false,
+    "previousUri":"https://localhost:8444/api/search/resultset/2/previous"
+  },
+  "error":null
+}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="highlight-grey confluenceTh" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Body </span> </strong></th>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Search Error Queue REST API'.<br>'View message bodies REST API' (for fullText search).<br>'View message metadata REST API' (if searching by message property).<br>'Search Error and Hold Queues' (on lockers to include in the search).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="MessageSearches-POST/api/search/holdqueue">POST /api/search/holdqueue</h4>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /api/search/holdqueue</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Starts a search over the Hold Queue. Search parameters include limiting results by time range and component. The search is limited to lockers for which the user has the search permissions for the Error and Hold Queues.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:</code> <code>application/json</code> <br class="atl-forced-newline"><code>Content-Type:</code> <code>application/json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept:</code> &nbsp; <code>application/json</code> &nbsp; <br><code>Content-Type:</code> &nbsp; <code>application/vnd.orchestral.rhapsody.6_0+json</code> &nbsp; <br class="atl-forced-newline"><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The search parameter data object structure is the same as <a href="#MessageSearches-POST/search/errorqueue">POST /api/search/errorqueue</a>.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code>201 Created</code> - redirect with the location header set to the result set URL:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":{
+    "state":"COMPLETED",
+    "limitedByDataValidation":false,
+    "results":[
+      {
+        "timestamp":"20121005T120026\u002E638\u002B1300",
+        "messageIdentifier":"1\u002E410240\u002E7051",
+        "rootMessageIdentifier":"1\u002E410240\u002E7046"
+      },
+      {
+        "timestamp":"20121005T120024\u002E934\u002B1300",
+        "messageIdentifier":"1\u002E396672\u002E6815",
+        "rootMessageIdentifier":"1\u002E396672\u002E6809"
+      },
+      {
+        "timestamp":"20121005T115939\u002E436\u002B1300",
+        "messageIdentifier":"1\u002E31488\u002E365",
+        "rootMessageIdentifier":"1\u002E31488\u002E358"
+      }
+    ],
+    "searchTime":"PT0\u002E013S",
+    "completionTime":"20121017T112044\u002E447\u002B1300",
+    "moreResults":false,
+    "previousUri":"https://localhost:8444/api/search/resultset/3/previous"
+  },
+  "error":null
+}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Search Hold Queue REST API'.<br>'View message bodies REST API' (for fullText search).<br>'View message metadata REST API' (if searching by message property).<br>'<span>Search Error and Hold Queues</span>' (on lockers to include in the search).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MessageSearches-RetrievingandContinuingSearchResults">Retrieving and Continuing Search Results</h3>
+      <p>If a search is successful, for example <code>POST /api/search/errorqueue</code>, a <code>201 Created</code> response is returned with a URL to the result set with an associated identifier. You can then retrieve the search results in the result set using its identifier and you can continue your search to retrieve a group of results that come before or after the result set.</p>
+      <p>Except as provided for in the <a href="#MessageSearches-SearchManagement">Search Management</a> API methods, a user can only access their own search results; a <code>403 Forbidden</code> received if an attempt is made to retrieve a result set for another user. Result sets are held on a per user basis rather than just a specific session, and therefore can be retrieved from a different HTTP session to that which started them.</p>
+      <h4 id="MessageSearches-GET/api/search/resultset/<id>">GET /api/search/resultset/&lt;id&gt;</h4>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/search/resultset/&lt;id&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves the search results contained in this result set or status information if it is still running. The result set URL is returned to the caller in the Location HTTP header of the request that started the search. The optional parameters allow the caller to determine which fields are returned for each message found in the response (if not provided then some defaults based on the type of the search are selected).</p></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: </code><code>application/json<br></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: </code><code>application/vnd.orchestral.rhapsody.6_0+json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: </code><code>application/vnd.orchestral.rhapsody.6_3+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Provided as query parameters (all optional):</p>
+           <ul>
+            <li><code>waitSeconds</code> - [int] the maximum number of seconds to wait for if the search is still running when the request is made (default of zero means do not wait, maximum of 30 seconds).</li>
+            <li><code>field</code> - repeatable parameter containing enumerated strings of the optional fields to include in the response. Valid values are: <code>COMPONENT</code>, <code>SOURCE</code>, <code>NEXT_DESTINATION</code>, <code>TRACKING_STATE</code>, <code>TOTAL_SEND_COUNT</code>, <code>RECEIVED_TIME</code>, <code><span>ERROR_DETAILS</span></code>. The root message identifier, message identifier, and timestamp are always included in the results. An error is thrown if an invalid field type is provided, or if the field type is not applicable to the type of search.</li>
+            <li><code>property</code> - repeatable parameter containing names of indexed message properties that should be included for each result. An error is returned if a null/empty property name is provided, or if the indexed property does not exist at all. Note that even if the indexed property exists, it may not be available for all messages (that is not an error though).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><p><code>200 OK</code> - operation successful.<br><code>202 Accepted</code> - search still running with the same data object structure as for a <code>200 OK</code> response, but all results may not be available.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>A successful search is returned with the following data object structure:</p>
+            <ul>
+             <li><code>state</code> - [enumerated string] state of the search ([enum] <code>RUNNING</code>, <code>COMPLETED</code>, <code>CANCELLED</code>).</li>
+             <li><code>moreResults</code> - [bool] false if and only if we know that there are no additional results to be found as of the time that the search was run; true if we know that there are more results or are not sure. This is not defined if the search is either still running or was canceled.</li>
+             <li><code>limitedByDataValidation</code> - [bool] true if the results have been limited due to ongoing message store data validation.</li>
+             <li><code>completionTime</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a> representing the date/time that the search completed.</li>
+             <li><code>searchTime</code> - [str] duration in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a> representing the time the search took to run).</li>
+             <li><code>nextUri</code> - [str] URL to use to start the next search - <code>/api/search/resultset/&lt;id&gt;/next</code>. Not included if we know that there are no more results.</li>
+             <li><code>previousUri</code> - [str] URL to use to start the next search - /api/search/<code>resultset/&lt;id&gt;/previous</code>.</li>
+             <li><code>results</code> - [array] of search results.
+              <ul>
+               <li><code>messageIdentifier</code> - [str] message identifier.</li>
+               <li><code>rootMessageIdentifier</code> - [str] root message identifier.</li>
+               <li><code>timestamp</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a> representing the timestamp for the message: input time for input searches; output time for output searches; route received time for intermediate messages; arrival time on the message table for errored and held messages).</li>
+               <li><code>receivedTimestamp</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a> representing the time that the message was originally received by Rhapsody. Not provided for messages migrated from Rhapsody 3.3 or earlier.</li>
+               <li><code>component</code> - [object] information about the component associated with the message: the input communication point for input messages; the output communication point for output messages; the route for intermediate messages; the previous component to process the message for errored and held messages.
+                <ul>
+                 <li><code>id</code> - [int] component identifier.</li>
+                 <li><code>name</code> - [str] component name.</li>
+                 <li><code>folderPath</code> - [str] the folder path, and also the route name if this is a filter.</li>
+                </ul></li>
+               <li><code>source</code>&nbsp;- [object] information about the communication point that original received the message.
+                <ul>
+                 <li><code>id</code> - [int] communication point identifier.</li>
+                 <li><code>name</code> - [str] containing the communication point name.</li>
+                 <li><code>folderPath</code> - [str] the folder path.</li>
+                </ul></li>
+               <li><code>nextDestination</code>- [object] information about the component that is intended to process the message next: for intermediate messages this is the next filter to process the message; for errored and held messages this is the component that sent them to the error/hold queue; this is not provided for input or output searches.
+                <ul>
+                 <li><code>id</code> - [int] component identifier.</li>
+                 <li><code>name</code> - [str] component name.</li>
+                 <li><code>folderPath</code> - [str] component folder path including route name if this component is a filter.</li>
+                </ul></li>
+               <li><code>errorDetails</code> - [str] the<span> Error Details for an <span>errored</span> message in the Error Queue as displayed in the Management Console.</span></li>
+               <li><code>properties</code> - [array] values of indexed properties explicitly asked for in the request where a value exists for this message.
+                <ul>
+                 <li><code>name</code> - [str] property name.</li>
+                 <li><code>value</code> - property value.</li>
+                </ul></li>
+              </ul></li>
+            </ul>
+            <div id="expander-131693265" class="expand-container">
+             <div id="expander-control-131693265" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Example</span>
+             </div>
+             <div id="expander-content-131693265" class="expand-content">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+    data: {
+        state: " COMPLETED",
+        moreResults: false,
+        limitedByDataValidation: false,
+        completionTime: "20171204T100225.945+1300",
+        searchTime: "PT0.003S",
+        previousUri: "https://localhost:8444/api/search/resultset/1",
+        results: [&nbsp;
+          {
+            messageIdentifier: "1.8576.23",
+            rootMessageIdentifier: "1.8576.21",
+            timestamp: "20171204T094400.099+1300",
+            errorDetails: "Sent from error filter"
+          },
+          {
+            messageIdentifier: "1.8192.20",
+            rootMessageIdentifier: "1.8192.18",
+            timestamp: "20171204T094355.075+1300",
+            errorDetails: "Sent from error filter"
+          },
+          {
+            messageIdentifier: "1.7808.17",
+            rootMessageIdentifier: "1.7808.15",
+            timestamp: "20171204T094350.088+1300",
+            errorDetails: "Sent from error filter"
+          }
+       ]
+    },
+    error : null
+}</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>Same access rights as the original search request.<br>'View message meta data REST API' (only if trying to view message properties in the results).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="MessageSearches-POST/api/search/resultset/<id>/next">POST /api/search/resultset/&lt;id&gt;/next</h4>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /api/search/resultset/&lt;id&gt;/next</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Continues the search by finding the next group of results, continuing on from where this result set completed. This is effectively starting a new search, and so returns a new result set with the next set of results. The continue search operation does not start if this result set is the last one (that is, if it is already known that there are no further results).</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:</code> <code>application/json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty - uses the parameters supplied in the original search request.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Status</strong> </span></td>
+          <td colspan="1" class="confluenceTd"><code>201 Created</code> - redirect with the location header set to the new result set URL.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>Same access rights as the original search request (Rhapsody checks permissions again).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="MessageSearches-POST/api/search/resultset/<id>/previous">POST /api/search/resultset/&lt;id&gt;/previous</h4>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /api/search/resultset/&lt;id&gt;/previous</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Continues the search by finding the previous group of results, by effectively running a search in the reverse direction, starting from where these results began. This is effectively starting a new search, so returns a new result set with the previous set of results.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:</code> <code>application/json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty - uses the parameters supplied in the original search request.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><code>201 Created</code> - redirect with the location header set to the new result set URL.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>Same access rights as the original search request (Rhapsody checks permissions again).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageSearches-SearchManagement">Search Management</h2>
+      <p>Search Management REST API methods indicate which searches are currently running, which result sets are still being tracked, and provide a way for them to be purged. Unlike the other searching and message view API methods, these methods can be accessed by the root administrator user by default (they do not provide a way to start a search, view results, or view a message).</p>
+      <p>Limits on result sets are enforced as a limit on the number of searches running at any time, and a limit on the total number of result sets held (which includes both running and completed searches). There are separate limits enforced both per user, and globally across the Rhapsody engine. These limits are configurable via the&nbsp;<code>rhapsody.properties</code>&nbsp;file and their default values can be changed via the following properties:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Search Limitation</p></th>
+          <th class="confluenceTh"><p>Property (Per User) and Default Value</p></th>
+          <th class="confluenceTh"><p>Property (Global) and Default Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Running Searches</p></td>
+          <td class="confluenceTd"><p><code>RestAPImaximumRunningSearchesPerUser=2</code></p></td>
+          <td class="confluenceTd"><pre>RestAPImaximumRunningSearchesForEngine=10</pre></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Result Sets</p></td>
+          <td class="confluenceTd"><pre>RestAPImaximumResultSetsPerUser=10</pre></td>
+          <td class="confluenceTd"><pre>RestAPImaximumResultSetsForEngine=50</pre></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>If a user attempts to start a new search and too many are already running (either for the user or across the engine), then the new search request fails with a&nbsp;<code>429</code>&nbsp;error. Completed, canceled or failed searches are automatically discarded if not referenced for more than 10 minutes, but can be kept alive by performing any (non-DELETE) operation on them. If a user attempts to start a new search and they personally already have too many result sets, then the oldest non-running result set is automatically discarded and the search starts successfully (subject to the too many running searches check).</p>
+      <h3 id="MessageSearches-GET/api/search/resultset">GET /api/search/resultset</h3>
+      <div class="table-wrap">
+       <table id="TBL1565043148468" class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/search/resultset</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Retrieves a list of all result sets for the current user that have been started from the REST API (including those started from other HTTP sessions).</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Does <em>not</em> retrieve searches started through the Management Console.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:</code> <code>application/json<br></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept:</code> <code>application/vnd.orchestral.rhapsody.6_0+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Status</span></strong></td>
+          <td colspan="1" class="confluenceTd"><span><code>200 OK</code> - operation successful.</span></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Returns an array of result sets each with the following data object structure:</p>
+            <ul>
+             <li><code>uri</code> - [str] URI pointing to the result set.</li>
+             <li><code>state</code> - [enumerated string] <code>RUNNING</code>, <code>COMPLETED</code>, <code>CANCELLED</code>, or <code>FAILED</code>.</li>
+             <li><code>searchTime</code> - [str] duration in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a> indicating how long the search took to run or how long it has been running.</li>
+             <li><code>type</code> - [enumerated string] <code>ERROR_QUEUE</code>, or <code>HOLD_QUEUE</code>.</li>
+             <li><code>completionTime</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a> indicating when the search was completed, canceled or failed (not provided if the search is still running).</li>
+             <li><code>resultCount</code> - [int] number of results found so far for this search.</li>
+            </ul>
+            <p>The URI returned for each result set is of the form /<code>api/search/resultset/&lt;id&gt;</code> so can be used by the caller to either retrieve the results or purge it. The returned URI cannot be used by any other user as each user effectively has their own URI space for result sets.</p>
+            <div id="expander-1106409302" class="expand-container">
+             <div id="expander-control-1106409302" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Example</span>
+             </div>
+             <div id="expander-content-1106409302" class="expand-content">
+              <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161062/133161065.png" data-image-src="attachments/133161062/133161065.png" data-unresolved-comment-count="0" data-linked-resource-id="133161065" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GET-search-resultset.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161062" data-linked-resource-container-version="4"></span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>None (if you do not have permissions to start a search, you cannot see any results).</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148468']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148468',[],'width=150,width=1000',
+1,'',false,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h3 id="MessageSearches-DELETE/api/search/resultset/<id>">DELETE /api/search/resultset/&lt;id&gt;</h3>
+      <div class="table-wrap">
+       <table id="TBL1565043148469" class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /api/search/resultset/&lt;id&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Informs the server that the specified result set is no longer required and can be discarded. The server automatically discards result sets to save on memory and disk usage after a period of inactivity, or if the maximum number of result sets per user or globally are reached.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Deleting a result set representing a search that is still running cancels that running search.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd"><span>Empty.</span></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>None (this API method only allows you to delete your own result sets, not someone else's).</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148469']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148469',[],'width=150,width=1000',
+1,'',false,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h3 id="MessageSearches-DELETE/api/search/resultset">DELETE /api/search/resultset</h3>
+      <div class="table-wrap">
+       <table id="TBL1565043148470" class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /api/search/resultset</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Removes all result sets for the calling user. This is the same as performing an explicit delete on each individual result set.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Deleting a result set representing a search that is still running cancels that running search.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>None (this API method only allows you to delete your own result sets, not someone else's).</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148470']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148470',[],'width=150,width=1000',
+1,'',false,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h3 id="MessageSearches-GET/api/search/admin/resultset">GET /api/search/admin/resultset</h3>
+      <div class="table-wrap">
+       <table id="TBL1565043148471" class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/search/admin/resultset</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Retrieves a list of all result sets started via the REST API for all users.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It does <em>not</em> retrieve searches started via the Management Console.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: </code><code>application/json<br></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: </code><code>application/vnd.orchestral.rhapsody.6_0+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><span><code>200 OK</code> </span><span>- operation</span> <span>successful.</span><strong> </strong></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p><strong>Response Body</strong></p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>An array of result sets each with the following data object structure:</p>
+            <ul>
+             <li><code>user</code> - [str] username.</li>
+             <li><code>resultSets</code> - [array] of result sets.</li>
+            </ul>
+            <p>The resultset objects are identical to those returned from <code>/api/search/resultset</code> for a specific user, except that the URIs for each result set are different (they are in the form <code>/api/search/admin/resultset/&lt;id&gt;</code>), allowing them to be subsequently used in admin operations (in other words, cancel and discard the search). Note that there is no way for a caller of this API method to use the returned result set URIs to use those URIs to retrieve the search results, unless they were started by that user (in other words, even though an admin can cancel searches for another user they cannot view search results for another user).</p>
+            <div id="expander-1923347649" class="expand-container">
+             <div id="expander-control-1923347649" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Example</span>
+             </div>
+             <div id="expander-content-1923347649" class="expand-content">
+              <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161062/133161066.png" data-image-src="attachments/133161062/133161066.png" data-unresolved-comment-count="0" data-linked-resource-id="133161066" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GET-search-admin-resultset.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161062" data-linked-resource-container-version="4"></span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'List all searches for all users REST API'.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148471']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148471',[],'width=150,width=1000',
+1,'',false,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h3 id="MessageSearches-DELETE/api/search/admin/resultset/<id>">DELETE /api/search/admin/resultset/&lt;id&gt;</h3>
+      <div class="table-wrap">
+       <table id="TBL1565043148472" class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /api/search/admin/resultset/&lt;id&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Cancels and discards the specified search no matter which user started it from the REST API.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p><strong>Response Status</strong></p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Discard all searches for all users REST API'.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148472']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148472',[],'width=150,width=1000',
+1,'',false,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h3 id="MessageSearches-DELETE/api/search/admin/resultset">DELETE /api/search/admin/resultset</h3>
+      <div class="table-wrap">
+       <table id="TBL1565043148473" class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /api/search/admin/resultset</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Cancels and discards all searches for all users that were started via the REST API.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p><strong>Response Status</strong></p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Discard all searches for all users REST API'.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148473']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148473',[],'width=150,width=1000',
+1,'',false,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

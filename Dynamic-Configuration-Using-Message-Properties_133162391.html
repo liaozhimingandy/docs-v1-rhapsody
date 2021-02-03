@@ -1,0 +1,660 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Dynamic Configuration Using Message Properties</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+       <li> <span><a href="Dynamic-Mode_133162388.html">Dynamic Mode</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Dynamic Configuration Using Message Properties</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The following table lists the configuration properties that can be set dynamically using message properties on the outgoing or incoming message.</p>
+      <p><span>Configuration parameters marked as a connection property cause the connection to the FTP / FTPS / SFTP server to be re-established if they change in any way. Changes to other configuration properties do not require re-establishing the connection (however, the connection is re-established if it is not currently up).</span></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The (S)FTP Client Communication Point can also be configured dynamically using XML Configuration Templates. Refer to <a href="Dynamic-Configuration-Using-XML-Templates_133162389.html">Dynamic Configuration Using XML Templates</a> for details on the differences between the two configuration modes.</p>
+       </div>
+      </div>
+      <p><span><br></span></p>
+      <div class="evencolumns"> 
+       <div class="table-wrap">
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <colgroup>
+           <col>
+           <col>
+           <col>
+           <col>
+           <col>
+          </colgroup>
+          <tbody>
+           <tr>
+            <th class="confluenceTh">
+             <div class="tablesorter-header-inner">
+              Configuration Property
+             </div></th>
+            <th class="confluenceTh">
+             <div class="tablesorter-header-inner">
+              Message Property
+             </div></th>
+            <th class="confluenceTh">
+             <div class="tablesorter-header-inner">
+              Message Property Values
+             </div></th>
+            <th class="confluenceTh">
+             <div class="tablesorter-header-inner">
+              Example
+             </div></th>
+            <th colspan="1" class="confluenceTh">
+             <div class="tablesorter-header-inner">
+              Connection Property
+             </div></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><a href="Configuration-Options_133162402.html#ConfigurationOptions-Protocol" rel="nofollow">Protocol</a></td>
+            <td class="confluenceTd"><code>ConnectionType</code></td>
+            <td class="confluenceTd"><p><span>Sets the</span> type of connection protocol to use:</p>
+             <ul>
+              <li><code>FTP</code></li>
+              <li><code>FTPSImplicit</code></li>
+              <li><code>FTPSExplicit</code></li>
+              <li><code>SFTP</code></li>
+             </ul><p>The outgoing message will be sent to the error queue if the property is set to an empty string or invalid value.</p><p>The selected FTP protocol determines which other configuration properties are queried when merging the configuration. For example, the SSL server certificates are completely ignored when not using FTPS.</p></td>
+            <td class="confluenceTd"><code>FTPSExplicit</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-Server" rel="nofollow">Server</a></td>
+            <td colspan="1" class="confluenceTd"><code>ServerHostname</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> hostname or IP address of the server.</p><p>If the property is set to an empty string, then the statically configured value is used instead. If neither this property nor the static configuration set this parameter, the outgoing message will be sent to the error queue.</p></td>
+            <td colspan="1" class="confluenceTd"><code>ftp.example.com</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-Port" rel="nofollow">Port</a></td>
+            <td colspan="1" class="confluenceTd"><code>ServerPort</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> port number that the server is listening on.</p><p>This can be set to <code>0</code> (zero) in order to use the default port for the selected FTP protocol (in other words, <code>21</code> for FTP or FTPS explicit, <code>22</code> for SFTP, and <code>990</code> for FTPS implicit). If it is set to an empty string, then the statically configured port will be used. If it is set to a non-integer or a negative value, then the outgoing message is sent to the error queue.</p></td>
+            <td colspan="1" class="confluenceTd"><code>22</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ReadTimeout" rel="nofollow">Read Timeout</a></td>
+            <td colspan="1" class="confluenceTd"><code>ReadTimeout</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> socket read timeout used when expecting a response from the FTP server</p><p>If it is set to an empty string then the statically configured read timeout will be used. If it is set to a non-integer or a value less than 1000ms the outgoing message will be sent to the error queue.</p></td>
+            <td colspan="1" class="confluenceTd"><code>60000</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ConnectionMode" rel="nofollow">Connection Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>ConnectionMode</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> connection mode to use for data channels when connecting to an FTP or FTPS server:</p>
+             <ul>
+              <li><span style="font-family: monospace;">active</span></li>
+              <li><code>passive</code></li>
+             </ul><p>If set to an empty string or an invalid value then it is ignored and the statically configured value is used instead. This parameter is completely ignored when using the SFTP protocol.</p></td>
+            <td colspan="1" class="confluenceTd"><code>passive</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-TransferMode" rel="nofollow">Transfer Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>TransferMode</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> data transfer mode to use when uploading and downloading files:</p>
+             <ul>
+              <li><code>ascii</code></li>
+              <li><code>binary</code></li>
+              <li><code>ebcdic</code></li>
+             </ul><p>If set to an empty string or an invalid value then it is ignored and the statically configured value is used instead.</p></td>
+            <td colspan="1" class="confluenceTd"><code>ascii</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ServerValidationMode" rel="nofollow">Server Validation Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>ServerValidationMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines how the SSL certificates or SSH public keys are found for an FTPS or SFTP connection. See the <a href="Connection-Details_133162392.html#ConnectionDetails-ServerValidationMode" rel="nofollow">Server Validation Mode</a> property description for details about each option.</p>
+             <ul>
+              <li><code>requirePreconfiguredKeys</code></li>
+              <li><code>allowDynamicKeyLookup</code></li>
+              <li><code>autoAddKeysForNewServers</code></li>
+             </ul><p><span>If set to an empty string or an invalid value then it is ignored and the statically configured value is used instead.</span></p></td>
+            <td colspan="1" class="confluenceTd"><code>allowDynamicKeyLookup</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p><a href="Connection-Details_133162392.html#ConnectionDetails-SSLServerCertificates" rel="nofollow">SSL Server Certificates</a></p></td>
+            <td colspan="1" class="confluenceTd"><code>SslServerCertificates</code></td>
+            <td colspan="1" class="confluenceTd"><p>The SSL server certificates to use to validate the FTPS server prior to authenticating the client. This property is configured by setting it to a property list with each value in the list containing the alias of an SSL certificate that may be used to validate the FTPS server. Each of these aliases must correspond to an SSL certificate that has previously been loaded into the <a href="Managing-Certificates-and-Keys_133161222.html" rel="nofollow">Certificate and Key Manager </a>in the Rhapsody IDE. A connection cannot be established to an FTPS server unless it presents a certificate chain that can be validated using the certificates configured in the communication point.</p><p>If FTPS is being used then it is mandatory to provide at least one SSL certificate to validate the server unless the <strong>Server Validation Mode</strong> does not require this, however, this may be provided either statically at configuration time, or dynamically using this message property. If at least one SSL certificate is provided using the message property, then the certificates from the message property override any that may have been configured statically. If no certificates are provided when FTPS is in use, the outgoing message is sent to the error queue.</p><p>Empty certificate aliases in the list are ignored, however, the outgoing message is sent to the error queue if it references a certificate that could not be found.</p><p>The SSL certificates are completely ignored if FTPS is not being used.</p></td>
+            <td colspan="1" class="confluenceTd"><p><code>[cert1,cert2]</code></p></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-xxx" rel="nofollow">Hostname Validation</a></td>
+            <td colspan="1" class="confluenceTd"><code>SslHostnameValidation</code></td>
+            <td colspan="1" class="confluenceTd"><p>This property determines if hostname validation is performed on the SSL certificate presented by the FTPS server:</p>
+             <ul>
+              <li><code>enabled</code></li>
+              <li><code>disabled</code></li>
+             </ul><p>If SSL hostname validation is enabled, the connection can only be established if the certificate presented by the FTPS server contains the hostname that we used to connect to the FTPS server in either the Subject's Common Name (CN),oras a DNS name in the SubjectAlternativeName extension. Hostname validation is never performed if the configured server hostname is either <code>localhost</code> or <code>127.0.0.1</code>.</p><p>If set to an empty string or invalid value then it is ignored and the statically configured value is used instead.</p></td>
+            <td colspan="1" class="confluenceTd"><code>disabled</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-CipherSuites" rel="nofollow">Cipher Suites</a></td>
+            <td colspan="1" class="confluenceTd"><code>CipherSuites</code></td>
+            <td colspan="1" class="confluenceTd"><p>The level of SSL cipher suites or SSH algorithms that should be enabled for this connection:</p>
+             <ul>
+              <li><code>VERY_STRONG</code></li>
+              <li><code>FIPS</code></li>
+              <li><code>STRONG</code></li>
+              <li><code>WEAK</code></li>
+             </ul><p>If it is set to an empty string or invalid value then it is ignored and the statically configured value is used instead.</p></td>
+            <td colspan="1" class="confluenceTd"><code>FIPS</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SSLClientPrivateKey" rel="nofollow">SSL Client Private Key</a></td>
+            <td colspan="1" class="confluenceTd"><code>SslClientPrivateKey</code></td>
+            <td colspan="1" class="confluenceTd"><p>The SSL private key to use for SSL client authentication when connecting to an FTPS server. This property is set to the alias of an SSL private key which has previously been added to the Certificate and Key Manager in the Rhapsody IDE. If requested by the FTPS server, the certificate associated with this private key is presented to the server as part of the SSL handshake. An error is thrown if the configured alias does not correspond to an SSL private key in Rhapsody's key store. If set to an empty string then the statically configured value is used instead.</p><p>This property is completely ignored if FTPS is not being used.</p></td>
+            <td colspan="1" class="confluenceTd"><code>sslPrvKey</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPServerPublicKey" rel="nofollow">SFTP Server Public Key</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshServerPublicKeys</code></td>
+            <td colspan="1" class="confluenceTd"><p>The SSH public keys to use to validate the SFTP server prior to authenticating the client. This property is configured by setting it to a property list with each value in the list containing the alias of an SSH public key that may be used to validate the SFTP server. Each of these aliases must correspond to an SSH public key that has previously been loaded into the <a href="Managing-Certificates-and-Keys_133161222.html" rel="nofollow">Certificate and Key Manager</a> in Rhapsody IDE. A connection cannot be established to an SFTP server unless its public key has been configured on the communication point.</p><p>If SFTP is being used then it is mandatory to provide at least one SSH public key to validate server unless the <strong>Server Validation Mode</strong> does not require this, however, this may be provided either statically at configuration time, or dynamically using this message property. If at least one SSH public key is provided using the message property, then the public keys from the message property override any that may have been configured statically. If no public keys are provided when SFTP is in use, the outgoing message is sent to the error queue.</p><p>Empty SSH public keys in the list are ignored, however, the outgoing message is sent to the error queue if it references a public key that could not be found.</p><p>The SSH public keys are completely ignored if SFTP is not being used.</p></td>
+            <td colspan="1" class="confluenceTd"><p><code>[pubKey1,pubKey2]</code></p></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPClientAuthenticationMode" rel="nofollow">SFTP Client Authentication Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshClientAuthMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Sets the type of SSH client authentication that will be performed:</p>
+             <ul>
+              <li><code>password</code></li>
+              <li><code>publickey</code></li>
+              <li><code>passwordpublickey</code></li>
+             </ul><p>If set to an empty or invalid value the statically configured value is used instead.</p></td>
+            <td colspan="1" class="confluenceTd"><code>publickey</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPClientPrivateKey" rel="nofollow">SFTP Client Private Key</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshClientPrivateKey</code></td>
+            <td colspan="1" class="confluenceTd"><p>The SSH private key to use for client authentication when one of the public key authentication modes has been enabled. This property is set to the alias of an SSH private key that has previously been added to the <a href="Managing-Certificates-and-Keys_133161222.html" rel="nofollow">Certificate and Key Manager</a> in Rhapsody IDE. An error is thrown if the configured alias does not correspond to an SSH private key in Rhapsody's key store. If set to an empty string then the statically configured value is used instead.</p><p>If SSH public key authentication has been enabled it is mandatory to provide an SSH private key, either in the static configuration or by using this message property. The outgoing message will be sent to the error queue if this is not done.</p><p>This property is completely ignored if SFTP is not being used.</p></td>
+            <td colspan="1" class="confluenceTd"><code>sshPrvKey</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPCompression" rel="nofollow">SFTP Compression</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshCompressionModes</code></td>
+            <td colspan="1" class="confluenceTd"><p>This property is configured by setting it to a property list with each value in the list containing one of the following values:</p>
+             <ul>
+              <li><code>none</code></li>
+              <li><code>zlib</code></li>
+              <li><code>zlib@ssh.com</code></li>
+             </ul><p>If no compression modes are specified then the statically configured compression modes are used instead. If no static compression modes were configured then all of the compression algorithms are automatically enabled.</p><p>Empty values in the property list are ignored, but invalid values will cause the outgoing message to be sent to the error queue.</p><p>Bear in mind that the SFTP server is free to select any of the advertised compression algorithms to use during SSH negotiation. Consequently, if all three algorithms are enabled the SFTP server is free to select the no compression algorithm rather than one of the algorithms that compress the data.</p></td>
+            <td colspan="1" class="confluenceTd"><p><code>[zlib,zlib@ssh.com]</code></p></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-SFTPAdvancedConfigurationFlags" rel="nofollow">SFTP Advanced Configuration Flags</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshConfigFlags</code></td>
+            <td colspan="1" class="confluenceTd"><p>It is configured by setting it to a property list with each value in the list containing one of the following values:</p>
+             <ul>
+              <li><code>disableChmodOnPut</code></li>
+              <li><code>disableWaitOnChannelClose</code></li>
+              <li><code>disableChmodOnMkdir</code></li>
+             </ul><p>Setting this property to an empty string or empty list disables all of these configuration flags.</p><p>Empty values in the property list are ignored, but invalid values cause the outgoing message to be sent to the error queue.</p></td>
+            <td colspan="1" class="confluenceTd"><p><code>[disableWaitOnChannelClose]</code></p></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ServerLineEndings" rel="nofollow">Server Line Endings</a></td>
+            <td colspan="1" class="confluenceTd"><code>SshRemoteEol</code></td>
+            <td colspan="1" class="confluenceTd"><p>Used when performing ASCII mode file transfers to SFTP servers, as SFTP does not natively support ASCII mode transfers. The server line endings are then compared to the local line endings in order to determine if any transformation is required. The property can be set to one of the following values:</p>
+             <ul>
+              <li><code>autoDetect</code></li>
+              <li><code>windows</code></li>
+              <li><code>unix</code></li>
+              <li><code>mac</code></li>
+             </ul><p>If it is set to an empty string or invalid value, then the statically configured value is used instead.</p><p>In Auto Detect mode, the (S)FTP Client communication point will attempt to infer the line endings used by the SFTP server by examining the server information heading returned when the connection is established. This will only work if that server information contains a newline, and uses the correct newline characters for the platform that it is running on. As not all SFTP servers do this correctly, this option is available to override the default behavior when required.</p></td>
+            <td colspan="1" class="confluenceTd"><code>unix</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-Username" rel="nofollow">Username</a></td>
+            <td colspan="1" class="confluenceTd"><code>Username</code></td>
+            <td colspan="1" class="confluenceTd">If this message property is set to an empty string, then the username is treated as an empty string rather than reverting to the statically configured value. Note that the meaning of an empty username is defined by the FTP server: some servers may regard it as an anonymous login, but others may just reject the authentication attempt.</td>
+            <td colspan="1" class="confluenceTd"><code>jdoe</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-Password" rel="nofollow">Password</a></td>
+            <td colspan="1" class="confluenceTd"><code>Password</code></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <p>If this message property is set to an empty string, then the password is treated as an empty string rather than reverting to the statically configured value. The password is ignored when using SFTP with public key authentication.</p>
+              <div class="confluence-information-macro confluence-information-macro-warning">
+               <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>As message properties are visible in the Management Console to users with the appropriate access rights, it is highly recommended that you encrypt passwords provided in this message using the <a href="Encrypting-Your-Password_133164477.html" rel="nofollow">Encrypt Password</a> function in the Rhapsody IDE. Alternatively, you can use <a href="Dynamic-Configuration-Using-XML-Templates_133162389.html" rel="nofollow">Configuration Templates</a>, which do not require providing the password in a message property.</p>
+                <p><span>If the passwords are retrieved from a Rhapsody variable using JavaScript, then the retrieval functions can leave them in this format. Refer to </span><a href="Global-Functions_133161395.html#GlobalFunctions-EncryptedRhapsodyVariables" rel="nofollow">Encrypted Rhapsody Variables</a><span> for details.</span></p>
+               </div>
+              </div>
+             </div></td>
+            <td colspan="1" class="confluenceTd"><code>secret</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-CharacterEncoding" rel="nofollow">Character Encoding</a></td>
+            <td colspan="1" class="confluenceTd"><code>CharacterEncoding</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> character encoding to use for the control channel. This affects how the names of files and directories are interpreted by the remote server.&nbsp;This should be set to a valid Java character encoding name, and is case-insensitive. If this message property is set to an empty string then the statically configured character encoding will be used.</td>
+            <td colspan="1" class="confluenceTd"><code>UTF8</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Connection-Details_133162392.html#ConnectionDetails-ConnectionEstablishmentMode" rel="nofollow">Connection Establishment Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>ConnectionEstablishmentMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Specifies whether to maintain a constant connection to the FTP server or to disconnect the connection immediately after it becomes idle:</p>
+             <ul>
+              <li><code>maintainConnection</code></li>
+              <li><code>disconnectIfIdle</code></li>
+             </ul></td>
+            <td colspan="1" class="confluenceTd"><code>[maintainConnection]</code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Advanced-Options_133162403.html#AdvancedOptions-ActiveModeIPAddress" rel="nofollow">Active Mode IP Address</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>ActiveModeIpAddress</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><span>Sets the</span> IP address that the communication point will listen on for active mode FTP / FTPS connections.</p><p class="TableContents">The message property can be given an empty value if you want to clear the static configuration and just use the sensible defaults. If a value is specified for the property, it will be validated to make sure it is a valid IPv4 address, and if it fails validation the message will be sent to the error queue.</p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>23.59.196.226</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Advanced-Options_133162403.html#AdvancedOptions-ActiveModePortRange" rel="nofollow">Active Mode Port Range</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>ActiveModePortRange</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><span>Sets the</span> range of allowed ports that the communication point will listen on for active mode FTP / FTPS connections.</p><p class="TableContents">The message property can be given&nbsp;an empty value if you want to clear the static configuration and just use the sensible defaults. If a value is specified for the property, it is validated to make sure it is a valid port range in the format we are expecting (that is, two valid port numbers separated by a dash) and if it fails validation the message will be sent to the error queue.</p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>23456-34567</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Advanced-Options_133162403.html#AdvancedOptions-FTPOptions" rel="nofollow">FTP Options</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>FtpOptions</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><span>Sets o</span>ptional settings that may be required for compatibility with certain servers:</p>
+             <ul>
+              <li class="TableContents"><code>autoSubstituteIp</code></li>
+              <li class="TableContents"><code>forceUniqueNames</code></li>
+              <li class="TableContents"><code class="TableContents">enableCompression</code></li>
+             </ul><p class="TableContents">Setting this property to an empty string or empty list disables all of these configuration flags; any that are not included in the list are also disabled.</p><p class="TableContents">Empty values in the property list are ignored, but invalid values cause the outgoing message to be sent to the error queue.</p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>[enableCompression]</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Advanced-Options_133162403.html#AdvancedOptions-FTPSOptions" rel="nofollow">FTPS Options</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>FtpsOptions</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Provides options to work around some known bugs in various FTPS servers:</p>
+             <ul>
+              <li class="TableContents"><code>disableControlClosure</code></li>
+              <li class="TableContents"><code>disableControlWait</code></li>
+              <li class="TableContents"><code>disableDataClosure</code></li>
+              <li class="TableContents"><code>disableDataWait</code></li>
+              <li class="TableContents"><code>startWithClearChannels</code></li>
+              <li class="TableContents"><code>disableSessionResumption</code></li>
+             </ul><p class="TableContents">Setting this property to an empty string or empty list will disable all of these configuration flags; any that are not included in the list are also disabled.</p><p class="TableContents">Empty values in the property list are ignored, but invalid values cause the outgoing message to be sent to the error queue.</p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>[startWith<span style="font-size: 13.0px;line-height: 13.0pt;">ClearChannels]</span> </code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerType" rel="nofollow">Proxy Server Type</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>ProxyServerType</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">The proxy server type:</p>
+             <ul>
+              <li class="TableContents"><code>none</code></li>
+              <li class="TableContents"><code>http</code></li>
+              <li class="TableContents"><code>socks4</code></li>
+              <li class="TableContents"><code>socks5</code></li>
+             </ul></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>http</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerAddress" rel="nofollow">Proxy Server Address</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>ProxyServerAddress</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><span>Sets the</span> hostname or IP address of the proxy server.</p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>myProxyServer</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerPort" rel="nofollow">Proxy Server Port</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>ProxyServerPort</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><span>Sets the</span> port to connect to the proxy server on.</p><p class="TableContents">This must be a valid port number (in other words, between 1 and 65535), otherwise the message will be sent to the Error Queue.</p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>80</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerPublicAddress" rel="nofollow">Proxy Server Public Address</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>ProxyServerPublic</code> <br> <code>Address</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><span>Sets the</span> public address of the proxy server.</p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>23.59.196.226</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerUsername" rel="nofollow">Proxy Server Username</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>ProxyServerUsername</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><span>Sets the</span> username to authenticate to the proxy server with.</p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>proxyUser</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><a href="Proxy-Servers_133162394.html#ProxyServers-ProxyServerPassword" rel="nofollow">Proxy Server Password</a></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>ProxyServerPassword</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><span>Sets the</span> password to authenticate to the proxy server with. This is not required for the SOCKS4 protocol as it does not support password authentication.</p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents"><code>proxyPass</code></p></td>
+            <td colspan="1" class="confluenceTd"><p class="TableContents">Yes</p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-GenerateMessageWhenNoResponse" rel="nofollow">Generate Message When No Response</a></td>
+            <td colspan="1" class="confluenceTd"><code>GenerateResponseMessage</code></td>
+            <td colspan="1" class="confluenceTd"><p>The generate message when no response mode:</p>
+             <ul>
+              <li><code>enabled</code></li>
+              <li><code>disabled</code></li>
+             </ul><p>If an invalid value is detected, it uses the static value.</p></td>
+            <td colspan="1" class="confluenceTd"><code>enabled</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-InputDirectory" rel="nofollow">Input Directory</a></td>
+            <td colspan="1" class="confluenceTd"><code>InputDirectory</code></td>
+            <td colspan="1" class="confluenceTd"><p>Sets the base input directory to use when downloading files.</p><p>No validation is done on this, in other words it can be empty, in which case the input would be received from the <code>home/root</code> FTP input directory.</p></td>
+            <td colspan="1" class="confluenceTd"><code>dir1/dir2</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p><a href="Input-Options_133162404.html#InputOptions-InputPatternType" rel="nofollow">Input Pattern Type</a></p></td>
+            <td colspan="1" class="confluenceTd"><code>InputPatternType</code></td>
+            <td colspan="1" class="confluenceTd"><p>The type of the input pattern used to match files for download:</p>
+             <ul>
+              <li><code>wildcard</code></li>
+              <li><code>regex</code></li>
+             </ul><p>If an invalid value is detected, it uses the static value.</p></td>
+            <td colspan="1" class="confluenceTd"><code>wildcard</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-InputPattern" rel="nofollow">Input Pattern</a></td>
+            <td colspan="1" class="confluenceTd"><code>InputPattern</code></td>
+            <td colspan="1" class="confluenceTd"><p>The pattern used to filter input files.</p><p>Validation will be done on this value. If the value is left empty, the message is sent to the error queue. If the <strong>Input Pattern Type</strong> is set to <code>Regular Expression</code>, and the value cannot be parsed as a valid regular expression, the message is sent to the error queue.</p></td>
+            <td colspan="1" class="confluenceTd"><code>*.txt</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-InputDirectoryNavigationMode" rel="nofollow">Input Directory Navigation Mode</a></td>
+            <td colspan="1" class="confluenceTd">InputDirectoryNavigationMode</td>
+            <td colspan="1" class="confluenceTd"><p>Specifies whether to use FTP commands to&nbsp;access the target directory&nbsp;directly, or&nbsp;navigate to the target directory via&nbsp;the home directory:</p>
+             <ul>
+              <li><code>changeDirectly</code></li>
+              <li><code>navigateViaHomeDirectory</code></li>
+             </ul></td>
+            <td colspan="1" class="confluenceTd"><code>changeDirectly</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p><a href="Input-Options_133162404.html#InputOptions-DirectoryTraversalMode" rel="nofollow">Directory Traversal Mode</a></p></td>
+            <td colspan="1" class="confluenceTd"><code>DirectoryTraversalMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines whether the communication point will just download files from the configured input directory or will instead traverse child directories in order to find matching file:</p>
+             <ul>
+              <li><code>inputDirOnly</code></li>
+              <li><code>recurse</code></li>
+             </ul><p>If an invalid value is detected, it uses the static value.</p></td>
+            <td colspan="1" class="confluenceTd"><code>inputDirOnly</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-FollowSymbolicLinks" rel="nofollow">Follow Symbolic Links</a></td>
+            <td colspan="1" class="confluenceTd"><code>SymbolicLinkAction</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines how the communication point handles symbolic links when downloading files from the FTP server. If the communication point is configured in <em>Out-&gt;In</em> mode, the message property <code>SymbolicLinkAction</code> can be set to one of the following values:</p>
+             <ul>
+              <li><code>ignore</code></li>
+              <li><code>followFile</code></li>
+              <li><code>followDir</code></li>
+              <li><code>followAll&nbsp;&nbsp;</code></li>
+             </ul><p>If <code>Follow directory symbolic links</code> or <code>Follow all symbolic links</code> are selected, the message is sent to the error queue if the <strong>Directory Traversal Mode</strong> is not set to <code>Recurse into child directories</code>.</p></td>
+            <td colspan="1" class="confluenceTd"><code>ignore</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p><a href="Input-Options_133162404.html#InputOptions-PostDownloadAction" rel="nofollow">Post Download Action</a></p></td>
+            <td colspan="1" class="confluenceTd"><code>PostDownload Action</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines what the communication point does with the remote files after they have been downloaded:</p>
+             <ul>
+              <li><code>delete</code></li>
+              <li><code>leave</code></li>
+              <li><code>rename</code></li>
+             </ul><p>If an invalid value is detected, it uses the static value.</p></td>
+            <td colspan="1" class="confluenceTd"><code>delete</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-RenameTo" rel="nofollow">Rename To</a></td>
+            <td colspan="1" class="confluenceTd"><code>RenameTo</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the target filename for a rename after downloading a file. This is ignored if not renaming files after downloading them, but otherwise is required to be configured either in the static configuration or the configuration template. This may contain a number of variables described in the </span> <a href="Input-Options_133162404.html#InputOptions-RenameTo" rel="nofollow">Rename To</a> <span>configuration property to reference the old filename or current date/time. If renaming files after downloading them is enabled, this must be set either as a message property or in the static configuration. It must not be set to exactly</span> <code>%filename%</code> <span>. If it is invalid then the outgoing message is sent directly to the error queue.</span></p></td>
+            <td colspan="1" class="confluenceTd"><code>%filename%</code>.done</td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p><a href="Advanced-Options_133162403.html#AdvancedOptions-InputLocales" rel="nofollow">Input Locales</a></p></td>
+            <td colspan="1" class="confluenceTd"><code>InputLocales</code></td>
+            <td colspan="1" class="confluenceTd"><span>Sets the</span> input locales used for a particular message can be changed dynamically by setting the message property <code>InputLocales</code> to a property list containing the list of Java locales that should be used.</td>
+            <td colspan="1" class="confluenceTd"><p><code><code>[en_NZ,jp]</code> </code></p></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p><a href="Advanced-Options_133162403.html#AdvancedOptions-DirectoryListingParser" rel="nofollow">Directory Listing Parser</a></p></td>
+            <td colspan="1" class="confluenceTd"><code>DirectoryListingParser</code></td>
+            <td colspan="1" class="confluenceTd"><p>Specifies directory listing parser used for a particular message can be changed dynamically by setting the message property <code>DirectoryListingParser</code> to one of the following values:</p>
+             <ul>
+              <li><code>autoDetect</code></li>
+              <li><code>unix</code></li>
+              <li><code>windows</code></li>
+              <li><code>vms</code></li>
+              <li><code>netware</code></li>
+              <li><code>mvs</code></li>
+              <li><code>os400</code></li>
+              <li><code>javascript</code></li>
+             </ul></td>
+            <td colspan="1" class="confluenceTd"><code>unix </code></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p><a href="Advanced-Options_133162403.html#AdvancedOptions-JavaScriptDirectoryParser" rel="nofollow">JavaScript Directory Parser</a></p></td>
+            <td colspan="1" class="confluenceTd"><code>JavaScriptDirectoryParser</code></td>
+            <td colspan="1" class="confluenceTd"><p>The JavaScript directory parser can be changed dynamically by setting the message property <code>JavaScriptDirectoryParser</code> to the appropriate JavaScript at runtime. The directory listing parser type must be set to use JavaScript in order for this to be picked up. The message is sent to the error queue if the JavaScript fails to compile.</p><p><br></p></td>
+            <td colspan="1" class="confluenceTd">
+             <div class="content-wrapper">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">if (line.length &gt; 49){
+  contents.add({
+    name: line.substring(49),
+    isDirectory: line[0] == 'd'
+  });
+}</pre> 
+               </div>
+              </div>
+             </div></td>
+            <td colspan="1" class="confluenceTd">Yes</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html" rel="nofollow">Before Receive Commands</a></td>
+            <td colspan="1" class="confluenceTd"><code>BeforeReceive<br>Commands</code></td>
+            <td colspan="1" class="confluenceTd"><p>A property list is used to configure the custom commands. Each entry in the property list is comprised of two parts separated by a pipe character: the error action, and the command. The following error actions are supported:</p>
+             <ul>
+              <li><code>ignore</code></li>
+              <li><code>connectionError</code></li>
+              <li><code>blacklist</code></li>
+             </ul><p>You must provide both an error action and a non-empty command.</p></td>
+            <td colspan="1" class="confluenceTd"><p><code>[ignore|myCommand %directory%/%filename%]</code></p></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html" rel="nofollow">After Receive Commands</a></td>
+            <td colspan="1" class="confluenceTd"><code>AfterReceiveCommands</code></td>
+            <td colspan="1" class="confluenceTd"><p>A property list is used to configure the custom commands. Each entry in the property list is comprised of two parts separated by a pipe character: the error action, and the command. The following error actions are supported:</p>
+             <ul>
+              <li><code>ignore</code></li>
+              <li><code>connectionError</code></li>
+              <li><code>blacklist</code></li>
+             </ul><p>You must provide both an error action and a non-empty command.</p></td>
+            <td colspan="1" class="confluenceTd"><p><code>[ignore|myCommand %directory%/%filename%]</code></p></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p><a href="Archiving_133162395.html" rel="nofollow">Archive Message Bodies</a></p></td>
+            <td colspan="1" class="confluenceTd"><code>ArchivingStrategy</code></td>
+            <td colspan="1" class="confluenceTd"><p>Indicates whether messages arriving on this communication point are to be archived as per standard archiving strategies:</p>
+             <ul>
+              <li><code>normal</code></li>
+              <li><code>cleanupAfterSendingMessage</code></li>
+             </ul></td>
+            <td colspan="1" class="confluenceTd"><code>normal</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Input-Options_133162404.html#InputOptions-MaximumFileSizeforDownload" rel="nofollow">Maximum File Size for Download</a></td>
+            <td colspan="1" class="confluenceTd"><code>MaxDownloadFileSize</code></td>
+            <td colspan="1" class="confluenceTd">Specifies the maximum size of a file, in megabytes, that can be downloaded.</td>
+            <td colspan="1" class="confluenceTd"><code>0</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-OutputDirectory" rel="nofollow">Output Directory</a></td>
+            <td colspan="1" class="confluenceTd"><code>OutputDirectory</code></td>
+            <td colspan="1" class="confluenceTd"><p>Sets the base output directory to use when uploading files.</p><p>If this message property is set to an empty string then the output directory is treated as empty, meaning that the user's home directory is used for the output directory.</p></td>
+            <td colspan="1" class="confluenceTd"><code>dir1/dir2</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-BaseFilename" rel="nofollow">Base Filename</a></td>
+            <td colspan="1" class="confluenceTd"><code>BaseFilename</code></td>
+            <td colspan="1" class="confluenceTd"><p><span>Sets the</span> base filename to use when generating the filename for uploaded files.</p><p>If this message property is set then it must not contain an empty value since an output filename is mandatory. If no output filename can be determined the outgoing message will be sent to the error queue.</p><p>Unlike most other configuration properties, it is possible to set this value dynamically using the message property even when the communication point is configured in static mode.</p></td>
+            <td colspan="1" class="confluenceTd"><code>reports</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-FilenameSuffix" rel="nofollow">Filename Suffix</a></td>
+            <td colspan="1" class="confluenceTd"><code>Suffix</code></td>
+            <td colspan="1" class="confluenceTd"><p>If this message property is set to an empty string then there will be no suffix in the upload file's name.</p><p>Unlike almost all other configuration properties, it is possible to set this value dynamically using the message property even when the communication point is configured in static mode.</p></td>
+            <td colspan="1" class="confluenceTd"><code>txt</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-DuplicateFilenameBehaviour" rel="nofollow">Duplicate Filename Behaviour</a></td>
+            <td colspan="1" class="confluenceTd"><code>DuplicateBehavior</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines how duplicate filenames are handled by the communication point:</p>
+             <ul>
+              <li><code>rename</code></li>
+              <li><code>appendDateTime</code></li>
+              <li><code>doNotCheck</code></li>
+              <li><code>appendToFile</code></li>
+             </ul><p>If it is set to an empty string or an invalid value then the statically configured mode is used instead.</p></td>
+            <td colspan="1" class="confluenceTd"><code>rename</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-AppendDate/Time" rel="nofollow">Append Date/Time</a></td>
+            <td colspan="1" class="confluenceTd"><code>AppendDateFormatForOutputFile</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines if the current date andtimeisappendedto the target filename prior to an upload:</p>
+             <ul>
+              <li><code>doNotAppendDateTime</code></li>
+              <li><code>appendDateTime</code></li>
+             </ul><p>If set to an empty string or an invalid value then the statically configured mode is used instead. If the date/time is appended, it will always be in the format&nbsp;<code>yyyy-MM-dd-HH-mm-ss-SSS</code>. If an alternative format is wanted then this should be done by setting the&nbsp;<code>BaseFilename</code> message property instead.</p><p>This option is ignored if the duplicate filename behavior mode is configured to append to an existing file if a duplicate is found, as appending the current date/time is not allowed in this scenario.</p></td>
+            <td colspan="1" class="confluenceTd"><code>appendDateTime</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-AppendDate/TimeFormat" rel="nofollow">Append Date/Time Format</a></td>
+            <td colspan="1" class="confluenceTd"><code>AppendDateTimeFormat</code></td>
+            <td colspan="1" class="confluenceTd">Defines the date-time format when the date-time is appended to the filename. The default date-time format is&nbsp;<code>yyyy-MM-dd-HH-mm-ss-SSS</code>&nbsp;and is used if this property is left blank. The format should follow the specification in SimpleDateFormat in Java.</td>
+            <td colspan="1" class="confluenceTd"><p><code><span>yyyy-MM-dd-HH-mm-ss-SSS</span></code></p></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Output-Options_133162396.html#OutputOptions-UseTempFiles" rel="nofollow">Use Temp Files</a></td>
+            <td colspan="1" class="confluenceTd"><code>TemporaryFileUsage</code></td>
+            <td colspan="1" class="confluenceTd"><p>Determines if temporary files will be used during uploads:</p>
+             <ul>
+              <li><code>noTempFiles</code></li>
+              <li><code>useTempFiles</code></li>
+             </ul><p>If set to an empty string or an invalid value then the statically configured mode is used instead.</p><p>This option is ignored if the duplicate filename behavior mode is configured to append to an existing file if a duplicate is found, as temporary files are not allowed in this scenario.</p></td>
+            <td colspan="1" class="confluenceTd"><code>useTempFiles</code></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html" rel="nofollow">Before Send Commands</a></td>
+            <td colspan="1" class="confluenceTd"><code>BeforeSendCommands</code></td>
+            <td colspan="1" class="confluenceTd"><p>A property list is used to configure the custom commands. Each entry in the property list is comprised of two parts separated by a pipe character: the error action, and the command. The following error actions are supported:</p>
+             <ul>
+              <li><code>ignore</code></li>
+              <li><code>errorQueue</code></li>
+              <li><code>connectionError</code></li>
+             </ul><p>You must provide both an error action and a non-empty command. If any errors are detected in the configuration, then the outgoing message or trigger is sent to the error queue immediately.</p></td>
+            <td colspan="1" class="confluenceTd"><p><code>[errorQueue|SITE special,<br>ignore|SITE QWERTY]</code></p></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Custom-Commands_133162397.html" rel="nofollow">After Send Commands</a></td>
+            <td colspan="1" class="confluenceTd"><p><code>AfterSendCommands</code></p></td>
+            <td colspan="1" class="confluenceTd"><p>A property list is used to configure the custom commands. Each entry in the property list is comprised of two parts separated by a pipe character: the error action, and the command. The following error actions are supported:</p>
+             <ul>
+              <li><code>ignore</code></li>
+              <li><code>errorQueue</code></li>
+              <li><code>connectionError</code></li>
+             </ul><p>You must provide both an error action and a non-empty command. If any errors are detected in the configuration, then the outgoing message or trigger is sent to the error queue immediately.</p></td>
+            <td colspan="1" class="confluenceTd"><p><code>[errorQueue|SITE special,<br>ignore|SITE QWERTY]</code></p></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><a href="Advanced-Options_133162403.html#AdvancedOptions-DirectoryNavigationMode" rel="nofollow">Directory Navigation Mode</a></td>
+            <td colspan="1" class="confluenceTd"><code>DirectoryNavigationMode</code></td>
+            <td colspan="1" class="confluenceTd"><p>Specifies whether to use FTP commands to traverse the target directory path and create the target directory if required during the file upload, or perform a direct file upload to the target directory:</p>
+             <ul>
+              <li><code><span><span>uploadAfterNavigating</span></span></code></li>
+              <li><code><span><span>uploadWithoutNavigating</span></span></code><code><span><br></span></code></li>
+             </ul></td>
+            <td colspan="1" class="confluenceTd"><p><code>uploadAfterNavigating</code></p></td>
+            <td colspan="1" class="confluenceTd">No</td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div> 
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

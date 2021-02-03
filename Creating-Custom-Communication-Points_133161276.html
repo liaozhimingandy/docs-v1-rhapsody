@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Creating Custom Communication Points</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Creating Custom Communication Points</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="CreatingCustomCommunicationPoints-TypesofCustomCommunicationPoints">Types of Custom Communication Points</h2>
+      <p class="Standard">Custom Communication Points are composed of at least of two classes:</p>
+      <ul>
+       <li class="Standard">The Custom Communication Point class itself.</li>
+       <li class="Standard">A connection class that represents individual connections.</li>
+      </ul>
+      <p class="Standard">The Communication Point class delegates to the connection class the creating of an instance of a communications connection.&nbsp; You could thus end up with multiple instances of the connection class if you have multiple connections, one instance per connection.&nbsp; Connections are responsible for actually sending and receiving messages over their specific communication channel.</p>
+      <p class="Standard">Connection creation is delegated via the Communication Point class <code>getConnection()</code> method.&nbsp; However, this class does not handle tear down and destruction of connection classes, it only handles the setup side of things.&nbsp; For this reason we do not keep references to connections inside the Communication Point class.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">Hence the Rhapsody engine will call </span><code style="line-height: 13.0pt;background-color: transparent;">getConnection()</code><span style="line-height: 13.0pt;background-color: transparent;"> against the Communication Point class to create a connection, the engine will maintain a reference to the connection, and to drop the connection will call <code>dropConnection()</code> and <code>cleanup()</code> directly against the connection, not against the Communication Point class.&nbsp; So do not think of the Communication Point class as a wrapper around connections.</span></p>
+      <p class="Standard">All custom communication points extend <code>AbstractCommunicationPoint</code> which requires you to implement the <code>getConnection()</code> method. The&nbsp;<code>getConnection()</code>&nbsp;method creates a connection instance which is an instance of <code>CommunicationPointConnection</code>.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">Your connection class then implements the <code>CommunicationPointConnection</code> interface.</span></p>
+      <p class="Standard">There are three variations of the Connection class:</p>
+      <ul>
+       <li><code>CommunicationPointConnection</code><span>&nbsp;interface</span> – is applicable to a blocked input type in which you have to implement a <code>receiveMessage(Message)</code> method that blocks until a message is available or some time-out has occurred.&nbsp; Hence the Rhapsody Engine will call your <code>receiveMessage</code> as soon as it can and then the method will block until you can return a message.&nbsp; As soon as you return a message, the engine can call the method again to await the next message.&nbsp;It is similar to a blocked read that you may be familiar with from socket programming and you may end up actually wrapping such a read method if you are writing a TCP communication point.</li>
+      </ul>
+      <ul>
+       <li><code>PollingInputConnection</code>&nbsp;interface –&nbsp;is a child of <code>CommunicationPointConnection</code>, but additionally requires implementation of the <code>PollingInputConnection.isInputAvailable()</code> method. &nbsp;For this type of connection, the Rhapsody Engine will call (poll) your connection at regular intervals (<code>getRefreshDelay()</code>&nbsp;to determine if a message is available.&nbsp; To do this it calls <code>isInputAvailable()</code>.&nbsp; If there is a message available you return a true value after which the Rhapsody Engine then calls the <code>receiveMessage</code> which returns the waiting message to Rhapsody. The Rhapsody Engine will then start polling <code>isInputAvailable()</code> to await the next message.</li>
+      </ul>
+      <ul>
+       <li><code>SingleConnectionCommunicationPoint</code> interface – allows one connection, obviating issues of synchronization (if they are an issue for you) that can occur with bi-directional communications. <span>In bi-directional communications there is no relationship between input and output messages and messages can be received and sent at will on any thread or connection.</span>&nbsp;With a <code>SingleConnectionCommunicationPoint</code> all traffic passes through the same class (like a singleton). This can also be useful if your code shares resources in a non-thread safe way, or has other issues with thread-safety.</li>
+      </ul>
+      <h2 id="CreatingCustomCommunicationPoints-OperationalModes">Operational Modes</h2>
+      <p class="Standard">From Rhapsody IDE, you can choose&nbsp;a set of operational modes for a communication point. These are Input, Output, Bi-directional, In-&gt;Out, Out-&gt;In.</p>
+      <p class="Standard">Within your implementation, you must support a single <code>SupportedMode</code>, which are named slightly differently:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p class="TableContents"><strong>Implementation Kind</strong></p></td>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p class="TableContents"><strong>Description</strong></p></td>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p class="TableContents"><strong>Possible operational modes</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.INPUT</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication point can only receive messages.</p></td>
+          <td class="confluenceTd"><p class="TableContents">INPUT</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.OUTPUT</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication <span>point</span> can only send messages.</p></td>
+          <td class="confluenceTd"><p class="TableContents">OUTPUT</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.UNIDIRECTIONAL</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication <span>point</span> can send or receive messages, but not both.</p></td>
+          <td class="confluenceTd"><p class="TableContents">INPUT or OUTPUT</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.TWO_WAY</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication <span>point</span> can send and receive messages, but not at the same time.</p></td>
+          <td class="confluenceTd"><p class="TableContents">INPUT, OUTPUT or OUT_IN</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.BIDIRECTIONAL</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication <span>point</span> can send and receive messages at the same time.</p></td>
+          <td class="confluenceTd"><p class="TableContents">Any</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p class="Textbody">You can only implement <em>one</em> of the above modes. Thus:</p>
+      <ul>
+       <li>If you only want to allow INPUT, then you must implement <code>SupportedMode.INPUT</code>.</li>
+       <li>If you only want to allow OUTPUT, then you must implement <code>SupportedMode.OUTPUT</code>.</li>
+       <li>If you want to allow INPUT or OUTPUT, then you implement <code>SupportedMode.UNIDIRECTIONAL</code>.</li>
+       <li>If you want to allow&nbsp; INPUT or OUTPUT or OUT-IN orIN-OUT then you implement <code>SupportedMode.TWO_WAY</code>.</li>
+       <li>If you want to allow any mode of operation, then you implement <code>SupportedMode.BIDIRECTIONAL</code>.&nbsp; Even though the SupportedMode is labeled BIDIRECTIONAL, it includes all the other possible modes – in other words, it is then down to your code to do a bit of "if-then-else" to configure its behavior according to what the user chooses on the drop-down list for communication point configuration mode in the Rhapsody IDE.</li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Operational Mode</strong></td>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Implementation</strong></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Input</p></td>
+          <td class="confluenceTd"><p class="TableContents">Can only be used to receive messages.</p></td>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.INPUT</code> or<br><code><span style="line-height: 13.0pt;background-color: transparent;">SupportedMode.TWO_WAY </span></code><span style="line-height: 13.0pt;background-color: transparent;">or</span><code><span style="line-height: 13.0pt;background-color: transparent;"><br></span><span style="line-height: 13.0pt;background-color: transparent;">SupportedMode.BIDIRECTIONAL</span></code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Output</p></td>
+          <td class="confluenceTd"><p class="TableContents">Can only be used to send messages.</p></td>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.OUTPUT</code><br><code><span style="line-height: 13.0pt;background-color: transparent;">SupportedMode.TWO_WAY </span></code><span style="line-height: 13.0pt;background-color: transparent;">or</span><code><span style="line-height: 13.0pt;background-color: transparent;"><br></span><span style="line-height: 13.0pt;background-color: transparent;">SupportedMode.BIDIRECTIONAL</span></code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Bi-directional</p></td>
+          <td class="confluenceTd"><p class="TableContents">Messages can be both sent and received simultaneously. Used when incoming and outgoing messages are sent and received independently of each other.</p></td>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.BIDIRECTIONAL</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Out-&gt;In</p></td>
+          <td class="confluenceTd"><p class="TableContents">When a message is sent, the communication point waits for a response before sending the next message.&nbsp; An Out-&gt;In communication point also has the added benefit of mapping the outgoing message properties to the response message.</p></td>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.TWO_WAY </code>or<code> SupportedMode.BIDIRECTIONAL</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">In-&gt;Out</p></td>
+          <td class="confluenceTd"><p class="TableContents">When a message is received, the communication point will refuse to accept further messages until a response has been sent.</p></td>
+          <td class="confluenceTd"><p class="TableContents"><code>SupportedMode.TWO_WAY</code> or <code>SupportedMode.BIDIRECTIONAL</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CreatingCustomCommunicationPoints-RelationshipbetweenModeandType">Relationship between Mode and Type</h2>
+      <p class="Textbody">Operational mode does not specify type of protocol your communication point is implementing:</p>
+      <ul>
+       <li class="Textbody">A Blocking type</li>
+       <li class="Textbody">A Polling type</li>
+       <li class="Textbody">A Singleton type</li>
+      </ul>
+      <p class="Textbody">On the other hand, type dictates the appropriate connection type or mode of operation. A bi-directional communication point, for example, could use polling on its input side or it could use blocked read.</p>
+      <h2 id="CreatingCustomCommunicationPoints-ThreadingConsiderations">Threading Considerations</h2>
+      <p class="Standard">When the communication point is running in BIDIRECTIONAL mode, there are separate threads calling the <code>sendMessage(Message)</code> and <code>receiveMessage(Message)</code>&nbsp;methods of the communication point connections. So the methods must be either completely independent of each other (which is the common case) or written in a thread-safe way (for example, using <code>synchronized</code> blocks with shared resources).</p>
+      <p class="Standard">If the communication point is running in INPUT, OUTPUT or OUT_IN mode, then there will only be one thread using any one connection for both send and receive activities so you do not need to synchronize access within the class to member data.</p>
+      <p class="Standard">If you want to ensure that your communication point can only ever have one connection at a time, you can implement the <code>SingleConnectionCommunicationPoint</code> interface. This interface does not define any methods – it simply indicates to the engine that this communication point may only be configured to use one connection at a time.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

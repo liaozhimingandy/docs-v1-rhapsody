@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Schematron</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Schematron</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163373/133163374.png" data-image-src="attachments/133163373/133163374.png" data-unresolved-comment-count="0" data-linked-resource-id="133163374" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Schematron.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163373" data-linked-resource-container-version="2"></span></p>
+      <p>The&nbsp;<strong>Schematron</strong>&nbsp;filter uses a Schematron file (<code>*.sch</code>) to validate XML documents.</p>
+      <p>Schematron is a language and toolkit for making assertions about patterns found in XML documents. Because it uses paths, rather than grammars, it can be used to assert many constraints that cannot be expressed by DTDs or XML schemas.</p>
+      <p>It differs in basic concept from other schema languages in that it is based on finding tree patterns in the parsed document. This approach allows many kinds of structures to be represented, which are inconvenient and difficult in grammar-based schema languages. For example, Schematron is useful for validating the complex rules associated with HL7 Continuity of Care Document (CCD) and Clinical Document Architecture (CDA) documents.</p>
+      <p>Schematron allows you to develop and mix two kinds of schemas:</p>
+      <ul>
+       <li><strong>Report</strong> elements allow you to diagnose which variant of a language you are dealing with.</li>
+       <li><strong>Assert</strong> elements allow you to confirm that the document conforms to a particular schema.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Schematron filter only supports <code>iso schematron</code> formats. Any attempt to use other formats, for example <code>schematron 1.5</code> will result in a misleading XML parsing failure error.</p>
+       </div>
+      </div>
+      <h2 id="Schematron-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. Limiting the level of concurrency limits the memory usage. <code>0</code> means unlimited. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency </a>for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Schematron Definition (Zip Archive)</p></td>
+          <td class="confluenceTd"><p>The Schematron definition against which the input must be validated. The definition must be stored in a zipped archive.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Validation Success</p></td>
+          <td class="confluenceTd"><p>The action to take if validation succeeds:</p>
+           <ul>
+            <li><code>Continue processing on route</code> (default) - outputs the original message.</li>
+            <li><code>Output SVRL report</code> - outputs the SVRL report.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Validation Failure</p></td>
+          <td class="confluenceTd"><p>The action to take if validation fails. Default: <code>Output SVRL report</code></p>
+           <ul>
+            <li><code>Output SVRL report</code> - <span>outputs</span> the SVRL report.</li>
+            <li><code>Send to error connector</code> - <span>outputs</span> the original message via the Error connector.</li>
+            <li><code>Continue processing on route</code> - <span>outputs</span> the original message.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Schematron Phase</p></td>
+          <td class="confluenceTd"><p>The Schematron phase to process. If not present or empty, then all phases are processed.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

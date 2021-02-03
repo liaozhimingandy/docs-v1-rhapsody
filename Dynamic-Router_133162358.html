@@ -1,0 +1,342 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Dynamic Router</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Dynamic Router</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="line-height: 13.0pt;background-color: transparent;"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162358/133162372.bmp" data-image-src="attachments/133162358/133162372.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162372" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="router32x32.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span> </span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The&nbsp;</span><strong style="line-height: 13.0pt;">Dynamic&nbsp;</strong><strong style="line-height: 13.0pt;">Router</strong> <span style="line-height: 13.0pt;background-color: transparent;">communication point (also known as the dynamic router) provides an alternative mechanism to cross-route connectors for connecting routes together in Rhapsody, and for routing messages between lockers (u<span>sing dynamic routers is the only way to transfer messages between lockers)</span></span>. Instead of explicitly wiring cross-route connectors between filters, a set of&nbsp;dynamic routers can be used to statically or dynamically route messages.</p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;"> <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146946377 {padding: 0px;}
+div.rbtoc1565146946377 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146946377 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></span></p>
+      <div class="toc-macro rbtoc1565146946377"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#DynamicRouter-MessageView">Message View</a></li> 
+        <li><a href="#DynamicRouter-PathView">Path View</a></li> 
+        <li><a href="#DynamicRouter-InputModeProperties">Input Mode Properties</a></li> 
+        <li><a href="#DynamicRouter-OutputModeProperties">Output Mode Properties</a></li> 
+        <li><a href="#DynamicRouter-Usage">Usage</a></li> 
+        <li><a href="#DynamicRouter-ShowUses">Show Uses</a></li> 
+        <li><a href="#DynamicRouter-InfiniteLoopDetection">Infinite Loop Detection</a></li> 
+       </ul> 
+      </div> 
+      <p></p>
+      <p>A Dynamic Router communication point may operate as an input or output dynamic router, in other words&nbsp;in either input or output mode, respectively. In output mode, a&nbsp;Dynamic Router communication point is capable of sending messages to another&nbsp;dynamic router running in input mode. The destination can be either configured statically in the configuration properties, or can be set dynamically using the&nbsp;<code>router:Destination</code>&nbsp;message property. Once the destinations have been identified, the message is moved directly to those input communication point queues without any need to re-persist the message. In input mode, a&nbsp;dynamic router only receives messages sent to it by other output mode&nbsp;dynamic routers.</p>
+      <p>The Rhapsody engine and Management Console maintain the path of a message that passes through Dynamic Router communication points. When viewed from the Management Console, a message has numerous events as it passes from component to component. When these events cross the boundaries of routes, <a href="#DynamicRouter-MessageView">Message View</a> only displays those events for the component searched on, up until the route boundary (the last output node). The Dynamic Router communication point extends these message view boundaries and seamlessly ties together independent routes by displaying an inclusive message view path. Although the Cross Route connector offers a similar view, the advantage of the Dynamic Router communication point&nbsp;is that routes can be modularized and made truly independent from one another, thereby easing configuration design patterns and maintenance.</p>
+      <p>Message definitions are not preserved across lockers.&nbsp;When a message crosses a locker boundary via a dynamic router, the definition the message was parsed within the upstream route in one locker is not available in the downstream route in another locker. The message is therefore re-parsed with the definition associated with the downstream route.</p>
+      <p>Supported Operational Modes:&nbsp;<em>Input</em>,&nbsp;<em>Output</em></p>
+      <h2 id="DynamicRouter-MessageView">Message View</h2>
+      <p>You can use the&nbsp;Dynamic Router communication point to send a message from a route in one locker to a route in another. You can see a new message event&nbsp;in the Message View page with a:</p>
+      <ul>
+       <li>Forward link - if the message path continues to another locker. You can only select this link only if you have access to the target locker.</li>
+       <li>Backward link - if the message path comes from another locker. You can only select this link only if you have access to the source locker.</li>
+      </ul>
+      <p>The following screenshot displays the logical route boundaries in a single message view search result. This would previously have required three independent searches to form a view of a message's path as the message traversed across routes.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="1043" src="attachments/133162358/133162363.png" data-image-src="attachments/133162358/133162363.png" data-unresolved-comment-count="0" data-linked-resource-id="133162363" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Message_view_boundaries.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Dynamic Router communication point has slightly slower performance when transferring messages across lockers because it rewrites the message to the data store. However, using the communication point would be faster than routing the message out of and back into the Rhapsody engine.</p>
+       </div>
+      </div>
+      <h2 id="DynamicRouter-PathView">Path View</h2>
+      <p>If a Dynamic Router communication point statically references another route, this route and its connections are also shown in path view, with a connection between the two routes:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162358/133162359.png" data-image-src="attachments/133162358/133162359.png" data-unresolved-comment-count="0" data-linked-resource-id="133162359" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="PathView1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span></p>
+      <p>If either the destination or delivery location is in a locker which is not visible to the user, then a locker icon is used in either the input or output (or both) sides to indicate this connection.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162358/133162360.png" data-image-src="attachments/133162358/133162360.png" data-unresolved-comment-count="0" data-linked-resource-id="133162360" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="PathView2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span></p>
+      <h2 id="DynamicRouter-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table id="TBL1565043148397" class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Property
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Target Name</td>
+          <td class="confluenceTd"><p>An alternative name that can be used to deliver messages to this communication point in lieu of its full path. This provides the user with a way of connecting up the dynamic routing components that is resilient to component renames. If this is not configured (in other words, set to an empty string) then only the full path can be used to deliver to this component. If it is configured then either this target name or the full path to the component can be used to deliver messages to it.</p><p>Target names can be any string that does not include a forward or backslash character.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Unique Target Name</td>
+          <td colspan="1" class="confluenceTd"><p>A boolean indicating whether this target name is expected to be unique or not. If it is expected to be unique then it must not be currently in use by any other input Dynamic Router communication point; if it is not expected to be unique then other input Dynamic Router communication points can use the same target name, but only if they do not expect it to be unique. This property has no effect if no custom target name is specified by the user.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148397']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148397',[],'',
+1,'lightgoldenrodyellow',true,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>Target names provide an alternative way to identify an input Dynamic Router communication point in a manner that is resilient to component or folder renames. There is no requirement for configured target names to be unique; if multiple input&nbsp;Dynamic Router communication points are configured to use the same target name then they all receive all the messages. However, it is possible to configure a Dynamic Router communication point&nbsp;to indicate that it expects that its target name to be unique. Unique target names are enforced at configuration time:</p>
+      <ul>
+       <li>An&nbsp;input&nbsp;Dynamic Router communication point expecting a unique target name fails to configure if another Dynamic Router communication point has already registered that target name.</li>
+       <li>Any input&nbsp;Dynamic Router communication point fails to configure if another Dynamic Router communication point has already registered the desired target name as unique.</li>
+      </ul>
+      <p>In both cases, it is the second (and subsequent) communication point to be configured that raises the configuration error.</p>
+      <p><span>Unlike other communication points, the Dynamic Router communication point does not need to be started when operating in input mode. This is because it never receives any messages from an external source, and messages are transmitted to it from an output Dynamic Router communication point by directly inserting those messages into its input queue. Consequently, starting the input </span><span>Dynamic Router </span><span>communication point is not necessary as it does not receive the messages itself (and of no negative consequence).</span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When importing an RLC containing a route with an input Dynamic Router communication point that already exists in the engine configuration, Rhapsody adds the new route to <span>that </span><span>input Dynamic Router communication point and</span> checks the communication point out<span>. Ensure you check in that <span>input Dynamic Router communication point to enable it to send messages through the newly added route.</span></span></p>
+       </div>
+      </div>
+      <h3 id="DynamicRouter-DisabledNotifications">Disabled<span>&nbsp;Notifications</span></h3>
+      <p><span><span>The </span><strong>Long Idle Time</strong><span> and </span><strong>Unconnected Running Communication Point</strong><span> notifications are never be raised by a Dynamic Router communication point running in input mode. This is because the communication point never receives any messages from an external source, and messages are transmitted to it from an </span><span>output</span><span> Dynamic Router communication point by directly inserting those messages into its input queue. Consequently, it never has a real connection which can be tested for idleness. Thus, the communication point is internally configured not to raise these notifications while running in input mode.</span></span></p>
+      <h3 id="DynamicRouter-InputThrottlingUnavailable">Input Throttling Unavailable</h3>
+      <p><span>Input Throttling is not available for the Dynamic Router communication point as messages are directly placed on its input queue by an </span><span>output</span><span> Dynamic Router communication point. If throttling is desired, then this should instead be configured using output throttling on the </span><span>output</span><span> Dynamic Router communication point that sends the message.</span></p>
+      <h2 id="DynamicRouter-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table id="TBL1565043148398" class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Property
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">Delivery Mode</span></td>
+          <td colspan="1" class="confluenceTd"><p>Configures the communication point's delivery mode. <span style="line-height: 13.0pt;background-color: transparent;">The available options are:</span></p>
+           <div class="user-content-block">
+            <ul>
+             <li><code>Always Use Static Destination</code> - the destination is always set statically (the dynamic destination is ignored even if provided) using the <strong>Static Destination</strong> <span>configuration property</span>. When this option is selected, <span>t</span><span>he </span> <strong>Static Destination</strong> <span>configuration property is mandatory, and</span> <strong style="line-height: 13.0pt;">On Missing Dynamic Destination</strong> <span style="line-height: 13.0pt;">and </span><strong style="line-height: 13.0pt;">On Invalid Dynamic Destination</strong> <span style="line-height: 13.0pt;">are disabled</span><span style="line-height: 13.0pt;">.</span></li>
+             <li><code>Use Dynamic Destination</code> (default) - the destination is set dynamically using the <code><span>router:Destination</span></code><span>&nbsp;</span>message property.</li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">On Missing Dynamic Destination</td>
+          <td class="confluenceTd"><p>Determines the action the communication point should take if no destination has been specified when a message is ready to be sent. This occurs if either the message is missing the required message property for the dynamic destination, or it contains that property but the property has no value. The available options are:</p>
+           <ul>
+            <li style="list-style-type: none;background-image: none;">
+             <ul>
+              <li><code>Treat as Message Error</code>&nbsp;(default).</li>
+              <li><code>Treat as Connection Error</code>.</li>
+              <li><code>Use Static Destination</code>.</li>
+             </ul></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">On Invalid Dynamic Destination</td>
+          <td colspan="1" class="confluenceTd"><p>Determines the action the communication point should take if a destination was specified in the required message property, but either the destination was not found or it was not a valid destination. The available options are:</p>
+           <ul>
+            <li style="list-style-type: none;background-image: none;">
+             <ul>
+              <li><code>Treat as Message Error</code>&nbsp;(default).</li>
+              <li><code>Treat as Connection Error</code>.</li>
+              <li><code>Use Static Destination</code>.</li>
+             </ul></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Static Destination</td>
+          <td colspan="1" class="confluenceTd">The full path or target name of an input mode Dynamic Router communication point that is used as the destination if one of the error conditions occurs and the configured action indicates that the static destination should be used. This property is disabled until one of the error actions is configured in such a manner. If a target name is used then it must be preceded with the&nbsp;<code>@</code>&nbsp;symbol (for example,&nbsp;<code>@myTarget</code>).</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Index Message Properties</td>
+          <td colspan="1" class="confluenceTd"><p>Indicates whether message properties are indexed after sending this message out the Dynamic Router communication point if they are configured as such:</p>
+           <ul>
+            <li>Enabled - index <span>message properties on send.</span></li>
+            <li>Disabled (default) - do not <span>index </span><span>message properties on send.</span></li>
+           </ul><p>Normally, this is always done when messages leave Rhapsody via a communication point, however, as the Dynamic Router is a mid-point rather than an exit, it is possible that indexing of message properties is not required here as it will just increase disk space usage and performance for a searching scenario that is unlikely to take place.</p><p>Note that disabling message property indexing here does not affect whether or not message properties are indexed when they finally leave Rhapsody; it just affects whether or not they are indexed at this communication point.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Remove Dynamic Destination Property</td>
+          <td colspan="1" class="confluenceTd"><p><span>Indicates whether the <code>router:Destination</code><span>&nbsp;</span><span>message property should be removed on send:</span></span></p>
+           <ul>
+            <li><span><span>Enabled (default) - remove <span><code>router:Destination</code> on send.</span></span></span></li>
+            <li>Disabled&nbsp;- do not <span>remove </span><span><code>router:Destination</code> on send.</span></li>
+           </ul><p>This configuration property is only available when <span><strong>Delivery Mode</strong> is set to <span><code>Use Dynamic Destination</code>. It is set to <code>true</code> by default for Dynamic Router communication points created as of Rhapsody 6.3. The configuration property is set to 'blank' for <span>Dynamic Router communication points created in older versions of Rhapsody, indicating the same behavior as the <code>false</code> setting.</span></span></span></p><p><span><span><span>The removal of this property requires the message to be saved to disk. This may slightly decrease the performance of the dynamic router by up to 30%. Using the communication point in static mode, or choosing not to remove this property will not incur the same performance impact. If you choose to use this property instead of a filter to manually strip or reset this property, then the overall performance will be the same.</span></span></span></p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148398']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148398',[],'',
+1,'lightgoldenrodyellow',true,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>The dynamic routing is configured by setting the message property&nbsp;<code>router:Destination</code>&nbsp;to either the full path or target name of the target communication point. It can be set as either a single value or a property list if multiple destinations are desired, and it is valid to use a mixture of full paths and target names. If full paths are used then it is permissible to use either forward or backslashes to separate the path components. If a target name is used then it must be preceded with a single&nbsp;<code>@</code>&nbsp;character in order to distinguish it from a component path (for example,&nbsp;<code>@myTarget</code>).</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When the <code>router:Destination</code> property is set to a value that starts with an <code>@</code> character, Rhapsody interprets it as a target name. Therefore, you cannot refer to any communication point that has a path name beginning with the <code>@</code> character by its relative path (you would have to refer to it by absolute path using the <code>#</code> prefix instead). As a general guideline, it is recommended you not name folders or components beginning with <span>an <code>@</code> character <span>to avoid naming conflicts.</span></span></p>
+       </div>
+      </div>
+      <p>A destination must be considered valid in order for it to be used. A valid destination is an instance of the Dynamic Router communication point that is:</p>
+      <ul>
+       <li>Configured to run in input only mode, and</li>
+       <li>&nbsp;Attached to one or more routes.</li>
+      </ul>
+      <p>Static destinations configured using component paths are validated at configuration time. Only runtime validation is performed on static destinations that use target names.</p>
+      <p>If multiple destinations are identified for a message due to either multiple paths being provided or a target name being used by multiple input Dynamic Router communication points, all of the evaluated destinations are validated.&nbsp;An error with any of the destinations causes the configured error action to take effect and the message is sent to none of those destinations. This means that duplicate messages are avoided if the user subsequently fixes the message and re-sends it.</p>
+      <p>If an error occurs evaluating the Static Destination at runtime then the outgoing message is sent to the Error Queue.</p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <div>
+         Exercise caution when renaming input Dynamic Router communication points or changing their configured target names as you may inadvertently break connections used elsewhere in the configuration.
+        </div>
+       </div>
+      </div>
+      <h3 id="DynamicRouter-StaticDestinations">Static Destinations</h3>
+      <p>Although the Dynamic Router communication point&nbsp;is designed for dynamically selecting a destination using the&nbsp;<code>router:Destination</code>&nbsp;message property, if need be it can be configured to send messages to a single destination instead. This is done by setting the&nbsp;<strong>On Missing Dynamic Destination</strong>&nbsp;configuration property to&nbsp;<code>Use Static Destination</code>. The&nbsp;<strong>Static Destination</strong>&nbsp;configuration property should then be set to the destination to use. As with dynamic destinations, a static destination within a locker can be configured using either the relative component path (for example, <code>myFolder/Dynamic Router 1</code>), or the target name preceded with the&nbsp;<code>@</code>&nbsp;symbol (for example,&nbsp;<code>@myTarget</code>). A&nbsp;static destination in another locker can be configured using either the full component path preceded by the&nbsp;<code>#</code>&nbsp;symbol (for example, <span style="color: rgb(51,51,51);"> <code>#myLocker/myFolder/Dynamic Router 1</code>),&nbsp;or the target name preceded with the&nbsp;<code>@</code>&nbsp;symbol.</span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The&nbsp;</span> <code style="line-height: 13.0pt;">router:Destination</code> <span style="line-height: 13.0pt;background-color: transparent;">message property should not be set when a single static destination is being used.</span></p>
+      <h3 id="DynamicRouter-MultipleDestinations">Multiple Destinations</h3>
+      <p><span>The Dynamic Router <span>communication point&nbsp;</span>can deliver to multiple destinations in two ways:</span></p>
+      <ul>
+       <li><span>By using a </span> <strong>Target Name</strong> <span> (for example, </span> <span> <code>@myTarget</code>) which multiple Dynamic Router input communication points have configured as a non-unique target name. </span></li>
+       <li><span>By dynamically selecting multiple destinations&nbsp;using the <code>router:Destination</code> message property with a property list containing multiple target names or component paths. Property lists are message properties containing multiple values and are set using the <code>addPropertyValue()</code> function in JavaScript. Refer to&nbsp;<a href="Message-Object_133161393.html">Message Object</a> for details on how to call this function.</span></li>
+      </ul>
+      <h3 id="DynamicRouter-Cross-LockerDestinations">Cross-Locker Destinations</h3>
+      <p>You can use the Dynamic Router communication point&nbsp;to deliver&nbsp;messages across lockers.</p>
+      <h3 id="DynamicRouter-Examples">Examples</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">// Create the output message 
+var next = output.append(input[0]);
+
+// Set the dynamic router destinations
+// Across lockers
+next.addPropertyValue("router:Destination", "#Locker 1/Dynamic Router 1");
+next.addPropertyValue("router:Destination", "#Locker 2/Folder A/Dynamic Router 2");
+next.addPropertyValue("router:Destination", "#Locker 2/Dynamic Router 3");
+
+// Within the same locker
+next.addPropertyValue("router:Destination", "Folder A/Dynamic Router 2");
+
+// By targetName
+next.addPropertyValue("router:Destination", "@targetName"); </pre> 
+       </div>
+      </div>
+      <h2 id="DynamicRouter-Usage">Usage</h2>
+      <p>There are many potential uses for the Dynamic Router communication point, one of which allows re-usable routes to be built that are connected using instances of the Dynamic Router communication point. This allows multiple other routes in a Rhapsody configuration to use some shared functionality from another route, without the shared route having to be aware of where the messages are coming from.</p>
+      <p>In the following example, a shared validation route is indirectly connected to another route using the Dynamic Router communication point.&nbsp;<span>The structure of these routes is shown in the following screenshots:</span></p>
+      <div class="sectionColumnWrapper">
+       <div class="sectionMacro">
+        <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="151" width="202" src="attachments/133162358/133162367.png" data-image-src="attachments/133162358/133162367.png" data-unresolved-comment-count="0" data-linked-resource-id="133162367" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="workspace.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span></p>
+        <div class="sectionMacroRow">
+         <div class="columnMacro">
+          <p style="text-align: left;"><strong>System 1 Route</strong></p>
+          <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="289" width="500" src="attachments/133162358/133162370.png" data-image-src="attachments/133162358/133162370.png" data-unresolved-comment-count="0" data-linked-resource-id="133162370" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="System1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span></p>
+         </div>
+         <div class="columnMacro">
+          <p><strong>Validation Route</strong></p>
+          <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="290" width="500" src="attachments/133162358/133162366.png" data-image-src="attachments/133162358/133162366.png" data-unresolved-comment-count="0" data-linked-resource-id="133162366" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="commonValidation.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span></p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <p><span> <span>A single output Dynamic Router communication point is shared between the two routes to send messages, and it uses its default configuration.</span> </span></p>
+      <h3 id="DynamicRouter-System1Route"><span> <span>System 1 Route</span> </span></h3>
+      <h4 id="DynamicRouter-SendtoValidationModuleFilter">Send to Validation Module Filter</h4>
+      <p>The 'Send to Validation Module Filter' is a <a href="Property-Population_133162995.html">Property Population</a>&nbsp;filter that is used to initialize the message properties required for routing. The&nbsp;<code>router:Destination</code>&nbsp;message property is used to send the message to the Validation Module, and then the <code>ValidationModuleCaller</code>&nbsp;message property is used by the Validation Module in order to determine where to return the message after finishing with it.</p>
+      <p><span> <span> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162358/133162361.png" data-image-src="attachments/133162358/133162361.png" data-unresolved-comment-count="0" data-linked-resource-id="133162361" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="sendToValidationModule.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span> </span> </span></p>
+      <h4 id="DynamicRouter-System1RouterInputCommunicationPoint">System 1 Router Input Communication Point</h4>
+      <p>The 'System1 Router Input Communication Point' is an input&nbsp;Dynamic Router&nbsp;communication point that receives the message after it has finished processing on the Validation Module. It is configured as follows:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="68" width="456" src="attachments/133162358/133162369.png" data-image-src="attachments/133162358/133162369.png" data-unresolved-comment-count="0" data-linked-resource-id="133162369" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="System1Router.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span></p>
+      <h3 id="DynamicRouter-ValidationModuleRoute">Validation Module Route</h3>
+      <h4 id="DynamicRouter-ValidationInputCommunicationPoint">Validation Input Communication Point</h4>
+      <p>The 'Validation Input Communication Point' is an input&nbsp;Dynamic Router&nbsp;communication point that receives the message when it is initially sent to the Validation Module. It is configured as follows:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="62" width="460" src="attachments/133162358/133162368.png" data-image-src="attachments/133162358/133162368.png" data-unresolved-comment-count="0" data-linked-resource-id="133162368" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="validationModuleInput.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span></p>
+      <div>
+       <h4 id="DynamicRouter-RedirectFilter">Redirect Filter</h4>
+       <p>The 'Redirect&nbsp;Filter' is a JavaScript&nbsp;filter that is used to redirect the message back to the original route once it has finished processing on the Validation Module. It does this by replacing the&nbsp;<code>router:Destination</code>&nbsp;message property using the value provided by the initial route. This means that the Validation Module is completely unaware of who it is returning the message to. Consequently, new routes can start using this Validation Module without requiring it to be changed.</p>
+       <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="122" width="621" src="attachments/133162358/133162362.png" data-image-src="attachments/133162358/133162362.png" data-unresolved-comment-count="0" data-linked-resource-id="133162362" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="redirect.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162358" data-linked-resource-container-version="5"></span></p>
+      </div>
+      <h2 id="DynamicRouter-ShowUses"><span style="background-color: transparent;">Show Uses</span></h2>
+      <p><span style="background-color: transparent;"><span><span>The <a href="https://docs.rhapsody.health/pages/viewpage.action?pageId=123389793">Show Uses</a> tab in the <strong>Information</strong> panel in Rhapsody IDE displays the static destination routes or the delivery routes of a Dynamic Router communication point.</span></span></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The<strong> Show Uses</strong> tab does not display connections for Dynamic Router communication points that use Rhapsody variables, or Dynamic Router communication points that are configured in a loop.</p>
+       </div>
+      </div>
+      <h2 id="DynamicRouter-InfiniteLoopDetection"><span style="background-color: transparent;">Infinite Loop Detection</span></h2>
+      <p>An infinite loop in Rhapsody occurs when a message continuously flows through one or more routes without ever being able to exit the system. It continues to consume resources until some manual intervention is performed to stop it from processing further. While it is possible to configure an infinite loop using normal cross-route connectors in Rhapsody, such potential loops can generally be seen in the configuration relatively easily. However, the nature of the Dynamic Router communication point (as well as communication points operating in <em>Output</em> mode with&nbsp;<a href="Connection_133162193.html#Connection-ContinuedRouting">continued routing</a> enabled) is such that an infinite loop could be inadvertently configured in a manner that is difficult to detect.</p>
+      <p>The Dynamic Router communication point provides some built-in protection against inadvertent infinite loops through a configurable limit on the number of times that a single input message can be sent by a Dynamic Router communication point. When this message count threshold is exceeded, the message is immediately sent to the Error&nbsp;Queue when another Dynamic Router communication point&nbsp;attempts to send it. This limit applies to the original input message to Rhapsody, and so is cumulative across all copies of that message if it is split or debatched. In order to limit the datastore space required to keep track of this limit, messages that have not been sent by a Dynamic Router communication point within approximately the last hour have their counts reset to zero. In practice, however, a real infinite loop tends to reach the limit within a matter of seconds.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody maintains the message count across lockers in order to account for the possibility of infinite loops occurring in any of the lockers the message is traversing.</p>
+       </div>
+      </div>
+      <p>The default threshold for the infinite loop detection is 50. The threshold can be set by modifying the <code>rhapsody.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>rhapsody.properties</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence"># Maximum number of times that an input message and its descendants can flow through a communication point
+#RouterModuleService.maxRouterSendsPerMessage=50</pre> 
+       </div>
+      </div>
+      <p>Rhapsody treats any threshold value less than 10 as 10.&nbsp;Changing this setting in the <code>rhapsody.properties</code>&nbsp;file requires a Rhapsody engine restart in order to take effect.</p>
+      <p>The infinite loop detection threshold can also be changed on a per message basis using a message property. To do so, add a message property to the message called&nbsp;<code>router:MaxRouterSendsPerMessage</code>&nbsp;set to an integer containing the maximum number of times that this message may be sent by a Dynamic Router communication point. Note that when setting this message property, the number of sends is still counted against the original input message, even if multiple splits of that input message have a different configured maximum.</p>
+      <p>It is also possible to suppress the limit entirely for a message. However, this is only recommended for cases where the threshold has already been reached for a message, and the configuration has subsequently been fixed to remove the infinite loop. The Dynamic Router communication point does not perform any infinite loop detection for a message if the message contains a message property called&nbsp;<code>router:SuppressRouterInfiniteLoopDetection</code>. This property can be manually added to a message while it is on the Error Queue, if required, and then the message can be re-sent out the Dynamic Router communication point in order to allow it to continue processing. The value of this message property is not important: its mere presence causes the infinite loop protection to be disabled.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

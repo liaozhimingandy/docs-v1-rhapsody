@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Virtualization Best Practices</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Deployment_133164213.html">Deployment</a></span> </li> 
+       <li> <span><a href="Running-Rhapsody-on-a-Virtual-Machine_133164237.html">Running Rhapsody on a Virtual Machine</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Virtualization Best Practices</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Do not over-commit your virtualized environment, whether it is in memory or CPU resources.&nbsp;As Rhapsody is an enterprise-level Java application, performance will be severely impacted if the virtual machine hosting Rhapsody does not have sufficient dedicated resources at all times.</p>
+        <p>Performance profiling should always be conducted with production-level loads prior to deploying Rhapsody configurations to a production environment in order to allocate adequate resources.&nbsp;This is even more crucial when hosting Rhapsody in a virtualized environment.</p>
+       </div>
+      </div>
+      <p>If you intend to set up Rhapsody on a virtual machine, you must consider the following configuration recommendations in order to optimize performance:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146929473 {padding: 0px;}
+div.rbtoc1565146929473 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146929473 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146929473"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#VirtualizationBestPractices-DonotassignmorevirtualCPUs(vCPUs)toonevirtualmachinethanyouhavephysicalCPUsavailable">Do not assign more virtual CPUs (vCPUs) to one virtual machine than you have physical CPUs available</a></li> 
+        <li><a href="#VirtualizationBestPractices-DeterminetheoptimumnumberofvCPUsbytestingperformanceofvirtualmachineswithdifferentnumbersofvCPUsusingtheexpectedRhapsodyload">Determine the optimum number of vCPUs by testing&nbsp;performance&nbsp;of virtual machines with different numbers of vCPUs using the expected Rhapsody load</a></li> 
+        <li><a href="#VirtualizationBestPractices-DonotovercommitCPUstoyourvirtualmachine">Do not overcommit CPUs to your virtual machine</a></li> 
+        <li><a href="#VirtualizationBestPractices-EnsureCPUreadytimemetricislow(below20percent)">Ensure&nbsp;CPU&nbsp;ready time metric is low (below 20&nbsp;per cent)</a></li> 
+        <li><a href="#VirtualizationBestPractices-AllocateatleastenoughRAMtocovertheJVMmemoryallocation">Allocate at least enough RAM to cover the JVM memory allocation</a></li> 
+        <li><a href="#VirtualizationBestPractices-Donotover-commitJVMmemory">Do not over-commit JVM memory</a></li> 
+        <li><a href="#VirtualizationBestPractices-Ensureyouhaveenoughmemoryonthephysicalmachinetoaccommodatetheactivememoryofallvirtualmachines">Ensure you have enough memory on the physical machine to accommodate the active memory of all virtual machines</a></li> 
+        <li><a href="#VirtualizationBestPractices-Hostclustersettings">Host cluster settings</a></li> 
+        <li><a href="#VirtualizationBestPractices-Preventmemoryballooningandmemoryresourcecontention">Prevent memory ballooning and memory resource contention</a></li> 
+        <li><a href="#VirtualizationBestPractices-ThenumberofGarbageCollectionthreadsshouldbelessthanorequaltothenumberofvCPUs">The number of Garbage Collection threads should be less than or equal to the number of vCPUs</a></li> 
+        <li><a href="#VirtualizationBestPractices-Generalvirtualizationbestpractices">General virtualization best practices</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The information in this section generally applies to VMware.&nbsp;For specific details on running applications on virtual machines, refer to the virtual machine applications' documentation.&nbsp;General literature on virtual machines is available on the internet.</p>
+        <p>This section is intended for the VMware and system administrators in charge of managing the Rhapsody server.</p>
+       </div>
+      </div>
+      <h2 id="VirtualizationBestPractices-DonotassignmorevirtualCPUs(vCPUs)toonevirtualmachinethanyouhavephysicalCPUsavailable">Do not assign more virtual CPUs (vCPUs) to one virtual machine than you have physical CPUs available</h2>
+      <p>This best practice is dictated by the physical resource constraint on your host because a vCPU is one core in your physical processors. Therefore, the maximum vCPUs that can be specified to a virtual machine is equal to the number of cores on the host. Assigning six virtual vCPUs to your virtual machine when only four physical CPUs are available does not increase performance; you are still limited to the performance that the four physical CPUs are able to provide. If you have multiple virtual machines on one host, you can have more total vCPUs allocated across all virtual machines than you have physical CPUs because the physical machine allocates virtual machine processes to any idle physical CPU. Allocating more vCPUs&nbsp;in this case&nbsp;reduces the physical CPU idle time. However, allocating significantly more virtual CPUs than physical CPUs (roughly more than four or five vCPUs per pCPU) can increase the load on the physical CPUs to the point that they are all running at a high percentage (90-100%). This reduces performance across all virtual machines, including the one running Rhapsody.</p>
+      <h2 id="VirtualizationBestPractices-DeterminetheoptimumnumberofvCPUsbytestingperformanceofvirtualmachineswithdifferentnumbersofvCPUsusingtheexpectedRhapsodyload">Determine the optimum number of vCPUs by testing&nbsp;performance&nbsp;of virtual machines with different numbers of vCPUs using the expected Rhapsody load</h2>
+      <p>The optimal vCPU configuration for your virtual machine is dependent upon the expected Rhapsody load. We recommend at least two vCPUs be allocated, but for larger Rhapsody loads, more vCPUs may give better performance. In the past problems have been identified that were resolved with additional processors. However, allocating more vCPUs to a Rhapsody configuration with a low load is not guaranteed to increase performance and may actually reduce performance, as described in the following best practice. If the CPU usage value for your virtual machine is consistently above or about 80%, then the load is too high for the current CPU configuration to handle (since it would struggle to handle bursts of messages). You should&nbsp;therefore&nbsp;assign additional CPUs.</p>
+      <h2 id="VirtualizationBestPractices-DonotovercommitCPUstoyourvirtualmachine">Do not overcommit CPUs to your virtual machine</h2>
+      <p>Assigning more CPUs than are required to your virtual machine gives you no added performance benefits. Running a small Rhapsody load that could be handled easily by two vCPUs on a virtual machine with four vCPUs means that the virtual machine is asking the physical device for four physical CPU cores. The virtual machine will have to wait longer for four physical CPU cores to become available than for two to become available. This increases the wait time for each multi-threaded action the virtual machine tries to do and so overall, the performance will drop. If the exact workload is not known, start with a smaller number of vCPUs and increase later as necessary.<span>&nbsp;</span></p>
+      <h2 id="VirtualizationBestPractices-EnsureCPUreadytimemetricislow(below20percent)">Ensure&nbsp;CPU&nbsp;ready time metric is low (below 20&nbsp;per cent)</h2>
+      <p>CPU ready time is the duration of the time spent by the virtual machine being ready to run against the physical CPUs when none are available, in other&nbsp;words&nbsp;the time spent waiting for an available core to perform the work. If your CPU Ready metric is high, this means your virtual machine is finding it hard to get physical resources. This could be due to several reasons, for example, that you over-committed your physical CPUs. In order to mitigate this scenario, either the CPU resources allocated to the virtual machine need to be reduced or additional hardware resources need to be added to the cluster.&nbsp;</p>
+      <h2 id="VirtualizationBestPractices-AllocateatleastenoughRAMtocovertheJVMmemoryallocation">Allocate at least enough RAM to cover the JVM memory allocation</h2>
+      <p>The JVM has a memory heap that is accessed frequently and so should be present in physical memory. Not allocating enough memory to your virtual machine to cover the heap space will result in frequent page swapping that decreases performance. To be confident that you have enough RAM, only allocate 50% of the memory to the Java Heap. JVM memory allocation can be significantly larger than&nbsp;the heap, especially on 64-bit operating systems, when hyperthreading is a feature on the physical CPUs. With hyperthreading, allocating 50% of the virtual machine’s RAM to the Java heap can equate to the JVM taking 70% of the virtual machine’s RAM. Refer to&nbsp;<a href="Allocating-Memory-to-Rhapsody_133164190.html">Allocating Memory to Rhapsody&nbsp;</a>for details.&nbsp;</p>
+      <h2 id="VirtualizationBestPractices-Donotover-commitJVMmemory">Do not over-commit JVM memory</h2>
+      <p>JVM memory is an active space that is constantly being accessed and garbage collected which requires the memory to be available all the time. Assigning more memory than required, specifically, more memory than virtually allocated or physically&nbsp;present,&nbsp;may lead to memory ballooning or swapping, reducing performance.</p>
+      <h2 id="VirtualizationBestPractices-Ensureyouhaveenoughmemoryonthephysicalmachinetoaccommodatetheactivememoryofallvirtualmachines">Ensure you have enough memory on the physical machine to accommodate the active memory of all virtual machines</h2>
+      <p>If the physical memory is too small to assign specific memory space to the active memory of all virtual machines, then the virtual machines experience ballooning or swapping which decreases performance on these machines. If the physical machine has less than 6% free memory, this indicates it is struggling to meet all the memory requirements.</p>
+      <h2 id="VirtualizationBestPractices-Hostclustersettings">Host cluster settings</h2>
+      <p>It is a VMware best practice to load balance the virtual machines in your vCenter environment by grouping your hosts into a cluster and enabling the Dynamic Resource Scheduler (DRS). DRS will determine both the best host for a virtual machine to run on at its boot&nbsp;time,&nbsp;and will move virtual machines with vMotion between the hosts to allow additional servers to run. It is recommended to set DRS to automatic mode and the migration threshold to the second level (one level removed from the most conservative setting). This initial setting is recommended for most instances, but it can be changed based on the load and performance in your environment.&nbsp;vMotion can be manually executed on a running or powered off Rhapsody virtual machine when the VMware administrator deems it necessary. This should be avoided during periods of long-running garbage collections.&nbsp;If you are installing Rhapsody in an existing VMware environment, follow the guidance of your local VMware administrator for the best setting for your virtualization usage. Optionally, for additional control over migrating virtual machines, resource pools can be configured. Refer to VMware documentation for all of the available options and settings for resource pools.&nbsp;</p>
+      <h2 id="VirtualizationBestPractices-Preventmemoryballooningandmemoryresourcecontention">Prevent memory ballooning and memory resource contention</h2>
+      <p>Memory ballooning allows the virtualization host to redistribute memory between active virtualized environments sharing the same physical memory pool. If you have memory ballooning enabled, then it is possible that another virtual machine could request more memory which would result in memory being re-allocated away from the environment hosting Rhapsody. This ultimately results from over-committing memory to your virtual machines.</p>
+      <p>Due to memory management and garbage collection techniques employed by Java, Java application performance is sensitive to changes in available memory. Virtual machine ballooning can lead to the reallocation of memory from the system hosting Rhapsody to other system memory that has not yet been committed to the Java Heap.</p>
+      <p>The operating system may then page memory out to disk/swap space, usually according to&nbsp;an LRU&nbsp;(least recently used) algorithm, because there is&nbsp;insufficient&nbsp;physical memory for its needs. If ballooning occurs, this would likely trigger an exhaustion of physical memory on the system hosting Rhapsody, which would then lead to memory in the old/tenured space being swapped out to disk. A full garbage collection would then need to page this back into memory in order to perform garbage collection. The resulting extra I/O makes a full garbage collection slower by an order of magnitude. Since locking techniques in the garbage collector are optimized for physical memory, this can cause a long garbage collection pause in application processing in the Rhapsody engine.&nbsp;</p>
+      <p>Simply setting a memory reservation on the virtual machine equal to the entire allocated memory of the virtual machine can mitigate this issue because ballooning will never be used if all of the virtual machine’s memory is reserved. The benefit of this method is that all the memory the virtual machine needs is reserved and therefore the hypervisor does not consider that virtual machine for ballooning. This method continues to allow the hypervisor to use memory ballooning for the other running virtual machines if needed.&nbsp;</p>
+      <h2 id="VirtualizationBestPractices-ThenumberofGarbageCollectionthreadsshouldbelessthanorequaltothenumberofvCPUs">The number of Garbage Collection threads should be less than or equal to the number of vCPUs</h2>
+      <p>If you have more garbage collection threads than virtual CPUs, you will experience context switching between your garbage collection threads. Some garbage collection threads will be held up waiting for other threads to complete.&nbsp; Since context switching incurs a time penalty, this slows down the time to complete a garbage collection run. To set the number of garbage collection threads on the JVM&nbsp;use&nbsp;<code>-XX:ParallelGCThreads=&lt;n&gt;</code>.&nbsp; Generally on a virtual machine with only one JVM, this parameter is automatically configured, but it can be explicitly specified to finer tune your environment.&nbsp; In the case where there are multiple JVMs on the virtual machine, you must adjust this parameter on all of your JVMs to optimize CPU usage for each one.&nbsp; If a full garbage collection takes more than five minutes, Rhapsody assumes that the garbage collection has hung and thus restarts the Rhapsody engine.&nbsp; When a full garbage collection is underway, all other threads are paused, in effect pausing Rhapsody and stopping any messages from being processed.&nbsp; The duration of garbage collection can be reduced significantly by increasing the vCPUs to the virtual machine and adjusting the JVM&nbsp;<code>-XX:ParallelGCThreads=&lt;n&gt;</code>&nbsp;parameter accordingly. This is especially useful in high throughput environments and ones where the JVM is allocated larger amounts of RAM.&nbsp; It is important to remember that CPU processing in a virtualized environment only occurs when the number of allocated cores (vCPUs) to the virtual machine are available simultaneously.&nbsp; So the larger the number of vCPUs&nbsp;allocated to the virtual machine, the longer virtual machine may have to wait to process on the physical hardware. It should be noted that when hyper-threading is available on the physical CPU that the number of cores does not equal the number of threads available, but when doing computing resource allocation to the JVM it is advised to consider the number of threads equal to the count of vCPUs in the virtual machine.&nbsp; You should conduct performance testing to determine what the right settings are for your environment. This effect can be further mitigated by configuring CPU reservations and shares.</p>
+      <h2 class="TableCaption" id="VirtualizationBestPractices-Generalvirtualizationbestpractices">General virtualization best practices</h2>
+      <ul>
+       <li>Only run on versions of VMware products that are actively supported.&nbsp;</li>
+       <li>Install VMware Tools.</li>
+       <li>Set all of your ESXi hosts to use the same internal NTP server for time synchronization.</li>
+       <li>Guest virtual machines should be configured to use the same NTP source, or alternatively have VMware Tools synchronize the time with&nbsp;the host.</li>
+       <li>Configure DNS servers for short and fully qualified domain names for your ESXi hosts.</li>
+       <li>Configure DNS servers for your Rhapsody virtual machines for both short and fully qualified domain name.</li>
+       <li>When allocating virtual machine memory resources, allocate enough for the operating system and all running applications, including the Rhapsody JVM.</li>
+       <li>When using virtualized disks on&nbsp;<a href="Datastore-Setup_133161568.html">supported physical architecture</a>&nbsp;for the Rhapsody datastore, provision them as&nbsp;thick&nbsp;provision with the eager zero option for maximum performance.</li>
+       <li>Limit the use of snapshots in production as they can negatively impact disk I/O performance.</li>
+       <li>Utilize a system monitoring product to proactively monitor the health of your hosts, storage, virtual machines, and applications.</li>
+       <li>Keep all drivers, firmware, and BIOS up to date on your ESXi hosts.</li>
+       <li>Test and apply all VMware software patches in a timely manner.</li>
+       <li>Unless you plan to move a virtual machine to older versions of ESXi hosts, always use the highest version of virtual hardware compatible with all of your hosts and keep VMware tools installed with the version applicable to your firmware level.</li>
+      </ul>
+      <p><span style="color: rgb(0,0,0);">Refer to</span><span style="color: rgb(0,0,0);">&nbsp;</span><a href="http://kb.vmware.com/kb/1008480" class="external-link" rel="nofollow">Best practices for running Java in a virtual machine (1008480)</a><span style="color: rgb(0,0,0);">&nbsp;for additional information.</span></p> 
+      <p></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

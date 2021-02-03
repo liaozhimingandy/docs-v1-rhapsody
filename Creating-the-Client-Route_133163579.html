@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Creating the Client Route</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Web-Services_133163490.html">Web Services</a></span> </li> 
+       <li> <span><a href="Tutorials_133163522.html">Tutorials</a></span> </li> 
+       <li> <span><a href="Simple-Patient-Lookup-Service_133163523.html">Simple Patient Lookup Service</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Creating the Client Route</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Click the <strong>New Route</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163579/133163581.png" data-image-src="attachments/133163579/133163581.png" data-unresolved-comment-count="0" data-linked-resource-id="133163581" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_newroute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163579" data-linked-resource-container-version="1"></span> on the standard toolbar, and call it <strong>Client Route</strong>. Add the <code>PatientLookup.s3d</code> definition to the route.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133163579/133163582.png" data-image-src="attachments/133163579/133163582.png" data-unresolved-comment-count="0" data-linked-resource-id="133163582" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateRoute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163579" data-linked-resource-container-version="1"></span></p>
+      <p>Complete the following:</p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146989136 {padding: 0px;}
+div.rbtoc1565146989136 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146989136 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565146989136"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CreatingtheClientRoute-CreateaJavaScriptFiltertoPicktheOperation">Create a JavaScript Filter to Pick the Operation</a></li> 
+        <li><a href="#CreatingtheClientRoute-ConfiguretheClientRoute">Configure the Client Route</a></li> 
+       </ul> 
+      </div>
+      <h2 id="CreatingtheClientRoute-CreateaJavaScriptFiltertoPicktheOperation">Create a JavaScript Filter to Pick the Operation</h2>
+      <p>From the Filter Toolbox (<strong>Common</strong> menu), create a JavaScript filter called <strong>PickOperation</strong>.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>var next = output.append(input[0]);
+if (next.getField("Query/Type") == "ID") {
+	next.setProperty("rhapsody:consumerOperation", "lookupById");
+} else {
+	next.setProperty("rhapsody:consumerOperation", "lookupByName");
+} </pre> 
+       </div>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163579/133163583.png" data-image-src="attachments/133163579/133163583.png" data-unresolved-comment-count="0" data-linked-resource-id="133163583" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="PickOperation.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163579" data-linked-resource-container-version="1"></span></p>
+      <h2 id="CreatingtheClientRoute-ConfiguretheClientRoute">Configure the Client Route</h2>
+      <p>Set up <strong>Client Route</strong> as follows, and check in your changes.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163579/133163584.png" data-image-src="attachments/133163579/133163584.png" data-unresolved-comment-count="0" data-linked-resource-id="133163584" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ClientRoute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163579" data-linked-resource-container-version="1"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

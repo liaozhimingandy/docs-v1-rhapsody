@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>ebXML AutoReply</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="ebXML-Filters_133163041.html">ebXML Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">ebXML AutoReply</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163043/133163045.jpg" data-image-src="attachments/133163043/133163045.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163045" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image059.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163043" data-linked-resource-container-version="3"></span></p>
+      <p>The <strong>ebXML AutoReply</strong> filter&nbsp;is a convenience filter which encompasses the response generating functionality of the ebXML Acknowledgment filter, the ebXML Ping Service filter&nbsp;and the ebXML Message Status filter. Typically, these three filters will be used only to respond to incoming ebXML messages, rather than generate new, outgoing ebXML messages. In this common case, rather than using all three filters, it is convenient to use this single AutoReply Filter to provide the functionality while keeping the route uncomplicated.</p>
+      <p>Configuration of this filter is limited to deciding whether to sign any of the three generated message types (note that if signing of acknowledgment messages is enabled, it will occur only if the original message requested a signed acknowledgment).</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The filter itself will determine which type of message to generate, based on the input message, and that if an input message is not an acknowledgment request, a Ping message or a StatusRequest message, no processing will occur on that message and it will be output unchanged.</p>
+       </div>
+      </div>
+      <p>It is recommended that, as a best practice, all receiving routes implementing ebXML functionality include either the ebXML AutoReply filter or each of the ebXML Acknowledgment filter, ebXML Ping Service filter&nbsp;and ebXML Message Status Service filter. Refer to <a href="ebXML-Filters_133163041.html">ebXML Filters</a> for details.</p>
+      <h2 id="ebXMLAutoReply-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Acknowledgment Message Signing</p></td>
+          <td class="confluenceTd"><p>Whether the filter should sign generated acknowledgment messages if the sender of the original message has requested it:</p>
+           <ul>
+            <li><code>Do Not Sign Messages</code><span> (d<span>efault).</span></span></li>
+            <li><code>As Per Message Property</code><span>.</span></li>
+            <li><code>Sign Messages</code><span>.</span><span> </span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Pong Message Signing</p></td>
+          <td class="confluenceTd"><p>Whether the filter should sign generated Pong messages:</p>
+           <ul>
+            <li><code>Do Not Sign Messages</code> (default).</li>
+            <li><code>As Per Message Property</code>.</li>
+            <li><code>Sign Messages</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>StatusResponse Message Signing</p></td>
+          <td class="confluenceTd"><p>Whether the filter should sign generated StatusResponse messages.</p>
+           <ul>
+            <li><code>Do Not Sign Messages</code> (default).</li>
+            <li><code>As Per Message Property</code>.</li>
+            <li><code>Sign Messages</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signature Algorithm</p></td>
+          <td class="confluenceTd"><p>The algorithm to use to sign messages. Currently RSA with SHA-1 and DSA with SHA-1 are supported. The alternative message property is <code>eb:SignatureAlgorithm</code>.</p>
+           <ul>
+            <li><code>rsa-sha1</code> (default).</li>
+            <li><code>dsa-sha1</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing Key</p></td>
+          <td class="confluenceTd"><p>The private key to use to sign messages. The alternative message property is <code>eb:SignatureKeyAlias</code> whose value must be the alias of the private key to use.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

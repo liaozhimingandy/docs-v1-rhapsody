@@ -1,0 +1,300 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Watchlist Notifier</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Watchlist Notifier</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162533/133162535.jpg" data-image-src="attachments/133162533/133162535.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162535" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image066.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162533" data-linked-resource-container-version="2"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This communication point replaces the Scheme Notifier communication point.</p>
+       </div>
+      </div>
+      <p>The <strong>Watchlist Notifier</strong> communication point acts as a delivery agent for notification. The Watchlist Notifier&nbsp;communication point is implemented as an Input Only communication point that produces an XML representation of fired notification events.</p>
+      <p>This communication point has only one configuration parameter, which is a list of watchlists. When the communication point is started, it registers itself as a delivery agent with each watchlist, and then unregisters itself again when it is shut down. It remains in an <code>Unconfigured</code> state if any of the watchlists it references are not available.</p>
+      <p>The communication point populates the following&nbsp;<a href="Configuration_133162170.html#Configuration-StandardMessageProperties">standard message properties</a>:</p>
+      <ul>
+       <li><code><span>rhapsody:NotificationEventIdentifier</span></code>&nbsp;- contains the event identifier of notification event published by the configured watchlist. This corresponds to&nbsp;<code>issueTypeId</code>&nbsp;in the XML output message produced by the communication point.</li>
+       <li><code>rhapsody:NotificationEventName</code>&nbsp;-&nbsp;contains the&nbsp;event name of notification event published by the configured watchlist. This corresponds to&nbsp;<code>name</code>&nbsp;field in the XML output message produced by this&nbsp;communication&nbsp;point.</li>
+       <li><code>rhapsody:NotificationEventSeverity</code>&nbsp;-&nbsp;contains the&nbsp;severity of notification issue generated. This corresponds to&nbsp;<code>severity</code> field&nbsp;in the&nbsp;XML&nbsp;output message produced by the&nbsp;communication&nbsp;point.</li>
+       <li><code>rhapsody:NotificationEventDeliveryType</code>&nbsp;-&nbsp;contains the&nbsp;delivery type of notification issue generated. This corresponds to&nbsp;<code>deliverytype</code>&nbsp;field in the&nbsp;XML&nbsp;output message produced by the&nbsp;communication&nbsp;point.</li>
+      </ul>
+      <p>Supported Operational Modes: <em>Input</em>.</p>
+      <h2 id="WatchlistNotifier-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Watchlist</p></td>
+          <td class="confluenceTd"><p>The watchlists that you want to subscribe to. Select the <code><strong>...</strong></code> button to select the watchlist you require from the <strong>Watchlist Selection</strong> dialog.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="WatchlistNotifier-XMLOutput">XML Output</h2>
+      <p>The communication point produces an XML representation of the notification event associated with the watchlist, for example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>Sample XML Output</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;event id="123456" issueTypeId="43135324324" name="LARGE_COMMUNICATION_POINT_QUEUE" xmlns="http://www.orionhealth.com/rhapsody/2010/12/NotificationEvent"&gt;
+	&lt;displayname&gt;Communication point queue size exceeds threshold&lt;/displayname&gt;
+	&lt;severity escalated="true"&gt;ALARM&lt;/severity&gt;
+	&lt;deliverytype&gt;NORMAL&lt;/deliverytype&gt;
+	&lt;enginehost&gt;rhap-grid1.orion.internal&lt;/enginehost&gt;
+	&lt;timestamp&gt;2010-12-15T13:47:12Z&lt;/timestamp&gt;
+	&lt;initialtimestamp&gt;2010-12-15T13:47:12Z&lt;/initialtimestamp&gt;
+	&lt;component id="18" guid="75d0f735-32c9-4dc9-9dd6-d820d8720cf8"&gt;
+		&lt;name&gt;TCP15000&lt;/name&gt;
+		&lt;path&gt;Locker1/Folder1&lt;/path&gt;
+	&lt;/component&gt;
+	&lt;parameter id="1"&gt;
+		&lt;displayname&gt;Input queue size&lt;/displayname&gt;
+		&lt;value&gt;12345&lt;/value&gt;
+		&lt;unit&gt;messages&lt;/unit&gt;
+	&lt;/parameter&gt;
+	&lt;parameter id="2"&gt;
+		&lt;displayname&gt;Output queue size&lt;/displayname&gt;
+		&lt;value&gt;43&lt;/value&gt;
+		&lt;unit&gt;messages&lt;/unit&gt;
+	&lt;/parameter&gt;
+	&lt;parameter id="3"&gt;
+		&lt;displayname&gt;Threshold&lt;/displayname&gt;
+		&lt;value&gt;10000&lt;/value&gt;
+		&lt;unit&gt;messages&lt;/unit&gt;
+	&lt;/parameter&gt;
+&lt;/event&gt;</pre> 
+       </div>
+      </div>
+      <h3 id="WatchlistNotifier-event">event</h3>
+      <p><code>&lt;event&gt;</code> is a high-level element associated with the notification event. It is defined by the following attributes and child elements:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Attribute</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>id </pre></td>
+          <td class="confluenceTd"><span>The i</span>dentifier for the notification event.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>issueTypeId</pre></td>
+          <td class="confluenceTd"><span>The i</span>ssue type identifier for the notification event.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>name</pre></td>
+          <td colspan="1" class="confluenceTd"><p><span>The mnemonic for</span> the notification event. Refer to <a href="Notifications-Reference_133163935.html">Notifications Reference</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>xmlns</pre></td>
+          <td colspan="1" class="confluenceTd"><span>The </span>XML namespace for the notification event.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Child Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>displayname</code></p></td>
+          <td class="confluenceTd">The issue type display name for the notification event.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span class="confluence-link"><a href="#WatchlistNotifier-severity">severity</a></span></code></p></td>
+          <td class="confluenceTd"><p>The severity of the notification:</p>
+           <ul>
+            <li><code>WARNING</code></li>
+            <li><code>ALARM</code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>deliverytype</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>&nbsp;The delivery type of the notification:</p>
+           <ul>
+            <li><code>NORMAL</code></li>
+            <li><code>RAISED TO ALARM</code></li>
+            <li><code>REOPENED</code></li>
+            <li><code>REOPENED AND RAISED TO ALARM</code></li>
+            <li><code>TIME BASED RESEND</code></li>
+            <li><code>TIME BASED ESCALATION</code></li>
+            <li><code>ASSIGNED</code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>enginehost</code></p></td>
+          <td colspan="1" class="confluenceTd">The engine name.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>timestamp</code></p></td>
+          <td colspan="1" class="confluenceTd">The date-time (in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>) when the alert was last modified (for example, when it was re-opened).</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>initialtimestamp</code></p></td>
+          <td colspan="1" class="confluenceTd">The date-time (in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>) when the alert was first created.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code><a href="#WatchlistNotifier-component">component</a></code></p></td>
+          <td colspan="1" class="confluenceTd">The components associated with the notification.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code><a href="#WatchlistNotifier-parameter">parameter</a> </code></p></td>
+          <td colspan="1" class="confluenceTd">The runtime parameters generated for the notification.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WatchlistNotifier-severity">severity</h3>
+      <p><code>&lt;severity&gt;</code> is an element indicates the severity of the notification and whether the severity has been escalated. It is defined by the following attribute:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Attribute</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>escalated</pre></td>
+          <td class="confluenceTd"><p>Whether the severity has been escalated or not:</p>
+           <ul>
+            <li><code>TRUE</code></li>
+            <li><code>FALSE</code></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WatchlistNotifier-component">component</h3>
+      <p><code>&lt;component&gt;</code> is a repeating element that contains information about every component associated with the notification. It is defined by the following attributes and child elements:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Attribute</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>id</pre></td>
+          <td class="confluenceTd">The component identifier.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>guid</pre></td>
+          <td class="confluenceTd">The global identifier for the component.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Child Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>id</pre></td>
+          <td class="confluenceTd">The component identifier.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>guid</pre></td>
+          <td class="confluenceTd">The global identifier for the component.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>name</pre></td>
+          <td class="confluenceTd">The component name.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>path</pre></td>
+          <td class="confluenceTd">The path of the component. This element has a value of null for notifications relating to web services.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WatchlistNotifier-parameter">parameter</h3>
+      <p><code>&lt;parameter&gt;</code> is a repeating element that contains information about each runtime parameter generated for the notification. It is defined by the following attributes and child elements:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Attribute</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>id</code></p></td>
+          <td class="confluenceTd">The parameter identifier.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Child Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>displayname</pre></td>
+          <td class="confluenceTd"><span>The parameter</span> display name.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>value</pre></td>
+          <td class="confluenceTd"><span>The parameter</span> value.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>unit</pre></td>
+          <td class="confluenceTd">The units of the parameter value (if multiple values are present, they have the same units).</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

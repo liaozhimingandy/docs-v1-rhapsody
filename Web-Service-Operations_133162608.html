@@ -1,0 +1,350 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Web Service Operations</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Web-Service-Client_133162592.html">Web Service Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Web Service Operations</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>You can perform the following actions on web service operations:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146956691 {padding: 0px;}
+div.rbtoc1565146956691 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146956691 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146956691"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#WebServiceOperations-AddingandEditingOperations">Adding and Editing Operations</a></li> 
+        <li><a href="#WebServiceOperations-RemovingOperations">Removing Operations</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="WebServiceOperations-AddingandEditingOperations">Adding and Editing Operations</h2>
+      <p>The <strong>Operation Editor</strong>&nbsp;dialog is displayed when you select the <strong>Add Operation</strong> or <strong>Edit Operation</strong> buttons on the <strong>Operations</strong> tab of the <a href="Web-Service-Client_133162592.html">Web Service Client</a> communication point. The dialog is used for:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146956771 {padding: 0px;}
+div.rbtoc1565146956771 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146956771 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146956771"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#WebServiceOperations-CallinganOperation">Calling an Operation</a></li> 
+        <li><a href="#WebServiceOperations-GeneratingtheSOAPRequest">Generating the SOAP Request</a></li> 
+        <li><a href="#WebServiceOperations-ProcessingtheSOAPResponse">Processing the SOAP Response</a></li> 
+        <li><a href="#WebServiceOperations-HandlingSOAPFaults">Handling SOAP Faults</a></li> 
+        <li><a href="#WebServiceOperations-ConfiguringMTOM">Configuring MTOM</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h3 id="WebServiceOperations-CallinganOperation">Calling an Operation</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162608/133162613.png" data-image-src="attachments/133162608/133162613.png" data-unresolved-comment-count="0" data-linked-resource-id="133162613" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="OperationEditor.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162608" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Name</p></td>
+          <td class="confluenceTd"><p>Enter or select the (local) name of the operation to call. If a value is selected from the list, then the <strong>Namespace</strong>, <strong>Mode</strong>, <strong>SOAP Action</strong> and <strong>Request WS-Addressing Action</strong> fields are automatically updated to contain the appropriate values from the WSDL.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Namespace</p></td>
+          <td class="confluenceTd"><p>The namespace URI that qualifies the operation name.</p><p>This property field is automatically set if you select an operation in the <strong>Name</strong> field.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>The operational mode:</p>
+           <ul>
+            <li><code>Request-Response</code> (d<span>efault).</span></li>
+            <li><code>Out-Only</code>.</li>
+           </ul><p>If the operation is Output Only, then the <strong>Response</strong> tab is unavailable as there is no response. (Technically, there should be no faults either, but as some systems send faults anyway, the <strong>Fault</strong> tab is available). Note that the communication point must be running in <em>Out-&gt;In</em> mode to handle request-response messages. It can run in Output Only mode if it only handles Output Only messages.</p><p>This property field is automatically set if you select an operation in the <strong>Name</strong> field.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Action</p></td>
+          <td class="confluenceTd"><p>The value sent for the SOAPAction HTTP header in the SOAP request. Some Web services, particularly those using SOAP 1.1, use this HTTP header to determine which operation is being called. This is generally (but not always) not required when using WS-Addressing as the value of the <code>wsa:Action</code> header determines the operation. So if left blank, the SOAPAction header will not be sent.</p><p>This <span>property </span>field is automatically set if you select an operation in the <strong>Name</strong> field, and the operation defined a SOAP action.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Request WS-Addressing Action</p></td>
+          <td class="confluenceTd"><p>The value of the <code>wsa:Action</code> header that should be sent when calling this operation. This field is unavailable if the option to send WS-Addressing headers is disabled.</p><p>This <span>property </span>field is automatically set if you select an operation in the <strong>Name</strong> field.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Enable MTOM</p></td>
+          <td class="confluenceTd"><p>Select the checkbox to enable MTOM (W3C Message Transmission Optimization Mechanism), a method of efficiently sending binary data to and from web services.</p><p>Refer to <span><a href="#WebServiceOperations-ConfiguringMTOM">Configuring MTOM</a> for details.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServiceOperations-GeneratingtheSOAPRequest">Generating the SOAP Request</h3>
+      <p>The <strong>Request</strong> tab is used to configure how the SOAP requests are generated:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162608/133162610.png" data-image-src="attachments/133162608/133162610.png" data-unresolved-comment-count="0" data-linked-resource-id="133162610" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddOperationRequest.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162608" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>Determines the mechanism used to generate the SOAP request. The available options are:</p>
+           <ul>
+            <li><code>Construct SOAP body contents using a template and values from the Rhapsody message body and properties</code><span> (default).</span></li>
+            <li><code>Construct the SOAP message using JavaScript</code><span>.</span></li>
+            <li><code>Use the Rhapsody message body as the contents of the SOAP body</code><span>.</span></li>
+            <li><code>Use the Rhapsody message body as the entire SOAP envelope</code><span>. </span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Template</p></td>
+          <td class="confluenceTd"><p>The XML template to use to build the contents of the SOAP body. The template must be valid XML and should declare namespaces appropriately. Where the WSDL includes valid type information, Rhapsody will generate default templates when an operation loaded from the WSDL is selected.</p><p>This field is only available if the mode is <code>Construct SOAP body contents using a template and values from the Rhapsody message body and properties</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Insertion</p></td>
+          <td class="confluenceTd"><p>Allows values to be inserted into the template that are retrieved from message properties, the entire message body or fields within the message.</p>
+           <ul>
+            <li><strong>Source Type</strong> - the options are: <code>Body</code>, <code>Field</code>, <code>Property</code>. If you select <code>Body</code>, the <strong>Property / Field Name</strong> column is unavailable. If the body is inserted, then the current body encoding (as recorded on the Rhapsody message) is used.</li>
+            <li><strong>Property / Field Name</strong> - used to configure either the message property name (when the source type is a property), or the field within a message (when the source type is a field). If the source type is a field, and you have specified a message definition, double-clicking a cell in this column opens the Field Selection dialog for you to select a field. If no message definition is specified and the Rhapsody message is XML, then this can be an XPath.</li>
+            <li><strong>Content Type</strong> - determines whether the value should be treated as text (default) or XML. If the content type is XML, then it must successfully parse and is inserted into the template as an XML node at the appropriate point. If the content type is text, then it is inserted as a value at the specified location, and will be XML-escaped.</li>
+            <li><strong>Target XPath</strong> - the XPath to use to find the insertion location in the template.</li>
+           </ul><p><span>This field is only available if the mode is </span><code>Construct SOAP body contents using a template and values from the Rhapsody message body and properties</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JavaScript</p></td>
+          <td class="confluenceTd"><p>The JavaScript editor replaces the above controls when the <code>Construct the SOAP message using JavaScript </code> option is selected. The editor exposes XML objects that can be manipulated using E4X syntax to provide the content of the message. The following standard JavaScript objects are available (refer to<span> <a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a> and <a href="Shared-JavaScript-Libraries_133161861.html">Shared JavaScript Libraries</a>&nbsp;for</span> details):</p>
+           <ul>
+            <li><code>input</code> - a read-only Rhapsody message representing the original output message the communication point is sending.</li>
+            <li><code>log</code> - the log4j logger for the communication point.</li>
+           </ul><p>The SOAP request also exposes the following additional JavaScript objects:</p>
+           <ul>
+            <li><code>request</code> - represents the request message to be sent. This exposes getters and setters for both the envelope and body. When assigning to envelope, the whole envelope is replaced, but when assigning to body, the body contents are replaced. Similarly, when reading the properties, the whole envelope and body contents are returned respectively. The getters retrieve the SOAP envelope/body as a JavaScript XML object whilst the setters convert a JavaScript XML object into the SOAP envelope/body respectively.</li>
+            <li><code>soapNs</code> - an E4X Namespace object set to the SOAP envelope namespace in use.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing / Encryption</p></td>
+          <td class="confluenceTd"><p>Allows the signing and encryption options to be overridden for this request message. The default option is to inherit settings from the web service, but it can be changed to use customized settings. Refer to <a href="Web-Service-Client_133162592.html">Signing and Encryption Parameters</a> for details.</p><p>Only available when using asymmetric or symmetric security binding.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="WebServiceOperations-ProcessingtheSOAPResponse">Processing the SOAP Response</h3>
+      <p>The <strong>Response</strong> tab is used to configure the response message handling. This tab is unavailable if the operation is Output Only.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162608/133162611.png" data-image-src="attachments/133162608/133162611.png" data-unresolved-comment-count="0" data-linked-resource-id="133162611" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddOperationResponse.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162608" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>Determines the mechanism used to process the SOAP response. The available options are:</p>
+           <ul>
+            <li><code>Execute custom JavaScript when SOAP response is received</code><span>.</span></li>
+            <li><code>Extract contents from SOAP message into Rhapsody message body and properties</code><span>.</span></li>
+            <li><code>Use entire SOAP envelope as Rhapsody message body</code><span>.</span></li>
+            <li><code>Use SOAP body contents as Rhapsody message body</code><span> (d</span><span>efault).</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>XML Namespace Mapping</p></td>
+          <td class="confluenceTd"><p>Used to define namespace URI to XML prefixes that are used in the XPaths. This is required because Rhapsody cannot control what XML prefixes are used in the response messages (as they are generated by the external Web service) and they may not be consistent from message to message. By default, an entry is added to this table for the operation namespace (as this is the namespace most likely to be used). If not set, another entry is also added for the SOAP envelope namespace using a prefix of <code>soapenv</code>.</p><p>This property is only available when <strong>Mode</strong> is set to <code>Extract contents from SOAP message into Rhapsody message body and properties</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Extraction</p></td>
+          <td class="confluenceTd"><p>The values to be retrieved from the SOAP response. It is only available when <strong>Mode</strong> is set to <code>Extract contents from SOAP message into Rhapsody message body and properties</code>. It allows values to be retrieved from the response using <span>XPaths</span>, and to be used as the Rhapsody message body, inserted into the message body or set as message properties.</p>
+           <ul>
+            <li><strong>Source XPath</strong> - used to set the XPath to retrieve the value from. These <span>XPaths</span> are relative to the SOAP envelope root (but the '//' prefix can be used to find the elements no matter where they are). If the XPath evaluates to a primitive node, then that value is set directly in the target (that is, the XML element tags are not included). If it evaluates to a non-primitive node, then the entire node is serialized and inserted at the specified location. If the <span>XPath</span> matches nothing, then an error is thrown if the target was the message body (sending the request to the Error Queue), but is ignored otherwise. If the XPath matches multiple values, then an error is thrown if the target was the message body or a non-repeating field, but all values are used if the target is a repeating field or message property.</li>
+            <li><strong>Target Type</strong> - options include the message body, a message property or a field in the message. It is not possible to set both the message body and fields in the message.</li>
+            <li><strong>Target Property / Field</strong> - contains the name of the message property or field path that the value should be inserted into. It is disabled if the target is the message body. If the target is a field and a message definition has been associated with the communication point, then double-clicking this cell opens the field selection dialog. If no message definition is specified and the Rhapsody message is XML, then this can be an XPath.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JavaScript</p></td>
+          <td class="confluenceTd"><p>A JavaScript editor is provided when the mode is <code>Execute custom JavaScript when SOAP response is received</code>. The following standard JavaScript objects are exposed (refer to the <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a> </span>for details):</p>
+           <ul>
+            <li><code>log</code> - the log4j logger for the communication point.</li>
+            <li><code>output</code> - a writable Rhapsody message representing the message that will be returned from the communication point. By default, its contents will match the input message, but this can be changed in the script.</li>
+           </ul><p>The SOAP response also exposes the following additional JavaScript objects:</p>
+           <ul>
+            <li><code>response</code> - the response message received from the service. This provides the read-only properties envelope and body, which can be inspected using E4X in the same way as the request properties. The properties are returned as a JavaScript XML object representing the envelope/body.</li>
+            <li><code>soapNs</code> - an E4X Namespace object set to the SOAP envelope namespace in use.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Signing / Encryption</p></td>
+          <td class="confluenceTd"><p>Allows the signing and encryption options to be overridden for this request message. The default option is to inherit settings from the web service, but it can be changed to use customized settings. Refer to <a href="Web-Service-Client_133162592.html">Signing and Encryption Parameters</a> for details.</p><p>Only available when using asymmetric or symmetric security binding.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Responses are classified as valid by the communication point if they are non-fault SOAP responses, and returned using an HTTP status code of 200, 400, or 500.</p>
+       </div>
+      </div>
+      <h3 id="WebServiceOperations-HandlingSOAPFaults">Handling SOAP Faults</h3>
+      <p>The <strong>Fault</strong> tab provides several options to deal with SOAP faults received in response to a SOAP request.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162608/133162609.png" data-image-src="attachments/133162608/133162609.png" data-unresolved-comment-count="0" data-linked-resource-id="133162609" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddOperationFaults.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162608" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>Determines how SOAP faults are treated by the communication point. The <span>available </span>options are:</p>
+           <ul>
+            <li><code>Treat SOAP Faults As Connection Errors</code> - causes the connection retries to be executed and the same message resent.</li>
+            <li><code>Treat SOAP Faults As Message Errors</code> (default) - <span>causes</span> the request message to be sent to the Error Queue and the next message to be sent.</li>
+            <li><code>Return Fault to Route</code> - returns the entire SOAP envelope containing the SOAP fault to the route as the input message from the communication point. The communication point will continue to run and send the next message in the queue.</li>
+            <li><code>Execute Custom JavaScript When SOAP Fault Is Received</code> - executes custom JavaScript to examine the SOAP fault and determine the course of action to take.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JavaScript</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>A JavaScript editor is provided if <code>Execute Custom JavaScript When SOAP Fault Is Received</code> is selected. The following standard JavaScript objects are exposed (refer to the <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a> </span>for details):</p>
+            <ul>
+             <li><p><code>input</code> - a read-only Rhapsody message representing the original output message the communication point is sending. This is the same type of message object used in the input array of the JavaScript filter and the input object of the JavaScript connectors.</p>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>This is not the SOAP request itself. It is the message used to generate the SOAP request.</p>
+               </div>
+              </div></li>
+             <li><code>log</code> - the log4j logger for the communication point.</li>
+             <li><code>output</code> - a writable Rhapsody message representing the message that will be returned from the communication point. By default, its contents will match the input message, but this can be changed in the script.</li>
+            </ul>
+            <p>The SOAP fault also exposes the following additional JavaScript objects:</p>
+            <ul>
+             <li><code>fault</code> - the SOAP fault received from the system. This provides properties to get the fault as an E4X object, retrieve the fault code and sub-codes, and methods to treat the fault as a connection or message error. The properties are as follows:</li>
+            </ul>
+            <ul>
+             <li style="list-style-type: none;background-image: none;">
+              <ul>
+               <li><code>faultCode</code> - retrieves a JavaScript QName object containing the fault code or null if the fault code is not known.</li>
+               <li><code>faultSubCodes</code> - retrieves the fault sub-codes as a JavaScript array of QName objects or an empty array if no subcodes were returned by the fault.</li>
+              </ul></li>
+            </ul>
+            <p style="margin-left: 30.0px;">The methods are as follows:</p>
+            <ul>
+             <li style="list-style-type: none;background-image: none;">
+              <ul>
+               <li><code>treatAsConnectionError</code> - throws ConnectionFailedException which treats this fault as a connection error. The first argument passed to the call is used as the message in the exception. If omitted, a default error message is produced.</li>
+               <li><code>treatAsMessageError</code> - throws MessageSendFailedException which treats this fault as a message error. The first argument passed to the call is used as the message in the exception. If omitted, a default error message is produced.</li>
+              </ul></li>
+            </ul>
+            <p style="margin-left: 30.0px;">The following script excerpt illustrates how to process a fault response</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">// Check the fault code
+if (fault.faultCode.localName == "Receiver") {&nbsp;
+  // Fault in the web service - treat as a connection error so we retry&nbsp;
+  fault.treatAsConnectionError();&nbsp;
+}
+
+if (fault.faultSubCodes.length != 0 &amp;&amp; fault.SubCodes[0].localName == "FailedAuthentication") {&nbsp;
+  // Authentication failed - treat as message error&nbsp;
+  fault.treatAsMessageError("Invalid security");&nbsp;
+}
+
+// Otherwise we insert the body of the fault into message (which is assumed to be XML)
+default xml namespace = "http://www.orionhealth.com/2010/01/rhapsody";
+var msg = new XML(output.text);
+msg..result.appendChild(fault.envelope..soapNs::Fault);
+output.text = msg;</pre> 
+             </div>
+            </div>
+            <ul>
+             <li style="list-style-type: none;background-image: none;">
+              <ul>
+               <li><code>soapNs</code> - an E4X Namespace object set to the SOAP envelope namespace in use.</li>
+              </ul></li>
+            </ul>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p style="margin-left: 30.0px;"><br></p>
+      <p>When a SOAP response message is received representing a SOAP fault, the following message properties are populated on the Rhapsody Message:</p>
+      <ul>
+       <li><code>rhapsody:SoapFault</code> is set to true.</li>
+       <li><code>rhapsody:SoapFaultCode</code> is set to the local name of the SOAP fault code if present.</li>
+       <li><code>rhapsody:SoapFaultSubCode</code> is set to the local name of the SOAP fault sub-code if present.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p style="margin-left: 30.0px;">Not all errors that occur when calling a web service necessarily have a SOAP fault available. If a SOAP fault is available in the response and an HTTP status code of 200, 400, or 500 is received, then the configured fault processing action is used.</p>
+        <p style="margin-left: 30.0px;">If an HTTP 4xx or 5xx error occurs but no SOAP fault is available in the response, then:</p>
+        <ul>
+         <li style="list-style-type: none;background-image: none;">
+          <ul>
+           <li>The error is treated as a message error if the status code is a 401 (unauthorized) or 403 (forbidden) and if any of the following parameters are configured dynamically using message properties: <code>Endpoint URL</code>, <code>Username</code>, or <code>Password</code>; the error is treated as a connection error if none of those settings are configured dynamically using message properties.</li>
+           <li>The error is treated as a message error if the status code is neither 401 nor 403, or unavailable and if the Endpoint URL is configured dynamically using message properties. The error is treated as a connection error if the Endpoint URL is not configured dynamically.</li>
+          </ul></li>
+        </ul>
+       </div>
+      </div>
+      <h3 id="WebServiceOperations-ConfiguringMTOM"><span>Configuring MTOM</span></h3>
+      <p>To configure the Web Service Client communication point to use MTOM to send elements as separate parts in a multi-part message, ensure:</p>
+      <ul>
+       <li>The&nbsp;<code>rhapsody:XopFields</code>&nbsp;property list contains the XPath for each element that should be sent as a separate part. If the property list is not specified, only a single-part message is sent.</li>
+       <li>The&nbsp;<code>rhapsody:XopFieldsNamespaces</code>&nbsp;property list is populated if the prefix used in the XPaths in <code>rhapsody:XopFields</code> is different than those used in the message.</li>
+      </ul>
+      <p>For example, the following code excerpt specifies the XPaths in the XOP fields:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">var next = output.append(input[0]);
+next.addPropertyValue("rhapsody:XopFields", "//ns1:ProvideAndRegisterDocumentSetRequest/ns1:Document");
+next.addPropertyValue("rhapsody:XopFields", "//ns1:ProvideAndRegisterDocumentSetRequest/lcm:SubmitObjectsRequest/rim:RegistryObjectList/rim:ExtrinsicObject/rim:Slot[1]/rim:ValueList/rim:Value");
+next.addPropertyValue("rhapsody:XopFieldsNamespaces", "ns1=urn:ihe:iti:xds-b:2007");</pre> 
+       </div>
+      </div>
+      <p>If any specified element is empty or evaluates to a complex element,&nbsp;the Web Service Client communication throws an error.</p>
+      <h2 id="WebServiceOperations-RemovingOperations">Removing Operations</h2>
+      <p>The <strong>Remove Operation</strong> button enables you to delete the selected operation after prompting you to confirm the action.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>variables</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="Unattended-Installations_133164341.html">Unattended Installations</a></span> </li> 
+       <li> <span><a href="Configuring-Rhapsody-IDE-Unattended_133164342.html">Configuring Rhapsody IDE Unattended</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">variables</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section describes how to update your environment variables. It covers how to:</p>
+      <ul class="alternate">
+       <li>Set variables.</li>
+       <li>Encrypt variables.</li>
+       <li>Override variables.</li>
+       <li>Delete variables.</li>
+      </ul>
+      <h2 id="variables-Check-inComment">Check-in Comment</h2>
+      <p><code>checkInMessage</code> is an optional attribute. It can be set to a non-empty string that contains the commit comment to use for the configuration changes. If it is not provided, then an empty commit comment is used.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>attribute='value'</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>checkInMessage='&lt;commit_comment&gt;'</pre></td>
+          <td class="confluenceTd"><p>Add a commit comment to the RLC.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="variables-Example">Example</h2>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;!-- Set variables (with optional commit comment) --&gt;
+&lt;variables checkInMessage='Change the database host and name.'&gt;
+    &lt;set name="DatabaseHost" value="rhapsody-test"/&gt;
+    &lt;set name="DatabaseName" value="rhapsody-QA"/&gt;
+&lt;/variables&gt; 
+
+&lt;!-- Set encrypted variable --&gt;
+&lt;variables&gt;
+    &lt;set name="password" value="123456" encrypt="true"/&gt;
+&lt;/variables&gt;
+
+&lt;!-- Set variable overrides --&gt;
+&lt;variables&gt;
+    &lt;set name="DatabaseHost" value="rhapsody-production" override="true"/&gt;
+    &lt;set name="DatabaseName" value="rhapsody-dev" override="true"/&gt;
+&lt;/variables&gt;
+
+&lt;!-- Remove override --&gt;
+&lt;variables&gt;
+    &lt;delete name="DatabaseHost" override="true"/&gt;
+&lt;/variables&gt;
+
+&lt;!-- Delete variable --&gt;
+&lt;variables&gt;
+    &lt;delete name="DatabasePort"/&gt;
+&lt;/variables&gt;
+</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If a variable already exists on the engine, it can only be updated or deleted if the user has the 'Edit Locker' access right on all the lockers that use the variable. This prevents an update to a variable affecting lockers that the user does not have the right to modify.</p>
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

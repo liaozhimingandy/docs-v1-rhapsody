@@ -1,0 +1,1315 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Creating a Custom Filter Class</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="Creating-Custom-Filters_133161295.html">Creating Custom Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Creating a Custom Filter Class</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section describes how to create a custom filter class:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147007892 {padding: 0px;}
+div.rbtoc1565147007892 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147007892 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147007892"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CreatingaCustomFilterClass-AddingtheFilterClass">Adding the Filter Class</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-FilterClassBasics">Filter Class Basics</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-CompletingtheFilterwithadoProcessMessageMethod">Completing the Filter with a doProcessMessage Method</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-Exceptions">Exceptions</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-ConfiguringaModuleActivator">Configuring a Module Activator</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-PreparingtheFilterforDeployment">Preparing the Filter for Deployment</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-DeployingandTestingyourFilter">Deploying and Testing your Filter</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-AddingConfigurationPropertiestoYourFilter">Adding Configuration Properties to Your Filter</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-ValidatingFilterConfigurationProperties">Validating Filter Configuration Properties</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-GettingorSettingMessagePropertiesonMessages">Getting or Setting Message Properties on Messages</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-AddingCustomIconstotheFilter">Adding Custom Icons to the Filter</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-AddingLoggingtotheFilter">Adding Logging to the Filter</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-log4j.propertiesandDebugLogging">log4j.properties and Debug Logging</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-AddingJavadocComments">Adding Javadoc Comments</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-Concurrency">Concurrency</a></li> 
+        <li><a href="#CreatingaCustomFilterClass-FetchingtheFilter'sRoute">Fetching the Filter's Route</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="CreatingaCustomFilterClass-AddingtheFilterClass">Adding the Filter Class</h2>
+      <p class="Standard">To add the filter class:</p>
+      <ol>
+       <li class="Standard">Right-click on the project and select<strong>&nbsp;New&gt;Class</strong>.</li>
+       <li class="Standard">Specify package&nbsp; <code>com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter</code>.</li>
+       <li class="Standard"><p>Specify class name <code>UpperCaseFilter</code>:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="225" width="500" src="attachments/133161296/133161330.bmp" data-image-src="attachments/133161296/133161330.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161330" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter1.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>For the Superclass, select the&nbsp;<strong>Browse...</strong>&nbsp;button and then type <code>AbstractFilter</code>&nbsp;to display&nbsp;a list of matches including the Rhapsody <code>AbstractFilter</code>:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161329.bmp" data-image-src="attachments/133161296/133161329.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161329" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter2.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard">Select <code>com.orchestral.rhapsody.module.filter.AbstractFilter</code>.</li>
+       <li class="Standard">If the Rhapsody <code>AbstractFilter</code>&nbsp;is not listed, then either:
+        <ul>
+         <li>Your plug-in Target Platform is not configured correctly, or</li>
+         <li>Your <code>MANIFEST.MF</code>&nbsp;file does not have the Dependencies/ImportedPackages set up to point to Rhapsody plug-ins.</li>
+        </ul></li>
+       <li><p>The end result will be:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161328.bmp" data-image-src="attachments/133161296/133161328.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161328" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter3.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>Select the&nbsp;<strong>Finish</strong>&nbsp;button to get your blank class:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter;
+
+import com.orchestral.rhapsody.message.Message;
+import com.orchestral.rhapsody.message.MessageException;
+import com.orchestral.rhapsody.module.Configuration;
+import com.orchestral.rhapsody.module.filter.AbstractFilter;
+import com.orchestral.rhapsody.module.filter.FilterConfigurationException;
+import com.orchestral.rhapsody.module.filter.FilterProcessingException;
+
+public class UpperCaseFilter extends AbstractFilter {
+
+                @Override
+                public String[] getPropertyList() {
+                                // TODO Auto-generated method stub
+                                return null;
+                }
+
+
+                @Override
+                public void doConfigure(Configuration arg0)
+                                                throws FilterConfigurationException, InterruptedException {
+                                // TODO Auto-generated method stub
+
+
+                }
+
+
+                @Override
+                public Message[] doProcessMessage(Message[] arg0) throws MessageException,
+                                                FilterProcessingException, InterruptedException {
+                                // TODO Auto-generated method stub
+                                return null;
+                }
+
+
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Note how Eclipse automatically adds the methods we must implement (that were defined in the <code>AbstractFilter</code> class) and marks them with <code>@Override</code> annotation:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public String[] getPropertyList() {
+	// TODO Auto-generated method stub
+    return null;
+}
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">The <code>@Override</code> annotation is beneficial to safeguard you from making mistakes:</p>
+        <ol>
+         <li class="Standard"><p class="Standard">It allows the compiler to check you are correctly overriding a method rather than creating a new unique one. This way, if you make the common mistake of misspelling a method name or not correctly matching the parameters, you will be warned that your method does not actually override as you think it does.</p></li>
+         <li class="Standard"><p class="Standard">Secondly, it makes your code easier to understand because it clarifies your intentions.</p></li>
+        </ol></li>
+       <li class="Standard"><p>Note how Eclipse has highlighted an error:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="36" width="485" src="attachments/133161296/133161327.bmp" data-image-src="attachments/133161296/133161327.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161327" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter4.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>If you click on the globe with the error marker, you will get suggestions for fixing:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="246" width="779" src="attachments/133161296/133161326.bmp" data-image-src="attachments/133161296/133161326.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161326" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter5.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>Select the <code>Add constructor</code> suggestion and the following constructor will be added to your code:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public UpperCaseFilter(FilterInfo arg0) {
+	super(arg0);
+    // TODO Auto-generated constructor stub
+}
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Rename <code>arg0</code> to <code>filterInfo</code> in the two places it occurs:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public UpperCaseFilter(FilterInfo filterInfo) {
+	super(filterInfo);
+    // TODO Auto-generated constructor stub
+}
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">Delete the <code>TODO Auto-generate constructor stub</code> comment.</li>
+       <li class="Standard"><p>Finally, to prevent a <code>NullPointerException</code>, ensure that you return an empty properties set from <code>getPropertyList()</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public String[] getPropertyList() {
+	return new String[0];
+}
+</pre> 
+         </div>
+        </div></li>
+       <li>Press <strong>Ctrl-S</strong> to save and compile.</li>
+       <li class="Standard">There should be no errors highlighted now for your <code>UpperCaseFilter.java</code> class.</li>
+      </ol>
+      <h2 id="CreatingaCustomFilterClass-FilterClassBasics">Filter Class Basics</h2>
+      <p class="Textbody">This section introduces the methods your filter must implement.</p>
+      <p class="Standard">Every filter extends <code>AbstractFilter</code> and must therefore implement the following three methods:</p>
+      <ul>
+       <li><code>getPropertyList()</code> - returns a list of configuration properties for Rhapsody IDE.</li>
+       <li><code>doConfigure()</code> - sets configuration properties on the filter that were set in Rhapsody&nbsp;IDE.</li>
+       <li><code>doProcessMessage()</code> - process the incoming messages and return the resulting outgoing messages.</li>
+      </ul>
+      <p class="Standard">And optionally override the <code>getKind()</code> method if the implementation is not thread-safe or uses a lot of memory. Refer to <a href="#CreatingaCustomFilterClass-Concurrency">Concurrency</a> for details on concurrency.</p>
+      <p class="Standard">When you double-click on a filter to bring up its properties, Rhapsody invokes <code>getPropertyList()</code> against your filter which returns the properties that are listed in Rhapsody&nbsp;IDE as shown in this example:</p>
+      <p class="Standard"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161325.bmp" data-image-src="attachments/133161296/133161325.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161325" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter6.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+      <p class="Standard">When you select the&nbsp;<strong>OK</strong>&nbsp;button in the filter's properties dialog then Rhapsody invokes <code>doConfigure()</code> against your filter and Rhapsody&nbsp;IDE passes the settings into the filter. The filter then configures itself with those settings.</p>
+      <p class="Standard">If the filter finds some issue with the configuration settings, then it throws a <code>FilterConfigurationException</code> which results in a message back to Rhapsody IDE:</p>
+      <p class="Standard"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="444" width="627" src="attachments/133161296/133161324.bmp" data-image-src="attachments/133161296/133161324.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161324" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter7.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+      <p class="Standard">After being configured, a filter can be used.</p>
+      <p class="Standard">Every time a message on the route hits the filter, Rhapsody calls the filter's <code>doProcessMessage()</code> method and the Rhapsody Engine passes the incoming message to the filter.&nbsp; The filter returns from <code>doProcessMessage()</code>&nbsp;passing the output message back to the Engine and thus back to the route.</p>
+      <h2 id="CreatingaCustomFilterClass-CompletingtheFilterwithadoProcessMessageMethod">Completing the Filter with a doProcessMessage Method</h2>
+      <p class="Standard">To convert the filter into a working filter, implement the&nbsp;<code>doProcessMessage</code>&nbsp;method (you can add configuration properties to the filter, but for now create a filter without any configuration properties.):</p>
+      <ol>
+       <li class="Standard">Rename&nbsp;<code>arg0</code> in the <code>doProcessMessage</code>&nbsp;arguments list to <code>messages</code>.</li>
+       <li class="Standard"><p>Then modify the <code>doProcessMessage</code> method as follows (paste or type the following code excerpt into the filter):</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public Message[] doProcessMessage(Message[] messages) throws MessageException {
+	for (int i = 0; i &lt; messages.length; i++){
+    	try {
+        	final String body = Messages.asString(messages[i]);
+            Messages.setBody(messages[i], body.toUpperCase());
+        } catch (UnsupportedEncodingException e) {
+            messages[i].addError("Message encoding type '" + messages[i].getBodyEncoding() + "' not supported.");
+        } catch (IOException e) {
+           throw new MessageException("Error while reading message", e);
+        }
+    }
+    return messages;
+}
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">The <code>doProcessMessage</code> method now loops through all incoming messages.</p></li>
+       <li class="Standard">Next it extracts the message body into a String <code>body</code>.</li>
+       <li class="Standard"><p>Finally it converts <code>body</code> to uppercase and replaces the message body with the uppercase version of the message.</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>We only expect a single message, <code>messages[0]</code>, to come into the filter unless <a href="133163388.html">Message Collection</a> is enabled on the filter. If you are not designing your filter to handle collections then you could optionally choose to throw an exception if the incoming messages array contains more than one message:</p>
+          <div class="code panel pdl" style="border-width: 1px;">
+           <div class="codeContent panelContent pdl"> 
+            <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">if (messages.length &gt; 1) {
+	throw new FilterProcessingException("This filter doesn't process batches of messages. Remove collector from filter.");
+}</pre> 
+           </div>
+          </div>
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">There are some errors in the code.</p></li>
+       <li class="Standard">First Eclipse has marked <code>Messages</code> because it does not have an <code>import</code> statement.</li>
+       <li class="Standard"><p>Click on the error marker and choose to add the import.</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>A much quicker way to do this is to press <strong>Shift+Ctrl+O</strong> on the keyboard. This will immediately add all the import statements.</p>
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">The class should now be error free. Save it (<strong>Ctrl+S</strong>) and then create a module Activator after which you can deploy and test the filter.</p></li>
+       <li class="Standard"><p class="Standard">You should have something like this, which will be explained in the next section:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import com.orchestral.rhapsody.message.Message;
+import com.orchestral.rhapsody.message.MessageException;
+import com.orchestral.rhapsody.message.Messages;
+import com.orchestral.rhapsody.module.Configuration;
+import com.orchestral.rhapsody.module.filter.AbstractFilter;
+import com.orchestral.rhapsody.module.filter.FilterConfigurationException;
+import com.orchestral.rhapsody.module.filter.FilterInfo;
+
+public class UpperCaseFilter extends AbstractFilter {
+
+                public UpperCaseFilter(FilterInfo filterInfo) {
+                	super(filterInfo);
+                }
+
+
+                @Override
+                public String[] getPropertyList() {
+                	return new String[0];
+                }
+
+
+                @Override
+                public void doConfigure(Configuration arg0) throws FilterConfigurationException, InterruptedException {
+                }
+
+
+                @Override
+                public Message[] doProcessMessage(Message[] messages) throws MessageException{
+                	for (int i = 0; i &lt; messages.length; i++){
+
+                    	try {
+                    		final String body = Messages.asString(messages[i]);
+                        	Messages.setBody(messages[i], body.toUpperCase());
+                    	} catch (UnsupportedEncodingException e) {
+                                                               
+ 							messages[i].addError("Message encoding type '" + messages[i].getBodyEncoding() + "' not supported.");
+                    	} catch (IOException e) {
+                    		throw new MessageException("Error while reading message", e);
+                    	}
+                    }
+                    return messages;
+                }
+}</pre> 
+         </div>
+        </div><p><span style="color: rgb(0,0,0);font-size: 20.0px;"> <br> </span></p></li>
+      </ol>
+      <h2 class="Standard" id="CreatingaCustomFilterClass-Exceptions">Exceptions</h2>
+      <p class="Textbody">The&nbsp;<code>doProcessMessage</code>&nbsp;method can throw the following exceptions:</p>
+      <ul>
+       <li><code>com.orchestral.rhapsody.message.MessageException</code>&nbsp;- possibly thrown in reaction to a Java <code>IOException</code> (for example, some problem reading the message or performing a transformation of some kind).</li>
+       <li><p><code>java.io.UnsupportedEncodingException</code>&nbsp;- possibly thrown your filter supports UTF-8 and does not support CP-1252 <em>Windows</em> files and the incoming message is a <em>Windows</em> format message and for some reason specific to your filter you are being very strict about formats and so you reject the CP-1252 message. This is specific to your implementation.</p></li>
+       <li><p><code>java.io.IOException</code>&nbsp;- normally wrapped in a <code>MessageException</code>. Ensure you send an informative message back since <code>IOException</code> is highly generic and by itself probably meaningless to the person debugging a route.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">try {
+	final String body = Messages.asString(messages[i]);
+	Messages.setBody(messages[i], body.toUpperCase());
+} catch (IOException e) {
+	throw new MessageException("Error while reading message", e);
+}
+</pre> 
+         </div>
+        </div></li>
+      </ul>
+      <p class="Standard">Throwing an exception will drop the message into the Error Queue.</p>
+      <h3 id="CreatingaCustomFilterClass-Addanerrortothemessage">Add an error to the message</h3>
+      <p class="Standard">You can also add an error to the message. The result is the same as throwing an exception – the message will end up in the Error Queue:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">try {
+	final String body = Messages.asString(messages[i]);
+	Messages.setBody(messages[i], body.toUpperCase());
+} catch (UnsupportedEncodingException e) {
+	messages[i].addError("Message encoding type '" + messages[i].getBodyEncoding() + "' not supported.");
+}
+</pre> 
+       </div>
+      </div>
+      <h3 id="CreatingaCustomFilterClass-Forwardtheoriginalmessagebackintotheroute">Forward the original message back into the route</h3>
+      <p class="Standard">You might, however, consider allowing the original message to continue unchanged instead of throwing an exception – that depends entirely on the requirements for the custom filter, as determined by the project you are working on.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">if (null == processingResult) {
+	Messages.setBody(message, inputBuffer); // return the input message instead of an exception.
+}
+</pre> 
+       </div>
+      </div>
+      <h2 id="CreatingaCustomFilterClass-ConfiguringaModuleActivator">Configuring a Module Activator</h2>
+      <p class="Standard">The Activator is a class that we have to create that will be used to activate our custom module and load up our filter into Rhapsody.</p>
+      <h3 id="CreatingaCustomFilterClass-LoadingaCustomModuleintoRhapsody">Loading a Custom Module into Rhapsody</h3>
+      <p class="Standard">How does your custom module get bootstrapped or loaded?</p>
+      <p class="Standard">There is a <code>META-INF/MANIFEST.MF</code> file in your project that will also reside in your final module. Your module will be a JAR file (which is a <code>java archive</code>&nbsp;or <code>java library</code>), and Rhapsody will look first at the <code>MANIFEST.MF</code> file to determine if there is something that needs to be loaded into the Engine.</p>
+      <p class="Standard">It will find a reference to a <code>Service.xml</code> file that you will create, which in turn will point to your Activator class. Rhapsody will then run our Activator class (by calling its <code>activate()</code> method.<br>The Activator will be coded to contain the details of our filter and will load our custom filter into Rhapsody.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <ul>
+         <li>If you used the wizard to create your project, then you already have a <code>Service.xml</code> and you only need to perform the steps in <a href="#CreatingaCustomFilterClass-ConfiguretheActivator">Configure the Activator</a>.</li>
+         <li>If you created your project from scratch, you need to perform the steps in <a href="#CreatingaCustomFilterClass-CreatetheService.xml">Create the Service.xml</a> through to <a href="#CreatingaCustomFilterClass-CreatetheActivatorclass">Create the Activator class</a>.</li>
+        </ul>
+       </div>
+      </div>
+      <h3 id="CreatingaCustomFilterClass-ConfiguretheActivator">Configure the Activator</h3>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Perform the following steps only if you used the wizard to create your project.</p>
+       </div>
+      </div>
+      <p class="Standard">To configure the Activator:</p>
+      <ol>
+       <li class="Standard"><p>Open the <code>Activator</code> class and delete any default registration code:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="439" width="894" src="attachments/133161296/133161323.bmp" data-image-src="attachments/133161296/133161323.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161323" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter8.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>Modify the&nbsp;<code>activate</code> method to now read:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">protected void activate(final ComponentContext componentContext) {
+	final BundleContext context = componentContext.getBundleContext();
+    final String cpr = CommunicationPointRegistration.class.getName();
+    final String fr = FilterRegistration.class.getName();
+
+
+    // Register the filter types in this module        
+    this.registrations.add(context.registerService(fr, new FilterRegistration("UPPERCASEFILTER",
+                                                   "Upper Case Filter", "Utility", UpperCaseFilter.class, "/Smiley-32.bmp",
+                                                   "/Smiley-16.bmp"), null));
+                               
+   /* &lt;START&gt; - CODE CONTROLLED BY WIZARDS DO NOT REMOVE COMMENT */
+   /* &lt;END&gt; - CODE CONTROLLED BY WIZARDS DO NOT REMOVE COMMENT */
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Press&nbsp;<strong>Ctrl-Shift-O</strong>&nbsp;to import the <code>FilterRegistration</code> class.</p></li>
+      </ol>
+      <h3 id="CreatingaCustomFilterClass-CreatetheService.xmlFile">Create the Service.xml File</h3>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Perform the following steps only if you <em>did not</em> use the wizard to create your project.</p>
+       </div>
+      </div>
+      <p class="Standard">To create a <code>Service.xml</code> file that points to the <code>Activator</code> class so that Rhapsody can find the class:</p>
+      <ol>
+       <li class="Standard">Create a new folder in your project, called <code>OSGI-INF</code> (right click on the project and choose <strong>New &gt; Folder</strong>).</li>
+       <li class="Standard">Add a file to <code>OSGI-INF</code> called <code>Service.xml</code> (right click on <code>OSGI-INF</code> and choose <strong>New &gt; File</strong>).</li>
+       <li class="Standard"><p>Paste the following into the&nbsp;<code>Service.xml</code> file and then save it:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;component name="com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter" immediate="true"&gt;
+                &lt;implementation class="com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter.Activator"/&gt;
+&lt;/component&gt;
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Now looking at what was created, you can see that the filter module has been defined as the component named <code>com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter</code></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;&lt;component name="com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter" immediate="true"&gt;
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Next it points to the <code>Activator</code> class that Rhapsody will use to load the filter.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;&lt;implementation class="com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter.Activator"/&gt;
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">You will create this class shortly.</p></li>
+      </ol>
+      <p class="Standard">An Activator can load multiple filters or communication points and an eclipse plugin project could contain multiple filters or communication points – just make sure you have meaningful and tidy package structures (in other words, folder hierarchies in your source <code>src</code> folder). Rhapsody provides the filter with a bunch of named services. For example, the service <code>SECURITY</code> is specified – we could potentially use that service to manage security artifacts such as certificates.</p>
+      <h3 id="CreatingaCustomFilterClass-ModifyMANIFEST.MFtopointtoService.xml">Modify <code>MANIFEST.MF</code> to point to <code>Service.xml</code></h3>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>Perform the following steps only if you</span> <em>did not</em> <span>use the wizard to create your project.</span></p>
+       </div>
+      </div>
+      <ol>
+       <li class="Standard">Open the <code>META-INF/MANIFEST.MF</code> file and select the <code>MANIFEST.MF</code> tab.</li>
+       <li class="Standard">Add the pointer to the <code>Service.xml</code> file as the final line:&nbsp;<code>Service-Component: OSGI-INF/Service.xml</code>.</li>
+       <li class="Standard"><p>Ensure you add a newline after the newly added line in step 2:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UpperCaseFilter
+Bundle-SymbolicName: UpperCaseFilter
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: com.orchestral.rhapsody.configuration;version="6.4.0",
+ com.orchestral.rhapsody.configuration.auxiliaryfiles;version="6.4.0",
+ com.orchestral.rhapsody.configuration.definition;version="6.4.0",
+ com.orchestral.rhapsody.configuration.repository;version="6.4.0",
+ com.orchestral.rhapsody.configuration.security;version="6.4.0",
+ com.orchestral.rhapsody.configuration.variables;version="6.4.0",
+ com.orchestral.rhapsody.idgenerator;version="6.4.0",
+ com.orchestral.rhapsody.initialisation;version="6.4.0",
+ com.orchestral.rhapsody.message;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing.definition;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing.format;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing.xpath;version="6.4.0",
+ com.orchestral.rhapsody.model.definition;version="6.4.0",
+ com.orchestral.rhapsody.module;version="6.4.0",
+ com.orchestral.rhapsody.module.communicationpoint;version="6.4.0",
+ com.orchestral.rhapsody.module.filter;version="6.4.0",
+ com.orchestral.rhapsody.module.filter.internal;version="6.4.0",
+ com.orchestral.rhapsody.persistentmap;version="6.4.0",
+ com.orchestral.rhapsody.security;version="6.4.0",
+ org.apache.log4j;version="1.2.17"
+Service-Component: OSGI-INF/Service.xml
+&nbsp;</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Navigate to the <strong>Build</strong> tab.</p></li>
+       <li class="Standard"><p class="Standard">Check <code>OSGI-INF</code> on the <code>Binary Build</code> list.</p></li>
+       <li class="Standard"><p class="Standard">Save the manifest file.</p></li>
+      </ol>
+      <h3 id="CreatingaCustomFilterClass-ModifytheMANIFEST.MFtoPointtoClassFiles">Modify the <code>MANIFEST.MF</code> to Point to Class Files</h3>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>Perform the following steps only if you <em>did not</em> </span> <span> use the wizard to create your project.</span></p>
+       </div>
+      </div>
+      <p class="Standard">The source files with <code>.java</code> extension are located in the <code>src/</code> folder. The compiled <code>.class</code> files are located in the<code> bin/</code> folder. However, when the module JAR file is created, an Ant script will copy the class files to the root directory of the project. The script needs to know where to find these <code>.class</code> files.</p>
+      <p class="Standard">The <code>MANIFEST.MF</code> can be configured so it knows where to find the class files:</p>
+      <ol>
+       <li class="Standard">Double-click on the <code>META-INF/MANIFEST.MF</code> to open it.</li>
+       <li class="Standard">Select the <code>MANIFEST.MF</code> tab.</li>
+       <li class="Standard"><p class="Standard _mce_tagged_br">Add the following line to the bottom (and ensure you add a newline afterward): '<code>Bundle-ClassPath: .</code>', for example<span style="line-height: 13.0pt;background-color: transparent;">:</span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UpperCaseFilter
+Bundle-SymbolicName: UpperCaseFilter
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.orchestral.rhapsody.configuration;version="6.4.0",
+ com.orchestral.rhapsody.configuration.auxiliaryfiles;version="6.4.0",
+ com.orchestral.rhapsody.configuration.definition;version="6.4.0",
+ com.orchestral.rhapsody.configuration.repository;version="6.4.0",
+ com.orchestral.rhapsody.configuration.security;version="6.4.0",
+ com.orchestral.rhapsody.configuration.variables;version="6.4.0",
+ com.orchestral.rhapsody.idgenerator;version="6.4.0",
+ com.orchestral.rhapsody.initialisation;version="6.4.0",
+ com.orchestral.rhapsody.message;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing.definition;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing.format;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing.xpath;version="6.4.0",
+ com.orchestral.rhapsody.model.definition;version="6.4.0",
+ com.orchestral.rhapsody.module;version="6.4.0",
+ com.orchestral.rhapsody.module.communicationpoint;version="6.4.0",
+ com.orchestral.rhapsody.module.filter;version="6.4.0",
+ com.orchestral.rhapsody.module.filter.internal;version="6.4.0",
+ com.orchestral.rhapsody.persistentmap;version="6.4.0",
+ com.orchestral.rhapsody.security;version="6.4.0",
+ org.apache.log4j;version="1.2.17",
+ org.openrdf.util;version="6.1.0",
+ org.osgi.framework;version="1.3.0",
+ org.osgi.service.component;version="1.0.0"
+Service-Component: OSGI-INF/Service.xml
+Bundle-ClassPath: .
+&nbsp;</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h3 id="CreatingaCustomFilterClass-CreatetheActivatorClass">Create the Activator Class</h3>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>Perform the following steps only if you </span><em>did not</em> <span>use the wizard to create your project.</span></p>
+       </div>
+      </div>
+      <p class="Standard">To create the <code>com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter.Activator</code> class that was indicated in the <code>Service.xml</code>:</p>
+      <ol>
+       <li class="Standard"><p>Create a new class in package <code>com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter</code> and call it <code>Activator</code>.</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p><span>Your Activator does not have to be named&nbsp;</span><code>Activator</code><span>. You can use any class name as long as the</span>&nbsp;<code>Service.xml</code> file <span>points to the correct file. If you have multiple projects and want them all to have an Activator named </span><code>Activator</code><span>, you should make sure each of your</span> <code>Activator.java</code><span>&nbsp;files have different package names so that there is no confusion. </span></p>
+         </div>
+        </div><p class="Standard"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161322.bmp" data-image-src="attachments/133161296/133161322.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161322" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter9.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p class="Standard">It will look like this:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package  com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter.;
+public class Activator {
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Paste in the complete code required:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package  com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter.;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import com.orchestral.rhapsody.module.FilterRegistration;
+import com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter.UpperCaseFilter;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.component.ComponentContext;
+
+public class Activator {
+
+    private Set&lt;ServiceRegistration&gt; registrations = new HashSet&lt;ServiceRegistration&gt;();
+               
+    protected void activate(final ComponentContext componentContext) {
+                                                            
+        final BundleContext context = componentContext.getBundleContext();
+        final String fr = FilterRegistration.class.getName();
+
+        this.registrations.add(context.registerService(fr,
+        new FilterRegistration("UPPERCASEFILTER",
+                               "Upper Case Filter", "Utility", UpperCaseFilter.class, "/Smiley-32.bmp",
+                               "/Smiley-16.bmp"), null));
+    }
+
+    protected void deactivate(final ComponentContext context) {
+        for (final ServiceRegistration registration : this.registrations) {
+            registration.unregister();
+        }
+        this.registrations.clear();
+    }
+}</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h3 id="CreatingaCustomFilterClass-UnderstandingtheActivator">Understanding the Activator</h3>
+      <p class="Standard">When the Rhapsody Engine calls <code>activate()</code> on our Activator, we register the <code>UpperCaseFilter</code> module:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Register the filter types in this module        
+this.registrations.add(context.registerService(fr, new FilterRegistration("UPPERCASEFILTER", 
+                                                                          "Upper Case Filter", "Utility", UpperCaseFilter.class, 
+                                                                          "/Smiley-32.bmp", "/Smiley-16.bmp"), null));</pre> 
+       </div>
+      </div>
+      <p class="Standard">There are a number of necessary parameters in the <code>FilterRegistration</code> constructor:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Parameters</strong></td>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Description</strong></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>UPPERCASEFILTER</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">This is an identifier for the filter, which must be unique (<span>in other words,</span> no other filter type on the engine can have the same identifier).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>Upper Case Filter</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">This is a text description of the filter (in other words, the filter name that will be displayed to the user).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>Utility</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p class="TableContents">This is the class of filter and determines where in the <strong>Filter Toolbox</strong> it appears:</p>
+            <p class="TableContents"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" width="200" src="attachments/133161296/133161321.bmp" data-image-src="attachments/133161296/133161321.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161321" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter10.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>UpperCaseFilter.<strong>class</strong></code></p></td>
+          <td class="confluenceTd"><p class="TableContents">This is the name of the actual filter class.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>/Smiley-32.bmp</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">This is the filter icon as it appears on the route.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>/Smiley-16.bmp</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p class="TableContents">This is a smaller size icon used in Rhapsody IDE in the <strong>Filter Toolbox</strong>:</p>
+            <p class="TableContents"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail confluence-content-image-border" width="200" src="attachments/133161296/133161320.bmp" data-image-src="attachments/133161296/133161320.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161320" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter11.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p class="Standard">For now you do not need to create the icons;&nbsp;instead allow Rhapsody to assign the default icons.</p>
+      <h2 id="CreatingaCustomFilterClass-PreparingtheFilterforDeployment">Preparing the Filter for Deployment</h2>
+      <p class="Standard">To deploy the filter, generate a JAR file archive containing all the files:</p>
+      <ol>
+       <li class="Standard"><p>Create an Ant&nbsp;script to generate the JAR file.&nbsp; Call the script <code>build.xm</code>l and place in the root&nbsp; folder of the project with the following contents:<br> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="395" width="359" src="attachments/133161296/133161319.bmp" data-image-src="attachments/133161296/133161319.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161319" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter12.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;project name="com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter" default="jar" basedir="."&gt;
+    &lt;property name="build.classes" value="bin"/&gt;
+    &lt;target name="jar"&gt;
+        &lt;jar jarfile="${ant.project.name}.jar"
+             basedir="${build.classes}"
+             manifest="META-INF/MANIFEST.MF"&gt;
+                &lt;fileset dir="."&gt;
+                    &lt;include name="OSGI-INF/Service.xml"/&gt;
+                &lt;/fileset&gt;
+        &lt;/jar&gt;
+    &lt;/target&gt;
+&lt;/project&gt;</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Right-click on <code>build.xml</code> and select&nbsp;<strong>Run As&gt;Ant Build</strong>&nbsp;to&nbsp;generate a JAR file that can be deployed to the Rhapsody engine:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="154" width="1035" src="attachments/133161296/133161318.bmp" data-image-src="attachments/133161296/133161318.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161318" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter13.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p class="Standard"><span style="line-height: 13.0pt;background-color: transparent;">Select the project, then press</span>&nbsp;<strong style="line-height: 13.0pt;">F5</strong><span style="line-height: 13.0pt;background-color: transparent;">, or right-click and select&nbsp;</span> <strong style="line-height: 13.0pt;">Refresh</strong><span style="line-height: 13.0pt;background-color: transparent;">.</span></p><p class="Standard"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="148" width="354" src="attachments/133161296/133161317.bmp" data-image-src="attachments/133161296/133161317.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161317" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter14.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p class="Standard">The generated JAR file now appears in the project's root folder:&nbsp;<strong style="line-height: 13.0pt;">com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter.jar</strong>.</p></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Because the JAR file is created outside of Eclipse by using Ant, Eclipse requires its cache of files updated to find it. Eclipse is always out-of-sync with the file system with regards to files it does not create – hence the need to refresh to force Eclipse to discover the file and display it in the Navigator.</p>
+       </div>
+      </div>
+      <h2 id="CreatingaCustomFilterClass-DeployingandTestingyourFilter">Deploying and Testing your Filter</h2>
+      <ol>
+       <li class="Standard">In your Rhapsody installation, in the folder of your datastore, you will find a <code>modules</code> folder.<br>For example:<code> C:\<span>Rhapsody</span>\Rhapsody Engine 6\rhapsody\data\modules</code></li>
+       <li class="Standard">To deploy the filter, simply copy the <code>com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter.jar</code> into the <code>modules</code> folder.</li>
+       <li class="Standard">Restart Rhapsody.</li>
+       <li class="Standard">If the filter has problems and cannot be loaded, these should be examined in the standard log file (<code>C:\<span>Rhapsody</span><span>\Rhapsody Engine 6</span>\log\log.txt</code>) using Notepad++ or any other technique you fancy for viewing text log files.</li>
+       <li class="Standard"><p>Otherwise, the filter will appear, with default icons in the <strong>Filter Toolbox</strong>:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161316.bmp" data-image-src="attachments/133161296/133161316.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161316" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter15.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>You can then create a test route to see if it works:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="143" width="729" src="attachments/133161296/133161315.bmp" data-image-src="attachments/133161296/133161315.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161315" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter16.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard">Attach a text file to the Timer and test the route.</li>
+      </ol>
+      <h2 id="CreatingaCustomFilterClass-AddingConfigurationPropertiestoYourFilter">Adding Configuration Properties to Your Filter</h2>
+      <p class="Standard">To add properties to your filter, a<span style="line-height: 13.0pt;background-color: transparent;">dd a </span> <code style="line-height: 13.0pt;">static String</code> <span style="line-height: 13.0pt;background-color: transparent;"> for each property describing the property, for example:</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static String USERNAME = "USERNAME|*s||username property||Set this to any value";
+private static String PASSWORD = "PASSWORD|*w||password property||Set this to any value";	</pre> 
+       </div>
+      </div>
+      <p class="Standard">Each string has six fields, separated by a vertical bar '<code>|</code>' or pipe:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public static final String[] props = {"Name|Type|DefaultValue|Display Name|Dependency|Description"};</pre> 
+       </div>
+      </div>
+      <p class="Textbody">The fields in this string are:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Field</strong></td>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Description</strong></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Name</p></td>
+          <td class="confluenceTd"><p class="TableContents">The filter property name.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Type</p></td>
+          <td class="confluenceTd"><p class="TableContents">The type of the property. This is a coded string.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Default Value</p></td>
+          <td class="confluenceTd"><p class="TableContents">The default value for the property (optional, although recommended for enumerated types)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Display Name</p></td>
+          <td class="confluenceTd"><p class="TableContents">The name to display to the user.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Dependency</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p class="TableContents">Other property/value that must be set before this property is used (optional), for example:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static final String MODE= "MODE|*e{sign;verify}|0|mode||mode";</pre> 
+             </div>
+            </div>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;private static final String ALIAS= "ALIAS|*s||private key alias|MODE=sign|private key alias";</pre> 
+             </div>
+            </div>
+            <p>You can create multiple property dependencies by using the logical operators&nbsp;<code>AND</code>&nbsp;and&nbsp;<code>OR</code>, and the inequality operator&nbsp;<code>&lt;&gt;</code>.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents">Description</p></td>
+          <td class="confluenceTd"><p class="TableContents">A description of the property.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 class="Textbody" id="CreatingaCustomFilterClass-PropertyTypes">Property Types</h3>
+      <p class="Textbody">The Type field is a coded string that uses a data-type character, preceded by zero or more modifier characters to give meaning to the property. A property with no modifiers is optional. The basic property types recognised by Rhapsody are:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p class="TableContents"><strong>Data Type</strong></p></td>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p class="TableContents"><strong>Description</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>s</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A string value property, for example:</p><p><code>private static final String <em>ALIAS</em>= "ALIAS|*s||<span style="line-height: 13.0pt;background-color: transparent;">private key alias|MODE=sign|private key alias";</span> </code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>z</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A boolean property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>i</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A 32-bit integer property.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>iP</code></td>
+          <td colspan="1" class="confluenceTd"><span>A 32-bit integer property used for displaying port numbers in the Management Console or via the REST API.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>e{name;name...}</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">An integer-based enumerated property (starting at 0), with a drop-down box displaying the specified strings.&nbsp; Keep your text clear of special characters otherwise it will not work.</p><p class="TableContents">For example:</p><code>private static final String <em>ONERROR</em>= "ONERROR|*e{Generate Error Response; Send to Error Queue}|0|on error||on error";</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>w</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A password property (a string property but will be displayed as ****** by Rhapsody IDE), for example:</p><p><span style="font-family: monospace;">private static final String </span><em style="font-family: monospace;">PASSWD</em><span style="font-family: monospace;">= "PASSWD|*w||keystore password||keystore password";</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>f</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">File.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>d</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Directory.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>m</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Symphonia message definition (can be mapper, S3D or XSD).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>p</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Message property name, for example:</p><p><span style="font-family: monospace;">private static final String </span><em style="font-family: monospace;">RESULT</em><span style="font-family: monospace;">= "RESULT|*p|p_SigningValidateResult|name of property to populate result SUCCESS or FAILED||name of property to populate result";</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>r</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Regular expression.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>M</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">Symphonia mapper definition.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>L</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">An EDI message field name.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>n</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A Rhapsody destination name.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>V</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A <a href="Watchlists_133163916.html">watchlist</a>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>j</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A JavaScript script.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>k</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A cryptographic public/private key.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>K</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A cryptographic secret key (symmetric key).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>c</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A cryptographic certificate.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>t</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">An EDI message type (for example, MSH).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>T</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A list of Response EDI messages.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="float: left;">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p class="TableContents"><strong>Modifier</strong></p></td>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p class="TableContents" style="text-align: left;"><strong>Description (modifier goes before the data type, for example <code>*s</code>)</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>*</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">The property is required. If no default value is given then the user must supply a value.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>$</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p class="TableContents">Indicates to Rhapsody IDE to enable a drop-down list for the property in the configuration dialog. The drop-down box contains any message properties that are extracted on the route.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>When using the <code>$</code> modifier, you still need to parse the data that has been entered by a user, either manually or from the drop-down box that the modifier enables.</p>
+              <p>Therefore, when using the <code>doConfigure</code> method, you still need to get the message property name from the configuration property and strip off the <code>$</code> prefix, and save that message property name to a member variable. Then, when using the <code>doProcessMessage</code> method, you need to check that each message has that message property name, for example using <code>messages[i].getProperty("myPropertyName"</code>).</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>[</code></p></td>
+          <td class="confluenceTd"><p class="TableContents" style="text-align: left;">An array (there can be more than one of these, one for each dimension). Array modifiers may also follow (see table below). A two-dimensional array defines the rows, then the columns.&nbsp;Do not close the square bracket.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <p class="title">Usage of modifiers</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If using the <span style="color: rgb(128,0,0);"><code>*</code></span> modifier, it must be the first modifier (in other words, you must have <span style="color: rgb(128,0,0);"><code>*$</code></span>, not <span style="color: rgb(128,0,0);"><code>$*</code></span>). The <span style="color: rgb(128,0,0);"><code>$</code></span> and <span style="color: rgb(128,0,0);"><code>[</code></span> modifiers cannot be used together.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p class="TableContents"><strong>Array Modifier</strong></p></td>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p class="TableContents"><strong>Description</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>n</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A number specifying the size of the array.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><code>{name;...}</code></p></td>
+          <td class="confluenceTd"><p class="TableContents">A list of header strings for the array (separated by ';' characters).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><br></p></td>
+          <td class="confluenceTd"><p class="TableContents">The property defines the dimension and the names of the headers.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p class="Textbody">Hence in our case:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static String USERNAME = "USERNAME|*s||username property||Set this to any value";
+private static String PASSWORD = "PASSWORD|*w||password property||Set this to any value";</pre> 
+       </div>
+      </div>
+      <ul>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">We add a String property called <code>USERNAME</code>, with display name <code>username property</code>&nbsp;and description <code>Set this to any value</code>.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">We also add a Password property called <code>PASSWORD</code>, with display name <code>password property</code>&nbsp;and description <code>Set this to any value</code>.&nbsp; The value of a password property is hidden and not viewable from Rhapsody IDE.</span></li>
+      </ul>
+      <p class="Standard">Now create a properties array to return in <code>getPropertyList()</code>:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static final String[] props = { USERNAME, PASSWORD };</pre> 
+       </div>
+      </div>
+      <p class="Standard">Then add two variables to hold the properties:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private String userName;
+private String password;
+</pre> 
+       </div>
+      </div>
+      <p class="Standard">Modify the <code>getPropertyList()</code> method to return the properties array:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public String[] getPropertyList() {
+	return props;
+}
+</pre> 
+       </div>
+      </div>
+      <p class="Standard">Modify <code>doConfigure</code> to take the properties from the IDE and set them on the class. Notice that the argument name is also changed from <code>arg0</code> to <code>config</code>:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public void doConfigure(Configuration config) throws FilterConfigurationException, InterruptedException {
+                               
+	userName = config.get("USERNAME");
+    password = config.get("PASSWORD");
+}</pre> 
+       </div>
+      </div>
+      <p class="Standard">Finally get the filter to write the configuration properties onto the message as message properties:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public Message[] doProcessMessage(Message[] messages) throws MessageException {
+	for (int i = 0; i &lt; messages.length; i++) {
+    	try {
+        	final String body = Messages.asString(messages[i]);
+            Messages.setBody(messages[i], body.toUpperCase());
+            messages[i].getProperty("p_userName").setValue(userName);
+            messages[i].getProperty("p_password").setValue(password);
+            ...
+
+</pre> 
+       </div>
+      </div>
+      <p class="Standard">And therefore end up with a class file as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import com.orchestral.rhapsody.message.Message;
+import com.orchestral.rhapsody.message.MessageException;
+import com.orchestral.rhapsody.message.Messages;
+import com.orchestral.rhapsody.module.Configuration;
+import com.orchestral.rhapsody.module.filter.AbstractFilter;
+import com.orchestral.rhapsody.module.filter.FilterConfigurationException;
+import com.orchestral.rhapsody.module.filter.FilterInfo;
+
+public class UpperCaseFilter extends AbstractFilter {
+               
+    private static String USERNAME = "USERNAME|*s||username property||Set this to any value";
+    private static String PASSWORD= "PASSWORD|*w||password property||Set this to any value";
+               
+    private String userName;
+    private String password;
+               
+    private static final String[] props = { USERNAME, PASSWORD };
+
+    public UpperCaseFilter(FilterInfo filterInfo) {
+    	super(filterInfo);
+    }
+
+    @Override
+    public String[] getPropertyList() {
+    	return props;
+    }
+
+    @Override
+    public void doConfigure(Configuration config)
+    throws FilterConfigurationException, InterruptedException {
+       
+        userName = config.get("USERNAME");
+        password = config.get("PASSWORD");
+    }
+
+    @Override
+    public Message[] doProcessMessage(Message[] messages) throws MessageException{
+        for (int i = 0; i &lt; messages.length; i++) {
+            try {
+                final String body = Messages.asString(messages[i]);
+                Messages.setBody(messages[i], body.toUpperCase());
+                messages[i].getProperty("p_userName").setValue(userName);
+                messages[i].getProperty("p_password").setValue(password);
+            } catch (UnsupportedEncodingException e) {
+                messages[i].addError("Message encoding type '" + messages[i].getBodyEncoding() + "' not supported.");
+            } catch (IOException e) {
+            	throw new MessageException("Error while reading message", e);
+            }
+        }
+        return messages;
+    }
+}
+</pre> 
+       </div>
+      </div>
+      <p class="Standard">Now test it by deploying, then adding properties to the filter on the route:</p>
+      <p class="Standard"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="289" width="878" src="attachments/133161296/133161313.bmp" data-image-src="attachments/133161296/133161313.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161313" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter17.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+      <p class="Standard">And if you send a test message through you can see the properties (even the hidden password property) are written onto the message as properties:</p>
+      <p class="Standard"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="307" width="575" src="attachments/133161296/133161314.bmp" data-image-src="attachments/133161296/133161314.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161314" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter18.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+      <h2 id="CreatingaCustomFilterClass-ValidatingFilterConfigurationProperties">Validating Filter Configuration Properties</h2>
+      <p class="Standard">Currently, the <code>configure()</code> method simply fetches the values:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public void doConfigure(Configuration config) throws FilterConfigurationException, InterruptedException {
+               
+	userName = config.get("USERNAME");
+	password = config.get("PASSWORD");
+}
+</pre> 
+       </div>
+      </div>
+      <p class="Standard">This method can be enhanced to throw an exception back to the IDE in the case that the properties do not validate or are missing.&nbsp; Modify the&nbsp;<code>configure()</code> to store the property in a temporary variable after which we validate it before assigning it. Using a temporary variable is very useful in cases where you have to follow with a type conversion such as String to Integer.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public void doConfigure(Configuration config) throws FilterConfigurationException, InterruptedException {
+                               
+	String property = config.get("USERNAME");
+	if (null==property || 0==property.length()) {
+		throw new FilterConfigurationException("Required field 'username' missing.");
+    } else {
+    	userName = property;
+    }
+                               
+    property = config.get("PASSWORD");
+    if (null==property || 0==property.length()) {
+    	throw new FilterConfigurationException("Required field 'password' missing.");
+    } else {
+    	password = property;
+    }
+}
+</pre> 
+       </div>
+      </div>
+      <p class="Standard"><br>Now if you leave a property blank, the properties dialog will prompt you with an error as you set above in the code:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161312.bmp" data-image-src="attachments/133161296/133161312.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161312" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter19.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+      <p class="Standard">Also, when you attempt to commit you will again be shown the error message and the filter will go into an error state indicated by a big black cross:</p>
+      <p class="Standard"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="405" width="687" src="attachments/133161296/133161311.bmp" data-image-src="attachments/133161296/133161311.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161311" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter20.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+      <h2 id="CreatingaCustomFilterClass-GettingorSettingMessagePropertiesonMessages">Getting or Setting Message Properties on Messages</h2>
+      <h3 id="CreatingaCustomFilterClass-SettingProperties">Setting Properties</h3>
+      <p class="Standard">As shown in the previous section, you can easily set properties by calling <code>getProperty("new prop name").setValue("new property value")</code>:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public Message[] doProcessMessage(Message[] messages) throws MessageException{
+	for (int i = 0; i &lt; messages.length; i++) {
+
+	try {
+    	final String body = Messages.asString(messages[i]);
+        Messages.setBody(messages[i], body.toUpperCase());
+        messages[i].getProperty("p_userName").setValue(userName);
+        messages[i].getProperty("p_password").setValue(password);
+</pre> 
+       </div>
+      </div>
+      <h3 id="CreatingaCustomFilterClass-GettingProperties">Getting Properties</h3>
+      <p class="Standard">You can also get existing properties by simply calling:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">getProperty("new prop name").getValue()</pre> 
+       </div>
+      </div>
+      <p>For example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">String inputTime = messages[i].getProperty("InputTime").getValue());</pre> 
+       </div>
+      </div>
+      <h2 id="CreatingaCustomFilterClass-AddingCustomIconstotheFilter">Adding Custom Icons to the Filter</h2>
+      <p class="Standard">So far the filter has defaulted to the standard filter icon. Rhapsody uses two icons for every a filter or communication point. The first is the 32x32 bit size used on the route itself, and the second is the 16x16 size used in the filter palette.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Icons must be in legacy1 Layer RGB 24-bit BMP format only. Additionally, they must have no more than 256 colors. Refer to <a href="https://docs.gimp.org/en/gimp-tutorial-quickie-change-mode.html" class="external-link" rel="nofollow">Change the Mode</a> for details on how to change images to indexed colors using Gimp.</p>
+       </div>
+      </div>
+      <p class="Standard">To set up a legacy 24-bit BMP image:</p>
+      <ol>
+       <li class="Standard">Navigate to <a href="http://en.wikipedia.org/wiki/Smiley" class="external-link" rel="nofollow">http://en.wikipedia.org/wiki/Smiley</a> from your web browser.</li>
+       <li class="Standard">Right-click on the smiley face and select <strong>Copy Image</strong>.</li>
+       <li class="Standard"><p>Start up the Gimp graphics program and select&nbsp;<strong>Edit&gt;Paste As&gt;New Image</strong>.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161310.bmp" data-image-src="attachments/133161296/133161310.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161310" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter21.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>Scale the image to be 32x32 by selecting&nbsp;<strong>Image&gt;Scale</strong>.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161308.bmp" data-image-src="attachments/133161296/133161308.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161308" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter22.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>Ensure the X ↔ Y locks are in place&nbsp;when you scale:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161307.bmp" data-image-src="attachments/133161296/133161307.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161307" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter23.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard">Select&nbsp;<strong>Layer&gt;Transparency&gt;Add Alpha Channel</strong>.</li>
+       <li class="Standard"><p>Choose the color select tool:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161306.bmp" data-image-src="attachments/133161296/133161306.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161306" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter24.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>Select the black background:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161305.bmp" data-image-src="attachments/133161296/133161305.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161305" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter25.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>Select&nbsp;<strong>Edit&gt;Cut</strong>:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161304.bmp" data-image-src="attachments/133161296/133161304.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161304" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter26.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard">Select&nbsp;<strong>File&gt;Save As</strong>.</li>
+       <li class="Standard">Select <code>Windows BMP</code> Type.</li>
+       <li><p>Name the file <code>Smiley-32.bmp</code>:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161303.bmp" data-image-src="attachments/133161296/133161303.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161303" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter27.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li>Select the filter's&nbsp;<code>src</code> folder as the location to save to.</li>
+       <li class="Standard"><p>Expand <strong>Advanced Settings</strong> and select the <strong>24 bits</strong> format:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161302.bmp" data-image-src="attachments/133161296/133161302.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161302" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter28.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard">Select the <strong>Save</strong> button.</li>
+       <li class="Standard">Select&nbsp;<strong>Image&gt;Scale</strong>.</li>
+       <li class="Standard">Change the image to 16x16.</li>
+       <li class="Standard">Save it as <code>Smiley-16.bmp</code> following the same procedure as for the 32x32 icon.&nbsp; Again, save it to your <code>src</code> folder, taking&nbsp;care you do not save the 16x16 as <code>Smiley-32.bmp</code>.</li>
+       <li class="Standard">Go back to Eclipse, and right-click on your project and select <strong>Refresh</strong>.</li>
+       <li><p>You should now have two icons in position:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="354" width="267" src="attachments/133161296/133161301.bmp" data-image-src="attachments/133161296/133161301.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161301" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter29.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li>Note how Eclipse "compiles" the icons across to the <code>bin</code> folder.</li>
+       <li class="Standard"><p>Add the icons to your registration.&nbsp; Check the Activator has the correct filenames for the icons:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;this.registrations.add(context.registerService(fr,
+                new FilterRegistration("UPPERCASEFILTER",
+                "Upper Case Filter", "Utility", UpperCaseFilter.class, "/Smiley-32.bmp",
+                                "/Smiley-16.bmp"), null));</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Ensure the Ant&nbsp;script includes the images.</p></li>
+       <li class="Standard">Since Ant is configured to build the jar from <code>basedir="${build.classes}"</code>, the images are automatically included as Eclipse 'compiles' them into that location.</li>
+       <li class="Standard"><p>Generate a new module using the Ant build, and deploy it to verify the icons have changed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161300.bmp" data-image-src="attachments/133161296/133161300.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161300" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter30.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+      </ol>
+      <h2 id="CreatingaCustomFilterClass-AddingLoggingtotheFilter">Adding Logging to the Filter</h2>
+      <h3 id="CreatingaCustomFilterClass-Installthelog4JAR">&nbsp;Install the log4 JAR</h3>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Perform the following steps only if you used the wizard to create your project, otherwise skip this section and follow the steps in <a href="#CreatingaCustomFilterClass-InvoketheLogger">Invoke the Logger</a>.</p>
+       </div>
+      </div>
+      <p class="Standard">To install the&nbsp;log4j JAR file:</p>
+      <ol>
+       <li class="Standard">Create a<code> lib</code> folder in your project.</li>
+       <li class="Standard">Download the log4j JAR file&nbsp;and place it in the <code>lib</code> folder:<br> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="104" width="254" src="attachments/133161296/133161299.bmp" data-image-src="attachments/133161296/133161299.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161299" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter31.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></li>
+       <li class="Standard">Add the jar to the build path.</li>
+       <li class="Standard">Right-click on the project and select <strong>Build Path&gt;Configure Build Path </strong>and select the <strong>Add JARS...</strong> button on the <strong>Libraries</strong> tab.</li>
+       <li class="Standard">Browse to the JAR file&nbsp;and select it.</li>
+       <li class="Standard"><p>Open the&nbsp;<code>META-INF/MANIFEST.MF</code> file – the module needs to know where the JAR file&nbsp;is for when it is running within Rhapsody.&nbsp; Note that when running the module is 'extracted' and has its own root folder. It will look for the lib folder relative to that for the log4j JAR file.&nbsp; Hence we add the <code>lib/log4j </code>jar in the Runtime tab to the classpath:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161296/133161298.bmp" data-image-src="attachments/133161296/133161298.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161298" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter32.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard"><p>Check the <code>MANIFEST.MF</code> contents have been changed accordingly (it should be added to the <code>Bundle-Classpath</code>):</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UpperCaseFilter
+Bundle-SymbolicName: UpperCaseFilter
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: com.orchestral.rhapsody.configuration;version="6.4.0",
+ com.orchestral.rhapsody.configuration.auxiliaryfiles;version="6.4.0",
+ com.orchestral.rhapsody.configuration.definition;version="6.4.0",
+ com.orchestral.rhapsody.configuration.repository;version="6.4.0",
+ com.orchestral.rhapsody.configuration.security;version="6.4.0",
+ com.orchestral.rhapsody.configuration.variables;version="6.4.0",
+ com.orchestral.rhapsody.idgenerator;version="6.4.0",
+ com.orchestral.rhapsody.initialisation;version="6.4.0",
+ com.orchestral.rhapsody.message;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing.definition;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing.format;version="6.4.0",
+ com.orchestral.rhapsody.messageparsing.xpath;version="6.4.0",
+ com.orchestral.rhapsody.model.definition;version="6.4.0",
+ com.orchestral.rhapsody.module;version="6.4.0",
+ com.orchestral.rhapsody.module.communicationpoint;version="6.4.0",
+ com.orchestral.rhapsody.module.filter;version="6.4.0",
+ com.orchestral.rhapsody.module.filter.internal;version="6.4.0",
+ com.orchestral.rhapsody.persistentmap;version="6.4.0",
+ com.orchestral.rhapsody.security;version="6.4.0",
+ org.apache.log4j;version="1.2.17",
+ org.openrdf.util;version="6.1.0",
+ org.osgi.framework;version="1.3.0",
+ org.osgi.service.component;version="1.0.0"
+Service-Component: OSGI-INF/Service.xml
+Bundle-ClassPath: .,
+ lib/log4j-1.2.17.jar</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h3 id="CreatingaCustomFilterClass-InvoketheLogger">Invoke the Logger</h3>
+      <ol>
+       <li class="Standard"><p>Change the Ant&nbsp;script so that it adds the log4j JAR file&nbsp;into the module jar:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;project name="com.orionhealth.EMEA.rhapsody.module.UpperCaseFilter" default="jar" basedir="."&gt;
+    &lt;property name="build.classes" value="bin"/&gt;
+    &lt;target name="jar"&gt;
+        &lt;jar jarfile="${ant.project.name}.jar" basedir="${build.classes}" manifest="META-INF/MANIFEST.MF"&gt;                                          
+            &lt;fileset dir="."&gt;
+                 &lt;include name="OSGI-INF/Service.xml"/&gt;
+                 &lt;include name="lib/*"/&gt;
+            &lt;/fileset&gt;                                              
+        &lt;/jar&gt;
+    &lt;/target&gt;
+&lt;/project&gt;</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Set up the filter class to use log4j JAR file.</p></li>
+       <li class="Standard"><p class="Standard">Add the import:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">import org.apache.log4j.Logger;
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Create a final instance of logger:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;public class UpperCaseFilter extends AbstractFilter {
+                ….          
+                private final Logger logger = getLogger();
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Invoke the logger in our methods:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public Message[] doProcessMessage(Message[] messages) throws MessageException {
+	for (int i = 0; i &lt; messages.length; i++) {
+		try {
+			final String body = Messages.asString(messages[i]);
+			Messages.setBody(messages[i], body.toUpperCase());
+			logger.info("prop="+messages[i].getProperty("InputTime").getValue());
+			...</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h2 id="CreatingaCustomFilterClass-log4j.propertiesandDebugLogging">log4j.properties and Debug Logging</h2>
+      <p class="Standard">To improve the logging configuration:</p>
+      <ol>
+       <li class="Standard">Change all the <code>logger.info</code> calls to <code>logger.debug</code>.</li>
+       <li class="Standard"><p>Obtain the ID of your filter. You can get this from the log, for example:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">2011-07-28 09:46:51,393  INFO [Route Executor 3] [Route.2969.Filter.4013] prop=1311842810803</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>In the above line from the log we can see our filter has ID=4013, but for log4j purposes what we want is the route qualified ID <code>Route.2969.Filter.4013</code>.</p></li>
+       <li class="Standard">If you cannot find a statement with the ID then you can force a log statement into the log with <code>logger.error("bogus error");</code> and then catch the ID information from <code>log.txt</code>.</li>
+       <li class="Standard">If it was a communication point, not a filter, then you can also get the ID using the web services API.</li>
+       <li class="Standard">Launch SOAP-UI and create a new project by importing your Rhapsody WSDL which is located at https://localhost:8449/services/RhapsodyComponentsService?wsdl.</li>
+       <li class="Standard"><p>Configure security details for the interface by right-clicking on the green railway sleeper as per:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="216" width="699" src="attachments/133161296/133161297.bmp" data-image-src="attachments/133161296/133161297.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161297" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter33.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p></li>
+       <li class="Standard">Then invoke the <code>getAllComponents</code> method and find the ID of your component in the response message.</li>
+       <li class="Standard">Now you can create a log4j configuration for our filter to capture debug messages.&nbsp; You can then easily turn off logging for our filter through the log4j configuration.</li>
+       <li class="Standard"><p>Add the following section to your <code>log4j.properties</code> file (in your<code> rhapsody</code> folder under your Rhapsody installation):</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence"># custom filter logging
+log4j.logger.Route.2969.Filter.4013=DEBUG,4013
+log4j.appender.4013=org.apache.log4j.RollingFileAppender
+log4j.appender.4013.File=logs/4013.txt
+log4j.appender.4013.MaxBackupIndex=9
+log4j.appender.4013.MaxFileSize=5MB
+log4j.appender.4013.layout=org.apache.log4j.PatternLayout
+log4j.appender.4013.layout.ConversionPattern=%d %5.5p [%32.32t] [%40.40c] %m%n
+
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Ensure you change the Route ID and Filter ID to match your own example.</p></li>
+       <li class="Standard"><p class="Standard">Restart Rhapsody, send a message and check your log file. In this example the logfile is called <code>log/4013.txt</code>.</p></li>
+      </ol>
+      <h2 id="CreatingaCustomFilterClass-AddingJavadocComments">Adding Javadoc Comments</h2>
+      <p class="Standard">Javadoc is a way of commenting your code so that HTML documentation can be generated for it.</p>
+      <p class="Standard">Simply type <code> <strong>/**</strong></code>&nbsp;above your class or method and press <strong>Enter</strong>. Eclipse will add the javadoc template and you can then simply flesh it out:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">/**
+* Converts the message to uppercase and adds some properties
+*/
+@Override
+public Message[] doProcessMessage(Message[] messages) throws MessageException {</pre> 
+       </div>
+      </div>
+      <h2 id="CreatingaCustomFilterClass-Concurrency">Concurrency</h2>
+      <p>If you set the filter to unlimited concurrency, then you cannot alter the concurrency from the IDE and there will not be a concurrency limit on the filter. This is the default setting:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public FilterKind getKind() {
+	return FilterKind.UNLIMITED_CONCURRENCY;
+}
+</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The implications are that Rhapsody will try to create a new route instance for every message coming in – in other words, a new thread per route instance. However, it may be that this is inappropriate for your filter (a database JDBC filter, for example, will create too many connections and end up swamped in context switching if you allow unlimited concurrency).</p>
+       </div>
+      </div>
+      <p>If, however, you want to let the user control the concurrency, then you need to set it as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public FilterKind getKind() {
+	return FilterKind.LIMITED_CONCURRENCY;
+}</pre> 
+       </div>
+      </div>
+      <p class="Standard">This provides the concurrency option on the filter as follows:</p>
+      <p class="Standard"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="439" width="403" src="attachments/133161296/133161309.bmp" data-image-src="attachments/133161296/133161309.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161309" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCustomFilter34.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161296" data-linked-resource-container-version="4"></span></p>
+      <h2 id="CreatingaCustomFilterClass-FetchingtheFilter'sRoute">Fetching the Filter's Route</h2>
+      <p class="Standard">You can get the route using the following method:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">getFilterInfo().getRoute()</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

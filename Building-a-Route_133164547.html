@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Building a Route</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Learning-Rhapsody_133164369.html">Learning Rhapsody</a></span> </li> 
+       <li> <span><a href="Getting-Started_133164370.html">Getting Started</a></span> </li> 
+       <li> <span><a href="Using-Rhapsody-IDE_133164392.html">Using Rhapsody IDE</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Building a Route</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Central to the concept of what Rhapsody does is the route, or the path taken by a message as it passes through the Rhapsody engine. This path connects input&nbsp;communication points to output communication points and may include intermediary filters designed to complete a variety of tasks, such as conditionally passing the message or transforming the message from one format to another.</p>
+      <p>The following example illustrates how to build and test a simple pass-through route:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146925018 {padding: 0px;}
+div.rbtoc1565146925018 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146925018 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146925018"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#BuildingaRoute-ExampleofPass-throughRoute">Example of Pass-through Route</a></li> 
+        <li><a href="#BuildingaRoute-CreatetheRoute">Create the Route</a></li> 
+        <li><a href="#BuildingaRoute-StartingandStoppingComponents">Starting and Stopping Components</a></li> 
+        <li><a href="#BuildingaRoute-TestingtheRoute">Testing the Route</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p>Refer to&nbsp;<a href="Route-Design-Considerations_133162026.html">Route Design Considerations</a> for best practices when building routes.</p>
+      <h2 id="BuildingaRoute-ExampleofPass-throughRoute">Example of Pass-through Route</h2>
+      <p>In this example pass-through route, messages arrive at a TCP Server communication point called&nbsp;"ADT System" and are passed to the Directory communication point called "Batch Directory":</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133164547/133164567.png" data-image-src="attachments/133164547/133164567.png" data-unresolved-comment-count="0" data-linked-resource-id="133164567" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SimpleRoute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p>
+      <p>The route utilizes the following Rhapsody applications and components:</p>
+      <ul>
+       <li><strong>EDI Explorer</strong>&nbsp;- used to generate test messages and connect with the&nbsp;<strong>ADT System</strong>&nbsp;communication point. Test messages are then sent from EDI Explorer into the route.<br>The communication points included in this route are:</li>
+       <li><strong>ADT System</strong>&nbsp;- an&nbsp;<em>input</em>&nbsp;TCP Server&nbsp;communication point configured to receive messages from an external application.</li>
+       <li><strong>Batch Directory</strong>&nbsp;- an&nbsp;<em>output</em>&nbsp;Directory&nbsp;communication point configured to save received messages to a specified network location.</li>
+      </ul>
+      <h2 id="BuildingaRoute-CreatetheRoute">Create the Route</h2>
+      <p>To create a route:</p>
+      <ol>
+       <li>Create a locker if required.</li>
+       <li>Create a folder if required.</li>
+       <li><span class="toc-item-body"><a href="#BuildingaRoute-DefinetheCommunicationPoints">Define the communication points</a>.</span></li>
+       <li><span class="toc-item-body"><a href="#BuildingaRoute-DefinetheRoute">Define the route</a>.</span></li>
+       <li><span class="toc-item-body"><a href="#BuildingaRoute-AddFilters">Add filters.</a></span></li>
+       <li><span class="toc-item-body"><a href="#BuildingaRoute-CheckIntheComponents">Check in the components</a>.</span></li>
+      </ol>
+      <h3 id="BuildingaRoute-DefinetheCommunicationPoints">Define the Communication Points</h3>
+      <p>The next step is&nbsp;to create the communication points. Communication points are entry or exit points to the Rhapsody engine. Communication points are the interface to the external system and are the mechanism by which Rhapsody sends and receives information to and from the external systems. Messages arrive at an Input communication point, are processed by the filters and conditional connectors in the route and passed to one or more Output communication points. From there, the messages are sent to the receiving applications.</p>
+      <p>To create a communication point:</p>
+      <ol>
+       <li><p>Select the&nbsp;<strong>New Communication Point&nbsp;</strong>icon<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164566.png" data-image-src="attachments/133164547/133164566.png" data-unresolved-comment-count="0" data-linked-resource-id="133164566" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_newcommpoint.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span>on the standard toolbar. The&nbsp;<strong>Create Communication Point</strong>&nbsp;dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164565.png" data-image-src="attachments/133164547/133164565.png" data-unresolved-comment-count="0" data-linked-resource-id="133164565" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="NewCommPoint.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></li>
+       <li><p>Select&nbsp;<strong>TCP Server</strong>, and select the&nbsp;<strong>Create</strong>&nbsp;button. The&nbsp;<strong>TCP Server Properties</strong>&nbsp;dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164564.png" data-image-src="attachments/133164547/133164564.png" data-unresolved-comment-count="0" data-linked-resource-id="133164564" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="TCPCommPoint.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></li>
+       <li>Enter the following details:
+        <ul>
+         <li><strong>Name&nbsp;</strong>-&nbsp;<code>ADT System</code>. A communication point's name is not case-sensitive and must differ from all other communication points in the same folder. An alert is displayed if this is not the case.</li>
+         <li><strong>Type&nbsp;</strong>-&nbsp;<code>TCP Server</code>. The TCP Server communication point listens for connections on the port specified as part of its configuration.</li>
+         <li><strong>Template</strong> - <code>None</code>.</li>
+         <li><strong>Connection Mode</strong>-&nbsp;<code>Input</code>. Input communication points are configured to receive messages from one or more external systems.</li>
+        </ul></li>
+       <li><p>Select the&nbsp;<strong>Configuration</strong>&nbsp;tab to display the&nbsp;<strong>Configuration</strong>&nbsp;dialog and define the following properties:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164563.png" data-image-src="attachments/133164547/133164563.png" data-unresolved-comment-count="0" data-linked-resource-id="133164563" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="TCPConfig.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p>
+        <ul>
+         <li><p><strong>Local Port</strong>&nbsp;-&nbsp;<code>3001</code>. The port can be changed if there is a conflict.</p></li>
+        </ul></li>
+       <li>Select the&nbsp;<strong>OK</strong>&nbsp;button to save your changes.</li>
+       <li>Repeat Steps 1 through 5 to create a&nbsp;<strong>Directory&nbsp;</strong>communication point with the following properties:
+        <ul>
+         <li><strong>General&nbsp;</strong>tab:
+          <ul>
+           <li><strong>Name</strong>-&nbsp;<code>Batch Directory</code>.</li>
+           <li><strong>Type</strong>-&nbsp;<code>Directory</code>.</li>
+           <li><strong>Connection Mode</strong>-&nbsp;<code>Output</code>. Output communication points are configured to send messages to one or more external systems.</li>
+          </ul></li>
+         <li><strong>Configuration&nbsp;</strong>tab:
+          <ul>
+           <li><strong>Output Directory</strong>&nbsp;- the location where files will be sent.</li>
+          </ul></li>
+        </ul></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For details on how to:</p>
+        <ul>
+         <li>Manage communication points, refer to xxx.</li>
+         <li>Configure individual communication point types, refer to <a href="Communication-Point-Types_133162205.html">Communication Point Types</a>.</li>
+        </ul>
+       </div>
+      </div>
+      <h3 id="BuildingaRoute-DefinetheRoute">Define the Route</h3>
+      <p>The next step after creating the communication points – one for receiving and one for sending messages – is to create a route to link the communication points.</p>
+      <p>To create a new route:</p>
+      <ol>
+       <li><p>Select the&nbsp;<strong>New Route&nbsp;</strong>icon&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164562.png" data-image-src="attachments/133164547/133164562.png" data-unresolved-comment-count="0" data-linked-resource-id="133164562" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_newroute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span>&nbsp;on the standard toolbar. Enter a name for the route and the new route is created in the <strong>Route Editor</strong>, as shown in the following screenshot. It has an&nbsp;<strong>Input</strong>&nbsp;section, a&nbsp;<strong>Filters</strong>&nbsp;section, and an&nbsp;<strong>Output</strong>&nbsp;section. The&nbsp;<strong>Input</strong>&nbsp;section is where the Input communication points belong and the&nbsp;<strong>Output</strong>&nbsp;section is where the Output communication points belong.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133164547/133164561.png" data-image-src="attachments/133164547/133164561.png" data-unresolved-comment-count="0" data-linked-resource-id="133164561" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="NewRoute2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></li>
+       <li><p>Drag and drop your Input and Output communication points to the appropriate sections in the <strong>Route Editor</strong>:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133164547/133164560.png" data-image-src="attachments/133164547/133164560.png" data-unresolved-comment-count="0" data-linked-resource-id="133164560" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="dragcomponents.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></li>
+       <li>Connect the input communication point to the output communication point.
+        <ol>
+         <li>Select the&nbsp;<strong>Connector&nbsp;</strong>icon&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164559.png" data-image-src="attachments/133164547/133164559.png" data-unresolved-comment-count="0" data-linked-resource-id="133164559" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_connector.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span>&nbsp;on the standard toolbar.</li>
+         <li>Select the Input communication point and drag a line to the Output communication point.</li>
+        </ol></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For details on how to configure routes, refer to <a href="Routes_133161995.html">Routes</a>.</p>
+       </div>
+      </div>
+      <h3 id="BuildingaRoute-AddFilters">Add Filters</h3>
+      <p>While this example route does not include filters, you can add a filter&nbsp;by dragging it from the Filter Toolbox onto the Filters section in the <strong>Route Editor</strong>.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For details on how to:</p>
+        <ul>
+         <li>Manage filters, refer to <a href="Managing-Filters_133163392.html">Managing Filters</a>.</li>
+         <li>Configure individual filter types, refer to <a href="Filter-Types_133162712.html">Filter Types</a>.</li>
+        </ul>
+       </div>
+      </div>
+      <h3 id="BuildingaRoute-CheckIntheComponents">Check In the Components</h3>
+      <p>The next step is to check in your communication points and routes so the engine is aware of your changes.</p>
+      <ol>
+       <li><p>Select the&nbsp;<strong>Check in all routes and communication points</strong>&nbsp;icon&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164558.png" data-image-src="attachments/133164547/133164558.png" data-unresolved-comment-count="0" data-linked-resource-id="133164558" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_checkin_all.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span>&nbsp;on the standard toolbar. The&nbsp;<strong>Check-in</strong>&nbsp;dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164557.png" data-image-src="attachments/133164547/133164557.png" data-unresolved-comment-count="0" data-linked-resource-id="133164557" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="checkin.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></li>
+       <li><p>Select the components you want to check in, and select the&nbsp;<strong>Check In</strong>&nbsp;button. Rhapsody checks the configuration of each component when it is checked in.</p><p>If any errors are found they are listed in the&nbsp;<strong>Properties</strong>&nbsp;pane at the bottom of the Rhapsody IDE window:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="150" width="427" src="attachments/133164547/133164556.png" data-image-src="attachments/133164547/133164556.png" data-unresolved-comment-count="0" data-linked-resource-id="133164556" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ChangeLog.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></li>
+       <li>If required, save your configuration.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For details on:</p>
+        <ul>
+         <li>Version control in Rhapsody, refer to <a href="Modifying-a-Configuration_133161422.html">Modifying a Configuration</a>.</li>
+         <li>Saving your current configuration, refer to <a href="Saving-a-Configuration_133161554.html">Saving a Configuration</a>.</li>
+        </ul>
+       </div>
+      </div>
+      <h2 id="BuildingaRoute-StartingandStoppingComponents">Starting and Stopping Components</h2>
+      <p>When a route or communication point is first created, its <strong>Status</strong> is <code>Stopped</code> by default, unless its configuration is incomplete. Rhapsody checks the configuration of a component when it is checked in. If any errors are found they are listed in the&nbsp;<strong>Properties</strong>&nbsp;pane.</p>
+      <p>Routes and communication points must be started before they can process messages. Messages sent to a stopped route or communication point will be queued by Rhapsody until the component is restarted, at which time the backlog is cleared before new messages are processed.</p>
+      <p>You can start or stop a component in one of the following ways:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146925082 {padding: 0px;}
+div.rbtoc1565146925082 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146925082 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146925082"> 
+       <ul class="toc-indentation"> 
+       </ul> 
+      </div>
+      <p></p>
+      <h3 id="BuildingaRoute-Workspace">Workspace</h3>
+      <ul>
+       <li><p>Right-click the component, and select&nbsp;<strong>Start</strong>&nbsp;or&nbsp;<strong>Stop</strong>.</p></li>
+      </ul>
+      <h3 id="BuildingaRoute-ObjectBrowser"><strong>Object Browser</strong></h3>
+      <ol>
+       <li>Right-click the component, and select&nbsp;<strong>Start</strong>&nbsp;or&nbsp;<strong>Stop</strong>.</li>
+       <li><p>Select the component, and the&nbsp;<strong>Start</strong>&nbsp;or&nbsp;<strong>Stop</strong>&nbsp;icons on the&nbsp;<strong>Object Browser</strong>&nbsp;toolbar.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133164547/133164555.png" data-image-src="attachments/133164547/133164555.png" data-unresolved-comment-count="0" data-linked-resource-id="133164555" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ObjectBrowser.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></li>
+      </ol>
+      <h3 id="BuildingaRoute-ManagementConsole"><strong>Management Console</strong></h3>
+      <ol>
+       <li><p>Launch the <a href="Management-Console_133163667.html">Management Console</a> and navigate to&nbsp;<strong>Monitoring&gt;Communication Points</strong>&nbsp;or&nbsp;<strong>Monitoring&gt;Routes</strong>.</p></li>
+       <li><p>To change the status, in the&nbsp;<strong>Action</strong>&nbsp;column, click the&nbsp;<strong>Start</strong>&nbsp;or&nbsp;<strong>Stop</strong>&nbsp;link.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/133164547/133164554.png" data-image-src="attachments/133164547/133164554.png" data-unresolved-comment-count="0" data-linked-resource-id="133164554" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="routes.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p><p>The following icons are used in Rhapsody IDE (<strong>Workspace</strong>&nbsp;and&nbsp;<strong>Object Browser</strong>) to identify the component's current status:</p>
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Icon</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164553.png" data-image-src="attachments/133164547/133164553.png" data-unresolved-comment-count="0" data-linked-resource-id="133164553" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_component_started.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></td>
+            <td class="confluenceTd"><p>The component has started.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164552.png" data-image-src="attachments/133164547/133164552.png" data-unresolved-comment-count="0" data-linked-resource-id="133164552" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_component_stopped.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></td>
+            <td class="confluenceTd"><p>The component is stopped.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164550.png" data-image-src="attachments/133164547/133164550.png" data-unresolved-comment-count="0" data-linked-resource-id="133164550" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_component_unconfigured.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></td>
+            <td class="confluenceTd"><p>One or more required properties are missing, therefore, the component cannot be started or stopped.</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+      </ol>
+      <h2 id="BuildingaRoute-TestingtheRoute">Testing the Route</h2>
+      <p>The final step is to test the route.&nbsp;<strong>EDI Explorer</strong>&nbsp;is used to create test messages and send them into Rhapsody via a TCP connection.</p>
+      <ol>
+       <li>Select the&nbsp;<strong>EDI Explorer&nbsp;</strong>icon<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164547/133164549.png" data-image-src="attachments/133164547/133164549.png" data-unresolved-comment-count="0" data-linked-resource-id="133164549" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_edi.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span>on the standard toolbar.</li>
+       <li><p>Load a message definition, then create a new message. Refer to <i>EDI Explorer</i> in the&nbsp;<em>EDI Explorer&nbsp;<em>Reference Manual</em></em>&nbsp;to learn how to load a message definition and create a test message, and configure the application to communicate with the&nbsp;<strong>ADT System</strong>&nbsp;communication point in Rhapsody.</p><p>An example message has been created from the&nbsp;<code>HL7v2.3_ACKA01.s3d</code>&nbsp;message definition and auto-filled with dummy data:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133164547/133164548.png" data-image-src="attachments/133164547/133164548.png" data-unresolved-comment-count="0" data-linked-resource-id="133164548" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="explorer1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164547" data-linked-resource-container-version="1"></span></p></li>
+       <li>Connect to the TCP Server communication point created earlier, then select the&nbsp;<strong>Transmit</strong>&nbsp;button to send the message to the route.</li>
+       <li>If the route is successfully processing messages, the file is processed and passed to the directory specified by the "Batch Directory" communication point.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>You can also use the Management Console to track the event path of a particular message. Refer to the Management Console's&nbsp;<a href="Message-View_133163772.html">Message View</a> for details.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

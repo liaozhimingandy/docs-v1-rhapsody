@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Auto-starting Rhapsody on *nix</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="GUI-and-Console-Installations_133164313.html">GUI and Console Installations</a></span> </li> 
+       <li> <span><a href="133164332.html">Installing the Rhapsody Engine on *nix</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Auto-starting Rhapsody on *nix</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>You can create a service to start, stop and auto-start a Rhapsody engine on server restart for *nix servers.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>These instructions are applicable for Red Hat 7.1 and above (or similar, recent versions of other *nix flavors).</p>
+       </div>
+      </div>
+      <h2 id="Auto-startingRhapsodyon*nix-CreatinganAuto-startService">Creating an Auto-start Service</h2>
+      <p>To&nbsp;create a systemd&nbsp;service to auto-start a Rhapsody engine:</p>
+      <ol>
+       <li><p>As a&nbsp;root&nbsp;user, create a file called&nbsp;<code>rhapsody.service</code>&nbsp;under&nbsp;<code>/etc/systemd/system</code>&nbsp;with the following content:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">[Unit]
+Description=Rhapsody Service
+
+[Service]
+Type=forking
+ExecStart=&lt;Install DIR&gt;/bin/rhapsody.sh start
+ExecStop=&lt;Install DIR&gt;/bin/rhapsody.sh stop
+User=&lt;OS user running Rhapsody&gt;
+Group=&lt;Rhapsody user's group&gt;
+LimitNOFILE=30000
+TimeoutStartSec=600
+PermissionsStartOnly=true
+TimeoutStopSec=600
+
+[Install]
+WantedBy=multi-user.target </pre> 
+         </div>
+        </div></li>
+       <li><p>Execute the command&nbsp;<span style="color: rgb(255,0,0);"><code>systemctl --system daemon-reload</code></span>&nbsp;to register the service.</p></li>
+       <li><p>Execute&nbsp;the command&nbsp;<span style="color: rgb(255,0,0);"><code>systemctl enable rhapsody</code></span>&nbsp;to enable the service.</p></li>
+       <li>On restart of the server, the&nbsp;service ensures the Rhapsody engine is automatically started.&nbsp;</li>
+      </ol>
+      <h2 id="Auto-startingRhapsodyon*nix-StartingandStoppingtheEngine">Starting and Stopping the Engine</h2>
+      <p>To manually:</p>
+      <ul>
+       <li>Start the engine use the command&nbsp;<span style="color: rgb(255,0,0);"><code>systemctl start rhapsody</code></span>.</li>
+       <li>Stop the engine&nbsp;use the command&nbsp;<span style="color: rgb(255,0,0);"><code>systemctl stop rhapsody</code></span>.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

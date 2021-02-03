@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Rhapsody Connector</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Rhapsody Connector</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162574/133162577.jpg" data-image-src="attachments/133162574/133162577.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162577" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RhapsodytoRhapsodyConnectorIcon.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162574" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Rhapsody Connector</strong> communication point&nbsp;can be used as part of a Rhapsody-to-Rhapsody connection, or as the Rhapsody end point of a connection to an external application using the Rhapsody Connector API. The Rhapsody Connector API can be used in external Java applications and is included in the Rhapsody RDK.</p>
+      <p>The Rhapsody Connector communication point streams messages and all their message properties across an underlying TCP transport. In addition, if the Rhapsody engine is aware of the character encoding of the message (in other words, it has been explicitly set by a character translation filter or JavaScript filter), then it is transmitted along with the message body.</p>
+      <p>The Rhapsody Connector protocol supports some additional functionality to improve the reliability of these communications, for example:</p>
+      <ul>
+       <li>A protocol acknowledgement mechanism is automatically included to ensure that messages have been completely received by the remote system before being regarded as sent.</li>
+       <li>Keep-alive requests and responses are used at a configurable interval to ensure the connection is still valid, and has not been closed by an overly zealous firewall.</li>
+      </ul>
+      <p>When a message property of a message is greater than 5,242,623 bytes in size, the Rhapsody Connector&nbsp;communication point sends it to the Error Queue.</p>
+      <p>Operating Modes: <em>All</em></p>
+      <h2 id="RhapsodyConnector-ConfigurationProperties">Configuration Properties</h2>
+      <p>The <strong>Rhapsody Connector</strong> communication point can operate in client or server mode. Many of its properties are independent of the mode that it is operating in.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Name</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>Client</code>, <code>Server</code>. Default: <code>Client</code></p><p>Determines whether the Rhapsody Connector communication point is operating as a client or a server. In server mode it listens for incoming connections, whereas in client mode it establishes the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Host</p></td>
+          <td class="confluenceTd"><p>The remote hostname or IP to connect to in client mode.</p><p>Only available when the communication point is operating as a client; that is, the <strong>Mode</strong> property is set to <code>Client</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Port</p></td>
+          <td class="confluenceTd"><p>The remote port to connect to in client mode.</p><p>Only available when the communication point is operating as a client; that is, the <strong>Mode</strong> property <span>is set to</span> <code>Client</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p>The local port to bind to. The d<span>efault value is 0</span>, which indicates picking any available port as per the behavior <span>generally desired </span>in client mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p>The local address to bind to. Blank indicates that the local address binding should be done automatically.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This component does not support weak cipher suites.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Secure Keys</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The private keys that can be used to authenticate this communication point to the remote host. If the remote host has configured certificates to be used for peer authentication, then this server must provide keys that can be authenticated against those certificates. Applicable when using SSL/TLS.</p>
+            <ul>
+             <li><p>Server mode - when configured with a private key, the Rhapsody Connector communication point presents the certificate associated with the selected private key during the TLS negotiation, allowing the remote client to authenticate the server using the certificate. It is highly recommended that the server's private key always be provided here to allow server authentication to be performed. If the server does not have a private key, then one can be generated from Rhapsody's certificate manager.</p></li>
+             <li>Client mode - when configured with a private key, the Rhapsody Connector <span>communication point</span> supports SSL client authentication if requested by the SSL server, and presents the certificate associated with the selected private key.</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is highly recommended that you set this configuration property so that the remote system is authenticated. <span>Refer to </span><a href="133161183.html">TLS/SSL Support in Rhapsody</a><span> for details.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The certificates that are used to authenticate the remote host. If any certificates are provided then the remote host must establish the SSL connection using private keys that can be authenticated against these certificates. If no certificates are provided, then no peer authentication is performed. Applicable when using SSL.</p>
+            <ul>
+             <li>Server mode: if it is configured with one or more certificates, then the SSL server requires client authentication as part of the SSL protocol negotiation, and will reject clients that do not present either the configured certificate, or a certificate directly or indirectly issued by the configured certificate.</li>
+             <li><p>Client mode: if it is not configured with the SSL server's certificate, then this SSL client operates in anonymous server authentication mode. It is highly recommended that the server's certificate always be provided here to allow server authentication to be performed.</p></li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is highly recommended <span>that you set this</span> configuration property so that the remote system is authenticated. <span>Refer to </span><a href="133161183.html">TLS/SSL Support in Rhapsody</a><span> for details</span><span>.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificate Issuers</p></td>
+          <td class="confluenceTd"><p>The certificates of trusted certificate issuers. This is necessary in server mode with performing client authentication and using certificates issued by a certificate authority. In order for an SSL/TLS connection to be established using client authentication, the client certificate must be in the trusted certificates list, and the issuer of the client certificate (if not self-signed) must be in this list.&nbsp;</p><p>Not applicable if not using SSL or if no trusted certificates have been configured.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Listen Backlog</p></td>
+          <td class="confluenceTd"><p>The number of connections that can be waiting for a connection before others are refused. Zero means to use the system default.</p><p>Only available when the communication point is operating as a server; that is, the <strong>Mode</strong> property is Server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Required capabilities</p></td>
+          <td class="confluenceTd"><p>Required capabilities for this connection. A connection cannot be established if the remote host does not support required capabilities.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Optional capabilities</p></td>
+          <td class="confluenceTd"><p>Optional capabilities for this connection. Allows the establishment of a connection using these capabilities without requiring the remote host to support them.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Response Timeout</p></td>
+          <td class="confluenceTd"><p>The time in seconds the remote host is given to respond to certain commands before the connection is considered lost. Any value of less than 10 seconds will be treated as 10 seconds.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Establishment Timeout</p></td>
+          <td class="confluenceTd"><p>The time in seconds is allowed for the connection process before it is aborted. This generally does not need to be set, but in some adverse network scenarios may allow a failed connection to fail sooner.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Keep Alive Period</p></td>
+          <td class="confluenceTd"><p>The keep alive period in seconds. Keep-alives are sent across the connection to ensure it is still working if the connection is idle for this period of time. Any value of less than the configured connection response timeout will be treated as if it were the connection response timeout.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Identifiers</p></td>
+          <td class="confluenceTd"><p>Options: <code>Auto-increment connection identifiers</code>, <code>Use remote address and port</code>, <code>Use remote address only</code>.&nbsp; Default: <code>Auto-increment connection identifiers</code></p><p>Determines how connection identifiers are generated when using connection tracking.&nbsp; This allows messages to be resent to the same connection after it has been re-established.</p><p>Only available when the communication point is in bidirectional mode and is configured to keep outgoing messages until a connection is re-established.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="RhapsodyConnector-ConnectionCapabilities">Connection Capabilities</h2>
+      <p>The Rhapsody Connector API allows each connection to be tagged with a set of required and optional capabilities. These capabilities are strings that simply describe how a particular connection will be used. If a host requires a particular capability, then the remote host must also support the same capability or the connection cannot be established.</p>
+      <p>Capabilities provide a mechanism to prevent an accidental connection to the wrong server. If the server is configured with a required capability describing it, then only clients with the same configured capability can connect to it. Consequently, if a client is accidentally configured with the wrong port, then it will not send messages to the wrong server.</p>
+      <p>Internally Rhapsody uses capabilities on connections for out of process communication points to prevent other systems accidentally connecting to them.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Capabilities are not intended to be used as a security mechanism to prevent unauthorized access to a server. Security should be configured using the TLS keys and certificates instead.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

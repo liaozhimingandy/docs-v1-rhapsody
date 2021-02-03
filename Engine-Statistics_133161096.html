@@ -1,0 +1,614 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Engine Statistics</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Engine Statistics</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods to retrieve engine statistics:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147002777 {padding: 0px;}
+div.rbtoc1565147002777 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147002777 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147002777"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#EngineStatistics-POST/api/statistics/memoryusage">POST /api/statistics/memoryusage</a></li> 
+        <li><a href="#EngineStatistics-GET/api/statistics/memoryusage">GET /api/statistics/memoryusage</a></li> 
+        <li><a href="#EngineStatistics-POST/api/statistics/diskspace">POST /api/statistics/diskspace</a></li> 
+        <li><a href="#EngineStatistics-GET/api/statistics/diskspace">GET /api/statistics/diskspace</a></li> 
+        <li><a href="#EngineStatistics-GET/api/statistics/cpuusage">GET /api/statistics/cpuusage</a></li> 
+        <li><a href="#EngineStatistics-GET/api/statistics/messagecount">GET /api/statistics/messagecount</a></li> 
+        <li><a href="#EngineStatistics-POST/api/statistics/messagecount">POST /api/statistics/messagecount</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="EngineStatistics-POST/api/statistics/memoryusage">POST /api/statistics/memoryusage</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>POST /api/statistics/memoryusage</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td class="confluenceTd">Retrieves the current in use memory, used by the JVM, working, or total allocated for Rhapsody in a specified time period.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><strong>Request Header</strong></td>
+          <td class="confluenceTd"><code>Content-Type: application/json&nbsp;</code> <br> <code>Accept: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+json&nbsp; </code> <br> <code>Accept: application/vnd.orchestral.rhapsody.6_1+json </code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Request Body</strong></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The request body has the following structure:</p>
+            <ul>
+             <li><code>memoryType</code> - can be either <code>IN_USE</code>, <code>JVM_IN_USE</code>, <code>TOTAL_ALLOCATED</code> or <code>WORKING</code>.</li>
+             <li><p><code>startTime</code>.</p></li>
+             <li><p><code>endTime</code>.</p></li>
+             <li><p><code>samplingResolution</code> - the sampling resolution in <a href="https://en.wikipedia.org/wiki/ISO_8601#Durations" class="external-link" rel="nofollow">ISO 8601 duration</a> format, for example:</p></li>
+            </ul>
+            <div class="table-wrap">
+             <table style="margin-left: 2.0px;" class="confluenceTable">
+              <tbody>
+               <tr>
+                <th colspan="1" class="confluenceTh">ISO 8601 Duration</th>
+                <th colspan="1" class="confluenceTh">Description</th>
+               </tr>
+               <tr>
+                <td class="confluenceTd">PT2M&nbsp;</td>
+                <td class="confluenceTd">2 minutes&nbsp;</td>
+               </tr>
+               <tr>
+                <td class="confluenceTd">PT5M&nbsp;</td>
+                <td class="confluenceTd">5 minutes&nbsp;</td>
+               </tr>
+               <tr>
+                <td class="confluenceTd">PT1H&nbsp;</td>
+                <td class="confluenceTd">1 hour&nbsp;</td>
+               </tr>
+               <tr>
+                <td class="confluenceTd">P1D&nbsp;</td>
+                <td class="confluenceTd">1 day&nbsp;</td>
+               </tr>
+              </tbody>
+             </table>
+            </div>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+ "memoryType":"IN_USE",
+ "startTime":"2015-08-13T14:01:02.123",
+ "endTime":"2015-08-13T15:30:02.123"
+ "samplingResolution":"PT10M"
+}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The response body has the following structure:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+ "data":{
+   "startTime":"2015\u002D08\u002D13T14\u003A01\u003A02\u002E123",
+   "endTime":"2015\u002D08\u002D13T15\u003A30\u003A02\u002E123",
+   "samplingResolution":null,
+   "results":[{
+     "time":"20150813T140130\u002E000\u002B1200",
+     "value":228825920
+    },{
+     "time":"20150813T140200\u002E000\u002B1200",
+      "value":231971648
+   }],
+   "memoryType":"IN_USE"
+ },
+ "error":null}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'View engine statistics REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="EngineStatistics-GET/api/statistics/memoryusage">GET /api/statistics/memoryusage</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>GET /api/statistics/memoryusage</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td class="confluenceTd">Retrieves the current memory usage (currently in use, used by the JVM, working, and total allocated) for Rhapsody.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><strong>Request Header</strong></td>
+          <td class="confluenceTd"><code>Accept: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_2+json </code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Request Body</strong></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The response body has the following structure:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+ "data":{
+   "inUse": 210,
+   "jvmInUse": 256,
+   "totalAllocated": 2048,
+   "working": 210
+  }, "error": null
+}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'View engine statistics REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="EngineStatistics-POST/api/statistics/diskspace">POST /api/statistics/diskspace</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>POST /api/statistics/diskspace</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td class="confluenceTd">Retrieves the disk space for Rhapsody in a specified time period.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><strong>Request Header</strong></td>
+          <td class="confluenceTd"><p><code>Content-Type: application/json</code> <br> <code>Accept: application/json </code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_2+json </code> <br><code>Accept: application/vnd.orchestral.rhapsody.6_2+json </code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Request Body</strong></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The request body has the following structure:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "startTime":"2015-08-17T16:01:00",
+  "endTime":"2015-08-17T17:01:00",
+  "samplingResolution":"PT10M"
+}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The response body has the following structure:</p>
+            <div id="expander-724477264" class="expand-container">
+             <div id="expander-control-724477264" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Example...</span>
+             </div>
+             <div id="expander-content-724477264" class="expand-content">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":{
+    "startTime":"2015\u002D08\u002D17T16\u003A01\u003A00",
+    "endTime":"2015\u002D08\u002D17T17\u003A01\u003A00",
+    "samplingResolution":"PT30M",
+    "diskResults":[
+      {
+      "path":"C\u003A\u005CDev\u002DRhapsody\u005Cdeploy\u005Crhapsody",
+      "results":[{
+        "time":"20150817T160100\u002E000\u002B1200",
+        "value":313597923328
+      },{
+        "time":"20150817T163930\u002E000\u002B1200",
+        "value":313515995136
+      },{
+        "time":"20150817T170100\u002E000\u002B1200",
+        "value":313474179072
+      }]},
+      {
+   "path":"C\u003A\u005CDev\u002DRhapsody\u005Cdeploy\u005Crhapsody\u005Cdata",
+      "results":[{
+        "time":"20150817T160100\u002E000\u002B1200",
+        "value":313597923328
+      },{
+        "time":"20150817T163930\u002E000\u002B1200",
+        "value":313515995136
+      },{
+        "time":"20150817T170100\u002E000\u002B1200",
+        "value":313474179072
+      }]
+    }]
+  },
+  "error":null
+}</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'View engine statistics REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="EngineStatistics-GET/api/statistics/diskspace">GET /api/statistics/diskspace</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>GET /api/statistics/diskspace</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">Retrieves the current available and total disk space for the installation and data directories on the Rhapsody engine.</span></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><strong>Request Header</strong></td>
+          <td class="confluenceTd"><code>Accept: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_2+json </code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Request Body</strong></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><p><code>200 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The response body has the following structure:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":{
+    "availableDataSpace":298992,
+    "totalDataSpace":477931,
+    "availableInstallSpace":298992,
+    "totalInstallSpace":477931
+  },
+  "error":null
+}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'View engine statistics REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="EngineStatistics-GET/api/statistics/cpuusage"><strong>GET /api/statistics/cpuusage</strong></h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>URI</strong></td>
+          <td class="confluenceTd"><code>GET /api/statistics/cpuusage</code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td class="confluenceTd">Retrieves the current CPU usage of the system hosting the Rhapsody engine as a percentage.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Request Header</strong></td>
+          <td class="confluenceTd"><code>Accept: text/plain</code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Request Body</strong></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd"><p>Returns a numerical value (between 0 and 100) in plain text format.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'View engine statistics REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="EngineStatistics-GET/api/statistics/messagecount">GET /api/statistics/messagecount</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/statistics/messagecount</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves the number of received, processed, sent and failed messages on the engine.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code>,<code> text/html</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_0+json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_5+json</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><p><code>200 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The response body has the following structure:</p>
+            <div id="expander-2019631069" class="expand-container">
+             <div id="expander-control-2019631069" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Example...</span>
+             </div>
+             <div id="expander-content-2019631069" class="expand-content">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data": {
+    "totalReceived": 22359,
+    "totalProcessed": 27421,
+    "totalSent": 19531
+    "totalFailed": 1
+  },
+  "error": null
+}</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View message statistics REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="EngineStatistics-POST/api/statistics/messagecount">POST /api/statistics/messagecount</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /api/statistics/messagecount</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves the number of received, processed, sent or failed messages on the engine in a specified time period.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json</code> <br> <code>Accept: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+json</code> <br> <code>Accept: application/vnd.orchestral.rhapsody.6_1+json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_5+json</code> <br><code>Accept: application/vnd.orchestral.rhapsody.6_5+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The request body has the following structure:</p>
+            <ul>
+             <li><code>messageCountType</code> - <code>SENT</code>, <code>RECEIVED</code>,<code> PROCESSED</code> or <code>FAILED</code>.</li>
+             <li><code>startTime</code>.</li>
+             <li><p><code>endTime</code>.</p></li>
+             <li><p><code>samplingResolution</code> - the sampling resolution in <a href="https://en.wikipedia.org/wiki/ISO_8601#Durations" class="external-link" rel="nofollow">ISO 8601 duration</a> format, for example:</p>
+              <div class="table-wrap">
+               <table style="margin-left: 2.0px;" class="confluenceTable">
+                <tbody>
+                 <tr>
+                  <th colspan="1" class="confluenceTh">ISO 8601 Duration</th>
+                  <th colspan="1" class="confluenceTh">Description</th>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd">PT2M&nbsp;</td>
+                  <td class="confluenceTd">2 minutes&nbsp;</td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd">PT5M&nbsp;</td>
+                  <td class="confluenceTd">5 minutes&nbsp;</td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd">PT1H&nbsp;</td>
+                  <td class="confluenceTd">1 hour&nbsp;</td>
+                 </tr>
+                 <tr>
+                  <td class="confluenceTd">P1D&nbsp;</td>
+                  <td class="confluenceTd">1 day&nbsp;</td>
+                 </tr>
+                </tbody>
+               </table>
+              </div></li>
+            </ul>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+ "messageCountType":"SENT",
+ "startTime":"2012-09-22T17:01:02.123",
+ "endTime":"2012-09-22T17:01:02.123",
+ "samplingResolution":"PT5M"
+}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Status</strong> </span></td>
+          <td colspan="1" class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The response body has the following structure:</p>
+            <div id="expander-609174405" class="expand-container">
+             <div id="expander-control-609174405" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Example...</span>
+             </div>
+             <div id="expander-content-609174405" class="expand-content">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+ "data":{
+  "startTime":"2014-09-02T14:05:38+12:00",
+  "endTime":  "2014-09-02T14:30:38+12:00",
+  "samplingResolution": "PT2M",
+  "messageCountType": "SENT",
+  "results":[
+    {
+     "time": "20140902T142930.000+1200",
+     "value": 0
+    },
+    {
+     "time": "20140902T143030.000+1200",
+     "value": 0
+    }
+   ]
+ },
+"error": null
+}</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View message statistics REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

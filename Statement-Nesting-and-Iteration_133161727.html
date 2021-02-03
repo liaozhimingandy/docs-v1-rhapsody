@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Statement Nesting and Iteration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Using-the-Database-Configuration-Editor_133161705.html">Using the Database Configuration Editor</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Statement Nesting and Iteration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="StatementNestingandIteration-StatementNesting">Statement Nesting</h2>
+      <p>Whenever a parent statement returns some number of rows in a result set, any child statements of the parent statement are executed for every row returned. If a parent statement returns zero rows, the child statements are executed once. This allows other tables to be referenced for further details related to the basic information in the first table.</p>
+      <p>These child statements can also have child statements, which will be executed for every row returned by its direct parent statement, allowing any number of related tables to be queried. All these child statements can contain parameters in them, in the form <code>@column_name</code>, where <code>column_name</code> must be the name of one of the columns returned by the parent statement. Then, before the statement is executed for each row, the value of the column for that row is used in place of the parameter.</p>
+      <p>For example, say a child statement had the form:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre> SELECT firstname, secondname FROM patientDetails WHERE patientID = @patientID </pre> 
+       </div>
+      </div>
+      <p>And the parent statement had returned a result set including:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>PatientID
+---------
+12345
+54321
+62943
+</pre> 
+       </div>
+      </div>
+      <p>the child statement would be executed three times, once for each row returned, the first time with <code>@patientID</code> replaced by <code>12345</code>, the second time replaced with <code>54321</code> and the third time replaced with <code>62943</code>.</p>
+      <h2 id="StatementNestingandIteration-StatementIteration">Statement Iteration</h2>
+      <p>Messages frequently utilize repeating components in order to provide additional information and present one-to-many relationships. For example, in HL7 the <code>PID.PatientAddress</code> field is repeating, as a patient may have multiple addresses. While in some cases only the first repeat may be of interest, in other cases all repeats need to be processed.</p>
+      <p>Statements (and stored procedure calls) within Rhapsody can be configured to iterate over all repeats of a particular message path. Once iteration is configured, the statement will be executed once for each repeat of the selected message component. The statement can then process each repeat individually.</p>
+      <p></p>
+      <h3 id="StatementNestingandIteration-Example:InsertingMultipleDischargeEvents">Example: Inserting Multiple Discharge Events</h3>
+      <p>Consider the following XML message:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;DischargeEvent&gt;
+ &lt;Diagnosis&gt;
+  &lt;diagnosis_code value="code"/&gt;
+  &lt;diagnosis_description value="diagnosis"/&gt;
+  &lt;diagnosis_codingSystem value="system1"/&gt;
+  &lt;diagnosis_isPrimary value="Y"/&gt;
+ &lt;/Diagnosis&gt;
+ &lt;Diagnosis&gt;
+  &lt;diagnosis_code value="code"/&gt;
+  &lt;diagnosis_description value="diagnosis2"/&gt;
+  &lt;diagnosis_codingSystem value="system2"/&gt;
+  &lt;diagnosis_isPrimary value="N"/&gt;
+ &lt;/Diagnosis&gt;
+ &lt;Diagnosis&gt;
+  &lt;diagnosis_code value="code"/&gt;
+  &lt;diagnosis_description value="diagnosis3"/&gt;
+  &lt;diagnosis_codingSystem value="system3"/&gt;
+  &lt;diagnosis_isPrimary value="N"/&gt;
+ &lt;/Diagnosis&gt;
+&lt;/DischargeEvent&gt;
+</pre> 
+       </div>
+      </div>
+      <p>The DischargeEvent/Diagnosis element repeats 3 times. A statement can be configured to iterate over the <code>DischargeEvent.Diagnosis</code> field. The following SQL could then be used to insert each diagnosis into a separate row:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>INSERT INTO Diagnosis (code, description, codingSystem, isPrimary)
+VALUES (@DischargeEvent.Diagnosis.diagnosis_code.value,
+        @DischargeEvent.Diagnosis.description.value,
+        @DischargeEvent.Diagnosis.diagnosis_codingSystem.value,
+        @DischargeEvent.Diagnosis.diagnosis_isPrimary.value)
+</pre> 
+       </div>
+      </div>
+      <h2 id="StatementNestingandIteration-AccessingMessagePathsWithinRepeatingStatements">Accessing Message Paths Within Repeating Statements</h2>
+      <p>When specifying message field paths within a repeating statement, care must be taken not to specify a particular repeating index, or the statement may not execute as expected. For example, with the XML message above, if only the first repeat was wanted, we reference field paths like <code>@DischargeEvent.Diagnosis[0].diagnosis_code.value</code>. This field path explicitly states that the first repeat (indexed as zero) of the Diagnosis element should be used.</p>
+      <p></p>
+      <p>However, if the statement is repeating, the repeat index should not be specified (<code>@DischargeEvent.Diagnosis.diagnosis_code.value</code>). This is because Rhapsody knows that it is currently in a statement iterating over <code>DischargeEvent.Diagnosis</code>, and so uses the appropriate repeat index during the iteration.</p>
+      <h2 id="StatementNestingandIteration-NestedRepeatingStatements">Nested Repeating Statements</h2>
+      <p>Iterating statements can be nested inside each other. When this is done, all repeats of the inner statement are executed once for each repeat of the parent statement. For example, in the HL7 <code>ADTA01</code> message, the <code>NK1</code> (next of kin) segment is repeating. In addition, the <strong>Address</strong> field within the <code>NK1</code> segment repeats (as each next of kin may have multiple addresses). A statement can be configured to iterate over the NK1 segment, and then a child statement can configured to iterate over <code>NK1.Address</code>.</p>
+      <p>This has the effect of executing the child statement once for each address of each next of kin.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

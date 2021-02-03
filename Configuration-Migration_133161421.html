@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Configuration Migration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Managing-Configurations_133161412.html">Managing Configurations</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Configuration Migration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody 6 introduces features that require older configurations to be migrated:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146938647 {padding: 0px;}
+div.rbtoc1565146938647 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146938647 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146938647"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ConfigurationMigration-VersionedConfigurations">Versioned Configurations</a></li> 
+        <li><a href="#ConfigurationMigration-AccessControl-enabledConfigurations">Access Control-enabled Configurations</a></li> 
+        <li><a href="#ConfigurationMigration-MigrationLogging">Migration Logging</a></li> 
+        <li><a href="#ConfigurationMigration-RelatedTopics">Related Topics</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="ConfigurationMigration-VersionedConfigurations">Versioned Configurations</h2>
+      <div>
+       Rhapsody 6.0 introduces a versioned configuration repository that stores all changes made to configurations. This feature allows the configuration change history to be displayed within Rhapsody IDE, and the active configuration rolled back to an older version if required.
+      </div>
+      <p>When upgrading from&nbsp;pre-Rhapsody 6 versions, the non-versioned configurations are migrated into the versioned configuration repository when Rhapsody is first started after being upgraded to Rhapsody 6 or later. The migration process loads the old unversioned configuration, and then immediately saves it into the new versioned configuration store as the initial configuration version. As part of the migration process, the old configuration store is removed after being backed up to the <code>&lt;Rhapsody&gt;/rhapsody/data/config/migrated </code>directory. If you need to roll back a post-Rhapsody 6 upgrade, then the old configuration can be restored by moving the contents of the <code>&lt;Rhapsody&gt;/rhapsody/data/config/migrated</code> back to the <code>&lt;Rhapsody&gt;/rhapsody/data/config</code> directory. Configuration restoration cannot be performed while Rhapsody is running.</p>
+      <div>
+       <p>&nbsp;</p>
+       <div class="confluence-information-macro confluence-information-macro-note">
+        <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+        <div class="confluence-information-macro-body">
+         <div>
+          Even though the old configuration is backed up as part of the migration process, it is still recommended that a manual backup be performed before starting the Rhapsody upgrade in the case the Rhapsody backup fails. Refer to 
+          <span><a href="Backup-and-Restore_133164059.html">Backup and Restore</a> </span>for details on how to configure backups.
+         </div>
+        </div>
+       </div>
+       <p>The first migration check-in is automatically assigned a check-in comment of "Automatic import of existing Rhapsody configuration into the versioned configuration store when upgrading the Rhapsody engine" (translated to the system locale). The user for the check-in is recorded as the Rhapsody system user: <code>RhapsodyInternal</code>.<code>&nbsp;</code></p>
+       <h2 id="ConfigurationMigration-AccessControl-enabledConfigurations">Access Control-enabled Configurations</h2>
+       <p>Rhapsody 6.1 introduces access control-enabled configurations which employ lockers.</p>
+       <p>When upgrading to Rhapsody 6.1, the configuration (folders, communication points, routes, definitions and message tracking schemes) is migrated by placing it inside a new locker named "Locker". The configuration's original folder structure within the locker is preserved. If the configuration is empty before migration, an empty locker is created.</p>
+       <p><span style="line-height: 13.0pt;background-color: transparent;">Access rights which an access group previously had that apply at a locker level are granted as default locker rights for the migrated access group. A mapping is set up between the migrated access groups and the default locker that is created on configuration migration.</span></p>
+       <div>
+        <p>When upgrading from&nbsp;pre-Rhapsody 6 versions, the&nbsp;non-versioned configuration is first migrated to a versioned configuration repository and then placed in a locker, in a single check-in. The check-in comment for this check-in has two comments, representing each stage of the migration.</p>
+       </div>
+       <div class="confluence-information-macro confluence-information-macro-note">
+        <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+        <div class="confluence-information-macro-body">
+         <p><span style="color: rgb(0,0,0);">Only those parts of a configuration which support access control are placed in a locker during migration; the parts of a configuration which do not support access control are migrated as is. Refer to <a href="Locker-View_133161014.html"><span style="color: rgb(0,0,0);">Access Control</span></a> for details on which parts of a configuration do not support access control. </span></p>
+        </div>
+       </div>
+       <p>&nbsp;</p>
+      </div>
+      <div>
+       <h2 id="ConfigurationMigration-MigrationLogging">Migration Logging</h2>
+       <p>All migration activities are logged at the INFO level as per standard migration logging with the addition of a note indicating they have been migrated to the new versioned repository:</p>
+       <ul>
+        <li>Migration detection and startup process.</li>
+        <li>Create the default locker</li>
+        <li>Migrating Rhapsody variable.</li>
+        <li>Migrating Rhapsody variable overrides.</li>
+        <li>Migrating security objects.</li>
+        <li>Migrating message definitions.</li>
+        <li>Migrating message tracking schemes.</li>
+        <li>Migrating lookup tables.</li>
+        <li>Migrating the Web Service User Store.</li>
+        <li>Migrating web services.</li>
+        <li>Migrating folders.</li>
+        <li>Migrating routes.</li>
+        <li>Migrating filters (not enabled by default - DEBUG log level is required).</li>
+        <li>Migrating auxiliary Files (not enabled by default - DEBUG log level is required).</li>
+        <li>Migrating communication points.</li>
+        <li>Migration complete.</li>
+       </ul>
+       <p>All errors during the migration process are logged.</p>
+       <h2 id="ConfigurationMigration-RelatedTopics">Related Topics</h2>
+       <ul>
+        <li><a href="Upgrading-Rhapsody_133164179.html">Upgrading Rhapsody</a></li>
+        <li><span> <a href="Backup-and-Restore_133164059.html">Backup and Restore</a></span></li>
+       </ul>
+       <p> </p>
+      </div> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

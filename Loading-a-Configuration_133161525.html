@@ -1,0 +1,672 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Loading a Configuration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Managing-Configurations_133161412.html">Managing Configurations</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Loading a Configuration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148369" class="wrapped confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <colgroup>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Write <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Log in to Rhapsody IDE</li>
+            <li>Load configurations</li>
+            <li>Clear configurations</li>
+            <li>View locker</li>
+            <li>Edit locker</li>
+            <li>Create lockers</li>
+            <li>Load custom modules and third-party libraries</li>
+            <li>Edit Rhapsody variables</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148369']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148369',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>Rhapsody enables you to load (open) previously <a href="Saving-a-Configuration_133161554.html">saved configurations</a> via the&nbsp;<strong>Reload Local Configuration Wizard</strong>:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146937132 {padding: 0px;}
+div.rbtoc1565146937132 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146937132 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146937132"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#LoadingaConfiguration-Caveats">Caveats</a></li> 
+        <li><a href="#LoadingaConfiguration-LoadinganRLCFile">Loading an RLC File</a></li> 
+        <li><a href="#LoadingaConfiguration-ClearingtheCurrentConfiguration">Clearing the Current Configuration</a></li> 
+        <li><a href="#LoadingaConfiguration-OverwritingDefinitions">Overwriting Definitions</a></li> 
+        <li><a href="#LoadingaConfiguration-OverwritingLookupTables">Overwriting Lookup Tables</a></li> 
+        <li><a href="#LoadingaConfiguration-OverwritingWatchlists">Overwriting Watchlists</a></li> 
+        <li><a href="#LoadingaConfiguration-OverwritingSharedJavaScriptFunctionLibraries">Overwriting Shared JavaScript Function Libraries</a></li> 
+        <li><a href="#LoadingaConfiguration-OverwritingRESTClients">Overwriting REST Clients</a></li> 
+        <li><a href="#LoadingaConfiguration-LoadingCustomModulesandLibraries">Loading Custom Modules and Libraries</a></li> 
+        <li><a href="#LoadingaConfiguration-LoadingConfigurationsContainingPasswords">Loading Configurations Containing Passwords</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#LoadingaConfiguration-LoadingConfigurationswithUnencryptedPasswords">Loading Configurations with Unencrypted Passwords</a></li> 
+          <li><a href="#LoadingaConfiguration-LoadingConfigurationswithEncryptedPasswords">Loading Configurations with Encrypted Passwords</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="LoadingaConfiguration-Caveats"><span style="color: rgb(0,0,0);font-size: 20.0px;">Caveats</span></h2>
+      <ul>
+       <li>When loading RLCs created on versions prior to Rhapsody 5 (containing notification schemes) onto later versions, the system events are not migrated to the new engine.</li>
+       <li><span>The </span>Scheme Notifier<span> communication point has been renamed and is now called the </span>Watchlist Notifier<span> communication point. RLC files containing the older communication point will automatically be converted to the new one. The XML output from this communication point has some changes that may require changes to the route. Refer to </span><a href="Watchlist-Notifier_133162533.html">Watchlist Notifier</a><span> for details. </span></li>
+       <li><span>The </span>Notification and<span>&nbsp;</span>Waiting and Idle Count Notifier<span> communication points are not available in Rhapsody versions 5 onward. If an RLC file from a previous version of Rhapsody is loaded that contains either of the communication points, they are replaced with the RLC load error icon </span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161543.png" data-image-src="attachments/133161525/133161543.png" data-unresolved-comment-count="0" data-linked-resource-id="133161543" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_routeerror.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span><span> and will need to be manually removed.</span></li>
+       <li><span><span>As of Rhapsody 6.1, Rhapsody does not permit the naming of components using any of the following special characters:</span><span style="color: rgb(153,51,0);"><span style="color: rgb(0,0,0);"><strong><span style="color: rgb(128,0,0);"> <code>{}[]&lt;&gt;:;$\/*?"|</code></span></strong>. If you attempt to load a pre-Rhapsody 6.1 RLC file that contains components with invalid names, the RLC load will fail. Ensure you rename any invalid component names before importing your configuration. This restriction is not applicable to the special characters (<strong><span style="color: rgb(128,0,0);"><code>&lt;</code></span></strong></span></span></span> and&nbsp;<span><span style="color: rgb(153,51,0);"><span style="color: rgb(0,0,0);"><strong><span style="color: rgb(128,0,0);"><code>&gt;</code></span></strong>) in the default names of the filters in the IHE Toolkit.</span></span></span></li>
+      </ul>
+      <h2 id="LoadingaConfiguration-LoadinganRLCFile"><span style="color: rgb(0,0,0);font-size: 20.0px;">Loading an RLC File</span></h2>
+      <p><span>Before loading a saved configuration, Rhapsody checks that the total number of existing and loaded communication points and routes do not exceed the current license restrictions. If it does, an alert is displayed identifying the reason for the load failing.</span></p>
+      <p>To load a Rhapsody local configuration (RLC):</p>
+      <ol>
+       <li><p>Navigate to <strong>File&gt;Open...</strong> to display the <strong>Reload Local Configuration Wizard</strong>:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/133161525/133161538.png" data-image-src="attachments/133161525/133161538.png" data-unresolved-comment-count="0" data-linked-resource-id="133161538" data-linked-resource-version="4" data-linked-resource-type="attachment" data-linked-resource-default-alias="ReloadLocalConfig1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p></li>
+       <li><p>Select the <strong>Browse...</strong> button to select the RLC&nbsp;file that contains your local configuration, then select the <strong>Next</strong> button.</p></li>
+       <li><p>Decide what you want to do:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="700" src="attachments/133161525/133161551.png" data-image-src="attachments/133161525/133161551.png" data-unresolved-comment-count="0" data-linked-resource-id="133161551" data-linked-resource-version="4" data-linked-resource-type="attachment" data-linked-resource-default-alias="ReloadLocalConfig2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <colgroup>
+           <col>
+           <col>
+          </colgroup>
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>If you want to...</p></th>
+            <th class="confluenceTh"><p>Then...</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Delete your existing Rhapsody configuration</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p>1. Select the <strong>Clear the current configuration prior to load</strong> checkbox. Refer to <a href="#LoadingaConfiguration-ClearingtheCurrentConfiguration">Clearing the Current Configuration</a> for details.<br>2. To load:</p>
+              <ul>
+               <li style="list-style-type: none;background-image: none;">
+                <ul>
+                 <li>All the components of the new configuration, select&nbsp;<strong>Reload entire configuration</strong>.</li>
+                 <li>Only certain components of the new configuration, select&nbsp;<strong>Choose components to reload</strong>. Select the checkboxes alongside the components you want to load.</li>
+                </ul></li>
+              </ul>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>If you are manually choosing components to load, ensure you also <span>select</span> any dependencies.</p>
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Merge the new configuration with your existing Rhapsody configuration</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p>1. Ensure the <strong>Clear the current configuration prior to load</strong> checkbox is not selected. <br>2. To load:</p>
+              <ul>
+               <li style="list-style-type: none;background-image: none;">
+                <ul>
+                 <li>All the components of the new configuration, select&nbsp;<strong>Reload entire configuration</strong>.</li>
+                 <li>Only certain components of the new configuration, select&nbsp;<strong>Choose components to reload</strong>. Select the checkboxes alongside the components you want to load.</li>
+                </ul></li>
+              </ul>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>If you are manually choosing components to load, ensure you also select any dependencies.</p>
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Optionally load notification thresholds</p></td>
+            <td class="confluenceTd"><p>Custom notification thresholds and resend periods for each component are automatically saved to the RLC file. The <strong>Overwrite component notification thresholds</strong> option allows these notification thresholds to be optionally loaded.</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p><span style="color: rgb(84,84,84);">• </span>If a message or mapper definition file is associated with a selected route, it is automatically loaded. <br class="atl-forced-newline"><span style="color: rgb(84,84,84);">• </span>Definitions, tracking schemes and watchlists are automatically loaded if you load a component that uses them. <br class="atl-forced-newline"><span style="color: rgb(84,84,84);">• </span>If you load a component with the same name as an existing one, it will be replaced, unless the component with the same name is in a different folder.</p>
+         </div>
+        </div></li>
+       <li>If you want to be prompted before a definition file is overwritten, then select the <strong>Prompt when overwriting definitions</strong> checkbox. Refer to <a href="#LoadingaConfiguration-OverwritingDefinitions">Overwriting Definitions</a> for details.</li>
+       <li>Under <strong>Starting Options</strong>, select the status of the components being loaded.
+        <ul>
+         <li><code>Start All</code> - Rhapsody starts all the components after loading them.</li>
+         <li><code>Stop All</code> - Rhapsody stops all the components after loading them.</li>
+         <li><code>As in RLC file</code> - after loading the components, Rhapsody retains their status as recorded in a previously saved&nbsp;RLC file. In other words, if you save an RLC file with components in various states, loading the RLC file with this option will ensure that the components are loaded in the same state that they were saved in.</li>
+        </ul></li>
+       <li>If you want to disable all communication point schedules upon loading, then check the <strong>Disable all communication point schedules</strong> checkbox (the scheduling information is still maintained and editable).</li>
+       <li>Select the <strong>Finish</strong> button to display the <strong>RLC Load commit comments</strong> dialog.<br>
+        <ul>
+         <li><p>If you have not checked the <strong>Clear the current configuration prior to load</strong> checkbox, the following dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161537.png" data-image-src="attachments/133161525/133161537.png" data-unresolved-comment-count="0" data-linked-resource-id="133161537" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RLCLoadComments2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p></li>
+         <li><p>If you have checked the <strong>Clear the current configuration prior to load</strong> checkbox, the following dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161536.png" data-image-src="attachments/133161525/133161536.png" data-unresolved-comment-count="0" data-linked-resource-id="133161536" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RLCLoadComments.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p></li>
+        </ul></li>
+       <li>Enter the appropriate comments or select a recent comment by clicking the <strong>Recent Comments</strong> link.</li>
+       <li>Select the<strong> Load</strong> button to load the RLC file or the <strong>Cancel</strong> button to return to the <strong>Reload Local Configuration Wizard</strong>.</li>
+      </ol>
+      <h2 id="LoadingaConfiguration-ClearingtheCurrentConfiguration">Clearing the Current Configuration</h2>
+      <p>The <strong>Clear the current configuration prior to load</strong> checkbox allows you to clear the current configuration with a new one when enabled or loads the new configuration alongside the current one when disabled (some components may be overwritten, however). To enable or disable the <strong>Clear the current configuration prior to load</strong> checkbox in the load dialog, set the <code>Rlc.overwriteConfiguration.enabled</code> property in the <code>rhapsody.properties</code> file:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Value</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>true</code> (default)</p></td>
+          <td class="confluenceTd"><p>The <strong>Clear the current configuration prior to load</strong> checkbox is present in the <strong>Reload local Configuration</strong> dialog (when the 'Clear configuration' access right is enabled otherwise the checkbox is disabled). If the checkbox is selected, a dialog is displayed to confirm that the user wishes to proceed with the load operation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>false</code></p></td>
+          <td class="confluenceTd"><p>The <strong>Clear the current configuration prior to load</strong> checkbox is disabled in the <strong>Reload local Configuration</strong> dialog. The 'Clear configuration' access right is overridden and disabled.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>When the&nbsp;</span><strong>Clear the current configuration prior to load</strong><span> checkbox is selected:</span></p>
+        <ul>
+         <li><span>Live messages are deleted even if you are overwriting the current configuration with an identical configuration.</span></li>
+         <li><span>Existing watchlists are not deleted, which could result in multiple copies of watchlists.</span></li>
+         <li>If you as a user are missing the 'Create locker' access right, a warning is displayed. If you choose to continue, the load may fail if any lockers have been selected to be loaded.</li>
+        </ul>
+       </div>
+      </div>
+      <p><span style="color: rgb(0,0,0);font-size: 20.0px;">Creating and Overwriting Lockers</span></p>
+      <p>When loading an old configuration that does not include lockers, Rhapsody prompts you&nbsp;to select an existing locker, or create a new locker, to load the configuration into:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161547.png" data-image-src="attachments/133161525/133161547.png" data-unresolved-comment-count="0" data-linked-resource-id="133161547" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SelectLocker.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+      <p>When loading a configuration that includes lockers, Rhapsody prompts you if it detects differences between the lockers in the RLC file and those which already exist in the engine:</p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161546.png" data-image-src="attachments/133161525/133161546.png" data-unresolved-comment-count="0" data-linked-resource-id="133161546" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LockersLoadConflict.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The icon, before the </span><strong style="line-height: 13.0pt;">Action</strong><span style="line-height: 13.0pt;background-color: transparent;"> column, indicates the state of the locker. Place your mouse pointer over the icon to view a tooltip.</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Icon</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161543.png" data-image-src="attachments/133161525/133161543.png" data-unresolved-comment-count="0" data-linked-resource-id="133161543" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_routeerror.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The two lockers have the same name, but may not be the same locker, or the user does not have the 'Edit locker' permission on the existing locker.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161542.png" data-image-src="attachments/133161525/133161542.png" data-unresolved-comment-count="0" data-linked-resource-id="133161542" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_Rename.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>This locker may have been renamed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161540.png" data-image-src="attachments/133161525/133161540.png" data-unresolved-comment-count="0" data-linked-resource-id="133161540" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_Refresh.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The locker in the&nbsp;RLC file appears to be newer than the existing locker.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>To confirm which definitions you want to overwrite, f<span style="line-height: 13.0pt;">rom the </span><strong style="line-height: 13.0pt;">Action</strong><span style="line-height: 13.0pt;"> list:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p class="_mce_tagged_br">Select</p></th>
+          <th class="confluenceTh"><p>To</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Create a New Copy</p></td>
+          <td class="confluenceTd"><p>Import the locker from the&nbsp;RLC file as a new locker. Rhapsody renames the locker before importing it. Requires the 'Create Lockers' access right</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Merge</td>
+          <td colspan="1" class="confluenceTd">Combine the locker currently on the server with the locker from the RLC file. Requires 'Edit locker' access right on the server locker</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Skip</p></td>
+          <td class="confluenceTd"><p>Retain the locker currently on the server. The locker from the RLC file is not loaded.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LoadingaConfiguration-OverwritingDefinitions">Overwriting Definitions</h2>
+      <p>When loading a configuration, Rhapsody prompts you if it detects differences between the definitions in the RLC file and those which already exist in the engine.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161534.png" data-image-src="attachments/133161525/133161534.png" data-unresolved-comment-count="0" data-linked-resource-id="133161534" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DefinitionVersions.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+      <p>To confirm which definitions you want to overwrite, f<span style="line-height: 13.0pt;">rom the </span><strong style="line-height: 13.0pt;">Action</strong><span style="line-height: 13.0pt;"> list:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p class="_mce_tagged_br">Select</p></th>
+          <th class="confluenceTh"><p>To</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Overwrite Server Definition</p></td>
+          <td class="confluenceTd"><p>Overwrite the definition on the server with the definition from the&nbsp;RLC file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Keep Server Definition</p></td>
+          <td class="confluenceTd"><p>Retain the definition currently on the server. The definition from the RLC file is not loaded.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-tip">
+       <span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If there are multiple definition files, use the links at the bottom of the screen to update the <strong>Action</strong> column for all the definition files at the same time.</p>
+       </div>
+      </div>
+      <h2 id="LoadingaConfiguration-OverwritingLookupTables">Overwriting Lookup Tables</h2>
+      <p>When loading a configuration that contains lookup tables, Rhapsody prompts you if it detects differences between the tables in the&nbsp;RLC file and those which already exist in the engine.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161528.png" data-image-src="attachments/133161525/133161528.png" data-unresolved-comment-count="0" data-linked-resource-id="133161528" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LookupTables.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+      <p>The icon, before the <strong>Action</strong> column, indicates the state of the lookup tables. Place your mouse pointer over the icon to view a tooltip.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Icon</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161544.png" data-image-src="attachments/133161525/133161544.png" data-unresolved-comment-count="0" data-linked-resource-id="133161544" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="tick.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The two lookup tables appear to be identical.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161543.png" data-image-src="attachments/133161525/133161543.png" data-unresolved-comment-count="0" data-linked-resource-id="133161543" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_routeerror.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The two lookup tables have the same name, but may not be the same lookup table.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161542.png" data-image-src="attachments/133161525/133161542.png" data-unresolved-comment-count="0" data-linked-resource-id="133161542" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_Rename.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>This table may have been renamed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161541.png" data-image-src="attachments/133161525/133161541.png" data-unresolved-comment-count="0" data-linked-resource-id="133161541" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="exclamation.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The lookup table in the&nbsp;RLC file appears to be older than the existing lookup table.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161540.png" data-image-src="attachments/133161525/133161540.png" data-unresolved-comment-count="0" data-linked-resource-id="133161540" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_Refresh.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The lookup table in the&nbsp;RLC file appears to be newer than the existing lookup table.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>To confirm which lookup tables you want to overwrite, f<span style="line-height: 13.0pt;background-color: transparent;">rom the </span><strong style="line-height: 13.0pt;">Action&nbsp;</strong><span style="line-height: 13.0pt;background-color: transparent;">list:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Select</p></th>
+          <th class="confluenceTh"><p>To</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Keep Existing Table</p></td>
+          <td class="confluenceTd"><p>Retain the lookup table on the server. The lookup table from the RLC file is not loaded.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Overwrite Existing Table</p></td>
+          <td class="confluenceTd"><p>Overwrite the lookup table on the server with the table from the RLC file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Import New Table</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Import the table from the RLC file as a new lookup table. Rhapsody renames the lookup table in the RLC file before importing the new table.<br> &nbsp;<br> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161533.png" data-image-src="attachments/133161525/133161533.png" data-unresolved-comment-count="0" data-linked-resource-id="133161533" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RLCReloadProblems.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LoadingaConfiguration-OverwritingWatchlists">Overwriting Watchlists</h2>
+      <p>When loading a configuration that contains watchlists, Rhapsody prompts you if it detects differences between watchlists in the&nbsp;RLC file and those which already exist in the engine.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161548.png" data-image-src="attachments/133161525/133161548.png" data-unresolved-comment-count="0" data-linked-resource-id="133161548" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WatchListLoadConflict.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+      <p>The icon, before the <strong>Action</strong> column, indicates the state of the watchlist.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Icon</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161544.png" data-image-src="attachments/133161525/133161544.png" data-unresolved-comment-count="0" data-linked-resource-id="133161544" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="tick.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The two watchlists appear to be identical.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161543.png" data-image-src="attachments/133161525/133161543.png" data-unresolved-comment-count="0" data-linked-resource-id="133161543" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_routeerror.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The two watchlists have the same name, but may not be the same watchlist.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161542.png" data-image-src="attachments/133161525/133161542.png" data-unresolved-comment-count="0" data-linked-resource-id="133161542" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_Rename.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>This watchlist may have been renamed.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161540.png" data-image-src="attachments/133161525/133161540.png" data-unresolved-comment-count="0" data-linked-resource-id="133161540" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_Refresh.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span>
+           </div></td>
+          <td colspan="1" class="confluenceTd">The watchlist in the&nbsp;RLC file appears to be newer than the existing watchlist.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>To confirm which watchlist you want to overwrite, f<span style="line-height: 13.0pt;background-color: transparent;">rom the </span><strong style="line-height: 13.0pt;">Action&nbsp;</strong><span style="line-height: 13.0pt;background-color: transparent;">list:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Select...</p></th>
+          <th class="confluenceTh"><p>To...</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Keep Existing Watchlist</p></td>
+          <td class="confluenceTd"><p>Retain the watchlist on the server. The watchlist from the RLC file is not loaded.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Overwrite Existing Watchlist</p></td>
+          <td class="confluenceTd"><p>Overwrite the watchlist on the server with the watchlist from the RLC file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Import New Watchlist</p></td>
+          <td class="confluenceTd"><p>Import the watchlist from the&nbsp;RLC file as a new watchlist. Rhapsody renames the watchlist before importing it.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Notification schemes from RLC files saved in Rhapsody versions prior to Rhapsody 5 are imported and converted to watchlists. A conflict resolution dialog is displayed if a duplicate watchlist exists in the engine.</p>
+        <p>Because notification schemes are defined on each component in versions prior to Rhapsody 5 (whereas in later versions components are defined on a watchlist), the action options for importing notification schemes into Rhapsody version 5 or later are as follows:</p>
+        <ul>
+         <li>Keep Existing - Retain the existing watchlist on the server. Any components selected in the current RLC load that reference the old notification scheme are added to the existing watchlist.</li>
+         <li>Overwrite Existing - Overwrite the existing watchlist on the server with the notification scheme from the RLC file. The components added to the watchlist are only those selected in the current RLC load that reference the old notification scheme.</li>
+         <li>Create a New Copy - The notification scheme from the RLC file is imported as a new watchlist. Rhapsody renames the notification scheme before importing it as a watchlist. The components added to the imported watchlist are those selected in the current RLC load that reference the old notification scheme.</li>
+        </ul>
+       </div>
+      </div>
+      <h2 id="LoadingaConfiguration-OverwritingSharedJavaScriptFunctionLibraries">Overwriting Shared JavaScript Function Libraries</h2>
+      <p>When loading a configuration that contains shared JavaScript function libraries, Rhapsody prompts you if it detects naming conflicts between the libraries in the&nbsp;RLC file and those which already exist in the engine.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161549.png" data-image-src="attachments/133161525/133161549.png" data-unresolved-comment-count="0" data-linked-resource-id="133161549" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SharedJSFuncLoadConflict.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+      <p>The icon, before the&nbsp;<strong>Action</strong>&nbsp;column, indicates the state of the shared JavaScript function library:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Icon</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161543.png" data-image-src="attachments/133161525/133161543.png" data-unresolved-comment-count="0" data-linked-resource-id="133161543" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_routeerror.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The two libraries have the same name, but may not be the same library.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161542.png" data-image-src="attachments/133161525/133161542.png" data-unresolved-comment-count="0" data-linked-resource-id="133161542" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_Rename.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The library may have been renamed.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>To confirm which library you want to overwrite, f<span style="line-height: 13.0pt;background-color: transparent;">rom the&nbsp;</span><strong style="line-height: 13.0pt;">Action&nbsp;</strong><span style="line-height: 13.0pt;background-color: transparent;">list:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Select...</p></th>
+          <th class="confluenceTh"><p>To...</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Keep Existing</p></td>
+          <td class="confluenceTd"><p>Retain the library on the server. The library from the RLC file is not loaded.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Overwrite Existing</p></td>
+          <td class="confluenceTd"><p>Overwrite the library on the server with the library from the RLC file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Create a New Copy</p></td>
+          <td class="confluenceTd"><p>Import the library from the&nbsp;RLC file as a new library. Rhapsody renames the library before importing it.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When loading a shared JavaScript function library, Rhapsody does not compare differences between functions within a library in the RLC file with functions in the engine. Therefore Rhapsody cannot determine whether two libraries are the same even if they contain the exact same functions. To ensure no functions have been modified, it is recommended you carefully inspect them before loading the RLC file.</p>
+       </div>
+      </div>
+      <h2 id="LoadingaConfiguration-OverwritingRESTClients">Overwriting REST Clients</h2>
+      <p>When loading a configuration that contains REST Clients, Rhapsody prompts you if it detects naming conflicts between the REST Clients in the&nbsp;RLC file and those which already exist in the engine.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161550.png" data-image-src="attachments/133161525/133161550.png" data-unresolved-comment-count="0" data-linked-resource-id="133161550" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RESTClientsLoadConflict.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+      <p>The icon, before the&nbsp;<strong>Action</strong>&nbsp;column, indicates the state of the REST Client:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Icon</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161543.png" data-image-src="attachments/133161525/133161543.png" data-unresolved-comment-count="0" data-linked-resource-id="133161543" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_routeerror.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The two REST Clients have the same name, but may not be the same REST Client.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161542.png" data-image-src="attachments/133161525/133161542.png" data-unresolved-comment-count="0" data-linked-resource-id="133161542" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_Rename.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+           </div></td>
+          <td class="confluenceTd"><p>The REST Client may have been renamed.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>To confirm which library you want to overwrite, f<span style="line-height: 13.0pt;background-color: transparent;">rom the&nbsp;</span><strong style="line-height: 13.0pt;">Action&nbsp;</strong><span style="line-height: 13.0pt;background-color: transparent;">list:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Select...</p></th>
+          <th class="confluenceTh"><p>To...</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Create a New Copy</p></td>
+          <td class="confluenceTd"><p>Import the REST Client from the&nbsp;RLC file as a new REST Client. Rhapsody renames the REST Client before importing it.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Keep Existing</p></td>
+          <td class="confluenceTd"><p>Retain the REST Client on the server. The REST Client from the RLC file is not loaded.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Overwrite Existing</p></td>
+          <td class="confluenceTd"><p>Overwrite the REST Client on the server with the REST Client from the RLC file.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LoadingaConfiguration-LoadingCustomModulesandLibraries">Loading Custom Modules and Libraries</h2>
+      <p><span>An </span>RLC <span> file containing a Rhapsody configuration can also potentially include custom modules and libraries associated with that configuration. Custom libraries are normally components such as database or JMS drivers; custom modules are non-standard communication points and filters written using the Rhapsody Development Kit (RDK). By default custom modules and libraries are loaded from the RLC file</span><span>&nbsp;with the configuration, but can be selected explicitly from the Reload Local Configuration wizard. However, the custom modules and libraries will fail to load if the user does not have the 'Load custom modules and third party libraries' access right. The Rhapsody IDE does not upload a custom module or library to the Rhapsody engine if exactly the same library already exists on the Rhapsody engine. A custom module or library is considered the same for these purposes if it has the same name and contents.</span></p>
+      <p>In addition, an option in the rhapsody.properties file can be used to limit the circumstances under which custom modules and libraries can be uploaded to the Rhapsody engine. This option is shown below:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>rhapsody.properties</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence"># Indicates whether the engine is allow uploads of custom modules and libraries from the IDE. This can be set to one
+# of: AllowModuleUploads, OnlyAllowNewModuleUploads, or DisallowModuleUploads.
+#ModuleService.customModuleUploadMode=AllowModuleUploads</pre> 
+       </div>
+      </div>
+      <p>The three available options for this setting are described below:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Setting
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>AllowModuleUploads</code></td>
+          <td class="confluenceTd">Custom modules and libraries can be uploaded as part of an RLC file provided that the user has the appropriate access rights to load configurations, however, the Rhapsody IDE will not attempt to upload unchanged custom modules or libraries. This is the default setting.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>OnlyAllowNewModuleUploads</code></td>
+          <td colspan="1" class="confluenceTd">Custom modules and libraries can only be uploaded as part of an RLC file if they do not already exist on the Rhapsody engine. The upload will be skipped if they are already present on the Rhapsody engine, even if their contents differ to the version in the RLC file.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>DisallowModuleUploads</code></td>
+          <td colspan="1" class="confluenceTd">Custom modules and libraries cannot ever be loaded as part of an RLC file, regardless of whether they are already present on the Rhapsody engine or not.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>As this setting is within the <code>rhapsody.properties</code> file, it requires a Rhapsody engine restart in order to take effect.</p>
+      <h2 id="LoadingaConfiguration-LoadingConfigurationsContainingPasswords">Loading Configurations Containing Passwords</h2>
+      <p>When the Rhapsody IDE saves a configuration as an RLC file, you can choose how passwords should be treated. The available options are:</p>
+      <ul>
+       <li>Export Encrypted Passwords Using Custom Passphrase.</li>
+       <li>Remove Passwords From Exported Configuration.</li>
+       <li>Export Unencrypted Passwords.</li>
+      </ul>
+      <p>Refer to&nbsp;<a href="Saving-a-Configuration_133161554.html">Saving a Configuration</a>&nbsp;for details on each of these options.</p>
+      <h3 id="LoadingaConfiguration-LoadingConfigurationswithUnencryptedPasswords">Loading Configurations with Unencrypted Passwords</h3>
+      <p>If the RLC&nbsp;file to be imported contains unencrypted passwords, then you can choose how these passwords are imported during the load:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161527.png" data-image-src="attachments/133161525/133161527.png" data-unresolved-comment-count="0" data-linked-resource-id="133161527" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ImportConfigPassword.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+      <p>The available options are:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Select...</th>
+          <th class="confluenceTh">To...</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Keep Passwords From Imported Configuration</td>
+          <td class="confluenceTd"><p>Load any passwords found in components with the configuration.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Remove Passwords From Imported Configuration</td>
+          <td colspan="1" class="confluenceTd"><span>Strip out a</span>ny passwords found in components as <span>the configuration</span> is loaded.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><span>Rhapsody variables are only loaded from an&nbsp;</span><span>RLC </span><span>file if they do not already exist in the Rhapsody engine. This applies irrespective of which option is selected here.</span></p>
+      <p>The&nbsp;<strong>Automatically use this selection in the future</strong>&nbsp;option can be selected automatically either to keep or remove the passwords during future configuration loads. Once set, this option can be subsequently changed via&nbsp;<a href="Rhapsody-Options_133164469.html">Rhapsody Options</a>.</p>
+      <h3 id="LoadingaConfiguration-LoadingConfigurationswithEncryptedPasswords">Loading Configurations with Encrypted Passwords</h3>
+      <p>If the RLC&nbsp;file to be imported contains encrypted passwords, then the passwords can either be decrypted or removed during the load:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161525/133161526.png" data-image-src="attachments/133161525/133161526.png" data-unresolved-comment-count="0" data-linked-resource-id="133161526" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="EncryptedPasswordInRLC.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161525" data-linked-resource-container-version="4"></span></p>
+      <p>The available options are:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Select...</th>
+          <th class="confluenceTh">To...</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Decrypt Passwords Using Custom Passphrase</td>
+          <td class="confluenceTd">Load any passwords found in components with the configuration. The passwords are decrypted using the passphrase provided. If the wrong passphrase is provided, then an error message is provided to the user before the <span>RLC </span>file load continues.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Remove Passwords From Imported Configuration</td>
+          <td colspan="1" class="confluenceTd"><span>Strip out a</span><span>ny passwords found in components</span><span> as </span><span>the configuration</span><span> is loaded.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><span>Rhapsody variables are only loaded from an RLC file if they do not already exist in the Rhapsody engine. This applies irrespective of which option is selected here.</span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If the RLC file contains Rhapsody variables, and the user does not have the 'Edit Rhapsody variables' access right, the RLC file will fail to load.<span style="color: rgb(0,0,0);">&nbsp;</span></p>
+       </div>
+      </div>
+      <p><br> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

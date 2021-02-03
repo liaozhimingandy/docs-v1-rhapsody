@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Conditional Execution</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Conditional Execution</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The database components allow conditional execution of a statement. To do this, you specify a test condition using the test attribute for the statement tag in the configuration XML file.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="main" test="..."&gt;
+  ...
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p>In the above example, the value of the test attribute is a condition for&nbsp;the&nbsp;<code>main</code>&nbsp;statement&nbsp;and will be executed only if the specified condition evaluates&nbsp;to&nbsp;<code>true</code>.&nbsp;There are three types of parameters to be tested as listed below:</p>
+      <ul>
+       <li>An incoming message property specified&nbsp;by&nbsp;<code>$&lt;message property name&gt;</code>.&nbsp;Not available in the&nbsp;<strong>Database</strong>&nbsp;communication point in&nbsp;<em>Input</em>&nbsp;mode.</li>
+       <li>An incoming message field specified&nbsp;by&nbsp;<code>@&lt;full path of a message field&gt;</code>.&nbsp;Not available in&nbsp;<em>Input</em>&nbsp;mode.</li>
+       <li>A database table column value specified&nbsp;by&nbsp;<code>@&lt;column name&gt;</code>.&nbsp;All column values returned by the parent statement can be tested.</li>
+      </ul>
+      <p>The test attribute is used to specify a condition to execute a statement. A condition is either a function or an expression and should fall into one of the following&nbsp;forms:</p>
+      <ul>
+       <li><code>NULL(param)</code>&nbsp;- tests whether a parameter is null or the empty string.</li>
+       <li><code>NOTNULL(param)</code>&nbsp;- tests whether a parameter is neither null nor the empty string.</li>
+       <li><code>EQUALS(param1, <span>param2</span>) or param = value</code>&nbsp;- tests whether the parameter value equals the value to be tested.</li>
+       <li><code>NOTEQUAL(<span>param1</span>, <span>param2</span>)</code>&nbsp;- tests whether the parameter is not equal to the value to be tested.</li>
+       <li><code>EQUALSIGNORECASE(<span>param1</span>, <span>param2</span>)</code>&nbsp;- same as the "equals" test except this is a case-insensitive test.</li>
+       <li><code>NOTEQUALIGNORECASE(<span>param1</span>, <span>param2</span>)</code>&nbsp;- same as the "not equals" test except this is a case-insensitive test.</li>
+      </ul>
+      <p>The function name is not case-sensitive. Refer to <a href="Condition-Editor_133161741.html">Condition Editor</a> for details.</p>
+      <h2 id="ConditionalExecution-Examples">Examples</h2>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">test = "notnull(@ADT.location)"</pre> 
+       </div>
+      </div>
+      <p>This condition would&nbsp;be&nbsp;<code>true</code>&nbsp;if&nbsp;the incoming message has&nbsp;an&nbsp;<code>ADT.location</code>&nbsp;field&nbsp;and it is not null or an empty string.</p>
+      <p>In the following example,&nbsp;the&nbsp;<code>Delete Record</code>&nbsp;statement&nbsp;is executed if the processed value is not empty and&nbsp;the&nbsp;<code>Update Record</code>&nbsp;statement&nbsp;is executed if it is.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="Select Record"&gt;
+  &lt;sql&gt;
+    SELECT name, processed From personsTable
+    WHERE name = @NK1.ContactPersonsName.FamilyName
+  &lt;/sql&gt;
+  &lt;statement name="Delete Record" test="NOTNULL(@processed)"&gt;
+    &lt;sql&gt;
+      ...
+    &lt;/sql&gt;
+  &lt;/statement&gt;
+  &lt;statement name="Update Record" test="NULL(@processed)"&gt;
+    &lt;sql&gt;
+      ...
+    &lt;sql&gt;
+  &lt;/statement&gt;
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p>In the following example, both test conditions are identical and the condition would&nbsp;be&nbsp;<code>true</code>&nbsp;if&nbsp;the value of the table column&nbsp;named&nbsp;<code>columnName</code>&nbsp;is&nbsp;<code>aaa</code>.&nbsp;The column value should be selected from the parent&nbsp;statement&nbsp;as in the following configuration example.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">test = "@columnName='aaa'"
+test = "Equals(@columnName, 'aaa')"</pre> 
+       </div>
+      </div>
+      <p>In the following example,&nbsp;the&nbsp;<code>Diagnosis</code>&nbsp;statement&nbsp;is executed only if&nbsp;the&nbsp;<code>dischargeEventId</code>&nbsp;equals&nbsp;<code>id001</code>.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="DischargeEventBody"&gt;
+  &lt;sql&gt;
+    select IDENTITY as dischargeEventId
+  &lt;/sql&gt;
+  &lt;statement name="Diagnosis" test="@dischargeEventId='id001'"&gt;
+    &lt;sql&gt;
+      ...
+    &lt;sql&gt;
+  &lt;/statement&gt;
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

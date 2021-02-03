@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>EDI Message Validation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">EDI Message Validation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-thumbnail" height="32" src="attachments/133162956/142328946.png" data-image-src="attachments/133162956/142328946.png" data-unresolved-comment-count="0" data-linked-resource-id="142328946" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="EDI Message Validation 32x32.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162956" data-linked-resource-container-version="3"></span></p>
+      <p>The <strong>EDI Message Validation</strong> filter&nbsp;is used to validate EDI messages against a message definition. The filter returns the original message if the message is valid, and includes the option to route to the error connector, to continue processing the message or to return an XML document with full error information if the message is invalid. During message validation the filter counts the number of errors which have occurred, in total and for each level of error, and stores these values in the message properties.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For validating HL7 messages and creating acknowledgments, the <a href="HL7-Acknowledgement-Generation_133163288.html">HL7 Acknowledgement Generation</a> filter offers more functionality than the EDI Message Validation filter.</p>
+       </div>
+      </div>
+      <h2 id="EDIMessageValidation-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition File</p></td>
+          <td class="confluenceTd"><p>The message definition file (<code>*.s3d</code> file), containing the structure and syntax rules to be validated with.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Validation Failure</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The action to be performed if validation fails:</p>
+            <ul>
+             <li><code>Send to error connector</code> (default) - the message is sent to the error connector.
+              <ul>
+               <li>If the invalid message should be routed to another location, select <code>Send to error connector</code>, and route the message from the error connector.</li>
+               <li>If the invalid message should be sent to the error queue, select <code>Send to error connector</code>, and do not connect anything to the error connector.</li>
+              </ul></li>
+             <li><code>Continue processing on route</code> - the message is routed to the next filter or output communication point to continue processing the message. The message will continue on but the <code>ValidationResult</code> message property will be set to <code>invalid</code>.</li>
+             <li><code>Send error report to route</code> - the body of the message is replaced by an XML document containing full error information and the original message encoded in base64 and the message is routed to the next filter or output communication point.</li>
+            </ul>
+            <div id="expander-1673028564" class="expand-container">
+             <div id="expander-control-1673028564" class="expand-control">
+              <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+              <span class="expand-control-text">Sample error report as output by 'Send error report to route'</span>
+             </div>
+             <div id="expander-content-1673028564" class="expand-content">
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0"?&gt;
+&lt;ValidationReport xmlns:xsi=
+    "http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation=
+    "www.orionhealth.com/rhapsody/ValidationReport"&gt;
+    &lt;errors TransactionType="ERROR"
+            UniqueID="1063576386542C000.1.1"
+            URLApplicationName="www.rhapsody.co.nz"
+            ValidationFilterID="f491307a-9631-4927-
+                                82c2-6c065ae3d681/
+                                b088633b-fd37-4f38-
+                                92e1-ee9fd3c73ea7"&gt;
+    &lt;error Path="PID_ORU[0].CGR[1].CGR_ADDR[0].Address1"
+           Description="Required field missing"/&gt;
+    &lt;error Path="PID_ORU[0].CGR[1].CGR_ADDR[0].CityTown"
+           Description="Required field missing"/&gt;
+    &lt;error Path="PID_ORU[0].CGR[1].CGR_ADDR[0].
+                 AddressType"
+           Description="Required field missing"/&gt;
+    &lt;/errors&gt;
+    &lt;message Definition="swe.s3d"&gt;...&lt;/message&gt;
+&lt;/ValidationReport&gt;
+</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Parse Failure</p></td>
+          <td class="confluenceTd"><p>The action to be performed if message parsing fails:</p>
+           <ul>
+            <li><code>Send to error connector</code> (default) - the message is sent to the error connector.</li>
+            <li><code>Send error report to route</code> - the body of the message is replaced by an XML document containing the parsing error information and the original message and the message is routed to the next filter or output communication point.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="EDIMessageValidation-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for&nbsp;the EDI Message Validator filter are:</p>
+      <ul>
+       <li><code>ValidationResult</code> - result of EDI message validation. Either <code>valid</code> or <code>invalid</code>.</li>
+       <li><code>ValidationErrorCount</code> - the total number of errors that occurred during validation checking.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

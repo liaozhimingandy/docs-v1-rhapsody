@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Accessing Windows Shares from *nix Hosts</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Deployment_133164213.html">Deployment</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Accessing Windows Shares from *nix Hosts</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><em>Microsoft Windows</em> publishes folders for network access using the SMB (Server Message Block) or CIFS (Common Internet File System) protocols (refer to the&nbsp;<a href="http://msdn.microsoft.com/en-us/library/aa365233(vs.85).aspx" class="external-link" rel="nofollow">Microsoft SMB Protocol and CIFS Protocol Overview</a>). Most modern *nix variants include tools to enable access to Windows shared folders.</p>
+      <p>Windows shares may be accessed in 2 ways:</p>
+      <ul>
+       <li>Command line, ftp-like command set (smbclient).</li>
+       <li>Mounted file system (smbmount or mount.cifs - Linux only).</li>
+      </ul>
+      <h2 id="AccessingWindowsSharesfrom*nixHosts-SMBServertools">SMB Server tools</h2>
+      <p>The Samba suite (<a href="http://samba.org" class="external-link" rel="nofollow">http://samba.org</a>) provides the ability for *nix systems to act as a <em>Windows</em> server (including domain server) and the ability to publish <em>Windows</em> shares.</p>
+      <p>The Samba tools are available for most *nix variants. They provide the ability to act as a <em style="color: rgb(51,51,51);font-size: 14.0px;">Windows</em><span style="color: rgb(51,51,51);"> client using the </span>smbclient<span style="color: rgb(51,51,51);"> CLI tool. This tool is scriptable and provides functionality very similar to the </span>ftp<span style="color: rgb(51,51,51);"> command set.</span></p>
+      <h2 id="AccessingWindowsSharesfrom*nixHosts-CIFStools">CIFS tools</h2>
+      <p>Linux systems using version 2.6.x of the Linux kernel have the CIFS virtual file system capability. This allows them to mount <em>Windows</em> shares using the CIFS protocols, and therefore allows direct access to the share from the file system.</p>
+      <h2 id="AccessingWindowsSharesfrom*nixHosts-Example">Example</h2>
+      <p>Assume that the <em>Windows</em> server Wserver publishes the Data share, and requires the <em>Windows</em> domain user <code>wdomain\datauser</code> to authenticate with the password <code>datapassword</code>.</p>
+      <p>This share can be mounted as <code>/data/wserver</code> with the following command:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">mount -t cifs -o username=wdomain/datauser,password=datapassword,uid=rhapsody //wserver/data /data/wserver</pre> 
+       </div>
+      </div>
+      <p>The options used provide authentication to the <em>Windows</em> server (<code>username=wdomain/datauser</code> and <code>password=datapassword</code>), and set the ownership on the mount point and the mounted file system to the local rhapsody user. This ensures that the Rhapsody engine has read/write access to the file system and can, therefore, use it with directory communication points.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If the <code>uid</code> option is not set, the mounted file system will be owned by root.</p>
+       </div>
+      </div>
+      <p>Automated mounting of the <em>Windows</em> share can be enabled using an <code>/etc/fstab</code> entry such as:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">//wserver/data /data/wserver cifs username=wdomain/datauser,password=datapassword,uid=rhapsody 0 0</pre> 
+       </div>
+      </div>
+      <h2 id="AccessingWindowsSharesfrom*nixHosts-RelatedTopics">Related Topics</h2>
+      <ul>
+       <li><a href="http://samba.org" class="external-link" rel="nofollow">Samba </a></li>
+       <li><a href="https://wiki.samba.org/index.php/LinuxCIFS_utils" class="external-link" rel="nofollow">CIFS</a></li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

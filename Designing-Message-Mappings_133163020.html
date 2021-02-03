@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Designing Message Mappings</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="Mapper_133163007.html">Mapper</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Designing Message Mappings</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Designing a logical structure for message maps can have a considerable impact on the ease of maintenance of the maps in future years. This section shows a few simple map design principles that can simplify maintenance and code reuse.</p>
+      <p>While this section is focused on mapping EDI messages, many of the principles are valid for mapping XML or other message types as well:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146978742 {padding: 0px;}
+div.rbtoc1565146978742 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146978742 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146978742"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#DesigningMessageMappings-GettingStarted">Getting Started</a></li> 
+        <li><a href="#DesigningMessageMappings-RecommendationsforDesigningMaps">Recommendations for Designing Maps</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#DesigningMessageMappings-UseSub-mapsforCodeReuseandEasyMaintenance">Use Sub-maps for Code Reuse and Easy Maintenance</a></li> 
+          <li><a href="#DesigningMessageMappings-StructureYourMapsBasedontheOutputMessageStructure">Structure Your Maps Based on the Output Message Structure</a></li> 
+          <li><a href="#DesigningMessageMappings-UseaNamingConventionforMaps">Use a Naming Convention for Maps</a></li> 
+          <li><a href="#DesigningMessageMappings-AccessMultipleLevelsonlyWhenRequired">Access Multiple Levels only When Required</a></li> 
+          <li><a href="#DesigningMessageMappings-DocumentMappingCodeUsingComments">Document Mapping Code Using Comments</a></li> 
+         </ul> </li> 
+        <li><a href="#DesigningMessageMappings-SimpleMappings">Simple Mappings</a></li> 
+        <li><a href="#DesigningMessageMappings-ComplexSituations">Complex Situations</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#DesigningMessageMappings-SegmentGroups">Segment Groups</a></li> 
+          <li><a href="#DesigningMessageMappings-Non-One-to-OneMappings">Non-One-to-One Mappings</a></li> 
+          <li><a href="#DesigningMessageMappings-SegmentsoftheSameTypeRequireDifferentProcessing">Segments of the Same Type Require Different Processing</a></li> 
+         </ul> </li> 
+        <li><a href="#DesigningMessageMappings-Conclusion">Conclusion</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="DesigningMessageMappings-GettingStarted">Getting Started</h2>
+      <p>Before beginning your message mapping, you must have two working message definitions (or one definition if it includes both the input and output definitions). Ensure these definitions are tested and will parse messages before attempting to create a message mapping. Using the EDI Explorer, problems in the definitions can be more easily isolated than when running messages through the Map Designer.</p>
+      <p>Also, before beginning your first real implementation of a mapping, familiarize yourself with the useful debugging features available in the Map Designer. Mappings can be fully tested inside the Map Designer environment before being loaded into Rhapsody™ Integration Engine (Rhapsody).</p>
+      <p>In the Map Designer, you can provide a sample input message to:</p>
+      <ul>
+       <li>Step through each line of code - one line at a time</li>
+       <li>See the value of each variable at various points throughout the mapping</li>
+       <li>Compare input and output values of fields</li>
+       <li>Modify values of fields to test different scenarios even if you don't have a message with the right values.</li>
+      </ul>
+      <h2 id="DesigningMessageMappings-RecommendationsforDesigningMaps">Recommendations for Designing Maps</h2>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146978827 {padding: 0px;}
+div.rbtoc1565146978827 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146978827 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146978827"> 
+       <ul class="toc-indentation"> 
+        <li><span class="TOCOutline">1</span> <a href="#DesigningMessageMappings-UseSub-mapsforCodeReuseandEasyMaintenance">Use Sub-maps for Code Reuse and Easy Maintenance</a></li> 
+        <li><span class="TOCOutline">2</span> <a href="#DesigningMessageMappings-StructureYourMapsBasedontheOutputMessageStructure">Structure Your Maps Based on the Output Message Structure</a></li> 
+        <li><span class="TOCOutline">3</span> <a href="#DesigningMessageMappings-UseaNamingConventionforMaps">Use a Naming Convention for Maps</a></li> 
+        <li><span class="TOCOutline">4</span> <a href="#DesigningMessageMappings-AccessMultipleLevelsonlyWhenRequired">Access Multiple Levels only When Required</a></li> 
+        <li><span class="TOCOutline">5</span> <a href="#DesigningMessageMappings-DocumentMappingCodeUsingComments">Document Mapping Code Using Comments</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h3 id="DesigningMessageMappings-UseSub-mapsforCodeReuseandEasyMaintenance">Use Sub-maps for Code Reuse and Easy Maintenance</h3>
+      <p>Submaps in Rhapsody are the equivalent of using functions and methods in other programming languages, and the reasons for their use in maps is the same as when writing code.</p>
+      <p>Breaking the messages into submaps allows the map to be easily developed and maintained. By creating a submap, the visible message structure is reduced to only the pieces of data needed to map that component (typically a segment or composite). When you need to modify code, it can be much easier to find in a smaller sub-map, rather than in a large main map. Implementing mappings with no sub-maps can generate mappings running into the thousands of lines of code.</p>
+      <p>Submaps also support the reuse of mapping code by allowing the methods to be called with other instances of the same segment type from within the same message, or from a different message being mapped in the same definition. Submaps can also be imported from one definition to another which increases their re-usability.</p>
+      <div class="confluence-information-macro confluence-information-macro-tip">
+       <p class="title">Rule of Thumb</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The general rule is to create a submap for all EDI Components (Message Sets, Messages, Segments, and Composites) and XML Complex Types.</p>
+       </div>
+      </div>
+      <h3 id="DesigningMessageMappings-StructureYourMapsBasedontheOutputMessageStructure">Structure Your Maps Based on the Output Message Structure</h3>
+      <p>When mapping a message, the output is the key result and the important factor in a successful map. If the map is not correct, downstream systems will report the error in terms of the output structure. So, structuring the mapping around the output message will allow fast location of any problem areas.</p>
+      <p>With EDI messaging, this typically simplifies into creating a submap for each segment in the output message. This submap should include all code required to build that output segment.</p>
+      <p>If a segment appears more than once in the message, this submap can be called multiple times to map different instances.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163020/133163026.png" data-image-src="attachments/133163020/133163026.png" data-unresolved-comment-count="0" data-linked-resource-id="133163026" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Mapping1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163020" data-linked-resource-container-version="3"></span></p>
+      <p>Creating submaps is as easy as dragging from the input structure to the output structure. An option will be provided for creating a new submap and allow the parameters to be defined.</p>
+      <p>Submaps for composite types should follow the same rules as segments. For example, a complex field in the output is a good candidate for a submap that can be reused for other fields of the same data type.</p>
+      <p>Cases where a single-input, single-output does not suffice are discussed later in this section.</p>
+      <h3 id="DesigningMessageMappings-UseaNamingConventionforMaps">Use a Naming Convention for Maps</h3>
+      <p>As with all coding styles, using a naming convention can make it easier to locate exactly where the source of a mapping is. If following Rule 2, it is recommended to name the maps with a convention similar to <code>MapTo&lt;segmentname&gt;</code>. Auto-generated maps will be named <code>Map&lt;segmentname&gt;To&lt;segmentname&gt;</code>. So, any errors in the PID segment will be found in the <code>MapToPID</code> submap of <code>MapPIDToPID</code>.</p>
+      <h3 id="DesigningMessageMappings-AccessMultipleLevelsonlyWhenRequired">Access Multiple Levels only When Required</h3>
+      <p>It can often seem easier to use the main map to access items in segments and fields using the multi-level notation similar to the following:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="130" width="699" src="attachments/133163020/133163023.png" data-image-src="attachments/133163020/133163023.png" data-unresolved-comment-count="0" data-linked-resource-id="133163023" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Mapping2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163020" data-linked-resource-container-version="3"></span></p>
+      <p>However, this is considered bad code design and should be avoided wherever possible. It reduces the maintainability and clarity of the code and does not support reuse.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <p class="title">Performance</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Using multi-level paths repeatedly in this manner can negatively impact the performance of the mapping.</p>
+       </div>
+      </div>
+      <p>You should follow the previous rules and create submaps to reduce your statements down to a single level. The previous example would be better represented by the following code:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="94" width="492" src="attachments/133163020/133163022.png" data-image-src="attachments/133163020/133163022.png" data-unresolved-comment-count="0" data-linked-resource-id="133163022" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Mapping2_1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163020" data-linked-resource-container-version="3"></span></p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="96" width="460" src="attachments/133163020/133163021.png" data-image-src="attachments/133163020/133163021.png" data-unresolved-comment-count="0" data-linked-resource-id="133163021" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Mapping2_2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163020" data-linked-resource-container-version="3"></span></p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="126" width="460" src="attachments/133163020/133163024.png" data-image-src="attachments/133163020/133163024.png" data-unresolved-comment-count="0" data-linked-resource-id="133163024" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Mapping2_3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163020" data-linked-resource-container-version="3"></span></p>
+      <p>If you insist on using multi-level paths then you must check that the field exists before accessing the field value. For example:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="161" width="730" src="attachments/133163020/133163025.png" data-image-src="attachments/133163020/133163025.png" data-unresolved-comment-count="0" data-linked-resource-id="133163025" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Mapping2_4.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163020" data-linked-resource-container-version="3"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <p class="title">Behavioural Anomalies</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>There have been some anomalies in behavior when accessing multi-level fields. The best way to avoid relying on unintended behavior is to use submaps as these behave as expected when used in the manner described above. If using multi-level paths then you must check the existence of the field in every place that the path is used and explicitly handle the case that it does not exist (if required).</p>
+       </div>
+      </div>
+      <h3 id="DesigningMessageMappings-DocumentMappingCodeUsingComments">Document Mapping Code Using Comments</h3>
+      <p>As with other coding styles, mappings should be documented using the built-in comment blocks in the mapper. When generating code, it is easy to forget that others will need to quickly make changes to a mapping without being required to read every line of code.</p>
+      <p>Each small section of code should be started with a comment describing the objective of the code in order to make it easier for later edits.</p>
+      <h2 id="DesigningMessageMappings-SimpleMappings">Simple Mappings</h2>
+      <p>At times there are situations where the output message is almost exactly the same as the input message. The messages may even use the same segments with the same structures. In these cases, auto-mapping will generate a successful map, but will generate a lot of mapping code to do so.</p>
+      <p>In these situations, it is worth considering using the encoding methods available in the mapper. These methods deal with an entire segment, or segment group instead of each individual field within a segment. If the message structures match, this will cause the original segment to be copied into the output segment.</p>
+      <p>The two encoded methods are:</p>
+      <ul>
+       <li><code>getEncodedValue()</code> - returns the encoded equivalent of the segment passed into the method. The encoded equivalent is the textual representation of the segment as it would appear in the message (with each field separated by the appropriate separators)</li>
+       <li><code>setEncodedValue()</code> - sets the value of a segment (or group) based on the encoded representation. This method can set the entire contents of a segment or segment group in a single call.</li>
+      </ul>
+      <p>The following mapping code will copy the MSH, EVN and PV1 segments from the input message directly into the output message. The other code maps the fields individually as in a normal mapping.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163020/133163027.png" data-image-src="attachments/133163020/133163027.png" data-unresolved-comment-count="0" data-linked-resource-id="133163027" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Mapping3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163020" data-linked-resource-container-version="3"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Using the <code>setEncodedValue</code> method is only recommended if it is known that the input and output segments share the same structure. HL7 segments are generally backward compatible between versions, but if a newer segment is mapped to an older HL7 version, some data may be lost.</p>
+        <p>Using this method may also cause issues if the input message uses different separators than those defined in the output definition.</p>
+        <p>So caution must be shown when using these methods - and ensure you have a good sample of test messages.</p>
+       </div>
+      </div>
+      <h2 id="DesigningMessageMappings-ComplexSituations">Complex Situations</h2>
+      <p>Most segment mappings occur on a one-to-one basis where the information in one segment is used to populate the information in a single output segment. However, there are a number of notable exceptions.</p>
+      <h3 id="DesigningMessageMappings-SegmentGroups">Segment Groups</h3>
+      <p>Many complex message types include segment groups that can contain complex sequences of messages.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163020/133163028.png" data-image-src="attachments/133163020/133163028.png" data-unresolved-comment-count="0" data-linked-resource-id="133163028" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Mapping4.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163020" data-linked-resource-container-version="3"></span></p>
+      <p>In these situations, it does not make sense for the main map to call a submap for each segment directly. A better approach is to create a submap for the entire segment group and have that submap call the submaps based on segments.</p>
+      <p>The datatype of segment groups in the Map Designer is also tied to the specific message, so it should be noted that submaps based on the segment group cannot be shared across different message maps. However, all segment groups can call the shared submaps for the segments inside the groups. This still allows for full reuse of the mapping code.</p>
+      <h3 id="DesigningMessageMappings-Non-One-to-OneMappings">Non-One-to-One Mappings</h3>
+      <p>Some segments require data from another input segment, or from multiple locations. In this situation, the solution requires a little more thinking. Following Rule 2 (which states all code for this segment should be kept in a single map) means we simply need to find a way to pass this information into the submap.</p>
+      <p>This is often as simple as editing the parameters to the map and adding another input parameter to the parameter list (use the right-click context menu and select <strong>Edit Map Definition</strong>).</p>
+      <p><code>map MapToZPA( &lt;- Input::PID </code>inPID<code>, &lt;- Input::PD1 inPD1, -&gt; Output::ZPA outZPA )</code></p>
+      <p>Depending on the level at which the required data sits in the message (in relation to the submap call), the data may need to be passed via multiple levels of submaps from the top level. In the worst case scenarios, it is possible to pass the entire message structure into submaps to give access to the entire message, but it is recommended that the smallest possible unit for the required information be chosen to allow maximum reuse.</p>
+      <h3 id="DesigningMessageMappings-SegmentsoftheSameTypeRequireDifferentProcessing">Segments of the Same Type Require Different Processing</h3>
+      <p>On rare occasions, there can be different processing rules to apply to the same segment type depending on either the message type, or the location of the segment in the message. In these situations, the best method can often depend on the specific requirements. If the changes required are more than a couple of lines, then creating multiple submaps may be the best solution.</p>
+      <p>For example: If the ZNZ segment has different processing rules for three fields depending on whether the message is an A04 message or an A08 message, then the following submaps would be created:</p>
+      <ul>
+       <li><code>MapToA04ZNZ</code></li>
+       <li><code>MapToA08ZNZ</code></li>
+       <li><code>MapToCommonZNZ</code></li>
+      </ul>
+      <p>Both the <code>MapToA04ZNZ</code> and the <code>MapToA08ZNZ</code> methods would call the <code>MapToCommonZNZ</code> which would hold all common mapping code for the segment.</p>
+      <p>It is recommended that maintenance be the first concern in this situation.</p>
+      <h2 id="DesigningMessageMappings-Conclusion">Conclusion</h2>
+      <p>Designing message maps following these rules will result in a consistent mapping formula, and make future maintenance easier to manage.</p>
+      <p>The key rules are:</p>
+      <ul>
+       <li>Structure the mappings based on the structure of your output message.</li>
+       <li>Create submaps for complex types and for code reuse where possible.</li>
+       <li>Use a consistent naming convention for submaps.</li>
+       <li>Try to limit access to multi-level paths as much as possible. If multiple items need to access a sub-component, consider creating a submap for it.</li>
+       <li>Add comments for all but the most trivial of submaps and loops.</li>
+      </ul>
+      <p>For simple mappings, the encoded value functions are often a good option. Ensure you are aware of the limitations and only use at the appropriate times.</p>
+      <p>For complex mappings, some thought can often be required to make an easily maintainable structure, but the effort is normally worth it. Basing maps on the segment level can assist in reuse for multiple message types and try to pass the smallest possible objects into submaps (for example, pass in segments instead of the entire root level message for submaps).</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

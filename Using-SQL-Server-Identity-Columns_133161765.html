@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using SQL Server Identity Columns</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+       <li> <span><a href="Examples_133161764.html">Examples</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using SQL Server Identity Columns</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>SQL Server and similar databases implement a feature called identity columns. A single column within a table may be configured as the identity column, and if this is done, SQL Server automatically inserts values for this column as needed using a unique identifier. When performing an <code>INSERT</code> into a table using an identity column, that column is omitted entirely from the statement. SQL Server automatically generates the new identifier and inserts it.</p>
+      <p>In some cases, this can be very useful to ensure unique identifiers are generated for a particular table. While SQL Server does not guarantee that the values are continuous (that is, there may be gaps in the numbers that are allocated), it does guarantee that the values are unique. Frequently these identity columns are used to generate a unique identifier for some data, and then this identifier is subsequently used as a foreign key when inserting into other tables that are related in some way.</p>
+      <p>Using identity columns in the <strong>Rhapsody Database Configuration Editor</strong> is fairly simple. If the newly allocated identifier is not needed, then inserting the value is simple. For example, consider a <strong>NextOfKin</strong> table with seven columns including an identity column for the identifier. If the new identifier is not needed, the following script is all that is needed:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">INSERT INTO NextOfKin(PatientID, FamilyName, GivenName, Sex, Relationship, PhoneNumber)
+  VALUES (
+    @PID.PatientID.IDNumber,
+    @NKl.NextOfKinName[0].FamilyName.Surname,
+    @NKl.NextOfKinName[0].GivenName,
+    @NKl.Sex,@NKl.ContactRole.Identifier,
+    @NKl.PhoneNumber[0].PhoneNumber.PhoneNumber
+)</pre> 
+       </div>
+      </div>
+      <p>Alternatively, if the newly allocated identifier is wanted, then it can be immediately retrieved by performing a <code>SELECT</code> on the special <code>@@IDENTITY</code> value in SQL Server, as shown by the following script:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: sql; gutter: false; theme: Confluence" data-theme="Confluence">INSERT INTO NextOfKin(PatientID, FamilyName, GivenName, Sex, Relationship, PhoneNumber)
+  VALUES (
+    @PID.PatientID.IDNumber,
+    @NKl.NextOfKinName[0].FamilyName.Surname,
+    @NKl.NextOfKinName[0].GivenName,
+    @NKl.Sex,@NKl.ContactRole.Identifier,
+    @NKl.PhoneNumber[0].PhoneNumber.PhoneNumber
+);
+
+SELECT @@IDENTITY AS NextOfKinID</pre> 
+       </div>
+      </div>
+      <p>This example inserts the values into the table, then immediately retrieves the newly allocated identifier. This identifier is then available for subsequent statements to use, they would reference it as <code>@NextOfKinID</code>, or for <a href="Result-Substitution_133161688.html">Result Substitution</a>.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

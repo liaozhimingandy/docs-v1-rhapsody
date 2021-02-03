@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Search and Replace</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Search and Replace</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163002/133163004.jpg" data-image-src="attachments/133163002/133163004.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163004" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image147.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163002" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Search and Replace</strong>&nbsp;filter performs simple text substitution on messages being processed; for example, parsing an XML type message, then searching within the message for an <code>&lt;ADDRESS&gt;</code> XML tag and replacing it with a <code>&lt;patient_address&gt;</code> tag.</p>
+      <p>If replacement text is specified, this filter performs a true search and replace. If no replacement text is specified, any and all instances of the search text are removed from the message.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Search and Replace filter performs matching based on the bytes of the strings rather than characters. This can result in false matching, for example, the character <code>Є</code> (<code>04 04</code> in UTF-16) is found in the message body <code>ԄЅ</code> (<code>05 04 04 05</code> in UTF-16). The chances of this problem occurring are minimal, especially if the search string is longer than one character. However, if you believe you are likely to encounter this issue, then you can avoid it by using the <a href="JavaScript_133163317.html">JavaScript</a> filter and the string replace method, for example:</p>
+        <p><code>var next = output.append(input[0]);</code><br><code>next.text = next.text.replace('Є', 'ԄЅ')</code></p>
+        <p>The <span>Search and Replace filter does not support regular expressions.</span></p>
+       </div>
+      </div>
+      <h2 id="SearchandReplace-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Search String</p></td>
+          <td class="confluenceTd"><p>The text to search for within the message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Replace String</p></td>
+          <td class="confluenceTd"><p>The text with which to replace the search string. This may be empty to delete all instances of the search string from the message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encoding</p></td>
+          <td class="confluenceTd"><p>The encoding of the search and replace strings.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The search and replace parameters are case sensitive.</p>
+        <p>When performing a search and replace on an XML message, both the opening and closing XML message tags must be replaced; therefore, the search only looks for the closing parenthesis on the XML tags.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

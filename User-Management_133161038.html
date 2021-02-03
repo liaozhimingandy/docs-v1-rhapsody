@@ -1,0 +1,308 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>User Management</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Access-Control-in-Rhapsody_133160999.html">Access Control in Rhapsody</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">User Management</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <strong>Users </strong>tab in the<strong>&nbsp;User Manager</strong>&nbsp;is used to manage user access.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>User Manager functionality has changed significantly as of Rhapsody 6.1. If you are connecting to a Rhapsody 6.0 engine using a later version Rhapsody IDE, then refer to <i>User Manager</i> in the <em>Rhapsody 6.0 Administration Manual</em>.</p>
+       </div>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161038/133161050.png" data-image-src="attachments/133161038/133161050.png" data-unresolved-comment-count="0" data-linked-resource-id="133161050" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="user manager.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161038" data-linked-resource-container-version="3"></span></p>
+      <p>The <strong>Users</strong>&nbsp;tab displays the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field/Option</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The user's login name.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Group Membership</p></td>
+          <td class="confluenceTd"><p>The group (and therefore the access levels) the user is in.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Status</p></td>
+          <td class="confluenceTd"><p>Whether the user is disabled, and whether the user's password has expired.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can perform the&nbsp;following actions from the&nbsp;<strong>Users</strong> tab:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#UserManagement-AddingaNewUser">Add</a></td>
+          <td class="confluenceTd"><p>Add a new user.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#UserManagement-EditingaUser">Edit</a></td>
+          <td class="confluenceTd"><span>Edit the user properties.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#UserManagement-RemovingaUser">Delete</a></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span>Delete the selected user account. You are asked to confirm whether you want to remove the user.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <ul>
+               <li>The Administrator user cannot be deleted.</li>
+               <li>A user cannot remove their own account.</li>
+              </ul>
+             </div>
+            </div>
+            <p><span> <br> </span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#UserManagement-ViewingAccessRights">Rights Viewer</a></td>
+          <td colspan="1" class="confluenceTd">View user access rights on a per user basis.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#UserManagement-ResetPassword">Reset Password</a></td>
+          <td colspan="1" class="confluenceTd"><p>Reset a user password.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#UserManagement-ExpirePassword">Expire Password</a></td>
+          <td colspan="1" class="confluenceTd">Expire user passwords and<span> force them to reset their password at the next login.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="UserManagement-AddingaNewUser">Adding a New User</h2>
+      <p>To add a new user:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;User Manager...</strong>&nbsp;to display the&nbsp;User Manager.</li>
+       <li><p>Select the&nbsp;<strong>User</strong>&nbsp;tab to display the groups.</p></li>
+       <li><p>Select the <strong>Add</strong> button. The <strong>Add New User</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161038/133161045.png" data-image-src="attachments/133161038/133161045.png" data-unresolved-comment-count="0" data-linked-resource-id="133161045" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddUser.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161038" data-linked-resource-container-version="3"></span></p></li>
+       <li><p>Enter the following details for the new user:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Field</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>User Name</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p>The user's login name. This name is not case-sensitive.</p>
+              <div class="confluence-information-macro confluence-information-macro-tip">
+               <span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>This name must be unique; when you select the <strong>OK</strong> button to save the user, Rhapsody will check that the entered name is unique and will display a warning if it is not.</p>
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Full Name</p></td>
+            <td class="confluenceTd"><p>The user's actual name.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Password</p></td>
+            <td class="confluenceTd"><p>The user's password. This is case-sensitive.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Confirm Password</p></td>
+            <td class="confluenceTd"><p>Re-enter the password entered in the <strong>Password</strong> field.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Password Never Expires</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p>Select this field if the user's password never expires.</p>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>When a user logs on for the first time, they must change their password. The new password will then never expire. If a <a href="Password-Policy-Management_133161032.html">Password Policy</a> has been defined, all password policy rules will be displayed on the <a href="Changing-Your-Password_133164480.html">Change Password</a> window.</p>
+               </div>
+              </div>
+              <div class="confluence-information-macro confluence-information-macro-information">
+               <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>If a password policy is defined and has set the password policy rule to <code>Never Expire</code>, this will override all the individual settings. Otherwise, the individual setting will be applied.</p>
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p>Access Groups</p></td>
+            <td colspan="1" class="confluenceTd"><p>The access groups with which the new user is to be associated. Refer to <a href="Group-Management_133161023.html">Group Management</a> for details on group management.</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+       <li>Select the <strong>OK</strong> button to create the new user.</li>
+      </ol>
+      <h2 id="UserManagement-EditingaUser">Editing a User</h2>
+      <p>To edit user details:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;User Manager...</strong>&nbsp;to display the&nbsp;User Manager.</li>
+       <li><p>Select the&nbsp;<strong>User</strong>&nbsp;tab to display the groups.</p></li>
+       <li><p>Double click the user on the <strong>User Manager</strong> window, or select the user and then select the <strong>Edit User</strong> button. The <strong>Edit User</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161038/133161047.png" data-image-src="attachments/133161038/133161047.png" data-unresolved-comment-count="0" data-linked-resource-id="133161047" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="EditUser.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161038" data-linked-resource-container-version="3"></span></p><p>From this dialog you can update the user's full name, their access to components in Rhapsody (access groups), enable or disable the user, and force a user to change their password on login if it has expired.&nbsp;The following details can be edited:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Field</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><span>Full Name</span></p></td>
+            <td class="confluenceTd"><p>The user's actual name.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Password Never Expires</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p>Select this field if the user's password never expires.</p>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>When a user logs on for the first time, they must change their password. The new password will then never expire.</p>
+               </div>
+              </div>
+              <div class="confluence-information-macro confluence-information-macro-information">
+               <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>If a password policy is defined and has set the password policy rule to <code>Never Expire</code>, this will override all individual settings. Otherwise, the individual setting will be applied.</p>
+               </div>
+              </div>
+             </div></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><p>Access Groups</p></td>
+            <td colspan="1" class="confluenceTd"><p>The access groups with which the new user is to be associated. Refer to <a href="Group-Management_133161023.html">Group Management</a> for details on group management.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>Disabled</p></td>
+            <td class="confluenceTd">
+             <div class="content-wrapper">
+              <p>Indicates if a user can access Rhapsody. If selected, the associated username and password can no longer be used to access either the Rhapsody IDE or Management Console. This option is a security feature for users who temporarily do not require access to Rhapsody.</p>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>A user cannot disable their own account.</p>
+               </div>
+              </div>
+             </div></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+       <li>Select the <strong>OK</strong> button to save the changes.</li>
+      </ol>
+      <h2 id="UserManagement-RemovingaUser">Removing a User</h2>
+      <p>To remove a user that is not the current user or the Administrator:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;User Manager...</strong>&nbsp;to display the&nbsp;User Manager.</li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Select the&nbsp;</span><strong style="line-height: 13.0pt;">User&nbsp;</strong><span style="line-height: 13.0pt;background-color: transparent;">tab to display the groups.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Select the user you want to delete and select the </span> <strong style="line-height: 13.0pt;">Delete&nbsp;</strong><span style="line-height: 13.0pt;background-color: transparent;">button to permanently remove a user account. This action must be confirmed.</span></li>
+      </ol>
+      <h2 id="UserManagement-ViewingAccessRights">Viewing Access Rights</h2>
+      <p>You can view and manage a user's access rights.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161038/133161048.png" data-image-src="attachments/133161038/133161048.png" data-unresolved-comment-count="0" data-linked-resource-id="133161048" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ViewRightsUser.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161038" data-linked-resource-container-version="3"></span></p>
+      <p>The user-orientated&nbsp;<strong>View Rights&nbsp;</strong>dialog displays the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Column</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">User Name</td>
+          <td colspan="1" class="confluenceTd">The user's username.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Full Name</td>
+          <td colspan="1" class="confluenceTd">The user's full name.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Lockers</td>
+          <td class="confluenceTd">A list of all lockers in the configuration. The <strong>All Lockers</strong> entry defines the global access rights accorded to lockers.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Access Rights</td>
+          <td colspan="1" class="confluenceTd"><span>The access rights accorded to the selected user.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>To view a user's access rights:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;User Manager...</strong>&nbsp;to display the&nbsp;User Manager.</li>
+       <li><span>Select the</span>&nbsp;<strong>User</strong><span>&nbsp;tab to display the users.</span></li>
+       <li><span>Select the user whose access rights you want to view and c</span><span>lick the <strong>Rights Viewer</strong> button to&nbsp;display the&nbsp;<strong>View Rights</strong>&nbsp;dialog.</span></li>
+       <li><span>Select the&nbsp;<strong>Close</strong>&nbsp;button to exit.</span></li>
+      </ol>
+      <h2 id="UserManagement-UserPasswords">User Passwords</h2>
+      <h3 id="UserManagement-ResetPassword">Reset Password</h3>
+      <p>To reset a user password:</p>
+      <ol>
+       <li><p>Select a username from the users' list and then select the <strong>Reset Password</strong> button. The <strong>Set Password</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161038/133161040.png" data-image-src="attachments/133161038/133161040.png" data-unresolved-comment-count="0" data-linked-resource-id="133161040" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Reset Password.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161038" data-linked-resource-container-version="3"></span></p></li>
+       <li>Enter the password and confirm the password.</li>
+       <li>If you want the user to change this password at the next login, select the <strong>Change password on next login</strong> checkbox.</li>
+       <li>Select the <strong>OK</strong> button to save the new password.</li>
+      </ol>
+      <h3 id="UserManagement-ExpirePassword">Expire Password</h3>
+      <p>To expire user passwords:</p>
+      <ol>
+       <li><p>Select usernames from the users' list and then select <strong>Expire Password</strong> button. The user passwords are then expired and the&nbsp;<strong>Expire Message</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161038/133161041.png" data-image-src="attachments/133161038/133161041.png" data-unresolved-comment-count="0" data-linked-resource-id="133161041" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="expirePassword.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161038" data-linked-resource-container-version="3"></span></p></li>
+       <li>Select the <strong>OK</strong> button.&nbsp;The users will be required to enter a new password the next time they login.</li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

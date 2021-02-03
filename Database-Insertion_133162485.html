@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Database Insertion</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Database-Communication-Points_133162442.html">Database Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Database Insertion</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162485/133162489.jpg" data-image-src="attachments/133162485/133162489.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162489" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image022.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162485" data-linked-resource-container-version="7"></span></p>
+      <p>The <strong>Database Insertion</strong> communication point&nbsp;is used for adding information into a database table or updating existing rows in a database table. It can be used in any situation where the user wants to insert or update one row into a database table for every message it receives, effectively fulfilling an archiving role.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Database-Components-Best-Practice-Guide_133161762.html">Database Components Best Practice Guide</a> for guidance on the usage of database queries.</p>
+       </div>
+      </div>
+      <p>Supported Operational Modes: <em>Output</em>.</p>
+      <h2 id="DatabaseInsertion-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition</p></td>
+          <td class="confluenceTd"><p>The name of the message definition file to use to extract the field values from the message to be inserted into the database. The message definition to use when parsing.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The type of database to connect to:</p>
+            <ul>
+             <li><code>Microsoft SQL Server - Microsoft Driver</code> - the com.microsoft.sqlserver.jdbc.SQLServerDriver <span>is used to enable access.</span></li>
+             <li><code>Microsoft SQL Server - jTDS</code> - the net.sourceforge.jtds.jdbc.Driver&nbsp;<span>is used to enable access.</span> <code><br></code></li>
+             <li><code>Oracle</code> - the oracle.jdbc.OracleDriver is used to enable access.</li>
+             <li><code>MySQL</code> - you must download the MySQL JDBC driver (com.mysql.jdbc.Driver) and attach it to the communication point <span>as an auxiliary file</span>. If you want to use the <a href="https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-overview.html" rel="nofollow" class="external-link" title="Follow link">MySQL Connector/J</a> driver (com.mysql.cj.jdbc.Driver), then you must select <code>Manual Setting</code>.</li>
+             <li><code>Microsoft Access</code> - the sun.jdbc.odbc.JdbcOdbcDriver is used to enable access.</li>
+             <li><code>PostgreSQL</code> - the org.postgresql.Driver is used to enable access.</li>
+             <li><code><span>Manual Setting</span></code><span> - </span><span><span>the JDBC driver and database URL must be included in the configuration file. Refer to </span> <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> <span>for details.</span> </span></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Host</td>
+          <td class="confluenceTd"><p>The hostname/IP address of the database to connect to.</p><p>This property is available only if <strong>Database</strong> is not set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>The port number to connect to on the database. <span>If you leave this field blank or set this to </span><code>0</code><span> (zero), the default port for that database type is used.</span></p><p>This property is available only if <strong>Database</strong> is <span>not set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database Name</p></td>
+          <td class="confluenceTd"><p>The name of the database. <span>If </span><strong>Database</strong><span> is set </span>to <code>Microsoft Access</code>,<span> the name of the data source should be provided.</span></p><p>This property is available only if <strong>Database</strong> <span>is </span><span>not set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JDBC Driver</p></td>
+          <td class="confluenceTd"><p>The name of the JDBC driver class.</p><p>This property is available only if <strong>Database</strong> is set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database URL</p></td>
+          <td class="confluenceTd"><p>The URL of the database to which to connect.</p><p>This property is available only if <strong>Database</strong> is set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The username for database access.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p>The password for database access.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Additional Connection Properties</p></td>
+          <td colspan="1" class="confluenceTd"><p>A list of name/value pairs of message properties to be set on the database connection.</p><p>The listed properties are not used when the <strong>Database</strong> property is set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database Table</p></td>
+          <td class="confluenceTd"><p>The name of the database table to insert information from each message into.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Column Values</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The columns in the database table to insert into (when running in insertion mode), or the columns to be updated (when running in update mode). It also specifies the type and value of the data to insert into those columns.</p>
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162485/133162488.png" data-image-src="attachments/133162485/133162488.png" data-unresolved-comment-count="0" data-linked-resource-id="133162488" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="columnvalues.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162485" data-linked-resource-container-version="7"></span></p>
+            <p>There are three columns in the column values dialog: <strong>Column Name</strong>, <strong>Value</strong>, and <strong>Type</strong>. Specify the column name in the database table you want to insert information into in the <strong>Column Name</strong> column. In the <strong>Type</strong> column, specify the type of information to be inserted.</p>
+            <p>There are six information type choices:</p>
+            <ul>
+             <li><p><code>Null</code> - inserts "null" into the database column; do not use the <strong>Value</strong> column.</p></li>
+             <li><p><code>Body</code> - inserts the full message body as a byte array into the database column. For Oracle® databases, the type of this column should be BLOB, and for Microsoft SQL Server databases it should be IMAGE. Do not use the <strong>Value</strong> column.</p></li>
+             <li><p><code>Timestamp</code> - inserts the current date/time as a timestamp; do not use the <strong>Value</strong> column.</p></li>
+             <li><p><code>Literal</code> - inserts the literal value specified in the <strong>Value</strong> column as a string; for example: <code>fred</code>.</p></li>
+             <li><p><code>Field</code> - inserts the value of the field from the message specified by the <strong>Value</strong> column.</p></li>
+             <li><p><code>Property</code> - inserts the value of the message property specified by the <strong>Value </strong>column.</p></li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>CLOB is not supported on this communication point.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>Determines whether the communication point should run in insertion or update mode:</p>
+           <ul>
+            <li><code>Insert</code><span> (default).</span></li>
+            <li><code>Update</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Update Where Clause</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>When running in update mode this parameter specifies the column names and values used to build up the WHERE clause of the SQL UPDATE statement. If no columns are specified here, all rows in the database are updated.</p>
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162485/133162487.png" data-image-src="attachments/133162485/133162487.png" data-unresolved-comment-count="0" data-linked-resource-id="133162487" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="UpdateWhereClause.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162485" data-linked-resource-container-version="7"></span></p>
+            <p>There are four columns for each parameter: <strong>Column Name</strong>, <strong>Operator</strong>, <strong>Value</strong> and <strong>Type</strong>. Specify the column name in the database table you want to insert information into in the <strong>Column Name</strong> column. In the <strong>Type</strong> column, specify the type of information to be inserted.</p>
+            <p>There are five information type choices:</p>
+            <ul>
+             <li><p><code>Null</code> uses "null" for the type comparison; do not use the <strong>Value</strong> column.</p></li>
+             <li><p><code>Timestamp</code> uses the current date/time as a timestamp; do not use the <strong>Value</strong> column.</p></li>
+             <li><p><code>Literal</code> uses the literal value specified in the <strong>Value</strong> column as a string; for example: <code>fred</code>.</p></li>
+             <li><p><code>Field</code> uses the value of the field from the message specified by the <strong>Value</strong> column.</p></li>
+             <li><p><code>Property</code> uses the value of the message property specified by the <strong>Value</strong> column.</p></li>
+            </ul>
+            <p><span>Four operators are currently available for comparisons: </span><code>Equal</code><span>, </span><code>Is</code><span>, </span><code>Like</code><span>, and </span><code>Not Equal</code><span>.</span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Query Timeout</p></td>
+          <td class="confluenceTd"><p>Used to specify how long, in seconds, a remote operation can take before the procedure times out. The default value is 0. The timeout should be applied to all SQL/procedure queries in the configuration file.</p><p>It is important to set a suitable timeout to ensure that queries do not block indefinitely as this would manifest as a hang in Rhapsody, which could block either a communication point thread or a route executor thread. Long queries could occur due to one of the following:</p>
+           <ul>
+            <li>Performance issues within the database.</li>
+            <li>Poor database configuration such as lack of indexing.</li>
+            <li>Poor database query design.</li>
+            <li>Locks on database resources by another application or deadlocks within the <span>database</span>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Socket Timeout</td>
+          <td colspan="1" class="confluenceTd"><p>Specifies how long, in seconds, the underlying connection should remain open before timing out. The socket timeout prevents Rhapsody from waiting indefinitely for results from a database in the event Rhapsody loses its connection to the database.</p><p>A value of zero indicates the timeout is not configured.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Treat Deadlock as Connection Error</p></td>
+          <td class="confluenceTd"><p>Identifies whether a database deadlock is treated as a connection error or as a message error.</p>
+           <ul>
+            <li><span>Enabled</span> - a deadlock is treated as a connection error, the retry mechanism is invoked and the message is resent.</li>
+            <li><span>Disabled</span> - a deadlock is treated as a message error and results in the message being sent to the <span>Error Queue</span>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Treat Query Timeout as Connection Error</p></td>
+          <td class="confluenceTd"><p>Identifies whether a database query timeout is treated as a connection error or as a message error.</p>
+           <ul>
+            <li><span>Enabled</span> - a deadlock is treated as a connection error, the retry mechanism is invoked and the message is resent.</li>
+            <li><span>Disabled</span> - a deadlock is treated as a message error and results in the message being sent to the Error Queue.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

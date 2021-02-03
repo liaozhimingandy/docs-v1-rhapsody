@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Allocating Memory to Rhapsody</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Pre-installation_133164186.html">Pre-installation</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Allocating Memory to Rhapsody</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Memory recommendations are based on allocation of half of the available physical memory to Rhapsody, with the remaining memory available for Java native memory, OS memory and disk caching requirements. This configuration is recommended to minimize problems with garbage collection, and is especially important on virtual machine-based machines. If other applications are running on the same server as Rhapsody (not recommended), the memory usage of the other applications must be taken into account, for example:</p>
+      <ul>
+       <li>Medium standalone:
+        <ul>
+         <li>8 GB server memory.</li>
+         <li>4 GB allocation to Rhapsody.</li>
+        </ul></li>
+       <li>Medium with other application:
+        <ul>
+         <li>12 GB server memory.</li>
+         <li>4 GB recommended by other applications’ documentation.</li>
+         <li>4 GB allocated to Rhapsody.</li>
+        </ul></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Allocating more RAM does not necessarily mean better performance. Doing so increases the time taken for the JVM to run its Garbage Collection process, which may result in Rhapsody ceasing to process messages.</p>
+       </div>
+      </div>
+      <p>Rhapsody is subject to the Java memory management model. Consequently, allocating more memory to the heap does not necessarily improve performance. A large heap allocated to Rhapsody may result in noticeable performance degradation while the full garbage collection process operates. Memory tuning, therefore, aims to provide sufficient memory for the base configuration load as well as sufficient headroom to manage the message load efficiently, while minimizing both the frequency and length of the full garbage collection events.</p>
+      <p>Rhapsody is sensitive to memory performance. The host should be configured such that memory swapping or paging is not required, as this would impact the engine performance.</p>
+      <p><span>Rhapsody captures a range of statistical memory related data which is useful in managing the health of your Rhapsody engine. Refer to </span> <a href="System-Monitor_133163832.html#SystemMonitor-SystemPerformance">System Performance</a> <span> for details.</span></p>
+      <h2 id="AllocatingMemorytoRhapsody-JavaMemoryLayout">Java Memory Layout</h2>
+      <p>In order to diagnose out-of-memory (OOM) errors or performance problems in a Java application, one must have a fundamental understanding of a Java process's memory structure. When an application is launched, one instance of a JVM (Java Virtual Machine) is instantiated on the system. So, typically each individual Java application is hosted in its own JVM (there are exceptions such as applications launched within an Application Server hosted on one JVM).</p>
+      <p>Upon application startup, the JVM allocates a Java Heap for use by managed Java objects in the application (the size is configurable using the -Xms and -Xmx settings). The Java Heap is allocated as one continuous block of memory in the process virtual address space. The maximum value (-Xmx) is reserved and the minimum value (-Xms) is also committed. In other words, they are backed by actual memory on the system as opposed to just reserved in the process address space. The Java Heap itself is allocated as a portion of the JVM Process Heap. Therefore, if there is an upper limit to the size of the JVM Process Heap, the Java Heap settings reduce the size of the available JVM Process Heap. This is not a concern on 64-bit systems. But, on 32-bit systems which use 32-bit pointers, this limits the range of virtual addresses available on the machine, thereby restricting the size of the JVM Process Heap and consequently the size of the Java Heap.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>As of the Java 8 upgrade in Rhapsody 6.2, the PermSize and MaxPermSize JVM parameters are ignored and a warning is issued if they are present. By default, class metadata allocation is only limited by the amount of available native memory. The <a href="#AllocatingMemorytoRhapsody-MetaSpaceSizeTuningOptions">MaxMetaspaceSize</a> parameter is now used to limit the amount of native memory allocated for class metadata. It is analogous to the now-defunct MaxPermSize parameter.</p>
+       </div>
+      </div>
+      <span class="conf-macro output-inline conf-macro output-inline" data-hasbody="true" data-macro-name="show-if"><p>Use the following interactive Rhapsody Memory Allocation tool to assist you in determining your memory requirements:</p><iframe src="Memory-Allocation-Tool.html" width="100%" height="800" class="conf-macro output-block" data-hasbody="true" data-macro-name="iframe">&amp;amp;amp;amp;amp;lt;p&amp;amp;amp;amp;amp;gt;&amp;amp;amp;amp;nbsp;&amp;amp;amp;amp;amp;lt;/p&amp;amp;amp;amp;amp;gt;</iframe></span>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Rhapsody-Restarts_133164123.html">Rhapsody Restarts</a> for details on Garbage Collection Errors.</p>
+       </div>
+      </div>
+      <h3 id="AllocatingMemorytoRhapsody-JavaHeap">Java Heap</h3>
+      <p>The JVM allocates a separate Java Heap for use by the application instead of the entire JVM Process Heap. There are a number of benefits to the JVM handling the memory management on behalf of the application:</p>
+      <ul>
+       <li>Reduced heap fragmentation (when coupled with JVM Garbage Collection (GC) compaction algorithms).</li>
+       <li>As memory allocations or operations in the Java Heap are managed by the JVM, the JVM can throw Null Pointer Exceptions when invalid memory access occurs in the application. In contrast, this would result in a Segmentation Fault within a native application which would crash the application.</li>
+       <li>Memory is committed up front as the heap expands according to the GC algorithms in place. As a result, allocation for individual Java objects from the already committed Java Heap is very fast.</li>
+      </ul>
+      <h3 id="AllocatingMemorytoRhapsody-JavaHeapStructure">Java Heap Structure</h3>
+      <p>The Java Heap is divided into the Young Generation and the Old Generation. The Young Generation is further divided into an Eden Space and a Survivor Space. The Eden Space represents the portion of the heap where new objects are created. In a multi-threaded environment, this can lead to lock contention as objects are allocated by different threads within the Eden Space.</p>
+      <p>Objects are moved to the Old Generation memory space known as the Tenured Space if they are not garbage collected as a result of one or more minor GC cycles (they first transition to the Survivor Space). The significance of this from a debugging perspective is that a full GC cycle only occurs once the Tenured Space is exhausted and the Tenured Space is only exhausted if there are sufficient objects with long-lived references that have transitioned from the Young Generation to the Old Generation. Therefore, if the Java Heap is exhausted, there is either insufficient heap allocated for the application's needs or there are objects present with references that should not exist.</p>
+      <h3 id="AllocatingMemorytoRhapsody-JVMProcessHeapStructure">JVM Process Heap Structure</h3>
+      <p>The JVM Process Heap is comprised of the following memory blocks:</p>
+      <ul>
+       <li>The Java Heap tuned with the -Xms and -Xmx options.</li>
+       <li>Code Generation - used to convert and store bytecode to native code (this is typically a very small portion of the JVM Process Heap).</li>
+       <li>Socket buffers - each socket connection will include a send and receive buffer (the size can be set in the application). Again, this is typically small but for an application with thousands of socket connections, it may become significant. For example, a buffer size of 64kb per connection for 1,000 connections leads to approximately 64Mb being used.</li>
+       <li>Thread stacks - they can become significant for an application such as Rhapsody which uses many threads. Each thread has a separate memory area assigned for its stack (which represents the instruction stack and data of that thread's execution). This is configurable on a global basis using -Xss and on a per-thread basis as an option in the constructor (however, in practice this is not possible as the JVM is free to disregard this setting). Default stack sizes vary on a per-platform basis and are between 320kb and 1Mb.</li>
+       <li>Direct Memory Space for memory mapped files and direct allocations of memory in non-Java Heap (in other words, through certain ByteBuffer operations).</li>
+       <li>Java Native Interface (JNI) space including code as well as native requirements.</li>
+       <li>Memory requirements for the Garbage Collector such as thread and GC information.</li>
+      </ul>
+      <p>Sufficient physical memory should exist on the system to accommodate the entire JVM Process Heap, not just the Java Process Heap and the other applications on the system. Over-committing a system running Rhapsody by encroaching onto virtual memory is strongly discouraged because of the impact swapping has on full GC times. Refer to the interactive diagram for details.</p>
+      <h3 id="AllocatingMemorytoRhapsody-GarbageCollectionandMemoryTuning">Garbage Collection and Memory Tuning</h3>
+      <p>The Java Virtual Machine Garbage Collector has configurable modes of operation, each of which can have a significant impact on both throughput and garbage collection times. The Java Virtual Machine can be tuned and configured by setting various options in the <code>wrapper.conf</code> file found under the Rhapsody installation directory in the <code>bin</code> directory.</p>
+      <p>To enable an option, add the following line to the <code>wrapper.conf</code> file:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>wrapper.java.additional.&lt;n&gt;=&lt;OPTION&gt;</pre> 
+       </div>
+      </div>
+      <p>where:</p>
+      <ul>
+       <li><code>&lt;n&gt;</code> follows sequentially after the last wrapper option in <code>wrapper.conf</code>.</li>
+       <li><p><code>&lt;OPTION&gt;</code> refers to one of the following garbage collection or memory tuning options.</p></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Before deploying a production system, the application should be profiled under different load conditions in order to determine the memory requirements for the various <span class="confluence-link">allocations</span>.</p>
+       </div>
+      </div>
+      <h4 id="AllocatingMemorytoRhapsody-JavaHeapSizeTuningOptions">Java Heap Size&nbsp;Tuning Options</h4>
+      <ul>
+       <li><code>-Xms</code> - initial Java Heap size (committed on startup).</li>
+       <li><code>-Xmx</code> - maximum heap size (reserved on startup).</li>
+      </ul>
+      <h4 id="AllocatingMemorytoRhapsody-MetaSpaceSizeTuningOptions">MetaSpace Size Tuning Options</h4>
+      <ul>
+       <li><code>-XX:MaxMetaspaceSize</code> <span style="font-family: Arial , Helvetica , MingLiU , sans-serif;line-height: 13.0pt;">- maximum MetaSpace size.</span></li>
+      </ul>
+      <h4 id="AllocatingMemorytoRhapsody-StackSizeTuningOption">Stack Size Tuning Option</h4>
+      <ul>
+       <li><code>-Xss</code> - stack size for each thread rounded according to Platform settings.</li>
+      </ul>
+      <h4 id="AllocatingMemorytoRhapsody-TuningOptionsUsageExample">Tuning Options Usage Example</h4>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">#********************************************************************
+# Common VM Options (sequence range 1-49)
+#********************************************************************
+wrapper.java.additional.1=-server
+wrapper.java.additional.2=-Djava.awt.headless=true
+wrapper.java.additional.3=-XX:+DisableExplicitGC
+# Separate config.ini location and bundle deployer working directories (into shared/config areas)
+wrapper.java.additional.4=-Dosgi.configuration.cascaded=true
+wrapper.java.additional.5=-Dosgi.sharedConfiguration.area=bin
+wrapper.java.additional.6=-Dosgi.configuration.area=equinox
+# https://bugs.eclipse.org/bugs/show_bug.cgi?id=243383 - default configuration directory is created at top level
+wrapper.java.additional.7=-Dosgi.configuration.area.default=equinox
+# Override default installation location so startup.jar doesn't have to live in root
+wrapper.java.additional.8=-Dosgi.install.area=.
+wrapper.java.additional.9=-Dosgi.classloader.lock=classname
+wrapper.java.additional.10=-Dorg.eclipse.equinox.http.jetty.autostart=false
+wrapper.java.additional.11=-Dosgi.classloader.singleThreadLoads=true
+wrapper.java.additional.12=-verbose:gc
+
+# Do not change this. Changes to this property should only be made using the environment variable
+# stipulated
+wrapper.java.additional.13=-Dwrapper.log.location="%WRAPPER_LOG_LOCATION%"
+wrapper.java.additional.13.stripquotes=TRUE</pre> 
+       </div>
+      </div>
+      <h2 id="AllocatingMemorytoRhapsody-RhapsodyThreadUsage"><span style="color: rgb(0,0,0);">Rhapsody Thread Usage</span></h2>
+      <p>Rhapsody thread usage is highly dependent on the number of communication points and connections that have been configured. There is a base overhead of threads, for example 30 threads, and an additional overhead of thread per direction per connection for each communication point and a controller thread for the communication point. Therefore, a system with two bi-directional communication points, which support five connections each,&nbsp;have a total of 22 threads (2 x 2 x 5 + 2) plus approximately 30 other threads for various other components. As such, a system which makes use of a large number of communication points or connections has a correspondingly increased number of threads allocated, and this in turn results in a larger amount of memory required in the JVM Process Heap.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

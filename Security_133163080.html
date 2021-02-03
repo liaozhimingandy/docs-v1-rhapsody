@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Security</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+       <li> <span><a href="HL7-Message-Modifier_133163077.html">HL7 Message Modifier</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Security</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Unlike other filters in Rhapsody, the user interface for the HL7 Message Modifier filter uses a web interface, much in the same way as the<a href="Management-Console_133163667.html">&nbsp;Management Console</a>. This web application is hosted by the Rhapsody engine, and is available over the same HTTP(S) ports as the Management Console. When you open the configuration dialog of an HL7 Message Modifier filter in Rhapsody IDE, Rhapsody IDE connects to the web application internally using a standard HTTP or an HTTPS connection, and then hosts the user interface using an embedded instance of <em>Internet Explorer<em>®</em> </em>or<em> Microsoft<em>®</em> Edge</em>.</p>
+      <p>Even when using an HTTP connection (in other words, an unencrypted connection), the password for any user accessing an HL7 Message Modifier filter is never sent over the wire (as is also the case when connecting to the Management Console). The connection, however, is obviously not encrypted or signed. This may not be an issue when connecting to a Rhapsody engine running on the same machine as the IDE or within a trusted network environment. For a secure encrypted connection, you may wish to use an HTTPS connection.</p>
+      <p>Rhapsody IDE can be configured to use an HTTP or HTTPS connection by selecting the same option as for the Management Console on the Rhapsody IDE toolbar:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="80" width="281" src="attachments/133163080/133163082.png" data-image-src="attachments/133163080/133163082.png" data-unresolved-comment-count="0" data-linked-resource-id="133163082" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="toolbar.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163080" data-linked-resource-container-version="10"></span></p>
+      <h2 id="Security-ConfiguringtheHTTPSConnection">Configuring the HTTPS Connection</h2>
+      <p>In order to use the HL7 Message Modifier filter (and the Management Console) over an HTTPS connection, an SSL certificate needs to be available when Rhapsody is started. You can use a certificate purchased from a root certificate authority (CA), or alternatively generate a self-signed certificate (in most cases, you can use a self-signed certificate in internal network scenarios). The primary advantage of a certificate issued by a CA is that there is no need to install it on any client machine (in other words, the machine running Rhapsody IDE or web browser) because the machine would already trust the CA. In contrast a self-signed certificate needs to be explicitly installed on the client machine in order for it to be trusted.</p>
+      <p>In addition to being a trusted SSL certificate, the certificate must have not expired, and must include the hostname of the Rhapsody server as all web browsers will check this before allowing it to be used.</p>
+      <p>The first time a Rhapsody engine is started, it generates a self-signed certificate if HTTPS is enabled and no SSL certificate is available. This certificate can of course be replaced by the system administrator (refer to <a href="Using-a-User-defined-Certificate-for-the-HTTPS-Mode_133163995.html">Using a User-defined Certificate for the HTTPS Mode</a> for details), but is available to be used immediately if only a self-signed certificate is required. This certificate is generated with the following attributes:</p>
+      <ul>
+       <li>2048-bit RSA key.</li>
+       <li>SHA-512 hash algorithm.</li>
+       <li>Includes all hostnames (except 'localhost') configured on the Rhapsody server.</li>
+       <li>Constrained so that it cannot be used to sign any other certificates (in other words, if you trust this certificate on a client machine, you do not have to worry about it being used to generate many other certificates that you will automatically trust).</li>
+      </ul>
+      <h2 id="Security-InstallinganSSLCertificateontheClientMachine">Installing an SSL Certificate on the Client Machine</h2>
+      <p>As noted, the client machine running Rhapsody&nbsp;IDE (or the web browser) is required to trust the SSL certificate presented by the Rhapsody server. This can be achieved in the following ways:</p>
+      <ul>
+       <li>Purchasing an SSL certificate from a trusted root certificate authority. In this case there is no need to install the certificate at all as it will be automatically trusted by the Rhapsody IDE and web browsers (provided that it has not expired and the hostnames in the certificate match the hostname used to connect to it).</li>
+       <li>Generating an SSL certificate using a site-specific root certificate authority, where the site-specific root certificate is already trusted by the client machine.</li>
+       <li>Generating a self-signed SSL certificate for the Rhapsody server, and explicitly install this certificate on the client machine to establish the trust relationship.</li>
+      </ul>
+      <p>Rhapsody IDE provides a straightforward way to install this certificate on the client machine if the certificate is valid and the hostnames match. To install the certificate manually:</p>
+      <ol>
+       <li>Navigate to the secure Management Console at <code>https://&lt;enginename&gt;:&lt;port&gt;</code> (for example, <code><span class="nolink">https://rhapsody:8444</span></code>).</li>
+       <li>View the certificate (some browsers require you to allow it for this session first before showing it to you).</li>
+       <li><p>An option is then generally available to either install the certificate, or copy it to a file.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p><em>Internet Explorer</em> does not appear to provide these options unless you first add the Rhapsody server to the list of trusted sites.</p>
+         </div>
+        </div></li>
+      </ol>
+      <p>For <em>Internet Explorer<em>®</em></em>, all certificates can be viewed and managed by performing the following steps:</p>
+      <ol>
+       <li>Start <em>Internet Explorer<em>®</em></em>.</li>
+       <li>Navigate to <strong>Tools&gt;Internet options</strong>.</li>
+       <li>Select the <strong>Content</strong> tab.</li>
+       <li>Click the <strong>Certificates</strong> button about half-way down this tab.</li>
+       <li>Select the <strong>Trusted Root Certificate Authorities</strong> tab in the new dialog.</li>
+       <li>Certificates can now be added, removed, or exported using the buttons available on this page.</li>
+      </ol>
+      <h2 id="Security-UntrustedSSLCertificateWhenLaunchingtheHL7MessageModifierFilter">Untrusted SSL Certificate When Launching the HL7 Message Modifier Filter</h2>
+      <p>If Rhapsody IDE detects an untrusted SSL certificate when launching the HL7 Message Modifier filter, it displays the following dialog:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="592" src="attachments/133163080/142329779.png" data-image-src="attachments/133163080/142329779.png" data-unresolved-comment-count="0" data-linked-resource-id="142329779" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="UntrustedSSLCertificate.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163080" data-linked-resource-container-version="10"></span></p>
+      <p>The option to install the certificate is only available when the certificate is self-signed and constrained so that it cannot be used to sign other certificates. Installing the certificate places it into the trusted root certificate authorities for the current <em>Windows®</em> user if accepted as trusted by the user through a <em>Windows®</em> confirmation dialog. The <strong>View Certificate</strong> link allows you to inspect the certificate prior to installing it. You can manually install the certificate instead if you so desire.</p>
+      <p>For security reasons, the IDE does not allow the installation of certificates that are not self-signed or not restricted to prevent being used to sign off other certificates. These can of course be installed manually (the root issuer's certificate) to establish the trust relationship.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody IDE uses the same certificate store as a web browser running on that machine. Therefore, using an untrusted certificate error implies that a web browser connecting to the Management Console via HTTPS to the same engine from the Rhapsody IDE machine would lead to the same problem. Installing the certificate here also establishes the trust relationship for the web browser connecting to the secure Management Console.</p>
+       </div>
+      </div>
+      <p>Alternatively, you have the option of reverting to using an HTTP instead of HTTPS connection, which does not require an installed SSL certificate.</p>
+      <h2 id="Security-InvalidSSLCertificateWhenLaunchingtheHL7MessageModifier">Invalid SSL Certificate When Launching the HL7 Message Modifier</h2>
+      <p>If Rhapsody IDE detects an invalid SSL certificate when launching the HL7 Message Modifier filter, it displays the following dialog:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163080/142329775.png" data-image-src="attachments/133163080/142329775.png" data-unresolved-comment-count="0" data-linked-resource-id="142329775" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="InvalidSSLCertificate.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163080" data-linked-resource-container-version="10"></span></p>
+      <p>The SSL certificate is considered invalid when it is expired (or not yet active), or if Rhapsody&nbsp;IDE is unable to use any of the hostnames contained in the certificate to connect to the Rhapsody engine.</p>
+      <p>If the certificate has expired then a new one must be generated and trusted by the client machine.</p>
+      <p>If the hostnames do not match, then either DNS issues should be resolved so that the client machine can use the hostnames in the certificate to connect to the Rhapsody server, or a new SSL certificate should be generated using additional DNS names for the server. Rhapsody&nbsp;IDE is able to generate SSL certificates from its certificate manager if required.</p>
+      <p>Unlike the case of an untrusted SSL certificate, there is no option available to install the certificate on the client machine. Since the issue lies with the validity of the certificate itself rather than the trust relationship, installing the certificate does not help resolve the problem.</p>
+      <h2 id="Security-PreventingHTTPFallback">Preventing HTTP Fallback</h2>
+      <p>If you want to allow HTTPS connections only, then disable the HTTP connector on the Rhapsody engine so that all connections to the HL7 Message Modifier filter (and the Management Console) have to be made over HTTPS. Refer to <a href="Using-a-User-defined-Certificate-for-the-HTTPS-Mode_133163995.html">Using a User-defined Certificate for the HTTPS Mode</a> for details.</p>
+      <p>Alternatively, the option to connect using HTTP when an SSL error of some description occurs can be disabled on the client via a registry key by creating a DWORD registry value called <code>AllowMessageModifierHttpFallback</code> with a value of zero in one of the following locations:</p>
+      <ul>
+       <li><code>HKEY_CURRENT_USER\Software\Rhapsody\Rhapsody IDE 6\Settings</code> (affects the current <em>Windows</em> user only).</li>
+       <li><code>HKEY_LOCAL_MACHINE\Software\<span>Rhapsody</span>\Rhapsody IDE 6\Settings</code> (32-bit only).</li>
+       <li><p><code>HKEY_LOCAL_MACHINE\Software\Wow6432Node\<span>Rhapsody</span>\Rhapsody IDE 6\Settings</code> (64-bit only).</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>If the value is present and set to zero in any of these locations, the <strong>Connect Using HTTP</strong> button is unavailable when an SSL error occurs.</p>
+         </div>
+        </div></li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

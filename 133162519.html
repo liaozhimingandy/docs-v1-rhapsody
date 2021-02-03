@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Zmodem Serial (RS-232)</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Serial_133162510.html">Serial</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Zmodem Serial (RS-232)</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162519/133162520.jpg" data-image-src="attachments/133162519/133162520.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162520" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_commptdefault.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162519" data-linked-resource-container-version="1"></span></p>
+      <p>The&nbsp;<strong>Zmodem Serial</strong>&nbsp;communication implements the ZModem protocol over a serial (RS-232) port.</p>
+      <p>Refer to <a href="#ZmodemSerial(RS-232)-PublishedProperties">Published Properties</a> for a list of properties associated with this communication point.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Serial-Port-Problems-on-UNIX_133164126.html">Serial Port Problems on UNIX</a> for details about common problems when running serial communication points on Unix.</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Serial communication points are only available on Windows and Linux (unavailable on HPUX, Solaris and AIX).</p>
+       </div>
+      </div>
+      <p>Supported Operational Modes: <em>Input, Output</em>.</p>
+      <h2 id="ZmodemSerial(RS-232)-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table id="TBL1565043148399" class="confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port Name</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the name of the port to which you want to connect:</p>
+           <ul>
+            <li><code>COM1</code><span> (default).</span></li>
+            <li><code>LPT1</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Baud Rate</p></td>
+          <td class="confluenceTd"><p>Specifies the speed of the serial connection between <code>50</code> and <code>115200</code> baud (the default is <code>9600</code> baud).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Stop Bits</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the number of stop bits (the default is <code>1</code>).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Parity</p></td>
+          <td class="confluenceTd"><p>Specifies the data parity mode:</p>
+           <ul>
+            <li><code>Even</code>.</li>
+            <li><code>Mark</code>.</li>
+            <li><code>None</code> (default).</li>
+            <li><code>Odd</code>.</li>
+            <li><code>Space</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Flow Control</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the Flow Control mode:</p>
+           <ul>
+            <li><code>None</code><span> (default).</span></li>
+            <li><code>RTS/CTS</code><span>.</span></li>
+            <li><code>XON/XOFF</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Init Sequence</p></td>
+          <td class="confluenceTd"><p>The sending/expected sequence pairs which will be used for the serial transport initialization before sending the message to the remote host.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Init Timeout</p></td>
+          <td class="confluenceTd"><p>The length of time, in milliseconds, to wait for the init sequence to be processed. <code>0</code> (zero) means there is no limit. The minimum value is <code>60000</code> milliseconds (60 seconds).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Streaming Mode</p></td>
+          <td class="confluenceTd"><p>Whether or not to use data streaming mode:</p>
+           <ul>
+            <li><code>true</code> - enabled.</li>
+            <li><code>false</code> (default) - disabled.</li>
+           </ul><p>This should be disabled for noisy lines.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Whether to log connections:</p>
+           <ul>
+            <li><code>True</code> - establishing and dropping of all connections to the communication point are logged to the log file specified in the <strong>Connection Log File</strong> property.</li>
+            <li><code>False</code> (default).</li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Use of this logging facility slows the communication point down considerably. It is intended for debugging purposes and should not generally be used.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Whether to log data:</p>
+           <ul>
+            <li><code>True</code> - all data passed over the connections of the communication point is logged to the log file. This is potentially a large amount of data.</li>
+            <li><code>False</code> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Whether to log data in hexadecimal&nbsp;form:</p>
+           <ul>
+            <li><code>True</code> - the hexadecimal representation of the data is logged to the log file.</li>
+            <li><code>False</code>&nbsp;(default) - the data is logged exactly as it is as it passes over the communication point connection.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The full file name (path and file name) of the file on the server to which you want to log the information.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Whether to log extra information:</p>
+           <ul>
+            <li><code>None</code>.</li>
+            <li><code>Log Time</code> (default) - log timestamps with each event.</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148399']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148399',[],'style=&quot;width:525&quot;',
+1,'',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h2 id="ZmodemSerial(RS-232)-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table id="TBL1565043148400" class="confluenceTable" width="100%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port Name</p></td>
+          <td class="confluenceTd"><p>Options: <code>COM1</code>, <code>LPT1</code> Default: <code>COM1</code>. Identifies the name of the port to which you want to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Baud Rate</p></td>
+          <td class="confluenceTd"><p>Options: <code>50 - 115200</code> . Default: <code>9600</code>. Identifies the speed of the serial connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Stop Bits</p></td>
+          <td class="confluenceTd"><p>Identifies the number of stop bits. Default: <code>1</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Parity</p></td>
+          <td class="confluenceTd"><p>Options: <code>Even</code>, <code>Mark</code>, <code>None</code>, <code>Odd</code>, <code>Space</code>. Default: <code>None</code>. Identifies the data parity mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Flow Control</p></td>
+          <td class="confluenceTd"><p>Options: <code>None</code>, <code>RTS/CTS</code>, <code>XON/XOFF</code>. Default: <code>None</code>. Identifies the Flow Control mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Init Sequence</p></td>
+          <td class="confluenceTd"><p>The sending/expected sequence pairs which will be used for the serial transport initialization before sending the message to the remote host.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Init Timeout</p></td>
+          <td class="confluenceTd"><p>The length of time, in milliseconds, to wait for the init sequence to be processed. <code>0</code> (zero) means there is no limit. The minimum value is <code>60000</code> milliseconds or 60 seconds.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Streaming Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>true</code>, <code>false</code>. Default: <code>false</code>. Sets whether or not to use data streaming mode. This should be disabled for noisy lines.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Options: <code>true</code>, <code>false</code>. Default: <code>false</code>. If <code>true</code>, establishing and dropping of all connections to the communication point are logged to the log file specified in the <strong>Connection Log File</strong> field. Use of this logging facility will slow the communication point down considerably. It is intended for debugging purposes and should not generally be used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Options: <code>true</code>, <code>false</code>. Default: <code>false</code>. If <code>true</code>, all data passed over the connections of the communication point is logged to the log file. This is potentially a lot of data.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Options: <code>true</code>, <code>false</code>. Default: <code>false</code>. If <code>true</code>, the hexadecimal representation of the data is logged to the log file. If <code>false</code>, the data is logged exactly as it is as it passes over the communication point connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The full file name (path and file name) of the file on the server to which you want to log the information.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Options: <code>None</code>, <code>Log Time</code>. Default: <code>Log Time</code><br> If set to <code>Log Time</code>, the timestamps will be logged with each event.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Filename</p></td>
+          <td class="confluenceTd"><p>Define the filename to give messages that are sent to the remote host. This can be entered directly or selected from a list of available Rhapsody variables. Refer to <a href="Rhapsody-Variables_133163434.html">Rhapsody Variables</a> for details.</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148400']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148400',[],'style=&quot;width:325&quot;',
+1,'',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','100%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <h2 id="ZmodemSerial(RS-232)-PublishedProperties">Published Properties</h2>
+      <p>Published properties of an INPUT communication point on a route are added to all drop-down lists where message properties can be selected on that route. For the&nbsp;Zmodem Serial communication point, these are:</p>
+      <ul>
+       <li><code>Full Filename</code> - the full filename of the file associated with the received message.</li>
+       <li><code>Base Filename</code> - the base filename (that is everything before the last '.' in the full filename) of the file associated with the received message. If there is no '.' then it is equal to the full filename.</li>
+       <li><code>Suffix</code> - the suffix (everything from the last '.' in the full filename, including the '.') of the file associated with the received message. If there is no '.' then it is empty.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Web Service User Store Administration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Administration-REST-API-Methods_133161103.html">Administration REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Web Service User Store Administration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods for managing the&nbsp;web service user store:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005250 {padding: 0px;}
+div.rbtoc1565147005250 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005250 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147005250"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#WebServiceUserStoreAdministration-PUT/admin/webservices/users">PUT /admin/webservices/users</a></li> 
+        <li><a href="#WebServiceUserStoreAdministration-GET/admin/webservices/users">GET /admin/webservices/users</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="WebServiceUserStoreAdministration-PUT/admin/webservices/users">PUT /admin/webservices/users</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/webservices/users</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Clears the existing web service user store and loads the provided one.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/xml<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+xml<br></code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Parameter</p></th>
+          <td class="confluenceTd"><p><code>commitComment</code> - a string containing the comment to use for the commit.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Request Body</strong></td>
+          <td colspan="1" class="confluenceTd"><p>The content of the web service user store in XML format:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;WebServicesUserStore version="5"&gt;
+    &lt;passwordStorageTechnique&gt;STORE_HASHED_PASSWORDS&lt;/passwordStorageTechnique&gt;
+    &lt;user&gt;
+        &lt;id&gt;0&lt;/id&gt;
+        &lt;name&gt;b1&lt;/name&gt;
+        &lt;password/&gt;
+    &lt;/user&gt;
+    &lt;user&gt;
+		&lt;id&gt;1&lt;/id&gt;
+		&lt;name&gt;b2&lt;/name&gt;
+		&lt;password isVariable="true"&gt;$(bingpwd)&lt;/password&gt;
+    &lt;/user&gt;
+    &lt;user&gt;
+        &lt;id&gt;2&lt;/id&gt;
+        &lt;name&gt;b3&lt;/name&gt;
+        &lt;password isVariable="true"&gt;$(bingpwd)&lt;/password&gt;
+        &lt;certificateAlias&gt;rest&lt;/certificateAlias&gt;
+    &lt;/user&gt;
+    &lt;user&gt;
+		&lt;id&gt;3&lt;/id&gt;
+		&lt;name&gt;b3&lt;/name&gt;
+		&lt;password&gt;&lt;/password&gt;
+	&lt;/user&gt;
+	&lt;user&gt;
+		&lt;id&gt;4&lt;/id&gt;
+		&lt;name&gt;b4&lt;/name&gt;
+		&lt;password&gt;ToraTora&lt;/password&gt;
+    &lt;/user&gt;
+&lt;/WebServicesUserStore&gt;</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - the web service user store was loaded successfully.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Load web services users REST API.'</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="WebServiceUserStoreAdministration-GET/admin/webservices/users">GET /admin/webservices/users</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/webservices/users</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the web service user store with the passwords omitted.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/xml<br></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_1+xml</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the web service user store information in XML format.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;WebServicesUserStore version="5"&gt;
+  &lt;passwordStorageTechnique&gt;STORE_ENCRYPTED_PASSWORDS&lt;/passwordStorageTechnique&gt;
+  &lt;user&gt;
+    &lt;id&gt;0&lt;/id&gt;
+    &lt;name&gt;anna&lt;/name&gt;
+    &lt;password isVariable="true"&gt;$(a)&lt;/password&gt;
+  &lt;/user&gt;
+  &lt;user&gt;
+    &lt;id&gt;1&lt;/id&gt;
+    &lt;name&gt;bob&lt;/name&gt;
+    &lt;password/&gt;
+  &lt;/user&gt;
+  &lt;user&gt;
+    &lt;id&gt;2&lt;/id&gt;
+    &lt;name&gt;sally&lt;/name&gt;
+    &lt;password/&gt;
+  &lt;/user&gt;
+&lt;/WebServicesUserStore&gt;
+</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save web services users REST API.'</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

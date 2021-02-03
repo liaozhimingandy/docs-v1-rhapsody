@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Connection Object</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Connection Object</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Connection object is used by JavaScript functions that implement a protocol for the <a href="JavaScript-TCP-Server_133162415.html">JavaScript TCP Server</a>&nbsp;and&nbsp;<a href="JavaScript-TCP-Client_133162421.html">JavaScript TCP Client</a> communication points. This object provides access to the underlying transport connection.</p>
+      <h2 id="ConnectionObject-Methods">Methods</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Method</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>readByte()</code></p></td>
+          <td class="confluenceTd"><p>Reads a byte from the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>readBlock()</code></p></td>
+          <td class="confluenceTd"><p>Reads a block of bytes (up to 1024) from the connection and returns them as an array of bytes.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>readBlock(size)</code></p></td>
+          <td class="confluenceTd"><p>Reads a block of bytes (up to the size specified) from the connection and returns them as an array of bytes.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>readString()</code></p></td>
+          <td class="confluenceTd"><p>Reads a block of bytes (up to 1024) from the connection and returns them as a string using the platform's default character encoding system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>readString(size)</code></p></td>
+          <td class="confluenceTd"><p>Reads a block of bytes (up to the size specified) from the connection and returns them as a string using the platform's default character encoding system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>readString(encoding)</code></p></td>
+          <td class="confluenceTd"><p>Reads a block of bytes (up to 1024) from the connection and returns them as a string using the specified character encoding system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>readString(encoding, size)</code></p></td>
+          <td class="confluenceTd"><p>Reads a block of bytes (up to the size specified) from the connection and returns them as a string using the specified character encoding system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>writeHex(hex)</code></p></td>
+          <td class="confluenceTd"><p>Takes a hex-encoded binary block, decodes it and writes it to the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>write(byte)</code></p></td>
+          <td class="confluenceTd"><p>Writes a single byte to the connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>write(string)</code></p></td>
+          <td class="confluenceTd"><p>Writes the string to the connection using the default character encoding system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>write(string, encoding)</code></p></td>
+          <td class="confluenceTd"><p>Writes the string to the connection using the specified character encoding system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>flush()</code></p></td>
+          <td class="confluenceTd"><p>Flushes the connection, forcing any buffered output bytes to be written immediately.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ConnectionObject-Example">Example</h2>
+      <p>In the following example, a JavaScript TCP Server and Client pair are used to implement a protocol. This simple protocol prepends "BEGIN" to the beginning of the message, and appends "END" to the end. Suppose the server is an output communication point, the client is an input communication point, and they are both bound to the same port. The send script that has been configured for the output communication point is shown below. It reads the message from the <code>ROMessage</code> object, and writes it to the Connection <code>conn</code>.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Add header
+conn.write("BEGIN");
+
+// Write message
+conn.write(message.text);
+
+// Add footer
+conn.write("END");
+
+conn.flush();</pre> 
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The input communication point's receive script is shown next. It reads from the </span><code style="line-height: 13.0pt;">Connection</code><span style="line-height: 13.0pt;background-color: transparent;"> object <code>conn</code>, checking that it first receives the string "BEGIN", and that it finally receives the string "END". The message, read from the connection, is stored in the Message object result.</span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This receive script is returned regardless of whether the message was received successfully or not. However, no return keyword is required, simply <code>true</code> or <code>false</code>.</p>
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Check message header
+var header = conn.readString(5);
+if (!header.equals("BEGIN")) {
+    throw new java.io.IOException("Cannot receive message, incorrect header");
+}
+
+// Find message body and footer
+var remainingText = conn.readString();
+var bodyLength = remainingText.length - 3;
+result.text = remainingText.substring(0, bodyLength);
+var footer = remainingText.substring(bodyLength);
+
+// Check message footer
+if (!footer.equals("END")) {
+    throw new java.io.IOException("Warning, message did not have correct footer");
+}
+
+// Return true as message has been received successfully
+true; </pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using the Execute Process Filter</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="Execute-Process_133163308.html">Execute Process</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using the Execute Process Filter</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Sometimes it is necessary to execute external applications or commands to perform external message processing tasks from within the Rhapsody engine. These tasks may also return information back to Rhapsody.</p>
+      <p>This example demonstrates how to execute a VB script and an external application written in a programming language such as C# and Visual Basic 6 (VB6). Begin by creating a route that has input and output directory communication points, with one 'Execute' <a href="JavaScript_133163317.html">JavaScript</a> filter and two <a href="Execute-Process_133163308.html">Execute Process</a> filters:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163312/133163313.png" data-image-src="attachments/133163312/133163313.png" data-unresolved-comment-count="0" data-linked-resource-id="133163313" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExecuteCommand1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163312" data-linked-resource-container-version="2"></span></p>
+      <p>Configure the Execute Process filter, Execute VB Script:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163312/133163315.png" data-image-src="attachments/133163312/133163315.png" data-unresolved-comment-count="0" data-linked-resource-id="133163315" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExecuteVBScript.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163312" data-linked-resource-container-version="2"></span></p>
+      <p>Where:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Value</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Command Line</p></td>
+          <td class="confluenceTd"><code><span>c:\winnt\system32\cscript.exe //Nologo c:\runVB.vbs Hello</span></code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Standard Error</td>
+          <td class="confluenceTd"><code><span>Discard</span></code></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><code><br></code></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Depending on the <em>Windows</em>® operating system you are using you may need to change the script executable name (<code>cscript.exe</code>) and path (<code>c:\winnt\system32"</code>).</p>
+       </div>
+      </div>
+      <p>Create a VB script such as the one shown below and name the file <code>runVB.vbs</code>.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: vb; gutter: false; theme: Confluence" data-theme="Confluence">WScript.Echo "Rhapsody Rocks!"   
+Set oArgs=wscript.arguments 
+if oArgs.Count &gt; 0 then 
+Dim Argument 
+Argument = LCase(oArgs.Item(i))
+if Argument = "Hello" then
+	WScript.Echo "Got it"
+end if  
+WScript.Echo Argument
+end if
+</pre> 
+       </div>
+      </div>
+      <p>Create another VB script that creates a COM instance and calls a method as shown below. Name this file <code>runCOM.vbs</code>.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: vb; gutter: false; theme: Confluence" data-theme="Confluence">Dim objHTMLGenerator
+Set objHTMLGenerator = createobject("bpmVBDLL.bpmVB")
+dim s
+s = objHTMLGenerator.ConnString 
+WScript.Echo s
+</pre> 
+       </div>
+      </div>
+      <p>An example of code for the COM object in Visual Basic 6 is shown in the following screenshot:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163312/133163314.png" data-image-src="attachments/133163312/133163314.png" data-unresolved-comment-count="0" data-linked-resource-id="133163314" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExecuteCommand2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163312" data-linked-resource-container-version="2"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The VB script must create the COM object each time it is called. Depending on the object actions this could be slow, and a custom filter may be a better approach. A custom filter will require initialization once, however it must be written in Java. The examples above execute the VB script and return <code>WScript.Echo</code> as the message body.</p>
+       </div>
+      </div>
+      <h2 id="UsingtheExecuteProcessFilter-ASimpleC#Application">A Simple C# Application</h2>
+      <p>Command line applications can be called from the&nbsp;Execute Process filter and communication point. The command line application may be written in any language, but the language used may impact the environmental setup and the command line used.</p>
+      <p>Filters expect a message to be returned for further processing and delivery, but the communication point just executes the external command and does not retrieve any possible responses. Parameters may be passed to the command line application. You can pass message properties, the message body or message fields. The example settings below execute an application called <code>console.exe</code> and pass the message property <code>msg</code>.</p>
+      <p>Configure the Execute Process filter,&nbsp;Execute C++ Script, as follows:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163312/133163316.png" data-image-src="attachments/133163312/133163316.png" data-unresolved-comment-count="0" data-linked-resource-id="133163316" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExecuteScript.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163312" data-linked-resource-container-version="2"></span></p>
+      <p>Where:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Value</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Command Line</p></td>
+          <td class="confluenceTd"><code><span>D:\Projects\console\Debug\console.exe $msg$</span></code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span>Standard Error</span></td>
+          <td class="confluenceTd"><code><span>Set as message property</span></code></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br>The following is the code for a very simple C# application. The code to extract the arguments is commented out but left as an example. Notice that the command line application returns an integer; that is, the exit code. The filter sets this exit code as a Rhapsody property called <code>ExitCode</code>&nbsp;after the filter is executed. You could, therefore, use this ExitCode to decide what action to take in your route depending on this value.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">static int Main(string[] args)
+{
+	///Console.In.Read;
+	standardOutput.AutoFlush = true;
+	Console.SetOut( standardOutput);
+	//	for(int i = 0; i &lt; args.Length; i++)
+	//	{
+	//		Console.WriteLine("Arg[{0}] = [{1}]", i, args[i]);
+	//	}
+	Console.Error.Write("Test Error"); 
+	Console.Out.Write("Number of command line parameters = {0}",
+				args.Length);
+	Console.Out.Flush();
+	return 1;
+
+}
+</pre> 
+       </div>
+      </div>
+      <p>The "Standard Out" is what will be returned to the Execute command filter as the message body.</p>
+      <h2 id="UsingtheExecuteProcessFilter-ASimpleVBApplication">A Simple VB Application</h2>
+      <p>The following example is VB6 code for a command line application that returns a return code. Note that it is necessary to call "ExitProcess" so that the application correctly executes and returns correctly within Rhapsody. If ExitProcess is not called, the VB application does not exit correctly, and may cause the Rhapsody thread to hang.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: vb; gutter: false; theme: Confluence" data-theme="Confluence">Public param1 As String
+Public lngReturnValue As Long
+
+Option Explicit
+Private Declare Sub ExitProcess Lib "kernel32" (ByVal uExitCode As Long)
+
+ Sub Main()
+   Dim a_strArgs() As String
+   a_strArgs = Split(Command$, " ")
+  ' For i = LBound(a_strArgs) To UBound(a_strArgs)
+  '    MsgBox a_strArgs(i)
+  ' Next i
+
+  'Do something
+  ExitProcess 6
+ End Sub
+</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

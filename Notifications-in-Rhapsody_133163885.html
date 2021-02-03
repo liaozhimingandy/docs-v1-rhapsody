@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Notifications in Rhapsody</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Notifications_133163884.html">Notifications</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Notifications in Rhapsody</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A component's notifications can be:</p>
+      <ul>
+       <li>Included in a watchlist that users can subscribe to.</li>
+       <li>Configured to be sent to an individual user or an email address</li>
+       <li>Caught by the default notification settings.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The options listed above are in descending order of flexibility.</p>
+       </div>
+      </div>
+      <p>The recommended method for managing notifications, is to create watchlists for logical groupings of components and then add recipients to their required watchlists. It is perfectly valid to have watchlists that overlap which can make management even easier.</p>
+      <h2 id="NotificationsinRhapsody-Watchlists">Watchlists</h2>
+      <p>Watchlists provide a method for logically grouping components together and providing a visual indicator of any alerts occurring on one of the components. They also provide a scheduling mechanism that allows the redirection of notifications to different users based on their defined shifts. The status of all watchlists is displayed on the <a href="Engine-Monitor_133163816.html">Engine Monitor</a> page.</p>
+      <p>Watchlists have the added flexibility of allowing <a href="Watchlists_133163916.html#Watchlists-Scheduling">Scheduling</a>. A schedule allows for the specification of shifts; blocks of time during the day; for example, a 24 hour day would commonly be split into three 8-hour shifts. When a user subscribes to a watchlist that has shifts configured, the user can be set up to only receive notifications during particular shifts and/or on particular days and/or including public holidays. This allows you to configure the notifications to follow your shift roster.</p>
+      <p>Watchlists also support the scheduling of leave for a user. This allows a user to schedule their leave in the system and have their notifications redirected to another user.</p>
+      <h2 id="NotificationsinRhapsody-Individuals/EmailAddresses">Individuals/Email Addresses</h2>
+      <p>Configuring a component to send notifications to an email address or individual is the most granular option but has the following drawbacks:</p>
+      <ul>
+       <li>There is no shift support.</li>
+       <li>There is no leave support.</li>
+       <li>It is more difficult to see who is getting what notifications for each component since there is no grouping.</li>
+      </ul>
+      <h2 id="NotificationsinRhapsody-DefaultNotifications">Default Notifications</h2>
+      <p>The system can be configured with <a href="Default-Settings_133163925.html">Default Notification Settings</a> for all new components that are being added and do not have notifications set up or in case the notification schedule has gaps. The purpose is to handle components that do not have any <code>User</code>, <code>SNMP</code> or an <code>Email Address</code> set up to receive notifications and where watchlists have gaps in the schedule.</p>
+      <p>This is the catch-all method for notifications. The major drawback of having this configured, is that <em>all</em> components and the engine will log to this meaning test routes etc that you may not be interested in receiving notifications from are included.</p>
+      <p>The recommended method for managing notifications, is to create watchlists and then add recipients to their required watchlists. It is perfectly valid to have watchlists that overlap which can make management even easier.</p>
+      <h2 id="NotificationsinRhapsody-NotificationDestinations">Notification Destinations</h2>
+      <p>Notifications can be sent to the following:</p>
+      <ul>
+       <li>Person (24/7) - Enables you to specify a user that these notifications will be sent to 24/7. Each user has their own <code>Email Address</code>, <code>SMS</code> and <code>Pager number</code>.</li>
+       <li>Watchlist -&nbsp;Enables you to specify a watchlist that these notifications should be sent to.</li>
+       <li>Email -&nbsp;Enables you to configure a specific email address to send notifications to 24/7.</li>
+       <li>Windows Event Log -&nbsp;Enables you to send these notifications to the Windows Event Log (only applies to installations on <em>Windows</em>).</li>
+       <li>SNMP -&nbsp;Enables you to send these notifications via SNMP.</li>
+      </ul>
+      <h2 id="NotificationsinRhapsody-NotificationThresholds">Notification Thresholds</h2>
+      <p>System-level notifications are designed to provide you with the status of your overall system, whereas component-level notifications provide the status of individual components. When configuring notifications via the Management Console, there are three types of interrelated thresholds that you set:</p>
+      <ul>
+       <li>System-level threshold - can be set for system-level notifications from the&nbsp;<a href="System-Monitor_133163832.html#SystemMonitor-CustomThresholds">System Monitor</a>&nbsp;page. It overrides any corresponding component-level or default threshold settings, but only if it is lower than them.</li>
+       <li>Component-level thresholds - can be set for component-level notifications for a specific component from the component's details page.&nbsp;It overrides the corresponding default threshold setting for that specific component.</li>
+       <li>Default thresholds - can be set for component types from the&nbsp;<a href="Default-Settings_133163925.html">Default Settings</a>&nbsp;page.&nbsp;It sets the default threshold for&nbsp;component-level&nbsp;notifications on a per component type basis unless overridden for a specific component by the corresponding component-level threshold.</li>
+      </ul>
+      <p><span style="color: rgb(0,0,0);">For example:</span></p>
+      <ol>
+       <li>Set the default alarm threshold for communication points'&nbsp;<strong>Large Queue</strong>&nbsp;to 100. All&nbsp;communication points will trigger an alarm when the number of messages in their queue reaches 100.</li>
+       <li>Set a Directory communication point's alarm threshold for&nbsp;<strong>Large Queue</strong>&nbsp;to 50. This specific Directory communication point&nbsp;will now trigger an alarm when the number of messages in its queue reaches 50.</li>
+       <li>Set the system-level&nbsp;alarm threshold for&nbsp;<strong>Large Communication Point Queue</strong>&nbsp;to 25. All communication points and routes set to the&nbsp;default settings as well as the Directory communication point&nbsp;with a custom setting will now trigger an alarm when the number of messages in their queue reaches&nbsp;25.&nbsp;In this case, the system-level threshold should probably be set to value much larger than 100 if it is to be of any value to users.</li>
+      </ol>
+      <h2 id="NotificationsinRhapsody-NotificationLogging">Notification Logging</h2>
+      <p>As of Rhapsody 6.4, three separate&nbsp;<a href="Log4j_133161565.html">Log4j</a> loggers are provided for notifications, which are categorized according to purpose:</p>
+      <ul>
+       <li>Notification.User - for user actions applied to specific alert notifications (such as dismiss, suspend, or comment).</li>
+       <li>Notification.System - for system operations.</li>
+       <li>Notification.Delivery - for notification delivery-related logs.</li>
+      </ul>
+      <p>Users have the ability to configure the log level for each logger category independently.&nbsp;</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

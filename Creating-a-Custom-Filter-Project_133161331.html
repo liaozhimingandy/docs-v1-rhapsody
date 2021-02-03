@@ -1,0 +1,278 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Creating a Custom Filter Project</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="Creating-Custom-Filters_133161295.html">Creating Custom Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Creating a Custom Filter Project</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="Textbody">You can create a custom filter project:</p>
+      <ul>
+       <li><a href="Creating-a-Custom-Filter-Project_133161331.html">By using the Rhapsody project wizard</a>&nbsp;(recommended).<strong> <br> </strong></li>
+       <li><a href="#CreatingaCustomFilterProject-CreateaNewFilterProjectfromScratch">From scratch</a>.</li>
+       <li><a href="#CreatingaCustomFilterProject-CopyExistingProjects">By copying an existing project</a>.</li>
+      </ul>
+      <h2 id="CreatingaCustomFilterProject-CreateaFilterProjectUsingtheEclipseRhapsodyProjectWizard">Create a Filter Project Using the Eclipse Rhapsody Project Wizard</h2>
+      <h3 id="CreatingaCustomFilterProject-CreatetheTemplateProjectUsingWizard">Create the Template Project Using Wizard</h3>
+      <p>To create the template project using the wizard:</p>
+      <ol>
+       <li>In Eclipse, create a new plug-in project&nbsp;by navigating to&nbsp;<strong>File&gt;New&gt;Other&gt;PluginProject</strong><span style="line-height: 13.0pt;background-color: transparent;">:</span><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161331/133161349.bmp" data-image-src="attachments/133161331/133161349.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161349" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training1.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+       <li>Name your project, for example: "UpperCaseFilter".</li>
+       <li>Use the default <strong>Project Settings</strong> options to create the&nbsp;<code>src</code>&nbsp;and&nbsp;<code>bin</code>&nbsp;folders (<code>src</code>&nbsp;is your source folder where all your Java code resides and&nbsp;<code>bin</code>&nbsp;is the build folder where compiled class files are written to).</li>
+       <li><p>For the <strong>Target Platform</strong>, select <strong>an OSG</strong><strong>i framework</strong>&nbsp;with <code>equinox</code>.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161331/133161348.bmp" data-image-src="attachments/133161331/133161348.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161348" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training2.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+       <li><p>In the <strong>Content</strong> dialog, deselect the&nbsp;<strong>Generate an activator&nbsp;</strong>checkbox (as you will create one):</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <p class="title">Versioning</p>
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>On this dialog, you can also set the Version for your project. By default, the version will be <code>1.0.0.qualifier</code>, but you may want to edit the qualifier part to be a number or text. For example, Rhapsody projects typically use a qualifier such as <code>beta</code> or <code>final</code>. You may also want to give some consideration to increasing the version number of your project when you make changes to it. Correct versioning of your project can avoid confusion and incompatibility issues, as you can easily tell what version of the JAR file you have.</p>
+         </div>
+        </div><p><br> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161331/133161347.bmp" data-image-src="attachments/133161331/133161347.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161347" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training3.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+       <li><p>Create a plug-in using the template <code>Rhapsody Project</code>:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161331/133161345.bmp" data-image-src="attachments/133161331/133161345.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161345" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training5.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+       <li>Change the package name to your desired package name. The examples here use&nbsp;<code>com.orionhealth.EMEA.rhapsody.module</code>.&nbsp;</li>
+       <li><p>Optionally deselect the <strong>Include example files</strong> checkbox, and select the <strong>Finish</strong> button:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161331/133161344.bmp" data-image-src="attachments/133161331/133161344.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161344" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training6.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+       <li><span>Right-click on <code>src</code> and select <strong>New&gt;Package</strong> to&nbsp;create a package called&nbsp;</span><code>UpperCaseFilter</code><span>&nbsp;in the</span>&nbsp;<code>com.orionhealth.EMEA.rhapsody.module</code><span>&nbsp;package folder.</span></li>
+      </ol>
+      <h3 id="CreatingaCustomFilterProject-TidyuptheprojectTidyUptheProject"><span class="confluence-anchor-link" id="CreatingaCustomFilterProject-Tidyuptheproject"></span>Tidy Up the Project</h3>
+      <p>These steps may not be required, depending on which version of Eclipse you are using. In older version of Eclipse, the OSGi service may be generated in the wrong location. If your Service.xml file is located under the META-INF folder, perform the following steps to fix your project set-up:</p>
+      <ol>
+       <li>If the folder <code>OSGI-INF</code> does not exist in your project, create a new folder in your project called <code>OSGI-INF</code> (right-click on the project and select&nbsp;<strong>New&gt;Folder</strong>).</li>
+       <li>If the <code>OSGI-INF</code> folder does not contain a file S<code>ervice.xml</code>, move the file from <code>META-INF</code> into <code>OSGI-INF</code>.</li>
+       <li>Double-click&nbsp;<code>MANIFEST.MF</code>&nbsp;in <span> <code>META-INF</code>&nbsp;and select the&nbsp;<span><strong>MANIFEST.MF</strong> tab.</span> </span></li>
+       <li><span> <span>Ensure the Service-Component references</span> </span> <code>OSGI-INF/Service.xml</code>, for example:&nbsp;<code>Service-Component: OSGI-INF/Service.xml</code>.</li>
+       <li><p>If desired, you may delete the <code>examples</code> package. Note that if you do this, you will then have to remove references to them from the Activator to remove errors in Eclipse.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="295" width="416" src="attachments/133161331/133161342.bmp" data-image-src="attachments/133161331/133161342.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161342" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training9.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+      </ol>
+      <p>&nbsp;</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody has the following filter bootstrap sequence: Rhapsody opens the custom filter JAR file, reads<code>&nbsp;MANIFEST.MF</code>&nbsp;which points to&nbsp;<code>OSGI-INF/Service.xml</code>, which in turn points to the Activator. The Activator registers the filter that you will create.</p>
+        <p>Your Activator does not have to be named <code>Activator</code>. You can use any class name as long as the<code> Service.xml</code> points to the correct file. If you have multiple projects and want them all to have an Activator named <code>Activator</code>, ensure your <code>Activator.java</code> files all have different package names to avoid confusion. In this example, we could have called the package <code>com.orionhealth.EMEA.rhapsody.module.uppercasefilter</code>.</p>
+       </div>
+      </div>
+      <h2 id="CreatingaCustomFilterProject-CreateaFilterProjectfromScratch">Create a Filter Project from Scratch</h2>
+      <p>This section covers how to create&nbsp;a filter project from scratch.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">Once you have worked through this process, you can then customize the procedure to fit your own style of programming</span> <span style="line-height: 13.0pt;background-color: transparent;">:</span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">To create&nbsp;a filter project from scratch:</span></p>
+      <ol>
+       <li class="Standard">Follow steps 1 through 5 in&nbsp;<a href="#CreatingaCustomFilterProject-CreatetheTemplateProjectUsingWizard">Create the Template Project Using Wizard</a>.</li>
+       <li class="Standard"><p>In the&nbsp;<strong>Content</strong>&nbsp;dialog,&nbsp;select the&nbsp;<strong>Environments...</strong> button and ensure the Rhapsody JRE is selected:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161331/133161337.bmp" data-image-src="attachments/133161331/133161337.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161337" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training13.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+       <li class="Standard">Now select the <strong>Finish</strong> button, or if you select <strong>Next</strong> then on the Templates dialog, just go with defaults and select <strong>Next</strong>.</li>
+       <li class="Standard">Right-click on the project folder and select&nbsp;<strong>Properties </strong>and navigate to<strong> Java Build Path&gt;Libraries</strong>.</li>
+       <li class="Standard">If the&nbsp;<code>Plug-in Dependencies</code>&nbsp;library is missing, then add it by selecting<strong>&nbsp;Add Library...</strong>.</li>
+       <li class="Standard">Select <code>Plug-in Dependencies</code>. and select the Next button.</li>
+       <li class="Standard">Select the <strong>Finish</strong> button.</li>
+       <li class="Standard">Select the <strong>OK</strong> button to close the Project Properties dialog.</li>
+       <li class="Standard">Now open the <code>META-INF/MANIFEST.MF</code> file and select the <strong>Dependencies</strong> tab.</li>
+       <li class="Standard">Add the required JAR files by selecting the&nbsp;<strong>Add...</strong>&nbsp;button in the <strong>Imported Packages</strong> panel:</li>
+       <li style="list-style-type: none;background-image: none;">
+        <ul>
+         <li><code>com.orchestral.rhapsody.module.communicationpoint</code></li>
+         <li><code>com.orchestral.rhapsody.module.filter</code></li>
+         <li><code>com.orchestral.rhapsody.module.helper.outofprocess</code></li>
+         <li><code>com.orchestral.rhapsody.module</code></li>
+         <li><code>com.orchestral.rhapsody.message</code></li>
+         <li><code>com.orchestral.rhapsody.message.parsing.definition</code></li>
+         <li><code>com.orchestral.rhapsody.rhapsody.message.parsing.format</code></li>
+         <li><code>com.orchestral.rhapsody.rhapsody.message.parsing.xpath</code></li>
+         <li><code>com.orchestral.rhapsody.configuration.auxiliaryfiles</code></li>
+         <li><code>com.orchestral.rhapsody.configuration.definition</code></li>
+         <li><code>com.orchestral.rhapsody.configuration.repository</code></li>
+         <li><code>com.orchestral.rhapsody.configuration.security</code></li>
+         <li><code>com.orchestral.rhapsody.configuration.variables</code></li>
+         <li><code>com.orchestral.rhapsody.idgenerator</code></li>
+         <li><code>com.orchestral.rhapsody.initialisation</code></li>
+         <li><code>com.orchestral.rhapsody.model.definition</code></li>
+         <li><code>com.orchestral.rhapsody.persistentmap</code></li>
+         <li><code>com.orchestral.rhapsody.security</code></li>
+         <li><code>org.apache.log4j</code></li>
+         <li><code>org.openrdf.util</code></li>
+         <li><code>org.osgi.framework</code></li>
+        </ul>
+        <ul>
+         <li><code>org.osgi.service.component</code></li>
+        </ul></li>
+       <li class="Standard"><span style="line-height: 13.0pt;">Save the </span><code style="line-height: 13.0pt;">MANIFEST.MF</code><span style="line-height: 13.0pt;">&nbsp;file.</span></li>
+       <li class="Standard">Right-click on the project folder and select&nbsp;<strong>Properties&nbsp;</strong>and navigate to<strong>&nbsp;Java Build Path&gt;</strong><strong style="line-height: 13.0pt;"> <strong>Source</strong>&nbsp;</strong><span style="line-height: 13.0pt;">and&nbsp;check the <strong>Allow output folders for source folders</strong> checkbox.</span></li>
+       <li class="Standard">Ensure the <strong>Default output folder</strong> is set to&nbsp;<code>UpperCaseFilter/bin</code>.</li>
+       <li class="Standard"><p>Select the <strong>OK</strong> button to close the <strong>Project Properties</strong> dialog.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161331/133161335.bmp" data-image-src="attachments/133161331/133161335.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161335" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training16.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+       <li class="Standard"><span style="line-height: 13.0pt;background-color: transparent;">While the project is selected, navigate to the menu </span><strong style="line-height: 13.0pt;background-color: transparent;">Project</strong><span style="line-height: 13.0pt;background-color: transparent;"> and ensure&nbsp;</span><strong><code style="line-height: 13.0pt;background-color: transparent;">Build Automatically</code></strong>&nbsp;is&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">selected.</span></li>
+       <li>Right-click on&nbsp;<code>src</code>&nbsp;and select&nbsp;<strong>New&gt;Package</strong>&nbsp;to&nbsp;create a package called&nbsp;<code>UpperCaseFilter</code>&nbsp;in the&nbsp;<code>com.orionhealth.EMEA.rhapsody.module</code>&nbsp;package folder.<br><p class="Standard"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161331/133161336.bmp" data-image-src="attachments/133161331/133161336.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161336" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training17.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p class="Standard">The Rhapsody packages contain the various Rhapsody classes required for building custom components:</p>
+        <ul>
+         <li class="Standard">The plug-in mechanism used in Rhapsody is based on OSGi (Eclipse's plug-in framework) and hence the necessary OSGi pre-requisites are requ.</li>
+         <li class="Standard"><p>Also included is log4j as that is the logging mechanism used in Rhapsody:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161331/133161334.bmp" data-image-src="attachments/133161331/133161334.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161334" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Rhapsody-RDK-Training15.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2"></span></p></li>
+        </ul>
+       </div>
+      </div>
+      <h2 id="CreatingaCustomFilterProject-CreateaFilterProjectbyCopyinganExistingProject">Create a Filter Project by Copying an Existing Project</h2>
+      <p class="Standard">You can use the provided sample or stub projects, or copy existing projects to develop custom filters. When copying an existing project, you must modify it to your purposes, taking care not to leave any residue from the original project.</p>
+      <h3 id="CreatingaCustomFilterProject-ImportingSampleandStubProjects">Importing Sample and Stub Projects</h3>
+      <p class="Textbody">The Rhapsody sample and stub projects are the easiest way to begin writing custom components for Rhapsody. The projects can be loaded and then used as the basis for new components using Eclipse's refactoring tools. To import a sample or stub project:</p>
+      <ol>
+       <li><p><span style="color: rgb(0,0,0);">Download the&nbsp;</span><a href="attachments/133161331/133161332.zip" data-linked-resource-id="133161332" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LaunchSampleStub.zip" data-nice-type="Zip Archive" data-linked-resource-content-type="application/zip" data-linked-resource-container-id="133161331" data-linked-resource-container-version="2">sample and stub project zip file</a><span style="color: rgb(0,0,0);">.</span></p></li>
+       <li><p>From the Eclipse <strong>File</strong> menu, select <strong>Import...</strong><em>.</em></p></li>
+       <li>From the <strong>General</strong> Folder, select <strong>Existing Projects into Workspace</strong> and press <strong>Next<em>.</em> </strong></li>
+       <li>Select the folder that contains the StubFilterAndCommunicationPoints and SampleFilterAndCommunicationPoints projects.</li>
+       <li>Select only the StubFilterAndCommunicationPoints and SampleFilterAndCommunicationPoints projects and press <strong>Finish<em>.</em> </strong></li>
+       <li>Check that two projects called <code>StubFilterAndCommunicationPoints</code> and <code>SampleFilterAndCommunicationPoints</code>&nbsp;have been added to the Package Explorer.</li>
+      </ol>
+      <h3 id="CreatingaCustomFilterProject-ConfiguringtheSampleProject">Configuring the Sample Project</h3>
+      <p class="Textbody">The <code>SampleFilterAndCommnuicationPoints</code> project contains three packages:</p>
+      <ul>
+       <li><code>com.orionhealth.rhapsody.sample</code></li>
+       <li><code>com.orionhealth.rhapsody.sample.samplecommunicationpoint</code></li>
+       <li><p class="_mce_tagged_br"><code><span style="line-height: 13.0pt;background-color: transparent;">com.orionhealth.rhapsody.sample.samplefilter</span></code></p></li>
+      </ul>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">You may need to follow the instructions to&nbsp;</span><a href="#CreatingaCustomFilterProject-Tidyuptheproject">tidy up the project</a><span style="line-height: 13.0pt;background-color: transparent;">.</span></p>
+      <h4 id="CreatingaCustomFilterProject-com.orionhealth.rhapsody.sample">com.orionhealth.rhapsody.sample</h4>
+      <p class="Textbody">The <code>com.orionhealth.rhapsody.sample</code> package contains one class, called Activator, that contains one method, called <code>activate</code>. The purpose of this Activator class is to register any custom communication points or filters with the Rhapsody engine. This is done via the <code>activate</code> method, which is called immediately upon loading the project.</p>
+      <p class="Textbody">The registration of the custom components includes the following information for the Rhapsody engine:</p>
+      <ul>
+       <li>The unique internal ID of the communication point or filter (for example,&nbsp;<code>MyCP</code>).</li>
+       <li>The display type of the communication point or filter (for example,&nbsp;<code>Date Communication Point</code>).</li>
+       <li>The Java class to be created when creating a new instance of this communication point or filter (for example, <code>DateCommunicationPoint.class</code>).</li>
+       <li>The full-size 32x32 bitmap representing the image to be displayed in Rhapsody IDE&nbsp;when displaying this communication point or filter.</li>
+       <li>The small-size 16x16 bitmap representing the image to be displayed in Rhapsody IDE&nbsp;when displaying this communication point or filter.</li>
+       <li>Filters also require the name of the filter toolbox folder in which the filter is displayed in the Rhapsody IDE (for example,&nbsp;<code>Sample Filter</code>).</li>
+      </ul>
+      <h4 id="CreatingaCustomFilterProject-com.orionhealth.rhapsody.sample.samplecommunicationpoint">com.orionhealth.rhapsody.sample.samplecommunicationpoint</h4>
+      <p class="Textbody">The <code>com.orionhealth.rhapsody.sample.samplecommunicationpoint</code> package contains example classes for a communication point. There are two abstract classes that must be sub-classed to create a communication point:</p>
+      <ul>
+       <li><code>AbstractCommunicationPoint</code> indicates the communication point object itself and is the base class for the object that is created when Rhapsody needs to create a new instance of the communication point.</li>
+       <li><code>CommunicationPointConnection</code> indicates an instance of a connection on the communication point. Some communication points can have multiple connections to external systems (for example the <a href="TCP-Server_133162501.html">TCP Server</a> communication point) while others may only allow one connection.</li>
+      </ul>
+      <p class="Textbody">The two classes in this package implement these abstract classes. This sample communication point simply writes the current date/time into the message body.</p>
+      <h4 id="CreatingaCustomFilterProject-com.orionhealth.rhapsody.sample.samplefilter">com.orionhealth.rhapsody<span>.sample</span>.samplefilter</h4>
+      <p class="Textbody">The <code>com.orionhealth.rhapsody<span>.sample</span>.samplefilter</code> package contains an example class for a Rhapsody filter. There is one abstract class that must be sub-classed to create a new filter:</p>
+      <ul>
+       <li class="Textbody"><code style="line-height: 13.0pt;">AbstractFilter</code><span style="line-height: 13.0pt;background-color: transparent;"> indicates the filter object itself and is the base class for the object that is created when Rhapsody needs to create a new instance of the filter.</span></li>
+      </ul>
+      <p>The class <code>UpperCaseFilter</code>&nbsp;in this package implements the <code>AbstractFilter</code> class to define a new filter which converts the message body to uppercase.</p>
+      <h3 id="CreatingaCustomFilterProject-ConfiguringtheStubProject">Configuring the Stub Project</h3>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The </span><code style="line-height: 13.0pt;">StubFilterAndCommnuicationPoints</code><span style="line-height: 13.0pt;background-color: transparent;"> project contains three packages:</span></p>
+      <ul>
+       <li><code>hospitalname</code></li>
+       <li><code>hospitalname.samplecommunicationpoint</code></li>
+       <li><code>hospitalname.samplefilter</code></li>
+      </ul>
+      <p class="Textbody">The stub project has the same layout as the sample project except that all the classes are stubs. The Eclipse refactoring tools can be used to rename these classes.</p>
+      <h4 id="CreatingaCustomFilterProject-RefactoringtheStubProject">Refactoring the Stub Project</h4>
+      <p class="Textbody">You may need to follow the instructions to&nbsp;<a href="#CreatingaCustomFilterProject-Tidyuptheproject">Tidy up the project</a>.</p>
+      <p class="Textbody">To use the stub project to create a new communication point or filter, modify the following items:</p>
+      <ul>
+       <li>The <code>MANIFEST.MF</code> file must be updated with a new ID. The ID of the component must be unique within Rhapsody's OSGi framework.</li>
+       <li>The project name should be renamed to an appropriate name.</li>
+       <li>The package names should be renamed to appropriate names.</li>
+       <li>The Communication Point and Filter class names should be renamed to indicate their purpose.</li>
+       <li>The new component names and image file names in the activator class should be updated to appropriate names.<br><br></li>
+      </ul>
+      <ol>
+       <li class="Textbody">Open the <code>MANIFEST.MF</code> file from the<code> META-INF</code> folder and open the <strong>Overview&nbsp;</strong>tab. The ID given to each Rhapsody component must be unique within the Rhapsody engine.
+        <ol>
+         <li class="Textbody"><span style="line-height: 13.0pt;">Rename the ID from </span><code style="line-height: 13.0pt;">StubProject</code><span style="line-height: 13.0pt;"> to a project-specific value.</span></li>
+        </ol></li>
+       <li class="Textbody"><span style="line-height: 13.0pt;background-color: transparent;">Most renaming can be performed using the Eclipse refactoring tools, which enable items and their references to be renamed quickly.</span>
+        <ul>
+         <li class="Textbody"><span style="line-height: 13.0pt;">To change the project name, right click on the project in the Package Explorer and select </span><strong style="line-height: 13.0pt;">Refactor&gt;Rename...</strong><em>.</em></li>
+         <li class="Textbody"><span style="line-height: 13.0pt;">To change the package name of the </span><code style="line-height: 13.0pt;">Activator</code><code style="line-height: 13.0pt;">&nbsp;</code><span style="line-height: 13.0pt;">class.</span>
+          <ul>
+           <li class="Textbody"><span style="line-height: 13.0pt;">Right-click on the package name in the Package Explorer and select&nbsp;<strong>Refactor&gt;Rename...</strong>.</span></li>
+           <li class="Textbody"><span style="line-height: 13.0pt;">Open the </span><code style="line-height: 13.0pt;">stubproject.xml</code><span style="line-height: 13.0pt;"> file in the </span><code style="line-height: 13.0pt;">META-INF&nbsp;</code><span style="line-height: 13.0pt;">folder and change the two instances of the old package name with the new package name.</span>
+            <ul>
+             <li class="Textbody"><span style="line-height: 13.0pt;">The replaced names&nbsp;indicate the component name and the implementation class name.</span></li>
+            </ul></li>
+          </ul></li>
+         <li class="Textbody"><span style="line-height: 13.0pt;">To change the package names for the stub communication point and stub filter, right click on the package names in the Package Explorer and select&nbsp;<strong>Refactor&gt;Rename...</strong>.</span></li>
+         <li class="Textbody"><p><span style="line-height: 13.0pt;background-color: transparent;">To change the class names, right click on the java file name in the Package Explorer and select&nbsp;<strong>Refactor&gt;Rename...</strong>.</span></p>
+          <div class="confluence-information-macro confluence-information-macro-information">
+           <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p>If you change the name of the Activator class, you will need to modify the <code>stubproject.xml</code> file as well.</p>
+           </div>
+          </div></li>
+        </ul></li>
+       <li class="Textbody"><span style="line-height: 13.0pt;background-color: transparent;">The </span><code style="line-height: 13.0pt;">Activator</code><span style="line-height: 13.0pt;background-color: transparent;"> class's </span><code style="line-height: 13.0pt;">activate</code><span style="line-height: 13.0pt;background-color: transparent;"> method now needs to be modified to register the correct information for the new communication point or filter.</span>
+        <ul>
+         <li class="Textbody"><span style="line-height: 13.0pt;">If you are creating a new filter:</span>
+          <ul>
+           <li class="Textbody"><span style="line-height: 13.0pt;">Comment out or remove the code that registers the stub communication point. If you do not do this, the stub communication point&nbsp;will also be available in the Rhapsody IDE.</span></li>
+           <li class="Textbody"><span style="line-height: 13.0pt;">In the call to the&nbsp;</span><code style="line-height: 13.0pt;">FilterRegistration</code><span style="line-height: 13.0pt;">&nbsp;constructor, modify the information required for this new filter:</span>
+            <ul>
+             <li class="Textbody"><span style="line-height: 13.0pt;">Unique ID for this filter.</span></li>
+             <li class="Textbody"><span style="line-height: 13.0pt;">Display name for this filter.</span></li>
+             <li class="Textbody"><span style="line-height: 13.0pt;">Name of the folder in the filter toolbox into which this filter will be added.</span></li>
+             <li class="Textbody"><span style="line-height: 13.0pt;">Implementation class of the filter.</span></li>
+             <li class="Textbody"><span style="line-height: 13.0pt;">Path and name of the 32x32 bitmap for the image to be used for this filter. If this image is not given (you should write </span><code style="line-height: 13.0pt;">null</code><span style="line-height: 13.0pt;"> in this case), or cannot be found, the default filter image is used.</span></li>
+             <li class="Textbody"><p><span style="line-height: 13.0pt;">Path and name of the 16x16 bitmap for the image to be used for this filter. If this image is not given&nbsp;(you should write </span><code style="line-height: 13.0pt;">null</code><code style="line-height: 13.0pt;">&nbsp;</code><span style="line-height: 13.0pt;"><span style="line-height: 13.0pt;"><span style="line-height: 13.0pt;">in this case), or cannot be found, the default filter image is used.</span></span></span></p>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">final BundleContext context = componentContext.getBundleContext();
+final String fr = FilterRegistration.class.getName();
+context.registerService(fr, new FilterRegistration(
+        "StubF", "Stub Filter", "", StubFilter.class,
+        "/selection.bmp",
+        null), null);</pre> 
+               </div>
+              </div></li>
+            </ul></li>
+          </ul></li>
+         <li class="Textbody"><span style="line-height: 13.0pt;background-color: transparent;">If you are creating a new communication point:</span>
+          <ul>
+           <li class="Textbody"><span style="line-height: 13.0pt;">Comment out or remove the code that registers the stub filter. If you do not do this, the stub filter will also be available in the Rhapsody IDE.</span></li>
+           <li class="Textbody"><span style="line-height: 13.0pt;">In the call to the </span><code style="line-height: 13.0pt;">CommunicationPointRegistration&nbsp;</code><span style="line-height: 13.0pt;">constructor, modify the information required for this new communication point:</span>
+            <ul>
+             <li class="Textbody"><span style="line-height: 13.0pt;">Unique ID for this communication point.</span></li>
+             <li class="Textbody"><span style="line-height: 13.0pt;">Display name for this communication point.</span></li>
+             <li class="Textbody"><span style="line-height: 13.0pt;">Implementation class of the communication point.</span></li>
+             <li class="Textbody"><span style="line-height: 13.0pt;">Path and name of the 32x32 bitmap for the image to be used for this communication point. If this image is not given&nbsp;(you should write&nbsp;</span><code style="line-height: 13.0pt;">null</code><span style="line-height: 13.0pt;">&nbsp;in this case), or cannot be found, the default communication point image is used.</span></li>
+             <li class="Textbody"><p><span style="line-height: 13.0pt;background-color: transparent;">Path and name of the 16x16 bitmap for the image to be used for this communication point. If this image is not given&nbsp;(you should write&nbsp;</span><code style="line-height: 13.0pt;">null</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;in this case), or cannot be found, the default communication point image is used.</span></span></p>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">final BundleContext context = componentContext.getBundleContext();
+final String cr = CommunicationPointRegistration.class.getName();
+context.registerService(cr, new CommunicationPointRegistration(
+        "StubCP", "Stub Communication Point",
+        StubCommunicationPoint.class, "/selection.bmp",
+        null, null), null);</pre> 
+               </div>
+              </div></li>
+            </ul></li>
+          </ul></li>
+        </ul></li>
+      </ol>
+      <p class="Textbody">The new communication point or filter is now ready to be run through Rhapsody via Eclipse. The Rhapsody engine must be restarted to pick up the new components:</p>
+      <ol>
+       <li class="Textbody">If Rhapsody is running through Eclipse, <a href="Running-Rhapsody-from-within-Eclipse_133161366.html#RunningRhapsodyfromwithinEclipse-StoppingRhapsody">stop debugging</a> using the terminate&nbsp;button (this will result in an unclean shutdown), or type <code>close</code> in the Console window and wait for the engine to stop.</li>
+       <li class="Textbody"><a href="Running-Rhapsody-from-within-Eclipse_133161366.html#RunningRhapsodyfromwithinEclipse-StartingRhapsody">Run Rhapsody</a> from the Run menu.</li>
+      </ol>
+      <p class="Textbody">It is now possible to modify the new communication point or filter code from within the Eclipse environment. Eclipse will attempt to update the code while Rhapsody is running. Some changes cannot be added on the fly and will require Rhapsody to be restarted to recognize the new changes. Eclipse will notify you of these changes and will ask if Rhapsody should be restarted.</p>
+      <p class="Textbody"> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

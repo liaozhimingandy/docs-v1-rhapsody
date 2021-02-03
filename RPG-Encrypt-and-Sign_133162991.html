@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>RPG Encrypt and Sign</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="RPG-Filters_133162990.html">RPG Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">RPG Encrypt and Sign</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162991/133162992.bmp" data-image-src="attachments/133162991/133162992.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162992" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="rpg-encrypt-sign.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162991" data-linked-resource-container-version="1"></span></p>
+      <p>RPG (Rhapsody Privacy Guard) is Rhapsody's implementation of a subset of the OpenPGP standard. The RPG Encrypt and Sign filter is used for encrypting and/or signing messages. These messages can be decrypted and/or verified&nbsp;by the&nbsp;<a href="RPG-Decrypt-and-Verify_133162993.html">RPG Decrypt and Verify</a>&nbsp;filter or compatible external systems.</p>
+      <p>The RPG Encrypt and Sign&nbsp;filter generates a single output when it performs the signing and encryption operations on a message. The filter does not support producing two separate outputs when encryption and signing, which&nbsp;certain external systems might require.</p>
+      <h2 id="RPGEncryptandSign-ConfigurationProperties"><span style="color: rgb(0,0,0);font-size: 20.0px;">Configuration Properties</span></h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <thead>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            <p>Property</p>
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            <p>Description</p>
+           </div></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td colspan="1" class="confluenceTd">Maximum Concurrency</td>
+          <td colspan="1" class="confluenceTd"><p>The maximum level of concurrency for the filter. 0 (zero) signifies infinite.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Encryption is a CPU intensive activity. Thus, encrypting a large number of concurrent messages can have an adverse impact on the overall performance of the server. This is especially the case when the message size is large. The default value of maximum concurrency property is set to 2. It is recommended that this number not be set much higher.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Mode</p></td>
+          <td colspan="1" class="confluenceTd"><p>Specifies what mode the filter should operate in:</p>
+           <ul>
+            <li><code>Sign then encrypt</code> (default) - the message is first signed and then encrypted. This mode gives extra protection to the signature by encrypting it. This is the more commonly used approach.</li>
+            <li><code>Encrypt then sign</code> - <span>the</span> message is first encrypted and then signed against the original data instead of the encrypted data. Most external systems, however, cannot decrypt and verify the data which is generated using this mode.&nbsp;</li>
+            <li><code>Sign only</code> - <span>the</span><span> message is signed</span>, but not encrypted, <span>so that the sender can be verified.</span></li>
+            <li><code>Encrypt only</code> - the message is encrypted, but not signed.</li>
+            <li><code>Passphrase only</code> - encryption is performed using a passphrase. The receiver needs to know the passphrase in order to decrypt the data. This mode should be used if the receiver does not have keys.</li>
+           </ul><p><span>The RPG Encrypt and Sign filter does not compress data when performing the&nbsp;<code>Encrypt then sign</code>&nbsp;operation on messages because compression is not efficient on encrypted data. Messages are compressed in all other modes.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Sign Key</p></td>
+          <td class="confluenceTd"><p><span>The <span>RPG</span> private key to sign the message. The key can also be specified using a message property. The value of the message property should be the Alias of the keyring (as shown in Certificate and Key Manager) followed by a key id. Format: alias/keyid.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Encrypt Key</span></td>
+          <td colspan="1" class="confluenceTd"><span><span>The <span>RPG</span></span> public key to encrypt the message. The key can also be specified using a message property. The value of the message property should be the Alias of the keyring (as shown in Certificate and Key Manager) followed by a key id. Format: alias/keyid.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>ASCII Armor</span></td>
+          <td colspan="1" class="confluenceTd"><p><span>Whether to use the ASCII armored data format, which is used for receiving systems that only allow <span>encrypted data with </span>ASCII printable characters. Some systems such as <span>Kleopatra <span>are only able to decrypt files that are passprase encrypted without ASCII Armor enabled.</span></span></span></p><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Compression Algorithm</span></td>
+          <td colspan="1" class="confluenceTd"><p><span>The algorithm to use to compress the message:</span></p>
+           <ul>
+            <li><code>ZIP</code> (default)</li>
+            <li><code>ZLIB</code></li>
+            <li><code>BZIP2</code></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Symmetric Key Algorithm</span></td>
+          <td colspan="1" class="confluenceTd"><span>The algorithm to use to generate the random session key. The session key will be used to encrypt the message.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Integrity Check</td>
+          <td colspan="1" class="confluenceTd"><p>Whether to provide an integrity check by <span>adding a checksum to the encrypted message. The checksum <span>can be used to verify whether the data has been tampered with after it was encrypted.</span></span></p><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Hash Algorithm</span></td>
+          <td colspan="1" class="confluenceTd"><span>The hash algorithm to use to sign the message.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Passphrase&nbsp;</p></td>
+          <td colspan="1" class="confluenceTd"><span>If <strong>Mode</strong> is set to <code>Passphrase only</code>, the passphrase used to encrypt the message must be provided. The filter converts the passphrase string into a symmetric key to encrypt the message.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Filename</td>
+          <td colspan="1" class="confluenceTd">The filename that the receiver will see after converting an RPG message into a plain text file. If this property is empty, the current timestamp will be used as the filename. The filename can also be specified via a message property.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Append Timestamp</td>
+          <td colspan="1" class="confluenceTd"><span>Specifies w</span>hether to append the current timestamp to the filename.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Filename Extension</td>
+          <td colspan="1" class="confluenceTd"><p>Specifies filename extension to use for the file (<code>.txt</code> by default). It can be also be specified via a message property.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

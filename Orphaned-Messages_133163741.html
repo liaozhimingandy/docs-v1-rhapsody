@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Orphaned Messages</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Monitoring_133163674.html">Monitoring</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Orphaned Messages</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148516" class="confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Read <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Log in to Management Console</li>
+            <li>Search Error and Hold Queues</li>
+            <li>Manage orphaned messages</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Write <em><a href="Access-Rights_133161013.html">Access Rights</a></em>:</em></p>
+           <ul>
+            <li>Redirect messages</li>
+            <li>Release/reprocess messages</li>
+            <li>Delete held/errored messages</li>
+            <li>Download messages</li>
+            <li>Export messages</li>
+            <li>Perform bulk operations</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148516']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148516',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>A message on the <a href="Monitoring-the-Error-Queue_133163823.html">Error Queue</a> or <a href="Monitoring-the-Hold-Queue_133163811.html">Hold Queue</a> becomes 'orphaned' when the input communication point, or indeed the entire locker that the message arrived on has been deleted. At this point of having been orphaned, locker access rights can no longer be determined for the message, so the only users with the <span>'Manage orphaned messages'</span>&nbsp;access right can administer these messages. Orphaned messages will still appear in the Error Queue or Hold Queue, but users without this right will not be able to see these messages, in the same way that they cannot see messages that originated from lockers they do not have permission for.</p>
+      <h2 id="OrphanedMessages-SearchResults">Search Results</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>Because the messages are on the <span>Error Queue or Hold Queue</span>, the buttons for some actions may be enabled when the action is not actually possible<span>, particularly in the case where there are also non-orphaned messages on the queue</span>. All actions on the Error and Hold Queues check permissions for the selected messages and will fail to complete if the user does not have the correct access rights.</span></p>
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The following table describes the actions available on the <a href="Monitoring-the-Error-Queue_133163823.html">Error Queue</a> and <a href="Monitoring-the-Hold-Queue_133163811.html">Hold Queue</a> pages, and what happens when these are used on orphaned messages.</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field/Action</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Reinject</p></td>
+          <td class="confluenceTd"><p>It is not possible to reinject an orphaned message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Redirect</p></td>
+          <td class="confluenceTd"><p>The message is redirected to a selected filter or communication point. To redirect messages, select one or more messages in the queue, then click the <strong>Redirect</strong> button.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>The message can only be redirected to components that the user has the 'Locker view' access right for. If the message is being redirected to a different locker (which is highly likely for an orphaned message), a warning will be displayed to the user so they are aware that there are potential consequences, for example users with permissions to that locker may then be able to see the message body and thus PHI.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Reprocess</p></td>
+          <td class="confluenceTd"><p>The message is sent back to the filter on which the error originally occurred. Selected messages can be reprocessed by <span>selecting</span> the <strong>Reprocess</strong> button.</p><p>If the filter has been deleted, which may be the case with orphaned messages, the reprocess will fail, and the message will be sent back to the Error Queue.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Only available for orphaned messages on the Error Queue.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Release</p></td>
+          <td colspan="1" class="confluenceTd"><p>The message is released from the Hold Queue and sent to the filter following the&nbsp;Hold Queue&nbsp;filter. To release messages, select one or more messages in the queue, then select the&nbsp;<strong>Release</strong>&nbsp;button.</p><p><span style="line-height: 13.0pt;background-color: transparent;">If the filter has been deleted, which may be the case with orphaned messages, the reprocess will fail, and the message will be sent to the Error Queue.&nbsp;</span></p><p><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span></p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             Only available for orphaned messages on the Hold Queue.
+            </div>
+           </div><p><span style="line-height: 13.0pt;background-color: transparent;"><br></span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Delete</p></td>
+          <td class="confluenceTd"><p>The message is removed (deleted) from the queue and no additional processing is performed on the message. To delete messages, select one or more messages in the queue, then click the <strong>Delete</strong> link. Alternatively, to delete all the messages from this queue, click the <strong>Delete All</strong> link.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>When using the <strong>Delete All</strong> link, the operation will proceed, but it will only delete messages that the user has permission to delete. This will be determined either by the user having the '<span style="line-height: 13.0pt;">Delete held/errored messages' access right on the locker that the message originated from, or in the case of orphaned messages, the user having the 'Manage orphaned messages' access right.<br>Feedback is displayed to the user to indicate how many of the messages were deleted.&nbsp;</span></p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Download</p></td>
+          <td class="confluenceTd"><p>The message body is downloaded as a compressed file. To download messages, select one or more messages in the queue, then click the <strong>Download</strong> link to save the file to a convenient location. Alternatively, to download all the messages from this queue, click the <strong>Download All</strong> link.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Downloading a large number of messages may take an extended period of time, especially when the Engine is under high load. It is recommended you perform this operation during off-peak time.</p>
+            </div>
+           </div>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>When using the <strong>Download All</strong> link, the operation will proceed, but it will only download messages that the user has permission to download. This will be determined either by the user having the '<span>Download messages' access right on the locker that the message originated from, or in the case of orphaned messages, the user having the 'Manage orphaned messages' access right.<br></span></p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">Export</span></td>
+          <td colspan="1" class="confluenceTd"><p><span style="color: rgb(51,51,51);">The message metadata is exported as a compressed file. To export messages, select one or more messages in the queue, then click the <strong>Export</strong> link to save the file to a convenient location. Alternatively, to export all the messages from this queue, click the <strong>Export All</strong> link. The exported data includes the message search information, as well as the message properties, and error information.</span></p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Exporting a large number of messages may take <span>an extended period of time</span>, especially when the Engine is under high load. It is recommended you perform this operation during off-peak time.</p>
+            </div>
+           </div>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>When using the <strong>Export All</strong> link, the operation will proceed, but it only exports messages that the user has permission to export. This is determined either by the user having the 'Export messages' access right on the locker that the message originated from, or in the case of orphaned messages, the user having the 'Manage orphaned messages' access right.</p>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

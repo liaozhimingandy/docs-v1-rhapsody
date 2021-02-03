@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Framework Settings</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="SOAP-API_133161152.html">SOAP API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Framework Settings</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Framework service hosts a single HTTP server for all Web services, including Web services that are part of the API. The Web server is started as soon as the Framework service activates, and initially has a single HTTPS connector available for the API on port 8449. The HTTPS connector, by default, uses the same private key as the Management Console, but this can be also configured independently of the Management Console from the <code>rhapsody.properties</code> file.</p>
+      <p>The following parameters can be configured in the <code>rhapsody.properties</code> file:</p>
+      <div class="evencolumns"> 
+       <div class="table-wrap">
+        <div class="table-wrap">
+         <table class="confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Parameter Name</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+            <th class="confluenceTh"><p>Default</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>WebServiceApi.<code><code><code><code><wbr></code></code></code></code>httpsPort</code></p></td>
+            <td class="confluenceTd"><p>The HTTPS port that the Rhapsody Web Service API is hosted on. The API is disabled if this is less than or equal to <code>0</code>.</p></td>
+            <td class="confluenceTd"><p><code>8449</code></p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>WebServiceApi.ssl.<code><code><code><code><wbr></code></code></code></code>keystore</code></p></td>
+            <td class="confluenceTd"><p>The filename of the keystore containing the private key and certificate to use for the HTTPS connector. This can either be absolute or relative to the Rhapsody base directory.</p></td>
+            <td class="confluenceTd"><p><code>monitoring.keystore</code></p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>WebServiceApi.ssl.<code><code><code><code><wbr></code></code></code></code>password</code></p></td>
+            <td class="confluenceTd"><p>The password for the keystore file.</p></td>
+            <td class="confluenceTd"><p>&nbsp;</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>WebServiceApi.ssl.<code><code><code><code><wbr></code></code></code></code>keypassword</code></p></td>
+            <td class="confluenceTd"><p>The password for the keys within the keystore file.</p></td>
+            <td class="confluenceTd"><p>&nbsp;</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>WebServiceApi.ssl.<code><code><code><code><wbr></code></code></code></code>keystoretype</code></p></td>
+            <td class="confluenceTd"><p>The type of keystore in use.</p></td>
+            <td class="confluenceTd"><p><code>JKS</code></p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>WebServiceFramework.<code><code><code><code><wbr></code></code></code></code>MaxHttpListenerThreads</code></p></td>
+            <td class="confluenceTd"><p>The maximum number of threads in the pool used to service these requests.</p></td>
+            <td class="confluenceTd"><p><code>20</code></p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>WebServiceFramework.<code><code><code><code><wbr></code></code></code></code>MaxHttpConnections</code></p></td>
+            <td class="confluenceTd"><p>The maximum number of simultaneous outgoing HTTP connections.</p></td>
+            <td class="confluenceTd"><p><code>200</code></p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><code>WebServiceFramework.<code><code><code><code><wbr></code></code></code></code>MaxHttpConnectionsPerHost</code></p></td>
+            <td class="confluenceTd"><p>The maximum number of simultaneous outgoing HTTP connections to the same host/port.</p></td>
+            <td class="confluenceTd"><p><code>10</code></p></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><pre>WebServiceApi.ssl.protocol
+</pre></td>
+            <td colspan="1" class="confluenceTd"><p>The SSL protocol for the Web Service API.</p></td>
+            <td colspan="1" class="confluenceTd"><pre>TLSv1</pre></td>
+           </tr>
+           <tr>
+            <td colspan="1" class="confluenceTd"><pre>WebServiceApi.WebServiceApi.cipherSuiteStrength</pre></td>
+            <td colspan="1" class="confluenceTd"><p>The ciphers suites for the Web Service API:</p>
+             <ul>
+              <li><code>VERY_STRONG</code></li>
+              <li><code>FIPS</code></li>
+              <li><code>STRONG</code></li>
+             </ul></td>
+            <td colspan="1" class="confluenceTd"><pre>FIPS</pre></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div> 
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>A restart is required in order for Rhapsody to pick up changes in the <code>rhapsody.properties</code> file.</p>
+       </div>
+      </div>
+      <h2 id="FrameworkSettings-CustomizingtheDefaultKeyUsingaPKCS#12Key">Customizing the Default Key Using a PKCS#12 Key</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>A private key is required in order to use the API. By default, the API uses the Management Console key.</p>
+       </div>
+      </div>
+      <p>PKCS#12 is a standard for storing private keys and certificates securely. PKCS#12 is a <code>.pfx</code> file that contains a private key and a certificate chain. You can configure a PKCS#12 key by setting a few properties in the <code>rhapsody.properties</code> file.</p>
+      <h3 id="FrameworkSettings-Example">Example</h3>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>WebServiceApi.ssl.keystoretype=PKCS12
+WebServiceApi.ssl.keypassword=password
+WebServiceApi.ssl.password=password
+WebServiceApi.ssl.keystore=Rhapsody.pfx </pre> 
+       </div>
+      </div>
+      <p>Generally, the key and store passwords are identical for PKCS#12 keystores. This is not normally the case for other keystore types.</p>
+      <h2 id="FrameworkSettings-RelatedTopics">Related Topics</h2>
+      <ul>
+       <li><a href="Using-a-User-defined-Certificate-for-the-HTTPS-Mode_133163995.html">Using a User-defined Certificate for the HTTPS Mode</a></li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

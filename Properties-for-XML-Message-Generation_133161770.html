@@ -1,0 +1,389 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Properties for XML Message Generation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Properties for XML Message Generation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <a href="Database_133162443.html">Database</a> communication point in <em>Input</em> mode and <a href="Database-Message-Extraction_133163070.html">Database Message Extraction</a> filter produces an outgoing message in XML. The following properties can be used to specify how to display the result in XML message format:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>ColumnNameAsAttribute</code></p></td>
+          <td class="confluenceTd"><p>If this property exists then the output messages will have the column name as an attribute instead of as an element name.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>RowNameAsAttribute</code></p></td>
+          <td class="confluenceTd"><p>If this property exists then the output messages will have the row name as an attribute instead of as an element name.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>ValueAsAttribute</code></p></td>
+          <td class="confluenceTd"><p>If this property exists then the output messages will have the column result value as an attribute instead of as a CDATA section.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>rowsInMessage</code></p></td>
+          <td class="confluenceTd"><p>The number of rows to be used to generate an outgoing message out of the root statement result set. Typically, <code>&lt;rowsInMessage&gt;1&lt;/rowsInMessage&gt;</code> is used to generate an XML message per each row. In this case, the transaction of the root <code>SELECT SQL</code> statement is executed when all the rows previously returned are processed.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>This property is only available for the Database Message Extraction filter if its <strong>Message Body Column</strong> configuration property is specified.</p>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The properties are <em>not</em> applicable to the Database communication point in <em>Output</em> mode and the Database Lookup filter even though they may appear as elements in the XML output.</p>
+       </div>
+      </div>
+      <h2 id="PropertiesforXMLMessageGeneration-Syntax">Syntax</h2>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;ColumnNameAsAttribute/&gt;
+&lt;RowNameAsAttribute/&gt;
+&lt;ValueAsAttribute/&gt;</pre> 
+       </div>
+      </div>
+      <p>The general form of the XML message is as follows. The order of the XML elements is the same as the order of the columns in the database results set.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;message&gt;
+    &lt;rowname1&gt;
+        &lt;columnName1&gt;column value&lt;/columnName1&gt;
+        &lt;columnName2&gt;column value&lt;/columnName2&gt;
+        &lt;columnName3&gt;column value&lt;/columnName3&gt;
+        ...
+    &lt;/rowname1&gt;
+    &lt;rowname2&gt;
+        &lt;columnName1&gt;column value&lt;/columnName1&gt;
+        &lt;columnName2&gt;column value&lt;/columnName2&gt;
+        &lt;columnName3&gt;column value&lt;/columnName3&gt;
+        ...
+    &lt;/rowname2&gt;
+    &lt;rowname3&gt;
+        &lt;columnName1&gt;column value&lt;/columnName1&gt;
+        &lt;columnName2&gt;column value&lt;/columnName2&gt;
+        &lt;columnName3&gt;column value&lt;/columnName3&gt;
+        ... 
+    &lt;/rowname3&gt;
+&lt;/message&gt;</pre> 
+       </div>
+      </div>
+      <p>Essentially for each statement, starting at the root statement, you have:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;rowName&gt;
+    &lt;columnName&gt;column value&lt;/columnName&gt;
+    &lt;columnName&gt;column value&lt;/columnName&gt;
+    &lt;columnName&gt;column value&lt;/columnName&gt;
+&lt;/rowName&gt;</pre> 
+       </div>
+      </div>
+      <p>groups of elements for each row returned by the SQL statement from the database. The <code>row</code> group contains exactly one <code>column</code> element for each column in the row returned and then contains <code>row</code> groups for every child statement.</p>
+      <p>The following listing is a sample XML configuration file for a Database communication point configured in <em>Input</em> mode:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="main"&gt;
+    &lt;sql&gt;
+        SELECT id, date FROM main_table WHERE date &gt; ? ORDER BY date ASC
+    &lt;/sql&gt;
+    &lt;statement name="names"&gt;
+        &lt;sql&gt;
+            SELECT firstName, secondName FROM names_table WHERE id = @id
+        &lt;/sql&gt;
+    &lt;/statement&gt;
+    &lt;statement name="address"&gt;
+        &lt;sql&gt;
+            SELECT address, country_code FROM address_table WHERE id = @id
+        &lt;/sql&gt;
+        &lt;statement name="country"&gt;
+            &lt;sql&gt;
+                SELECT country_name FROM country_table WHERE country_code = @country_code
+            &lt;/sql&gt;
+        &lt;/statement&gt;
+        &lt;/statement&gt;
+&lt;/statement&gt;</pre> 
+       </div>
+      </div>
+      <p>Assume the database tables used in this example have the data from the following tables:</p>
+      <div class="table-wrap">
+       <table id="TBL1565043148458" class="confluenceTable" width="20%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>id</p></th>
+          <th class="confluenceTh"><p>date</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>97320</p></td>
+          <td class="confluenceTd"><p>2002-1-1 12:12:34</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>23409</p></td>
+          <td class="confluenceTd"><p>2002-1-1 12:14:56</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>20234</p></td>
+          <td class="confluenceTd"><p>2002-1-2 10:32:25</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148458']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148458',[],'style=&quot;width:100&quot;,;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','20%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p><em>Data for main_table</em></p>
+      <div class="table-wrap">
+       <table id="TBL1565043148459" class="confluenceTable" width="30%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>id</p></th>
+          <th class="confluenceTh"><p>firstName</p></th>
+          <th class="confluenceTh"><p>secondName</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>97320</p></td>
+          <td class="confluenceTd"><p>bob</p></td>
+          <td class="confluenceTd"><p>brown</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>23409</p></td>
+          <td class="confluenceTd"><p>doug</p></td>
+          <td class="confluenceTd"><p>green</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>20234</p></td>
+          <td class="confluenceTd"><p>mary</p></td>
+          <td class="confluenceTd"><p>johns</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148459']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148459',[],'style=&quot;width:100&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','30%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p><em>Data for names_table</em></p>
+      <div class="table-wrap">
+       <table id="TBL1565043148460" class="confluenceTable" width="30%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>id</p></th>
+          <th class="confluenceTh"><p>address</p></th>
+          <th class="confluenceTh"><p>country_code</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>97320</p></td>
+          <td class="confluenceTd"><p>12 Nowhere St</p></td>
+          <td class="confluenceTd"><p>US</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>23409</p></td>
+          <td class="confluenceTd"><p>43 Higher Ave</p></td>
+          <td class="confluenceTd"><p>NZ</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>20234</p></td>
+          <td class="confluenceTd"><p>123 Long Rd</p></td>
+          <td class="confluenceTd"><p>UK</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>20234</p></td>
+          <td class="confluenceTd"><p>321 Short St</p></td>
+          <td class="confluenceTd"><p>US</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148460']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148460',[],'style=&quot;width:100&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','30%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p><em>Data for address_table</em></p>
+      <div class="table-wrap">
+       <table id="TBL1565043148461" class="confluenceTable" width="20%">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>country_code</p></th>
+          <th class="confluenceTh"><p>country_name</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>US</p></td>
+          <td class="confluenceTd"><p>United States</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>NZ</p></td>
+          <td class="confluenceTd"><p>New Zealand</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>UK</p></td>
+          <td class="confluenceTd"><p>United Kingdom</p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148461']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148461',[],'style=&quot;width:100&quot;,,;;',
+1,'',true,
+'Click to sort','',false,
+false,false,false,
+0,false,'',true,
+'',false,false,'','20%','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p><em>Data for country_table</em></p>
+      <p>Then the XML produced would be:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;message&gt;
+    &lt;main&gt;
+        &lt;id&gt;97320&lt;/id&gt;
+        &lt;date&gt;2002-1-1 12:12:34&lt;/date&gt;
+        &lt;names&gt;
+            &lt;firstName&gt;bob&lt;/firstName&gt;
+            &lt;secondName&gt;brown&lt;/secondName&gt;
+        &lt;/names&gt;
+        &lt;address&gt;
+            &lt;address&gt;12 Nowhere St&lt;/address&gt;
+            &lt;country_code&gt;US&lt;/country_code&gt;
+            &lt;country&gt;
+                &lt;country_name&gt;United States&lt;/country_name&gt;
+            &lt;/country&gt;
+        &lt;/address&gt;
+    &lt;/main&gt;
+    &lt;main&gt;
+        &lt;id&gt;23409&lt;/id&gt;
+        &lt;date&gt;2002-1-1 12:14:56&lt;/date&gt;
+        &lt;names&gt;
+            &lt;firstName&gt;doug&lt;/firstName&gt;
+            &lt;secondName&gt;green&lt;/secondName&gt;
+        &lt;/names&gt;
+        &lt;address&gt;
+            &lt;address&gt;43 Higher Ave&lt;/address&gt;
+            &lt;country_code&gt;NZ&lt;/country_code&gt;
+            &lt;country&gt;
+                &lt;country_name&gt;New Zealand&lt;/country_name&gt;
+            &lt;/country&gt;
+        &lt;/address&gt;
+    &lt;/main&gt;
+    &lt;main&gt;
+        &lt;id&gt;20234&lt;/id&gt;
+        &lt;date&gt;2002-1-2 10:32:25&lt;/date&gt;
+        &lt;names&gt;
+            &lt;firstName&gt;mary&lt;/firstName&gt;
+            &lt;secondName&gt;johns&lt;/secondName&gt;
+        &lt;/names&gt;
+        &lt;address&gt;
+            &lt;address&gt;123 Long Rd&lt;/address&gt;
+            &lt;country_code&gt;UK&lt;country_code&gt;
+            &lt;country&gt;
+                &lt;country_name&gt;United Kingdom&lt;/country_name&gt;
+            &lt;/country&gt;
+        &lt;/address&gt;
+        &lt;address&gt;
+            &lt;address&gt;321 Short St&lt;/address&gt;
+            &lt;country_code&gt;US&lt;/country_code&gt;
+            &lt;country&gt;
+                &lt;country_name&gt;United States&lt;/country_name&gt;
+            &lt;/country&gt;
+        &lt;/address&gt;
+    &lt;/main&gt;
+&lt;/message&gt;</pre> 
+       </div>
+      </div>
+      <p>The output XML can be changed by using the <code>columnNameAsAttribute</code>, <code>rowNameAsAttribute</code>, <code>valueAsAttribute</code> configuration properties. If <code>columnNameAsAttribute</code> is specified, the <em>columnName</em>, instead of being used as the element name in the XML, is included as the value of a <code>name</code> attribute and the element is called <code>column</code> instead. Similarly the row name can be included as an attribute instead of as an element name. If <code>valueAsAttribute</code> is specified, the <em>column result</em>, instead of being the element CDATA in the XML, is included as the value of a <code>value</code> attribute.</p>
+      <p>So if both <code>columnNameAsAttribute</code>, <code>rowNameAsAttribute</code>, and <code>valueAsAttribute</code> exist in the configuration file, the above XML would become:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;message&gt;
+    &lt;row name="main"&gt;
+        &lt;column name="id" value="97320"/&gt;
+        &lt;column name="date" value="2002-1-1 12:12:34"/&gt;
+        &lt;row name="names"&gt;
+            &lt;column name="firstName" value="bob"/&gt;
+            &lt;column name="secondName" value="brown"/&gt;
+        &lt;/row&gt;
+        &lt;row name="address"&gt;
+            &lt;column name="address" value="12 Nowhere St"/&gt;
+            &lt;column name="country_code" value="US"/&gt;
+            &lt;row name="country"&gt;
+                &lt;column name="country_name" value="United States"/&gt;
+            &lt;/row&gt;
+        &lt;/row&gt;
+    &lt;/row&gt;
+    &lt;row name="main"&gt;
+        &lt;column name="id" value="23409"/&gt;
+        ...
+&lt;/message&gt;</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

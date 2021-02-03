@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Message Tracking Schemes</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Message Tracking Schemes</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>An integration engine is responsible for sending messages to a variety of different systems using a number of different message systems. Some of these messaging standards, most notably HL7, define a means of acknowledging that these messages have been received by the remote system and if the message was processed correctly. These responses allow the integration engine to resend messages, if necessary, or to notify the system administrator that one of the systems is not processing correctly or is not responding at all.</p>
+      <p>Message tracking in Rhapsody involves matching messages sent to a remote system with an acknowledgment message received from that system and taking a configurable action depending on the response (or lack of response) received.</p>
+      <h2 id="MessageTrackingSchemes-WhyUseMessageTracking?">Why Use Message Tracking?</h2>
+      <p>Message tracking is used to verify that a remote system has correctly received a message sent to it, and allows appropriate action to be taken if this is not the case. It provides verification that the remote system actually processed the message, and did not crash after receiving it. Message tracking is an application layer acknowledgment system that operates at a higher level than the acknowledgment systems built into the lower layers (such as TCP).</p>
+      <p>For example, the Transmission Control Protocol (TCP) verifies that some data (in this case a message) has been correctly received by the remote system, but it does not verify that the remote application has correctly processed that message. It is possible for an application to correctly receive a message via TCP, but then stop responding (due to a crash, power cut, or other reason) before it completes processing that message. The acknowledgment system in TCP is of no help in this case, as the message was correctly received over TCP. So a higher level acknowledgment system is required to ensure the message is resent so the application can process it correctly.</p>
+      <h2 id="MessageTrackingSchemes-HL7MessageTracking">HL7 Message Tracking</h2>
+      <p>HL7 message tracking is one of the most common forms of message tracking in use. It is defined in detail in the relevant HL7 specifications, but is summarized and simplified here. Although message tracking in Rhapsody may be used with other messaging standards as well, the most common use is for HL7.</p>
+      <p>In HL7 version 2, all HL7 messages begin with an MSH segment (Message Header). The segment contains basic information about the message, including the following:</p>
+      <ul>
+       <li>The message separators to be used when processing the message.</li>
+       <li>Information about the sender of the message.</li>
+       <li>Information about the intended receiver of the message.</li>
+       <li>The date/time the message was sent.</li>
+       <li>The message type.</li>
+       <li>The message control ID.</li>
+       <li>The HL7 version.</li>
+      </ul>
+      <p>Of greatest interest here is the message control ID (normally referred to as <code>MSH/MessageControlID</code> or <code>MSH.10</code>) which is used to identify the message. When receiving messages from multiple systems, this value, in conjunction with the information about the sender, is used to uniquely identify the message (or at least relatively uniquely over a short period of time).</p>
+      <p>An example of an HL7 MSH segment is as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">MSH|^~&amp;|ABC|001|DEF|001|20020502145546||ADT^A01| *69549* |P|2.2|||AL|NE[0D]</pre> 
+       </div>
+      </div>
+      <p>HL7 defines a large number of acknowledgment messages. Some of them are general acknowledgments, whereas others, particularly query responses, are specifically for acknowledging/responding to particular message types. The most commonly used acknowledgment message is the ACK, although most acknowledgment messages follow the same format.</p>
+      <p>The HL7 ACK message contains three segments (in HL7 2.5 the third segment may repeat):</p>
+      <ul>
+       <li><code>MSH</code> - the message header containing basic information about the message.</li>
+       <li><code>MSA</code> - the message acknowledgment segment which is used to determine what message is being acknowledged.</li>
+       <li><code>ERR</code> - the error segment, which contains errors found in the original message.</li>
+      </ul>
+      <p>The first two fields in the MSA segment are the fields normally used for processing acknowledgments. These are the acknowledgment code and the message control ID.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>AcknowledgmentCode (MSA.1)</p></td>
+          <td class="confluenceTd"><p>The acknowledgment code is used to identify whether this is a positive or negative acknowledgment (that is; an ACK or a NACK). The three most commonly used acknowledgment codes are AA (Application Accept), AR (Application Reject), and AE (Application Error).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MessageControlID (MSA.2)</p></td>
+          <td class="confluenceTd"><p>This is the message control ID from the original message, allowing this acknowledgment message to be matched against the original message even if acknowledgments are received out of sequence.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

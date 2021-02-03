@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Upgrade Strategies</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Upgrading-Rhapsody_133164179.html">Upgrading Rhapsody</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Upgrade Strategies</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="page view">
+       <div class="wiki-content">
+        <p>This section describes the upgrade strategies for&nbsp;major,&nbsp;minor&nbsp;and&nbsp;service pack&nbsp;upgrades:</p>
+        <p></p>
+        <ul class="childpages-macro">
+         <li><a href="Upgrade-Caveats_133164183.html">Upgrade Caveats</a></li>
+         <li><a href="Upgrade-with-Full-Backup_133164182.html">Upgrade with Full Backup</a></li>
+         <li><a href="Upgrade-with-Partial-Backup_133164185.html">Upgrade with Partial Backup</a></li>
+         <li><a href="Upgrade-with-No-Backup_133164184.html">Upgrade with No Backup</a></li>
+        </ul>
+        <p></p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>It is recommended you test your upgrade strategy in at least one environment prior to applying it to your production engine.</p>
+         </div>
+        </div>
+        <h2 id="UpgradeStrategies-ChoosinganUpgradeStrategy">Choosing an Upgrade Strategy</h2>
+        <p>The Rhapsody installer,&nbsp;when run against the currently installed engine, is generally able to perform an upgrade quickly and automatically. As part of this process, the datastore is&nbsp;permanently modified.&nbsp;<span>In Rhapsody terminology, the datastore refers to the </span><code>data</code><span> directory within the </span><a href="Rhapsody-Directory-Structure_133161562.html">Rhapsody directory structure</a><span> which contains all configuration, administrative information and message directories.</span></p>
+        <p>If there is a failure during the upgrade, the installer cannot revert any already modified directories. Therefore the risk of upgrade failure must always be taken into consideration before performing an upgrade. Risk is mitigated by performing backups of the datastore before the upgrade. If there is a failure, then a rollback can be performed using the backup.</p>
+        <p>Therefore, an upgrade strategy must be chosen, which is determined primarily by the type of backup that is performed. The type of backup is determined by factors such as:</p>
+        <ul>
+         <li>The environment type,&nbsp;typically production or non-production (test or development).</li>
+         <li>The importance placed on keeping archived messages upon failure.</li>
+         <li>The size of the datastore.&nbsp;The datastore contains all configuration, administration and message data for the engine. Configuration and administrative data is a small and quick backup. However, message data might be hundreds of gigabytes in size.&nbsp;</li>
+         <li>Allowable downtime for an upgrade. The larger the amount which is required to be backed up, the longer the downtime will be.</li>
+        </ul>
+        <p>Rhapsody recommends two types of backups for upgrade rollbacks,&nbsp;either copying the entire&nbsp;datastore,&nbsp;or performing a smaller partial copy:</p>
+        <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146927500 {padding: 0px;}
+div.rbtoc1565146927500 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146927500 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+        <div class="toc-macro rbtoc1565146927500"> 
+         <ul class="toc-indentation"> 
+          <li><a href="#UpgradeStrategies-CreatingaFullCopyoftheDatastore">Creating a Full Copy of the Datastore</a></li> 
+          <li><a href="#UpgradeStrategies-CreatingaPartialCopyoftheDatastore">Creating a Partial Copy of the Datastore</a></li> 
+         </ul> 
+        </div>
+        <p></p>
+        <p>You can also upgrade without creating a copy of the datastore.</p>
+        <div class="confluence-information-macro confluence-information-macro-warning">
+         <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Rhapsody as an organization strongly advises against RLC backups and Message Store backups for upgrade rollbacks.</p>
+         </div>
+        </div>
+        <h2 id="UpgradeStrategies-TypesofBackups"><span>Types of Backups</span></h2>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <ul>
+           <li>Rhapsody must always be stopped before making a copy of the datastore. Not doing so would likely result in an inconsistent and damaged copy because Rhapsody frequently writes to multiple parts of the datastore, while a 'copy' operation is performed sequentially.&nbsp;</li>
+           <li>The destination of the copy should be considered. Copying across&nbsp;a network&nbsp;to a different location may be slow.</li>
+          </ul>
+         </div>
+        </div>
+        <h3 id="UpgradeStrategies-CreatingaFullCopyoftheDatastore"><span style="color: rgb(0,0,0);">Creating a Full Copy of the Datastore</span></h3>
+        <p>The recommended form of backup for any Production engine, after stopping the Rhapsody engine, is to make a copy of the entire Rhapsody datastore. This backup contains all configuration, administrative and message data.&nbsp;</p>
+        <h4 id="UpgradeStrategies-Advantages">Advantages</h4>
+        <p>If a failure takes place, full functionality can be restored by simply installing the same version of the original engine, with the same memory settings, and pointing it to the copy of the datastore.</p>
+        <h4 id="UpgradeStrategies-Disadvantages">Disadvantages</h4>
+        <p>The message-related directories within the Rhapsody datastore can be quite large, up to multiple hundreds of gigabytes or more. Performing a copy operation requires an equivalent amount of space to be available, and could take a while to complete - this adds to the downtime of the engine. The on-site infrastructure team should be consulted.</p>
+        <p>In order to get size and time estimates:</p>
+        <ul>
+         <li>Check the size of datastore. To find the location of the datastore, refer to the&nbsp;<code>InitialisationService.dataDirectory</code>&nbsp;property&nbsp;in the <code>rhapsody.properties</code> file.</li>
+         <li>Calculate an estimate of the time to create the copy by:<br>
+          <ul>
+           <li>Performing a copy of the datastore from a non-production Rhapsody engine. This is usually much smaller than production, but the overall time can be extrapolated. For example, if a non-production engine has a 10GB&nbsp;datastore which takes 5 minutes to copy, then a production engine with a 100GB&nbsp;datastore may take 25 minutes to copy.</li>
+           <li>Discussing this with your on-site infrastructure team.</li>
+          </ul></li>
+        </ul>
+        <h3 id="UpgradeStrategies-CreatingaPartialCopyoftheDatastore">Creating a Partial Copy of the Datastore</h3>
+        <p>Rhapsody can still be started in a fully functional state without the message-related data (no in-flight or archived messages). This can be achieved by making a copy of all non-message-related sub-directories within the datastore.&nbsp;<br> <br>This is the recommended form of backup for any Production engine if the message-related data is considered too large to copy, or the loss of the message archive is acceptable. Any live messages within Rhapsody (traversing routes, or on any route or communication point queues) would also be lost, but these messages should be drained out of Rhapsody beforehand.</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>The message archive is only a rolling window of old messages and is normally only used for troubleshooting purposes. Therefore, it is often considered to be an acceptable loss.</p>
+         </div>
+        </div>
+        <h4 id="UpgradeStrategies-Advantages.1"><span style="color: rgb(0,0,0);">Advantages</span></h4>
+        <p>The non-message directories are often relatively small, and so copying these directories does not cost much in terms of space or time.</p>
+        <h4 id="UpgradeStrategies-Disadvantages.1">Disadvantages</h4>
+        <p>Archived and live messages will be lost.&nbsp;The engine must be thoroughly cleared of in-flight messages before performing the backup. The time to perform this activity should be weighed against the time it may take to make a copy of the entire datastore. An alternative is to have a plan in place to be able to identify how to find and re-send messages which were in-flight when the Rhapsody engine was stopped.</p>
+        <h2 id="UpgradeStrategies-RhapsodyPropertiesFile">Rhapsody Properties File</h2>
+        <p>The&nbsp;<a href="Rhapsody-Properties-File_133161053.html"><code>rhapsody.properties</code>&nbsp;file </a> is only modified in the following ways by the upgrade process:&nbsp;</p>
+        <ul>
+         <li>The user has the option of updating port details during the upgrade process. If these values are updated, the corresponding values in the file are also updated.</li>
+         <li>New properties are appended to the end of the original file.</li>
+        </ul>
+        <p>Thus, the placement of various properties in an&nbsp;upgraded&nbsp;<code>rhapsody.properties</code>&nbsp;file&nbsp;may differ substantially from a&nbsp;<code>rhapsody.properties</code>&nbsp;file in a fresh installation. However, the files are functionally the same.</p>
+        <h2 id="UpgradeStrategies-WrapperFiles">Wrapper Files</h2>
+        <p>The <a href="Java-Service-Wrapper_133161052.html">wrapper files</a> are overwritten on upgrade (only the <code>wrapper-local.conf</code> file is backed up to <code>wrapper-local.conf.old</code>). Therefore, back up any wrapper files you have modified before upgrading, and manually copy the changes to the new wrapper files after the upgrade.</p>
+        <h2 id="UpgradeStrategies-log4jPropertiesFile"><span style="color: rgb(0,0,0);">log4j Properties File</span></h2>
+        <p>The&nbsp;<code>log4j.properties</code> file&nbsp;is overwritten on upgrade. Therefore, back up the&nbsp;<code>log4j.properties</code>&nbsp;file&nbsp;before upgrading, and manually copy any changes to the new&nbsp;<code>log4j.properties</code>&nbsp;file after the upgrade.</p>
+        <h2 id="UpgradeStrategies-JavaSecurityFile">Java Security File</h2>
+        <p>The&nbsp;<code>java.security</code>&nbsp;file&nbsp;is overwritten on upgrade.&nbsp;Therefore, back up the&nbsp;file&nbsp;before upgrading, in case you need to refer to it&nbsp;after the upgrade. Refer to&nbsp;<a href="133161183.html#TLS/SSLSupportinRhapsody-EnablingDisabledCipherSuites">Enabling Disabled Cipher Suites</a> for details.</p>
+        <p> </p>
+       </div>
+      </div> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

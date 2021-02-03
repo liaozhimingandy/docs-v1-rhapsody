@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Error Message Help</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Error Message Help</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>When processing messages with the database communication point, database lookup filter or database query filter, it is possible that one or more of the following errors may occur and the following information will be written to the error log. To help diagnose the problem here is a list of actions you should check in each case.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">Failed to extract message content of "message field". Incoming message may
+not be valid or repeating message elements may not be properly nested.
+</pre> 
+       </div>
+      </div>
+      <ul>
+       <li>Check the configuration. Ensure the statements are properly nested and all repeating elements are specified by the "iterate" attribute value.</li>
+       <li>Check the incoming message using EDI Explorer to ensure it is valid for the specified definition.</li>
+       <li><p>Please note that an XML message field path finishes with either <code>.#PCDATA</code> for an element value or <code>.value</code>for an attribute value.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">Error occurred mapping column value.:\- nested message: Unknown error while
+parsing.:\- nested message: Failed to parse input.
+</pre> 
+         </div>
+        </div></li>
+       <li><p>Check the incoming message using EDI Explorer to ensure it is valid for the specified definition.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Can't find order column in result</pre> 
+         </div>
+        </div></li>
+       <li>The root statement must return the "key" column in its result set. Please include the "key" column in your SELECT query.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

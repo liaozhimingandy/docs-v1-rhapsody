@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Lookup Tables</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Lookup Tables</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148435" class="confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path:</em> <strong>View&gt;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163450/133163454.png" data-image-src="attachments/133163450/133163454.png" data-unresolved-comment-count="0" data-linked-resource-id="133163454" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_LookupTables.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163450" data-linked-resource-container-version="1"></span> Lookup Tables</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Toolbar:</em> <strong> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163450/133163453.png" data-image-src="attachments/133163450/133163453.png" data-unresolved-comment-count="0" data-linked-resource-id="133163453" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_variablesManager_arrow.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163450" data-linked-resource-container-version="1"></span>&gt;Lookup Tables</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Read <a href="Access-Rights_133161013.html">Access Rights</a> </em>:</p>
+           <ul>
+            <li>Log in to <span>Rhapsody IDE</span></li>
+            <li>Make changes with <span>Rhapsody IDE</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Write Access Group Rights:</em></p>
+           <ul>
+            <li>Edit lookup table values</li>
+            <li>Manage lookup tables</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148435']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148435',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>A <a href="Lookup-Table-Examples_133163460.html">lookup table</a> contains the values you want to 'look up' and the translation, and enables values to be mapped based on managed data lookups. Lookup tables in Rhapsody are multi-column data tables that can be used to match data in multiple columns and return the value of another column. If there are multiple matches, a lookup table can return the first match only or all matches. Failed lookups can be logged, and counted, so that the correct values can be added at a later time.</p>
+      <p>Lookup tables can be edited through Rhapsody IDE and the Management Console, as well as the remote monitoring APIs, and can be transferred between systems using RLC&nbsp;files. Additionally, the managed lookup tables can be imported and exported using Comma Separated Value (<code>.csv</code>) files.&nbsp;Any changes made to the tables take effect immediately, that is, components that use the tables do not have to be reconfigured.</p>
+      <p>Thus, Rhapsody's lookup tables provide a simple code-mapping solution without the need for a database.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <div class="mod-content">
+         <p>Importing CSV files with very high row counts into lookup tables will not be successful if client hardware has insufficient memory, or the Rhapsody engine has a small heap size. Depending on the hardware configuration, there is a practical limit of approximately 600,000 rows.</p>
+        </div>
+       </div>
+      </div>
+      <p>You can assign lookup tables to a route using the following Rhapsody objects:</p>
+      <ul>
+       <li>Any filters and communication points using JavaScript (such as the&nbsp;JavaScript&nbsp;filter, HL7 Message Modifier filter,&nbsp;Freemarker Mapper filter,&nbsp;and JavaScript TCP Client and JavaScript TCP&nbsp;Server communication points).&nbsp;Refer to&nbsp;<a href="LookupTable-Object_133161408.html">LookupTable Object</a>&nbsp;and&nbsp;<a href="ColumnValue-Object_133161409.html">ColumnValue Object</a>&nbsp;for details.</li>
+       <li>Conditional and&nbsp;JavaScript connectors.</li>
+       <li>The Mapper filter (refer to&nbsp;<a href="Using-Map-Designer-for-Lookups_133163474.html">Using Map Designer for Lookups</a>&nbsp;for details).</li>
+       <li>Intelligent Mapper mapping projects (refer to the <a href="133163283.html">Intelligent Mapper</a> filter).</li>
+       <li><a href="Web-Service-Client_133162592.html">Web service clients</a>.</li>
+      </ul>
+      <p>The&nbsp;Lookup Tables Manager provides a central location for managing lookup tables:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146990439 {padding: 0px;}
+div.rbtoc1565146990439 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146990439 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146990439"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#LookupTables-ViewingLookupTables">Viewing Lookup Tables</a></li> 
+        <li><a href="#LookupTables-ManagingLookupTables">Managing Lookup Tables</a></li> 
+       </ul> 
+      </div>
+      <ul class="childpages-macro">
+       <li><a href="Adding-or-Deleting-Lookup-Tables_133163467.html">Adding or Deleting Lookup Tables</a></li>
+       <li><a href="Defining-the-Structure-of-a-Lookup-Table_133163478.html">Defining the Structure of a Lookup Table</a></li>
+       <li><a href="Managing-Lookup-Table-Values_133163457.html">Managing Lookup Table Values</a></li>
+       <li><a href="Importing-or-Exporting-Lookup-Tables_133163482.html">Importing or Exporting Lookup Tables</a></li>
+       <li><a href="Finding-and-Replacing-Lookup-Table-Values_133163461.html">Finding and Replacing Lookup Table Values</a></li>
+       <li><a href="Handling-Lookup-Failures_133163475.html">Handling Lookup Failures</a></li>
+       <li><a href="Using-Map-Designer-for-Lookups_133163474.html">Using Map Designer for Lookups</a></li>
+       <li><a href="Showing-the-Uses-of-a-Lookup-Table_133163455.html">Showing the Uses of a Lookup Table</a></li>
+       <li><a href="Lookup-Table-Examples_133163460.html">Lookup Table Examples</a></li>
+      </ul>
+      <p></p>
+      <h2 id="LookupTables-ViewingLookupTables"><span style="color: rgb(0,0,0);font-size: 20.0px;">Viewing Lookup Tables</span></h2>
+      <p>The&nbsp;Lookup Tables&nbsp;Manager lists the lookup tables in Rhapsody, and enables you to easily create new tables, delete existing tables, as well as edit the metadata (properties), structure and values of a table.&nbsp;</p>
+      <p>To launch the<strong>&nbsp;</strong>Lookup Tables Manager, navigate to <strong>View&gt;Lookup Tables&nbsp;</strong>(or press&nbsp;<strong>Ctrl+Shift+L</strong>):</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163450/133163451.png" data-image-src="attachments/133163450/133163451.png" data-unresolved-comment-count="0" data-linked-resource-id="133163451" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LookupTables.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163450" data-linked-resource-container-version="1"></span></p>
+      <p>The<strong>&nbsp;</strong>Lookup Tables&nbsp;manager displays the following information:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Column</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>[Not labeled]</p></td>
+          <td class="confluenceTd"><p>The <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163450/133163452.png" data-image-src="attachments/133163450/133163452.png" data-unresolved-comment-count="0" data-linked-resource-id="133163452" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_ItemCheckedOut.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163450" data-linked-resource-container-version="1"></span> icon indicates that the lookup table is checked out for editing.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Name</p></td>
+          <td class="confluenceTd"><p>The name of the lookup table.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description</p></td>
+          <td class="confluenceTd"><p>A description of the lookup table.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Rows</p></td>
+          <td class="confluenceTd"><p>Number of rows in the <span>lookup table</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Checked Out User</p></td>
+          <td class="confluenceTd"><p>If the lookup table is currently checked out, this column identifies the user who checked it out.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Last Modified</p></td>
+          <td class="confluenceTd"><p>The date and time the <span>lookup table</span> was last modified.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupTables-ManagingLookupTables"><span>Managing Lookup Tables</span></h2>
+      <p><span style="color: rgb(51,51,51);font-size: 14.0px;">You can perform the following actions from the</span><strong style="color: rgb(51,51,51);font-size: 14.0px;">&nbsp;</strong>Lookup Tables<span style="color: rgb(51,51,51);font-size: 14.0px;">&nbsp;Manager:</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Adding-or-Deleting-Lookup-Tables_133163467.html#AddingorDeletingLookupTables-AddingaLookupTable">Add</a></td>
+          <td class="confluenceTd">Add a lookup table.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Adding-or-Deleting-Lookup-Tables_133163467.html#AddingorDeletingLookupTables-DeletingaLookupTable">Delete</a></td>
+          <td class="confluenceTd">Delete a lookup table.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Defining-the-Structure-of-a-Lookup-Table_133163478.html">Edit Structure</a></td>
+          <td class="confluenceTd">Edit the structure of a lookup table via the <strong>Lookup Table Structure</strong> dialog.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Managing-Lookup-Table-Values_133163457.html#ManagingLookupTableValues-AddingorEditingLookupTableValues">Edit Values</a></td>
+          <td class="confluenceTd"><p>Add or edit values in a lookup table via the <strong>Edit Lookup Table Values</strong> dialog. From the dialog, you can also:</p>
+           <ul>
+            <li><a href="Defining-the-Structure-of-a-Lookup-Table_133163478.html">Edit the structure of a lookup table</a>.</li>
+            <li><a href="Importing-or-Exporting-Lookup-Tables_133163482.html">Import or export lookup tables</a>.</li>
+            <li><a href="Finding-and-Replacing-Lookup-Table-Values_133163461.html">Find and replace lookup table values</a>.</li>
+            <li><a href="Handling-Lookup-Failures_133163475.html">Handle lookup failures</a>.</li>
+           </ul><p>Double-clicking on a lookup table name also opens the <strong>Edit Lookup Table Values</strong> dialog.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Managing-Lookup-Table-Values_133163457.html#ManagingLookupTableValues-ViewingLookupTableValues">View Values</a></td>
+          <td colspan="1" class="confluenceTd"><p>View the values and lookup failures associated with a lookup table via the <strong>View Lookup Table Values</strong> dialog. From the dialog, you can also:</p>
+           <ul>
+            <li><a href="Importing-or-Exporting-Lookup-Tables_133163482.html#ImportingorExportingLookupTables-ExportingLookupTables">Export lookup tables</a>.</li>
+            <li><a href="Finding-and-Replacing-Lookup-Table-Values_133163461.html#FindingandReplacingLookupTableValues-FindingLookupTableValues">Find lookup table values</a>.</li>
+            <li><a href="Handling-Lookup-Failures_133163475.html#HandlingLookupFailures-RefreshingLookupFailures">Refresh lookup failures</a>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Check Out</td>
+          <td colspan="1" class="confluenceTd">Check out a lookup table.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Check In</td>
+          <td colspan="1" class="confluenceTd">Check in a lookup table.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Undo Check Out</td>
+          <td colspan="1" class="confluenceTd">Undo a check-out of a lookup table.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Showing-the-Uses-of-a-Lookup-Table_133163455.html">Show Uses</a></td>
+          <td colspan="1" class="confluenceTd">Display the components or objects a lookup table is being used in.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Filter</td>
+          <td colspan="1" class="confluenceTd">Perform text-based filtering to filter the list of displayed&nbsp;<span>lookup tables</span>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

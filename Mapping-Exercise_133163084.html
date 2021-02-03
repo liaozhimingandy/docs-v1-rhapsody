@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Mapping Exercise</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+       <li> <span><a href="HL7-Message-Modifier_133163077.html">HL7 Message Modifier</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Mapping Exercise</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>You can use this mapping exercise to assist you with configuring the HL7 Message Modifier filter. It also illustrates how the HL7 Message Modifier filter can often replace Mapper or JavaScript filter functionality with both an increase in performance and requiring less programming knowledge. <br class="atl-forced-newline"></p> 
+      <h2 id="MappingExercise-MapperFilter">Mapper Filter</h2> 
+      <p>The Mapper filter maps all the segments and their fields in an input message including any user-defined changes to those in the output message. The following screenshot illustrates the complexity of a Mapper filter configuration. Refer to the attached <a href="attachments/133163084/133163110.mdf" data-linked-resource-id="133163110" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AUCKHQ_ADT_to_INITIATE.MDF" data-linked-resource-content-type="application/octet-stream" data-linked-resource-container-id="133163084" data-linked-resource-container-version="1">sample mapper file</a> for details. </p> 
+      <map id="gliffy-map-133163102-2649" name="gliffy-map-133163102-2649"></map> 
+      <table width="100%" class="gliffy-macro-table"> 
+       <tbody>
+        <tr> 
+         <td> 
+          <table class="gliffy-macro-inner-table"> 
+           <caption align="bottom"> 
+           </caption> 
+           <tbody>
+            <tr> 
+             <td> <img style="border: none; width: 1134px;" usemap="#gliffy-map-133163102-2649" src="attachments/133163084/133163101.png" alt="" class="gliffy-macro-image"> </td> 
+            </tr> 
+           </tbody>
+          </table> </td> 
+        </tr> 
+       </tbody>
+      </table> 
+      <p>The sample mapper file makes the following changes to an incoming ADT message:</p> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163084/133163087.png" data-image-src="attachments/133163084/133163087.png" data-unresolved-comment-count="0" data-linked-resource-id="133163087" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ADTMapperExample.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163084" data-linked-resource-container-version="1"></span></p> 
+      <ol> 
+       <li>Set PID.PatientIdentifierList according to PID.PatientIdentifierList.IdentifierTypeCode.</li> 
+       <li>Set PID.PatientAddress.AddressType according to PID.PatientAddress.StreetAddress.StreetName.</li> 
+       <li>Re-format PID.HomePhoneNumber.</li> 
+       <li>Re-format PID.BusinessPhoneNumber.</li> 
+       <li>When PID.PatientDeathDateAndTime is empty, set PID.PatientDeathDateAndTime according to PID.PatientDeathIndicator.</li> 
+       <li>Copy MRG.PriorPatientID.IDNumber to MRG.PriorPatientIdentifierList under a certain condition.</li> 
+       <li>Copy all MSH fields that are to be modified to the ZID custom segment.</li> 
+       <li>Copy all MSH fields that are to be modified to the ZSH custom segment.</li> 
+       <li>Modify the relevant MSH fields. 
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p> For the purposes of illustrating the efficacy of the HL7 Message Modifier filter, it is assumed that patient identifier lists contain only one identifier. </p>
+         </div>
+        </div></li> 
+      </ol> 
+      <h2 id="MappingExercise-HL7MessageModifierFilter">HL7 Message Modifier Filter</h2> 
+      <p>The Mapper Filter rules can be represented by the HL7 Message Modifier filter in a far simpler form and constructed far more easily. The following diagram illustrates the HL7 Message Modifier filter rules configuration on the left and the equivalent logic flow on the right. Refer to the attached <a href="attachments/133163084/133163088.rlc" data-linked-resource-id="133163088" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="HL7 Message Modifier Filter.rlc" data-linked-resource-content-type="application/octet-stream" data-linked-resource-container-id="133163084" data-linked-resource-container-version="1">sample RLC</a> for details. </p> 
+      <map id="gliffy-map-133163086-9576" name="gliffy-map-133163086-9576"></map> 
+      <table width="100%" class="gliffy-macro-table"> 
+       <tbody>
+        <tr> 
+         <td> 
+          <table class="gliffy-macro-inner-table"> 
+           <caption align="bottom"> 
+           </caption> 
+           <tbody>
+            <tr> 
+             <td> <img style="border: none; width: 1263px;" usemap="#gliffy-map-133163086-9576" src="attachments/133163084/133163085.png" alt="" class="gliffy-macro-image"> </td> 
+            </tr> 
+           </tbody>
+          </table> </td> 
+        </tr> 
+       </tbody>
+      </table> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

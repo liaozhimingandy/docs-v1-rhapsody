@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>JavaScript Where a Return Value is Expected</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+       <li> <span><a href="Global-Functions_133161395.html">Global Functions</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">JavaScript Where a Return Value is Expected</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>As a result of an update to the JavaScript library to add E4X support, JavaScript scripts may fail if the return value is not true. This is likely to happen where functions are declared below the body of the script. To resolve this, declare JavaScript functions first (before the script body), if using JavaScript where a return value is expected.</p>
+      <h2 id="JavaScriptWhereaReturnValueisExpected-Example">Example</h2>
+      <p>The receive script in the JavaScript TCP server is as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">var input = "", totalInput = "";
+var startTime = new Date();
+
+while (input != null) {
+	if (timeExceeded(startTime)) {
+		false;
+	}
+
+	input = conn.readString();
+
+	if (input != null) {
+		totalInput += input;
+		
+		if (lastMessagePartReceived(input)) {
+			break;
+		}
+	}
+}
+
+result.text = totalInput;
+log.info("Server: Message received (" + totalInput.length + " bytes).");
+true;
+
+function timeExceeded(startTime) {
+	var now = new Date();
+	var timeDifference = now - startTime;
+	return (timeDifference &gt; 5000);
+}
+
+function lastMessagePartReceived(input) {
+	return input.length &lt; 1024;
+} </pre> 
+       </div>
+      </div>
+      <p>The return value of this script must be a boolean. If <code>true</code>, then it indicates that a message was received, and if <code>false</code> no message was received. However, technically, the return value of this script is a function object (<code>lastMessagePartReceived</code> function), which evaluates to neither <code>true</code> nor <code>false</code>.</p>
+      <p></p>
+      <p>The script is fixed by moving the two functions to the top of the script, instead of the bottom, so the last result is now <code>true</code>. This is only an issue when the script expects a return value, and the functions are placed at the end of the script. There are only two locations where this is relevant:</p>
+      <ul>
+       <li>JavaScript TCP Client/Server receive message scripts.</li>
+       <li>JavaScript conditional connectors.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

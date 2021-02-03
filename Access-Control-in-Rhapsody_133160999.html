@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Access Control in Rhapsody</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Access Control in Rhapsody</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148363" class="wrapped confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path:</em> <strong>View&gt;User Manager...</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><em>Toolbar:</em> <strong><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133160999/133161012.png" data-image-src="attachments/133160999/133161012.png" data-unresolved-comment-count="0" data-linked-resource-id="133161012" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_variablesManager_arrow.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160999" data-linked-resource-container-version="6"></span>&gt;User Manager</strong></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Required <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Login to IDE</li>
+            <li>Make changes with IDE</li>
+            <li>Edit user accounts</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148363']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148363',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p><span>Rhapsody's <strong>User Manager</strong> enables an Administrator&nbsp;to manage user&nbsp;access to Rhapsody through Rhapsody IDE, the Management Console, or REST API.</span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>User Manager functionality has changed significantly as of Rhapsody 6.1. If you are connecting to a Rhapsody 6.0 engine using a Rhapsody IDE version 6.1 or later, then refer to <i>User Manager</i> in the <em>Rhapsody 6.0 Administrator Manual</em>.</p>
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">Individual users who are to have access to Rhapsody IDE and the Management Console must be registered in Rhapsody with a unique username and password. Each user must also be assigned to at least one&nbsp;Access Group, which determines the functionality they can access.</span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The User Manager enables an administrator to:</span></p>
+      <ul>
+       <li><span>Assign different permissions for user access to, for example, Development, Test and Production servers.</span></li>
+       <li><span>Restrict user access to PHI contained in messages in an engine. For example, you may not want someone who needs to view ADT messages to be able to see ORU messages.</span></li>
+       <li>View and manage the entire configuration, while other users can only see the parts that they are allowed access to.<span><br></span></li>
+       <li><span>Set up a user to have access to only components they are responsible for, without all the 'noise' that can be present on a large engine. The user can therefore quickly find what they are looking for.</span></li>
+      </ul>
+      <p>Refer to&nbsp;<a href="LDAP-Integration_133161020.html">LDAP Integration</a> for details on how&nbsp;users are authenticated using an LDAP directory.</p>
+      <h2 id="AccessControlinRhapsody-AccessControlinRhapsody">Access Control in Rhapsody</h2>
+      <p>In Rhapsody versions 6.0 and earlier, access groups are used to accord global access rights to users. Users can belong to a single access group. If a user has permissions to view messages, they can see all the messages passing through the entire configuration. Access control in Rhapsody&nbsp;versions 6.1 and later handles situations where you want only specific users to have access to certain types of messages.</p>
+      <p>With the introduction of <a href="Lockers_133162089.html">lockers</a> in Rhapsody 6.1,&nbsp;access groups are used to accord global access rights and locker access rights to users. Global access rights apply to the whole engine or all lockers, whereas locker access rights are specific to each locker in that they refer only to the configuration and message data for that locker.<span style="line-height: 13.0pt;background-color: transparent;">&nbsp;Users can now belong to more than one access group.</span></p>
+      <h2 id="AccessControlinRhapsody-UserManager">User Manager</h2>
+      <p>You can view a list of currently configured users, along with the access groups to which they are assigned, through the User Manager:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133160999/133161006.png" data-image-src="attachments/133160999/133161006.png" data-unresolved-comment-count="0" data-linked-resource-id="133161006" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AccessControlManager.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160999" data-linked-resource-container-version="6"></span><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span>The User Manager enables you to manage the following aspects of user access:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Tab</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="User-Management_133161038.html">Users</a></td>
+          <td class="confluenceTd">Allows you to manage users.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Group-Management_133161023.html">Groups</a></td>
+          <td class="confluenceTd"><span>Allows you to manage groups.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="Locker-View_133161014.html">Lockers</a></td>
+          <td class="confluenceTd"><span>Allows you to view how lockers are configured.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Password-Policy-Management_133161032.html">Password Policy</a></td>
+          <td colspan="1" class="confluenceTd">Allows you to manage password policies.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><span>A typical workflow for managing user access is as follows:</span></p>
+      <p><span> <map id="gliffy-map-133161001-4726" name="gliffy-map-133161001-4726"><area coords="165,35,308,49" href="/x/LwusBw" shape="rect" title="/x/LwusBw"><area coords="208,411,258,425" href="/display/RHAPS64/User+Management" shape="rect" title="/display/RHAPS64/User+Management"><area coords="201,281,265,295" href="/display/RHAPS64/Group+Management" shape="rect" title="/display/RHAPS64/Group+Management"><area coords="198,156,268,170" href="/display/RHAPS64/Locker+View" shape="rect" title="/display/RHAPS64/Locker+View"></map> </span></p>
+      <table width="100%" class="gliffy-macro-table"> 
+       <tbody>
+        <tr> 
+         <td> 
+          <table class="gliffy-macro-inner-table"> 
+           <caption align="bottom"> 
+           </caption> 
+           <tbody>
+            <tr> 
+             <td> <img style="border: none; width: 437px;" usemap="#gliffy-map-133161001-4726" src="attachments/133160999/133161000.png" alt="" class="gliffy-macro-image"> </td> 
+            </tr> 
+           </tbody>
+          </table> </td> 
+        </tr> 
+       </tbody>
+      </table> 
+      <p></p>
+      <h2 id="AccessControlinRhapsody-WorkflowExample">Workflow Example</h2>
+      <p><span style="color: rgb(0,0,0);">The following example illustrates how to use</span><span style="color: rgb(0,0,0);">&nbsp;lockers to isolate your configuration and secure your PHI data from other users to satisfy legal requirements:</span></p>
+      <p><span style="color: rgb(0,0,0);"><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146933576 {padding: 0px;}
+div.rbtoc1565146933576 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146933576 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></span></p>
+      <div class="toc-macro rbtoc1565146933576"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#AccessControlinRhapsody-CreateLockers">Create Lockers</a></li> 
+        <li><a href="#AccessControlinRhapsody-AddGroups">Add Groups</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#AccessControlinRhapsody-AddthegroupADTGroupwiththefollowingaccessrights:">Add the group ADT Group&nbsp;with the following access rights:</a></li> 
+          <li><a href="#AccessControlinRhapsody-AddthegroupORUGroupwiththefollowingaccessrights:">Add the group ORU Group with the following access rights:</a></li> 
+         </ul> </li> 
+        <li><a href="#AccessControlinRhapsody-AddUsers">Add Users</a></li> 
+        <li><a href="#AccessControlinRhapsody-ViewingMessages">Viewing Messages</a></li> 
+       </ul> 
+      </div>
+      <br>
+      <p></p>
+      <h3 id="AccessControlinRhapsody-CreateLockers">Create Lockers</h3>
+      <ol>
+       <li>Log onto Rhapsody IDE as the default Administrator user.</li>
+       <li><span style="line-height: 13.0pt;">Create the following configuration including the lockers, <code>All Msg_Process</code>, <code>Msg_ADT</code>, and <code>Msg_ORU</code>:</span></li>
+      </ol>
+      <p><span style="line-height: 13.0pt;"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="625" width="985" src="attachments/133160999/133161010.png" data-image-src="attachments/133160999/133161010.png" data-unresolved-comment-count="0" data-linked-resource-id="133161010" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="AccessControlExample.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160999" data-linked-resource-container-version="6"></span></span></p>
+      <p><strong style="letter-spacing: 0.0px;">ADT_Route</strong></p>
+      <p><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="500" src="attachments/133160999/133161009.png" data-image-src="attachments/133160999/133161009.png" data-unresolved-comment-count="0" data-linked-resource-id="133161009" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ADT_Route.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160999" data-linked-resource-container-version="6"></span></strong></p>
+      <p><strong>ORU_Route</strong></p>
+      <p><strong style="letter-spacing: 0.0px;"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="500" src="attachments/133160999/133161011.png" data-image-src="attachments/133160999/133161011.png" data-unresolved-comment-count="0" data-linked-resource-id="133161011" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ORU_Route.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160999" data-linked-resource-container-version="6"></span></strong></p>
+      <h3 id="AccessControlinRhapsody-AddGroups">Add Groups</h3>
+      <p><span style="line-height: 13.0pt;">Add two Groups: <code>ADT Group</code> and <code>ORU Group</code>.</span></p>
+      <h4 id="AccessControlinRhapsody-AddthegroupADTGroupwiththefollowingaccessrights:"><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;">Add the group <code>ADT Group</code>&nbsp;with the following access rights:</span></h4>
+      <ul>
+       <li><code>All Lockers (Default Rights)</code> - select all Presets (Development, Monitor Read and Monitor Write).</li>
+       <li><code>All Msg_Process</code> - use the default access rights.</li>
+       <li><code>Msg_ADT</code>&nbsp;- use the default access rights.</li>
+       <li><code>Msg_ORU</code>&nbsp;- deselect 'View locker'.</li>
+      </ul>
+      <h4 id="AccessControlinRhapsody-AddthegroupORUGroupwiththefollowingaccessrights:"><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;">Add the group <code>ORU Group</code> with the following access rights:</span></h4>
+      <ul>
+       <li><code>All Lockers (Default Rights)</code> - select all Presets (Development, Monitor Read and Monitor Write).</li>
+       <li><code>All Msg_Process</code> - deselect&nbsp;'Edit locker' and 'Start/Stop communication points and routes'.</li>
+       <li><code>Msg_ADT</code> - deselect 'View locker'.</li>
+       <li><code>Msg_ORU</code> - use the default access rights.</li>
+      </ul>
+      <h3 id="AccessControlinRhapsody-AddUsers">Add Users</h3>
+      <p>Create a user for each group.</p>
+      <p>Add <code>ADT_User</code> to the&nbsp;<code>ADT Group</code>. The user has the following permissions:</p>
+      <ul>
+       <li>Has full access to the <code>All Msg_Process</code> locker.</li>
+       <li>Has full access to&nbsp;the <code>Msg_ADT</code> locker.</li>
+       <li>Cannot view the <code>Msg_ORU</code> locker.</li>
+      </ul>
+      <p>Add <code>ORU_User</code> to the&nbsp;<code>ORU Group</code><span>. The user&nbsp;has the following permissions:</span></p>
+      <ul>
+       <li>Can view <code>All Msg_Process</code> locker but cannot modify components in it.&nbsp;</li>
+       <li>Has full access to&nbsp;the&nbsp;<code>Msg_ORU</code> locker.</li>
+       <li>Cannot view <code>Msg_ADT</code>&nbsp;locker.</li>
+      </ul>
+      <h3 id="AccessControlinRhapsody-ViewingMessages">Viewing Messages</h3>
+      <p>The users should be limited in their permissions as follows:</p>
+      <p>Log onto Rhapsody IDE as <code>ADT_User</code>. You can:</p>
+      <ul>
+       <li><span style="line-height: 13.0pt;">Only view&nbsp;the&nbsp;</span><code style="line-height: 13.0pt;">All Msg_Process</code><span style="line-height: 13.0pt;">&nbsp;and </span><code style="line-height: 13.0pt;">Msg_ADT</code><span style="line-height: 13.0pt;">&nbsp;lockers and their components.</span></li>
+       <li>Display the <strong>View Rights</strong> dialog for the <code><span>Msg_ADT</span></code>&nbsp;locker by&nbsp;right-clicking on the&nbsp;locker and&nbsp;selecting&nbsp;<strong>Properties</strong>.</li>
+      </ul>
+      <p>Log onto&nbsp;the Management Console as <code>ADT_User</code>. You can:</p>
+      <ul>
+       <li>Only view&nbsp;the&nbsp;<code>All Msg_Process</code>&nbsp;and <code>Msg_ADT</code>&nbsp;lockers and its components on the&nbsp;<strong>Communication Points</strong>&nbsp;page.</li>
+       <li>Only view&nbsp;the messages associated with the&nbsp;<code>All Msg_Process</code>&nbsp;and <code>Msg_ADT</code>&nbsp;lockers on the&nbsp;<strong>Hold Queue</strong> page.</li>
+       <li>View only the messages associated with the&nbsp;<code>All Msg_Process</code>&nbsp;and <code>Msg_ADT</code>&nbsp;lockers when performing searches on the&nbsp;<strong>Input Search</strong> and <strong>Output Search </strong>pages.</li>
+       <li>See a banner on message search results, warning you that you cannot see the full result set of messages on the engine. &nbsp;</li>
+      </ul>
+      <p>Log onto Rhapsody IDE&nbsp;as <code>ORU_User</code>.&nbsp;You can:</p>
+      <ul>
+       <li>Only view the&nbsp;<code>All Msg_Process</code>&nbsp;and <code>Msg_ORU</code>&nbsp;lockers and its components.</li>
+       <li>Not modify (edit, start/stop) the components in&nbsp;<code><span>All Msg_Process</span></code><span> locker</span>.</li>
+      </ul>
+      <p>Log onto&nbsp;the Management Console as&nbsp;<code>ORU_User</code>.&nbsp;You can:</p>
+      <ul>
+       <li>Only view the&nbsp;<code>All Msg_Process</code>&nbsp;and <code>Msg_ORU</code>&nbsp;lockers and its components on the&nbsp;<strong>Communication Points</strong>&nbsp;page.</li>
+       <li>Only view the messages associated with the&nbsp;&nbsp;<code>All Msg_Process</code>&nbsp;and <code>Msg_ORU</code>&nbsp;lockers on the&nbsp;<strong>Hold Queue</strong>&nbsp;page.</li>
+       <li>View a message across lockers:<br>
+        <ol>
+         <li>Click the <strong>View Input Archive</strong> link&nbsp;on the&nbsp;<strong>Communication Points</strong>&nbsp;page&nbsp;for the&nbsp;<code>Input_ORUDynamic Router</code>&nbsp;communication point&nbsp;to view its input message archive.</li>
+         <li>Select one of the messages to view it in Message View. Any&nbsp;Messages Properties are transferred across lockers, whereas&nbsp;Message Events commence from Dynamic Router communication point and are intra-locker.</li>
+         <li><span style="line-height: 13.0pt;">Click the <strong>Message was redirected from another locker </strong>link under the <strong>Description </strong>column&nbsp;of&nbsp;the <strong>Message Events</strong>&nbsp;to display the Redirected Message and the Original Message.</span></li>
+         <li><span style="line-height: 13.0pt;">Click the </span><strong style="line-height: 13.0pt;">View</strong><span style="line-height: 13.0pt;">&nbsp;link for the Original Message under <strong>Message Properties</strong>&nbsp;or <strong>Message Body</strong>. The Original Message is displayed with a full set of message events, and the message path with all the components through which the message has traversed.</span></li>
+        </ol></li>
+      </ul>
+      <p> </p>
+      <div>
+       <span style="font-weight: bold;white-space: pre-wrap;"><br></span>
+      </div> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

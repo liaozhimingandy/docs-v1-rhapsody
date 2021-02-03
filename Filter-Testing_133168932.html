@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Filter Testing</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Filter Testing</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods to execute and monitor filter and conditional connector tests:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147004281 {padding: 0px;}
+div.rbtoc1565147004281 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147004281 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147004281"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#FilterTesting-POST/api/test/<id>">POST /api/test/&lt;id&gt;</a></li> 
+        <li><a href="#FilterTesting-GET/api/test/status/<id>">GET /api/test/status/&lt;id&gt;</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to&nbsp;<a href="Testing-Filter-Configurations_133162685.html">Testing Filter Configurations</a> and&nbsp;<a href="Testing-Conditional-Connectors_133162134.html">Testing Conditional Connectors</a>&nbsp;for details on filter testing backward compatibility&nbsp;for versions of Rhapsody prior to Rhapsody 6.4.</p>
+       </div>
+      </div>
+      <h2 id="FilterTesting-POST/api/test/<id>"><span style="color: rgb(51,51,51);">POST /api/test/&lt;id&gt;</span></h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <thead>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>POST /api/test/&lt;id&gt;</code>&nbsp;</td>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd"><p>Starts a test run of all tests under the specified component ID. Valid component ID types are filters, route, folders, and lockers.</p><p>To run all tests in the engine, use a component ID of <code>0</code>.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Header</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Header</th>
+          <td class="confluenceTd"><code>204 No Content</code>&nbsp;- operation successful.&nbsp;<br><code>202 Accepted</code>&nbsp;-&nbsp;the request is being processed. The URI provided in the Response Header can be used to check the status of the operation.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span style="color: rgb(0,0,0);">The load status URI:</span></p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{{Location: https://localhost:8444/api/test/status/1}}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd"><span>'View locker'.<br></span><span>'<span style="color: rgb(0,0,0);">Test filter and conditional connector REST API</span>'.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="FilterTesting-GET/api/test/status/<id>"><span>GET /api/test/status/&lt;id&gt;</span></h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>GET /api/test/status/&lt;id&gt;</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Returns the status of the current test run.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Accepts: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accepts: application/vnd.orchestral.rhapsody.6_5+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Header</th>
+          <td class="confluenceTd"><code>200 OK</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd"><p>Status of the current test run in JSON format. The response body has the following structure:</p>
+           <ul>
+            <li><code>state</code>&nbsp;- Current state of the test run:&nbsp;<code>RUNNING</code>,&nbsp;<code>COMPLETED</code>.</li>
+            <li><code>results</code>&nbsp;- [list] results if the state&nbsp;is&nbsp;<code>COMPLETED</code>:
+             <ul>
+              <li><code>total count</code>&nbsp;- number of tests run.</li>
+              <li><code>passed count</code>&nbsp;- number of tests passed.</li>
+              <li><code>failed count</code>&nbsp;- number of tests failed.</li>
+              <li><code>executed count</code>&nbsp;- number of tests executed.</li>
+              <li><code>skipped count</code>&nbsp;- number of tests skipped.</li>
+              <li><code>error count</code>&nbsp;- number of tests that had errors.</li>
+              <li><code>path</code>&nbsp;- Path to the filter that had tests run.</li>
+              <li><code>filter tests</code>&nbsp;-&nbsp;[list] Results of the filter level tests:
+               <ul>
+                <li><code>test name</code>&nbsp;-&nbsp;[string]&nbsp;the test name.</li>
+                <li><code>test description</code> -&nbsp;[string]&nbsp;the test description.</li>
+                <li><code>result</code>&nbsp;- one of <code>FAILED</code>,&nbsp;<code>PASSED</code>,&nbsp;<code>EXECUTED</code>,&nbsp;<code>SKIPPED</code>,&nbsp;<code><code>INVALID</code></code>,&nbsp;<code><code><code>ERROR</code></code></code>.</li>
+               </ul></li>
+              <li><code>connector tests</code>&nbsp;-&nbsp;[list] Results of the conditional connector level tests:
+               <ul>
+                <li><code>connector name</code> - <span>&nbsp;[string]&nbsp;</span>the name of the connector.</li>
+                <li><code>test name</code> -&nbsp;[string]&nbsp;the test name.</li>
+                <li><code>test description</code> -&nbsp;[string]&nbsp;the test description.</li>
+                <li><code>result</code>&nbsp;- one of <code>FAILED</code>,&nbsp;<code>PASSED</code>,&nbsp;<code>EXECUTED</code>,&nbsp;<code><code>INVALID</code></code>,&nbsp;<code><code><code>ERROR</code></code></code>.</li>
+               </ul></li>
+             </ul></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd"><p><span>'View locker'.<br></span>'<span style="color: rgb(0,0,0);">Test filter and conditional connector REST API</span>'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

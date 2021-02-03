@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Configuration Options</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Configuration Options</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The following configuration properties determine which configuration mode and connection type the (S)FTP Client communication point is to use:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146949899 {padding: 0px;}
+div.rbtoc1565146949899 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146949899 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146949899"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ConfigurationOptions-ConfigurationMode">Configuration Mode</a></li> 
+        <li><a href="#ConfigurationOptions-ConfigurationTemplates">Configuration Templates</a></li> 
+        <li><a href="#ConfigurationOptions-Protocol">Protocol</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="ConfigurationOptions-ConfigurationMode">Configuration Mode</h2>
+      <p><span> <strong>Configuration Mode</strong> determines whether the (S)FTP Client communication point is operating in static, or <span class="confluence-link">dynamic mode</span> using XML configuration templates or message properties:</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Use Static Configuration<sup>†</sup></code></td>
+          <td class="confluenceTd">A static mode in which all parameters except the Base Filename and suffix are set statically at configuration time.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Dynamic Using XML Configuration Templates </code></td>
+          <td class="confluenceTd">A dynamic mode in which <span>XML configuration templates </span>can be used to override the static configuration when a message is sent or received. This dynamic mode cannot be used in <em>Input</em>-only mode.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span><code><code>Use</code> Message Property Configuration</code> </span></td>
+          <td colspan="1" class="confluenceTd">A dynamic mode in which message properties can be used to override the static configuration when a message is sent or received. This dynamic mode cannot be used in Input-only mode.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup> <span>† Default option.</span> </sup> <span>&nbsp;</span></p>
+      <p><span>In dynamic mode, all properties are available for modification.<br> </span></p>
+      <h2 id="ConfigurationOptions-ConfigurationTemplates"><span>Configuration Templates</span></h2>
+      <p><span> <strong>Configuration Templates</strong> allows multiple sets of configuration settings to be set using <span>an auxiliary configuration XML file</span>. <span>It must be provided and be valid if XML configuration templates are in use. </span>Refer to <a href="Dynamic-Mode_133162388.html">Dynamic Mode </a>and <a href="Dynamic-Configuration-Using-XML-Templates_133162389.html">Dynamic Configuration Using XML Templates</a> for details.</span></p>
+      <h2 id="ConfigurationOptions-Protocol">Protocol</h2>
+      <p><strong>Protocol</strong> determines the type of FTP connection that should be used:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>FTP<sup>†</sup></code></p></td>
+          <td class="confluenceTd"><strong>File Transfer Protocol</strong> (<strong>FTP</strong>) is a standard <span class="mw-redirect">network protocol</span> used to transfer files from one host to another host over a TCP-based network.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>FTPS Implicit</code> <span> <br> </span></p></td>
+          <td class="confluenceTd">Implicit FTPS is a deprecated standard for FTP that requires the use of an SSL or TLS connection.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><span><code>FTPS Explicit</code> </span> <span> <br> </span></p></td>
+          <td colspan="1" class="confluenceTd">Explicit FTPS is an extension to the FTP standard that allows clients to request that the FTP session be encrypted.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><span> <code>SFTP</code> </span></p></td>
+          <td colspan="1" class="confluenceTd"><p>SSH File Transfer Protocol is an FTP-like protocol that operates over an SSH connection. Normally, an SFTP/SSH server listens on port 22 for a connection. SFTP connections are protected using DSA or RSA key pairs to encrypt the secure channel between the client and the server. In order to verify that the (S)FTP Client Communication Point is connected to the correct SFTP server (rather than some arbitrary SSH server), it is mandatory to configure it with the SFTP server's SSH public key. Rhapsody is then able to validate that the correct public key is presented by the SFTP server before it sends any authentication information or message data to the server. The SFTP server almost always authenticates the client using the following authentication modes:</p>
+           <ul>
+            <li>Password authentication - the client provides a username and password to the server over the encrypted channel.</li>
+            <li>Public key authentication - the client provides a username and proof of ownership of an SSH private key.</li>
+            <li>Password and public key authentication - the client provides a username, password, and proof of ownership of an SSH private key.</li>
+            <li>Keyboard interactive authentication - not supported by the FTP/SFTP communication point.</li>
+           </ul><p>The SSH keys used to validate the server and perform client authentication are retrieved from the <a href="Managing-Certificates-and-Keys_133161222.html">Certificate and Key Manager</a> in Rhapsody IDE.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup> <span>† Default option.</span> </sup></p>
+      <p><span> <br> </span></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

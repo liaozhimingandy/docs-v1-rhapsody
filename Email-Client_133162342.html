@@ -1,0 +1,504 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Email Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Email Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162342/133162346.jpg" data-image-src="attachments/133162342/133162346.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162346" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image031.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162342" data-linked-resource-container-version="3"></span></p>
+      <p>The <strong>E-mail Client</strong> communication point&nbsp;is typically used to populate a database with information received by email. Information contained in the body of an email message or in an attachment can be extracted and processed by the Rhapsody engine.</p>
+      <p>Alternatively, information can be routed from Rhapsody and placed in either the message body or in an attachment before being emailed to one or more recipients. A typical use of this feature is to alert an administrator when specified events, such as failures, occur in the Rhapsody engine.</p>
+      <p>In this mode, Rhapsody can also be <a href="Configuration_133162170.html#Configuration-ConfigurationProperties">configured</a> so the email message can contain both an attachment and body text by way of message properties on the route. As this mode uses <a href="Message-Properties_133164574.html">message properties</a> to populate the email body text, the amount of available text is limited to the property length set in code.</p>
+      <p>Supported Operational Modes: <em>Input</em>, <em>Output</em></p>
+      <h2 id="EmailClient-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mail Server</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the mail server.</p><p>If the mail server is behind a firewall, use the <span>IP/DNS</span> name of the firewall. Ensure the firewall is configured to enable NAT (Network Address Translation).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Store Protocol</p></td>
+          <td class="confluenceTd"><p>The protocol used to retrieve mail from the mail server:</p>
+           <ul>
+            <li><code>IMAP</code>.</li>
+            <li><code>POP3</code> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>POP3 Port</p></td>
+          <td class="confluenceTd"><p>The port to connect on when using the POP3 protocol. The default port is <code>110</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>IMAP Port</p></td>
+          <td class="confluenceTd"><p>The port to connect on when using the IMAP protocol. The default port is <code>143</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specifies whether Secure Sockets Layer (SSL) or Transport Layer Security (TLS) should be used to provide secure communications for this connection. Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details.</p>
+            <ul>
+             <li><span>Enabled</span> - enable SSL/TLS support.</li>
+             <li><span>Disabled</span> (default) - disable SSL/TLS support.</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is recommended that SSL be enabled for the E-mail Client communication point whenever it is supported by the remote server.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Identifies the trusted certificates used by the mail server's SSL connection. If it is not configured with the mail server's certificate, then the SSL connection operates in anonymous server authentication mode. It is highly recommended that the mail server's certificate always be provided here to allow server authentication to be performed.</p><p><span>Refer to&nbsp;</span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span>&nbsp;for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Read Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>The timeout in milliseconds while waiting for a response from the mail server.</p><p>The default is <code>10000</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>The connection timeout in milliseconds while attempting to establish a connection to the mail server.</p><p>The default is <code>30000</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>User</p></td>
+          <td class="confluenceTd"><p>The username or ID of the user for authenticating with the mail server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p>The password of the user for authenticating with the mail server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Folder</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The name and path of the mail folder which contains the message (Inbox by default).</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The POP3 protocol does not support folders.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Refresh Rate</p></td>
+          <td class="confluenceTd"><p>Specifies the frequency (in milliseconds) at which the folder is checked for new messages. The default is <code>60000</code> ms (1 minute).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Delete Message</p></td>
+          <td class="confluenceTd"><p>Determines whether or not messages are to be permanently deleted from the input folder once they have been processed by Rhapsody:</p>
+           <ul>
+            <li><span>Enabled</span> - delete the messages.</li>
+            <li><span>Disabled</span> (default) - do not delete the messages.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Receiving Mode</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Determines how the Rhapsody message is set using the received email. It can either be part of the incoming message (normal mode), the entire email body or the entire email envelope:</p>
+            <ul>
+             <li><code>Normal</code> (default) - if the email content type is set to any kind of multi-part message (in other words, if it matches <code>multipart/*</code>), then either the first (<code>Message as Attachment</code> configuration option set to <code>False</code>) or second body part (<code>Message as Attachment</code> configuration option set to <code>True</code>) of the message is used as the source. If the email content is not a multi-part message then the source is simply the e-mail body. The selected source is then retrieved from email as either a string (if it is some form of text message) or directly as an input stream, and this is written into the Rhapsody message body.</li>
+             <li><code>Receive Raw E-Mail Body</code> - the communication point writes the entire contents of the incoming email body to the Rhapsody message body. When multiple MIME parts are received, the Rhapsody message body contains all those MIME parts, including the MIME boundaries, allowing the route to perform any processing on the communication point.</li>
+             <li><p><code>Receive Raw E-Mail Header and Body</code>- the communication point writes the entire content of the email to the Rhapsody message body. This includes all the incoming headers and the entire body, which may include multiple body parts separated by MIME boundaries.</p>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>If you manually attempt to unpack the e-mail message (most likely a multi-part MIME message), there is a risk you may do so incorrectly such that some parts of the received e-mail message are not processed correctly. For example, if the MIME boundaries are not correctly parsed, any file attachments to the incoming e-mail message may either be lost or more likely embedded as base64 blocks inside the message.</p>
+                <p>Therefore, if you intend to use the raw e-mail modes, you must use appropriate tools either to parse that message. These tools may take the form of external e-mail processing tools executed via a commandlinefilter, or a custom filter that uses proper e-mail libraries to generate or process the message (for example, the JavaMail library). You should not use the standard Batch/De-batch filter or JavaScript filter to pack or unpack the MIME body parts, because they may not perform the task correctly.</p>
+               </div>
+              </div></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message as Attachment</p></td>
+          <td class="confluenceTd"><p>Determines whether or not the contents of the email attachment should become the Rhapsody message body:</p>
+           <ul>
+            <li><span>Enabled</span> - convert the email attachment into a Rhapsody message body.</li>
+            <li><span>Disabled</span> (default) - send the <span>email attachment as is</span>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extracted Headers</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Email headers to extract from the incoming message and set as Rhapsody message properties. Options can be set for each property to determine whether it is decoded, and how repeating headers are handled:</p>
+            <ul>
+             <li><p>E-mail Header Name - the email header you want to extract from a message property.</p>
+              <div class="confluence-information-macro confluence-information-macro-information">
+               <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <ul>
+                 <li>Uses case-insensitive matching.</li>
+                 <li>Not unique - there is no requirement that the same header be only extracted once.</li>
+                 <li>Only ASCII characters are permitted.</li>
+                </ul>
+               </div>
+              </div>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>If an email header is configured to be extracted but was not found in the incoming email, then the corresponding message property is not set at all (not even to null or an empty string).</p>
+               </div>
+              </div></li>
+             <li><p>Property Name - the message property that you want to store the extracted email header in.</p>
+              <div class="confluence-information-macro confluence-information-macro-information">
+               <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <ul>
+                 <li>The following message properties are reserved: <code>ReceivedDate</code>, <code>From</code>, <code>Subject</code>, <code>Size</code>, <code>ContentType</code>, <code>AttachmentFileNames</code>, <code>mailClient:priority</code>, <code>mailClient:To</code>, <code>mailClient:CC</code>.</li>
+                 <li>Message property names are case-sensitive.</li>
+                </ul>
+               </div>
+              </div>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>Message properties are unique. You cannot extract multiple email headers into the same message property or extract the same email header twice into the same property.</p>
+               </div>
+              </div></li>
+             <li>Transformation - determines whether the header is to be decoded or folded:
+              <ul>
+               <li>Decode and Unfold - The incoming header value is first unfolded (to remove the wrapping due to the 80/1000 character line limit) and then decoded. This option should be selected for text/unstructured fields.</li>
+               <li>Unfold - The incoming header value is unfolded but not decoded.</li>
+               <li>None - No transformations are performed on the incoming header value.</li>
+              </ul></li>
+             <li>Repeat Handling - determines how to handle repeating headers:
+              <ul>
+               <li>Retrieve First - The message property is set to the first occurrence of the email header that was found.</li>
+               <li>Retrieve Last - The message property is set to the last occurrence of the email header that was found.</li>
+               <li>Retrieve All - All repeats of the email header are retrieved and set in the message property as a property list.</li>
+              </ul></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JavaMail debugging</p></td>
+          <td class="confluenceTd"><p>Enables JavaMail debugging to standard output:</p>
+           <ul>
+            <li><span>Enabled</span> - enable <span>JavaMail debugging</span>.</li>
+            <li><span>Disabled</span> (default) - disable <span>JavaMail debugging</span>.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="EmailClient-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mail Server</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the mail server.</p><p>If the mail server is behind a firewall, use the IP/DNS name of the firewall. Ensure the firewall is configured to enable NAT (Network Address Translation).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Protocol</p></td>
+          <td class="confluenceTd"><p>The protocol used to communicate with the mail server. The default is SMTP (Simple Mail Transfer Protocol).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>The port to use when sending messages. The default is <code>25</code> (the standard SMTP port).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specifies whether Secure Sockets Layer (SSL) or Transport Layer Security (TLS) should be used to provide secure communications for this connection. Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details.</p>
+            <ul>
+             <li><span>Enabled</span> - enable SSL/TLS support.</li>
+             <li><span>Disabled</span> (default) - disable SSL/TLS support.</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is recommended that SSL be enabled for the E-mail Client communication point whenever it is supported by the remote server. This can be done either by enabling this setting or by selecting SMTPS for the <strong>Protocol</strong>.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the trusted certificates used by the mail server's SSL connection. If it is not configured with the mail server's certificate, then the SSL connection operates in anonymous server authentication mode. It is highly recommended that the mail server's certificate always be provided here to allow server authentication to be performed.</p><p><span>Refer to&nbsp;</span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span>&nbsp;for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Read Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>The timeout in milliseconds while waiting for a response from the mail server.</p><p>The default is <code>10000</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>The connection timeout in milliseconds while attempting to establish a connection to the mail server.</p><p>The default is <code>30000</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>User</p></td>
+          <td class="confluenceTd"><p>The username or ID of the user for authenticating with the mail server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p>The password of the user for authenticating with the mail server.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Sending Mode</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Determines the Rhapsody message body that is used to build the outgoing email message:</p>
+            <ul>
+             <li><code>Normal</code> (default) - when the normal sending mode is configured, the outgoing message is either the Rhapsody message body, or the alternate body text provided in the configuration, with the option of attaching the message body to the email as a file (in other words, a separate MIME part). Additional options allow the content type and priority of the email to be set, and allow for it to be encrypted and signed using S/MIME.</li>
+             <li><code>Send Raw E-Mail Body</code> - the Rhapsody message body is inserted directly as the e-mail body without any changes. This means that a multi-part body with MIME boundaries can be provided here in order to send a multi-part message. No encoding or verification of the provided e-mail body is performed - you must provide a valid email body. You must also set the <code>ContentType</code> header correctly, which is required for multi-part messages.</li>
+             <li><code>Send Raw E-Mail Header and Body</code> - the Email Client communication point uses the Rhapsody message body as the entire content of the e-mail, including all headers and the body. The body of course can include multiple parts to the message, separated using MIME boundaries. When the message is ultimately sent, the communication point uses all recipients defined in the email headers. No encoding or verification of the provided email message is performed; you must provide a valid email message.</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If you manually attempt to build a multi-part MIME message, there is a risk that you may do so incorrectly such that the message is still technically valid. This could result in a valid message being sent, but one that does not contain what you intend to send. For example, if the MIME boundaries are not correctly constructed, any files that should be attached to the message may instead be embedded as base64 blocks inside the message.</p>
+              <p>Therefore, if you intend to use the raw e-mail modes, you must use appropriate tools to generate the e-mail message. These tools may take the form of external e-mail processing tools executed via a command line filter,&nbsp;or a custom filter that uses proper e-mail libraries to generate or process the message (for example, the JavaMail library). You should not use the standard Batch/De-batch filter or JavaScript filter to pack or unpack the MIME body parts, because they may not perform the task correctly.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>From</p></td>
+          <td class="confluenceTd"><p>The sender of the message. Example: <code>RhapsodyEngine</code> (no spaces are permitted in this field).</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Reply To</td>
+          <td colspan="1" class="confluenceTd"><p><span style="color: rgb(0,0,0);">The recipients of any replies to the message. This can come from a message property. Multiple recipients can be specified as a list of addresses separated by semicolons.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>To</p></td>
+          <td class="confluenceTd"><p><span style="color: rgb(0,0,0);">The</span> recipient of the message. This can come from a message property. Multiple recipients can be specified as a list of addresses separated by semicolons.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>CC</p></td>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);">The</span> 'Carbon Copy' recipients of the message. This can come from a message property. Multiple recipients can be specified as a list of addresses separated by semicolons.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Subject</p></td>
+          <td class="confluenceTd"><p><span style="color: rgb(0,0,0);">The</span> text that appears as the subject of the message.</p><p>The default is <code>Rhapsody Mail Message</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Send Rhapsody Message</p></td>
+          <td class="confluenceTd"><p>Determines whether the Rhapsody message should be included in the email. The message may not be wanted in the email for security reasons,&nbsp;when only certain information is to be extracted from the Rhapsody message for the email.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Replacement Body Text</p></td>
+          <td class="confluenceTd"><p>Specifies <span>what to send in the message body instead </span>of the Rhapsody message. This can be text, or refer to a message property using the&nbsp;<code>$propertyName</code>&nbsp;notation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Send As Attachment</p></td>
+          <td class="confluenceTd"><p>Determines whether the information to be emailed is sent as an attachment or as the message body:</p>
+           <ul>
+            <li><span>Enabled</span> - send as an attachment.</li>
+            <li><span>Disabled</span> (default) - send in the message body.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Attachment Name</p></td>
+          <td class="confluenceTd"><p><span>Specifies</span> the name of the attachment containing the message information. The default value is <code>Rhapsody Message</code>.</p><p>Only available if <strong>Send as Attachment</strong> is <span>en</span><span>abled</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Body Text</p></td>
+          <td class="confluenceTd"><p>The text entered here appears in the email message body and typically identifies the content of the attachment.</p><p>Only available if <strong>Send as Attachment</strong> is <span>en</span><span>abled</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MIME content type</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The MIME (Multi-purpose Internet Mail Extensions) content type of the content being sent. By default, this is set to <code>text/plain</code> for plain text emails. However, it can be changed to another MIME type such as <code>text/html</code> to allow HTML emails to be sent and rendered correctly in an email client.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The MIME content type does not dictate the MIME type of the entire email. The email may be composed of multiple MIME parts. For example, if&nbsp;<code>Send As Attachment</code> is set to true, then the MIME content type applies to the attachment only and not the substitute body which remains as <code>text/plain</code>. In short, the MIME content type only applies to the MIME body part in which the Rhapsody message is sent.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>S/MIME</p></td>
+          <td class="confluenceTd"><p>Determines whether the email is to be sent using the S/MIME (Secure Multipurpose Internet Mail Extensions) protocol.</p>
+           <ul>
+            <li><span>Enabled</span> - send the email using S/MIME.</li>
+            <li><span>Disabled</span> (default) - <span>send the email as is</span>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>S/MIME Option</p></td>
+          <td class="confluenceTd"><p>Sets the level of security for the message. The security levels are:</p>
+           <ul>
+            <li><span><code>Encrypted</code><span>.</span></span></li>
+            <li><span><code>Signed</code><span> (default).</span></span></li>
+            <li><span><code>Encrypted and Signed</code><span>.</span></span></li>
+           </ul><p>Only available if <strong>S/MIME</strong> is <span>en</span><span>abled</span>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>S/MIME Signing Option</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specifies how the message is signed. There are two ways of encoding signed messages:</p>
+            <ul>
+             <li><code>Clear signed</code> (default) - clear-signed messages carry the signature as a standard MIME attachment outside the message body. The disadvantage of this is that a mail gateway is free to translate the character sets of the message body. If this occurs, the digital signature is broken (since the signature guarantees the original contents of the message are unaltered) and a false warning of message tampering results.</li>
+             <li><code>Opaque signed</code><span> - o</span>paque signed messages treat the entire message as an attachment which is not altered by mail gateways that attempt to translate character sets or recode MIME headers. This guarantees the message, but is illegible to the gateway. It is also illegible to non-S/MIME clients which cannot unwrap the envelope.</li>
+            </ul>
+            <p>MAPI/Internet mail gateways are a good example of situations that require opaque signed messages. As MAPI handles messages and attachments in a proprietary (that is, non-MIME) format, the actual MIME headers are generated at the SMTP gateway, not in the secure mail client. Therefore, a clear signed message signature cannot account for the MIME header's content, which automatically invalidates the digital signature as the message passes through the SMTP gateway.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>Only available if </span><strong>S/MIME</strong><span>&nbsp;</span>is en<span>abled</span>. If <strong>S/MIME Option</strong> is set to <code>Encrypted</code>, the value of <strong>S/MIME Signing Option</strong> is ignored.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Private Key</p></td>
+          <td class="confluenceTd"><p>Specifies the sender's private key used to sign the message. This private key must be obtained from a recognized Certificating Authority and imported into the Rhapsody private key store using the Certificate Manager.</p><p>Only available if the message is signed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Digest Algorithm</p></td>
+          <td class="confluenceTd"><p>The name of the message digest algorithm to use to sign the content of the message. Available algorithms are: MD5 and SHA1.</p><p>Only available if the message is signed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Recipient Certificates</p></td>
+          <td class="confluenceTd"><p>Identifies the recipients' certificates that the sender uses to encrypt messages intended for those recipients. These certificates must be obtained from the recipients and imported into the Rhapsody certificate store using the Certificate Manager.</p><p>Only available if the message is encrypted.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encryption Algorithm</p></td>
+          <td class="confluenceTd"><p>The name of the symmetric cipher and the block mode to use to encrypt the content of the message. Available algorithms are: DES-EDE3-CBC and RC2-CBC.</p><p>Only available if the message is encrypted.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Priority</p></td>
+          <td class="confluenceTd"><p>The priority assigned to the email:</p>
+           <ul>
+            <li><code>High</code>.</li>
+            <li><code>Normal</code> (d<span>efault).</span></li>
+            <li><code>Low</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>E-mail Headers</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Additional email headers to set on the outgoing email using Rhapsody message properties. This email headers configuration property is optional and if missing or present and empty then we simply do not set any additional email headers.</p>
+            <ul>
+             <li><p>Property Name - the message property that contains the extracted email header you want to use.</p>
+              <div class="confluence-information-macro confluence-information-macro-information">
+               <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <ul>
+                 <li>If the message property is not found when sending a message then the corresponding email header is not created at all.</li>
+                 <li>If the message property is actually a property list then a separate repeat of the email header is created for each value in the property list.</li>
+                </ul>
+               </div>
+              </div></li>
+             <li><p>E-mail Header Name - the name of the email header you want to insert into a message property.</p>
+              <div class="confluence-information-macro confluence-information-macro-information">
+               <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <ul>
+                 <li>Only ASCII characters are permitted.</li>
+                 <li>If the same email header is used for multiple message properties, then multiple instances of the header are created at runtime (in the order defined in the configuration).</li>
+                </ul>
+               </div>
+              </div>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>The following special email headers cannot be set in this way: <code>From</code>, <code>Reply-To</code><span>, </span><code>To</code>, <code>Subject</code>, <code>Date</code>, <code>ContentType</code>, <code>CC</code>, and <code>BCC</code>.</p>
+               </div>
+              </div></li>
+             <li>Transformation - determines whether the header is to be decoded or folded:
+              <ul>
+               <li><p>Encode and Fold - the value is encoded using RFC2047, and then folded in an attempt to keep each line shorter than 80 characters in length (and forced to be shorter than 1000 characters in length).</p>
+                <div class="confluence-information-macro confluence-information-macro-note">
+                 <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+                 <div class="confluence-information-macro-body">
+                  <p>If the encode option is not selected, then the user is responsible for performing any necessary encoding on the value prior to giving the message to the communication point. The Email Client communication point does <em>not</em> perform any validation on this value.</p>
+                 </div>
+                </div>
+                <div class="confluence-information-macro confluence-information-macro-information">
+                 <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+                 <div class="confluence-information-macro-body">
+                  <p>The encode and fold option uses UTF-8 character encoding if any encoding is required and verifies the value is composed of ASCII characters before encoding.</p>
+                 </div>
+                </div></li>
+               <li>Fold - the value is folded to keep it under 80/1000 characters in length.</li>
+               <li>None - no transformations are applied to the value.</li>
+              </ul></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JavaMail debugging</p></td>
+          <td class="confluenceTd"><p>Enables JavaMail debugging to standard output.</p>
+           <ul>
+            <li><span>Enabled</span> - enable JavaMail debugging.</li>
+            <li><span>Disabled</span> (default) - disable JavaMail debugging.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

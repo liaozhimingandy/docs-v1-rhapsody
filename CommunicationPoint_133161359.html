@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>CommunicationPoint</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="RDK-Reference_133161352.html">RDK Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">CommunicationPoint</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p> </p>
+      <p class="p1">CommunicationPoint defines the interface used by all communication points used by&nbsp;<span class="s1">Rhapsody</span>. If you want to implement a custom communication point for <span class="s1">Rhapsody&nbsp;</span>then all you have to do is implement this interface.&nbsp;<span class="s3"><code>AbstractCommunicationPoint</code>&nbsp;</span>is the generic partial implementations and provides sensible default implementations of many of the methods in this interface. Any class which implements this interface (either directly or by extending the abstract class mentioned above) also needs to have a constructor which takes a single <code>CommunicationPointInfo</code>&nbsp;argument. The argument contains simple information about a communication point.</p>
+      <p class="p1">Communication points are points of connection for Rhapsody to the outside world. In general a communication point is used to create connections over which messages can be sent and received by <span class="s1">Rhapsody</span>. So a communication point typically defines a transport protocol over which messages are sent. Common examples would be FTP or TCP/IP. Communication Points have a notion of an implementation kind. This restricts the types of modes the communication point can be used in. Below is a table which lists the possible implementation kinds of communication points a description of the kind and the corresponding modes the communication point can be used in.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Supported <span style="color: rgb(0,0,0);">Operational </span>Mode</th>
+          <th colspan="1" class="confluenceTh"><p class="p1">Description</p></th>
+          <th class="confluenceTh"><p class="p1">Possible Operational Modes</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>INPUT</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Communication point can only receive messages.</p></td>
+          <td class="confluenceTd"><code>INPUT</code>.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>OUTPUT</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Communication point can only receive messages.</p></td>
+          <td class="confluenceTd"><p class="p1"><code>OUTPUT</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>UNIDIRECTIONAL</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Communication point can be sending messages or receiving messages but not doing both.</p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>INPUT</code> or <code>OUTPUT</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>TWO_WAY</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Communication point can send and receive messages but can only do one of these at a time.</p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>INPUT</code>, <code>OUTPUT</code> or <code>OUT_IN</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>BIDIRECTIONAL</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Communication point can send and receive messages at the same time.</p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Any, though it is expected that most communication points will be <code>BIDIRECTIONAL</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p class="p1">Communication points have a clearly defined life cycle. It is guaranteed that a communication point will not be started (that is, have its&nbsp;<code><span class="s1">getConnection()</span></code>&nbsp;method called) before it is configured via its&nbsp;<code>configure(CommunicationPointConfiguration)</code><span class="s2">&nbsp;method and that&nbsp;</span><code>configure(Configuration)</code>&nbsp;will not be called while it is running. The configuration properties a communication point requires should be returned by its&nbsp;<code><span class="s1">getPropertyList()</span></code>&nbsp;method. For a full description of the format of the property strings that should be returned by this method see&nbsp;Filter<span class="s2">.</span></p>
+      <p class="p1">One area of that needs special attention when implementing your communication point concerns synchronization issues. Communication points should generally be able to have more than one connection in use at any one time. This means that there are possible synchronization issues depending on how you implement your communication point. It may be possible that all the connections are completely independent from each other, but usually they are sharing some resource, even if that resource is on a remote system (such as a database table) and care must be taken that the same message is not returned by more than one connection or that two ends from different connections overwrite one another.</p>
+      <p class="p1">The good news is the communication point can only be configured while it is stopped meaning there no active connections for the communication point. So in general synchronization on member variables of the communication point shared by the connections can be removed if they are only written to during the configure method and only read by the connections.&nbsp;Another point to be aware of is that if the communication point is running in&nbsp;<code>BIDIRECTIONAL</code>&nbsp;mode there will be separate threads calling the&nbsp;<code>sendMessage(Message)</code>&nbsp;and <code>receiveMessage(Message)</code> methods of the communication point connections, so they must be either&nbsp;completely independent of each other (which is common) or synchronized.</p>
+      <p>If the communication point is running in <code>INPUT</code>, &nbsp;<code>OUTPUT</code>&nbsp;or <code>OUT_IN</code>&nbsp;mode then there will only be one thread using any one connection and you only have to worry about the interaction of multiple connections. If you want to ensure that your communication point can only ever have one connection at a time you can<span class="s2">&nbsp;implement the&nbsp;</span><code>SingleConnectionCommunicationPoint</code><span class="s2">&nbsp;interface. This</span>&nbsp;interface doesn't define any methods, it simply indicates to the engine that this communication point may only be configured to use one connection at a time.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>SupportedMode getImplementationKind()</code></p></td>
+          <td class="confluenceTd"><p class="p1">The implementation kind of this communication point.<span class="s2"> Should return one of: </span></p>
+           <ul>
+            <li class="p1"><code>SupportedMode.INPUT</code><span class="s2">.</span></li>
+            <li class="p1"><code>SupportedMode.OUTPUT</code><span class="s2">.</span></li>
+            <li class="p1"><code>SupportedMode.BIDIRECTIONAL</code><span class="s2">.</span></li>
+            <li class="p1"><code>SupportedMode.TWO_WAY</code> <span class="s2">or </span><code>SupportedMode.UNIDIRECTIONAL</code>.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

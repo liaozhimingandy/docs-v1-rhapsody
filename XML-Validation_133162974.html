@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>XML Validation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="XML-Filters_133162964.html">XML Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">XML Validation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162974/133162975.jpg" data-image-src="attachments/133162974/133162975.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162975" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image177.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162974" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>XML Validation</strong> filter&nbsp;is used to validate XML documents against an XML Schema Definition Language (XSD) schema. The filter returns the original XML message if the message is valid and includes the option to route to the error connector, to continue processing the message, or to return an XML document with full error information if the message is invalid. There are three levels of validation error (warn, error and fatal error) which you can set as the minimum validation failure level. During message validation the filter counts the number of errors which have occurred, in total and for each level of error, and stores these values in message properties.</p>
+      <p>The XML Schema Definition Language (XSD) is an XML language for describing and constraining the content of XML documents. XSD has advantages over DTD that include:</p>
+      <ul>
+       <li>Because XSD is written in XML, there is no need for a special parser.</li>
+       <li>XSD defines a richer set of data types such as booleans, numbers, dates and times, and currencies.</li>
+       <li>XSD makes it easier to validate documents based on Namespace (used to qualify element and attribute names by associating them with Namespace identified by URI references. Namespace prevents identically custom-named tags that may be used in different XML documents from being read the same way), something DTDs cannot do.</li>
+      </ul>
+      <p>Refer to <a href="http://www.w3.org/XML/Schema" class="external-link" rel="nofollow">XML Schema</a> for details.</p>
+      <h2 id="XMLValidation-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>W3C XML Schema</p></td>
+          <td class="confluenceTd"><p>The W3C XML Schema to be used to validate the input XML message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Minimum Failure Level</p></td>
+          <td class="confluenceTd"><p>The minimum level that the filter decides the message is invalid.</p>
+           <ul>
+            <li><code>Warn</code></li>
+            <li><code>Error</code></li>
+            <li><code>Fatal Error</code> (default)<code> </code></li>
+           </ul><p><span>Refer to the </span><span><strong>Continue Checking On Error</strong> configuration property for details on usage.</span><code><br></code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Continue Checking On Error</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to continue validating on encountering a minimum failure level.</p>
+            <ul>
+             <li>Enabled - the filter continues validation checking to the end of the message, even if a minimum failure level error occurs, and decides the message validation failure after the checking is completed.</li>
+             <li><span>Disabled</span> (default) - the filter stops checking as soon as a minimum failure level error occurs.</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This configuration property does not apply to fatal errors; validation checking stops on the first fatal error even if this property is set to <code>True</code>.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Validation Failure</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The action to be performed if validation fails:</p>
+            <ul>
+             <li><code>Send to error connector</code> (default) - the message is sent to the error connector.</li>
+             <li><code>Continue processing on route</code> - the message is routed to the next filter or output communication point to continue processing the message.</li>
+             <li><p><code>Send error report to route</code> - the body of the message is replaced by an XML document containing full error information and the original message and the message is routed to the next filter or output communication point.</p>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+                <b>Sample error report as output by 'Send error report to route'.</b>
+               </div>
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0" ?&gt;
+&lt;XSDValidationReport&gt;
+   &lt;Errors&gt;
+     &lt;Error&gt;TargetNamespace.2: Expecting no namespace, but the schema document has a target namespace.&lt;/Error&gt;
+     &lt;Error&gt;cvc-elt.1: Cannot find the declaration of element 'HeadCount'. &lt;/Error&gt;
+     &lt;Error&gt;TargetNamespace.2: Expecting no namespace, but the schema document has a target namespace.&lt;/Error&gt;
+   &lt;/Errors&gt;
+   &lt;FatalErrors&gt;
+     &lt;FatalError&gt;The element type "Name" must be terminated by the matching end-tag "&amp;lt;/Name&amp;gt;".&lt;/FatalError&gt;
+   &lt;/FatalErrors&gt;
+   &lt;OriginalMessage&gt;
+     &amp;lt;HeadCount xmlns:xsi="http://www.w3.org/
+     2001/XMLSchema-instance"xsi:schemaLocation=
+     "xsdHeadCount HeadCount.xsd"&amp;gt;
+     &amp;lt;Name&amp;gt;Waldo Pepper&amp;lt;/PName&amp;gt;
+     &amp;lt;RName&amp;gt;Red Pepper&amp;lt;/RName&amp;gt;
+     &amp;lt;/HeadCount&amp;gt;
+   &lt;/OriginalMessage&gt;
+&lt;/XSDValidationReport&gt; </pre> 
+               </div>
+              </div></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Validation Options</p></td>
+          <td class="confluenceTd"><p>XSD validation checking options. All options set to <code>False</code> by default. If a particular checking option needs to be turned on, then select the option and set its value to <code>True</code>. The checking options are:</p>
+           <ul>
+            <li><code>Full schema constraint checking</code> - enable full schema grammar constraint checking, including any checking which may be time-consuming or memory intensive. Particle unique attribution constraint checking and particle derivation restriction checking are controlled by this option. This option checks the schema grammar itself for additional errors that are time-consuming or memory intensive. It does not affect the level of checking performed on document instances that use schema grammars.</li>
+            <li><code>Warn on redeclared duplicate attribute</code> - report a warning for duplicate attribute declaration.</li>
+            <li><code>Warn on redeclared duplicate entity</code> - report a warning for duplicate entity declaration.</li>
+            <li><code>Allow Java encoding names in XMLDecl and TextDecl line</code> - if set to <code>True</code>, the encoding of the file may be specified as a Java encoding name as well as the standard ISO encoding name. Be aware that other XML parsers may not be able to use Java encoding names. If set to <code>False</code>, an error will be generated if Java encoding names are used.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="XMLValidation-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedProperties">Published properties</a> for the XSD Validator filter are:</p>
+      <ul>
+       <li><code>WarnCount</code> - the number of warnings which occurred during validation checking.</li>
+       <li><code>ErrorCount</code> - the number of errors which occurred during validation checking.</li>
+       <li><code>FatalErrorCount</code> - the number of fatal errors which occurred during validation checking. FatalErrorCount is either <code>0</code> or <code>1</code>, because the filter stops validation checking on the first fatal error.</li>
+       <li><code>TotalErrorCount</code> - the total number of errors which occurred during validation checking. Essentially it is the sum of property values of WarnCount, ErrorCount and FatalErrorCount.</li>
+      </ul>
+      <h2 id="XMLValidation-Examples">Examples</h2>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146981698 {padding: 0px;}
+div.rbtoc1565146981698 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146981698 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146981698"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#XMLValidation-XMLMessagewithNoNamespacetoBeValidated">XML Message with No Namespace to Be Validated</a></li> 
+        <li><a href="#XMLValidation-XMLMessagewithNamespacetoBeValidated">XML Message with Namespace to Be Validated</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h3 id="XMLValidation-XMLMessagewithNoNamespacetoBeValidated"><strong style="color: rgb(0,0,0);font-size: 16.0px;">XML Message with No Namespace to Be Validated</strong></h3>
+      <p>The following example shows an XML message and XML schema&nbsp;to be validated against where no Namespace is used:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>XML message (with no namespace) to be validated</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;book isbn="0836217462"&gt;
+  &lt;title&gt;Being a Dog Is a Full-Time Job&lt;/title&gt;
+  &lt;author&gt;Charles M. Schulz&lt;/author&gt;
+  &lt;character&gt;
+    &lt;name&gt;Snoopy&lt;/name&gt;
+    &lt;friend-of&gt;Peppermint Patty&lt;/friend-of&gt;
+    &lt;since&gt;1950-10-04&lt;/since&gt;
+    &lt;qualification&gt;extroverted beagle&lt;/qualification&gt;
+  &lt;/character&gt;
+  &lt;character&gt;
+    &lt;name&gt;Peppermint Patty&lt;/name&gt;
+    &lt;since&gt;1966-08-22&lt;/since&gt;
+    &lt;qualification&gt;bold, brash and tomboyish&lt;/qualification&gt;
+  &lt;/character&gt;
+&lt;/book&gt;</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>XML schema (with no namespace) to be validated against</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;xs:element name="book"&gt;
+     &lt;xs:complexType&gt;
+       &lt;xs:sequence&gt;
+         &lt;xs:element name="title" type="xs:string"/&gt;
+         &lt;xs:element name="author" type="xs:string"/&gt;
+         &lt;xs:element name="character" minOccurs="0" maxOccurs="unbounded"&gt;
+           &lt;xs:complexType&gt;
+             &lt;xs:sequence&gt;
+               &lt;xs:element name="name" type="xs:string"/&gt;
+               &lt;xs:element name="friend-of" type="xs:string" minOccurs="0" maxOccurs="unbounded"/&gt;
+               &lt;xs:element name="since" type="xs:date"/&gt;
+               &lt;xs:element name="qualification" type="xs:string"/&gt;
+             &lt;/xs:sequence&gt;
+           &lt;/xs:complexType&gt;
+         &lt;/xs:element&gt;
+       &lt;/xs:sequence&gt;
+       &lt;xs:attribute name="isbn" type="xs:string"/&gt;
+    &lt;/xs:complexType&gt;
+  &lt;/xs:element&gt;
+&lt;/xs:schema&gt;</pre> 
+       </div>
+      </div>
+      <h3 id="XMLValidation-XMLMessagewithNamespacetoBeValidated"><strong>XML Message with Namespace to Be Validated</strong></h3>
+      <p>This example shows an XML message to be validated and multiple XML schemas to be validated against where namespaces are used. Note that the actual document of the schema with a target namespace of <code>urn:bookstore‑schema</code>&nbsp;is located at <code>book.xsd</code> and the actual document of the schema with a target namespace of <code>urn:tapestore-schema</code>&nbsp;is located at <code>tape.xsd</code>.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>XML message (with namespace) to be validated</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;pb:main xmlns:pb="urn:bookstore-schema"&gt;
+  &lt;xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:dvdstore-schema" targetNamespace="urn:dvdstore-schema"&gt;
+    &lt;xs:element name="dvd" type="xs:string" /&gt;
+  &lt;/xs:schema&gt;
+
+  &lt;pb:book price="7.99" xmlns:pb="urn:bookstore-schema"
+  xsi:schemaLocation="urn:bookstore-schema book.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+    The Autobiography of Benjamin Franklin
+  &lt;/pb:book&gt;
+
+  &lt;pd:dvd xmlns:pd="urn:dvdstore-schema"&gt;
+    The Godfather
+  &lt;/pd:dvd&gt;
+
+  &lt;pt:tape xmlns:pt="urn:tapestore-schema"
+  xsi:schemaLocation="urn:tapestore-schema tape.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+    Il Postino
+  &lt;/pt:tape&gt;
+&lt;/pb:main&gt;</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>XML schema with no namespace, book.xsd, to be validated against</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;xs:schema xmlns="urn:bookstore-schema"
+targetNamespace="urn:bookstore-schema"
+xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;xs:element name="main"&gt;
+  &lt;/xs:element&gt;
+  &lt;xs:element name="book"&gt;
+    &lt;xs:complexType&gt;
+      &lt;xs:simpleContent&gt;
+        &lt;xs:extension base="xs:string"&gt;
+          &lt;xs:attribute name="price" type="xs:decimal"/&gt;
+        &lt;/xs:extension&gt;
+      &lt;/xs:simpleContent&gt;
+    &lt;/xs:complexType&gt;
+  &lt;/xs:element&gt;&nbsp;</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>XML schema with no namespace, tape.xsd, to be validated against</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;xs:schema xmlns="urn:tapestore-schema"
+targetNamespace="urn:tapestore-schema"
+xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+   &lt;xs:element name="tape" type="xs:string"/&gt;
+&lt;/xs:schema&gt;</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

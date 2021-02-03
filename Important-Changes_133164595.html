@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Important Changes</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="About-This-Release_133164592.html">About This Release</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Important Changes</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This release of Rhapsody includes a number of fixes and improvements that introduce functional changes with respect to previous releases:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146916861 {padding: 0px;}
+div.rbtoc1565146916861 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146916861 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146916861"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ImportantChanges-JREUpdates">JRE&nbsp;Updates</a></li> 
+        <li><a href="#ImportantChanges-DisabledCiphersSuites">Disabled Ciphers&nbsp;Suites</a></li> 
+        <li><a href="#ImportantChanges-ReplacementofDICOMFilters">Replacement of DICOM Filters</a></li> 
+        <li><a href="#ImportantChanges-InstallationDirectoryChanges">Installation Directory Changes</a></li> 
+        <li><a href="#ImportantChanges-ChangestotheinternalXSDrepresentationinMapDesigner">Changes to the internal XSD representation in Map Designer</a></li> 
+        <li><a href="#ImportantChanges-RhapsodyIDEMenuChanges">Rhapsody IDE Menu Changes</a></li> 
+        <li><a href="#ImportantChanges-AdvancedRouting">Advanced Routing</a></li> 
+        <li><a href="#ImportantChanges-RemovaloftheUserFeedbackForm">Removal of the User Feedback Form</a></li> 
+        <li><a href="#ImportantChanges-STDOUTandSTDERRRedirection">STDOUT and STDERR Redirection</a></li> 
+        <li><a href="#ImportantChanges-NewAccessRights">New Access Rights</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="ImportantChanges-JREUpdates">JRE&nbsp;Updates</h2>
+      <p>Oracle recently introduced licensing changes that now require royalties for the use of the latest versions of their Java Runtime Environment (JRE). Therefore,&nbsp;<span style="letter-spacing: 0.0px;">Rhapsody 6.5 has adopted the latest Java 8 AdoptOpenJDK JREs for the 64-bit engines on </span><em style="letter-spacing: 0.0px;">Windows</em><span style="letter-spacing: 0.0px;">, Linux and Solaris, and Rhapsody IDE on&nbsp;<em>Windows</em>. These JREs can be used royalty-free. The 32-bit engines on </span><em style="letter-spacing: 0.0px;">Windows</em><span style="letter-spacing: 0.0px;"> and Linux have been updated to use the latest royalty-free versions of Oracle's Java 8 JREs. The JREs used for the engines on AIX and HP-UX have been updated to the latest Java 8 JRE from IBM and HP, respectively, which are also royalty-free.&nbsp;Refer to&nbsp;<a href="JRE-Version-and-Update-Policy_133164593.html#JREVersionandUpdatePolicy-JREVersions">JRE Versions</a>&nbsp;for details.</span></p>
+      <p>Rhapsody 6.4.2 and earlier versions of Rhapsody use Oracle's JREs which continue to be royalty-free.</p>
+      <h2 id="ImportantChanges-DisabledCiphersSuites"><span style="color: rgb(51,51,51);">Disabled Ciphers</span>&nbsp;Suites</h2>
+      <p>The TLS anon, DES, RC4, and SSL algorithms and protocols, as well as the cipher suites which use them, have been disabled in the latest releases of Java 8 JREs because of vulnerabilities. They have therefore also been disabled in Rhapsody 6.5. If absolutely necessary, you can re-enable them. Refer to&nbsp;<a href="133161183.html#TLS/SSLSupportinRhapsody-EnablingDisabledCipherSuites">Enabling Disabled Cipher Suites</a>&nbsp;for details.</p>
+      <p>Cipher suites in the&nbsp;<code>rhapsody.properties</code>&nbsp;file are not updated during an upgrade.<span>&nbsp;Therefore, testing components which use SSL is especially important after an upgrade</span>.</p>
+      <h2 id="ImportantChanges-ReplacementofDICOMFilters"><span style="color: rgb(51,51,51);">Replacement of DICOM Filters</span></h2>
+      <p>The <a href="142319834.html">DICOM to XML / XML to DICOM</a>&nbsp;and <a href="DICOM-JPEG-Extraction_142319828.html">DICOM JPEG Extraction</a>&nbsp;filters have been discontinued and replaced by the <a href="DICOM-XML-Converter_133163336.html">DICOM XML Converter</a>&nbsp;and <a href="DICOM-JPEG-Converter_133163333.html">DICOM JPEG Converter</a>&nbsp;filters, respectively.&nbsp;If you want to use an RLC that contains the discontinued&nbsp;<a href="Deprecated-Components_133162090.html" style="letter-spacing: 0.0px;" class="external-link" rel="nofollow">filters</a>, you must replace them with their new counterparts. Users should contact&nbsp;<a style="letter-spacing: 0.0px;" href="-Support_133163665.html" class="external-link" rel="nofollow">Rhapsody Support</a>&nbsp;to assist with the migration.</p>
+      <h2 id="ImportantChanges-InstallationDirectoryChanges">Installation Directory Changes</h2>
+      <p>The default installation directories for Rhapsody applications have changed:</p>
+      <div class="table-wrap">
+       <table class="wrapped relative-table confluenceTable">
+        <colgroup>
+         <col style="width: 238.0px;">
+         <col style="width: 442.0px;">
+         <col style="width: 433.0px;">
+        </colgroup>
+        <tbody>
+         <tr>
+          <th colspan="1" class="confluenceTh">Rhapsody Component</th>
+          <th class="confluenceTh">From...</th>
+          <th class="confluenceTh">To...</th>
+         </tr>
+         <tr>
+          <td rowspan="2" class="confluenceTd">Engine (<em>Windows</em>)</td>
+          <td class="confluenceTd"><p><code><span>C:\Program&nbsp;Files</span><span>\</span>Orion&nbsp;Health\Rhapsody<span><br></span></code></p></td>
+          <td class="confluenceTd"><p><code><span>C:\Program&nbsp;Files</span>\Rhapsody\Rhapsody&nbsp;Engine&nbsp;6<br></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>C:\Program&nbsp;Files&nbsp;(x86)\</span><span>Orion&nbsp;Health\Rhapsody</span></code></td>
+          <td colspan="1" class="confluenceTd"><code><span>C:\Program&nbsp;Files&nbsp;(x86)\Rhapsody\Rhapsody&nbsp;Engine&nbsp;6</span></code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Engine (*nix)</td>
+          <td colspan="1" class="confluenceTd"><p><code>/orionhealth/rhapsody</code></p></td>
+          <td colspan="1" class="confluenceTd"><p><code>/rhapsody/rhapsody-engine-6</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Rhapsody IDE</td>
+          <td class="confluenceTd"><code><span>C:\Program&nbsp;Files&nbsp;(x86)\</span><span>Orion&nbsp;Health\<span>Rhapsody&nbsp;IDE&nbsp;6</span></span></code></td>
+          <td class="confluenceTd"><code>C:\Program&nbsp;Files&nbsp;(x86)\Rhapsody\Rhapsody&nbsp;IDE&nbsp;6</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Rhapsody&nbsp;Messaging&nbsp;Toolkit (formerly Symphonia)</td>
+          <td class="confluenceTd"><code><span>C:\Program&nbsp;Files&nbsp;(x86)\</span><span>Orion&nbsp;Health\Symphonia</span></code></td>
+          <td class="confluenceTd"><code>C:\Program Files (x86)\Rhapsody\<span>RMT</span></code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Rhapsody Dashboard <span style="letter-spacing: 0.0px;">(</span><em style="letter-spacing: 0.0px;">Windows</em><span style="letter-spacing: 0.0px;">)</span></p></td>
+          <td colspan="1" class="confluenceTd"><p><code><span>C:</span>\Program Files\<span>Orion&nbsp;Health</span>\Dashboard</code></p></td>
+          <td colspan="1" class="confluenceTd"><p><code>C:\Program Files\Rhapsody\Dashboard</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Rhapsody Dashboard </span><span>(</span>*nix<span>)</span></td>
+          <td colspan="1" class="confluenceTd"><code><span><span>/orionhealth</span></span>/dashboard</code></td>
+          <td colspan="1" class="confluenceTd"><pre><code>/rhapsody/dashboard</code></pre></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ImportantChanges-ChangestotheinternalXSDrepresentationinMapDesigner">Changes to the internal XSD representation in Map Designer</h2>
+      <p>As of Rhapsody 6.5.0, the way that XSD schemas are represented internally in an MDF file has been slightly altered to enable Map Designer to load XSD schemas with recurring elements. Existing mappings which use XSD schemas as input or output definitions may fail to compile after these definitions are reloaded.&nbsp;The compilation errors can be resolved by modifying the affected submap definitions to use the new LocalComplex datatype IDs referred to in the error details.</p>
+      <p>Mappings compiled in earlier versions of Rhapsody will continue to run in Rhapsody 6.5.0 without issue.</p>
+      <h2 id="ImportantChanges-RhapsodyIDEMenuChanges"><span style="color: rgb(51,51,51);">Rhapsody IDE Menu Changes</span></h2>
+      <p>Rhapsody IDE menus have been reorganized to make the user interface more intuitive. In particular:</p>
+      <ul>
+       <li>The <strong>View</strong> menu items have been reordered.</li>
+       <li>The User Manager has been moved to the <strong>Rhapsody</strong> menu.</li>
+       <li>The Management Console has been moved to&nbsp;the <strong>Tools</strong> menu.</li>
+       <li>The Managers Menu accessible from the toolbar ordering has changed for consistency.</li>
+       <li>The <strong>Output</strong> panel has been renamed the <strong>Information</strong> panel.</li>
+      </ul>
+      <h2 id="ImportantChanges-AdvancedRouting"><span style="letter-spacing: -0.008em;">Advanced Routing</span></h2>
+      <p>Rhapsody 6.5 introduces&nbsp;Advanced Routing&nbsp;for <a href="Continued-Routing-on-Failure_142330793.html">continued routing on failure</a> for communication points. Output communication points placed on the input side of routes have an error output connector for configuring continued routing on failure.</p>
+      <p>Continued routing on failure is not supported on versions of Rhapsody prior to Rhapsody 6.5. You can still load RLCs, which contain communication points configured to use continued routing,&nbsp;into older engines, but the continued routing functionality will be stripped out in the process.</p>
+      <h2 id="ImportantChanges-RemovaloftheUserFeedbackForm">Removal of the User Feedback Form</h2>
+      <p>The Orion Health-administered <i>User Feedback Form</i> in the Management Console has been removed in Rhapsody 6.5. You may now provide feedback directly to your Rhapsody Account Manager. Requests for product enhancements can be submitted via <a href="Rhapsody-Support_133163665.html">Rhapsody Support</a>.</p>
+      <h2 id="ImportantChanges-STDOUTandSTDERRRedirection">STDOUT and STDERR Redirection</h2>
+      <p>Rhapsody no longer redirects STDOUT and STDERR to the Rhapsody logs. Logging from third-party or RDK components that log to STDOUT and STDERR is now redirected to the Wrapper log.</p>
+      <h2 id="ImportantChanges-NewAccessRights">New Access Rights</h2>
+      <p>Refer to&nbsp;<a href="New-Access-Rights_133164596.html">New Access Rights</a>&nbsp;for details.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

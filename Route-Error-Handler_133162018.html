@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Route Error Handler</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Routes_133161995.html">Routes</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Route Error Handler</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>When an error occurs on a filter, Rhapsody needs to do something with it. Rhapsody allows errors within filters to be handled by linking error connectors so a message can be redirected elsewhere, or sent to the error queue.</p>
+      <p>However, in an online mode system, the error queue is not appropriate as (generally) a description of the error needs to be returned to the original requester. While this behavior can be accomplished by linking every error connector, this can be tedious and is itself error prone.</p>
+      <p>The <strong>Route Error Handler</strong> enables an administrator to configure a single error handler for each route, which makes the configuration process simpler. When a processing error occurs in any filter on a route, the message is first sent to any error connector (if present), then to the route error handler (if present), and finally the error queue (if an error connector or error handler is not present).</p>
+      <ul>
+       <li>If a message is sent to this route error handler, properties for the following information must be available (along with any existing properties):
+        <ul>
+         <li>The original source communication point (if the message has come from the input of an <em>Out-&gt;In</em> communication point, this value is the communication point from where it originally entered Rhapsody from).</li>
+         <li>The route and filter that caused the problem.</li>
+         <li>The error that occurred.</li>
+        </ul></li>
+       <li>Appropriate message events must be added when a message is sent to a route error handler so its path is traceable in the Management Console.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The message itself is sent to the Route Error Handler rather than an XML document containing the message. This is done to maintain consistency with the other error handling options.</p>
+       </div>
+      </div>
+      <h2 id="RouteErrorHandler-AddingaRouteErrorHandler">Adding a Route Error Handler</h2>
+      <p>Rhapsody IDE allows you to add a single route error handler to the input area of each route. This route error handler object can be connected to a single filter on the same route.</p>
+      <p>If the Route Error Handler is present on the route view, but is not connected, then Rhapsody IDE&nbsp;will treat it as not present. Rhapsody IDE&nbsp;saves and loads this error handler to RLCs. If an RLC containing a route error handler is loaded using an older Rhapsody IDE, or by the new Rhapsody IDE&nbsp;onto an older engine, the route error handler itself is discarded, but any components that were connected to it remain:</p>
+      <ul>
+       <li>The properties page for the route error handler will show some simple information about it and allow the user to change its name (default name of 'Error Handler', and name changes will be saved).</li>
+       <li>The route error handler will not be shown by default, but can be enabled via the context menu and view menu (when a route view is active).</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162018/133162019.png" data-image-src="attachments/133162018/133162019.png" data-unresolved-comment-count="0" data-linked-resource-id="133162019" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ErrorHandlerRoute.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162018" data-linked-resource-container-version="1"></span></p>
+      <h2 id="RouteErrorHandler-Engine">Engine</h2>
+      <p>When a processing error occurs in a filter and no error connector is present on that filter, and a Route Error Handler is also present on the route, the following action is taken:</p>
+      <ul>
+       <li>Any errors from the processing exception thrown are added to the message object (if not already present) so that subsequent filters can retrieve them by calling the <code>getErrors()</code> method from the <strong>JavaScript</strong> filter or a custom filter.</li>
+       <li>A 'filtering failed' message event is added with the errors that occurred, and are displayed in the Management Console.</li>
+       <li>A message event is added to the message (or messages if the filter had a collector attached) to indicate that it was sent to the route error handler.</li>
+       <li>The message has its next destination set to the component connected to the route error handler.</li>
+      </ul>
+      <p>If an error occurs processing a collection, each message in the collection is sent separately to the route error handler (they are sent in one transaction, but are not sent as a batch message).</p>
+      <p>If an error occurs within the Route Error Handler, the message is sent to the error queue. This is done by checking the <code>rhapsody:ErrorRouteId</code> property - if for some reason the user needs different behavior, they can explicitly clear this property.</p>
+      <p>A processing error is defined as:</p>
+      <ul>
+       <li>The filter throws a <code>FilterProcessingException</code> (or a derivation thereof) from the <code>Filter.processMessage()</code> method.</li>
+       <li>A filter adds errors to a message by calling the <code>Message.addError()</code> method.</li>
+      </ul>
+      <h2 id="RouteErrorHandler-Properties">Properties</h2>
+      <p>The following properties will be sent on all messages that go to the route error handler:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Name</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>rhapsody:InputCommunicationPoint</code></p></td>
+          <td class="confluenceTd"><p>The name of the input communication point this message was received on.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>For messages received from an <em>Out-&gt;In</em> communication point, this will be the name of communication point the original request was received on rather than the Out-&gt;In communication point itself. <br class="atl-forced-newline"> This property will be available on all messages - not just messages sent to a route error handler.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>rhapsody:ErrorFilterName</code></p></td>
+          <td class="confluenceTd"><p>The name of the filter where the last error occurred; that is, where the message was sent to an error connector or Route Error Handler.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>rhapsody:ErrorFilterId</code></p></td>
+          <td class="confluenceTd"><p>The internal Rhapsody ID of the filter where the last error occurred.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>rhapsody:ErrorRoute</code></p></td>
+          <td class="confluenceTd"><p>The name of the route where the last error occurred; that is, the message was sent to an error connector or Route Error Handler.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>rhapsody:ErrorRouteId</code></p></td>
+          <td class="confluenceTd"><p>The internal Rhapsody ID of the route where the last error occurred. This is used internally to prevent re-entry; that is, an error that occurs within the route error handler processing does not go back to the same Route Error Handler).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>There is no special handling:</p>
+        <ul>
+         <li>For sending a custom response when a timeout occurs on the incoming connection. The default communication point behavior will be used, which for the HTTP Server is to send a 504 response after the configurable timeout.</li>
+         <li>To pipe back any connection errors with downstream communication points. These will perform normal Rhapsody retries, and generate Rhapsody notifications as necessary. The incoming connection will eventually timeout if retries are not successful in time.</li>
+        </ul>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

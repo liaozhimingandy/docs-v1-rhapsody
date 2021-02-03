@@ -1,0 +1,1189 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Security Objects Administration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Administration-REST-API-Methods_133161103.html">Administration REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Security Objects Administration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods for managing security objects:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005106 {padding: 0px;}
+div.rbtoc1565147005106 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005106 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147005106"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#SecurityObjectsAdministration-GET/admin/security/info">GET /admin/security/info</a></li> 
+        <li><a href="#SecurityObjectsAdministration-POST/admin/security/ssl/certificate">POST /admin/security/ssl/certificate</a></li> 
+        <li><a href="#SecurityObjectsAdministration-POST/admin/security/ssl/privatekey">POST /admin/security/ssl/privatekey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-POST/admin/security/symmetrickey">POST /admin/security/symmetrickey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-POST/admin/security/ssh/privatekey">POST /admin/security/ssh/privatekey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-POST/admin/security/ssh/publickey">POST /admin/security/ssh/publickey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-POST/admin/security/rpg/privatekeyring">POST /admin/security/rpg/privatekeyring</a></li> 
+        <li><a href="#SecurityObjectsAdministration-POST/admin/security/rpg/publickeyring">POST /admin/security/rpg/publickeyring</a></li> 
+        <li><a href="#SecurityObjectsAdministration-DELETE/admin/security/ssl/certificate">DELETE /admin/security/ssl/certificate</a></li> 
+        <li><a href="#SecurityObjectsAdministration-DELETE/admin/security/ssl/privatekey">DELETE /admin/security/ssl/privatekey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-DELETE/admin/security/symmetrickey">DELETE /admin/security/symmetrickey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-DELETE/admin/security/ssh/privatekey">DELETE /admin/security/ssh/privatekey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-DELETE/admin/security/ssh/publickey">DELETE /admin/security/ssh/publickey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-DELETE/admin/security/rpg/privatekeyring">DELETE /admin/security/rpg/privatekeyring</a></li> 
+        <li><a href="#SecurityObjectsAdministration-DELETE/admin/security/rpg/publickeyring">DELETE /admin/security/rpg/publickeyring</a></li> 
+        <li><a href="#SecurityObjectsAdministration-PUT/admin/security/ssl/certificate">PUT /admin/security/ssl/certificate</a></li> 
+        <li><a href="#SecurityObjectsAdministration-PUT/admin/security/ssl/privatekey">PUT /admin/security/ssl/privatekey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-PUT/admin/security/symmetrickey">PUT /admin/security/symmetrickey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-PUT/admin/security/ssh/privatekey">PUT /admin/security/ssh/privatekey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-PUT/admin/security/ssh/publickey">PUT /admin/security/ssh/publickey</a></li> 
+        <li><a href="#SecurityObjectsAdministration-PUT/admin/security/rpg/privatekeyring">PUT /admin/security/rpg/privatekeyring</a></li> 
+        <li><a href="#SecurityObjectsAdministration-PUT/admin/security/rpg/publickeyring">PUT /admin/security/rpg/publickeyring</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p>Security object methods enable the querying of security objects that exist on the Rhapsody engine, and the adding and deleting security objects from the Rhapsody engine.</p>
+      <p>They are only available over HTTPS, and the user must have the appropriate Access Rights to perform these actions.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When posting security objects to the engine, the <code>data</code> element of the JSON sent to the engine should contain the security object encoded as base64. You must ensure that the tool you use for base64 encoding does not insert line-breaks when generating base64, as this may lead to errors.</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When you add or delete a security object, you must restart the component using that security object in order for the change to take effect.</p>
+       </div>
+      </div>
+      <h2 id="SecurityObjectsAdministration-GET/admin/security/info">GET /admin/security/info</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/security/info</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns a list of all the security objects.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_0+json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Accept: application/vnd.orchestral.rhapsody.6_2_3+json</span><br></code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence"> "securityObjects": [
+      {
+        "alias": "filezilla-ftp2-cer",
+        "type": "SSL_CERTIFICATE",
+        "expiry": "20250711T122640.000+1200"
+      },
+      {
+        "alias": "DSA with SHA1",
+        "type": "SSL_PRIVATE_KEY",
+        "expiry": "20301220T135610.000+1300"
+      },
+      {
+        "alias": "rhap-test-diff-keyring-pub",
+        "type": "RPG_PUBLIC_KEY_RING",
+        "keys": [
+          {
+            "keyId": "0x6E574F64",
+            "expiry": "20170215T120000.000+1300"
+          },
+          {
+            "keyId": "0xB80B8740",
+            "expiry": "20180214T000000.000+1300"
+          },
+          {
+            "keyId": "0x005F471F",
+            "expiry": null
+          }
+        ]
+      },
+      {
+        "alias": "rhap-test-diff-keyring-sec",
+        "type": "RPG_PRIVATE_KEY_RING",
+        "keys": [
+          {
+            "keyId": "0x6E574F64",
+            "expiry": null
+          },
+          {
+            "keyId": "0xB80B8740",
+            "expiry": null
+          },
+          {
+            "keyId": "0x005F471F",
+            "expiry": null
+          }
+        ]
+      }
+    ]</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View certificates and keys REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-POST/admin/security/ssl/certificate">POST /admin/security/ssl/certificate</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/security/ssl/certificate</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Adds an SSL certificate to the engine. The alias must be unique on the engine.</p><p>An optional commit comment can be provided.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: vnd.orchestral.rhapsody.6_0+json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>An SSL certificate object, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias": "sslCertificate",
+    "data": "lmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAoMHgyKQ0KICAgICAgICBTZXJpYWwgTnVt
+	YmVyOg0KICAgICAgICAgICAgYzg6MWQ6ZGM6MGU6ZWI6MzQ6OWQ6MjQNCiAgICBTaWduYXR1cmUgQWxnb3JpdGhtOiBzaGEx
+	V2l0aFJTQUVuY3J5cHRpb24NCiAgICAgICAgSXNzdWVyOiBDPU5aLCBTVD1Ob3J0aCBJc2xhbmQsIEw9QXVja2xhbmQsIE89
+	T3Jpb24gSGVhbHRoLCBPVT1SaGFwc29",
+    "commitComment":"myComment"
+&nbsp;}
+</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Write certificates and keys REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-POST/admin/security/ssl/privatekey">POST /admin/security/ssl/privatekey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/security/ssl/privatekey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Adds an SSL private key to the engine. The alias must be unique on the engine. The password must be the correct password for the private key.</p><p>An optional commit comment can be provided.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a> <span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_0+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>An SSL private key object, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias": "sslCertificate",
+	"password": "secret",
+    "data": "lmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAoMHgyKQ0KICAgICAgICBTZXJpYWwgTnVt
+	YmVyOg0KICAgICAgICAgICAgYzg6MWQ6ZGM6MGU6ZWI6MzQ6OWQ6MjQNCiAgICBTaWduYXR1cmUgQWxnb3JpdGhtOiBzaGEx
+	V2l0aFJTQUVuY3J5cHRpb24NCiAgICAgICAgSXNzdWVyOiBDPU5aLCBTVD1Ob3J0aCBJc2xhbmQsIEw9QXVja2xhbmQsIE89
+	T3Jpb24gSGVhbHRoLCBPVT1SaGFwc29",
+    "commitComment":"myComment"
+}
+</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Write certificates and keys REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-POST/admin/security/symmetrickey">POST /admin/security/symmetrickey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/security/symmetrickey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Adds a symmetric key to the engine. The alias must be unique on the engine. The type must be the name of a supported symmetric key algorithm.</p><p>The supported algorithms are: AES, Blowfish, CAST5, CAST6, DES, DESede, RC2, RC5, RC6, Rijndael, Skipjack, Twofish, Serpent, RC4.</p><p>An optional commit comment can be provided.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type:</code>&nbsp;<code>application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code> <code>Content-Type:</code>&nbsp;<code>application/<code> <code> <code> <code> <code>vnd.orchestral.rhapsody.6_0+</code> </code> </code> </code> </code>json</code> <br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>A symmetric key object, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias": "symmetricKey",
+	"type": "AES",
+    "data": "lmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAoMHgyKQ0KICAgICAgICBTZXJpYWwgTnVt
+	YmVyOg0KICAgICAgICAgICAgYzg6MWQ6ZGM6MGU6ZWI6",
+    "commitComment":"myComment"
+}
+</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Write certificates and keys REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-POST/admin/security/ssh/privatekey">POST /admin/security/ssh/privatekey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/security/ssh/privatekey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Adds an SSH private key to the engine. The alias must be unique on the engine. The passphrase must be the correct passphrase for the SSH private key.</p><p>An optional commit comment can be provided.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_0+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>A SSH private key object, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias": "sshKey",
+	"passphrase": "secret",
+    "data": "lmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAoMHgyKQ0KICAgICAgICBTZXJpYWwgTnVt
+	YmVyOg0KICAgICAgICAgICAgYzg6MWQ6ZGM6MGU6ZWI6MzQ6OWQ6MjQNCiAgICBTaWduYXR1cmUgQWxnb3JpdGhtOiBzaGEx
+	V2l0aFJTQUVuY3J5cHRpb24NCiAgICAgICAgSXNzdWVyOiBDPU5aLCBTVD1Ob3J0aCBJc2xhbmQsIEw9QXVja2xhbmQsIE89
+	T3Jpb24gSGVhbHRoLCBPVT1SaGFwc29",
+    "commitComment":"myComment"
+}
+</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-POST/admin/security/ssh/publickey">POST /admin/security/ssh/publickey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/security/ssh/publickey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Adds an SSH public key to the engine. The alias must be unique on the engine.</p><p>An optional commit comment can be provided.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type:</code>&nbsp;<code>application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_0+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>An SSH public key object, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias": "sshKey",
+    "data": "lmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAoMHgyKQ0KICAgICAgICBTZXJpYWwgTnVt
+	YmVyOg0KICAgICAgICAgICAgYzg6MWQ6ZGM6MGU6ZWI6MzQ6OWQ6MjQNCiAgICBTaWduYXR1cmUgQWxnb3JpdGhtOiBzaGEx
+	V2l0aFJTQUVuY3J5cHRpb24NCiAgICAgICAgSXNzdWVyOiBDPU5aLCBTVD1Ob3J0aCBJc2xhbmQsIEw9QXVja2xhbmQsIE89
+	T3Jpb24gSGVhbHRoLCBPVT1SaGFwc29",
+    "commitComment":"myComment"
+}
+</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-POST/admin/security/rpg/privatekeyring">POST /admin/security/rpg/privatekeyring</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/security/rpg/privatekeyring</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Adds an RPG private keyring to the engine. The alias must be unique on the engine. The password must be the correct password for the private key.</p><p>An optional commit comment can be provided.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type:</code>&nbsp;<code>application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_2_3+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>An RPG private keyring object, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias": "rpgPrivateKeyring",
+    "passphrase": "secret",
+    "data": "lmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAoMHgyKQ0KICAgICAgICBTZXJpYWwgTnVt
+    YmVyOg0KICAgICAgICAgICAgYzg6MWQ6ZGM6MGU6ZWI6MzQ6OWQ6MjQNCiAgICBTaWduYXR1cmUgQWxnb3JpdGhtOiBzaGEx
+    V2l0aFJTQUVuY3J5cHRpb24NCiAgICAgICAgSXNzdWVyOiBDPU5aLCBTVD1Ob3J0aCBJc2xhbmQsIEw9QXVja2xhbmQsIE89
+    T3Jpb24gSGVhbHRoLCBPVT1SaGFwc29",
+    "commitComment":"myComment"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-POST/admin/security/rpg/publickeyring">POST /admin/security/rpg/publickeyring</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/security/rpg/publickeyring</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Adds an RPG public keyring to the engine. The alias must be unique on the engine.</p><p>An optional commit comment can be provided.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type:</code>&nbsp;<code>application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_2_3+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>An RPG public keyring object, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias": " rpgPublicKeyring",
+    "data": "lmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAoMHgyKQ0KICAgICAgICBTZXJpYWwgTnVt
+    YmVyOg0KICAgICAgICAgICAgYzg6MWQ6ZGM6MGU6ZWI6MzQ6OWQ6MjQNCiAgICBTaWduYXR1cmUgQWxnb3JpdGhtOiBzaGEx
+    V2l0aFJTQUVuY3J5cHRpb24NCiAgICAgICAgSXNzdWVyOiBDPU5aLCBTVD1Ob3J0aCBJc2xhbmQsIEw9QXVja2xhbmQsIE89
+    T3Jpb24gSGVhbHRoLCBPVT1SaGFwc29",
+    "commitComment":"myComment"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-DELETE/admin/security/ssl/certificate">DELETE /admin/security/ssl/certificate</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /admin/security/ssl/certificate</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Deletes an SSL certificate with the option of adding a commit comment.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><p><strong> <span style="color: rgb(0,0,0);">Request Header</span> </strong></p></td>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_0+json</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The alias and commit comment in JSON format, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias":"sslCertificate",
+    "commitComment":"myComment"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-DELETE/admin/security/ssl/privatekey">DELETE /admin/security/ssl/privatekey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /admin/security/ssl/privatekey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><span>Deletes an SSL private key</span> with the option of adding a commit comment.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><p><strong> <span style="color: rgb(0,0,0);">Request Header</span> </strong></p></td>
+          <td class="confluenceTd"><p><code>Content-Type:application/json<code> <br> </code> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code> <code>Content-Type: application/vnd.orchestral.rhapsody.6_0+json</code> <br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a> <span>&nbsp;</span></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The alias and commit comment in JSON format, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias":"sslKey",
+    "commitComment":"myComment"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-DELETE/admin/security/symmetrickey">DELETE /admin/security/symmetrickey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /admin/security/symmetrickey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><span>Deletes a symmetric key</span> with the option of adding a commit comment.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><p><strong> <span style="color: rgb(0,0,0);">Request Header</span> </strong></p></td>
+          <td class="confluenceTd"><p><code>Content-Type: application/json <br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code> <code>Content-Type:</code>application/vnd.orchestral.rhapsody.6_0+json</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The alias and commit comment in JSON format, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias":"symmetricKey",
+    "commitComment":"myComment"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-DELETE/admin/security/ssh/privatekey">DELETE /admin/security/ssh/privatekey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /admin/security/ssh/privatekey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><span>Deletes an SSH private key</span> with the option of adding a commit comment.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><p><strong> <span style="color: rgb(0,0,0);">Request Header</span> </strong></p></td>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_0+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a> &nbsp;</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The alias and commit comment in JSON format, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias":"sshKey",
+    "commitComment":"myComment"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Response Body<span style="color: rgb(0,0,0);">&nbsp;</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-DELETE/admin/security/ssh/publickey">DELETE /admin/security/ssh/publickey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /admin/security/ssh/publickey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><span>Deletes an SSH public key</span> with the option of adding a commit comment.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><p><strong> <span style="color: rgb(0,0,0);">Request Header</span> </strong></p></td>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_0+json</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The alias and commit comment in JSON format, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias":"sshKey",
+    "commitComment":"myComment"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-DELETE/admin/security/rpg/privatekeyring">DELETE /admin/security/rpg/privatekeyring</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /admin/security/rpg/privatekeyring</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><span>Deletes an RPG private keyring</span> with the option of adding a commit comment.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><p><strong> <span style="color: rgb(0,0,0);">Request Header</span> </strong></p></td>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_2_3+json</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The alias and commit comment in JSON format, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias":"rpgPrivateKeyring",
+    "commitComment":"myComment"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-DELETE/admin/security/rpg/publickeyring">DELETE /admin/security/rpg/publickeyring</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /admin/security/rpg/publickeyring</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><span>Deletes an RPG public keyring</span> with the option of adding a commit comment.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><p><strong> <span style="color: rgb(0,0,0);">Request Header</span> </strong></p></td>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_2_3+json</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The alias and commit comment in JSON format, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "alias":"rpgPublicKeyring",
+    "commitComment":"myComment"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-PUT/admin/security/ssl/certificate"><span>PUT /admin/security/ssl/certificate</span></h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/security/ssl/certificate</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads a SSL certificate onto the engine, overwriting any existing SSL certificate with the same alias.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+json</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "alias":"ssl certificate", 
+  "commitComment":"updated ssl certificate", 
+  "data":"Q2VydGlmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAo"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-PUT/admin/security/ssl/privatekey">PUT /admin/security/ssl/privatekey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/security/ssl/privatekey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads a SSL private key onto the engine, overwriting any existing SSL private key with the same alias.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type:</code> <code> <code> <code>application</code>/<code>vnd.orchestral.rhapsody.6_1+<code> <code>json<br> </code> </code> </code> </code> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "alias":"ssl private", 
+  "password":"rhapsody", 
+  "commitComment":"updated ssl private key", 
+  "data":"Q2VydGlmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAo"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><p><span style="color: rgb(0,51,102);"> <strong>Response Body</strong> </span></p></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-PUT/admin/security/symmetrickey">PUT /admin/security/symmetrickey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/security/symmetrickey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads a symmetric key onto the engine, overwriting any existing symmetric key with the same alias.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "alias":"symmetric", 
+  "type":"AES", 
+  "commitComment":"updated symmetric key", 
+  "data":"Q2VydGlmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAo"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-PUT/admin/security/ssh/privatekey">PUT /admin/security/ssh/privatekey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/security/ssh/privatekey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads a SSH private key onto the engine, overwriting any existing SSH private key with the same alias.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type:</code> <code> <code>application</code> <code>/<code> <code>json<code> <br> </code> </code> </code> </code> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: </code> <code> <code> <code>application</code>/<code>vnd.orchestral.rhapsody.6_1+<code> <code>json<code> <br> </code> </code> </code> </code> </code> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "alias":"ssh private", 
+  "passphrase":"rhapsody", 
+  "commitComment":"updated ssh private key", 
+  "data":"Q2VydGlmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAo"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);"> <strong>Response Body </strong>&nbsp;</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-PUT/admin/security/ssh/publickey">PUT /admin/security/ssh/publickey</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/security/ssh/publickey</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads a SSH public key onto the engine, overwriting any existing SSH public key with the same alias.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "alias":"ssh public",  
+  "commitComment":"updated ssh public key", 
+  "data":"Q2VydGlmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAo"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Body</strong></p></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-PUT/admin/security/rpg/privatekeyring">PUT /admin/security/rpg/privatekeyring</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/security/rpg/privatekeyring</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads an RPG private keyring onto the engine, overwriting any existing RPG private key with the same alias.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type:</code> <code> <code>application</code><code>/<code><code>json<code> <br></code></code></code></code></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type:</code> <code><code><code>application</code>/<code>vnd.orchestral.rhapsody.6_2_3+<code><code>json<code> <br></code></code></code></code></code></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "alias":" rpgPrivateKeyring",
+  "password":"rhapsody",
+  "commitComment":"updated rpg private key",
+  "data":"Q2VydGlmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAo"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);"> <strong>Response Body </strong>&nbsp;</span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SecurityObjectsAdministration-PUT/admin/security/rpg/publickeyring">PUT /admin/security/rpg/publickeyring</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/security/rpg/publickeyring</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Loads an RPG public keyring onto the engine, overwriting any existing RPG public keyrings with the same alias.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_2_3+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "alias":" rpgPublicKeyring", 
+  "commitComment":"updated rpg public keyring",
+  "data":"Q2VydGlmaWNhdGU6DQogICAgRGF0YToNCiAgICAgICAgVmVyc2lvbjogMyAo"
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>Response Body</strong></p></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span>'Write certificates and keys REST API'.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

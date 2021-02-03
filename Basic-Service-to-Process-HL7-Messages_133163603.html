@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Basic Service to Process HL7 Messages</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Web-Services_133163490.html">Web Services</a></span> </li> 
+       <li> <span><a href="Tutorials_133163522.html">Tutorials</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Basic Service to Process HL7 Messages</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This tutorial will use a web service (hosted in Rhapsody) as the transport mechanism for HL7 2.x messages. The web service will acknowledge the HL7 message by returning an HL7 acknowledgment message as the web service response.</p>
+      <p>Before you add a Web service, you must set up the following:</p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146987691 {padding: 0px;}
+div.rbtoc1565146987691 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146987691 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565146987691"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#BasicServicetoProcessHL7Messages-CreatetheFolderStructurefortheCommunicationPointsandRoutes">Create the Folder Structure for the Communication Points and Routes</a></li> 
+        <li><a href="#BasicServicetoProcessHL7Messages-LoadtheMessageDefinitionFile">Load the Message Definition File</a></li> 
+       </ul> 
+      </div>
+      <h2 id="BasicServicetoProcessHL7Messages-CreatetheFolderStructurefortheCommunicationPointsandRoutes">Create the Folder Structure for the Communication Points and Routes</h2>
+      <p>In Rhapsody IDE, click the <strong>New Locker</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163603/133163610.png" data-image-src="attachments/133163603/133163610.png" data-unresolved-comment-count="0" data-linked-resource-id="133163610" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="new_locker.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163603" data-linked-resource-container-version="1"></span> on the standard toolbar to create a new <strong>HL7WebService</strong> locker, and then <span>click the </span><strong>New Folder</strong><span> icon </span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163603/133163609.png" data-image-src="attachments/133163603/133163609.png" data-unresolved-comment-count="0" data-linked-resource-id="133163609" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="new_folder.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163603" data-linked-resource-container-version="1"></span><span> on the standard toolbar to create</span> two child folders — <strong>Client</strong> and <strong>Server</strong>.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/133163603/133163604.png" data-image-src="attachments/133163603/133163604.png" data-unresolved-comment-count="0" data-linked-resource-id="133163604" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="folder-structure.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163603" data-linked-resource-container-version="1"></span></p>
+      <h2 id="BasicServicetoProcessHL7Messages-LoadtheMessageDefinitionFile">Load the Message Definition File</h2>
+      <div class="table-wrap">
+       <table id="TBL1565043148427" class="confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>View&gt;File Manager...</strong></p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148427']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148427',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>Using the File Manager, load the message definition file <code>HL7v2.3.1.s3d</code> (<a href="attachments/133163603/133163608.s3d" data-linked-resource-id="133163608" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="HL7v2.3.1.s3d" data-linked-resource-content-type="application/octet-stream" data-linked-resource-container-id="133163603" data-linked-resource-container-version="1">download</a>) into the <strong>HL7WebService</strong><span> locker</span>.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/133163603/133163605.png" data-image-src="attachments/133163603/133163605.png" data-unresolved-comment-count="0" data-linked-resource-id="133163605" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="File_Manager.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163603" data-linked-resource-container-version="1"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

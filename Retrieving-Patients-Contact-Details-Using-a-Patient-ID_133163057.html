@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Retrieving Patients Contact Details Using a Patient ID</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="Database-Filters_133163055.html">Database Filters</a></span> </li> 
+       <li> <span><a href="Using-the-Database-Filters_133163056.html">Using the Database Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Retrieving Patients Contact Details Using a Patient ID</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <strong>Database Message Extraction</strong> filter provides the ability to generate an XML message with data obtained from a JDBC accessible data source. In effect, it replaces the original message with the results from the database query.</p> 
+      <p>This scenario involves generating an XML message containing a patient's data from an SQL database based on the ID number of the patient.</p> 
+      <p>The following diagram illustrates a simple route. </p> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163057/133163058.png" data-image-src="attachments/133163057/133163058.png" data-unresolved-comment-count="0" data-linked-resource-id="133163058" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DatabaseQuery.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163057" data-linked-resource-container-version="1"></span></p> 
+      <h2 id="RetrievingPatientsContactDetailsUsingaPatientID-DatabaseConfigurationFile">Database Configuration File</h2> 
+      <p>As the scenario reads information from an ADT^A09 message, a message definition is required to allow Rhapsody to parse the message and extract the patient ID. In this scenario, we will use a definition created in the EDI Message Designer using the HL7 2.5 libraries and previously loaded into Rhapsody.</p> 
+      <p>The database configuration file contains the SQL query to run. The SQL query determines the structure of the XML document that is generated.</p> 
+      <p>This looks at the <code>Patient</code> table of our database and returns PatientIDs that match the <code>PatientID.IDNumber</code> field in the <code>PID</code> segment of our <code>ADTA09</code> message. The filter configuration should look like this:</p> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163057/133163059.png" data-image-src="attachments/133163057/133163059.png" data-unresolved-comment-count="0" data-linked-resource-id="133163059" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="getpatient.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163057" data-linked-resource-container-version="1"></span></p> 
+      <p>When a message with the desired PatientID is sent to the filter and successfully found an XML message is generated; for example:</p> 
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">
+&lt;?xml version="1.0"?&gt;
+
+&lt;message&gt;
+
+&lt;get_patient&gt;
+
+&lt;Gender&gt;M&lt;/Gender&gt;
+
+&lt;FamilyName&gt;Doe&lt;/FamilyName&gt;
+
+&lt;Address&gt;742 Evergreen Terrace, Springfeild&lt;/Address&gt;
+
+&lt;DateOfBirth null="yes"&gt;&lt;/DateOfBirth&gt;
+
+&lt;PatientID&gt;100&lt;/PatientID&gt;
+
+&lt;PhoneHome&gt;096237548&lt;/PhoneHome&gt;
+
+&lt;PhoneWork&gt;096247348&lt;/PhoneWork&gt;
+
+&lt;PhoneMob&gt;021458745&lt;/PhoneMob&gt;
+
+&lt;GivenName&gt;John&lt;/GivenName&gt;
+
+&lt;/get_patient&gt;
+
+&lt;/message&gt;
+
+</pre> 
+       </div>
+      </div> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

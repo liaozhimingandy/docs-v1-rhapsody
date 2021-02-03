@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Configuration Administration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Administration-REST-API-Methods_133161103.html">Administration REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Configuration Administration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods to manage configurations specifically in automated deployment scenarios:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147004853 {padding: 0px;}
+div.rbtoc1565147004853 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147004853 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147004853"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ConfigurationAdministration-GET/admin/config/status/<id>">GET /admin/config/status/&lt;id&gt;</a></li> 
+        <li><a href="#ConfigurationAdministration-GET/admin/config">GET /admin/config</a></li> 
+        <li><a href="#ConfigurationAdministration-POST/admin/config">POST /admin/config</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p>These methods are a&nbsp;<span class="text">straightforward</span>&nbsp;and platform-independent mechanism for loading configurations. However, some of the methods have been designed to<strong>&nbsp;</strong>replace your existing configuration completely<strong>&nbsp;</strong>with a new one. For this reason, when partial configuration changes are required, it is recommended you use&nbsp;<a href="Loading-a-Configuration_133161525.html">Rhapsody IDE</a>. It is also recommended you test the new configuration on a staging environment that closely matches the production one before automatically deploying the changes into production.</p>
+      <p>REST API methods for configuration administration&nbsp;do not handle lookup tables, Rhapsody variables, security objects, the Web Services User Store, custom modules and libraries, or templates. To manage these Rhapsody objects, refer to:</p>
+      <ul>
+       <li><a href="Lookup-Tables-Administration_133161132.html">Lookup Tables Administration</a></li>
+       <li><a href="Variables-Administration_133161133.html">Variables Administration</a></li>
+       <li><a href="Security-Objects-Administration_133161137.html">Security Objects Administration</a></li>
+       <li><a href="Web-Service-User-Store-Administration_133161138.html">Web Service User Store Administration</a></li>
+       <li><a href="Custom-Modules-and-Libraries_133161136.html">Custom Modules and Libraries</a></li>
+       <li><a href="Templates-Administration_133161129.html">Templates Administration</a></li>
+       <li><a href="Filter-Testing_133168932.html">Filter Testing</a></li>
+      </ul>
+      <h2 id="ConfigurationAdministration-GET/admin/config/status/<id>">GET /admin/config/status/&lt;id&gt;</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/config/status/&lt;id&gt; </code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the status of the current configuration load.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+json</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Status of the current load in JSON format. The response body has the following structure:</p>
+            <ul>
+             <li><code>state</code>&nbsp;- the current state of the load: <code>RUNNING</code>, <code>COMPLETED</code>, <code>FAILED</code>.</li>
+             <li><code>result</code> - the result, if the state is <code>COMPLETED</code>. <br>
+              <ul>
+               <li><code>resultType</code> - the actual result: <code>FAIL_WITH_ERRORS</code>, <code>SUCCESS</code>, <code>SUCCESS_NO_CHANGES</code>, <code>SUCCESS_WITH_WARNING</code>.</li>
+               <li><code>configErrors</code>&nbsp;- [list] all configuration errors and/or warnings. <br>
+                <ul>
+                 <li><code>errorCode</code> - [string] the error code.</li>
+                 <li><code>severity</code>&nbsp;- error severity: <code>FATAL</code>, <code>ERROR</code>, <code>WARNING</code>.</li>
+                 <li><code>errorMessage</code> - [string] the error message.</li>
+                </ul></li>
+              </ul></li>
+            </ul>
+            <p>For example:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+              <b>COMPLETED Response</b>
+             </div>
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{"data":{"state":"COMPLETED","result":{"resultType":"SUCCESS","configErrors":null}},"error":null}</pre> 
+             </div>
+            </div>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+              <b>RUNNING Response</b>
+             </div>
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{"data":{"state":"RUNNING","result":null},"error":null}</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span><span>'Log in to Rhapsody IDE'.</span><br></span>'Load configurations'. <br>'Load configuration REST API '.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ConfigurationAdministration-GET/admin/config">GET /admin/config</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/config</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Returns the configuration in the datastore in a ZIP format (the configuration in this format can only be loaded onto the engine through the <code><a href="#ConfigurationAdministration-POST/admin/config">POST /admin/config</a></code> method).</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>As of Rhapsody 6.2.2, the temporary configuration file is located in Rhapsody's <code>\data\tmp\configSave</code> folder, instead of the system <code>temp</code> directory. The file is automatically deleted and therefore does not require manual deletion.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/zip</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_1+zip</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_2_2+zip</code></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Parameter</p></th>
+          <td class="confluenceTd"><p><code>saveTestMessages</code> -&nbsp;<code>true</code> or <code>false</code>. Whether the configuration includes filter or connector test messages. This parameter is optional. Test messages are not saved if this parameter is not set.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>compressTestMessages</code><span> - </span><code>true</code><span> (default) or </span><code>false</code><span>. When set to false, the test messages will be saved in an expanded format, in other words in plain XML instead of a string of compressed XML.</span></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the configuration in ZIP format.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td colspan="1" class="confluenceTd"><p>The response body has the following structure:</p>
+           <ul style="list-style-type: square;">
+            <li><code>auxiliary</code>&nbsp;- [folder] stores auxiliary files. The sub-folders are named after the UUID of the component that owns them.</li>
+            <li><code>definition</code> - [folder] stores definition files. The sub-folders are named after the UUID of the definition.</li>
+            <li><code>test messages</code> - [folder] stores filter and connector test message files. The sub-folders are named after the UUID of the component that owns them. &nbsp;</li>
+            <li><p><code>wsd</code><code>l</code> - [folder] stores the original WSDL and associated schema files. The sub-folders are named after the UUID of the web service.</p></li>
+            <li><p><code>configuration.xml</code> - [xml] <span>the configuration XML file. </span></p></li>
+           </ul><p>The <span>configuration XML file has the following structure:</span></p>
+           <ul style="list-style-type: square;">
+            <li><code><span>configuration</span></code><span> -</span><span><span> the root configuration element.</span></span>
+             <ul>
+              <li><code>rootFolder</code> - the parent folder.</li>
+              <li><code>lockers</code> - contains all locker-based configurations.
+               <ul>
+                <li><code>folders</code>&nbsp;- <span>contains </span>all folder configurations.</li>
+                <li><code>communicationPoints</code>&nbsp;- <span>contains </span><span>all</span> communication point configurations.</li>
+                <li><code>routes</code>&nbsp;- <span>contains </span><span>all</span> route configurations.</li>
+                <li><code>restClients</code>&nbsp;- <span>contains </span><span>all</span> REST client configurations.</li>
+                <li><code>trackingSchemes </code>- <span>contains </span><span>all</span> message tracking scheme configurations.</li>
+                <li><code>definitions</code>&nbsp;- <span>contains </span><span>all</span> definition configurations.</li>
+                <li><code>intelligentMapperProjects</code> - <span>contains </span><span>all</span> Intelligent Mapper mapping project configurations.</li>
+                <li><code>x12Projects</code> - <span>contains </span><span>all</span> X12 project configurations.</li>
+               </ul></li>
+              <li><code>webServices</code>&nbsp;- <span>contains </span><span>all</span> web service configurations.</li>
+              <li><code>sharedJSLibraries</code>&nbsp;- <span>contains </span><span>all</span> shared JavaScript library configurations.</li>
+             </ul></li>
+           </ul><p>Refer to&nbsp;<code><a href="attachments/133161134/133161135.xml" data-linked-resource-id="133161135" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="configuration.xml" data-linked-resource-content-type="application/x-upload-data" data-linked-resource-container-id="133161134" data-linked-resource-container-version="11">configuration.xml</a></code> for an example of the configuration XML file.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p><span><span>'Log in to Rhapsody IDE'.</span><br>'Locker view' (for all lockers in the engine).</span><br>'Save configurations'.<br>'Save configuration REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ConfigurationAdministration-POST/admin/config">POST /admin/config</h2>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <p class="title">Intended Use</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Loading a configuration using this REST API method:</p>
+        <ul>
+         <li>Overwrites your previous Rhapsody configuration (with the exception of lookup tables, Rhapsody variables, security objects, Web Services User Store, custom modules and libraries, and templates), and<strong> </strong></li>
+         <li>May result in the loss of live messages on deleted communication points and routes.</li>
+        </ul>
+        <p>Therefore, only use this method if you want to replace your existing configuration completely with a new one. For partial configuration changes, it is recommended you use <a href="Loading-a-Configuration_133161525.html">Rhapsody IDE</a>. Furthermore, this method stops all components on successfully loading a new configuration. It then:</p>
+        <ul>
+         <li>Applies the value in the&nbsp;<code>startupState</code> attribute for each route and communication point, and</li>
+         <li>Restarts all the web services.</li>
+        </ul>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /admin/config</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Clears the existing configuration and loads the one provided in ZIP format (as created by calling the <code><a href="#ConfigurationAdministration-GET/admin/config">GET /admin/config</a></code> method).</p>
+            <p>The configuration will fail to load if you do not have the 'Clear configurations' access right.</p>
+            <p>You can disable this method by setting the&nbsp;<code>Rlc.overwriteConfiguration.enabled</code> property in the&nbsp;<code>rhapsody.properties</code> file to <code>false</code>.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is recommended that Rhapsody variables, lookup tables, security objects and the Web Services User Store are loaded prior to loading the configuration. Any missing Rhapsody variables can result in affected components entering an unconfigured state due to missing dependencies.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/zip<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+zip<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_2_2+zip<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Parameter</p></th>
+          <td class="confluenceTd"><p><code>commitComment</code> - a string containing the comment to use for the commit. This parameter is mandatory.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>The content of the configuration in the data store in ZIP format.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - operation successful.<br><code>202 Accepted</code> - the request is being processed. The URI provided in the Response Header can be used to check the status of the operation. Refer to <code><a href="#ConfigurationAdministration-GET/admin/config/status/<id>">GET /admin/config/status/&lt;id&gt;</a></code> for details on fetching the load state.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Header</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The load status URI:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Location: https://localhost:8444/admin/config/status/1</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p>Empty when the operation is successful.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span><span><span>'Log in to Rhapsody IDE'.</span><br>'Make changes with IDE'.</span><br></span>'Clear configurations'. <br>'Load configurations'. <br>'Load configuration REST API'.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span style="color: rgb(51,51,51);">You must have the appropriate access rights to modify certain parts of the configuration. For example, to modify web services, you will require the 'Edit web services' access right.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

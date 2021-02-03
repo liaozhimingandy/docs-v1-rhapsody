@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Upgrade with No Backup</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Upgrading-Rhapsody_133164179.html">Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Upgrade-Strategies_133164181.html">Upgrade Strategies</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Upgrade with No Backup</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Upgrading without any form of backup is best suited for environments where the entire engine state does not matter or where a configuration backup (perhaps by RLC) is all that is necessary.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th colspan="1" class="confluenceTh">Requirements</th>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Sufficient downtime for:
+             <ul>
+              <li>Upgrade to be performed.</li>
+              <li>Post-upgrade tasks to be completed.</li>
+             </ul></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Upgrade Type</th>
+          <td class="confluenceTd">Standard.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Backup Type</th>
+          <td class="confluenceTd">None.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Rollback</th>
+          <td class="confluenceTd">None.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="UpgradewithNoBackup-BeforeYouBegin">Before You Begin</h2>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is strongly recommended that you carry out the upgrade on a test or development server before you upgrade your production server.</p>
+       </div>
+      </div>
+      <p></p>
+      <p>Complete the following tasks before you upgrade Rhapsody:</p>
+      <ul>
+       <li><p>Check you meet the&nbsp;<a href="System-Requirements_133164187.html" class="external-link" rel="nofollow">System Requirements</a>.</p></li>
+       <li>Read the&nbsp;<a href="Upgrade-Caveats_133164183.html">upgrade caveats</a>.</li>
+       <li>Obtain the required installers from Rhapsody.</li>
+       <li><p>Obtain the correct license before installing Rhapsody.</p></li>
+       <li>Make copies of your&nbsp;<a href="Upgrade-Strategies_133164181.html#UpgradeStrategies-WrapperFiles">wrapper files</a>,&nbsp;<code><a href="Upgrade-Strategies_133164181.html#UpgradeStrategies-LDAPPropertiesfile">log4j.properties</a></code> file and <code><a href="Upgrade-Strategies_133164181.html#UpgradeStrategies-JavaSecurityFile">java.security</a></code> file, and move them to a backup location.</li>
+      </ul>
+      <h2 id="UpgradewithNoBackup-PreparingforanUpgrade"><span>Preparing for an Upgrade</span></h2>
+      <p><span>To prepare Rhapsody (the Rhapsody Engine and Rhapsody IDE) for upgrade:</span></p>
+      <ol>
+       <li>Close (quit) all programs and stop the Rhapsody service before proceeding.</li>
+       <li>Stop all input communication points.</li>
+       <li>Ensure that all messages on the route have completed processing.</li>
+       <li>After all the messages have been processed, stop all the output communication points and routes.</li>
+       <li><p>Stop the Rhapsody engine.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Because of changes to the&nbsp;<a href="Data-Validation-Service_133161269.html" class="external-link" rel="nofollow">Data Validation Service</a>&nbsp;in Rhapsody 6.3, ensure you perform a clean shutdown of the engine (stop all the components before shutting down the engine) before upgrading from versions of Rhapsody before Rhapsody 6.3.</p>
+         </div>
+        </div></li>
+       <li>Uninstall the existing Rhapsody IDE. Refer to&nbsp;<a href="Uninstalling-Rhapsody-IDE_133164362.html">Uninstalling Rhapsody IDE</a>&nbsp;for details.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Under certain circumstances, side-by-side installations of older and newer versions of Rhapsody IDE are possible. Refer to Rhapsody IDE's <a href="Installing-Rhapsody-IDE_133164335.html">Upgrade Recommendations</a> for details.</p>
+       </div>
+      </div>
+      <h2 id="UpgradewithNoBackup-UpgradingRhapsody">Upgrading Rhapsody</h2>
+      <p></p>
+      <p>To upgrade Rhapsody:</p>
+      <ol>
+       <li>Obtain the Rhapsody installers from <a href="-Support_133163665.html">Rhapsody Support</a>.</li>
+       <li><p>Upgrade the Rhapsody engine using the Rhapsody engine installer:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <thead>
+           <tr>
+            <th class="confluenceTh">
+             <div class="tablesorter-header-inner">
+              <p>Environment</p>
+             </div></th>
+            <th class="confluenceTh">
+             <div class="tablesorter-header-inner">
+              <p>Refer to...</p>
+             </div></th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <td class="confluenceTd"><p><em>Windows®</em></p></td>
+            <td class="confluenceTd"><p><a href="Installing-the--Engine-on-Windows_133164314.html" class="external-link" rel="nofollow">Installing the Rhapsody Engine on&nbsp;<em>Windows®</em> </a></p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>*nix</p></td>
+            <td class="confluenceTd"><p><a href="133164332.html" class="external-link" rel="nofollow">Installing the Rhapsody Engine on *nix</a></p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-warning">
+         <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>If you select the Cancel button during the upgrade, you may not be able to start your engine.</p>
+         </div>
+        </div></li>
+       <li><p>Install Rhapsody IDE in a <em>Windows® </em>environment using the Rhapsody IDE installer. Refer to&nbsp;<a href="Installing--IDE_133164335.html" class="external-link" rel="nofollow">Installing Rhapsody IDE</a>&nbsp;for details. Ensure you do not configure the installer to start the engine automatically upon upgrade.</p></li>
+       <li>Manually copy any changes you have made to the new&nbsp;<a href="Upgrade-Strategies_133164181.html">wrapper files</a>&nbsp;and&nbsp;<a href="Upgrade-Strategies_133164181.html">log4j.properties</a>&nbsp;file from your backup copies.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Rhapsody engine and Rhapsody IDE can be upgraded in any order.</p>
+       </div>
+      </div>
+      <p></p>
+      <h2 id="UpgradewithNoBackup-Post-upgradetasks"><span style="color: rgb(0,0,0);">Post-upgrade tasks</span></h2>
+      <h3 id="UpgradewithNoBackup-VerifyingtheUpgrade"><span>Verifying the Upgrade</span></h3>
+      <p><span> </span></p>
+      <p>To verify the overall success of upgrade:</p>
+      <ol>
+       <li>Start the Rhapsody engine. If using&nbsp;<em>Windows®</em>, ensure the&nbsp;<strong>Rhapsody Service Monitor</strong>&nbsp;icon&nbsp;indicates that the Rhapsody engine is running.</li>
+       <li>Double-click the&nbsp;<strong>Rhapsody Service Monitor</strong>&nbsp;icon, or&nbsp;enter&nbsp;<code>http://&lt;server&gt;:&lt;port&gt;/rhapsody</code>&nbsp;in&nbsp;your browser to access the&nbsp;<a href="Management-Console_133163667.html" class="external-link" rel="nofollow">Management Console</a>.</li>
+       <li>Log on to the Management Console as an administrator. The administrator password remains unchanged after installing the upgrade.</li>
+       <li>Ensure that the version number in the title bar&nbsp;is&nbsp;<code>&lt;majorVersion&gt;.&lt;minorVersion&gt;.&lt;servicePack&gt;.&lt;build&gt;</code>.</li>
+       <li>Start Rhapsody IDE and connect to the Rhapsody engine as an administrator.</li>
+       <li><span>If applicable, register and license your engine. Refer to&nbsp;</span> <a href="Registering-and-Licensing-_133164148.html" class="external-link" rel="nofollow">Registering and Licensing Rhapsody</a> <span>for details.</span></li>
+      </ol> 
+      <p></p>
+      <p>If the upgrade is unsuccessful, you can attempt to re-install Rhapsody.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

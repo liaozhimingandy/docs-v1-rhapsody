@@ -1,0 +1,692 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Lookup Tables Administration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Administration-REST-API-Methods_133161103.html">Administration REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Lookup Tables Administration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods for managing lookup tables:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005011 {padding: 0px;}
+div.rbtoc1565147005011 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005011 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147005011"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#LookupTablesAdministration-PUT/admin/lookuptables">PUT /admin/lookuptables</a></li> 
+        <li><a href="#LookupTablesAdministration-GET/admin/lookuptables">GET /admin/lookuptables</a></li> 
+        <li><a href="#LookupTablesAdministration-GET/admin/lookuptables/info">GET /admin/lookuptables/info</a></li> 
+        <li><a href="#LookupTablesAdministration-PUT/admin/lookuptables/<guid>">PUT /admin/lookuptables/&lt;guid&gt;</a></li> 
+        <li><a href="#LookupTablesAdministration-GET/admin/lookuptables/<guid>">GET /admin/lookuptables/&lt;guid&gt;</a></li> 
+        <li><a href="#LookupTablesAdministration-PUT/admin/lookuptables/<guid>/values">PUT /admin/lookuptables/&lt;guid&gt;/values</a></li> 
+        <li><a href="#LookupTablesAdministration-GET/admin/lookuptables/<guid>/values">GET /admin/lookuptables/&lt;guid&gt;/values</a></li> 
+        <li><a href="#LookupTablesAdministration-DELETE/admin/lookuptables/<guid>">DELETE /admin/lookuptables/&lt;guid&gt;</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="LookupTablesAdministration-PUT/admin/lookuptables">PUT /admin/lookuptables</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/lookuptables</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Clears the existing lookup tables and loads the provided ones.</p><p>This method only accepts table values in a compressed GZIP format (to upload uncompressed values, refer to&nbsp;<a href="#LookupTablesAdministration-PUT/admin/lookuptables/<guid>/values">PUT /admin/lookuptables/&lt;guid&gt;/values</a>). However, Rhapsody cannot compress table values into GZIP format. Therefore, when calling this method from within Rhapsody, they must be compressed externally to Rhapsody. As this method only accepts compressed values, the attribute <code>compressed</code><span> in the</span> <code>values</code> <span>element</span> <span>must always be present and set to </span><code>true</code> <span>.</span></p><p>Pre-compression, the content of the values element must be enclosed within double-quotes, with column values comma-separated from each other, for example:</p>
+           <div>
+            <p>&nbsp;</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">"a","b","c"
+"1","2","3"</pre> 
+             </div>
+            </div>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The <code>PUT /admin/lookuptables</code> method is designed to initialize a lookup table once. It is recommended you use:</p>
+              <ul>
+               <li>The <code><a href="#LookupTablesAdministration-PUT/admin/lookuptables/<guid>/values">PUT /admin/lookuptables/&lt;guid&gt;/values</a></code> method to update the values of a specific table.</li>
+               <li>The <code><a href="#LookupTablesAdministration-PUT/admin/lookuptables/<guid>">PUT /admin/lookuptables/&lt;guid&gt;</a></code> <span>method </span>to change a specific lookup table's structure as well as its values.</li>
+              </ul>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/xml </code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+xml<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Parameter</p></th>
+          <td class="confluenceTd"><p><code>commitComment</code> - a string containing the comment to use for the commit.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div id="expander-228914544" class="expand-container">
+            <div id="expander-control-228914544" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-228914544" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;lookupTables&gt;
+  &lt;lookupTable version="5" guid="7386f2cb-f832-4a60-82fa-f9027cfeb3cf"&gt;
+    &lt;name&gt;tableB&lt;/name&gt;
+    &lt;description&gt;This is table B&lt;/description&gt;
+    &lt;isRecordingFailures&gt;true&lt;/isRecordingFailures&gt;
+    &lt;autoKeyDefinition&gt;true&lt;/autoKeyDefinition&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnA&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnB&lt;/name&gt;
+      &lt;isKeyColumn&gt;true&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnC&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;gnfgn&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;values compressed="true"&gt;H4sIAAAAAAAAAFNKVNJRSgLiZCUuJUMgbQTExkoAr9sDYBcAAAA=&lt;/values&gt;
+  &lt;/lookupTable&gt;
+  &lt;lookupTable version="5" guid="9ff5fe32-149f-409f-b6cc-1a12a0a2f83c"&gt;
+    &lt;name&gt;tableA&lt;/name&gt;
+    &lt;description&gt;This is table A&lt;/description&gt;
+    &lt;isRecordingFailures&gt;true&lt;/isRecordingFailures&gt;
+    &lt;autoKeyDefinition&gt;true&lt;/autoKeyDefinition&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnA&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnB&lt;/name&gt;
+      &lt;isKeyColumn&gt;true&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnC&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;dg&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnD&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;values compressed="true"&gt;H4sIAAAAAAAAAAMAAAAAAAAAAAA=&lt;/values&gt;
+  &lt;/lookupTable&gt;
+&lt;/lookupTables&gt;</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - the&nbsp;lookup tables were loaded successfully.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Load/edit lookup tables REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupTablesAdministration-GET/admin/lookuptables">GET /admin/lookuptables</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/lookuptables</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the lookup tables.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/xml</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_1+xml</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Parameter</p></th>
+          <td class="confluenceTd"><p><code>includeValues</code> -&nbsp;<code>true</code> or <code>false</code>. Whether the configuration includes the lookup table values. This parameter is optional. The values are saved if this parameter is not set.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the lookup tables information in XML format.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">
+           <div id="expander-213052504" class="expand-container">
+            <div id="expander-control-213052504" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-213052504" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;lookupTables&gt;
+  &lt;lookupTable version="5" guid="7386f2cb-f832-4a60-82fa-f9027cfeb3cf"&gt;
+    &lt;name&gt;tableB&lt;/name&gt;
+    &lt;description&gt;This is table B&lt;/description&gt;
+    &lt;isRecordingFailures&gt;true&lt;/isRecordingFailures&gt;
+    &lt;autoKeyDefinition&gt;true&lt;/autoKeyDefinition&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnA&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnB&lt;/name&gt;
+      &lt;isKeyColumn&gt;true&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnC&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;gnfgn&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;values compressed="true"&gt;H4sIAAAAAAAAAFNKVNJRSgLiZCUuJUMgbQTExkoAr9sDYBcAAAA=&lt;/values&gt;
+  &lt;/lookupTable&gt;
+  &lt;lookupTable version="5" guid="9ff5fe32-149f-409f-b6cc-1a12a0a2f83c"&gt;
+    &lt;name&gt;tableA&lt;/name&gt;
+    &lt;description&gt;This is table A&lt;/description&gt;
+    &lt;isRecordingFailures&gt;true&lt;/isRecordingFailures&gt;
+    &lt;autoKeyDefinition&gt;true&lt;/autoKeyDefinition&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnA&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnB&lt;/name&gt;
+      &lt;isKeyColumn&gt;true&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnC&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;dg&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnD&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;values compressed="true"&gt;H4sIAAAAAAAAAAMAAAAAAAAAAAA=&lt;/values&gt;
+  &lt;/lookupTable&gt;
+&lt;/lookupTables&gt;
+</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save/view lookup tables REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupTablesAdministration-GET/admin/lookuptables/info">GET /admin/lookuptables/info</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/lookuptables/info</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns a list of the lookup tables.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="3" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_2+json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_3+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the lookup tables information in JSON format.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">
+           <div id="expander-367556553" class="expand-container">
+            <div id="expander-control-367556553" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-367556553" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+    "data": {
+        "lookupTableList": [
+            {
+                "uuid": "4b8bb7e2-75a8-4f89-b345-1b84933bac2b",
+                "name": "tableA",
+                "description": "This is table A",
+                "rowCount": 0,
+                "recordingFailures": true,
+                "columnNames": [
+                    "columnA",
+                    "columnB",
+                    "columnC",
+                    "columnD"
+                ]
+            },
+            {
+                "uuid": "b790fe30-72b6-420d-baa0-a25cff69d40c",
+                "name": "tableB",
+                "description": "This is table B",
+                "rowCount": 2,
+                "recordingFailures": true,
+                "columnNames": [
+                    "columnA",
+                    "columnB",
+                    "columnC"
+                ]
+            }
+        ]
+    },
+    "error": null
+}</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save/view lookup tables REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupTablesAdministration-PUT/admin/lookuptables/<guid>">PUT /admin/lookuptables/&lt;guid&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/lookuptables/&lt;guid&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Overwrites the lookup table with the given GUID with the one provided.</p><p>This method only accepts table values in a compressed GZIP format (to upload uncompressed values, refer to&nbsp;<a href="#LookupTablesAdministration-PUT/admin/lookuptables/<guid>/values">PUT /admin/lookuptables/&lt;guid&gt;/values</a>). However, Rhapsody cannot compress table values into GZIP format. Therefore when calling this method from within Rhapsody, they must be compressed externally to Rhapsody. As this method only accepts compressed values, the attribute <code>compressed</code> in the <code>values</code> element <span>must always be present and set to </span> <code>true</code>.</p><p>Pre-compression, the content of the values element must be enclosed within double-quotes, with column values comma-separated from each other, for example:</p>
+           <div>
+            <p>&nbsp;</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">"a","b","c"
+"1","2","3"</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/xml</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_2+xml</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Parameter</p></th>
+          <td class="confluenceTd"><p><code>commitComment</code> - a string containing the comment to use for the commit.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div id="expander-525136195" class="expand-container">
+            <div id="expander-control-525136195" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-525136195" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;lookupTable version="5" guid="9ff5fe32-149f-409f-b6cc-1a12a0a2f83c"&gt;
+    &lt;name&gt;tableA&lt;/name&gt;
+    &lt;description&gt;This is table A&lt;/description&gt;
+    &lt;isRecordingFailures&gt;true&lt;/isRecordingFailures&gt;
+    &lt;autoKeyDefinition&gt;true&lt;/autoKeyDefinition&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnA&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnB&lt;/name&gt;
+      &lt;isKeyColumn&gt;true&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnC&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;dg&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnD&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;values compressed="true"&gt;H4sIAAAAAAAAAAMAAAAAAAAAAAA=&lt;/values&gt;
+  &lt;/lookupTable&gt;</pre> 
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <ul>
+              <li>The values are optional. If they are not provided, then any existing values in the lookup table are used.</li>
+              <li>Each record (row) must contain a value for every column.</li>
+             </ul>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - the&nbsp;lookup table was loaded successfully.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Load/edit lookup tables REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupTablesAdministration-GET/admin/lookuptables/<guid>">GET /admin/lookuptables/&lt;guid&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/lookuptables/&lt;guid&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the lookup table with the given GUID.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/xml</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_2+xml</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Parameter</p></th>
+          <td class="confluenceTd"><p><code>includeValues</code> -&nbsp;<code>true</code> or <code>false</code>. Whether the configuration includes the lookup table values. This parameter is optional. The values are saved if this parameter is not set.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the lookup table information in XML format.</p></td>
+         </tr>
+         <tr>
+          <th class="highlight-grey confluenceTh" colspan="1" data-highlight-colour="grey">Response Body</th>
+          <td colspan="1" class="confluenceTd">
+           <div id="expander-172111283" class="expand-container">
+            <div id="expander-control-172111283" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-172111283" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;lookupTable version="5" guid="9ff5fe32-149f-409f-b6cc-1a12a0a2f83c"&gt;
+    &lt;name&gt;tableA&lt;/name&gt;
+    &lt;description&gt;This is table A&lt;/description&gt;
+    &lt;isRecordingFailures&gt;true&lt;/isRecordingFailures&gt;
+    &lt;autoKeyDefinition&gt;true&lt;/autoKeyDefinition&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnA&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnB&lt;/name&gt;
+      &lt;isKeyColumn&gt;true&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnC&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;dg&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;column&gt;
+      &lt;name&gt;columnD&lt;/name&gt;
+      &lt;isKeyColumn&gt;false&lt;/isKeyColumn&gt;
+      &lt;defaultValue&gt;&lt;/defaultValue&gt;
+    &lt;/column&gt;
+    &lt;values compressed="true"&gt;H4sIAAAAAAAAAAMAAAAAAAAAAAA=&lt;/values&gt;
+  &lt;/lookupTable&gt;</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save/view lookup tables REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupTablesAdministration-PUT/admin/lookuptables/<guid>/values">PUT /admin/lookuptables/&lt;guid&gt;/values</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/lookuptables/&lt;guid&gt;/values</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Overwrites the values of the lookup table with the given GUID with the table values provided. This method only accepts table values in an uncompressed CSV format.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: text/csv<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: text/vnd.orchestral.rhapsody.6_2+csv<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Parameter</p></th>
+          <td class="confluenceTd"><p><code>commitComment</code> - a string containing the comment to use for the commit.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">columnA,columnB,columnC
+"1","2","3"
+"A","B","C"
+"/", """""",""</pre> 
+            </div>
+           </div>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>The request body is in CSV format where the first row contains the column names which must match the column names and must be in the same order as configured for the lookup table.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - the&nbsp;lookup table values were loaded successfully.</p></td>
+         </tr>
+         <tr>
+          <th class="highlight-grey confluenceTh" colspan="1" data-highlight-colour="grey">Response Body</th>
+          <td colspan="1" class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Load/edit lookup tables REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupTablesAdministration-GET/admin/lookuptables/<guid>/values">GET /admin/lookuptables/&lt;guid&gt;/values</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/lookuptables/&lt;guid&gt;/values</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the values of the lookup table with the given GUID.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: text</code> <code>/csv</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: text/vnd.orchestral.rhapsody.6_2+csv</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the lookup table values in CSV format.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">columnA,columnB,columnC
+"1","2","3"
+"A","B","C"
+"/", """""",""</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save/view lookup tables REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="LookupTablesAdministration-DELETE/admin/lookuptables/<guid>">DELETE /admin/lookuptables/&lt;guid&gt;</h2>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>DELETE /admin/lookuptables/&lt;guid&gt;</code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+          <td class="confluenceTd">Deletes the lookup table with the given GUID.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Parameter</th>
+          <td class="confluenceTd"><code>commitComment</code>&nbsp;- a string containing the comment to use for the commit.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code>&nbsp;- the lookup table was deleted successfully.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Load/edit lookup tables REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

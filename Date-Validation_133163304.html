@@ -1,0 +1,615 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Date Validation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Date Validation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163304/133163306.jpg" data-image-src="attachments/133163304/133163306.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163306" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image045.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163304" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>Date Validation</strong> filter&nbsp;is used to compare dates from within a single message. The filter is generally used in the following situations:</p>
+      <ul>
+       <li>To compare two dates from the same message.</li>
+       <li>To compare a date from the message against a static date; example, 01/01/2000.</li>
+       <li>To compare a date from the message against a predefined date; for example, TODAY.</li>
+      </ul>
+      <p>All messages entering this filter must be of the type contained in the definition file associated with the filter and must be syntactically valid. Validation and filtering of syntactically invalid messages is done separately through the use of a validation filter and conditional connectors.</p>
+      <p>If a message is found to contain one or more dates which is not valid for the specified validation rule, a property is set with the these validation errors. This property can then be used by the <a href="HL7-Acknowledgement-Generation_133163288.html">HL7 Acknowledgement Generation</a>&nbsp;filter to generate a negative acknowledgment. The original message is output intact from the Code Validation filter regardless of the validity or otherwise of the codes which it contains.</p>
+      <h2 id="DateValidation-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition File</p></td>
+          <td class="confluenceTd"><p>The definition file for input messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Dates To Validate</p></td>
+          <td class="confluenceTd"><p>Array of the dates to compare. Click the <strong>Browse</strong> button to display the <strong>Dates to Validate</strong> screen, which enables you to enter the dates and formats for validation. Refer to <a href="#DateValidation-ValidatingDates">Validating Dates</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Normalise Time Zones</p></td>
+          <td class="confluenceTd"><p>Options: <code>true</code>, <code>false</code>. Default: <code>true</code><br class="atl-forced-newline"> Specify how time zones are applied to dates.</p>
+           <ul>
+            <li>If <code>true</code>, the date is normalized with the time zones from the date input or from the defaults.</li>
+            <li>If <code>false</code>, the time zone information is ignored.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Offset Time Zones</p></td>
+          <td class="confluenceTd"><p>Enables you to specify a time zone to be used if the supplied date does not have time zone information. This is useful if a date has no time zone or if the time zone it has is different from the server time zone.</p>
+           <ul>
+            <li>The format for Offset Time Zone is the offset from UTC in the format +-hhmm.</li>
+            <li>If the string 'ERROR' is entered as the offset when time zone information is missing, it is treated as an error.</li>
+            <li>If Offset Time Zones is blank the server's current time zone is used. <br class="atl-forced-newline"> This field is only available if <strong>Normalize Time Zones</strong> is <code>true</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Always Apply Time Zone Offset</p></td>
+          <td class="confluenceTd"><p>Options: <code>true</code>, <code>false</code>. Default: <code>false</code>. <br class="atl-forced-newline"> Enables you to specify if the Offset Time Zone is always applied even if the date has a time zone. This allows the configuration to correct a time if it is incorrect by a known amount. <br class="atl-forced-newline"> This field is only available if <strong>Normalize Time Zones</strong> is <code>true</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Fail Action</p></td>
+          <td class="confluenceTd"><p>The fail action where the filter returns the message if a comparison fails. The following options are available:</p>
+           <ul>
+            <li><code>Continue Processing</code> - if Continue Processing is selected the filter returns to the normal connector and the property DateValidationSuccessful needs to be checked to see if all the comparisons succeed.</li>
+            <li><code>Send to Error Node</code> - if Send to Error Node is selected the filter returns to the error connector if any comparisons fail. If there are any errors that occur during the comparison (for example, cannot parse the date) the filter is returned to the error connection irrespective of the Fail Action setting. The <code>DateValidationInternalError</code> and <code>DateValidationMessageError</code> Output Properties can be used to determine if any error occurred in this case.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Property</p></td>
+          <td class="confluenceTd"><p>The message property to which a validation error list should be outputted to when validation errors are detected. This output is used as input for the HL7 ACK filter. A leading <code>$</code> in front of this property name is ignored.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="DateValidation-ValidatingDates">Validating Dates</h2>
+      <p>The <strong>Dates to Validate</strong> screen enables you to specify the dates and formats for validation.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163304/133163305.png" data-image-src="attachments/133163304/133163305.png" data-unresolved-comment-count="0" data-linked-resource-id="133163305" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DatesToValidate.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163304" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Date1</p></td>
+          <td class="confluenceTd"><p>The date for the left hand side of the comparison. Refer to <a href="#DateValidation-date">Dates</a> for details about the date format that can be used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Format1</p></td>
+          <td class="confluenceTd"><p>The format of the string that is used to parse Date1. If left blank the default HL7 date format (DTTM) is used. Refer to <a href="#DateValidation-format">Format Strings</a> for details about the format string.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Comparator</p></td>
+          <td class="confluenceTd"><p>The Comparator that is used to compare the dates between Date1 and Date2. The following options may be selected:</p>
+           <ul>
+            <li>&lt; (less than)</li>
+            <li>&lt;= (less than or equal)</li>
+            <li>= (equal)</li>
+            <li>&gt; (greater than)</li>
+            <li>&gt;= (greater than or equal)</li>
+            <li>!= (not equal)</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Date2</p></td>
+          <td class="confluenceTd"><p>The date for the right hand side of the comparison. Refer to&nbsp;<a href="#DateValidation-Dates">Dates</a> for details about the date format that can be used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Format2</p></td>
+          <td class="confluenceTd"><p>The format of the string that is used to parse Date2. If left blank the default HL7 date format (DTTM) is used. Refer to <a href="#DateValidation-format">Format Strings</a> for details about the format string.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Precision/Difference</p></td>
+          <td class="confluenceTd"><p>The precision and the allowable difference that is used in the comparison. The Precision/Difference specifies two things.</p>
+           <ul>
+            <li>What precision the date should be validated to; for example, check year, month, and day. The precision is set by specifying the lowest precision required to be checked (refer to <a href="#DateValidation-Symbols">Symbols</a> for details). For example, if the precision is set to <code>d</code>, the year, month, and day are compared, if precision is set to <code>h</code>, the year, month, day, and hours are compared.</li>
+            <li>The allowable difference between the two dates. The difference modifier is a combination of an optional sign and the allowed integer difference. The optional sign specifies if you want to check for a positive or negative difference.</li>
+           </ul><p>The difference is applied to Date2, effectively turning Date2 into a range. <br class="atl-forced-newline">For example, if Date2 has a time 13.10 and the difference operator is -60m Date2 becomes the range 12.10 to 13.10.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="DateValidation-Dates">Dates</h3>
+      <p>The Date fields can be used to specify 4 different types of dates.</p>
+      <ul>
+       <li>Date from the message body. The string is in the standard Rhapsody format for a message path <code>MSH.DateTimeOfMessage.Time</code>.</li>
+       <li>Date from the message properties. Used to specify a field from the message properties; for example, <code>$StartTime</code>. Message properties are prefixed with the dollar <code>$</code> character.</li>
+       <li>Static Date. Used to specify a static date. The date must start with a number and the format can be any format that the format string can be specified; for example, <code>200411011120</code>.</li>
+       <li>Predefined Date. Used to specify a predefined date such as TODAY or NOW. Refer to <a href="#DateValidation-PredefinedDates">Predefined Dates</a> for a list of predefined Dates.</li>
+      </ul>
+      <p>The order the string is matched is as follows:</p>
+      <ul>
+       <li>If the first character is a number it is matched as a static date.</li>
+       <li>If the first character is a {$} it is message property.</li>
+       <li>If it is anything else:
+        <ol>
+         <li>It is checked to see if it is a Predefined Date.</li>
+         <li>It is checked to see if it is a message path.</li>
+        </ol></li>
+      </ul>
+      <h3 id="DateValidation-PredefinedDatesPredefinedDates">Predefined Dates <span class="confluence-anchor-link" id="DateValidation-PredefinedDates"></span></h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Predefined Date</p></th>
+          <th class="confluenceTh"><p>Meaning</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>TODAY</p></td>
+          <td class="confluenceTd"><p>The current date, there is no time.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>NOW</p></td>
+          <td class="confluenceTd"><p>The current date and time.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>START_OF_MONTH</p></td>
+          <td class="confluenceTd"><p>The first day in the current month, there is no time.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>END_OF_MONTH</p></td>
+          <td class="confluenceTd"><p>The last day in the current month, there is no time.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>START_OF_YEAR</p></td>
+          <td class="confluenceTd"><p>The first day in the current year, there is no time.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>END_OF_YEAR</p></td>
+          <td class="confluenceTd"><p>The last day in the current year, there is no time.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>If a predefined Date is used the format sting is not required and is ignored.</p>
+      <h4 id="DateValidation-PredefinedDateOffset">Predefined Date Offset</h4>
+      <p>Predefined Dates can have an offset applied. This is done be adding the offset string after the predefined date. The offset string must start with a '+' or '-'. This is followed by the offset amount which is an integer amount followed by the offset type; for example hours or minutes (refer to <a href="#DateValidation-Symbols">Symbols</a> for the offset types that can be used). Multiple offset amounts can be also be added.</p>
+      <p>For example, <code>NOW+1h30m</code> is the current time plus one hour 30 minutes. <code>TODAY-14d</code> is two weeks before the current date.</p>
+      <h3 id="DateValidation-SymbolsSymbols"><span class="confluence-anchor-link" id="DateValidation-Symbols"></span>Symbols</h3>
+      <p>These Symbols are used in the following places:</p>
+      <ul>
+       <li>Predefined Date Offset.</li>
+       <li>Precision/Difference.</li>
+       <li>Regular expression order.</li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Symbol</p></th>
+          <th class="confluenceTh"><p>Meaning</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>y</p></td>
+          <td class="confluenceTd"><p>Year</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>M</p></td>
+          <td class="confluenceTd"><p>Month</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>d</p></td>
+          <td class="confluenceTd"><p>Day</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>h</p></td>
+          <td class="confluenceTd"><p>Hour</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>m</p></td>
+          <td class="confluenceTd"><p>Minute</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>s</p></td>
+          <td class="confluenceTd"><p>Second</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>S</p></td>
+          <td class="confluenceTd"><p>Millisecond</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>z</p></td>
+          <td class="confluenceTd"><p>Time zone</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="DateValidation-FormatStringsformat">Format Strings <span class="confluence-anchor-link" id="DateValidation-format"></span></h3>
+      <p>The format string specifies how the date specified in the Date Field is parsed. If no format string is specified, the default HL7 date format (DTTM) is used. Format Strings can be difficult to get right so use the Predefined format if possible.</p>
+      <p>Three different formats can be used for the format string:</p>
+      <ul>
+       <li><a href="#DateValidation-MatchString">Simple Match String</a>; for example, <code>yyMMdd</code>.</li>
+       <li><a href="#DateValidation-RegularExpression">Regular Expression</a>; for example, <code>REG\Mdy\(\d{2})/(\d{2})/(\d{4})</code></li>
+       <li><a href="#DateValidation-PredefinedFormat">Predefined Common Date Formats</a></li>
+      </ul>
+      <p>If a simple match string is used, the Normalize Time zone field can only be set to false if there is no time zone matching specified in the simple match string.</p>
+      <h3 id="DateValidation-MatchStringMatchString"><span class="confluence-anchor-link" id="DateValidation-MatchString"></span>Match String</h3>
+      <p>To specify the time format, use a date and time pattern string. This is internally parsed by a Java SimpleDateFormat. In the date and time pattern, all ASCII letters are reserved as pattern letters, which are defined as the following:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Symbol</p></th>
+          <th class="confluenceTh"><p>Meaning</p></th>
+          <th class="confluenceTh"><p>Example</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>G</p></td>
+          <td class="confluenceTd"><p>era designator</p></td>
+          <td class="confluenceTd"><p>AD</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>y</p></td>
+          <td class="confluenceTd"><p>year</p></td>
+          <td class="confluenceTd"><p>1996</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>M</p></td>
+          <td class="confluenceTd"><p>month in year</p></td>
+          <td class="confluenceTd"><p>July &amp; 07</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>d</p></td>
+          <td class="confluenceTd"><p>day in month</p></td>
+          <td class="confluenceTd"><p>10</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>h</p></td>
+          <td class="confluenceTd"><p>hour in am/pm (1~12)</p></td>
+          <td class="confluenceTd"><p>12</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>H</p></td>
+          <td class="confluenceTd"><p>hour in day (0~23)</p></td>
+          <td class="confluenceTd"><p>0</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>m</p></td>
+          <td class="confluenceTd"><p>minute in hour</p></td>
+          <td class="confluenceTd"><p>30</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>s</p></td>
+          <td class="confluenceTd"><p>second in minute</p></td>
+          <td class="confluenceTd"><p>55</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>S</p></td>
+          <td class="confluenceTd"><p>millisecond</p></td>
+          <td class="confluenceTd"><p>978</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>E</p></td>
+          <td class="confluenceTd"><p>day in week</p></td>
+          <td class="confluenceTd"><p>Tuesday</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>D</p></td>
+          <td class="confluenceTd"><p>day in year</p></td>
+          <td class="confluenceTd"><p>189</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>F</p></td>
+          <td class="confluenceTd"><p>day of week in month</p></td>
+          <td class="confluenceTd"><p>2 (2nd Wed in July)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>w</p></td>
+          <td class="confluenceTd"><p>week in year</p></td>
+          <td class="confluenceTd"><p>27</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>W</p></td>
+          <td class="confluenceTd"><p>week in month</p></td>
+          <td class="confluenceTd"><p>2</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>a</p></td>
+          <td class="confluenceTd"><p>am/pm marker</p></td>
+          <td class="confluenceTd"><p>PM</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>k</p></td>
+          <td class="confluenceTd"><p>hour in day (1~24)</p></td>
+          <td class="confluenceTd"><p>24</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>K</p></td>
+          <td class="confluenceTd"><p>hour in am/pm (0~11)</p></td>
+          <td class="confluenceTd"><p>0</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>z</p></td>
+          <td class="confluenceTd"><p>time zone</p></td>
+          <td class="confluenceTd"><p>+1200</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>'</p></td>
+          <td class="confluenceTd"><p>escape for text</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>''</p></td>
+          <td class="confluenceTd"><p>single quote</p></td>
+          <td class="confluenceTd"><p>'</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The following table illustrates simple match strings and how they are parsed.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Date and Time Pattern</p></th>
+          <th class="confluenceTh"><p>Parsed as...</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>yyyy.MM.dd G 'at' HH:mm:ss</p></td>
+          <td class="confluenceTd"><p>2001.07.04 AD at 12:08:56</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>EEE, MMM d, ''yy</p></td>
+          <td class="confluenceTd"><p>Wed, Jul 4, '01</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>yyyyy.MMMMM.dd GGG hh:mm aaa</p></td>
+          <td class="confluenceTd"><p>02001.July.04 AD 12:08 PM</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>EEE, d MMM yyyy HH:mm:ss</p></td>
+          <td class="confluenceTd"><p>Wed, 4 Jul 2001 12:08:56</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>yyMMddHHmmssz</p></td>
+          <td class="confluenceTd"><p>010704120856+1200</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="DateValidation-RegularExpression">Regular Expression</h3>
+      <p>If the date string is too complicated to parse with a match string, a regular expression can be used.</p>
+      <p>A regular expression is specified by the REG\ tag, followed by the order the fields are to be matched. The order is specified using field symbols (refer to <a href="#DateValidation-Symbols">Symbols</a> for details) followed by the regular expression, separated by '\'; for example, <code>REG\Mdy\(\d{2})/(\d{2})/(\d{4})</code>.</p>
+      <ul>
+       <li>Regular expression must be a valid gnu.regexp regular expression.</li>
+       <li>A two digit year is adjusted so that it is within 80 years before and 20 years after the current year.</li>
+      </ul>
+      <p>The following table illustrates regular expression strings and how they are parsed.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Date and Time Pattern</p></th>
+          <th class="confluenceTh"><p>Parsed as...</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>REG\dMy\<br> (\d{2})/(\d{2})/(\d{4})</p></td>
+          <td class="confluenceTd"><p>22/12/2005</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>REG\y\(..)</p></td>
+          <td class="confluenceTd"><p>05</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>REG\dMyhm\<br> (\d{2})(\d{2})(\d{4}) (\d{2}):(\d{2})</p></td>
+          <td class="confluenceTd"><p>05102005 10:20</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>REG\yMdhmsSz\<br class="atl-forced-newline"> (\d{4})(?:(\d{2})(?:(\d{2})(?:(\d{2})(?:(\d{2})(?:(\d{2})<br class="atl-forced-newline"> (?:\.(\d{1,4})?)?)?)?)?)?)?([+-]\d{4})?</p></td>
+          <td class="confluenceTd"><p>2005121012+1200 and 20051210121025+1200 notice all the groups except year are optional.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The patterns have been line wrapped for layout.</p>
+       </div>
+      </div>
+      <h3 id="DateValidation-PredefinedFormatPredefinedFormats"><span class="confluence-anchor-link" id="DateValidation-PredefinedFormat"></span>Predefined Formats</h3>
+      <p>Predefined Format Common Date formats are already defined and can be used by entering the defined text. Predefined formats are standard formats the <strong>Date Validation</strong> filter knows how to parse. These should be used whenever the standard format is used.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Code</p></th>
+          <th class="confluenceTh"><p>Meaning</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HL7/DTTM</p></td>
+          <td class="confluenceTd"><p>Formats a HL7 2.4 DTTM date.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HL7/DT</p></td>
+          <td class="confluenceTd"><p>Format a HL7 2.4 DT date.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="DateValidation-DateComparisonCalculationExamples">Date Comparison Calculation Examples</h3>
+      <p>The comparison is calculated as follows:</p>
+      <ul>
+       <li><strong>Date1 Comparator Date2</strong><br> If there is a difference modifier the difference is applied to Date2. Date2 becomes a range.<br> If it is a signed difference; for example, -20m (Difference = -20)</li>
+       <li><strong>Date1 Comparator ((Date2+Difference) to Date2)</strong><br> Or +20m (Difference = +20)</li>
+       <li><strong>Date1 Comparator ((Date2+Difference) to Date2)</strong><br> If it is a non-signed difference; for example, 20m (Difference = 20)</li>
+       <li><strong>Date1 Comparator ((Date2 - Difference) to (Date2</strong> <br class="atl-forced-newline"> <strong>+ Difference))</strong></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>Date1</strong></p></td>
+          <td class="confluenceTd"><p>05/11/2004 11:28</p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:28</p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:28</p></td>
+          <td class="confluenceTd"><p>12/08/200411:28</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Comparator</strong></p></td>
+          <td class="confluenceTd"><p>=</p></td>
+          <td class="confluenceTd"><p>=</p></td>
+          <td class="confluenceTd"><p>=</p></td>
+          <td class="confluenceTd"><p>=</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Date2</strong></p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:39</p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:39</p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:39</p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:39</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Precision/Difference</strong></p></td>
+          <td class="confluenceTd"><p>h</p></td>
+          <td class="confluenceTd"><p>m</p></td>
+          <td class="confluenceTd"><p>20m</p></td>
+          <td class="confluenceTd"><p>+20m</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Calculation</strong></p></td>
+          <td class="confluenceTd"><p>12/08/2004 11 = 12/08/2004 11</p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:28 = 12/08/2004 11:39</p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:28 = (12/08/2004 11:19 To 12/08/2004 11:59)</p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:28 = (12/08/2004 11:59 To 12/08/2004 11:39)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Outcome</strong></p></td>
+          <td class="confluenceTd"><p>TRUE As the precision was hours</p></td>
+          <td class="confluenceTd"><p>FALSE As precision was minutes</p></td>
+          <td class="confluenceTd"><p>TRUE As 11:28 is in the range 11:19 to 11:59</p></td>
+          <td class="confluenceTd"><p>FALSE As 11:28 is not in the range 11:59 to 11:39</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>Date1</strong></p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:28</p></td>
+          <td class="confluenceTd"><p>05/11/2004 11:28</p></td>
+          <td class="confluenceTd"><p>05/11/2004 11:28</p></td>
+          <td class="confluenceTd"><p>08/11/2004 11:28</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Comparator</strong></p></td>
+          <td class="confluenceTd"><p>&gt;</p></td>
+          <td class="confluenceTd"><p>=</p></td>
+          <td class="confluenceTd"><p>=</p></td>
+          <td class="confluenceTd"><p>&gt;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Date2</strong></p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:39</p></td>
+          <td class="confluenceTd"><p>TODAY (TODAY = 08/11/2004)</p></td>
+          <td class="confluenceTd"><p>TODAY-3d (TODAY = 08/11/2004)</p></td>
+          <td class="confluenceTd"><p>NOW-3h30m (NOW = 08/11/2004 13:00:54) \</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Precision/Difference</strong></p></td>
+          <td class="confluenceTd"><p>-20M</p></td>
+          <td class="confluenceTd"><p>d</p></td>
+          <td class="confluenceTd"><p>d</p></td>
+          <td class="confluenceTd"><p>m</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Calculation</strong></p></td>
+          <td class="confluenceTd"><p>12/08/2004 11:28 &gt; (12/08/2004 11:19 To 12/08/2004 11:39)</p></td>
+          <td class="confluenceTd"><p>05/11/2004 = 08/11/2004</p></td>
+          <td class="confluenceTd"><p>05/11/2004 = (08/11/2004 - 3 days)</p></td>
+          <td class="confluenceTd"><p>08/11/2004 11:28 &gt; 08/11/2004 13:00 - 3 hours and 30 minutes.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Outcome</strong></p></td>
+          <td class="confluenceTd"><p>TRUE As 11:28 is &gt; 11:19 which is in the range 11:19 to 11:39</p></td>
+          <td class="confluenceTd"><p>FALSE As the precision was days.</p></td>
+          <td class="confluenceTd"><p>TRUE As TODAY (08/11/2004 ) - 3 days is 05/11/2004</p></td>
+          <td class="confluenceTd"><p>TRUE As NOW (08/11/2004 13:00) - 3 hours and 30 minutes is 08/11/2004 09:30</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="DateValidation-RepeatingMessageComponents">Repeating Message Components</h3>
+      <p>The filter handles repeated message components in the following way:</p>
+      <ul>
+       <li>Both paths must return the same number of dates and will be compared on a one by one basis; for example, Date1\n\ == Date2n.</li>
+       <li>One path must return one date, all the repeats will be compared with the single date; for example, Date1\0\ == Date2\n\ or Date1\n\ == Date20.</li>
+      </ul>
+      <p>If the paths have a different number of repeats an unbalanced repeats message error is reported.</p>
+      <h3 id="DateValidation-ReturnMode">Return Mode</h3>
+      <p>The filter can return to the normal connector or it can return to the error connector. The filter returns to the normal connector if the validation is successful. If the validation fails the return is determined by the configuration.</p>
+      <p>If there are any errors that cause a comparison not to be preformed; for example, parsing errors, the filter always returns to the error connector.</p>
+      <h3 id="DateValidation-PublishedProperties">Published Properties</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Name</p></th>
+          <th class="confluenceTh"><p>Content Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>DateValidationSuccessful</p></td>
+          <td class="confluenceTd"><p>Set to <code>true</code> if all the date comparisons pass, or set to <code>false</code> if one or more comparisons fail. This property is always set.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Property (from configuration)</p></td>
+          <td class="confluenceTd"><p>Stores the list of validation errors this filter detected. This property is used as the input for the ACK filter or the Audit com point.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>DateValidationMessageError</p></td>
+          <td class="confluenceTd"><p>Specifies whether this message could not complete validation because of an error in the message; for example, invalid date or unbalanced repeats.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>DateValidationInternalError</p></td>
+          <td class="confluenceTd"><p>Specifies whether this message could not complete validation because of an internal error in the filter; for example, message parse error, path not valid or property missing. Messages that have this type of error will have an exception attached to them.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>TimeZoneWarning</p></td>
+          <td class="confluenceTd"><p>Set to <code>true</code> if the dates in a comparison have different time zones. Set to <code>false</code> if no comparisons have different time zones or the timezone could not be checked. This is only checked on dates that both have regular expression Format strings and timezones inputted.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

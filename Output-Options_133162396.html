@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Output Options</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162373.html">(S)FTP Client</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Output Options</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Output configuration properties are as follows:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146950331 {padding: 0px;}
+div.rbtoc1565146950331 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146950331 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146950331"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#OutputOptions-OutputDirectory">Output Directory</a></li> 
+        <li><a href="#OutputOptions-BaseFilename">Base Filename</a></li> 
+        <li><a href="#OutputOptions-FilenameSuffix">Filename Suffix</a></li> 
+        <li><a href="#OutputOptions-DuplicateFilenameBehaviour">Duplicate Filename Behaviour</a></li> 
+        <li><a href="#OutputOptions-AppendDate/Time">Append Date/Time</a></li> 
+        <li><a href="#OutputOptions-AppendDate/TimeFormat">Append Date/Time Format</a></li> 
+        <li><a href="#OutputOptions-UseTempFiles">Use Temp Files</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="OutputOptions-OutputDirectory">Output Directory</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Output.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Output Directory</strong>&nbsp;specifies the directory to place output messages. The base output directory is used as the target for uploading files (note that the <a href="#OutputOptions-BaseFilename"><span class="confluence-link">Base Filename</span></a> may specify additional sub-directories). It is possible to configure the output directory as either an absolute or relative path, however, the FTP server determines how these paths are interpreted. Some FTP servers treat the path as relative to the user's home directory, whereas others treat an absolute path as truly absolute.</p>
+      <p>The output directory defaults to the home directory. You require write access to the selected directory.</p>
+      <h2 id="OutputOptions-BaseFilename">Base Filename</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Base Filename</strong> specifies the base filename to use when uploading the file. This includes the full filename, but excludes the suffix (file extension), and may contain additional sub-directories separated by forward slashes or back slashes if required. The base filename is interpreted as relative to the configured output directory.</p>
+      <p>When set, the base filename and optional suffix are retrieved from the <strong>Base Filename </strong>and <a href="#OutputOptions-FilenameSuffix">Filename Suffix</a> configuration properties respectively when the message properties <code>BaseFilename</code> and <code>Suffix</code> are not set in the incoming message. When these message properties are set, they override the corresponding static configuration properties regardless of whether the communication point is used in dynamic mode. Refer to <a href="Dynamic-Configuration-Using-Message-Properties_133162391.html">Dynamic Configuration Using Message Properties</a> for details.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Unlike the deprecated <a href="FTP-Client_133162354.html">FTP Client</a> communication point, for the (S)FTP Client communication point the dynamic replacement of the <strong>Base Filename</strong> configuration property only occurs when<strong> </strong>the <code>BaseFilename</code> message property is set in the incoming message and the <strong>Base Filename </strong>configuration property is set to&nbsp;<code>$BaseFilename</code>.</p>
+       </div>
+      </div>
+      <p>Thereafter, the other naming options are applied to the filename (for example, <a href="#OutputOptions-AppendDate/TimetoFilename">Append Date/Time to Filename</a>, <a href="#OutputOptions-DuplicateFilenameBehaviour">Duplicate Filename Behaviour</a>, etc.).</p>
+      <h2 id="OutputOptions-FilenameSuffix">Filename Suffix</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Filename Suffix</strong>&nbsp;specifies the optional suffix to append to the end of the filename when uploading the file. The suffix is appended to the generated filename prior to performing the upload, and does not need to be configured using a leading dot (any leading dot in the configured suffix is stripped as one is automatically added when generating the final filename).</p>
+      <h2 id="OutputOptions-DuplicateFilenameBehaviour">Duplicate Filename Behaviour</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Duplicate Filename Behaviour</strong> is a mode that determines what action the communication point takes if it finds that its target filename is already in use.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Property Option
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Rename the file<sup>†</sup></code></td>
+          <td class="confluenceTd">Rhapsody tries to generate a unique file name by appending <code>(1)</code>, <code>(2)</code>, etc., to the base filename&nbsp;until a name is found that is not on the remote server.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Append date and time to filename</code></td>
+          <td class="confluenceTd"><p>Rhapsody appends the current date/time <span>to the base filename in the format <code><span>yyyy</span><span>-MM-dd-HH-mm-ss-SSS</span></code>.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Don't check for duplicates</code></p></td>
+          <td colspan="1" class="confluenceTd">Any file with the same name on the remote server is overwritten.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Append to existing file</code></p></td>
+          <td colspan="1" class="confluenceTd"><span>If there is a file with the same name on the remote server, Rhapsody appends the data to the existing file.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <p>If the active duplicate behavior mode resolves to the append to file option, then the settings for the <a href="#OutputOptions-AppendDate/Time">Append Date/Time</a> and <a href="#OutputOptions-UseTempFiles">Use Temp Files</a> configuration parameters are ignored and both are effectively disabled.</p>
+      <h2 id="OutputOptions-AppendDate/Time">Append Date/Time</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+         <li><strong>Duplicate Filename Behaviour</strong>: Rename the file, Don't check for duplicates, Append to existing file.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><strong>Append Date/Time</strong>&nbsp;appends the current date-time to the base filename in the format <code>yyyy-MM-dd-HH-mm-ss-SSS</code>.</p>
+      <p>This option is not available if&nbsp;<code><span>Append to existing file</span></code>&nbsp;is selected in <a href="#OutputOptions-DuplicateFilenameBehaviour">Duplicate Filename Behaviour</a>.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Property Option
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><code><span>Do not append date and time</span></code></code><sup>†</sup></td>
+          <td class="confluenceTd">Does not append the current date/time to the base filename.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Append date and time to filename</code></td>
+          <td class="confluenceTd"><p>Appends the current date/time to the base filename in the format dictated by <a href="Output-Options_133162396.html">Append Date/Time Format</a> (<code>yyyy-MM-dd-HH-mm-ss-SSS</code> by default).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <h2 id="OutputOptions-AppendDate/TimeFormat">Append Date/Time Format</h2>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><p><strong>Operational Mode</strong>: Output, Out-&gt;In.</p></li>
+         <li><p><strong>Connection Type</strong>: FTP, FTPS, SFTP.</p></li>
+        </ul> 
+       </div>
+      </div>
+      <div class="twixi-wrap verbose actionContainer">
+       <div class="action-body flooded">
+        <p><strong>Append Date/Time Format</strong> defines the date-time format when the date-time is appended to the filename. The default date-time format is <code>yyyy-MM-dd-HH-mm-ss-SSS</code> and is used if this property is left blank. The format should follow the specification in SimpleDateFormat in Java,&nbsp;<span>and must not contain special characters such as:</span><span style="color: rgb(0,0,0);">&nbsp;</span><code><span style="color: rgb(0,0,0);"><span style="color: rgb(153,51,0);">{}[]&lt;&gt;:;$\/*?"|</span></span></code><span>.</span></p>
+       </div>
+       <h2 class="action-body flooded" id="OutputOptions-UseTempFiles">Use Temp Files</h2>
+      </div>
+      <div class="panel" style="background-color: white;border-color: #1794AD;border-style: solid;border-width: 1px;">
+       <div class="panelHeader" style="border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #1794AD;background-color: #DFEFF9;">
+        <b>Applies to...</b>
+       </div>
+       <div class="panelContent" style="background-color: white;"> 
+        <ul>
+         <li><strong>Operational Mode</strong>: Output, Out-&gt;In.</li>
+         <li><strong>Connection Type</strong>: FTP, FTPS, SFTP.</li>
+         <li><strong>Duplicate Filename Behaviour</strong>: Rename the file, Don't check for duplicates, Append to existing file.</li>
+        </ul> 
+       </div>
+      </div>
+      <p><span><strong>Use Temp Files</strong> determines whether to use temporary files during an upload. If using temporary files is selected, the upload uses a <code>.tmp</code> extension on the generated filename, and then performs a rename once the upload has completed. <br></span></p>
+      <p><span>This option is not available if the <code>Append date and time to filename</code> is selected.</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Property Option
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Do not use temporary files</code><sup>†</sup></td>
+          <td class="confluenceTd"><span>Rhapsody simply uploads the file with its given name. </span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>Use .tmp files</code></td>
+          <td class="confluenceTd"><p><span>Rhapsody first uploads the file with a temporary name, then performs a rename on the file when the upload is completed.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>† Default option.</sup></p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

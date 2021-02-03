@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Batch / De-batch</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Batch / De-batch</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162940/133162941.jpg" data-image-src="attachments/133162940/133162941.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162941" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image025.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162940" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Batch / De-batch</strong> filter can be used to combine separate messages into a single file or to separate a batched file into its components.</p>
+      <p>To define the size of the batch message created, the message collection properties of the filter are used. Refer to <a href="133163388.html">Message Collector</a> for details on message collection.</p>
+      <h2 id="Batch/De-batch-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p>Determines the mode of the filter:</p>
+           <ul>
+            <li><code>De-batch</code> (default) - a file is split into separate messages.</li>
+            <li><code>Batch</code> - messages are combined into a single file.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Header</p></td>
+          <td class="confluenceTd"><p>Identifies the string that appears at the beginning of the batched file. Can include special formatting sequences. Refer to <a href="#Batch/De-batch-FormattingSequences">Formatting Sequences</a> for details.</p><p>Available only in Batch mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Separator</p></td>
+          <td class="confluenceTd"><p>Identifies the string that separates messages within the batched file. Can include special formatting sequences. Refer to <a href="#Batch/De-batch-FormattingSequences">Formatting Sequences</a>&nbsp;for details.</p><p>Available only in Batch mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trailer</p></td>
+          <td class="confluenceTd"><p>Identifies the string that appears at the end of the batched file. Can include special formatting sequences. Refer to <a href="#Batch/De-batch-FormattingSequences">Formatting Sequences</a>&nbsp;for details.</p><p>Available only in Batch mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Batch Header Expression</p></td>
+          <td class="confluenceTd"><p>Identifies the string that appears at the beginning of the file to be de-batched. Cannot end with a pipe ("<code>|</code>"). This is not a text field, but a regular expression field supporting <a href="https://www.gnu.org/software/gnulib/manual/html_node/Regular-expressions.html" class="external-link" rel="nofollow">GNU Regular Expressions</a> with the Posix Extended flag.</p><p>Available only in De-batch mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Batch Trailer Expression</p></td>
+          <td class="confluenceTd"><p>Identifies the string that appears at the end of the file to be de-batched.</p><p>Available only in De-batch mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Separator Type</p></td>
+          <td class="confluenceTd"><p>Identifies whether messages in the file to be de-batched are separated by a marker or a separator:</p>
+           <ul>
+            <li><code>Separates Message</code> (default) - a separator identifies the string found between messages and does not appear in the de‑batched message bodies. A message separator is not part of the message.</li>
+            <li><code>Marks Start of Message</code> - a marker is part of the message and identifies the string found at the beginning of each message.</li>
+           </ul><p>Available only in De-batch mode.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Separator Expression</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The regular expression that identifies the message separator. This string is a POSIX (Portable Operating System Interface) regular expression. Refer to <span style="color: rgb(0,0,0);"><a href="https://collaboration.opengroup.org/external/pasc.org/plato/" class="external-link" rel="nofollow">IEEE's Portable Application Standards Committee</a></span> for details.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>Messages to be de-batched are treated as a byte stream. Therefore </span>ensure you use the appropriate regular expression <span>w</span><span>hen Separator Type is set to marker</span>. For example, if you want to de-batch on all instances of "MSH|", you should enter <code><span>MSH\|</span></code> (or <span><code>MSH\|\^~</code> to guarantee de-batching occurs only on instances of "MSH|^~" at the beginning of messages using standard separators). </span>Entering <code>MSH|</code> is not permitted as it configures the filter to de-batch on <span>every individual character (as well as every occurrence of "MSH")</span>.</p>
+             </div>
+            </div>
+            <p>Available only in De-batch mode.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Set Identifier Property</span></td>
+          <td colspan="1" class="confluenceTd"><span>Specifies the property name that each message uses to identify the batched message that it belongs to</span><span>.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Index Base</p></td>
+          <td colspan="1" class="confluenceTd"><p>Determines the index base used to batch the message set. Selecting a zero-based index (<code>Zero</code>) sets the index to start at 0 and increase monotonically. Selecting a one-based index (<code>One</code>) sets the index to start at 1 and increase monotonically.</p>
+           <ul>
+            <li><code>Zero</code> (d<span>efault)</span></li>
+            <li><code>One</code><span>&nbsp;</span></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="Batch/De-batch-FormattingSequences">Formatting Sequences</h2>
+      <p>The character sequences described in the following table can be used in the <strong>Header</strong>,&nbsp;<strong>Separator</strong>, and&nbsp;<strong>Trailer</strong>&nbsp;configuration properties&nbsp;to control the output in a created batch of messages for the respective part.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Character Sequence</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\n</code></p></td>
+          <td class="confluenceTd"><p>New line.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\r</code></p></td>
+          <td class="confluenceTd"><p>Carriage return.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\xdd</code></p></td>
+          <td class="confluenceTd"><p>Character with code given by hexadecimal 2-digit number (d - hex digit).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\</code></p></td>
+          <td class="confluenceTd"><p>Backslash (\) character.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%n</code></p></td>
+          <td class="confluenceTd"><p><span>Current message number (starting from 0) in the batch of messages when used in the </span><strong>Separator </strong><span>configuration property. It is always -1 when used in context of </span><strong>Header</strong><span> or </span><strong>Trailer </strong><span>properties.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%c</code></p></td>
+          <td class="confluenceTd"><p>Total number of messages in the batch.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre><code>%t[datetimefmt]</code></pre></td>
+          <td class="confluenceTd"><p>Formats current date-time using formatting string given. The following formatting characters are allowed:</p>
+           <ul>
+            <li><code>y</code> - year</li>
+            <li><code>M</code> - month</li>
+            <li><code>d</code> - day</li>
+            <li>h or <code>H</code> - hour (12hr or 24hr)</li>
+            <li><code>m</code> - minute</li>
+            <li><code>s</code> - second</li>
+           </ul><p>Refer to the documentation for the Java class SimpleDateFormat for the full date-time format.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>%%</code></p></td>
+          <td class="confluenceTd"><p>Percent (%) character</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>$$</code></p></td>
+          <td class="confluenceTd"><p>Dollar ($) character</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="Batch/De-batch-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for the Batch / De-batch&nbsp;filter are:</p>
+      <ul>
+       <li><code>TotalNumberOfBatchedMessages</code>&nbsp;- the total number of messages that are included in the batched message.</li>
+       <li><code>BatchIndex</code>&nbsp;- the index of this message within the batched message. The filter's Index Base&nbsp;configuration property determines whether the index is zero-based or one-based.</li>
+       <li><code>&lt;</code><span><code>Set Identifier Property&gt;</code> -&nbsp;the unique identifier&nbsp;identifying&nbsp;the batched message that this message belongs to. The property name is&nbsp;user-specified&nbsp;through the filter's&nbsp;Set Identifier Property&nbsp;configuration property.</span></li>
+      </ul>
+      <p>These properties are only populated when De-batch mode&nbsp;has been selected.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

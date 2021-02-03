@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>MSMQ (Microsoft Message Queuing)</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">MSMQ (Microsoft Message Queuing)</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162578/133162581.png" data-image-src="attachments/133162578/133162581.png" data-unresolved-comment-count="0" data-linked-resource-id="133162581" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MSMQIcon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162578" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>MSMQ</strong> (Microsoft Message Queuing) communication point&nbsp;uses the MSMQ API interface to communicate with a <em>Microsoft®</em> Message Queuing server. It is only available on the <em>Microsoft</em>® <em>Windows</em>® platform.</p>
+      <p>The relevant MSMQ software needs to be installed on the Rhapsody server; that is, the MSMQ client if the communication point is to be operated in output mode and the MSMQ server if the communication point is to be operated in input mode. Additionally:</p>
+      <ul>
+       <li>The appropriate queues must be set up on the MSMQ server.</li>
+       <li>The required permissions must be set to allow communication between the machine on which Rhapsody is running and the machine on which the MSMQ server is running.</li>
+      </ul>
+      <p>The MSMQ communication point:</p>
+      <ul>
+       <li>Supports MSMQ version 3 (<em>Windows® XP Professional</em> and <em>Windows® 2003 Server</em>) and MSMQ version 4 (<em>Windows® Vista</em> and <em>Windows® 2008 Server</em>).</li>
+       <li>Is compatible with both 32-bit and 64-bit versions of MSMQ.</li>
+       <li>Is able to talk to remote MSMQ servers, even when the MSMQ Server is running a different version of <em>Windows</em>® to the client (subject to the version requirements above).</li>
+       <li>Supports both transactional and non-transactional queues.</li>
+       <li>Supports queue discovery using Active Directory.</li>
+       <li>Supports Domain, Workgroup mode and cross-forest communication.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody is not able to detect when MSMQ queues have been deleted or renamed, therefore care should be taken not to delete queues that Rhapsody is using.</p>
+       </div>
+      </div>
+      <p>Additional information can be found at the <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms711472(v=vs.85).aspx" class="external-link" rel="nofollow"> <em>Microsoft</em>® Message Queuing home page</a>.</p>
+      <p>Supported Operational Modes: <em>All</em></p>
+      <h2 id="MSMQ(MicrosoftMessageQueuing)-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Receive Host Name</p></td>
+          <td class="confluenceTd"><p>The name of the host machine on which the receive queue resides. The localhost can be referred to by name, using the alias <code>localhost</code>, or by a fullstop (<code>.</code>) which is the MSMQ alias.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>In OS mode, the server name must be a host name. In TCP mode, the server name must be an IP address.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Receive Queue Name</p></td>
+          <td class="confluenceTd"><p>The name of the queue from which to receive messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use Active Directory Lookups</p></td>
+          <td class="confluenceTd"><p>Options: <code>true</code>, <code>false</code>; default: <code>true</code>.<br> If set to <code>true</code>, the queue is located using Active Directory Domain Services. If set to <code>false</code>, the connection attempts to use a Direct Format Name to access the queue.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>In Workgroup mode or when accessing public queues across a forest boundary, this should be set to <code>false</code> as Active Directory Lookups are not possible. It should also be disabled when connecting to private queues.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MSMQ Queue Type</p></td>
+          <td class="confluenceTd"><p>Options: <code>Public Queue - Transactional</code>, <code>Public Queue - Non-Transactional</code>, <code>Private Queue - Transactional</code>, <code>Private Queue - Non-Transactional</code>. <br> The type of MSMQ queue - public or private:</p>
+           <ul>
+            <li>Public queues are published to Active Directory Domain Services and are accessible via Active Directory lookups.</li>
+            <li>Private queues are not published to Active Directory services and are only accessible via direct or private format name.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Address Specification</p></td>
+          <td class="confluenceTd"><p>The protocol that the MSMQ client uses to connect to the specified queue. On an MSMQ communication point in input mode, supported options are: OS and TCP. On an MSMQ communication point in output mode, supported options are: <code>OS</code>, <code>TCP</code>, <code>HTTP</code>, <code>HTTPS</code>. Please refer to the MSMQ manuals for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Receive Properties</p></td>
+          <td class="confluenceTd"><p>The properties to read from incoming MSMQ messages and convert to Rhapsody message properties. These properties will be prefixed with <code>MSMQ:</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Send Host Name</p></td>
+          <td class="confluenceTd"><p>The name of the host machine on which the send queue resides. The localhost can be referred to by name, using the alias <code>localhost</code>, or by a fullstop (<code>.</code>) which is the MSMQ alias.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Send Queue Name</p></td>
+          <td class="confluenceTd"><p>The name of the queue on which to send messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use Active Directory Lookups</p></td>
+          <td class="confluenceTd"><p>Options: <code>true</code>, <code>false</code>; default: <code>true</code>.<br> If set to <code>true</code>, the queue is located using Active Directory Domain Services. If set to <code>false</code>, the connection attempts to use a Direct Format Name to access the queue.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>In Workgroup mode or when accessing public queues across a forest boundary, this should be set to <code>false</code> as Active Directory Lookups are not possible. It should also be disabled when connecting to private queues.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>MSMQ Queue Type</p></td>
+          <td class="confluenceTd"><p>Options: <code>Public Queue - Transactional</code>, <code>Public Queue - Non-Transactional</code>, <code>Private Queue - Transactional</code>, <code>Private Queue - Non-Transactional</code>. <br> The type of MSMQ queue - public or private:</p>
+           <ul>
+            <li>Public queues are published to Active Directory Domain Services and are accessible via Active Directory lookups.</li>
+            <li>Private queues are not published to Active Directory services and are only accessible via direct or private format name.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Address Specification</p></td>
+          <td class="confluenceTd"><p>The protocol that the MSMQ client uses to connect to the specified queue. On an MSMQ communication point in input mode, supported options are: OS and TCP. On an MSMQ communication point in output mode, supported options are: <code>OS</code>, <code>TCP</code>, <code>HTTP</code>, <code>HTTPS</code>. Please refer to the MSMQ manuals for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Virtual Directory</p></td>
+          <td class="confluenceTd"><p>The virtual directory associated with the HTTP/HTTPS direct connection. This is enabled only if the HTTP or HTTPS address specification is selected with the value defaulting to <code>msmq</code>. This must point to the path to the HTTP web site entry point under IIS.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Message Format</p></td>
+          <td class="confluenceTd"><p>Options: Binary, ANSI, Unicode; Default: Binary.<br class="atl-forced-newline">Identifies the MSMQ body type used to tag the message when it is placed on the queue. The body type will be used by the receiving application when retrieving messages. <br class="atl-forced-newline">Refer to <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms701459(v=vs.85).aspx" class="external-link" rel="nofollow">http://msdn.microsoft.com/en-us/library/windows/desktop/ms701459(v=vs.85).aspx</a> for details on Message Body Types.</p>
+           <ul>
+            <li>Binary will set the body type to <strong>VT_ARRAY_OR_VT_UI1</strong> (An array of bytes)</li>
+            <li>String (ANSI) will set the body type to <strong>VT_LPSTR</strong> (A variable-size, NULL-terminated ANSI string)</li>
+            <li>String (Unicode) will set the body type to <strong>VT_LPWSTR</strong> (A variable-size, NULL-terminated Unicode string)</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Delivery Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>Express</code>, <code>Recoverable</code>; default: <code>Express</code>. <br class="atl-forced-newline"> Sets the delivery mode for MSMQ messages. Express messages will not be recovered if the queue is restarted. Recoverable messages will be recovered if the queue is restarted, however there is a performance penalty for the queue if this mode is selected.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Refer to <a href="General_133162189.html#General-mixedmodeproperties">Out-&gt;In and In-&gt;Out Properties</a> for general details on the MSMQ communication point's <em>bidirectional</em>, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> operational modes.</p>
+      <h2 id="MSMQ(MicrosoftMessageQueuing)-MSMQNotes">MSMQ Notes</h2>
+      <ul>
+       <li>MSMQ supports public, private and system queues:
+        <ul>
+         <li>Private queues are only accessible by setting Active Directory lookups to <code>disabled</code>.</li>
+         <li>Public queues are accessible by using Active Directory lookups or directly using a Direct Format Name.<br> System queues are accessible by postfixing the queue name with <code>;&lt;name of system queue&gt;</code>. MSMQ system queues take the following format <code>SYSTEM$;&lt;name of system queue&gt;</code>.</li>
+        </ul></li>
+       <li>Access to queues is controlled via normal <em>Windows</em>® authentication (or domain authentication for public queues). Therefore, Rhapsody must be running as a user that has permission to access the queue.</li>
+       <li>If transactions are used, the MSMQ communication point is responsible for creating and committing the transactions:
+        <ul>
+         <li>MSMQ send operations on transactional queues must always be performed in the context of a transaction and send operations on non-transactional queues must NOT be performed in the context of a transaction, regardless of whether the queue is local or remote. The MSMQ communication point handles this automatically.</li>
+         <li>When receiving messages, the MSMQ communication point only uses transactions if configured to do so and the queue is transactional. Transactions are not supported remote queues on MSMQ versions earlier than 4 (Vista/2008 Server). However, all MSMQ versions always support non-transactional receives on queues even if the queues themselves are transactional.</li>
+        </ul></li>
+       <li>Remote reads from a transactional remote queue are only possible in versions of MSMQ 4 onwards. This is facilitated by using an external transaction manager (MSDTC). Therefore, in order to configure Rhapsody to retrieve messages from a remote transactional queue, MSDTC must be configured as an external transaction manager alongside an appropriate version of the MSMQ client. If remote reads against a transactional queue are required on a system that does not have the required MSMQ client installed, then it is possible to configure the MSMQ communication point to perform non-transactional reads against the transactional queue by disabling Active Directory lookups and selecting the appropriate non-transactional queue option. However, this is not recommended because message retrieval in the MSMQ communication point is conducted in a non-transactional manner upon a queue whose intended usage is transactional.</li>
+       <li>All transactional send operations and local transactional read operations are conducted using the MSMQ internal transaction manager. Remote transactional read operations are performed using MSDTC as an external transaction manager on versions of MSMQ that support this operation.</li>
+       <li>Remote reads in workgroup mode or across a forest boundary are strongly discouraged due to the inherent security risks associated with this approach. When using this approach, there is no mechanism to authenticate users; and MSQM mandates that read permissions are required by the ANONYMOUS user. It is recommended you always consider a push approach under these scenarios because MSMQ supports the securing of sends across forest boundaries.</li>
+      </ul>
+      <p><strong>See Also...</strong></p>
+      <p></p>
+      <ul class="childpages-macro">
+       <li><a href="Common-Errors_133162588.html">Common Errors</a></li>
+       <li><a href="Installing-MSMQ_133162587.html">Installing MSMQ</a></li>
+       <li><a href="MSMQ-Properties_133162582.html">MSMQ Properties</a></li>
+      </ul> 
+      <p></p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

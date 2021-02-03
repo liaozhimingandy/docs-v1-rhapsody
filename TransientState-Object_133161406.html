@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>TransientState Object</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+       <li> <span><a href="Global-Objects_133161405.html">Global Objects</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">TransientState Object</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The transientState&nbsp;object provides access to transient state.</p>
+      <h2 id="TransientStateObject-Methods"><span style="background-color: transparent;">Methods</span></h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><a href="#TransientStateObject-Getstate">getState</a>(key)</code></p></td>
+          <td class="confluenceTd"><p>Retrieves the current transient state value associated with the specified key if the following conditions are met: it is available; belongs to the current configuration locker; and has not expired. The <code>key</code> parameter must be a string. The transient state is always returned as a string. If the transient state does not exist or cannot be returned, then an empty string is returned.</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">var value = transientState.getState('myStateKey');</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><a href="#TransientStateObject-Setlink">setState</a>(key, state[, options])</code></p></td>
+          <td class="confluenceTd"><p><span>Sets the transient state <span>associated with the specified key</span> to the specified value.</span></p>
+           <ul>
+            <li><span>The <code><span>key</span></code> parameter must be a non-empty string and no more than 256 characters in length. </span></li>
+            <li><span>The <code>state</code> value must be a string. If it is null or empty, the current value is cleared. </span></li>
+            <li><span>The <span>optional JavaScript object</span> <code>options</code> are an optional JavaScript object that can contain an expiry time for the state value as a field called <code>expires</code>. The expiry time may be provided as either a JavaScript Date object, a number representing the number of milliseconds since the Unix epoch (midnight 1 Jan 1970 UTC), or an ISO 8601 date/time.</span>
+             <ul>
+              <li>If an expiry time is set, then the value is automatically cleared once that time is reached and can no longer be retrieved.</li>
+              <li>If an expiry time is not set, then the value never expires until it is either explicitly overwritten or Rhapsody is restarted.</li>
+             </ul></li>
+           </ul>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">transientState.setState('myStateKey', 'theValue');
+transientState.setState('mySecondStateKey', 'theSecondValue', {
+    expires: '2016-06-30T09:00:00Z'
+});</pre> 
+            </div>
+           </div>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>You can only modify existing transient state values that were originally created in the same configuration locker. <span>You will encounter an error if you attempt to made to modify a </span><span>transient </span><span>state value in a different locker</span>.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code><a href="TransientState-Object_133161406.html">getAndSetState</a>(key, state[, options])</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Identical to<span>&nbsp;</span><code>setState()<span>&nbsp;</span></code>except that it returns the old <span>transient </span>state value after modifying it or an empty string if there is no previous value. It is conceptually the same as calling<span>&nbsp;</span><code>getState()<span>&nbsp;</span></code>followed by<span>&nbsp;</span><code>setState()</code>, except that the entire<span>&nbsp;</span><code>getAndSetState()<span>&nbsp;</span></code>operation is executed atomically.</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">var oldValue1 = transientState.getAndSetState('myStateKey', 'theValue');
+var oldValue2 = transientState.getAndSetState('mySecondStateKey', 'theSecondValue', {
+    expires: '2016-06-30T09:00:00Z'
+});</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code><a href="#TransientStateObject-Compareandsetstate">compareAndSetState</a>(key, oldState, newState[, options])</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Compares the existing transient state to the specified value and then modifies it <span>only </span>if the expected value is found. <span>The function returns true if the value is replaced, or false if the comparison fails. </span></p>
+           <ul>
+            <li>The<span>&nbsp;</span><code>key<span>&nbsp;</span></code>parameter must be a non-empty string and no more than 256 characters in length.</li>
+            <li>The<span>&nbsp;</span><code>oldState<span>&nbsp;</span></code>value is what is used to compare against the current state value, and may be set to null/empty if there is expected to be no current value.</li>
+            <li>The "newState" value is a string and is only used if the comparison is successful. It may be set to null/empty to clear the existing value.</li>
+            <li>The "options" are optional and if present are a JavaScript object that can optionally contain an expiry time for the state value as a field called <code>expires</code>. The expiry time may be provided as either a JavaScript Date object, a number representing the number of milliseconds since the Unix epoch (midnight 1 Jan 1970 UTC), or an ISO 8601 date/time.
+             <ul>
+              <li>If an expiry time is set, then the value is automatically cleared once that time is reached and can no longer be retrieved.</li>
+              <li>If an expiry time is not set, then the value never expires until it is either explicitly overwritten or Rhapsody is restarted.</li>
+             </ul></li>
+           </ul>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">var result1 = transientState.compareAndSetState('myStateKey', 'expectedValue', 'theValue');
+var result2 = transientState.setState('mySecondStateKey', null, 'theSecondValue', {
+    expires: '2016-06-30T09:00:00Z'
+});</pre> 
+            </div>
+           </div>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p><span>You can only modify existing transient state values that were originally created in the same configuration locker. You will encounter an error if you attempt to made to modify a <span>transient </span>state value in a different locker.</span></p>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="TransientStateObject-Examples">Examples</h2>
+      <h3 id="TransientStateObject-Setstate"><span style="color: rgb(0,72,102);">Set state</span></h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Simple set state
+transientState.setState('key2', 'val2');</pre> 
+       </div>
+      </div>
+      <p><span style="color: rgb(0,72,102);"><br></span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Setting value and an old expiry date
+transientState.setState('key1', 'val1', {
+expires: '2016-05-23T19:00:00z'
+});</pre> 
+       </div>
+      </div>
+      <h3 id="TransientStateObject-Getstate">Get state</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">//Get values: Set property
+next.setProperty('Prop' , transientState.getState('key1'));
+next.setProperty('Prop' , transientState.getState('key2'));</pre> 
+       </div>
+      </div>
+      <h3 id="TransientStateObject-Getandsetstate">Get and set state</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">//Get and set (to get old value, before setting a new one)
+//Note: assume old value is empty
+var old1 = transientState.getAndSetState('key3','val3');
+&nbsp;
+next.setProperty('OldVal_Null' , old1);
+next.setProperty('Val_Key3' , transientState.getState('key3'));</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">//Set an old value before setting new value
+transientState.setState('key4', 'oldVal4');
+
+var old2 = transientState.getAndSetState('key4','val4');
+
+next.setProperty('Old_Val4' , old2);
+next.setProperty('New_Val4' , transientState.getState('key4'));</pre> 
+       </div>
+      </div>
+      <h3 id="TransientStateObject-Compareandsetstate">Compare and set state</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">//Compare values and set new value
+&nbsp;
+//Set value
+transientState.setState('key6', 'val6');
+
+//Compare values
+var res2 = transientState.compareAndSetState('key6', 'val6', 'Newval6')
+
+//Get value
+next.setProperty('Prop8' , transientState.getState('key6'));
+next.setProperty('Result2' , res2);</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">//Compare non-existent value with null  
+var res1 = transientState.compareAndSetState('key5', null, 'val5')
+ 
+//Get value
+next.setProperty('Prop' , transientState.getState('key5'));
+next.setProperty('Result1' , res1);</pre> 
+       </div>
+      </div>
+      <p> </p>
+      <div>
+       <span style="color: rgb(0,72,102);font-size: 16.0px;font-weight: bold;"><br></span>
+      </div> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

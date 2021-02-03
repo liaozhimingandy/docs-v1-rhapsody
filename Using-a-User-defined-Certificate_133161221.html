@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using a User-defined Certificate</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Using-SSL-Certificates_133161217.html">Using SSL Certificates</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using a User-defined Certificate</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><a name="RhapsodyIDEComms-DocumentationNotes-UsingaUserdefinedCertificate" rel="nofollow"></a>You can replace the generated self-signed certificate used by Rhapsody by default with another certificate. This is particularly useful if your organization generates their own certificates and so has configured their own certificate authority (CA). If the computers running the Rhapsody IDE and web browsers for the Management Console already trust this certificate authority, then the certificate issued to the Rhapsody engine is trusted automatically.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Ensure you use SHA256 certificates when using TLSv1.2. SHA512 certificates are not universally supported.</p>
+       </div>
+      </div>
+      <h2 id="UsingaUser-definedCertificate-ManagementConsole"><a name="RhapsodyIDEComms-DocumentationNotes-ManagementConsole" rel="nofollow"></a>Management Console</h2>
+      <p>Refer to <a href="Using-a-User-defined-Certificate-for-the-HTTPS-Mode_133163995.html">Using a User-defined Certificate for the HTTPS Mode</a> for details on custom certificates for the Management Console.</p>
+      <h2 id="UsingaUser-definedCertificate-RhapsodyIDE"><a name="RhapsodyIDEComms-DocumentationNotes-RhapsodyIDE" rel="nofollow"></a>Rhapsody IDE</h2>
+      <p>By default, the IDE connector in the Rhapsody engine uses exactly the same SSL certificate as configured for the Management Console. However, if required it can be changed to use its own SSL certificate instead. The <code>rhapsody.properties</code> file contains a number of options that can be configured to customize the certificate used for the SSL connection.</p>
+      <p><span>Changes made to the&nbsp;</span><code>rhapsody.properties</code><span>&nbsp;file take effect after the Rhapsody engine is restarted.</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property Name</th>
+          <th class="confluenceTh">Description</th>
+          <th class="confluenceTh">Default Value</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>AdministrationManager.AdminPort</code></td>
+          <td class="confluenceTd">The TCP port that the IDE connector listens on for connections from the Rhapsody IDE.</td>
+          <td class="confluenceTd"><code>3041</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>AdministrationManager.BroadcastPort</code></td>
+          <td class="confluenceTd">The UDP port that the IDE connector listens to in order to broadcast its availability.</td>
+          <td class="confluenceTd"><code>4031</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>AdministrationManager.MaxAdminSockets</code></td>
+          <td class="confluenceTd">The maximum number of administration connections from the Rhapsody IDE that may be opened at once.</td>
+          <td class="confluenceTd"><code>20</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>AdministrationManager.LoginTimeout</code></td>
+          <td class="confluenceTd">The time in seconds that a newly connected Rhapsody IDE has to perform a login before the connection is dropped.</td>
+          <td class="confluenceTd"><code>30</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>AdministrationManager.keystore</code></td>
+          <td class="confluenceTd">The name of the keystore file that contains the private key that should be used. This can be either an absolute path, or a path relative to the <code>&lt;Rhapsody&gt;/Rhapsody</code> directory.</td>
+          <td class="confluenceTd">Management Console keystore.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>AdministrationManager.keystoretype</code></td>
+          <td class="confluenceTd">The type of keystore that is being used. These are described in more detail in the documentation for the Java keytool application, but the main ones that are relevant here are JKS (the Java keystore type) and PKCS12 (a <code>.pfx</code> file).</td>
+          <td class="confluenceTd">Management Console keystore type.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>AdministrationManager.password</code></td>
+          <td class="confluenceTd">The password for the keystore containing the private key that should be used.</td>
+          <td class="confluenceTd">Management Console keystore password.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>AdministrationManager</span>.keypassword</code></td>
+          <td class="confluenceTd">The password for the key within the keystore that should be used.</td>
+          <td class="confluenceTd">Management Console keystore key password.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>A restart is required in order for Rhapsody to pick up changes in the <code>rhapsody.properties</code> file.</p>
+       </div>
+      </div>
+      <p>For example, to use a custom private key, place it in the <code>&lt;RhapsodyInstallDirectory&gt;\Rhapsody</code> directory, then add or replace the following lines in the <code>rhapsody.properties</code> file:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>AdministrationManager.keystore=&lt;Filename&gt;.pfx
+AdministrationManager.password=&lt;password&gt;
+AdministrationManager.keypassword=&lt;password&gt;
+AdministrationManager.keystoretype=PKCS12 </pre> 
+       </div>
+      </div>
+      <p>For PFX files, the store password and key password are the same, as they only contain a single private key. This is often not the case when using Java keystore files.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Instead of using the PFX file directory, you can import PFX files into a Java keystore using the Java keytool application. Refer to <a href="http://docs.oracle.com/javase/8/docs/technotes/tools/windows/keytool.html" class="external-link" rel="nofollow">Key and Certificate Management Tool</a> for details.</p>
+       </div>
+      </div>
+      <h2 id="UsingaUser-definedCertificate-SOAPAPI"><a name="RhapsodyIDEComms-DocumentationNotes-SOAPAPI" rel="nofollow"></a>SOAP API</h2>
+      <p>Refer to <a href="Framework-Settings_133161157.html">Framework Settings </a>for details on custom certificates for the SOAP API.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

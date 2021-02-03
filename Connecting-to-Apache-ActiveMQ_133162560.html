@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Connecting to Apache ActiveMQ</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162556.html">JMS (Java Message Service)</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Connecting to Apache ActiveMQ</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="jive-rendered-content">The following example describes how to connect&nbsp;Apache ActiveMQ 5.x&nbsp;to Rhapsody using the&nbsp;JMS communication point:</p>
+      <p><span> <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146947945 {padding: 0px;}
+div.rbtoc1565146947945 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146947945 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></span></p>
+      <div class="toc-macro rbtoc1565146947945"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ConnectingtoApacheActiveMQ-ApacheActiveMQConfiguration">Apache Active MQ Configuration</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ConnectingtoApacheActiveMQ-Installingthesoftware">Installing the software</a></li> 
+          <li><a href="#ConnectingtoApacheActiveMQ-StartingtheDomain">Starting the Domain</a></li> 
+          <li><a href="#ConnectingtoApacheActiveMQ-ConfiguringJMSResources">Configuring JMS Resources&nbsp; &nbsp;</a></li> 
+         </ul> </li> 
+        <li><a href="#ConnectingtoApacheActiveMQ-RhapsodyConfiguration">Rhapsody Configuration</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ConnectingtoApacheActiveMQ-RhapsodyIDERouteConfiguration">Rhapsody IDE Route Configuration</a></li> 
+          <li><a href="#ConnectingtoApacheActiveMQ-JMSCommunicationPointConfiguration">JMS Communication Point Configuration</a></li> 
+         </ul> </li> 
+        <li><a href="#ConnectingtoApacheActiveMQ-Testing">Testing</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ConnectingtoApacheActiveMQ-Check-inChanges,StartingtheRouteandCommunicationPoint">Check-in Changes, Starting the Route and Communication Point</a></li> 
+          <li><a href="#ConnectingtoApacheActiveMQ-SendingMessagestotheApacheActiveMQJMSQueue">Sending Messages to the Apache ActiveMQ JMS Queue</a></li> 
+          <li><a href="#ConnectingtoApacheActiveMQ-ManagementConsole">Management Console</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div> 
+      <br> 
+      <p></p>
+      <h2 id="ConnectingtoApacheActiveMQ-ApacheActiveMQConfiguration"><span>Apache Active MQ Configuration</span></h2>
+      <h3 id="ConnectingtoApacheActiveMQ-Installingthesoftware"><span>Installing the software</span></h3>
+      <ol>
+       <li><span>Download the appropriate version of<span>&nbsp;<a class="external-link" href="http://activemq.apache.org/download.html" rel="nofollow">Apache ActiveMQ</a></span>&nbsp;and install it.</span></li>
+       <li><span>To get started with&nbsp;</span>Apache ActiveMQ, refer to<span><span>&nbsp;<a class="external-link" href="http://activemq.apache.org/getting-started.html" rel="nofollow">Getting Started Guide</a>.</span> </span></li>
+      </ol>
+      <h3 id="ConnectingtoApacheActiveMQ-StartingtheDomain"><span> <span>Starting the Domain</span> </span></h3>
+      <p><span>Start the following components:</span></p>
+      <ul>
+       <li><strong>Server </strong>- in order to start the AdminServer, run the command <code>ApacheMQ_HOME\bin\activemq start</code>.</li>
+       <li><strong>Administration Console</strong>&nbsp;- navigate to&nbsp;<code><span class="nolink">http://localhost:8161/admin</span></code>&nbsp;and enter the user and password (<code>admin<span style="font-family: Arial , sans-serif;">&nbsp;and&nbsp;</span></code><code>admin</code>, respectively).</li>
+      </ul>
+      <h3 id="ConnectingtoApacheActiveMQ-ConfiguringJMSResources"><span> <span>Configuring JMS Resources</span>&nbsp;</span> <span style="color: rgb(51,51,51);font-size: 14.0px;">&nbsp;</span></h3>
+      <ol>
+       <li><span>Navigate to&nbsp;<span><strong>Queues</strong>.</span> </span></li>
+       <li><p>Enter&nbsp;<code>rhapsodyQueue</code>&nbsp;in the&nbsp;<strong>Queue Name</strong> field:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="208" width="695" src="attachments/133162560/133162569.png" data-image-src="attachments/133162560/133162569.png" data-unresolved-comment-count="0" data-linked-resource-id="133162569" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateQueue.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162560" data-linked-resource-container-version="1"></span></p></li>
+       <li>Select the <strong>Create</strong> button.</li>
+       <li><p>The details of the new queue is displayed:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="170" width="1000" src="attachments/133162560/133162568.png" data-image-src="attachments/133162560/133162568.png" data-unresolved-comment-count="0" data-linked-resource-id="133162568" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="QueueCreated.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162560" data-linked-resource-container-version="1"></span></p></li>
+      </ol>
+      <h2 id="ConnectingtoApacheActiveMQ-RhapsodyConfiguration"><span>Rhapsody Configuration</span></h2>
+      <h3 id="ConnectingtoApacheActiveMQ-RhapsodyIDERouteConfiguration"><span>Rhapsody IDE Route Configuration</span></h3>
+      <p>L<span>ogin to the Rhapsody IDE and configure a route including a JMS communication point and a destination where you want the message to reside. </span></p>
+      <p><span>In this example, an input JMS communication point&nbsp;is used to read messages from the Apache ActiveMQ JMS Queue and send the messages to the Hold Queue in Rhapsody. For details on the JMS communication point and managing routes, refer to&nbsp;</span><a href="133162556.html">JMS (Java Message Service)</a> <span>and&nbsp;</span><a href="Configuring-Routes_133162020.html">Configuring Routes</a>, respectively.</p>
+      <p><a href="https://community.orionhealth.com/servlet/JiveServlet/showImage/102-3517-3-2640/Route.png" class="external-link" rel="nofollow"> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="369" width="492" src="attachments/133162560/133162567.png" data-image-src="attachments/133162560/133162567.png" data-unresolved-comment-count="0" data-linked-resource-id="133162567" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Route.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162560" data-linked-resource-container-version="1"></span> </a></p>
+      <h3 id="ConnectingtoApacheActiveMQ-JMSCommunicationPointConfiguration"><span>JMS Communication Point Configuration</span></h3>
+      <h4 id="ConnectingtoApacheActiveMQ-Configuration"><span> <span>Configuration</span> </span></h4>
+      <p><span>For the purposes of this example, the configuration properties for the JMS communication point are set as follows:</span></p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162560/133162566.png" data-image-src="attachments/133162560/133162566.png" data-unresolved-comment-count="0" data-linked-resource-id="133162566" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CP+Config.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162560" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh"><span style="color: rgb(0,0,0);">Value</span></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Implementation</td>
+          <td class="confluenceTd"><code>JNDI</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">InitialContextFactory</td>
+          <td class="confluenceTd"><code>org.apache.activemq.jndi.ActiveMQInitialContextFactory</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">ProviderURL</td>
+          <td class="confluenceTd"><code>tcp://localhost:61616</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Queue Connection Factory</p></td>
+          <td class="confluenceTd"><code>QueueConnectionFactory</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Username</p></td>
+          <td class="confluenceTd"><code>admin</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Password</p></td>
+          <td class="confluenceTd"><code>admin</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Custom Parameters</td>
+          <td class="confluenceTd">Name =<code> queue.rhapsodyQueue</code>, Value =<code> rhapsodyQueue</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Input Destination</td>
+          <td class="confluenceTd"><code>rhapsodyQueue</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Destination Type</p></td>
+          <td class="confluenceTd"><code>Queue</code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Receiving Mode</td>
+          <td class="confluenceTd"><code>Polling</code></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="ConnectingtoApacheActiveMQ-AuxiliaryFiles"><span>Auxiliary Files&nbsp;</span></h4>
+      <p><span>In order to make the JMS communication point work, you include the Apache ActiveMQ JMS clients. These files are located in <code>ApacheMQ_HOME\lib</code>. The following JAR files are required:</span></p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="227" width="599" src="attachments/133162560/133162565.png" data-image-src="attachments/133162560/133162565.png" data-unresolved-comment-count="0" data-linked-resource-id="133162565" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AuxFiles.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162560" data-linked-resource-container-version="1"></span></p>
+      <h2 id="ConnectingtoApacheActiveMQ-Testing">Testing</h2>
+      <h3 id="ConnectingtoApacheActiveMQ-Check-inChanges,StartingtheRouteandCommunicationPoint">Check-in Changes, Starting the Route and Communication Point</h3>
+      <p>Once the components in Rhapsody are configured, you can check them in and start them. From the Management Console, check the route and the JMS communication point&nbsp;status:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="1000" src="attachments/133162560/133162561.png" data-image-src="attachments/133162560/133162561.png" data-unresolved-comment-count="0" data-linked-resource-id="133162561" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WMC.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162560" data-linked-resource-container-version="1"></span><a href="https://community.orionhealth.com/servlet/JiveServlet/showImage/102-3517-3-2643/WMC.png" class="external-link" rel="nofollow"></a></p>
+      <h3 id="ConnectingtoApacheActiveMQ-SendingMessagestotheApacheActiveMQJMSQueue"><span>Sending Messages to the Apache ActiveMQ JMS Queue</span></h3>
+      <ol>
+       <li style="list-style-type: inherit;">From the Administration Console, navigate to <strong>Send a JMS Message</strong>.&nbsp;</li>
+       <li>Enter <code>rhapsodyQueue</code> in the <strong>Destination</strong> field.</li>
+       <li style="list-style-type: inherit;">For the purposes of this example, select <code>Queue</code> (but eventually you might select <code>Topic</code> if you have configured one in your environment).</li>
+       <li style="list-style-type: inherit;">Enter the necessary fields.&nbsp;</li>
+       <li style="list-style-type: inherit;">Select the&nbsp;<strong>Send</strong>&nbsp;button.</li>
+      </ol>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="501" width="828" src="attachments/133162560/133162563.png" data-image-src="attachments/133162560/133162563.png" data-unresolved-comment-count="0" data-linked-resource-id="133162563" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SendMessage.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162560" data-linked-resource-container-version="1"></span><a href="https://community.orionhealth.com/servlet/JiveServlet/showImage/102-3517-3-2644/SendMessage.png" class="external-link" rel="nofollow"></a></p>
+      <h3 id="ConnectingtoApacheActiveMQ-ManagementConsole"><span>Management Console</span></h3>
+      <p>The Management Console will display the message consumed by the communication point and sent to the Hold Queue. Navigate to <strong>Monitoring&gt;Monitoring the Hold Queue</strong> and select the message processed by the JMS communication point to display in it Message View:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="1000" src="attachments/133162560/133162564.png" data-image-src="attachments/133162560/133162564.png" data-unresolved-comment-count="0" data-linked-resource-id="133162564" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MessageWMC.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162560" data-linked-resource-container-version="1"></span><a href="https://community.orionhealth.com/servlet/JiveServlet/showImage/102-3517-3-2645/MessageWMC.png" class="external-link" rel="nofollow"></a></p>
+      <div> 
+      </div> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

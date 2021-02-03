@@ -1,0 +1,425 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Archive Cleanup</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Management_133164048.html">Management</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Archive Cleanup</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148541" class="wrapped confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <colgroup>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path</em> : <strong>Management&gt;Archive Cleanup</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Read <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Log in to Management Console</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><em>Write <a href="Access-Rights_133161013.html">Access Rights</a></em>:</p>
+           <ul>
+            <li><span style="letter-spacing: 0.0px;">Organize archive cleanup</span></li>
+            <li>Organize message defragmentation</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148541']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148541',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>The <strong>Archive Cleanup</strong> page enables you to manage disk space usage by cleaning up archived messages and defragmenting the <a href="Monitoring-the-Error-Queue_133163823.html">Error Queue</a>:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147025767 {padding: 0px;}
+div.rbtoc1565147025767 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147025767 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147025767"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ArchiveCleanup-ArchiveCleanup">Archive Cleanup</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ArchiveCleanup-ManualCleanup">Manual Cleanup</a></li> 
+          <li><a href="#ArchiveCleanup-AutomaticCleanup">Automatic Cleanup</a></li> 
+          <li><a href="#ArchiveCleanup-SchedulingArchiveCleanup">Scheduling Archive Cleanup</a></li> 
+          <li><a href="#ArchiveCleanup-CleanupStatus">Cleanup Status</a></li> 
+          <li><a href="#ArchiveCleanup-DetectingOldErrorMessages">Detecting Old Error Messages</a></li> 
+          <li><a href="#ArchiveCleanup-LiveMessageScanningDuringArchiveCleanup">Live Message Scanning During Archive Cleanup</a></li> 
+         </ul> </li> 
+        <li><a href="#ArchiveCleanup-ErrorQueueDefragmentation">Error Queue Defragmentation</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ArchiveCleanup-RunningtheDefragmentationTask">Running&nbsp;the Defragmentation Task</a></li> 
+          <li><a href="#ArchiveCleanup-ConfiguringtheDefragmentationTask">Configuring the Defragmentation Task</a></li> 
+          <li><a href="#ArchiveCleanup-SchedulingtheDefragmentationTask">Scheduling the Defragmentation Task</a></li> 
+          <li><a href="#ArchiveCleanup-DefragmentationTaskStatus">Defragmentation Task Status</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="1264" width="1001" src="attachments/133164049/133164051.png" data-image-src="attachments/133164049/133164051.png" data-unresolved-comment-count="0" data-linked-resource-id="133164051" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="archivecleanup.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164049" data-linked-resource-container-version="4"></span></p>
+      <h2 id="ArchiveCleanup-ArchiveCleanup">Archive Cleanup</h2>
+      <p>Copies of messages that leave Rhapsody (through an output communication point or by deletion from a queue) and all notification events raised in Rhapsody are kept for archival purposes. Users can view or resend these messages. However, it is not advisable that messages be kept indefinitely, as they do take up disk space. The archive cleanup is the mechanism by which messages are cleaned up.</p>
+      <p>An archive cleanup task can be run manually or scheduled to run every <code>x</code> hours (where <code>x</code> is a whole number greater than one) at <code>y</code> minutes past the hour (<code>0</code> - <code>59</code>), daily at a specified time, weekly (at a specified day and time), or monthly (at a specified day and time). Alternatively, you can use a <code>cron</code> expression to schedule an archive cleanup task.</p>
+      <p>The settings for archive cleanup are set in the <strong>Archive Cleanup</strong> panel of the&nbsp;<strong>Archive Cleanup</strong> page:</p>
+      <p class="atl-forced-newline"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164049/133164050.png" data-image-src="attachments/133164049/133164050.png" data-unresolved-comment-count="0" data-linked-resource-id="133164050" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ArchiveCleanupPanel.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164049" data-linked-resource-container-version="4"></span></p>
+      <h3 id="ArchiveCleanup-ManualCleanup"><span style="font-size: 16.0px;">Manual Cleanup</span></h3>
+      <p>You can also run an archive cleanup task manually.</p>
+      <p>Click the <strong>Cleanup Now</strong> link to start&nbsp;an archive cleanup task manually. A manual archive cleanup task cleans up any messages and logs older than the time specified in the <strong>Keep archive data for</strong>, <strong>Keep logs for</strong> and <strong>Keep notification events for</strong> fields.</p>
+      <h3 id="ArchiveCleanup-AutomaticCleanup">Automatic Cleanup</h3>
+      <p>For an automatic cleanup the following settings must be specified:</p>
+      <ul>
+       <li><strong>Keep archive data for</strong> - the number of hours or days messages will be retained in the archive. After this time, the messages will no longer be available for viewing or resending.</li>
+       <li><p><strong>Keep logs for&nbsp;</strong>-&nbsp;the number of days worth of binary logs to keep with Rhapsody. This is the number of days the log messages will be visible via the Management Console.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>This setting only relates to the binary logs used for visibility in the Management Console, and not the textual logs kept in the <code>&lt;rhapsody&gt;\logs</code> directory.</p>
+         </div>
+        </div></li>
+       <li><strong>Cleanup notification event history</strong> - the number of days to keep&nbsp;notification events (they are kept indefinitely when the checkbox is&nbsp;unchecked). By default, notification events are archived and deleted after 90 days.</li>
+       <li><strong>Cleanup backups</strong> -&nbsp;the number of days to keep&nbsp;backups (they are kept indefinitely when the&nbsp;checkbox is&nbsp;unchecked). By default, backups are kept&nbsp;indefinitely.&nbsp;</li>
+       <li><strong>Cleanup</strong> - when the&nbsp;archive cleanup task&nbsp;should run. You can schedule archive cleanup to run according to your requirements, by selecting and completing the cleanup fields. Alternatively, select&nbsp;the <strong>Advanced</strong> button and enter the appropriate details in the <strong>Cron Expression</strong> field to schedule archive cleanup using a cron expression.</li>
+      </ul>
+      <p>Select the <strong>Apply</strong> button to start the automatic archive cleanup process.</p>
+      <h3 id="ArchiveCleanup-SchedulingArchiveCleanup">Scheduling Archive Cleanup</h3>
+      <p>The archive cleanup task&nbsp;can have a minor impact on engine performance. Each component queue is locked for a small period of time (generally sub-second) while the queue is analyzed for live messages.</p>
+      <p>Archive Cleanup can be scheduled to run every <code>x</code> hours (where <code>x</code> is a whole number greater than one) at <code>y</code> minutes past the hour (<code>0</code> - <code>59</code>), daily at a specified time, weekly (at a specified day and time), or monthly (ar a specified day and time). By default, the archive cleanup process runs every hour (on the hour).</p>
+      <p>However, you can schedule the archive cleanup task to run according to your requirements, by completing the frequency fields. Alternatively, select&nbsp;the <strong>Advanced</strong> button and enter the appropriate&nbsp;details in the <strong>Cron Expression</strong> field to schedule an archive cleanup task&nbsp;using a cron expression. You must use the syntax described in <a href="#ArchiveCleanup-SyntaxRules">Syntax Rules</a>.</p>
+      <h4 id="ArchiveCleanup-SyntaxRules">Syntax Rules</h4>
+      <p>Archive cleanup uses the cron expressions as understood by the <a href="http://www.quartz-scheduler.org/" class="external-link" rel="nofollow">Quartz Scheduler</a>.</p>
+      <p>The format for the expression is <code>&lt;second&gt; &lt;minute&gt; &lt;hour&gt; &lt;day-of-month&gt; &lt;month&gt; &lt;day-of-week&gt;</code>, where each field is defined as:</p>
+      <ul>
+       <li><code>&lt;second&gt;</code> - the second at which the action should occur, <code>0</code> through <code>59</code>. Do not set as <code>*</code>, otherwise the action is run every second.</li>
+       <li><code>&lt;minute&gt;</code> - the minute at which the action should occur, <code>0</code> through <code>59</code>. Do not set as <code>*</code>, otherwise the action is run every minute.</li>
+       <li><code>&lt;hour&gt;</code> - the hour at which the action should occur, <code>0</code> through <code>23</code>. Use <code>*</code> for every hour.</li>
+       <li><code>&lt;day-of-month&gt;</code> - the day of the month on which the action should occur, <code>1</code> through <code>31</code>. Use <code>*</code> for every day. Use <code>?</code> if the day is unknown.</li>
+       <li><code>&lt;month&gt;</code> - the month in which the action should occur, <code>1</code> through <code>12</code>. Use <code>*</code> for every month.</li>
+       <li><code>&lt;day-of-week&gt;</code> - the day of the week on which the action should occur. Enter three-letter acronyms for the days of the week. For example, <code>Mon</code>, <code>Tues</code>, <code>Wed</code>, <code>Thu</code>, and so on. Alternatively, you can use <code>1</code> through <code>7</code>, where&nbsp;<code>1</code> is Sunday, <code>2</code> is Monday and <code>7</code> is Saturday. Use <code>*</code> for every day. Use <code>?</code> if the day is unknown.</li>
+      </ul>
+      <h4 id="ArchiveCleanup-SpecialCharacters">Special Characters</h4>
+      <p>The following special characters are also allowed:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Character</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>*</code> (all values)</p></td>
+          <td class="confluenceTd"><p>Used to select all values within a field. For example, <code>*</code> in the minute field means <code>every minute</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>?</code> (no specific value)</p></td>
+          <td class="confluenceTd"><p>Useful when you need to specify something in one of the two fields in which the character is allowed, but not the other. For example, if you want to trigger an event on a particular day of the month (say, the 10th), but don't care what day of the week that happens to be, enter a <code>10</code> in the day-of-month field, and <code>?</code> in the day-of-week field.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>,</code></p></td>
+          <td class="confluenceTd"><p>Used to specify additional values. For example, <code>MON,WED,FRI</code> in the day-of-week field means the days Monday, Wednesday, and Friday.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>L</code> (last day of the month)</p></td>
+          <td class="confluenceTd"><p>Can be used in the <code>&lt;day-of-month&gt;</code> to refer to the last day of the month. For example, <code>0 0 * L * ?</code>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="ArchiveCleanup-ExampleExpressions">Example Expressions</h4>
+      <p>The following table lists some examples of basic expressions:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Example</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 0 12 * * ?</code></p></td>
+          <td class="confluenceTd"><p>Run at 12pm (noon) every day.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 15 10 ? * *</code></p></td>
+          <td class="confluenceTd"><p>Run at 10:15am every day.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 * 14 * * ?</code></p></td>
+          <td class="confluenceTd"><p>Run every minute starting at 2pm and ending at 2:59pm, every day.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 0/5 14 * * ?</code></p></td>
+          <td class="confluenceTd"><p>Run every 5 minutes starting at 2pm and ending at 2:55pm, every day.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 15 10 15 * ?</code></p></td>
+          <td class="confluenceTd"><p>Run at 10:15am on the 15th day of every month.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 10,44 14 ? 3 WED</code></p></td>
+          <td class="confluenceTd"><p>Run at 2:10pm and at 2:44pm every Wednesday in the month of March.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 15 10 ? * MON-FRI</code></p></td>
+          <td class="confluenceTd"><p>Run at 10:15am every Monday, Tuesday, Wednesday, Thursday and Friday.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Support for specifying both a day-of-week and a day-of-month value is not available. You need to use the <code>?</code> character in one of these fields.</p>
+       </div>
+      </div>
+      <h3 id="ArchiveCleanup-CleanupStatus">Cleanup Status</h3>
+      <p>The&nbsp;archive cleanup task&nbsp;may detect files that are eligible for clean up but cannot be deleted at that moment in time. Typically, this is because the file has been read at most five minutes prior to Archive Cleanup attempting to delete it. An archive cleanup task&nbsp;can be run again at a later time when it will attempt to delete these files again.</p>
+      <p>If the number of files that fail to be deleted continues to grow, then you should look in the archive cleanup logs to see which files could not be removed. By default, the logs are stored in <code>log/archiveCleanupLog/cleanup_log.txt</code>, where all successfully and unsuccessfully deleted files are logged during an archive cleanup. The log is a Log4J file which can be configured in the <code>log4j.properties</code> file with the logger name <code>ArchiveCleanup</code>.</p>
+      <p>In the worst case scenario, files that fail to be deleted during Archive Cleanup will be marked for deletion when the JVM exits. If you encounter issues where the archive cleanup task&nbsp;continually fails to delete a file, contact <a href="Rhapsody-Support_133163665.html">Rhapsody Support</a>.</p>
+      <p>Archive cleanup also calculates the number of messages on the Error Queue that are eligible for defragmentation.</p>
+      <h3 id="ArchiveCleanup-DetectingOldErrorMessages">Detecting Old Error Messages</h3>
+      <p>Archive Cleanup automatically detects when defragmentation is required on the Error Queue and notifies the user with a count of&nbsp;messages that are eligible for defragmentation and&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">the following notifications:</span></p>
+      <ul>
+       <li><span style="line-height: 13.0pt;">A warning banner on the</span>&nbsp;<strong style="line-height: 13.0pt;">Archive Cleanup</strong> <span style="line-height: 13.0pt;">page. This banner is automatically&nbsp;</span>dismissed<span style="line-height: 13.0pt;">&nbsp;only when there are no more messages eligible for defragmentation on the Error Queue.</span></li>
+       <li>An alert in the System Monitor. Refer to&nbsp;<a href="System-Monitor_133163832.html#SystemMonitor-CustomThresholds">Custom Thresholds</a>&nbsp;to configure this alert. The alert is also presented as a&nbsp;warning icon in the navigation menu.</li>
+      </ul>
+      <p>Refer to&nbsp;<a href="#ArchiveCleanup-ErrorQueueDefragmentation">Error Queue Defragmentation</a>&nbsp;for details on how Rhapsody defragments the Error Queue.</p>
+      <h3 id="ArchiveCleanup-LiveMessageScanningDuringArchiveCleanup">Live Message Scanning During Archive Cleanup</h3>
+      <p>Live message scanning enables archive cleanup to determine which messages are live in the communication point input queue. You can set the input queue size threshold for live messages using the <code>rhapsody.properties</code> file in order to determine how to perform live message scanning during archive cleanup:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+          <th colspan="1" class="confluenceTh">Default Value</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>QueueService.input.liveMessageScanningThreshold</code></p></td>
+          <td colspan="1" class="confluenceTd">If the input queue size exceeds the threshold, scanning is performed file by file.&nbsp;If an input queue size is lower than the threshold, scanning is performed message by message. The minimum allowable value is 10.</td>
+          <td colspan="1" class="confluenceTd"><p><code>50</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ArchiveCleanup-ErrorQueueDefragmentation">Error Queue Defragmentation</h2>
+      <p>Rhapsody stores message metadata in files, with one file usually containing metadata for multiple messages. A file can only be removed once all of the messages it references are eligible for archive cleanup.&nbsp;Consequently, messages left on the Error Queue prevent not only themselves from being cleaned up, but also other messages that were originally received at the same time.&nbsp;Reducing the file size can alleviate the issue, but greatly increases the overhead required to perform a cleanup.</p>
+      <p>Rhapsody can defragment messages on the Error Queue by re-writing them into new files in the message store, so that the old files can then be removed by the&nbsp;archive cleanup task. The Error Queue&nbsp;defragmentation task can have a minor impact on engine performance.</p>
+      <p>When a message has been defragmented, it retains the message data of the original message but not the full event path.&nbsp;<span>A defragmented message only retains the first and last message events. </span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>You cannot</span>:</p>
+        <ul>
+         <li>Reprocess defragmented messages at intermediary <span>steps between the first and last message events</span>.</li>
+         <li>Use the <a href="Snapshot-Filters_133162933.html#SnapshotFilters-SnapshotLoadFilter">Snapshot Load</a> filter to load snapshots of a defragmented message at intermediate steps between the first and last message events.</li>
+        </ul>
+       </div>
+      </div>
+      <p>In Message View, you can view the truncated path of a defragmented message and its message body and properties, and display the details of the original message&nbsp;by clicking its message ID<span>. If the original message has been cleaned up, clicking the message ID displays a message indicating the original message has been cleaned up.</span></p>
+      <p><span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164049/133164056.png" data-image-src="attachments/133164049/133164056.png" data-unresolved-comment-count="0" data-linked-resource-id="133164056" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MessageViewDefrag.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164049" data-linked-resource-container-version="4"></span><br></span></p>
+      <p>Messages determined to be eligible for defragmentation are normally error messages older than&nbsp;<strong>Keep archive data for</strong>&nbsp;period plus a configurable duration (two days by default).&nbsp;</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Under the following circumstances, archive cleanup does not mark sufficiently old messages as eligible for defragmentation:</p>
+        <ul>
+         <li>When archive cleanup has not yet processed the Error Queue (because all the files that store message metadata reference a least one messages on a live queue).</li>
+         <li><p>When archive cleanup determines that running the defragmentation task would not yield any benefit (for example, when only one file that stores message metadata exists).</p></li>
+        </ul>
+       </div>
+      </div>
+      <p>While Error Queue defragmentation functionality can assist you to manage the Error Queue, it is not a substitute for Error Queue management.</p>
+      <h3 id="ArchiveCleanup-RunningtheDefragmentationTask">Running&nbsp;the Defragmentation Task</h3>
+      <p>To run an Error Queue defragmentation task:</p>
+      <ol>
+       <li>Configure the settings for the&nbsp;defragmentation task. Refer to&nbsp;<a href="Archive-Cleanup_133164049.html">Configuring the Defragmentation Task</a>&nbsp;for details.</li>
+       <li>Run the task either:
+        <ul>
+         <li>Manually by clicking the&nbsp;<strong>Defrag Now</strong>&nbsp;link.</li>
+         <li>Automatically after archive cleanup or by scheduling it (both are disabled by default). Refer to&nbsp;<a href="#ArchiveCleanup-SchedulingtheDefragmentationTask">Scheduling the Defragmentation Task</a>&nbsp;for details on scheduling the defragmentation task.</li>
+        </ul></li>
+       <li>Review the status of the defragmentation task. Refer to&nbsp;<a href="#ArchiveCleanup-DefragmentationTaskStatus">Defragmentation Task Status</a>&nbsp;for details.</li>
+      </ol>
+      <h3 id="ArchiveCleanup-ConfiguringtheDefragmentationTask">Configuring the Defragmentation Task</h3>
+      <p>You can manage Error Queue defragmentation tasks through the&nbsp;Error Queue defragmentation panel on <strong>Archive Cleanup</strong> page:</p>
+      <p><strong> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164049/133164053.png" data-image-src="attachments/133164049/133164053.png" data-unresolved-comment-count="0" data-linked-resource-id="133164053" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ErrorQueueDefrag.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164049" data-linked-resource-container-version="4"></span> </strong></p>
+      <p><span style="color: rgb(0,0,0);font-size: 13.0px;font-weight: normal;line-height: 13.0pt;background-color: transparent;">You can set the following&nbsp;configuration options through the Management Console:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Setting</p></th>
+          <th colspan="1" class="confluenceTh"><span>Description</span></th>
+          <th colspan="1" class="confluenceTh">Default Value</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Defrag threshold</p></td>
+          <td colspan="1" class="confluenceTd"><p><span>The number of days after the archive period that a message is to be eligible for defragmentation.</span></p><p>In other words, messages determined to be eligible for defragmentation are error messages older than the&nbsp;<strong>Keep archive data for&nbsp;period</strong> plus <span>the <strong>Defrag threshold</strong></span>.</p></td>
+          <td colspan="1" class="confluenceTd">2 (days)</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Defrag batch size</p></td>
+          <td colspan="1" class="confluenceTd"><p><span><span style="color: rgb(51,51,51);">The number of messages that can be defragmented before the <span>defragmentation</span> task is paused.</span> </span></p><p><span style="color: rgb(51,51,51);">Defragmenting messages in batches and limiting the total number of messages that can be defragmented can reduce the potential performance impact of the <span>defragmentation task</span> on message processing.</span></p></td>
+          <td colspan="1" class="confluenceTd">1000 (messages)</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Pause between batches&nbsp;</td>
+          <td colspan="1" class="confluenceTd">The duration the defragmentation task is paused between message batches.</td>
+          <td colspan="1" class="confluenceTd">60 (seconds)</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Max. messages to defrag</td>
+          <td colspan="1" class="confluenceTd"><span>The maximum number of messages that can be defragmented in a single run.</span></td>
+          <td colspan="1" class="confluenceTd">10000 (messages)</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Run Defrag</td>
+          <td colspan="1" class="confluenceTd"><p>You can configure a defragmentation task to run using one of the following options:</p>
+           <ul>
+            <li><code>Scheduled</code> - according to a user-defined schedule.</li>
+            <li><code>Automatic</code> -<span> automatically after archive cleanup.</span></li>
+            <li><code>Off</code> (default) - scheduled and automatic running of the defragmentation task is disabled.</li>
+           </ul><p>You manually run the defragmentation task by clicking the <strong>Defrag Now</strong> link.<br>You can cancel a<span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span><span style="color: rgb(51,51,51);"> running defragmentation task by clicking the </span><strong style="line-height: 13.0pt;">Cancel </strong><span style="color: rgb(51,51,51);">link.</span></p></td>
+          <td colspan="1" class="confluenceTd">Scheduled (to run at 3:00 am daily)</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Schedule</td>
+          <td colspan="1" class="confluenceTd"><p>You can schedule a defragmentation task to run on the following basis:</p>
+           <ul>
+            <li>Hourly</li>
+            <li>Daily</li>
+            <li>Weekly</li>
+            <li>Monthly</li>
+            <li>Advanced</li>
+           </ul><p>Refer to <a href="#ArchiveCleanup-SchedulingtheDefragmentationTask">Scheduling the Defragmentation Task</a> for details.</p></td>
+          <td colspan="1" class="confluenceTd"><br></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can set the following c<span>onfiguration options through the&nbsp;</span> <code>rhapsody.properties</code> <span>&nbsp;file:</span></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre># Priority for the thread that runs the message defrag
+#CleanupService.messageDefrag.threadPriority=1
+# Minimum disk space available to allow defrag
+#CleanupService.messageDefrag.minimumSpaceMegabytes=2048</pre> 
+       </div>
+      </div>
+      <h3 id="ArchiveCleanup-SchedulingtheDefragmentationTask">Scheduling the Defragmentation Task</h3>
+      <p>You can schedule to run the defragmentation task according to the following schedule:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Scheduling Frequency</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span>Hourly</span></td>
+          <td class="confluenceTd"><span>Every h hours at m minutes past the hour</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Daily</td>
+          <td class="confluenceTd"><span>At time hh:mm</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Weekly</td>
+          <td class="confluenceTd"><span>On day d at time <span>hh:mm</span> </span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Monthly</td>
+          <td class="confluenceTd">On day at time hh:mm</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Advanced</td>
+          <td class="confluenceTd">As per a cron expression, for example <code>0 0 * * * ?</code> to run on the hour every hour.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Refer to&nbsp;<a href="#ArchiveCleanup-SchedulingArchiveCleanup">Scheduling Archive Cleanup</a> for details on scheduling.</p>
+      <h3 id="ArchiveCleanup-DefragmentationTaskStatus">Defragmentation Task Status</h3>
+      <p><span style="color: rgb(51,51,51);">The&nbsp;status of any <span style="color: rgb(51,51,51);">current&nbsp;</span> <span style="color: rgb(51,51,51);">defragmentation task</span>&nbsp;and results of the last <span>defragmentation</span>&nbsp;task are displayed on the archive cleanup page in the Management Console:</span></p>
+      <p><span style="color: rgb(51,51,51);"> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="249" width="760" src="attachments/133164049/133164052.png" data-image-src="attachments/133164049/133164052.png" data-unresolved-comment-count="0" data-linked-resource-id="133164052" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ErrorQueueDefragStatus.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164049" data-linked-resource-container-version="4"></span> <br> </span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Error Queue Defragmentation Status</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Current status</td>
+          <td class="confluenceTd">Whether the <span style="color: rgb(51,51,51);">defragmentation</span><span style="color: rgb(51,51,51);">&nbsp;task</span> is currently <code>Running</code> or <code>Not Running</code>.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Last run time</td>
+          <td class="confluenceTd">Whether the <span style="color: rgb(51,51,51);">defragmentation</span><span style="color: rgb(51,51,51);">&nbsp;task</span> has been run since Rhapsody was last started, and when.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Number of messages defragged</td>
+          <td colspan="1" class="confluenceTd">The total number of messages defragmented by the last defragmentation task.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Stopped prematurely</td>
+          <td colspan="1" class="confluenceTd"><p>Whether <span>the last defragmentation task defragmented all eligible messages before:</span></p>
+           <ul>
+            <li><span>Reaching the maximum number of messages configured for a single run, or</span></li>
+            <li><span>The amount of disk space fell below the minimum threshold value.</span></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

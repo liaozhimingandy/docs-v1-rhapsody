@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Amazon S3</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Amazon S3</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162435/133162437.bmp" data-image-src="attachments/133162435/133162437.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162437" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="S332.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162435" data-linked-resource-container-version="5"></span></p>
+      <p>The&nbsp;<strong>Amazon S3</strong>&nbsp;communication point enables you to connect to an <a href="https://aws.amazon.com/s3/" class="external-link" rel="nofollow">Amazon Simple Storage Service (Amazon S3)</a>&nbsp;data bucket, an&nbsp;<span>object storage with a simple web service interface</span>. The endpoint allows routes to push output to Amazon S3.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The S3 bucket must be created prior to using the communication point as Rhapsody will not automatically create it if it does not exist.</p>
+       </div>
+      </div>
+      <p><strong>Supported Operational Modes</strong>:&nbsp;<em>Output.</em></p>
+      <h2 id="AmazonS3-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(51,51,51);">Endpoint URL</span></td>
+          <td class="confluenceTd"><span style="color: rgb(51,51,51);"><span style="color: rgb(51,51,51);"><span>The HTTPS endpoint URL for the Amazon S3 service in the target AWS region (<span>in path-style format)</span>.</span></span></span><p>For example: <code><span class="nolink">http://s3-sa-east-1.amazonaws.com/bucket</span></code> refers to the South America (São Paulo) region.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">S3 Bucket Name</td>
+          <td class="confluenceTd">The<span>&nbsp;</span>S3 data bucket name. <span>The bucket must be in the same region as AWS region provided in </span><span><strong>Endpoint URL</strong>.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">AWS Access Key Id</td>
+          <td class="confluenceTd"><p>The AWS access key identifier<span>&nbsp;</span>as provided by Amazon.</p><p><span>To read temporary credentials via an AWS IAM role while <span>running in EC2, leave this property blank.</span></span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">AWS Secret Key</td>
+          <td colspan="1" class="confluenceTd"><p>The AWS access secret key associated with your Amazon account.</p><p><span>To read temporary credentials via an AWS IAM role while </span><span>running in EC2, leave this property blank.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Object Key Prefix<span class="Apple-tab-span">&nbsp;</span></p></td>
+          <td colspan="1" class="confluenceTd"><p>An optional prefix that is prepended to the specified or generated object key for the message. This can be used to emulate a directory structure by providing a prefix that separates path elements using forward slashes (for example, '<code>dir1/dir2/</code>'). A trailing forward slash is <em>not</em> added to this value.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Object Key</p></td>
+          <td colspan="1" class="confluenceTd"><p>The object key to use when storing the message in S3. If this is blank then a type-4 UUID is generated and used as the object key. A message property may be used here by prefixing the name of the message property with <code>$</code>. Forward slashes may be included in this value to emulate a directory structure in the S3 bucket.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Encryption Mode</p></td>
+          <td colspan="1" class="confluenceTd"><p>Determines what type of encryption is applied to the messages uploaded to S3:</p>
+           <ul>
+            <li><code>Server Side Encryption (AES-256)</code>.</li>
+            <li><code>None</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Storage Class</p></td>
+          <td colspan="1" class="confluenceTd"><p><span>Determines which S3 storage class should be used for uploaded messages:</span></p>
+           <ul>
+            <li><code>Standard</code>.</li>
+            <li><code>Reduced Redundancy</code>.</li>
+            <li><code>Infrequent Access</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Canned ACL</p></td>
+          <td colspan="1" class="confluenceTd"><p>Determines which S3 canned ACL should be used on the uploaded message:</p>
+           <ul>
+            <li><code>None</code> - <span>no canned ACL is set on the object.</span></li>
+            <li><code>Private</code>.</li>
+            <li><code>Public Read</code>.</li>
+            <li><code>Public Read Write</code>.</li>
+            <li><code>Authenticated Read</code>.</li>
+            <li><code>Log Delivery Write</code>.</li>
+            <li><code>Bucket Owner Read</code>.</li>
+            <li><code>Bucket Owner Full Control</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Content Type</td>
+          <td colspan="1" class="confluenceTd"><span>Optionally sets the Content-Type header on the uploaded message (for example, <code>text/plain</code>, <code>application/json</code>). A message property may be used here by prefixing the name of the message property with <code>$</code>.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Content Encoding</p></td>
+          <td colspan="1" class="confluenceTd"><span>Optionally sets the Content-Encoding header on the uploaded message (for example, gzip). A message property may be used here by prefixing the name of the message property with <code>$</code>.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Custom Metadata</p></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Enables custom metadata to be set on the uploaded message using either message properties or literal values via the <strong>Custom Metadata</strong> dialog:</p>
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162435/133162436.png" data-image-src="attachments/133162435/133162436.png" data-unresolved-comment-count="0" data-linked-resource-id="133162436" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CustomMetadata.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162435" data-linked-resource-container-version="5"></span></p>
+            <p><strong>Metadata Name</strong> is the name of the metadata attribute on S3 (without the <code>x-amz-meta-</code> prefix) and is case insensitive. <strong>Value</strong> can be either a literal value, or a message property (the name of the message property prefixed with <code>$</code>).</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Connection Timeout (ms)</td>
+          <td colspan="1" class="confluenceTd"><span>The connection timeout, in milliseconds, to use when attempting to connect to Amazon</span> S3.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Read Timeout (ms)</td>
+          <td colspan="1" class="confluenceTd"><span>The read timeout, in milliseconds, to use when waiting for a response from <span>Amazon S3.</span></span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <div>
+       <span style="white-space: pre-wrap;"><br></span>
+      </div> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Running Rhapsody in a High Availability Environment</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Deployment_133164213.html">Deployment</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Running Rhapsody in a High Availability Environment</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="RunningRhapsodyinaHighAvailabilityEnvironment-Overview">Overview</h2>
+      <p>Rhapsody supports high availability (HA) using an active-passive setup. In an active-passive configuration, there are two servers connected to a shared data store (normally placed on a Storage Area Network).</p>
+      <ul>
+       <li>Rhapsody is running on the active node.</li>
+       <li>Rhapsody is stopped (shut down) on the passive node.</li>
+      </ul>
+      <p>In the event of a fault, the cluster software activates the passive node and starts Rhapsody. The new active node uses the same data store, so the configuration and any in-process messages are picked up as if Rhapsody had just performed a normal restart. All connections into Rhapsody are made through a virtual IP which always points to the active node.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164216.png" data-image-src="attachments/133164214/133164216.png" data-unresolved-comment-count="0" data-linked-resource-id="133164216" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Overview.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p>
+      <p>Refer to the following topics:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146929098 {padding: 0px;}
+div.rbtoc1565146929098 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146929098 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146929098"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-Overview">Overview</a></li> 
+        <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-InstallationOptions">Installation Options</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-InstallingwithaSharedApplicationDrive">Installing with a Shared Application Drive</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-UpgradingaSharedApplicationDrive">Upgrading a Shared Application Drive</a></li> 
+            <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-Licensing">Licensing</a></li> 
+           </ul> </li> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-InstallingonaLocalApplicationDriveandSharedDataDirectory">Installing on a Local Application Drive and Shared Data Directory</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-UpgradingaLocalApplicationDriveandSharedDataDirectory">Upgrading a Local Application Drive and Shared Data Directory</a></li> 
+            <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-UpgradewithFailover">Upgrade with Failover</a></li> 
+            <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-UpgradewithoutFailover">Upgrade without Failover</a></li> 
+            <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-Licensing.1">Licensing</a></li> 
+            <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-DuplicatedFiles">Duplicated Files</a></li> 
+           </ul> </li> 
+         </ul> </li> 
+        <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-ClusterSetup">Cluster Setup</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-VirtualIP">Virtual IP</a></li> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-Start/StopScripts">Start/Stop Scripts</a></li> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-FailureDetection">Failure Detection</a></li> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-StopRhapsodyfromAutomaticallyStarting">Stop Rhapsody from Automatically Starting</a></li> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-SharedDriveProtection">Shared Drive Protection</a></li> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-NotificationofFail-over">Notification of Fail-over</a></li> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-SharedDataStoreRedundancy">Shared Data Store Redundancy</a></li> 
+         </ul> </li> 
+        <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-ClusteringRhapsodyforHigherThroughput">Clustering Rhapsody for Higher Throughput</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#RunningRhapsodyinaHighAvailabilityEnvironment-ConfigurationSplitting">Configuration Splitting</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="RunningRhapsodyinaHighAvailabilityEnvironment-InstallationOptions">Installation Options</h2>
+      <p>There are two ways to install Rhapsody in an active-passive setup:</p>
+      <ol>
+       <li><strong>Installing both the application directory and the data directory on a shared drive</strong> –&nbsp;the advantage of installing the application on a shared drive is that there is only one copy of Rhapsody to manage. When the application is installed locally on both servers, you need to be careful when editing configuration files in the application directory and ensure that changes are also made on the passive node. Proper change management processes should be adhered to when making any changes to Rhapsody configuration in both HA and non-HA environments.&nbsp;Refer to <a href="#RunningRhapsodyinaHighAvailabilityEnvironment-InstallingWithaSharedApplicationDrive">Installing With a Shared Application Drive</a> for details.</li>
+       <li><strong>Installing only the data directory on a shared drive, and the application directory on both servers locally</strong> –&nbsp;the advantage of installing the application on a local drive means you can perform a rolling upgrade by upgrading the passive node whilst the active node is still running, thereby minimizing downtime incurred. Once the passive node has been successfully upgraded, a fail-over can be induced to allow the previously active node to be upgraded. However, the installer generally takes less than five minutes, so the saving is minimal assuming that the upgrade went smoothly. If there are any complications during installation, they are mitigated by having the active node still running.&nbsp;Refer to <a href="#RunningRhapsodyinaHighAvailabilityEnvironment-InstallingonaLocalApplicationDriveandSharedDataDirectory">Installing on a Local Application Drive and Shared Data Directory</a> for details.</li>
+      </ol>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164218.png" data-image-src="attachments/133164214/133164218.png" data-unresolved-comment-count="0" data-linked-resource-id="133164218" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="InstallOverview1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164217.png" data-image-src="attachments/133164214/133164217.png" data-unresolved-comment-count="0" data-linked-resource-id="133164217" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="InstallOverview2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p>
+      <p>Rhapsody as an organization recommends installing the application on the local drive (Option 2) as this provides greater stability and reduced downtime with only a minimal configuration cost. This also avoids any issues that might occur due to running executables from a shared location.</p>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-InstallingwithaSharedApplicationDrive">Installing with a Shared Application Drive</h3>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Rhapsody data store must be mounted on a drive using a suitable driver in order to avoid performance issues. Refer to the <a href="Datastore-Setup_133161568.html">Datastore Setup</a> for details.</p>
+        <p>Do not use windows network shares or NFS technology for any Rhapsody data store deployments in order to avoid critical performance issues.</p>
+       </div>
+      </div>
+      <p>To install both the application directory and the data directory on a shared drive:</p>
+      <ol>
+       <li>Run the Rhapsody installer on one of the servers.</li>
+       <li><p>Select a location on the shared drive to install Rhapsody:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164221.png" data-image-src="attachments/133164214/133164221.png" data-unresolved-comment-count="0" data-linked-resource-id="133164221" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p></li>
+       <li><p>Then select a location on the shared drive for the data directory.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164222.png" data-image-src="attachments/133164214/133164222.png" data-unresolved-comment-count="0" data-linked-resource-id="133164222" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p></li>
+       <li>Proceed with the Rhapsody installation as normal.</li>
+       <li><p>If you are installing Rhapsody in a Windows HA environment with a shared application or installation drive, the Windows service must be configured to use a domain ID with appropriate permissions. Otherwise, authentication failures will occur when the Windows Service starts up.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164220.png" data-image-src="attachments/133164214/133164220.png" data-unresolved-comment-count="0" data-linked-resource-id="133164220" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p></li>
+      </ol>
+      <h4 id="RunningRhapsodyinaHighAvailabilityEnvironment-UpgradingaSharedApplicationDrive">Upgrading a Shared Application Drive</h4>
+      <p>Upgrading a shared application drive is the same as a normal upgrade. Rhapsody should be shut down using the cluster software (so that the cluster software does not attempt to restart Rhapsody). Thereafter the installer should be run as normal.</p>
+      <h4 id="RunningRhapsodyinaHighAvailabilityEnvironment-Licensing">Licensing</h4>
+      <p>The Rhapsody license is coded against the hostnames of the machines. There are several options for setting up the license in an active-passive setup.</p>
+      <p>If the application is installed on the shared drive it means there will be one copy of the license for both machines. In this case, there are three options for licensing:</p>
+      <ul>
+       <li>Make the cluster software assign a virtual hostname as well as the virtual IP. For example, the cluster software could assign RhapProd as the host name of the active node. When the license is installed this virtual host name will be included in the license. When a fail-over occurs, the cluster software is required to assign the virtual host name (“RhapProd”) to the new active node before Rhapsody is started.</li>
+       <li>The license service will ignore a single number on the end of the hostname. Therefore the hostnames of the two servers should be in the format nameN1 and nameN2, for example Rhapsody3 and Rhapsody5. If the hostnames follow this format, the same license will be valid on both servers.</li>
+       <li>If the servers cannot be named in the above manner, the license will need to be swapped during fail-over. This swapping should be performed using the cluster software or by modifying the Rhapsody start script. In this case, after installing Rhapsody on both servers, Rhapsody IDE should be connected to the active node and a license installed. This will create the file in the application directory (<code>\Rhapsody\rhapsody\licenses</code>). This file should be renamed <code>RhapsodyLicense.<em>hostname</em></code>, for example <code><span>licenses</span>.RhapsodyserverA</code>. Rhapsody should then be failed over so that it starts up on the passive node. Again, a license should be installed using Rhapsody IDE and <code>\Rhapsody\rhapsody\licenses</code> renamed to <code>licenses.<em>hostname</em></code>, for example <code>licenses.RhapsodyserverB</code>. The start script should then use the hostname of the server to pick one of the two l<code>icenses.hostname</code> files and copy it to l<code>icenses</code>.</li>
+      </ul>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-InstallingonaLocalApplicationDriveandSharedDataDirectory">Installing on a Local Application Drive and Shared Data Directory</h3>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Rhapsody data store must be mounted on a drive using a suitable driver in order to avoid performance issues. Refer to the <a href="Datastore-Setup_133161568.html">Datastore Setup</a> for details.<br>Do not use windows network shares or NFS technology for any Rhapsody data store deployments in order to avoid critical performance issues.</p>
+       </div>
+      </div>
+      <p>To install only the data directory on a shared drive:</p>
+      <ol>
+       <li>Run the Rhapsody installer on server one.</li>
+       <li><p>Select a location on the local drive to install Rhapsody:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164219.png" data-image-src="attachments/133164214/133164219.png" data-unresolved-comment-count="0" data-linked-resource-id="133164219" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="Install2-1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p></li>
+       <li><p>Then select a location on the shared drive for the data directory:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164222.png" data-image-src="attachments/133164214/133164222.png" data-unresolved-comment-count="0" data-linked-resource-id="133164222" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p></li>
+       <li>Finish the Rhapsody installation as normal</li>
+       <li>Shut down Rhapsody on server one.</li>
+       <li>Run the Rhapsody installer on server two.</li>
+       <li><p>Select a location on the local drive to install Rhapsody:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164219.png" data-image-src="attachments/133164214/133164219.png" data-unresolved-comment-count="0" data-linked-resource-id="133164219" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="Install2-1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p></li>
+       <li><p>Then select the same location on the shared drive as server one:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164222.png" data-image-src="attachments/133164214/133164222.png" data-unresolved-comment-count="0" data-linked-resource-id="133164222" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p></li>
+       <li>Proceed with the Rhapsody installation as normal.</li>
+       <li><p>If you are installing Rhapsody in a Windows HA environment with a shared application or installation drive, the Windows service must be configured to use a domain ID with appropriate permissions. Otherwise, authentication failures will occur when the Windows Service starts up:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164220.png" data-image-src="attachments/133164214/133164220.png" data-unresolved-comment-count="0" data-linked-resource-id="133164220" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p></li>
+      </ol>
+      <h4 id="RunningRhapsodyinaHighAvailabilityEnvironment-UpgradingaLocalApplicationDriveandSharedDataDirectory">Upgrading a Local Application Drive and Shared Data Directory</h4>
+      <p>There are two types of upgrades:</p>
+      <ul>
+       <li>The first (and most common scenario) is when no update to the data store is required for the<span style="color: rgb(37,36,36);">&nbsp;upgrade</span>.&nbsp;</li>
+       <li>The second case is when an update to the data store is required for the<span style="color: rgb(37,36,36);">&nbsp;upgrade</span>.&nbsp;</li>
+      </ul>
+      <p>An update to the data store is required, for example, when the structure of a pre-lockers configuration needs to be updated to a post-lockers configuration. Any&nbsp;updates to the data store are performed during startup.</p>
+      <h4 id="RunningRhapsodyinaHighAvailabilityEnvironment-UpgradewithFailover">Upgrade with Failover</h4>
+      <p>Run the installer on the passive node as normal. Once the upgrade has finished the active node should be failed over to the passive node. When the new Rhapsody engine starts up, it will perform any <a href="Configuration-Migration_133161421.html">configuration migration</a> required. While the new active node is starting, the installer should be run on the alternate Rhapsody node.&nbsp;<span style="color: rgb(0,0,0);">Note that a fail-over cannot be performed until&nbsp;the second upgrade has completed.</span></p>
+      <h4 id="RunningRhapsodyinaHighAvailabilityEnvironment-UpgradewithoutFailover"><span style="color: rgb(0,0,0);">Upgrade without Failover</span></h4>
+      <p><span style="color: rgb(0,0,0);">To upgrade, shut down the active-passive cluster. On the active node run the installer as normal. After the upgrade, the active node can be restarted. Run the installer on the passive node. For the data directory location, specify the path of the shared data folder. This will run the installer&nbsp;on the passive node&nbsp;without running the data upgrade. Do not start the passive engine after upgrading it.&nbsp;Note that a fail-over cannot be performed until&nbsp;the second upgrade has completed.</span></p>
+      <h4 id="RunningRhapsodyinaHighAvailabilityEnvironment-Licensing.1">Licensing</h4>
+      <p>The Rhapsody license is coded against the hostnames of the machines. There are several options for setting up the license in an active-passive setup. <br>If Rhapsody is installed with both nodes having their own copy of the application, there will need to be a copy of the license in both application directories. There are two options for setting this up:</p>
+      <ul>
+       <li>If the servers either have a virtual host name or a name using the name1/name2 convention, then the license can be installed on the active node. The <code>Rhapsody\rhapsody\RhapsodyLicense</code> file should be copied to the passive nodes install directory.</li>
+       <li>The license service will ignore a single number on the end of the hostname. Therefore the hostnames of the two servers should be in the format nameN1 and nameN2, for example Rhapsody3 and Rhapsody5. If the hostnames follow this format the same license will be valid on both servers.</li>
+       <li>If the servers are not set up with a hostname that can be shared, the license should be installed on the active node. Then a fail-over should be performed and the license installed again to generate the second node’s license.</li>
+      </ul>
+      <h4 id="RunningRhapsodyinaHighAvailabilityEnvironment-DuplicatedFiles">Duplicated Files</h4>
+      <p>The following configuration and log files are duplicated when the Rhapsody application is installed on a local drive:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>File</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>wrapper.conf</code></p></td>
+          <td class="confluenceTd"><p>Basic Rhapsody application settings, memory usage, command line parameters, etc.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wrapper-local.conf</code></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Local settings.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              When you make changes to this file, ensure you uncomment the appropriate Configuration Include line at the bottom of the 
+              <code>wrapper.conf</code> file.
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>wrapper-platform.conf</code></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Platform specific settings.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              When you make changes to this file, ensure you uncomment the appropriate Configuration Include line at the bottom of the 
+              <code>wrapper.conf</code> file.
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>/rhapsody/log4j.properties</code></p></td>
+          <td class="confluenceTd"><p>The configuration file for logging.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>/rhapsody/rhapsody.properties</code></p></td>
+          <td class="confluenceTd"><p>The Rhapsody configuration file.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>If any of these files are modified, both nodes should be modified. Moreover, if Rhapsody Support requests one of these files, send both versions grouped by the server they came off.</p>
+      <h2 id="RunningRhapsodyinaHighAvailabilityEnvironment-ClusterSetup">Cluster Setup</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This document does not describe how to configure the cluster software as there are many cluster software alternatives available. It does, however, cover the common aspects that should be set up.</p>
+       </div>
+      </div>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-VirtualIP">Virtual IP</h3>
+      <p>All connections to a Rhapsody in an active passive setup should be through a virtual IP or host name. This virtual address should be configured in the cluster software so that it always points to the active Rhapsody server.</p>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-Start/StopScripts">Start/Stop Scripts</h3>
+      <p>The cluster software must be able to stop Rhapsody during a fail-over (that is, if it is running but unresponsive).</p>
+      <p>This should use the Windows service Stop command or the UNIX <code>rhapsody.sh stop</code> command. This gives Rhapsody the chance to stop cleanly, and avoid validation occurring on the next startup.</p>
+      <ul>
+       <li>The stop operation should be given five minutes to complete normally.</li>
+       <li>If the stop operation does not complete, the cluster software should kill the application.</li>
+      </ul>
+      <p>To start Rhapsody, the Windows service start command (<code>net start Rhapsody_&lt;majorVersion&gt;.&lt;minorVersion&gt;.&lt;servicePack&gt;</code>), or the UNIX start command (<code>rhapsody.sh start</code>) should be used.</p>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-FailureDetection">Failure Detection</h3>
+      <p>The cluster software needs to be configured to detect when there is an issue with Rhapsody. The Rhapsody state can by checked by checking the Windows service Status or on a UNIX system running the <code>rhapsody.sh status</code> command.</p>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-StopRhapsodyfromAutomaticallyStarting">Stop Rhapsody from Automatically Starting</h3>
+      <p>Rhapsody automatically restarts if the application stops when the stop command has not been called. However, in a fail-over configuration, you may want to treat any stoppage of Rhapsody as a fail-over even though most issues are not caused by the failed hardware.</p>
+      <p>If this is the case, the automatic restart should be disabled. This is controlled in the <code>wrapper.conf</code> file in the main Rhapsody install directory. To disable restarts, add the following line to the <code>wrapper.conf</code> file (the location in the file does not matter):</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">wrapper.disable_restarts=true</pre> 
+       </div>
+      </div>
+      <p><span style="letter-spacing: 0.0px;">Alternatively, change how many times Rhapsody will attempt to restart before failing. By default, Rhapsody will attempt to start five times before outright failure (this number is reset after Rhapsody has successfully started). To change the number, add the following to the </span><code style="letter-spacing: 0.0px;">wrapper.conf</code><span style="letter-spacing: 0.0px;"> file:</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">wrapper.max_failed_invocations=5</pre> 
+       </div>
+      </div>
+      <p>Other options for controlling how Rhapsody starts can be found at <a href="http://wrapper.tanukisoftware.org/doc/english/properties.html" class="external-link" rel="nofollow">http://wrapper.tanukisoftware.org/doc/english/properties.html</a>.</p>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-SharedDriveProtection">Shared Drive Protection</h3>
+      <p>If possible, the cluster software should prevent the passive node from having access to the data directory. This is to prevent two Rhapsody’s trying to access the same data directory simultaneously. From Rhapsody 3.3 onwards, Rhapsody itself detects whether another Rhapsody engine is already accessing the data store, but this data protection should also be setup in the cluster software.</p>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-NotificationofFail-over">Notification of Fail-over</h3>
+      <p>If a fail-over occurs, the administrator should be notified to determine the cause and resolve the issue.</p>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-SharedDataStoreRedundancy">Shared Data Store Redundancy</h3>
+      <p>The shared data store must provide redundancy to provide fault tolerance to the overall solution. This should include:</p>
+      <ul>
+       <li>Fault tolerant RAID for disks; RAID 1 is recommended for low throughout, RAID 10 for high throughput.</li>
+       <li>Dual controllers on the shared drive</li>
+       <li>Dual adapters to connect to the shared data drive on each server.</li>
+       <li>Connections from each adapter to each controller.</li>
+       <li>Dual power supply.</li>
+      </ul>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164227.png" data-image-src="attachments/133164214/133164227.png" data-unresolved-comment-count="0" data-linked-resource-id="133164227" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SharedDataStoreRedundancy.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p>
+      <h2 id="RunningRhapsodyinaHighAvailabilityEnvironment-ClusteringRhapsodyforHigherThroughput">Clustering Rhapsody for Higher Throughput</h2>
+      <p>Rhapsody can be clustered for higher volume processing by providing&nbsp;a number of independent nodes. To also provide failure redundancy the active nodes should be able to fail to a hot spare (passive node).</p>
+      <p>In a cluster of independent nodes, the messages can be shared between the nodes by configuration splitting.</p>
+      <h3 id="RunningRhapsodyinaHighAvailabilityEnvironment-ConfigurationSplitting">Configuration Splitting</h3>
+      <p>In the case of configuration splitting each node in the cluster is configured with different portions of the configuration. For example, all the messages from the HIS are received on Node1 and all messages from the LIS are received on Node 2.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164214/133164215.png" data-image-src="attachments/133164214/133164215.png" data-unresolved-comment-count="0" data-linked-resource-id="133164215" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConfigurationSplitting.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164214" data-linked-resource-container-version="5"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

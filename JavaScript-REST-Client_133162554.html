@@ -1,0 +1,350 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>JavaScript REST Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">JavaScript REST Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="line-height: 13.0pt;background-color: transparent;"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162554/133162555.bmp" data-image-src="attachments/133162554/133162555.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162555" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RESTCLIENT32.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162554" data-linked-resource-container-version="1"></span> </span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The</span>&nbsp;<strong style="line-height: 13.0pt;">JavaScript REST Client&nbsp;</strong><span style="line-height: 13.0pt;background-color: transparent;">communication point&nbsp;enables users to make REST calls against <a href="REST-Clients_133161987.html">configured REST clients</a> by executing a user-configured script to handle the connection and response. The connection itself is established by the Rhapsody REST client framework, and the custom JavaScript code performs the HTTP calls.</span></p>
+      <p>Supported Operational Modes: <em>Output</em>, <em>Out-&gt;In</em>.</p>
+      <h2 id="JavaScriptRESTClient-ConfigurationProperties">Configuration Properties</h2>
+      <h3 id="JavaScriptRESTClient-OutputMode"><em>Output</em> Mode</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>REST Client</p></td>
+          <td class="confluenceTd"><p><span>The user-selected REST client that is bound to the JavaScript code</span>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Request JavaScript</p></td>
+          <td colspan="1" class="confluenceTd"><p>The JavaScript code that is executed when the communication point is run.</p><p><span>Refer to</span>&nbsp;<a href="#JavaScriptRESTClient-JavaScriptRESTObjects">JavaScript REST Objects</a>&nbsp;<span>for details on the objects associated with the scripts used by the&nbsp;JavaScript REST Client&nbsp;communication point.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1">Read Timeout (<span class="s1">ms</span>)</p></td>
+          <td class="confluenceTd"><p class="p1">How long to wait (in milliseconds) when trying to read a response from the server. This property applies to each request made in the script. A value of zero or less is treated as an infinite timeout.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="JavaScriptRESTClient-Out->InMode"><em>Out-&gt;In</em> Mode</h3>
+      <p>The configuration properties for the JavaScript Rest Client&nbsp;communication point in&nbsp;<em>Out-&gt;In</em>&nbsp;mode is the same as&nbsp;<em>Output</em> mode. Refer to&nbsp;<a href="General_133162189.html"><em>Out-&gt;In</em> and <em>In-&gt;Out</em> Properties</a>&nbsp;for general details on the&nbsp;<em>Out-&gt;In</em>&nbsp;mode for communication points.</p>
+      <p>When in this mode, an additional <code>output</code> object is available for use within JavaScript. Through the <code>output</code>&nbsp;object you can set the message body and properties based on the response received.</p>
+      <h2 id="JavaScriptRESTClient-JavaScriptRESTObjects">JavaScript REST Objects</h2>
+      <p>You can utilize the following REST-specific JavaScript objects in the <strong>Request JavaScript</strong> property to configure the JavaScript REST Client&nbsp;communication point:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Object</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><a href="#JavaScriptRESTClient-UsingtheClientObject">client</a> </code></td>
+          <td class="confluenceTd">A REST client object used for invoking REST requests. The requests are invoked <span>synchronously and a response object returned.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>logger</code></td>
+          <td colspan="1" class="confluenceTd"><p>A log object that enables logging to the Rhapsody log files.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             Within the JavaScript REST Client communication point, the log object is named 
+             <code>logger</code>, not 
+             <code>log</code>.
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The <code>output</code> object (used&nbsp;<span>to define the message received on a route) is <span>only available if the communication point is in </span> <em>Out-&gt;In</em> <span> mode.</span>&nbsp;</span>The standard <code> <span>input</span></code>&nbsp;object is available in <em>Output</em> and <em>Out-&gt;In</em>&nbsp;modes. Refer to:</p>
+      <ul>
+       <li>the&nbsp;<a href="JavaScript_133163317.html">JavaScript filter</a>&nbsp;for details on the use of JavaScript within Rhapsody.</li>
+       <li><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a>&nbsp;for details on general JavaScript objects that Rhapsody exposes.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If you are processing JSON messages, use the <a href="JSON-Object_133161407.html">JSON object</a>.</p>
+       </div>
+      </div>
+      <h3 id="JavaScriptRESTClient-ClientObject">Client Object</h3>
+      <p>The <code>client</code> object is used from within the script to invoke the REST request using the methods GET, POST, DELETE, and PUT. These methods take the request configuration as a parameter, perform the REST request <span>synchronously</span>&nbsp;and return a response object. The configured REST client is used to perform these operations.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th colspan="1" class="confluenceTh">Format</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>get</code></td>
+          <td colspan="1" class="confluenceTd"><code><span>response = client.get(configuration)</span><br></code></td>
+          <td class="confluenceTd">Performs an HTTP GET request and returns the response.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>post</code></td>
+          <td colspan="1" class="confluenceTd"><code><span><span>response = </span>client.post(configuration, data, type)</span><br></code></td>
+          <td class="confluenceTd"><p><span>Performs an HTTP POST request and returns the response.</span></p><p><span>You can set</span> <span>an optional parameter </span><code>type</code> <span>to </span><code>bytes</code> <span>to cast the input body in <code>data</code> from a string to a byte array.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>destroy</span></code></td>
+          <td colspan="1" class="confluenceTd"><code><span><span>response = </span>client.<span>destroy</span>(configuration)</span><br></code></td>
+          <td class="confluenceTd"><span>Performs an HTTP DELETE request and returns the response.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>put</code></td>
+          <td colspan="1" class="confluenceTd"><code><span><span>response = </span>client.put(configuration, data, type)</span><br></code></td>
+          <td colspan="1" class="confluenceTd"><p>Performs an HTTP PUT request and returns the response.</p><p><span>You can set</span> <span>an optional parameter </span><code>type</code><span> to</span> <code>bytes</code><span> to cast the input body <span>in </span><code>data</code> from a string to a byte array.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>options</span></code></td>
+          <td colspan="1" class="confluenceTd"><code>response = client.options(configuration)</code></td>
+          <td colspan="1" class="confluenceTd">Performs an HTTP OPTIONS request and returns the response.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>head</code></td>
+          <td colspan="1" class="confluenceTd"><code>response = client.head(configuration)</code></td>
+          <td colspan="1" class="confluenceTd">Performs an HTTP HEAD request and returns the response.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="JavaScriptRESTClient-ConfiguringtheRequestOptions">Configuring the Request Options</h3>
+      <p>When calling the GET, POST, DELETE or PUT methods on the&nbsp;<code><span>client</span></code>&nbsp;object, a request configuration is passed as a parameter.&nbsp;<span>This request configuration should be created in the script defined on the JavaScript REST Client communication point.</span></p>
+      <p><span>The following options can be defined in the request configuration:</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Request Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>accept-type</code></p></td>
+          <td class="confluenceTd"><p>Defines the Accept request-header field. This can be used to specify certain media types which are acceptable for the response.</p><p><strong>Example: </strong><code><span style="line-height: 13.0pt;">'application/xml+fhir'</span> </code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>relative-url</code></td>
+          <td class="confluenceTd"><p>Defines the URL path to use relative to the URL defined within the REST client configured on the communication point.</p><p><strong>Example:</strong> <code><span style="line-height: 13.0pt;">'/patient/1'</span> </code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>headers</code></td>
+          <td class="confluenceTd"><p>Defines the request headers to be included in the request sent. These should be defined in an array as shown in the example here. Multiple header values can be defined by delimiting the values with commas.</p><p><strong>Example:</strong> <code><span style="line-height: 13.0pt;">[{'header':'headerA','value':'a'}, {'header':'headerB','value':'b,c,d'}]</span> </code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>parameters</code></td>
+          <td colspan="1" class="confluenceTd"><p>Defines the request parameters to be included in the request sent. These should be defined in an array.</p><p><strong>Example: </strong><code><span style="line-height: 13.0pt;">[{'parameter':'a','value':'a'}]</span></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>content-type</code></td>
+          <td colspan="1" class="confluenceTd"><p>Defines the Content-Type request header field. This is used to declare the MIME type of the request body, and is mostly useful for PUT and POST requests.</p><p><strong>Example: </strong><code><span style="line-height: 13.0pt;">'application/xml'</span> </code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>enable-response-handling</code></td>
+          <td colspan="1" class="confluenceTd"><p>Defines whether the configured response actions on the REST client should be ignored. By default, this option is set to true, which enables <a href="#JavaScriptRESTClient-DefaultResponseHandling">default response handling</a>.</p><p><strong>Example: </strong><code><span>'true'</span></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span style="color: rgb(51,51,51);">remove-headers</span> </code></td>
+          <td colspan="1" class="confluenceTd"><p>Defines headers from the REST client configuration to remove. These are removed before extra headers are added via the headers option.</p><p><strong>Example:</strong> <code>['header1', 'header2']</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>Example GET request configuration</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">var config = {
+	'accept-type': 'application/xml+fhir',
+	'relative-url': '/patient/1',
+	'headers': [{'header':'headerA','value':'a'}, {'header':'headerB','value':'b'}],
+	'parameters': [{'parameter':'a','value':'a'}],
+	'content-type': 'application/xml',
+    'remove-headers': ['header1', 'header2']
+};
+var response = client.get(config);</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>Example POST request configuration</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">var config = {
+	'relative-url': '/patient/2',
+	'headers': [{'header':'headerA','value':'a'}, {'header':'headerB','value':'b'}],
+	'parameters': [{'parameter':'a','value':'a'}],
+	'content-type': 'application/xml'
+};
+var messageBody = input.text;
+var response = client.post(config, messageBody);</pre> 
+       </div>
+      </div>
+      <h3 id="JavaScriptRESTClient-DefaultResponseHandling">Default Response Handling</h3>
+      <p>The <a href="REST-Clients_133161987.html#RESTClients-GeneralProperties">default response handling options</a> are configured on the REST client.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">Using the REST client response actions, the JavaScript REST Client communication point can be configured to throw a connection or message error based on the status code response to a REST request. For example, when the selected REST client&nbsp;has <strong>On 4xx action</strong>&nbsp;configured as&nbsp;<code>Treat as message error</code>, and has a status code response of 404 is received the communication point will stop executing the configured JavaScript at the point the request was made, and move the message to the Error Queue. If instead the response action <strong>On 4xx action</strong>&nbsp;is configured as&nbsp;<code>Treat as connection error</code>, then a connection error is raised and the communication point attempts to reprocess the message through the configured JavaScript up to the number of allowed connection retries configured on the communication point.</span></p>
+      <p>The default response action handling can be disabled from the JavaScript REST Client communication point by setting the&nbsp;<code>enable-response-handling</code> request option to&nbsp;false.</p>
+      <p>If you configure the <span>JavaScript</span>&nbsp;on the communication point to make multiple REST requests within a single JavaScript REST client, the requests are not atomic. For example, if a connection error is raised when the second REST request is performed, the first REST request is not rolled back and will be re-invoked as the communication point re-attempts to process the message at the beginning of the configured JavaScript on the next connection attempt.</p>
+      <h3 id="JavaScriptRESTClient-CustomResponseHandling">Custom Response Handling</h3>
+      <p>The JavaScript REST Client provides&nbsp;custom response handling in the request script for sending errored messages to the Error Queue or retrying&nbsp;<span>connection</span> by treating responses as a connection error.</p>
+      <div class="module toggle-wrap">
+       <div class="mod-content">
+        <div class="field-ignore-highlight editable-field inactive" title="Click to edit">
+         <p>&nbsp;</p>
+         <div class="confluence-information-macro confluence-information-macro-note">
+          <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+          <div class="confluence-information-macro-body">
+           <p>The&nbsp;<code>enable-response-handling</code> option in the request configuration must be set to false for custom response handling to work correctly.</p>
+          </div>
+         </div>
+         <h4 id="JavaScriptRESTClient-SendingMessageErrorObject"><span>SendingMessageError Object</span></h4>
+         <div class="table-wrap">
+          <table style="margin-left: 2.0px;" class="confluenceTable">
+           <tbody>
+            <tr>
+             <th class="confluenceTh"><p>Object</p></th>
+             <th class="confluenceTh"><p>Description</p></th>
+            </tr>
+            <tr>
+             <td class="confluenceTd"><p><code>SendingMessageError(response&nbsp;<span class="error" style="color: rgb(51,51,51);">[,message]</span>)</code></p></td>
+             <td class="confluenceTd"><p>Create a sending message error with the cause response to send the message to the Error Queue.</p>
+              <ul>
+               <li><code>response</code> - the response that caused the error.</li>
+               <li><p><code>message</code> - <span>the</span> user-defined error message. <span>If this parameter is not provided, then&nbsp;the default error message is used.</span></p></li>
+              </ul></td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <h4 id="JavaScriptRESTClient-ConnectionErrorObject">ConnectionError Object</h4>
+         <div class="table-wrap">
+          <table style="margin-left: 2.0px;" class="confluenceTable">
+           <tbody>
+            <tr>
+             <th class="confluenceTh"><p><span>Object</span></p></th>
+             <th class="confluenceTh"><p>Description</p></th>
+            </tr>
+            <tr>
+             <td class="confluenceTd"><p><code>ConnectionError(response&nbsp;<span class="error" style="color: rgb(51,51,51);">[,message]</span>)</code></p></td>
+             <td class="confluenceTd"><p>Create a connection error with the cause response to retry the connection.</p>
+              <ul>
+               <li><code>response</code> - the response that caused the error.</li>
+               <li><p><code>message</code> - the user-defined error message. If this parameter is not provided, then&nbsp;the default error message is used.</p></li>
+              </ul></td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div class="code panel pdl" style="border-width: 1px;">
+          <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+           <b>Example custom response handling</b>
+          </div>
+          <div class="codeContent panelContent pdl"> 
+           <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">var config = {
+    'accept-type': 'application/xml+fhir',
+    'relative-url': '/patient/1',
+    'headers': [{'header':'headerA','value':'a'}, {'header':'headerB','value':'b'}],
+    'parameters': [{'parameter':'a','value':'a'}],
+    'content-type': 'application/xml',
+    'remove-headers': ['header1', 'header2'],
+    'enable-response-handling' : 'false'
+};
+var response = client.get(config);
+
+if (response.status == 200) {
+    // When response was valid but has empty body, send message to Error Queue.
+    if (response.response == "") {
+        throw new SendingMessageError(response, 'Patient data returned empty');
+    } 
+} else if (response.status &gt;= 400) {
+    throw new ConnectionError(response);
+}</pre> 
+          </div>
+         </div>
+         <h3 id="JavaScriptRESTClient-CheckingtheResponseObject"><span style="color: rgb(0,0,0);">Checking the Response Object</span></h3>
+        </div>
+       </div>
+      </div>
+      <p>The response object returned from a GET, POST, PUT or DELETE method can be inspected to check the status code returned, the body of the response, and the response headers returned.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>status</code></td>
+          <td class="confluenceTd"><p>Returns the HTTP status code returned by the server to the request. For example, <code>200</code> (if the request was successful) and <code>404</code> (if the URL path given cannot be found on the server).</p><p><strong>Example: </strong><span style="font-family: monospace;">response.status</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>response</code></td>
+          <td colspan="1" class="confluenceTd"><p>Returns the body of the HTTP response as a string.</p><p><strong>Example: </strong><code>response.response</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>responseBytes</code></td>
+          <td colspan="1" class="confluenceTd"><p>Returns the body of the HTTP response as a byte array.</p><p><strong>Example:</strong>&nbsp;<code>response.responseBytes</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>headers</code></td>
+          <td colspan="1" class="confluenceTd"><p>Returns an array of the HTTP response headers.</p><p><strong>Examples:</strong></p>
+           <ul>
+            <li><code>response.headers[0]</code> - returns the name of the first response header.</li>
+            <li><code style="line-height: 13.0pt;">response.headers['Date']</code> <span style="line-height: 13.0pt;background-color: transparent;"> - returns the value of the</span> <code style="line-height: 13.0pt;">Date</code> <span style="line-height: 13.0pt;background-color: transparent;">response header, or</span> <code style="line-height: 13.0pt;">undefined</code><span style="line-height: 13.0pt;background-color: transparent;"> if the header does not exist.</span></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>If connection fails, for example when the hostname to connect to cannot be resolved or an incorrect port number is used, then no response object is returned. Instead, an exception is thrown and the message placed on the Error Queue.</p>
+      <h2 id="JavaScriptRESTClient-OutputDataEncoding">Output Data Encoding</h2>
+      <p>As of Rhapsody 6.3, the encoding of the output data for PUT and POST methods is determined as follows:</p>
+      <ul>
+       <li>If the output data is a byte array (or the&nbsp;optional&nbsp;<code>type</code>&nbsp;parameter&nbsp;is set&nbsp;to&nbsp;<code>bytes)</code>,&nbsp;then no encoding is performed and the output data is sent as is.</li>
+       <li>If&nbsp;the&nbsp;<code>charset</code>&nbsp;parameter&nbsp;is provided in&nbsp;the&nbsp;<code>content-type</code>&nbsp;header,&nbsp;then the encoding&nbsp;specified in the&nbsp;parameter&nbsp;<code>charset</code>&nbsp;is&nbsp;used to encode the output data.<br>For example:&nbsp;<code>Content-Type: application/json; charset=UTF-16</code>.</li>
+       <li>If&nbsp;the&nbsp;<code>charset</code>&nbsp;parameter&nbsp;is not provided&nbsp;in&nbsp;the&nbsp;<code>content-type</code>&nbsp;header, then the encoding of the output message is used to encode the output data.</li>
+      </ul>
+      <p>In previous versions of Rhapsody, the encoding of the output data is set to the default encoding of the operating system the engine is running on (for example, the default&nbsp;<em>Windows<span style="color: rgb(84,84,84);">®</span> </em>&nbsp;encoding).</p>
+      <div class="module toggle-wrap">
+       <div class="mod-content">
+        <div class="field-ignore-highlight editable-field inactive" title="Click to edit">
+         <p> </p>
+        </div>
+       </div>
+      </div> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

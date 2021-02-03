@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Message Population</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Message Population</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The following table lists the message population configuration properties for a database component:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><code>substituteColumn</code></p></td>
+          <td class="confluenceTd"><p>Defines a mapping between a database table column and a message field or a message property where message content population is required with a returned value after the SQL query has been executed. The <code>name</code> attribute must point to one of the lookup columns in the SQL statement. The simple element data is the message field by which return value of the lookup column will be replaced. Optionally you can have a <code>default</code> attribute whose value is used when the column value is not found or null; ‘@error’ can be used as its value for which an error will be produced if the return value is null.</p><p>The <span><code>append</code> option e<span>nables all retrieved results to be inserted into all repeating fields.</span></span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>resultSet</code></p></td>
+          <td class="confluenceTd"><p>Contains a one line instruction about the action with the result set of the SQL query. The SQL statement is expected to return one row result set. Currently provides two valid instructions that can be used together. If you set <code>ReadFirstLine</code>, the first row is regarded as valid return when more than one line result set is returned. If you set <code>AllowNullResultSet</code>, the substitute fields are either filled with default values or left empty, if default value is not set, when no data is found from the SQL query.</p><p>You can also set <code>ReadAllLines</code> to read all rows returned by an&nbsp;SQL&nbsp;query (this instruction can only be added by manually editing the database component configuration XML file).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessagePopulation-Examples">Examples</h2>
+      <p>The following code excerpt populates the message field <code>MSH.MessageControlID</code> with the <code>GroupName</code> column value. Only the first result is read and the rest are ignored.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="group"&gt;
+    &lt;sql&gt;
+        SELECT GroupName FROM GroupTable WHERE Type=@EVN.EventTypeCode
+    &lt;/sql&gt;
+    &lt;resultset&gt;ReadFirstLine&lt;/resultset&gt;
+    &lt;resultset&gt;AllowNullResultSet&lt;/resultset&gt;
+    &lt;substituteColumn name="GroupName" default=”Default Group”&gt;
+        @MSH.MessageControlID
+    &lt;/substituteColumn&gt;
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p>The following code excerpt populates the message property <code>ACC_BroughtInBy</code> with the <code>Name</code> column values and message field <code>/Patient/Address</code> with the Address column values. The entire result set is read.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="detail"&gt;
+    &lt;resultSet&gt;ReadAllLines&lt;/resultSet&gt;
+    &lt;sql&gt;
+        SELECT Name,Address FROM PatientTable
+        LEFT OUTER JOIN MappingTable
+        ON PatientTable.ID=MappingTable.TableID
+        WHERE MsgPID=@PID.SetID AND PLACE='auckland'
+    &lt;/sql&gt;
+    &lt;statement name="populate"&gt;
+        &lt;substituteColumn name="Name" default="Unknown"&gt;
+            $ACC_BroughtInBy[]
+        &lt;/substituteColumn&gt;
+        &lt;substituteColumn name="Address" append='true' &gt;`/Patients[1]/Patient[*]/Address`&lt;/substituteColumn&gt;
+    &lt;/statement&gt;
+&lt;/statement&gt;</pre> 
+       </div>
+      </div>
+      <p>The following <code>SELECT</code> query returns three rows and three <code>PatientAddress</code> elements will be populated using all the result rows (if the element does not exist, it is created):</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement&gt;&nbsp;
+   &lt;sql&gt;SELECT name, StreetAddress, City FROM PersonDetails WHERE id = 1&lt;/sql&gt;&nbsp;
+   &lt;substituteColumn append='true' name='StreetAddress'&gt;PID.PatientAddress[*].StreetAddress&lt;/substituteColumn&gt;        &nbsp;
+   &lt;substituteColumn append='true' name='City'&gt;PID.PatientAddress[*].City&lt;/substituteColumn&gt;
+&lt;/statement&gt;</pre> 
+       </div>
+      </div>
+      <p>The following code excerpt populates list message properties with all the results from the query:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="parent"&gt;
+	&lt;sql&gt;SELECT person_id, address FROM person&lt;/sql&gt;
+	&lt;resultSet&gt;ReadAllLines&lt;/resultSet&gt;
+	&lt;substituteColumn name="person_id" default="unknown"&gt;
+		$PersonID[]
+	&lt;/substituteColumn&gt;
+	&lt;substituteColumn name="address" default="unknown"&gt;
+		$Address[]
+	&lt;/substituteColumn&gt;
+&lt;/statement&gt;</pre> 
+       </div>
+      </div>
+      <p><br> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using SoapUI</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="SOAP-API_133161152.html">SOAP API</a></span> </li> 
+       <li> <span><a href="Calling-the-Web-Services-API_133161158.html">Calling the Web Services API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using SoapUI</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>SoapUI is a Java-based tool for testing Web services. A free version can be downloaded from <a href="http://www.soapui.org/" class="external-link" rel="nofollow">http://www.soapui.org/</a>. It has some built-in support for WS-Security, WS-Addressing and MTOM. It supports the concept of projects, where each project is associated with a WSDL.</p>
+      <p>New projects are created by providing the URL or filename of the WSDL.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161161/133161163.png" data-image-src="attachments/133161161/133161163.png" data-unresolved-comment-count="0" data-linked-resource-id="133161163" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="newSoapUiProject.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161161" data-linked-resource-container-version="1"></span></p>
+      <p>As all services within the Rhapsody Web Services API support both the SOAP 1.1 and 1.2 bindings, SoapUI will create two separate interfaces for each imported project — one for each SOAP binding. By default, it creates sample requests for each operation to allow them to be called very easily.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161161/133161164.png" data-image-src="attachments/133161161/133161164.png" data-unresolved-comment-count="0" data-linked-resource-id="133161164" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="defaultSoapRequest.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161161" data-linked-resource-container-version="1"></span></p>
+      <p>The template can then be manually populated to build up a request.</p>
+      <h2 id="UsingSoapUI-Authentication">Authentication</h2>
+      <p>Authentication is performed by clicking the <strong>Aut</strong> button in the bottom left corner of the request, and then providing a username and password combination with permission to call the Web service. If the <code>&lt;soap:Header/&gt;</code> element in the request is then right-clicked, the displayed context menu allows a WSS Username Token to be inserted. Select this option, and choose the <strong>PasswordText</strong> option from the list of password types.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161161/133161165.png" data-image-src="attachments/133161161/133161165.png" data-unresolved-comment-count="0" data-linked-resource-id="133161165" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="usernameTokenAuthentication.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161161" data-linked-resource-container-version="1"></span></p>
+      <p>Finally, the Web service request is run by clicking the green go arrow in the top-left corner. This sends the SOAP request to Rhapsody and then displays the response it receives.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161161/133161166.png" data-image-src="attachments/133161161/133161166.png" data-unresolved-comment-count="0" data-linked-resource-id="133161166" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="requestResponse.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161161" data-linked-resource-container-version="1"></span></p>
+      <h2 id="UsingSoapUI-WS-Addressing">WS-Addressing</h2>
+      <p>WS-Addressing is required for some calls to the Web Services API. To configure WS-Addressing, click the <strong>WS-A</strong> button at the bottom of the request. Each of the WS-Addressing elements can then be configured to any value.</p>
+      <p>Note that although SoapUI often sets the default action correctly, it performs no validation on any of the values provided. If they are set incorrectly, it is likely that an error will occur. For example,&nbsp;if WS-Addressing is required by a call to the API, the <strong>Randomly generate MessageId&nbsp;</strong>checkbox&nbsp;(that is unchecked by default) must be checked in order for it to be accepted by Rhapsody.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161161/133161167.png" data-image-src="attachments/133161161/133161167.png" data-unresolved-comment-count="0" data-linked-resource-id="133161167" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="wsAddressing.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161161" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>Reply To</strong> setting is used to configure the <code>wsa:ReplyTo</code> header. This should not be used when calling the Rhapsody Web Services API, as at present all of these services must be called synchronously.</p>
+      <h2 id="UsingSoapUI-MTOM">MTOM</h2>
+      <p>The Message Transmission Optimization Mechanism (MTOM) is a mechanism to providing binary attachments to a SOAP message. When this is used, the HTTP request or response contains a MIME multi-part message with the first part containing the SOAP message, and the remainder containing the attachments. These attachments have identifiers allowing them to be referenced by the SOAP message itself. Many client tools allow MTOM to be used relatively transparently.</p>
+      <p>Currently only a single operation in the Rhapsody Web Services API makes use of MTOM. This is the <code>getMessage</code> operation in the Message Searching service. If the message body is requested, then it is returned using MTOM in the response. No requests in the Rhapsody Web Services API require a parameter to be provided using MTOM.</p>
+      <p>Using MTOM for SOAP responses within SoapUI is very simple. Run the request normally and if an MTOM attachment is available it will be indicated at the bottom of the response as <strong>Attachments (1)</strong>.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161161/133161162.png" data-image-src="attachments/133161161/133161162.png" data-unresolved-comment-count="0" data-linked-resource-id="133161162" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="mtom.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161161" data-linked-resource-container-version="1"></span></p>
+      <p>Clicking the <strong>Attachments</strong> button shows the available attachments and allows them to be opened or saved to disk.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Running Rhapsody from within Eclipse</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Running Rhapsody from within Eclipse</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="Textbody">Running Rhapsody through the Eclipse development environment allows for easier development and debugging of Rhapsody filters and communication points. Run configurations can either be created manually, or are generated for you when you set up custom filter or communication point projects.</p>
+      <p class="Textbody"><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147007285 {padding: 0px;}
+div.rbtoc1565147007285 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147007285 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147007285"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#RunningRhapsodyfromwithinEclipse-RunConfigurationSet-up">Run Configuration Set-up</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#RunningRhapsodyfromwithinEclipse-UsingaNewRunConfiguration">Using a New Run Configuration</a></li> 
+          <li><a href="#RunningRhapsodyfromwithinEclipse-UsingaGeneratedRunConfiguration">Using a Generated Run Configuration</a></li> 
+         </ul> </li> 
+        <li><a href="#RunningRhapsodyfromwithinEclipse-StartingRhapsody">Starting Rhapsody</a></li> 
+        <li><a href="#RunningRhapsodyfromwithinEclipse-StoppingRhapsody">Stopping Rhapsody</a></li> 
+        <li><a href="#RunningRhapsodyfromwithinEclipse-CommonErrors">Common Errors</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 class="Textbody" id="RunningRhapsodyfromwithinEclipse-RunConfigurationSet-up">Run Configuration Set-up</h2>
+      <h3 id="RunningRhapsodyfromwithinEclipse-UsingaNewRunConfiguration">Using a New Run Configuration</h3>
+      <p>To create a configuration to run Rhapsody:</p>
+      <ol>
+       <li>Ensure you have set up logging in Eclipse. Refer to <a href="Installing-Rhapsody-RDK_133161368.html#InstallingRhapsodyRDK-ConfigureLogging">Configure Logging</a>&nbsp;for details.</li>
+       <li>From Eclipse, navigate to&nbsp;<strong>Run</strong>&gt;<strong>Run Configurations...</strong>.</li>
+       <li>Right-click on <strong>OSGi Framework</strong> and select&nbsp;<strong>New</strong>.</li>
+       <li><span style="line-height: 13.0pt;">In the&nbsp;<strong>Bundles&nbsp;</strong>tab:</span>
+        <ul>
+         <li><span style="line-height: 13.0pt;">Select all bundles under&nbsp;</span><strong style="line-height: 13.0pt;">Target Platform&nbsp;</strong><span style="line-height: 13.0pt;">except from&nbsp;</span><code style="line-height: 13.0pt;">com.orchestral.rhapsody.modules.dicom</code><span style="line-height: 13.0pt;">&nbsp;and&nbsp;</span><code style="line-height: 13.0pt;">com.orchestral.rhapsody.process.solaris</code><span style="line-height: 13.0pt;">.</span></li>
+        </ul></li>
+       <li>In the&nbsp;<strong>Arguments</strong>&nbsp;tab.
+        <ul>
+         <li><p>Replace the contents of the <strong>VM arguments</strong> field with:</p>
+          <div class="code panel pdl" style="border-width: 1px;">
+           <div class="codeContent panelContent pdl"> 
+            <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">-Djava.awt.headless=true
+-Dosgi.noShutdown=true
+-Declipse.ignoreApp=true
+-Dosgi.classloader.singleThreadLoads=true
+-Xms256m
+-XX:MaxMetaspaceSize=256m
+-Dorg.osgi.framework.os.name=Win32</pre> 
+           </div>
+          </div></li>
+         <li>Set the <strong>Working directory</strong> to&nbsp;<strong>Other</strong>. Use the&nbsp;<strong>File System</strong>&nbsp;button to browse to&nbsp;the directory the Rhapsody engine was installed into (the default location being&nbsp;<code>C:\Program Files\<span>Rhapsody</span>\Rhapsody Engine 6</code>). &nbsp;</li>
+        </ul></li>
+       <li>In the&nbsp;<strong>Settings&nbsp;</strong>tab:
+        <ul>
+         <li>Ensure that the&nbsp;<strong>Runtime JRE</strong>&nbsp;is selected as the JRE that is installed with Rhapsody (for example in the&nbsp;<code>&lt;Rhapsody&gt;\JRE directory</code>). If necessary, use the&nbsp;<strong>Installed JREs...</strong>&nbsp;button to add the Rhapsody JRE, and select it from the dropdown list. It can be important to ensure the correct JRE is used in debugging to ensure the same results in a live environment.</li>
+        </ul></li>
+       <li>Select the&nbsp;<strong>Apply&nbsp;</strong>button, and then&nbsp;<strong>Close</strong>.</li>
+       <li>You can now&nbsp;<a href="#RunningRhapsodyfromwithinEclipse-StartingRhapsody">start Rhapsody</a>.</li>
+      </ol>
+      <h3 id="RunningRhapsodyfromwithinEclipse-UsingaGeneratedRunConfiguration">Using a Generated Run Configuration</h3>
+      <p class="Textbody"><span style="line-height: 13.0pt;background-color: transparent;">To use a generated configuration to run Rhapsody:</span></p>
+      <ol>
+       <li>Ensure you have set up logging in Eclipse. Refer to <a href="Installing-Rhapsody-RDK_133161368.html#InstallingRhapsodyRDK-ConfigureLogging">Configure Logging</a>&nbsp;for details.</li>
+       <li>From Eclipse, navigate to&nbsp;<strong>Run</strong>&gt;<strong>Run Configurations...</strong>.</li>
+       <li>Under&nbsp;<strong>OSGi Framework</strong>, select <strong>Rhapsody</strong>.</li>
+       <li>In the <strong>Bundles&nbsp;</strong>tab:
+        <ul>
+         <li>Select all bundles under <strong>Target Platform&nbsp;</strong>apart from&nbsp;<code>com.orchestral.rhapsody.modules.dicom</code> and&nbsp;<code>com.orchestral.rhapsody.process.solaris</code>.</li>
+        </ul></li>
+       <li>In the <strong>Arguments&nbsp;</strong>tab:
+        <ul>
+         <li>Check that the <strong>Working directory</strong> is set to the directory the Rhapsody engine was installed into (the default location being <code>C:\Program Files\<span>Rhapsody</span><span>\Rhapsody Engine 6</span></code>). If necessary, select <strong>Other</strong>, and use the <strong>File System</strong> button to browse to the correct location.</li>
+        </ul></li>
+       <li>In the <strong>Settings&nbsp;</strong>tab:
+        <ul>
+         <li>Ensure that the <strong>Runtime JRE</strong> is selected as the JRE that is installed with Rhapsody (for example in the <code>&lt;Rhapsody&gt;\JRE directory</code>). If necessary, use the <strong>Installed JREs...</strong> button to add the Rhapsody JRE, and select it from the dropdown list. It can be important to ensure the correct JRE is used in debugging to ensure the same results in a live environment.</li>
+        </ul></li>
+       <li>Select the&nbsp;<strong>Apply </strong>button, and then <strong>Close</strong>.</li>
+       <li>You can now&nbsp;<a href="#RunningRhapsodyfromwithinEclipse-StartingRhapsody">start Rhapsody</a>.</li>
+      </ol>
+      <h2 id="RunningRhapsodyfromwithinEclipse-StartingRhapsody">Starting Rhapsody</h2>
+      <p>To start Rhapsody:</p>
+      <ol>
+       <li>Ensure that the Rhapsody service is currently stopped.</li>
+       <li>Navigate to&nbsp;<strong>Run</strong>&gt;<strong>Run Configurations...</strong>,&nbsp;and click the <strong>Run</strong> button with the appropriate Rhapsody run configuration selected.</li>
+       <li>Rhapsody should begin to startup through the Eclipse environment.</li>
+      </ol>
+      <p class="Textbody">There is no single log message that indicates that Rhapsody has completed startup. However, when&nbsp;Rhapsody has started,&nbsp;the Management Console and Rhapsody IDE become available.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p class="Textbody">Since Eclipse has been configured to use the data store from the installed Rhapsody, the Management Console ports for the Eclipse Rhapsody will be the same as the installed Rhapsody. This means that opening the Windows Service Monitor and double-clicking will open the Management Console for the Eclipse Rhapsody.</p>
+        <p class="Textbody">The W<span style="line-height: 13.0pt;background-color: transparent;">indows Service Monitor (task tray icon) does not recognize the engine is running because Rhapsody is no longer running as a service. However, the tray icon can still be used to connect to the Management Console of the engine through double-clicking.</span></p>
+       </div>
+      </div>
+      <h2 class="Textbody" id="RunningRhapsodyfromwithinEclipse-StoppingRhapsody">Stopping Rhapsody</h2>
+      <p class="Textbody">To stop Rhapsody, enter&nbsp;<code>close</code> or <code>exit</code> in the Eclipse console window.</p>
+      <h2 class="Textbody" id="RunningRhapsodyfromwithinEclipse-CommonErrors">Common Errors</h2>
+      <p>Rhapsody can fail to run if there are:<span style="color: rgb(0,72,102);font-size: 16.0px;font-weight: bold;line-height: 13.0pt;">&nbsp;</span><span style="color: rgb(0,72,102);font-size: 16.0px;font-weight: bold;line-height: 13.0pt;background-color: transparent;">&nbsp;</span></p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147007288 {padding: 0px;}
+div.rbtoc1565147007288 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147007288 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565147007288"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#RunningRhapsodyfromwithinEclipse-MissingPermissions">Missing Permissions</a></li> 
+        <li><a href="#RunningRhapsodyfromwithinEclipse-PortConflicts">Port Conflicts</a></li> 
+       </ul> 
+      </div>
+      <h3 id="RunningRhapsodyfromwithinEclipse-MissingPermissions"><span><span>Missing Permissions</span></span></h3>
+      <p><span><strong>Log error message</strong>:&nbsp;</span><code>java.io.FileNotFoundException: log\log.txt (Access is denied)<br></code><strong style="letter-spacing: 0.0px;">Cause</strong>:&nbsp;<span style="letter-spacing: 0.0px;">Eclipse is m</span><span style="letter-spacing: 0.0px;">issing permissions to access files in the Rhapsody installation directory.<br></span><strong style="letter-spacing: 0.0px;">Resolution</strong>: Run Eclipse as Administrator.</p>
+      <h3 id="RunningRhapsodyfromwithinEclipse-PortConflicts">Port Conflicts</h3>
+      <p><strong>Log error message</strong>:&nbsp;<code>java.net.BindException: Address already in use: JVM_Bind /0.0.0.0:8444<br></code><strong style="letter-spacing: 0.0px;">Cause</strong>: The Rhapsody&nbsp;ports are already in use.<br><span style="letter-spacing: 0.0px;"><span><strong>Resolution</strong>: Stop the&nbsp;</span>Rhapsody<span>&nbsp;instance that is using the same ports.</span></span><span style="line-height: 13.0pt;color: rgb(0,72,102);font-size: 16.0px;font-weight: bold;">&nbsp;</span></p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

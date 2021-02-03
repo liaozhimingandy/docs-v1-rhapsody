@@ -1,0 +1,713 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>HAPIMessage Object</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+       <li> <span><a href="ROMessage-Object_133161403.html">ROMessage Object</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">HAPIMessage Object</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="color: rgb(0,0,0);">The&nbsp;HAPIMessage object enables&nbsp;HL7 messages to be modified using the HAPI API library<span style="background-color: transparent;">.&nbsp;</span><span style="background-color: transparent;">The object is available in all JavaScript components that process messages.</span></span></p>
+      <p><span style="color: rgb(0,0,0);"><span style="background-color: transparent;"><span>To create a&nbsp;<span style="color: rgb(0,0,0);">HAPIMessage object, use the&nbsp;<span><a href="ROMessage-Object_133161403.html#ROMessageObject-getHapiMessage">getHapiMessage()</a> method provided by the&nbsp;ROMessage object.</span></span></span></span></span></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>Refer to</span><span>&nbsp;</span><a href="Reviewing-and-Editing-Mapping-Rules_133161928.html#ReviewingandEditingMappingRules-SegmentNotation">Segment Notation</a><span>&nbsp;</span><span>for details on </span><span>the notation used by <span style="color: rgb(0,0,0);">HAPIMessage object </span>for sequential and non-sequential segment repeats.</span></p>
+       </div>
+      </div>
+      <h2 id="HAPIMessageObject-Parameters"><span style="background-color: transparent;">Parameters</span></h2>
+      <p><span style="background-color: transparent;">&nbsp;</span><span style="color: rgb(0,0,0);font-size: 13.0px;font-weight: normal;background-color: transparent;">All HL7 messages parsed into the <span style="color: rgb(0,0,0);">HAPIMessage</span>&nbsp;object observe an indexing structure represented by the following parameters:</span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Parameter</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>segmentName</code></p></td>
+          <td class="confluenceTd"><span>Denotes the name of the HL7 segment. It must be a non-empty string with no more than 256 characters in length.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>segmentRepeat</code></p></td>
+          <td class="confluenceTd"><span>Denotes the segment repeat index. The parameter is indexed from 0. When attempting to interact with a non-repeating segment or the first repeating segment, a value of 0 must be used. The parameter is an Int type.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>fieldIndex</code></p></td>
+          <td class="confluenceTd"><p>Denotes the HL7 field location index. It is indexed from 1. The parameter is an Int type.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>fieldRepeat</code></p></td>
+          <td class="confluenceTd"><p>Denotes the field repeat index. The parameter is indexed from 0. When attempting to interact with a non-repeating field or the first repeating field, a value of 0 must be used. The parameter is an Int type.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>componentIndex</code></p></td>
+          <td class="confluenceTd"><span>Denotes the HL7 component location index. It is indexed from 1. The parameter is an Int type.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>subcomponentIndex</code></p></td>
+          <td class="confluenceTd"><span>Denotes the HL7 sub-component location index. It is indexed from 1. The parameter is an Int type.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="HAPIMessageObject-Methods">Methods</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th class="confluenceTh"><p style="margin-left: 0.0px;">Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p style="margin-left: 0.0px;"><code><a href="#HAPIMessageObject-getOutput">getOutput</a>()</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Returns the transformed HAPI message as an HL7 string.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This method removes successive empty fields at the end of segments and successive empty segments at the end of the message.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>getOutputAsXml()</code></p></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Returns the transformed HAPI message as an HL7 XML string.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This method removes successive empty fields at the end of segments and successive empty segments at the end of the message.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-getValue">getValue</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat, componentIndex, subcomponentIndex)</code></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p style="margin-left: 0.0px;">Retrieves the value of a sub-component based on its full location. If a field or component has no child structures, a value of <code>1</code> must be inserted into the <code>subcomponentIndex</code> and/or <code>componentIndex</code>.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If the sub-component does not exist in the input message, then&nbsp;getValue&nbsp;throws an exception.&nbsp;If this exception is not handled, then the message is sent to the filter's error connector.&nbsp;</p>
+              <p>The exception can be handled with the JavaScript&nbsp;try...catch&nbsp;construct.&nbsp;Another approach is to avoid the exception by always&nbsp;using the&nbsp;fieldExists&nbsp;method to confirm that the field exists before attempting to get its value.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-setValue">setValue</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat, componentIndex, subcomponentIndex<span style="color: rgb(0,0,0);">, string value)</span></code></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Sets the value of a sub-component at the given full location to the provided string value. If a field or component has no child structures, a value of 1 must be inserted into the <code><span>subcomponentIndex</span></code><em> </em>and/or <code>componentIndex</code>.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>Setting a value in a field, component, or sub-component that is not present results in the creation of empty fields, components, or sub-components, respectively, in lieu of of any preceding <span>fields, components, or sub-components</span> that are also not present.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-getSegmentNames">getSegmentNames</a>()</code></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="field-ignore-highlight editable-field inactive">
+            <div class="user-content-block">
+             Returns a Java array object of HL7 segment names present in the message. Only unique segment names are listed; segment repeats are only listed under one name.
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-numberOfSegments">numberOfSegments</a>()</code></td>
+          <td colspan="1" class="confluenceTd">Returns the number of unique segments in a message. Repeating segments are not included in this count.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-numberOfSegmentRepeats">numberOfSegmentRepeats</a>(segmentName)</code></td>
+          <td colspan="1" class="confluenceTd"><p>Returns the number of repeating segments found in the message for a given <code>segmentName</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-numberOfFields">numberOfFields</a>(segmentName, segmentRepeat)</code></td>
+          <td colspan="1" class="confluenceTd">Returns the number of fields for a given segment. Repeating fields are not included in this count.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-numberOfFieldRepeats">numberOfFieldRepeats</a>(segmentName, segmentRepeat, fieldindex)</code></td>
+          <td colspan="1" class="confluenceTd">Returns the number of repeating fields found in the message for a given <code>fieldIndex</code>.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="HAPIMessage-Object_133161404.html">numberOfComponents</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat)</code></td>
+          <td colspan="1" class="confluenceTd">Returns the number of components for a given field.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-numberOfSubcomponents">numberOfSubcomponents</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat, componentIndex)</code></td>
+          <td colspan="1" class="confluenceTd">Returns the number of sub-components for a given component.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-clearField">clearField</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat)</code></td>
+          <td colspan="1" class="confluenceTd">Clears all components and sub-components at a given field location. The repeating field separator character (<code>~</code>) is removed if the field repeat is empty.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-clearFieldKeepSeparator">clearFieldKeepSeparator</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat)</code></td>
+          <td colspan="1" class="confluenceTd">Clears all components and sub-components at a given field location. The repeating field separator character is not removed even if the field repeat is empty.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p style="margin-left: 0.0px;"><code><a href="HAPIMessage-Object_133161404.html">clearValue</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat, componentIndex, subcomponentIndex)</code></p></td>
+          <td colspan="1" class="confluenceTd">Clears the value at a provided location. The <span>repeating </span>field separator characters are removed if the field repeat is empty.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-clearValueKeepSeparator">clearValueKeepSeparator</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat, componentIndex, subcomponentIndex)</code></td>
+          <td colspan="1" class="confluenceTd">Clears the value at a provided location. The <span>repeating</span> field separator characters are not removed even if the field repeat is empty.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-segmentExists">segmentExists</a>(segmentName, segmentRepeat)</code></td>
+          <td colspan="1" class="confluenceTd">Returns <code>true</code> if the segment exists, or <code>false </code>if it does not.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-fieldExists">fieldExists</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat)</code></td>
+          <td colspan="1" class="confluenceTd">Returns <code>true</code> if the field exists, or <code>false </code>if it does not.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p style="margin-left: 0.0px;"><code><a href="#HAPIMessageObject-deleteFieldRepeat">deleteFieldRepeat</a>(segmentName, segmentRepeat, fieldIndex, fieldRepeat)</code></p></td>
+          <td colspan="1" class="confluenceTd">Deletes a field repeat at a given location. Field repeat indexing is changed appropriately if other repeats still remain.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-addSegment">addSegment</a>(segmentName, index)</code></td>
+          <td colspan="1" class="confluenceTd"><p style="margin-left: 0.0px;">Inserts a segment at the specified message index. The segment is added only after a field is populated.</p><p>Indexed from 0 (before the first segment in the message). The index does not include repeats.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-addSegmentRepeat">addSegmentRepeat</a>(segmentName, index)</code></td>
+          <td colspan="1" class="confluenceTd"><p style="margin-left: 0.0px;">Inserts a repeating segment at the location specified by the segment name (of a segment that is already present in the message) and repeat index. The segment repeat is added only after its fields is populated.<span> <span>If the first repeat of the repeating segment you want to add does not exist, then you must first use <span><code>addSegement</code> to add the first repeat.</span></span></span></p><p style="margin-left: 0.0px;">Indexed from 0 (before the first repeat of the segment).</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#HAPIMessageObject-deleteSegment">deleteSegment</a>(segmentName, segmentRepeat)</code></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Deletes a segment at the location specified by the segment name and repeat index.</p>
+            <p>Indexed from 0 (the first repeat of the segment).</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If you are deleting a segment and then adding segments with the same name, ensure you re-parse the message using <code>reparseHapiMessage()</code><span>&nbsp;</span>before adding the segments.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code><a href="#HAPIMessageObject-reparseHapiMessage">reparseHapiMessage</a>()</code></p></td>
+          <td colspan="1" class="confluenceTd">Re-parses the current HAPIMessage object. When a segment has been deleted from a particular location in a message, attempting to add a segment with the same name to a different location does not work - the segment is added to the deleted location. This occurs because <code><span>deleteSegment</span><span>()</span></code> does completely remove the segment from the message structure. However, calling <code>reparseHapiMessage</code><code><span>()</span></code><span>&nbsp;</span>after the segment deletion re-parses the message thereby enabling segments with the same name to be added anywhere in the message.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>setReturnEmptyString(boolean returnEmptyString)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Configures <code>getValue()</code> to return either an empty string or throw an exception, when accessing a non-existent value.</p><p>It also configures <code>clearField()</code> and <code>clearFieldKeepSeparator()</code> to clear the value or throw an exception, when accessing a non-existent value.</p><p>The setting applies to all subsequent calls. By default, it is set to <code>true</code> (return an empty string, or clear the value).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="HAPIMessageObject-Examples">Examples</h2>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146999816 {padding: 0px;}
+div.rbtoc1565146999816 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146999816 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146999816"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#HAPIMessageObject-getHapiMessage">getHapiMessage</a></li> 
+        <li><a href="#HAPIMessageObject-getOutput">getOutput</a></li> 
+        <li><a href="#HAPIMessageObject-getValue">getValue</a></li> 
+        <li><a href="#HAPIMessageObject-setValue">setValue</a></li> 
+        <li><a href="#HAPIMessageObject-getSegmentNames">getSegmentNames</a></li> 
+        <li><a href="#HAPIMessageObject-numberOfSegments">numberOfSegments</a></li> 
+        <li><a href="#HAPIMessageObject-numberOfSegmentRepeats">numberOfSegmentRepeats</a></li> 
+        <li><a href="#HAPIMessageObject-numberOfFields">numberOfFields</a></li> 
+        <li><a href="#HAPIMessageObject-numberOfFieldRepeats">numberOfFieldRepeats</a></li> 
+        <li><a href="#HAPIMessageObject-numberOfComponents">numberOfComponents</a></li> 
+        <li><a href="#HAPIMessageObject-numberOfSubcomponents">numberOfSubcomponents</a></li> 
+        <li><a href="#HAPIMessageObject-clearField">clearField</a></li> 
+        <li><a href="#HAPIMessageObject-clearFieldKeepSeparator">clearFieldKeepSeparator</a></li> 
+        <li><a href="#HAPIMessageObject-clearValue">clearValue</a></li> 
+        <li><a href="#HAPIMessageObject-clearValueKeepSeparator">clearValueKeepSeparator</a></li> 
+        <li><a href="#HAPIMessageObject-segmentExists">segmentExists</a></li> 
+        <li><a href="#HAPIMessageObject-fieldExists">fieldExists</a></li> 
+        <li><a href="#HAPIMessageObject-deleteFieldRepeat">deleteFieldRepeat</a></li> 
+        <li><a href="#HAPIMessageObject-addSegment">addSegment</a></li> 
+        <li><a href="#HAPIMessageObject-addSegmentRepeat">addSegmentRepeat</a></li> 
+        <li><a href="#HAPIMessageObject-deleteSegment">deleteSegment</a></li> 
+        <li><a href="#HAPIMessageObject-reparseHapiMessage">reparseHapiMessage</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Sample message used in examples:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+// ZKX|1234|F2rep1~F2rep2~F2rep3|F3rep1~~F3rep3|~F4rep2
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+// ABC|1213|Field|Field
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-getHapiMessage">getHapiMessage</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Create the output message 
+var next = output.append(input[0]);
+
+// Create transformable HAPI message
+var hapiMessage = next.getHapiMessage();</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-getOutput">getOutput</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;
+// Create the output message 
+var next = output.append(input[0]);
+
+// Create transformable hapi message
+var hapiMessage = next.getHapiMessage();
+
+// Make some changes
+hapiMessage.deleteSegment("ZKX");
+hapiMessage.setValue("ABC",0,1,0,1,1,"TEST");
+
+// Get the transformed message
+next.text = hapiMessage.getOutput();</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-getValue">getValue</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input:&nbsp;
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+
+// Retrieve from segment NK1, repeat 0 (first repeat), field 1, field repeat 0 (first repeat), component 1, sub-component 1
+var extracted = hapiMessage.getValue("NK1",0,1,0,1,1);&nbsp;
+// extracted = 1654
+
+// Retrieve from segment NK1, repeat 1 (second repeat), field 1, field repeat 0 (first repeat), component 1, sub-component 1
+var extracted = hapiMessage.getValue("NK1",1,1,0,1,1);
+// extracted = 4567</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-setValue">setValue</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+
+// Retrieve from segment NK1, repeat 0 (first repeat), field 1, field repeat 0 (first repeat), component 1, sub-component 1
+hapiMessage.setValue("NK1",0,1,0,1,1,"TEST"); 
+&nbsp;
+// Output: NK1|TEST|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-getSegmentNames">getSegmentNames</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">var segment_names = hapiMessage.getSegmentNames();
+
+// segment_names = [MSH, NK1, ZKX, ABC]&nbsp;
+// The repeating NK1 segments are not included</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-numberOfSegments">numberOfSegments</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">var totalNumberSegments = hapiMessage.numberOfSegments();
+
+// totalNumberSegments = 6
+// MSH + NK1 + ZKX + NK1 + ABC + NK1
+// Sequential segment repeats are not counted. Non-sequential repeats are counted.</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-numberOfSegmentRepeats">numberOfSegmentRepeats</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Number of segment repeats are applied on a per group basis.
+// Square brackets [] are needed where grouping is done. These are specified in the method argument.
+// The first grouping of a segment does not use square bracket notation
+
+var NK1SegmentRepeatsGroup1 = hapiMessage.numberOfSegmentRepeats("NK1")
+// NK1SegmentRepeatsGroup1 = 2
+
+var NK1SegmentRepeatsGroup2 = hapiMessage.numberOfSegmentRepeats("NK1[2]")
+// NK1SegmentRepeatsGroup2 = 2
+
+var NK1SegmentRepeatsGroup3 = hapiMessage.numberOfSegmentRepeats("NK1[3]")
+// NK1SegmentRepeatsGroup3 = 1</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-numberOfFields">numberOfFields</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Count fields in NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+var number_of_Fields = hapiMessage.numberOfFields("NK1",0); 
+
+// number_of_Fields = 2
+&nbsp;
+// field1 contains 1654
+// field2 contains ROMINES^QUEENIE^19851010174850&amp;19891023003156 (repeat not included)</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-numberOfFieldRepeats">numberOfFieldRepeats</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Count number of field repeats in NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+var number_of_Field_repeats = hapiMessage.numberOfFieldRepeats("NK1",0,2); 
+
+// number_of_Field_repeats = 2
+
+// Two repeats at field 2:
+// rep1 contains ROMINES^QUEENIE^19851010174850&amp;19891023003156
+// rep2 contains YOUNGSTEAD^FARICA^19921011094736&amp;2002101006181</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-numberOfComponents">numberOfComponents</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Count components in NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+var number_of_components = hapiMessage.numberOfComponents("NK1",0,2,0);
+
+// number_of_components = 3
+
+// field 2 repeat 0 : ROMINES^QUEENIE^19851010174850&amp;19891023003156
+// Components are separated by '^':
+// comp1 contains ROMINES
+// comp2 contains QUEENIE
+// comp3 contains 19851010174850&amp;19891023003156</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-numberOfSubcomponents">numberOfSubcomponents</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Count subcomponents in NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+var number_of_sub_components = hapiMessage.numberOfSubcomponents("NK1",0,2,0,3);
+
+// number_of_sub_components = 2
+
+// Field 2, repeat 0, component 3 contains 19851010174850&amp;19891023003156
+// Sub-components are separated by '&amp;':
+// subcomp1 contains 19851010174850
+// subcomp2 contains 19891023003156</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-clearField">clearField</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: ZKX|1234|F2rep1~F2rep2~F2rep3|F3rep1~~F3rep3|~F4rep2
+
+// Clears the field containing the value F2rep2
+hapiMessage.clearField("ZKX",0,2,1);
+
+// Output: ZKX|1234|F2rep1~~F2rep3|F3rep1~~F3rep3|~F4rep2</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: ZKX|1234|F2rep1~F2rep2~F2rep3|F3rep1~~F3rep3|~F4rep2
+&nbsp;
+// Clears the field containing the value F3rep3 and removes the field separator characters '~'
+hapiMessage.clearField("ZKX",0,3,2); 
+
+// Output: ZKX|1234|F2rep1~F2rep2~F2rep3|F3rep1|~F4rep2</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-clearFieldKeepSeparator">clearFieldKeepSeparator</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: ZKX|1234|F2rep1~F2rep2~F2rep3|F3rep1~~F3rep3|~F4rep2
+&nbsp;
+//&nbsp;Clears the field containing the value F2rep2
+hapiMessage.clearField("ZKX",0,2,1);
+
+// Output: ZKX|1234|F2rep1~~F2rep3|F3rep1~~F3rep3|~F4rep2</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: ZKX|1234|F2rep1~F2rep2~F2rep3|F3rep1~~F3rep3|~F4rep2
+
+// Clears the field containing the value F3rep3 and retains the field separator characters '~'
+hapiMessage.clearFieldKeepSeparator("ZKX",0,3,2); 
+
+// Output: ZKX|1234|F2rep1~F2rep2~F2rep3|F3rep1~~|~F4rep2</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-clearValue">clearValue</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+
+// Clears the value 1654
+hapiMessage.clearValue("NK1",0,1,0,1,1);
+
+// Output: NK1||ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+
+// Clears the value 19851010174850
+hapiMessage.clearValue("NK1",0,2,0,3,1);
+
+// Output: NK1|1654|ROMINES^QUEENIE^&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+
+// Clears the values represented by YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819 and removes the field separator character '~'
+hapiMessage.clearValue("NK1",0,2,1,3,1);
+hapiMessage.clearValue("NK1",0,2,1,3,2);
+hapiMessage.clearValue("NK1",0,2,1,2,1);
+hapiMessage.clearValue("NK1",0,2,1,1,1); 
+
+// Output: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-clearValueKeepSeparator">clearValueKeepSeparator</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Behaves the same as clearValue but does not remove the field separator '~' if the field is empty after clearing value
+
+// Input: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+
+// Clears the value 19921011094736
+hapiMessage.clearValueKeepSeparator("NK1",0,2,1,3,1);
+// Output: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^&amp;20021010061819
+
+// Clears the value 20021010061819
+hapiMessage.clearValueKeepSeparator("NK1",0,2,1,3,2);
+// Output: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA
+
+// Clears the value FARICA
+hapiMessage.clearValueKeepSeparator("NK1",0,2,1,2,1);
+// Output: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD
+
+// Clears the value YOUNGSTEAD
+hapiMessage.clearValueKeepSeparator("NK1",0,2,1,1,1);
+// Output: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-segmentExists">segmentExists</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: 
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+// ZKX|1234|F2rep1~F2rep2~F2rep3|F3rep1~~F3rep3|~F4rep2
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+ 
+// Segment called NK1 exists
+var exist = hapiMessage.segmentExists("NK1",0);
+// exist = true
+
+// Segment called NK1 (first repeat) exists
+var exist = hapiMessage.segmentExists("NK1",1);
+// exist = true 
+
+// Segment called NK1 (second repeat) does not exist
+var exist = hapiMessage.segmentExists("NK1",2);
+// exist = false 
+
+// Segment called NK1[2] exists
+var exist = hapiMessage.segmentExists("NK1[2]",0);
+// exist = true 
+ 
+// Segment called XYZ does not exist
+var exist = hapiMessage.segmentExists("XYZ",0) 
+// exist = false</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-fieldExists">fieldExists</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+
+// Field exists
+var exist = hapiMessage.fieldExists("NK1",0,1,0);
+// exist = true
+
+// Field repeat exists
+var exist = hapiMessage.fieldExists("NK1",0,2,1);  //YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// exist = true
+
+// Field does not exist
+var exist = hapiMessage.fieldExists("NK1",0,7,0);
+// exist = false
+
+// Field repeat does not exist
+var exist = hapiMessage.fieldExists("NK1",0,3,1);
+// exist = false</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-deleteFieldRepeat">deleteFieldRepeat</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+
+hapiMessage.deleteFieldRepeat("NK1",0,2,1);
+
+// Output: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input: NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+
+hapiMessage.deleteFieldRepeat("NK1",0,2,0);
+&nbsp;
+// Output: NK1|1654|YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-addSegment">addSegment</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+
+// Creates the segment. The segment is not yet added
+hapiMessage.addSegment("XYZ",1); 
+
+// Output:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+
+// Populates the segment. The segment is added
+hapiMessage.setValue("XYZ",0,1,0,1,1,"TEST");
+
+// Output:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// XYZ|TEST
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-addSegmentRepeat">addSegmentRepeat</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+
+// Creates the repeating segment. The segment is not yet added.
+hapiMessage.addSegmentRepeat("NK1",1);
+
+// Output:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+
+// Populates the segment. The segment is added
+hapiMessage.setValue("NK1",1,1,0,1,1,"TEST"); 
+
+// Output:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|TEST
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-deleteSegment">deleteSegment</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+
+hapiMessage.deleteSegment("NK1",1);
+
+// Output:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Input:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|1654|ROMINES^QUEENIE^19851010174850&amp;19891023003156~YOUNGSTEAD^FARICA^19921011094736&amp;20021010061819
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916
+
+hapiMessage.deleteSegment("NK1",0);
+
+// Output:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// NK1|4567|WHORTON^CLODIA^19811016051025&amp;19871015063310~FARLEY^JACQUELINE^19941010161033&amp;19911010152916</pre> 
+       </div>
+      </div>
+      <h3 id="HAPIMessageObject-reparseHapiMessage"><span>reparseHapiMessage</span></h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">// Move existing segments in a message
+&nbsp;
+// Input:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// ABC|abc
+// XYZ|xyz
+
+hapiMessage.deleteSegment("ABC",0);
+hapiMessage.deleteSegment("XYZ",0);
+hapiMessage.reparseHapiMessage();
+
+// Output:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+
+hapiMessage.addSegment("XYZ",1);
+hapiMessage.setValue("XYZ",0,1,0,1,1,"xyz");
+hapiMessage.addSegment("ABC",2);
+hapiMessage.setValue("ABC",0,1,0,1,1,"abc");
+
+// Output:
+// MSH|^~\&amp;|CANNS|CANNT|CANAB|CANNT|19871010031642||ADT^A01^ADT_A45|10215605xgfd|D^Not|2.1^23^14|6789||AL|AL|VCT||19|2.3
+// XYZ|xyz
+// ABC|abc</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

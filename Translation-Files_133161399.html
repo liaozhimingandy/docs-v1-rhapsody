@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Translation Files</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+       <li> <span><a href="Global-Functions_133161395.html">Global Functions</a></span> </li> 
+       <li> <span><a href="dataMap-Functions_133161397.html">dataMap Functions</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Translation Files</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Translation files hold key-value (input-output) pairs that can be updated while the filter is in use. They are similar to an ini, Java .properties or csv file.</p>
+      <p>A translation file is text. Each line contains an input and output, which are usually separated by a comma. The text files should be ASCII or UTF-8 encoded and use either DOS (\r\n [0D][0A]) or Unix (\n [0A]) line endings.</p>
+      <p>Translation files can be thought of as a table with two columns. When the ',' separator is used, spreadsheets can open translation files as a CSV file.</p>
+      <p>Translation files are not cached, and are read as needed. Changes made to the files take effect straight away.</p>
+      <h2 id="TranslationFiles-TranslationFileExamples">Translation File Examples</h2>
+      <h3 id="TranslationFiles-Normalseparator,no%default%"><strong>Normal separator, no <code>%default%</code></strong></h3>
+      <p>Default separator of "," and no default value in the translation file.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>C:\translations\HL70202-Telecommunication-equipment-type.txt:
+PH,Telephone
+FX,Fax
+MD,Modem
+CP,Cellular or Mobile Phone
+SAT,Satellite Phone
+BP,Beeper
+Internet,Internet Address
+X.400,X.400 email address
+TDD,Telecommunications Device for the Deaf
+TTY,Teletypewriter</pre> 
+       </div>
+      </div>
+      <h3 id="TranslationFiles-CustomSeparatorand%default%"><strong>Custom Separator and <code>%default%</code></strong></h3>
+      <p>Custom separator of "|" and a default value of "Undetermined".</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>C:\translations\834-HD04-county-descriptions.txt
+
+001\|Baker
+003\|Benton
+005\|Clackamas
+007\|Clatsop
+...
+067\|Washington
+068\|Wheeler
+071\|Yamhil
+%default%\|Undetermined
+</pre> 
+       </div>
+      </div>
+      <h3 id="TranslationFiles-TranslateorUseInput"><strong>Translate or Use Input</strong></h3>
+      <p>To translate a value (if it is in the file), or use the original value, setup the translation file as usual. A <code>%default%</code> line is not needed. Instead, add a line with both the input and output empty; a line with only a comma. When calling <code>dataMap</code>, pass in the <code>inputString</code> or field value as the default value. Inputs in the translation file will be translated. Inputs not in the translation will use the default, which was the original value. Empty inputs will become empty outputs.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>C:\translations\translate-or-copy.txt:
+PH,Telephone
+FX,Fax
+,
+JavaScript code to translate or copy:
+out = dataMap( _inputString_ ,  _file_ , ",",  _inputString_ );
+message.dataMap( _fieldPath_ ,  _file_ , ",", message.getField( _fieldPath_ ));</pre> 
+       </div>
+      </div>
+      <h2 id="TranslationFiles-TranslationFile%defaults%Line">Translation File %defaults% Line</h2>
+      <p>Translation files can end with a <code>%default%</code> line. If the input is not found in the translation file, the value from the <code>%default%</code> line is used. If the defaultValue argument has a value, it will be used instead of the %default%. If no <code>%default%</code> is in the file and no defaultValue is passed in to DataMap, then a <code>DataMapException</code> will be raised, and the message sent to the error queue or out the error connector.</p>
+      <p>Default of "Undetermined":</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>...
+068,Wheeler
+071,Yamhil
+%default%,Undetermined</pre> 
+       </div>
+      </div>
+      <p>Default to making the output field empty.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>...
+068,Wheeler
+071,Yamhil
+%default%,
+</pre> 
+       </div>
+      </div>
+      <p>No <code>%default%</code> value: (default supplied by the <code>defaultValue</code> argument, or if the value is not found, an error will occur).</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>...
+068,Wheeler
+071,Yamhil
+</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

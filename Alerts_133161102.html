@@ -1,0 +1,1116 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Alerts</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Alerts</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods to retrieve and modify alerts, as well as component thresholds settings and default settings:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147001725 {padding: 0px;}
+div.rbtoc1565147001725 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147001725 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147001725"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#Alerts-ActiveAlerts">Active Alerts</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#Alerts-GET/api/alerts/active">GET /api/alerts/active</a></li> 
+          <li><a href="#Alerts-GET/api/alerts/active/<id>/state">GET /api/alerts/active/&lt;id&gt;/state</a></li> 
+          <li><a href="#Alerts-PUT/api/alerts/active/<id>/state">PUT /api/alerts/active/&lt;id&gt;/state</a></li> 
+          <li><a href="#Alerts-GET/api/alerts/active/<id>/assignee">GET /api/alerts/active/&lt;id&gt;/assignee</a></li> 
+          <li><a href="#Alerts-PUT/api/alerts/active/<id>/assignee">PUT /api/alerts/active/&lt;id&gt;/assignee</a></li> 
+          <li><a href="#Alerts-GET/api/alerts/unmonitored">GET /api/alerts/unmonitored</a></li> 
+          <li><a href="#Alerts-PUT/api/alerts/unmonitored">PUT /api/alerts/unmonitored</a></li> 
+          <li><a href="#Alerts-PUT/api/alerts/suspend">PUT /api/alerts/suspend</a></li> 
+          <li><a href="#Alerts-PUT/api/alerts/active/<id>/suspend">PUT /api/alerts/active/&lt;id&gt;/suspend</a></li> 
+         </ul> </li> 
+        <li><a href="#Alerts-AlertSettings">Alert Settings</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#Alerts-GET/api/alerts/defaultsettings">GET /api/alerts/defaultsettings</a></li> 
+          <li><a href="#Alerts-PUT/api/alerts/defaultsettings">PUT /api/alerts/defaultsettings</a></li> 
+          <li><a href="#Alerts-GET/api/alerts/settings">GET /api/alerts/settings</a></li> 
+          <li><a href="#Alerts-PUT/api/alerts/settings">PUT /api/alerts/settings</a></li> 
+          <li><a href="#Alerts-GET/api/alerts/deliverymethods">GET /api/alerts/deliverymethods</a></li> 
+          <li><a href="#Alerts-PUT/api/alerts/deliverymethods">PUT /api/alerts/deliverymethods</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="Alerts-ActiveAlerts">Active Alerts</h2>
+      <h3 id="Alerts-GET/api/alerts/active">GET /api/alerts/active</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/alerts/active</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves a list of all active alerts in the Rhapsody engine, including those alerts that have been dismissed by the user but are still considered active by Rhapsody (although they will indicate their dismissed state). Active alerts for specific components (in other words, communication points or routes) are only returned if the user has permission to view the locker that contains them.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code>, <code>text/html</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept:&nbsp;application/vnd.orchestral.rhapsody.6_0+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><p><span><code>200 OK</code> - operation successful.</span></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p><span>The response body has the following data object structure:</span></p>
+           <ul>
+            <li style="list-style-type: none;background-image: none;">
+             <ul>
+              <li><code>highestSeverity</code> - [enumerated string] severity of the highest active alert, not including any dismissed alerts (<code>NONE</code>, <code>WARNING</code>, <code>ALARM</code>, <code>ESCALATION</code>).</li>
+              <li><code>alertCount</code> - [int] number of active alerts.</li>
+              <li><code>alerts</code>- [array] of alerts:
+               <ul>
+                <li><code>id</code> - [str] alert identifier.</li>
+                <li><code>alertName</code> - [str] name of alert.</li>
+                <li><code>alertMnemonic</code> - [enumerated string] type of alert.</li>
+                <li><code>alertDescription</code> - [str] a description of the alert.</li>
+                <li><code>state</code> - [enumerated string] alert state (for example <code>ACTIVE</code>, <code>USER_DISMISSED</code>).</li>
+                <li><code>severity</code> - [enumerated string] severity of the alert (for example <code>WARNING</code>, <code>ALARM</code>, <code>ESCALATION</code>).</li>
+                <li><code>timestamp</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>.</li>
+                <li><code>parameters</code>- [array] of runtime parameters generated for this specific alert:
+                 <ul>
+                  <li><code>id</code> - [str] parameter identifier.</li>
+                  <li><code>value</code> - [str] parameter value.</li>
+                  <li><code>displayName</code> - [str] parameter name.</li>
+                 </ul></li>
+                <li><code>componentInfo</code> - [object] information about the component associated with the alert:
+                 <ul>
+                  <li><code>id</code> - [str] component identifier or <code>-1</code> for notifications relating to the system as a whole.</li>
+                  <li><code>name</code> - [str] component name or null for notifications relating to the system as a whole.</li>
+                  <li><code>folderPath</code> - [str] folder path of component or null for notifications relating to web services or the system as a whole.</li>
+                 </ul></li>
+               </ul></li>
+             </ul></li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>A response body is returned even if there are no active alerts (<code>alertCount=0, highestSeverity=NONE, alerts=[]</code>), and a <code>200 OK</code> response is used regardless of which, if any, alerts are returned.</p>
+            </div>
+           </div>
+           <div id="expander-1065765786" class="expand-container">
+            <div id="expander-control-1065765786" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example - 13 active alerts</span>
+            </div>
+            <div id="expander-content-1065765786" class="expand-content">
+             <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161062/133161075.png" data-image-src="attachments/133161062/133161075.png" data-unresolved-comment-count="0" data-linked-resource-id="133161075" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GET-alerts-active.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161062" data-linked-resource-container-version="4"></span></p>
+            </div>
+           </div>
+           <div id="expander-1174638219" class="expand-container">
+            <div id="expander-control-1174638219" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example - no active alerts</span>
+            </div>
+            <div id="expander-content-1174638219" class="expand-content">
+             <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161062/133161074.png" data-image-src="attachments/133161062/133161074.png" data-unresolved-comment-count="0" data-linked-resource-id="133161074" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GET-alerts-active-none.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161062" data-linked-resource-container-version="4"></span></p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View notifications REST API'.<br>'View locker'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-GET/api/alerts/active/<id>/state">GET /api/alerts/active/&lt;id&gt;/state</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/alerts/active/&lt;id&gt;/state</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves the current state of the specified active or user-dismissed alert. Active alerts for specific components (communication points or routes) are only returned if the user has permission to view the locker that contains them.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: text/plain</code><code><br></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: text/vnd.orchestral.rhapsody.6_0+plain</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><p><span><code>200 OK</code> - operation successful.</span></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p><span>Alert state (for example: </span><code>ACTIVE</code><span>, </span><code>USER_DISMISSED</code><span>).</span></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View notifications REST API'.<br>'View <span>locker</span>'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-PUT/api/alerts/active/<id>/state">PUT /api/alerts/active/&lt;id&gt;/state</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /api/alerts/active/&lt;id&gt;/state</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Allows you to change the state of the specified active (or active but dismissed) alert.&nbsp;Active alerts for specific components, such as communication points or routes, are only changed if the user has permissions to view the locker that contains them. To change system alerts, the change system notification access right is required. This is a compare-and-set operation requiring the caller to provide the current state/severity of the alert, and the desired new state, in order to perform the transition. This is to prevent accidental suppression of an alert whose priority has escalated in the meantime.</p><p>This method provides for the following alert state transitions:</p>
+           <ul>
+            <li style="list-style-type: none;background-image: none;">
+             <ul>
+              <li>Dismiss an alert: Active → User Dismissed / Resolved.</li>
+              <li>Reactivate a dismissed alert: User Dismissed → Active.</li>
+             </ul></li>
+           </ul><p>If you are dismissing a threshold-based alert, then a suspend duration is required to indicate the length of time to suspend the notification for (in other words, how long the measured value remains above the configured threshold before the alert raised again).</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code> <br><code>Content-Type: application/json<br></code><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept:application/vnd.orchestral.rhapsody.6_0+json</code>&nbsp; <br><code>Content-Type: application/vnd.orchestral.rhapsody.6_0+json</code> <br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Current severity, action, suspend duration (must be greater than zero), comment (optional), for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{"initialSeverity":"ESCALATION", "changeAction":"DISMISS", "suspendMinutes": 4, "comment":"Dismiss for 30 mins while system being restarted."}.</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><span><code>204 No Content</code> - operation successful.</span></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p>No value is returned.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Change notifications REST API'.<br>'View <span>locker</span>'.<br>'Change system notifications REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-GET/api/alerts/active/<id>/assignee">GET /api/alerts/active/&lt;id&gt;/assignee</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><p><code>GET /api/alerts/active/&lt;id&gt;/assignee</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Retrieves the assigned user for the specified alert.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Accept: text/plain</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: text/</code>vnd<code>.orchestral.rhapsody.6_4+plain</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>200 OK</code>&nbsp;- operation successful.<br><code>204 No Content</code>&nbsp;- operation successful if no user is assigned to the alert.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">The assigned user's username. The response body is blank if no user is assigned to the alert.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd"><p>'View <span>locker</span>'.<br>'View notifications REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-PUT/api/alerts/active/<id>/assignee">PUT /api/alerts/active/&lt;id&gt;/assignee</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>PUT /api/alerts/active/&lt;id&gt;/assignee</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Assigns a user to the specified alert, overriding any currently assigned user.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Accept: text/plain</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: text/</code>vnd<code>.orchestral.rhapsody.6_4+plain</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">The username of the user to assign to the alert.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'View <span>locker</span>'.<br>'Change notifications REST API'.<br>'Change system notifications REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-GET/api/alerts/unmonitored">GET /api/alerts/unmonitored</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>GET /</code>api<code>/alerts/unmonitored</code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+          <td class="confluenceTd">Retrieves the unmonitored component notification settings.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" style="text-align: left;" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Accept: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Accept: application/</span></code>vnd<code><span>.orchestral.rhapsody.6_4+json</span></code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>200 OK</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Body</th>
+          <td class="confluenceTd"><p>The response body has the following data object structure:</p>
+           <ul>
+            <li><code>resendWarning<span style="color: rgb(51,51,51);">sPeriod</span></code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;the resend <span>period </span>for warnings</span><span> (in minutes).</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>resendAlarmsPeriod</code>&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;<span>the resend </span><span>period </span><span>for</span> alarms after </span>period<span> (in minutes).</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>escalatePeriod</code>&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;the<span>&nbsp;</span>escalation period<span> (in minutes).</span></span></li>
+            <li><span style="color: rgb(51,51,51);"><code>notificationRecipients</code>&nbsp;-&nbsp;<span class="error">[array]</span>&nbsp;a list of notification recipients:</span>
+             <ul>
+              <li><span style="color: rgb(51,51,51);"><code>type</code>&nbsp;-&nbsp;<span class="error">[enumberated string]</span>&nbsp;the recipient type (one of&nbsp;<code>EMAIL</code>,&nbsp;<code>EVENTLOG</code>,&nbsp;<code>SNMP</code>,&nbsp;<code>WATCHLIST</code>&nbsp;or&nbsp;<code>USER</code>).</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>value</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the type value, either email address, watchlist name or username.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>notificationLevel</code>&nbsp;-&nbsp;<span class="error">[enumerated value]</span>&nbsp;the level of notificati</span>ons this recipient should receive (one of&nbsp;<code>WARNING</code>,&nbsp;<code>ALARM</code>,&nbsp;<code>ESCALATION</code>).</li>
+             </ul></li>
+           </ul>
+           <div id="expander-1778785373" class="expand-container">
+            <div id="expander-control-1778785373" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-1778785373" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":{
+    "resendWarningsPeriod":55,
+    "resendAlarmsPeriod":45,
+    "escalatePeriod":6067,
+    "notificationRecipients":[
+    {
+      "type":"WATCHLIST",
+      "value":"watch1",
+      "notificationLevel":"WARNING"
+    },{
+      "type":"USER",
+      "value":"Administrator",
+      "notificationLevel":"WARNING"
+    },{
+      "type":"EVENTLOG",
+      "value":"",
+      "notificationLevel":"ESCALATION"
+    },{
+      "type":"SNMP",
+      "value":"",
+      "notificationLevel":"ALARM"
+    },{
+      "type":"EMAIL",
+      "value":"user1@rhapsody.com",
+      "notificationLevel":"ALARM"
+    }]
+  },
+  "error":null
+}</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'View notification settings REST API'</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-PUT/api/alerts/unmonitored">PUT /api/alerts/unmonitored</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>PUT /api/alerts/unmonitored</code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+          <td class="confluenceTd">Updates the unmonitored component notification settings.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" style="text-align: left;" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Content-Type: application/</code>json<br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Content-Type: application/</span>vnd<span>.orchestral.rhapsody.6_4+json</span></code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>The request body has the following data object structure:</p>
+           <ul>
+            <li><code>resendWarnin<span style="color: rgb(51,51,51);">gsPeriod</span></code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;<span>the resend period for warnings</span><span> (in minutes)</span></span><span>.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>resendAlarmsPeriod</code>&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;<span>the resend period for alarms</span><span> (in minutes).</span></span></li>
+            <li><span style="color: rgb(51,51,51);"><code>escalatePeriod</code>&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;the escalation period (in minutes).</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>notificationRecipients</code>&nbsp;-&nbsp;<span class="error">[array]</span>&nbsp;a list of notification recipients:</span>
+             <ul>
+              <li><span style="color: rgb(51,51,51);"><code>type</code>&nbsp;-&nbsp;<span class="error">[enumberated string]</span>&nbsp;the recipient type (one of&nbsp;<code>EMAIL</code>,&nbsp;<code>EVENTLOG</code>,&nbsp;<code>SNMP</code>,&nbsp;<code>WATCHLIST</code>&nbsp;or&nbsp;<code>USER</code>).</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>value</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the type value, either </span>email<span style="color: rgb(51,51,51);"> address, watchlist name or username.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>notificationLevel</code>&nbsp;-&nbsp;<span class="error">[enumerated value]</span>&nbsp;th</span>e level of notifications this recipient should receive (one of&nbsp;<code>WARNING</code><span>,&nbsp;</span><code>ALARM</code><span>,&nbsp;</span><code>ESCALATION</code>).</li>
+             </ul></li>
+           </ul>
+           <div id="expander-333016504" class="expand-container">
+            <div id="expander-control-333016504" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-333016504" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "resendWarningsPeriod":55,
+  "resendAlarmsPeriod":45,
+  "escalatePeriod":6067,
+  "notificationRecipients":[
+  {
+    "type":"WATCHLIST",
+    "value":"watch1",
+    "notificationLevel":"WARNING"
+  },{
+    "type":"USER",
+    "value":"Administrator",
+    "notificationLevel":"WARNING"
+  },{
+    "type":"EVENTLOG",
+    "value":"",
+    "notificationLevel":"ESCALATION"
+  },{
+    "type":"SNMP",
+    "value":"",
+    "notificationLevel":"ALARM"
+  },{
+    "type":"EMAIL",
+    "value":"user1@rhapsody.com",
+    "notificationLevel":"ALARM"
+  }]
+}</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Edit unmonitored component notifications REST API'</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-PUT/api/alerts/suspend">PUT /api/alerts/suspend</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>PUT /api/alerts/suspend</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Suspends or resumes the global notifications.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Content-Type: application/json</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_4+json</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>The request body has the following data object structure:</p>
+           <ul>
+            <li><code>action</code>&nbsp;-&nbsp;<span class="error">[enumerated string]</span>&nbsp;the action to perform (one of&nbsp;<code>SUSPEND</code>&nbsp;or&nbsp;<code>RESUME</code>).</li>
+            <li><code>duration</code>&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;the <span>length</span> of time to suspend for, in minutes.</li>
+           </ul>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">{"action":"SUSPEND", "duration":10}</pre> 
+            </div>
+           </div>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">{"action":"RESUME"}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Suspend/resume global notifications REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-PUT/api/alerts/active/<id>/suspend">PUT /api/alerts/active/&lt;id&gt;/suspend</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>PUT /api/alerts/active/&lt;id&gt;/suspend</code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+          <td class="confluenceTd">Suspends or resumes the notifications for the specified alert.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" style="text-align: left;" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Content-Type: application/json</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_4+json</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>The request body has the following data object structure:</p>
+           <ul>
+            <li><code>action</code>&nbsp;-&nbsp;<span class="error">[enumerated string]</span>&nbsp;the action to perform (one of&nbsp;<code>SUSPEND</code>&nbsp;or&nbsp;<code>RESUME</code>).</li>
+            <li><code>duration</code>&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;the length of time to suspend for, in minutes.</li>
+           </ul>
+           <div id="expander-1927108301" class="expand-container">
+            <div id="expander-control-1927108301" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Examples...</span>
+            </div>
+            <div id="expander-content-1927108301" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{"action":"SUSPEND", "duration":10}</pre> 
+              </div>
+             </div>
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{"action":"RESUME"}</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Suspend/resume component and issue notifications REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="Alerts-AlertSettings">Alert Settings</h2>
+      <h3 id="Alerts-GET/api/alerts/defaultsettings">GET /api/alerts/defaultsettings</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>GET /api/alerts/defaultsettings</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Retrieves the default component threshold settings.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Accept: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_4+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>200 OK</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd"><p><span>The <span>default component threshold settings</span></span><span> response has the following structure:</span></p>
+           <div id="expander-2096389660" class="expand-container">
+            <div id="expander-control-2096389660" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-2096389660" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":[
+  {
+    "id": 268632067,
+    "alertName": "Large Queue",
+    "alertMnemonic": "LARGE_ROUTE_QUEUE",
+    "enabled": true,
+    "parameters": {
+      "alarm": {
+        "unit": "QUEUE_SIZE",
+        "value": 5000
+      },
+      "warning": {
+         "unit": "QUEUE_SIZE",
+        "value": 2500
+      },
+      "type": "BINARY"
+    }
+  },{
+    "id": 134414338,
+    "alertName": "Route Started",
+    "alertMnemonic": "ROUTE_STARTED",
+    "enabled": false,
+    "parameters": {
+      "severity": "WARNING",
+      "type": "UNARY"
+    }
+  }{...}]
+  "error":null
+}</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'View notification settings REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-PUT/api/alerts/defaultsettings">PUT /api/alerts/defaultsettings</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>PUT /api/alerts/defaultsettings</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Modifies the default component threshold settings. Provided issues are updated, all other issue settings remain unmodified.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Content-Type: application/json</code>&nbsp;<br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_4+json</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>The issues to update settings for:</p>
+           <ul>
+            <li><span><code>data</code>&nbsp;-&nbsp;<span class="error">[array]</span>&nbsp;an array of issues:</span>
+             <ul>
+              <li><span><code>id</code>&nbsp;-&nbsp;<span class="error">[str]</span>&nbsp;issue identifier.</span></li>
+              <li><span><code>enabled</code>&nbsp;-&nbsp;<span class="error">[boolean]</span>&nbsp;if the issue is enabled or not.</span></li>
+              <li><span><code>parameters</code>&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the issue setting parameters:</span>
+               <ul>
+                <li><span><code>type</code>&nbsp;-&nbsp;<span class="error">[enumerated string]</span>&nbsp;the parameter type (one of&nbsp;<code>UNARY</code>,&nbsp;<code>BINARY</code>&nbsp;or&nbsp;<code>TERNARY</code>).</span></li>
+                <li><span><code>severity</code>&nbsp;-&nbsp;<span class="error">[enumerated string]</span>&nbsp;the parameter setting for&nbsp;UNARY&nbsp;types (one of&nbsp;<code>WARNING</code>&nbsp;or&nbsp;<code>ALARM</code>).</span></li>
+                <li><span><code>warning</code>&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the warning threshold settings for&nbsp;BINARY&nbsp;and&nbsp;TERNARY&nbsp;types:</span>
+                 <ul>
+                  <li><span><code>value</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the value of the warning threshold.</span></li>
+                 </ul></li>
+                <li><span><code>alarm</code>&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the alarm threshold settings for&nbsp;<code>BINARY</code>&nbsp;and&nbsp;<code>TERNARY</code>&nbsp;types:</span>
+                 <ul>
+                  <li><span><code>value</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the value of the alarm threshold.</span></li>
+                 </ul></li>
+                <li><span><code>sharedParam</code>&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the shared parameter settings for&nbsp;<code>TERNARY</code>&nbsp;types:</span>
+                 <ul>
+                  <li><span><code>value</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the value of the shared param threshold.</span></li>
+                 </ul></li>
+               </ul></li>
+             </ul></li>
+           </ul>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">[
+	{"id":52,"enabled":true,"parameters":{"type":"TERNARY","alarm":{"value":45},"warning":{"value":25},"sharedParam":{"value":80}}},
+	{"id":49,"enabled":false,"parameters":{"type":"UNARY","severity":"WARNING"}}
+]</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">No value is returned.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd"><p>'Change notification settings REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-GET/api/alerts/settings">GET /api/alerts/settings</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><p><strong>URI</strong></p></td>
+          <td class="confluenceTd"><p><code>GET /api/alerts/settings</code></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Description</strong></td>
+          <td class="confluenceTd">Retrieves the system alert settings.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey" rowspan="2"><strong>Request Header</strong></td>
+          <td class="confluenceTd"><code>Accept: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><span>Accept: application/vnd.orchestral.rhapsody.6_2+json</span></code></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Request Body</strong></td>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Status</strong></td>
+          <td class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Response Body</strong></td>
+          <td class="confluenceTd"><p>The <span>system alert settings</span> response has the following structure:</p>
+           <div id="expander-1874616740" class="expand-container">
+            <div id="expander-control-1874616740" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-1874616740" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{
+  "data":{
+    id: 402718730,
+    alertName: "Large Route Queue",
+    alertMnemonic: "LARGE_ROUTE_QUEUE_IN_SYSTEM",
+    enabled: true,
+    parameters: {
+      alarm: {
+        unit: "QUEUE_SIZE",
+        value: 78
+      },
+      warning: {
+        unit: "QUEUE_SIZE",
+        value: 334
+      },
+      type: "BINARY"
+    }
+  },{
+    id: 134479876,
+    alertName: "Custom Module Changed",
+    alertMnemonic: "CUSTOM_MODULE_CHANGED",
+    enabled: false,
+    parameters: {
+      severity: "WARNING",
+      type: "UNARY"
+    }
+  }{...}
+  "error":null
+}</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" data-highlight-colour="grey"><strong>Access Rights</strong></td>
+          <td class="confluenceTd">'View notification settings REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-PUT/api/alerts/settings">PUT /api/alerts/settings</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>PUT /</code>api<code>/alerts/settings</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd">Modifies the system alert settings. Provided issues are updated, all other issue settings remain unmodified.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header&nbsp;</th>
+          <td class="confluenceTd"><code>Content-Type: application/json&nbsp;</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_2+json</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>The issues to update settings for:</p>
+           <ul>
+            <li><span><code>data</code>&nbsp;-&nbsp;<span class="error">[array]</span>&nbsp;an array of issues:</span>
+             <ul>
+              <li><code>id</code>&nbsp;-&nbsp;<span class="error">[str]</span>&nbsp;issue identifier.</li>
+              <li><code>enabled</code>&nbsp;-&nbsp;<span class="error">[boolean]</span>&nbsp;if the issue is enabled or not.</li>
+              <li><code>parameters</code>&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the issue setting parameters:
+               <ul>
+                <li><code>type</code>&nbsp;-&nbsp;<span class="error">[enumerated string]</span>&nbsp;the parameter type (one of&nbsp;<code>UNARY</code>,&nbsp;<code>BINARY</code>&nbsp;or&nbsp;<code>TERNARY</code>).</li>
+                <li><code>severity</code>&nbsp;-&nbsp;<span class="error">[enumerated string]</span>&nbsp;the parameter setting for&nbsp;UNARY&nbsp;types (one of&nbsp;<code>WARNING</code>&nbsp;or&nbsp;<code>ALARM</code>).</li>
+                <li><code>warning</code>&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the warning threshold settings for&nbsp;BINARY&nbsp;and&nbsp;TERNARY&nbsp;types:
+                 <ul>
+                  <li><code>value</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the value of the warning threshold.</li>
+                 </ul></li>
+                <li><code>alarm</code>&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the alarm threshold settings for&nbsp;<code>BINARY</code>&nbsp;and&nbsp;<code>TERNARY</code>&nbsp;types:
+                 <ul>
+                  <li><code>value</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the value of the alarm threshold.</li>
+                 </ul></li>
+                <li><code>sharedParam</code>&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the shared parameter settings for&nbsp;<code>TERNARY</code>&nbsp;types:
+                 <ul>
+                  <li><code>value</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the value of the shared param threshold.</li>
+                 </ul></li>
+               </ul></li>
+             </ul></li>
+           </ul>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">[
+	{"id":52,"enabled":true,"parameters":{"type":"TERNARY","alarm":{"value":45},"warning":{"value":25},"sharedParam":{"value":80}}},
+	{"id":49,"enabled":false,"parameters":{"type":"UNARY","severity":"WARNING"}}
+]</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">No value is returned.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Change notification settings REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-GET/api/alerts/deliverymethods">GET /api/alerts/deliverymethods</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>GET /api/alerts/deliverymethods</code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+          <td class="confluenceTd">Retrieves the delivery method settings.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" style="text-align: left;" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Accept: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_4+json</code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>200 OK</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Body</th>
+          <td class="confluenceTd"><p>The delivery method settings response has the following structure:</p>
+           <div id="expander-41560109" class="expand-container">
+            <div id="expander-control-41560109" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-41560109" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":{
+    "snmpSettings":{
+      "enabled": true,
+      "deliveryAddress": "udp:127.0.0.1/162",
+      "snmpCommunity": "public"
+    },
+    "emailSettings":{
+      "enabled": true,
+      "fromAddress": "a@a.com",
+      "server": "aaa",
+      "port": 25,
+      "sslMode": "SMTP",
+      "authenticateEnabled": false,
+      "username": null,
+      "password": "********",
+      "threshold": 10
+    },
+    "smsSettings":{
+      "enabled": false,
+      "sendScript":null,
+      "availableCarriers":[],
+      "threshold": 10
+    },
+    "pagerSettings":{
+      "enabled": false,
+      "sendScript": null, 
+      "availableCarriers":[],
+      "threshold": 10
+     }
+  },
+  "error": null
+}</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'View notification settings REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Alerts-PUT/api/alerts/deliverymethods">PUT /api/alerts/deliverymethods</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>PUT /api/alerts/deliverymethods</code></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+          <td class="confluenceTd">Sets the delivery method settings.</td>
+         </tr>
+         <tr>
+          <th rowspan="2" style="text-align: left;" class="confluenceTh">Request</th>
+          <td class="confluenceTd"><code>Content-Type: application/json</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_4+json&nbsp;</code><br><a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>The delivery method settings request has the following structure:</p>
+           <ul>
+            <li><code>snmpSettings</code>&nbsp;<span style="color: rgb(51,51,51);">-&nbsp;<span class="error">[object]</span>&nbsp;the SNMP settings:</span>
+             <ul>
+              <li><span style="color: rgb(51,51,51);"><code>enabled</code>&nbsp;-&nbsp;<span class="error">[boolean]</span>&nbsp;true if SNMP delivery is enabled.</span></li>
+              <li><code>deliveryAddress</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the SNMP delivery address.</span></li>
+              <li><code>snmpCommunity</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the SNMP community.</span></li>
+             </ul></li>
+            <li><code>emailSettings</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the Email settings:</span>
+             <ul>
+              <li><span style="color: rgb(51,51,51);"><code>enabled</code>&nbsp;-&nbsp;<span class="error">[boolean]</span>&nbsp;true if the Email delivery method is enabled</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>fromAddress</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the email address emails appear to be sent from.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>server</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the email server.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>port</code>&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;the email port.</span></li>
+              <li><code>sslMode</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[enumerated string]</span>&nbsp;the email server SSL mode: one </span>of&nbsp;<span style="color: rgb(51,51,51);"><code>SMTP</code></span>,<span style="color: rgb(51,51,51);">&nbsp;<code>SMTPS</code>&nbsp;or&nbsp;<code>STARTTLS</code>.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>authenticateEnabled</code>&nbsp;-&nbsp;<span class="error">[boolean]</span>&nbsp;true if authentication on the email server is enabled.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>username</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the email server username.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code>password</code>&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the email server password.</span></li>
+              <li><code>floodControl</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[number]</span>&nbsp;the maximum number of emails to send with a five-minute window.</span></li>
+             </ul></li>
+            <li><code>smsSettings</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the SMS settings:</span>
+             <ul>
+              <li><span style="color: rgb(51,51,51);"><code>enabled</code>&nbsp;-&nbsp;<span class="error">[boolean]</span>&nbsp;true if the SMS delivery method is enabled.</span></li>
+              <li><code>sendScript</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the SMS JavaScript to generate SMS messages.</span></li>
+              <li><code>availableCarriers</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[array]</span>&nbsp;the list of SMS carriers.</span></li>
+              <li><span style="color: rgb(51,51,51);"><code><span>floodControl</span></code>&nbsp;- <span class="error">[number]</span><span>&nbsp;</span>the maximum number of SMS messages to send with a five-minute window.</span></li>
+             </ul></li>
+            <li><code>pagerSettings</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[object]</span>&nbsp;the pager settings:</span>
+             <ul>
+              <li><span style="color: rgb(51,51,51);"><code>enabled</code>&nbsp;-&nbsp;<span class="error">[boolean]</span>&nbsp;true if the pager delivery method is enabled.</span></li>
+              <li><code>sendScript</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[string]</span>&nbsp;the pager JavaScript to generate pager messages.</span></li>
+              <li><code>availableCarriers</code><span style="color: rgb(51,51,51);">&nbsp;-&nbsp;<span class="error">[array]</span></span>&nbsp;list of pager carriers.</li>
+              <li><code>floodControl</code>&nbsp;- <span class="error">[number]</span><span>&nbsp;</span>the maximum number of pager messages to send with a five-minute window.</li>
+             </ul></li>
+           </ul>
+           <div id="expander-198186603" class="expand-container">
+            <div id="expander-control-198186603" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example...</span>
+            </div>
+            <div id="expander-content-198186603" class="expand-content">
+             <div class="code panel pdl" style="border-width: 1px;">
+              <div class="codeContent panelContent pdl"> 
+               <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "snmpSettings":{
+    "enabled": true,
+    "deliveryAddress": "udp:127.0.0.1/162",
+    "snmpCommunity": "public"
+  },
+  "emailSettings":{
+    "enabled": false,
+    "fromAddress": null,
+    "server": null,
+    "port": 25,
+    "sslMode": "SMTP",
+    "authenticateEnabled": false,
+    "username": null,
+    "password": "********",
+    "floodControl": 10
+  },
+  "smsSettings":{
+    "enabled": false,
+    "sendScript": null,
+    "availableCarriers":[],
+    "floodControl": 10
+  },
+  "pagerSettings":{
+    "enabled": false,
+    "sendScript": null,
+    "availableCarriers":[],
+    "floodControl": 10
+  }
+}</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code>&nbsp;- operation successful.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Change notification settings REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <div>
+       <span style="white-space: pre-wrap;"><br></span>
+      </div> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

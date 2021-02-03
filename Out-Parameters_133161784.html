@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Out Parameters</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+       <li> <span><a href="Stored-Procedures_133161783.html">Stored Procedures</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Out Parameters</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Within the configuration file, OUT parameters are referenced in a manner similar to the way columns, message properties and message field paths are referenced, in that they are marked by a special escape character, in this case the hash character ('#').</p>
+      <p>Within its lifetime, an OUT parameter can be used both as an OUT parameter and as an IN parameter. An OUT parameter's first use must be as a true OUT parameter, and it must be declared as such within the scope of the statement in which it is first used. Subsequently, having been initialized with a value by its use in a stored procedure or function, it can be referred to and used as an IN parameter in later SQL statements. OUT parameters may not be re-used as OUT parameters in later statements. In other words, an OUT parameter starts off write-only and then, once initialized with a value, becomes read-only. The following example will illustrate (certain required elements, introduced shortly, have been left out of this example for clarity):</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement&gt;
+    &lt;procedure&gt;{#result = call some_function()}&lt;/procedure&gt;
+    &lt;statement&gt;
+        &lt;sql&gt;SELECT some_column FROM some_table WHERE some_value = #result&lt;/sql&gt;
+    &lt;/statement&gt;
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p>When an OUT parameter is first used, it must be declared with an &lt;outParam&gt; element, nested directly within the associated &lt;statement&gt; element. This element takes the form:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;outParam name="some_name" type="some_type"/&gt;
+</pre> 
+       </div>
+      </div>
+      <p>Both the name and the type attributes are required. The name attribute must be the name of an OUT parameter used in the associated &lt;procedure&gt; SQL code (without the '#' character). The type is either one of the enumerated values listed below, or the fully qualified name of the Java constant representing the SQL type of the parameter, for vendor-specific types. An example of a vendor-specific type constant is com.inet.ora.OraDriver.CURSOR. Note that vendor-specific types are case sensitive and that the Java class implementing the type constant must be on the Rhapsody class path (this can be achieved by putting the implementation jar file in the Rhapsody lib directory).</p>
+      <p>The standard types accepted as values for the type attribute are ARRAY, BIGINT, BINARY, BIT, BLOB, BOOLEAN, CHAR, CLOB, DATALINK, DATE, DECIMAL, DISTINCT, DOUBLE, FLOAT, INTEGER, JAVA_OBJECT, LONGVARBINARY, LONGVARCHAR, NULL, NUMERIC, OTHER, REAL, REF, SMALLINT, STRUCT, TIME, TIMESTAMP, TINYINT, VARBINARY, and VARCHAR.</p>
+      <p>The example above is more correctly defined as:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement&gt;
+    &lt;outParam name="result" type="VARCHAR"/&gt;
+    &lt;procedure&gt;{#result = call some_function()}&lt;/procedure&gt;
+    &lt;statement&gt;
+        &lt;sql&gt;SELECT some_column FROM some_table WHERE some_value = #result&lt;/sql&gt;
+    &lt;/statement&gt;
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p>In addition to referring to OUT parameters from one statement in the SQL code of later statements, with the database lookup filter, OUT parameters can also be substituted into message fields and properties, in a manner similar to the columns returned by result sets. This is achieved using the &lt;substituteOutParam&gt; element, which functions much like the &lt;substituteColumn&gt; element. It takes the form:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;substituteOutParam name="some_name"&gt;
+    some_field_or_property_name
+&lt;/substituteOutParam&gt;
+</pre> 
+       </div>
+      </div>
+      <p>The name attribute is required and specifies the name of a previously declared OUT parameter (that is, declared within the scope of the current or an earlier &lt;statement&gt; element). The content of this element must be a message field path or property name. Note that, unlike &lt;substituteColumn&gt;, there is no default attribute; although for columns it is possible that no or an empty result set will be returned, an OUT parameter should always be initialized with a value once the SQL code has been executed. Adding this element to the above example, we might have:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement&gt;
+   &lt;outParam name="result" type="VARCHAR"/&gt;
+   &lt;procedure&gt;{#result = call some_function()}&lt;/procedure&gt;
+   &lt;substituteOutParam name="result"&gt;MSH.SendingFacility&lt;/substituteOutParam&gt;
+   &lt;statement&gt;
+      &lt;sql&gt;SELECT some_column FROM some_table WHERE some_value = #result&lt;/sql&gt;
+      &lt;statement name="substitute"&gt;
+         &lt;substituteColumn name="aColumn"&gt;aListProperty[]&lt;/substituteColumn&gt;
+      &lt;/statement&gt;
+   &lt;/statement&gt;
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p>OUT parameters may also be referenced by the test attribute of &lt;statement&gt; elements which are executed after the stored procedure in which the OUT parameter is initialized. This last piece of functionality is illustrated with a final extension to the running example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement&gt;
+   &lt;outParam name="result" type="VARCHAR"/&gt;
+   &lt;procedure&gt;{#result = call some_function()}&lt;/procedure&gt;
+   &lt;substituteOutParam name="result"&gt;MSH.SendingFacility&lt;/substituteOutParam&gt;
+   &lt;statement test="NOTEQUAL(#result, 'error')"&gt;
+      &lt;sql&gt;SELECT some_column FROM some_table WHERE some_value = #result&lt;/sql&gt;
+      &lt;statement name="substitute"&gt;
+         &lt;substituteColumn name="aColumn"&gt;aListProperty[]&lt;/substituteColumn&gt;
+      &lt;/statement&gt;
+   &lt;/statement&gt;
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p>In general, there are two types of stored procedure. The first type, as shown in all of the previous examples, is actually a function rather than a procedure. The result of the operation that the function performs is the return value of the function. A true stored procedure does not have a return value as such. Instead, an OUT or IN-OUT parameter is passed into the procedure; this value can then be set from within the procedure. The following example will illustrate this.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;config&gt; 
+   &lt;outParam name="anOutParameter" type="VARCHAR"/&gt; 
+   &lt;procedure&gt;
+      {call my_procedure(12, 'String', @MSH.MessageType, $MessageProperty, #OutParameter)} 
+   &lt;/procedure&gt; 
+&lt;/config&gt;
+</pre> 
+       </div>
+      </div>
+      <p>In this example, the OUT parameter 'OutParameter' is passed into the procedure along with other common parameters. Note the difference between this procedure and the previous functions; whereas the function returns a value, the procedure does not. Instead, the value of the OUT parameter is set within the procedure.</p>
+      <p>OUT parameters can be used in the database communication point in both input and output mode, and in both the query and the lookup database filters. Note, however, that their use in the communication point in input mode and in the query filter, both of which generate a new message body using SQL queries, is limited to extracting values from the database which can be used in subsequent SQL queries which generate the message body; the values of OUT parameters themselves cannot be substituted into the generated message.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

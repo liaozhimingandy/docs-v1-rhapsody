@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Performance Problems</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Rhapsody_133164108.html">Troubleshooting Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Examples_133164109.html">Troubleshooting Examples</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Performance Problems</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The default Rhapsody settings provide good performance for most situations and hardware. Performance tuning is typically only required for large solutions that require extremely high performance.</p>
+      <p>One of the problems with performance testing is that it is common for an issue to cause a backlog of messages in another area of the system. To assist with performance testing, Rhapsody has inbuilt performance monitoring that can be activated to identify the routes and filters that are using the greatest system resources. This is recommended as the first step in identifying processing and resource bottlenecks. Refer to the <a href="Performance-Statistics_133163873.html">Performance Statistics</a> in <em>Monitoring</em> to learn how to turn on monitoring.</p>
+      <h2 id="PerformanceProblems-PerformanceProblemCategories">Performance Problem Categories</h2>
+      <p>Rhapsody configurations are typically limited by the following issues:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147032869 {padding: 0px;}
+div.rbtoc1565147032869 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147032869 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147032869"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#PerformanceProblems-CPUProcessing">CPU Processing</a></li> 
+        <li><a href="#PerformanceProblems-DiskAccess">Disk Access</a></li> 
+        <li><a href="#PerformanceProblems-FilterQueries">Filter Queries</a></li> 
+        <li><a href="#PerformanceProblems-CommunicationPointQueries">Communication Point Queries</a></li> 
+        <li><a href="#PerformanceProblems-FIFOConfiguration">FIFO Configuration</a></li> 
+        <li><a href="#PerformanceProblems-Memory">Memory</a></li> 
+        <li><a href="#PerformanceProblems-CommunicationPointLimits">Communication Point Limits</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h3 id="PerformanceProblems-CPUProcessing">CPU Processing</h3>
+      <p>CPU processing limits are typically identified by the processor being pegged at 100%. This indicates that the limiting factor is that too much work must be done to process the messages.</p>
+      <p><strong>Cause:</strong></p>
+      <ul>
+       <li>Large messages.</li>
+       <li>Complex messages requiring heavy processing.</li>
+       <li>Compute-intensive transformations, for example encryption, applied to a message.</li>
+       <li>A large volume of messages (typically in combination with another point on this list).</li>
+      </ul>
+      <p><strong>Resolution:</strong></p>
+      <ul>
+       <li>Use the Performance Monitoring tools to identify the most time-consuming filters. Attempt to minimize the processing through these filters and look at combining multiple filters.</li>
+       <li>Reduce message parsing. Parsing messages is expensive, especially if multiple definitions are used on a single message.</li>
+       <li>Add additional load-balanced servers.</li>
+      </ul>
+      <h3 id="PerformanceProblems-DiskAccess">Disk Access</h3>
+      <p>Rhapsody depends on a fast disk being available for reading and writing messages and other data. If the disk has a heavy load, then the performance is affected.</p>
+      <p>This can normally be monitored by looking at the disk queue. The disk queue tells you how many I/O operations are currently waiting for the disk to become available. As a general rule, an Average Disk Queue Length greater than 2 (per hard disk) for extended periods of time is considered undesirable.</p>
+      <p><strong>Cause:</strong></p>
+      <ul>
+       <li>Slow disk hardware.</li>
+       <li>Slow connection to disk hardware (controller, network and so on).</li>
+       <li>Conflicts with non-Rhapsody applications.</li>
+       <li>Excessive use of indexed properties.</li>
+       <li>Improper software (drivers).</li>
+      </ul>
+      <p><strong>Resolution:</strong></p>
+      <ul>
+       <li>Span the Rhapsody archives across multiple disks.</li>
+       <li>Reduce the number of indexed message properties for each message.</li>
+       <li>Reduce the number of disk-intensive applications on the Rhapsody server.</li>
+       <li>Install Rhapsody's data store on its own disk partition, or ideally on its own disk drive.</li>
+      </ul>
+      <h3 id="PerformanceProblems-FilterQueries">Filter Queries</h3>
+      <p>If a Rhapsody filter is using an external resource, then the time required to access that resource can have a great impact on system performance. These scenarios often show symptoms of low activity (disk and CPU), but a backlog forming.</p>
+      <p>A common scenario is the use of a Rhapsody database filter query. While this filter is awaiting a response from the database, the route execution thread is currently locked. If the default of 10 threads is being used, then it is possible to have all the route threads waiting on a database lookup.</p>
+      <p><strong>Cause:</strong></p>
+      <ul>
+       <li>High-latency communication to a database or another external system.</li>
+      </ul>
+      <p><strong>Resolution:</strong></p>
+      <ul>
+       <li>Convert external lookups to communication points where possible.</li>
+       <li>Optimize database queries for performance.</li>
+       <li>Increase the number of route execution threads in the engine (though this may not always resolve the issue).</li>
+      </ul>
+      <h3 id="PerformanceProblems-CommunicationPointQueries">Communication Point Queries</h3>
+      <p>Unlike filters, communication points have their own threads to process messages. This means they do not tie up THE route execution threads when awaiting responses. However, if the communication point is configured as <em>Out-&gt;In</em>, there will still be a backlog awaiting responses.</p>
+      <p>This problem is typically recognized by messages queuing up to be sent on an <em>Out-&gt;In</em> communication point.</p>
+      <p><strong>Cause:</strong></p>
+      <ul>
+       <li>High-latency communication to a database or another external system.</li>
+      </ul>
+      <p><strong>Resolution:</strong></p>
+      <ul>
+       <li>Optimize the external system to see why the response is slow.</li>
+       <li>Determine whether the communication point can be converted to a mode other than<em> Out-&gt;In</em>. For example, is synchronous processing required?</li>
+      </ul>
+      <h3 id="PerformanceProblems-FIFOConfiguration">FIFO Configuration</h3>
+      <p>Rhapsody routes can be configured to use one of a number of First-In, First-Out message ordering options. By default, Rhapsody routes will specify that the order of messages leaving the route must be the same as the order of messages received by the route.</p>
+      <p>In situations where some messages take much longer to be processed than others on the same route, this can cause delays in some messages leaving the route due to the FIFO rules. In these situations, it may be better to split the message processing into multiple routes, or modify the FIFO rules for the route.</p>
+      <h3 id="PerformanceProblems-Memory">Memory</h3>
+      <p>The Java™ Virtual Machine (JVM) that Rhapsody runs in can be allocated an amount of memory that is different from the memory available on a machine. Rhapsody will increase to this limit, and not use all the available memory.</p>
+      <p>The JVM periodically triggers a garbage collection to recover memory when required. During garbage collection, the performance of the engine decreases due to the higher processing load. Refer to <a href="http://www.oracle.com/technetwork/java/javase/tech/index-jsp-140228.html" class="external-link" rel="nofollow">Java HotSpot Garbage Collection</a> for details.</p>
+      <p>If Rhapsody's memory is configured too low, it will cause Rhapsody to run garbage collection more frequently. This could have an impact on performance.</p>
+      <p>Having Rhapsody's memory configured too high may cause Rhapsody to run a very large garbage collection when required. This could have the impact of processing being stopped for a number of seconds while the system is freeing this memory. Also, if the memory allocation is too large, it may compete with the operating system's use of memory, causing excessive paging in the machine's virtual memory system.</p>
+      <h3 id="PerformanceProblems-CommunicationPointLimits">Communication Point Limits</h3>
+      <p>Each communication point has some limit to the number of messages that can be sent and/or received. This is defined by the communication point protocol, the configuration, and various system limits. For example, disk access will limit directory communication points.</p>
+      <p><strong>Cause:</strong></p>
+      <ul>
+       <li>Stressing the machine's limits for a given communication point's protocol.</li>
+      </ul>
+      <p><strong>Resolution:</strong></p>
+      <ul>
+       <li>Spread the load over multiple communication points.</li>
+       <li>Add additional load-balanced servers.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

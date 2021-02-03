@@ -1,0 +1,699 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>System Monitor</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Monitoring_133163674.html">Monitoring</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">System Monitor</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148511" class="wrapped confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path</em> : <strong>Monitoring&gt;System Monitor</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Read</em><em> <a href="Access-Rights_133161013.html">Access Rights</a></em><em>:</em></p>
+           <ul>
+            <li>Log in to Management Console</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em><em>Write</em><em> <a href="Access-Rights_133161013.html">Access Rights</a></em>:</em></p>
+           <ul>
+            <li>Change system notifications</li>
+            <li>Export system statistics</li>
+            <li>Edit component notifications</li>
+            <li>Edit component notification thresholds</li>
+            <li>Notification stream comment</li>
+            <li>Notification issue assign</li>
+            <li>Notification issue resolve</li>
+            <li>Suspend/resume component and issue notifications</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148511']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148511',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>The <strong>System Monitor</strong> page displays a graphical history of the engine's message throughput, disk space usage and memory usage, over a configurable time period.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/133163832/133163833.png" data-image-src="attachments/133163832/133163833.png" data-unresolved-comment-count="0" data-linked-resource-id="133163833" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="systemmonitornew.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163832" data-linked-resource-container-version="5"></span></p>
+      <p>It consists of the following panels:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Panels</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Throughput</p></td>
+          <td class="confluenceTd"><p>A line graph showing the <strong>Received</strong>, <strong>Processed</strong>, <strong>Sent</strong> and <strong>Failed</strong> messages which passed through all the components in the engine.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Available Disk Space</p></td>
+          <td class="confluenceTd"><p>A line graph showing the disk space available in the engine.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Rhapsody Heap Memory</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Line graphs showing the Rhapsody Heap memory usage in the Rhapsody engine. <br class="atl-forced-newline"> <br class="atl-forced-newline"> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="850" src="attachments/133163832/133163835.png" data-image-src="attachments/133163832/133163835.png" data-unresolved-comment-count="0" data-linked-resource-id="133163835" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WorkingMem.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163832" data-linked-resource-container-version="5"></span></p>
+            <ul>
+             <li><p><strong>Maximum</strong> - the maximum heap memory allocated to Java by the JVM.</p>
+              <div class="confluence-information-macro confluence-information-macro-note">
+               <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p><strong>Maximum</strong> memory is the maximum memory of the Java heap, not the maximum memory being used by processes.</p>
+               </div>
+              </div></li>
+             <li><strong>Working</strong> - tracks the amount of memory in Rhapsody after each garbage collection. It is the most accurate depiction of Rhapsody's minimum memory requirements. The excess portion of the graph turns red when Working memory exceeds a customizable percentage of the Maximum memory (the default percentage is 70%).</li>
+             <li><strong>Committed</strong> - the amount of memory currently committed by the operating system to the Java heap. This is memory that is guaranteed by physical and virtual memory, preventing out of memory errors.</li>
+             <li><strong>Transient</strong> - the amount of memory currently being used. It includes free memory that has not been garbage collected.</li>
+             <li><p><strong style="letter-spacing: 0.0px;">GC Pause </strong><span style="letter-spacing: 0.0px;">-</span><span style="letter-spacing: 0.0px;"> a garbage collection pause that lasts 10 seconds or more indicated by a bar.</span></p>
+              <div class="confluence-information-macro confluence-information-macro-warning">
+               <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+               <div class="confluence-information-macro-body">
+                <p>This identifies a garbage collection cycle during which time all application processing is frozen.</p>
+               </div>
+              </div></li>
+             <li><strong>Not Running </strong>- a green bar indicates a normal shutdown; a brown bar indicates an unclean shutdown.</li>
+            </ul>
+            <p><span>The </span><strong>Advanced</strong><span> button enables you to show or hide the </span><strong>Committed</strong><span> and </span><strong>Transient</strong><span> line graphs. It is off by default.</span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="#SystemMonitor-ActivityFeed">Activity Feed</a></p></td>
+          <td class="confluenceTd"><p>Displays all current issues that relate specifically to the engine itself. Issues for individual components can be viewed on their own respective pages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="#SystemMonitor-MemoryUsageStatistics">Memory Usage Statistics</a></p></td>
+          <td class="confluenceTd"><p>A summary of memory usage statistics for the engine.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="#SystemMonitor-Notifications">Notifications</a></p></td>
+          <td class="confluenceTd"><p>Displays a read-only list of all recipients and enables you to set up custom notification preferences for the selected component.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><a href="#SystemMonitor-CustomThresholds">Custom Thresholds</a></p></td>
+          <td class="confluenceTd"><p>Enables you to set up custom thresholds for the selected component.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SystemMonitor-SystemPerformance">System Performance</h2>
+      <p>The graphs are designed to show statistical trends of the engine's message throughput, disk space&nbsp;and memory usage, over a configurable time period,&nbsp;based on a <a href="#SystemMonitor-StatisticsRetentionPolicy">statistics retention policy</a>.</p>
+      <p>The graph plots are color-coded to distinguish between the different options in a graph. For example, in the&nbsp;<strong>Throughput&nbsp;</strong>graph, the different trace colors refer to received, processed, sent and failed messages. Place your mouse pointer over any portion of the display trace to see the value at that point in time.</p>
+      <p>You can alter the display period of the graphs as follows:</p>
+      <ul>
+       <li><strong>All </strong>- displays a sample of&nbsp;values since Rhapsody was first used.</li>
+       <li><strong>60d</strong>&nbsp;- displays&nbsp;a sample of values for the last 60 days.</li>
+       <li><strong>30d</strong>&nbsp;- displays a sample of&nbsp;values for the last 30 days.</li>
+       <li><strong>7d</strong>&nbsp;- displays a sample of&nbsp;values for the last 7 days.</li>
+       <li><strong>24h</strong>&nbsp;- displays a sample of&nbsp;values for the last 24 hours.</li>
+       <li><strong>1h</strong>&nbsp;- displays a sample of&nbsp;values for the last 1 hour.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-tip">
+       <span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Certain statistical details may not be displayed in the graphs depending on the zoom resolution. To zoom in and display a graph in finer detail, click and drag on the map. All graphs are synced with the selection.</p>
+       </div>
+      </div>
+      <p>Click the <strong>Hide Graphs</strong> link to hide the graphs. Click the <strong>Show Graphs</strong> link to view the graphs.</p>
+      <h3 id="SystemMonitor-StatisticsRetentionPolicy">Statistics Retention Policy</h3>
+      <p><span>Rhapsody observes the following statistics retention policy:</span></p>
+      <ul>
+       <li>Statistics collected for the last day are kept at 30-second intervals.</li>
+       <li>Statistics collected for the last week are kept at 5-minute intervals.</li>
+       <li>Statistics collected for the last 30 days are kept at 30-minute intervals.</li>
+       <li>Statistics collected beyond 30 days are kept at 6-hour intervals.</li>
+      </ul>
+      <h3 id="SystemMonitor-SystemHealth"><span style="color: rgb(0,0,0);font-size: 16.0px;font-weight: bold;">System Health</span></h3>
+      <p>A healthy system generally satisfies the following conditions:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Recommendation</p></th>
+          <th class="confluenceTh"><p>Justification</p></th>
+          <th class="confluenceTh"><p>Resolution</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>The working memory level should remain below the red threshold.</p></td>
+          <td class="confluenceTd"><p>The working memory represents the amount of memory in use by Rhapsody after a full garbage collection. As such, if this remains at a high level, the chance of an Out of Memory error occurring in Rhapsody due to a sudden spike in workload increases (as there is less available memory before the maximum heap is reached).</p></td>
+          <td class="confluenceTd"><p>If the working memory consistently remains above the threshold, then it is likely you will need to increase the maximum heap allocation. Ideally, the working memory series should remain between 40% and 70% of the maximum series.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>There should be no Garbage Collection (GC) pauses.</p></td>
+          <td class="confluenceTd"><p>Only GC pauses in excess of 10 seconds are displayed on the memory graph. A GC pause results in all application processing being put on pause until the GC pause completes. Therefore, long pauses have a significant performance impact on application processing.</p></td>
+          <td class="confluenceTd"><p>Long GC pauses are generally the result of a sub-optimal Rhapsody heap configuration and/or insufficient physical memory on the system to accommodate Rhapsody's needs, which in turn results in page-swapping and consequent disk I/O operations. Ensure that there is sufficient dedicated physical memory on the system to accommodate Rhapsody, the OS and all other applications on the system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>There should be no unclean shutdowns.</p></td>
+          <td class="confluenceTd"><p>Unclean shutdowns indicate an error in the Rhapsody application or JVM, or an unexpected termination of the OS. The cause of unclean shutdowns must be investigated to eliminate unexpected production outages.</p></td>
+          <td class="confluenceTd"><p>Examine the Rhapsody and OS logs in order to determine the cause of the unclean shutdown.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>The amplitude of the transient memory graph should ideally be less than 30% of the maximum memory.</p></td>
+          <td class="confluenceTd"><p>Large fluctuations in the minima and maxima of the transient series indicate a sub-optimal Rhapsody heap configuration with less frequent garbage collection. This can result in longer GC pause times as well as a more fragmented Rhapsody heap, which both contribute to detrimental performance in application processing.</p></td>
+          <td class="confluenceTd"><p>Ensure that the maximum heap size of Rhapsody is configured such that the working series sits between 40% and 70% of the maximum memory during periods of low and high workload, respectively.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="SystemMonitor-GarbageCollectionLogData">Garbage Collection Log Data</h3>
+      <p>The wrapper log is a log file generated by the wrapper service which is responsible for launching Rhapsody. It contains the following:</p>
+      <ul>
+       <li>Log entries written by the wrapper service.</li>
+       <li>GC log information.</li>
+      </ul>
+      <p>By default, Rhapsody captures Garbage Collection (GC) log data and writes it out to the <code>wrapper.log</code> files. These log files are then used by the Rhapsody engine to persist data regarding garbage collection behavior in Rhapsody.</p>
+      <p>Both the log files and the capture of this data can be configured in the <code>wrapper.conf</code> file which is located in: <code>&lt;APPLICATION_HOME/bin&gt;</code>. The following fields can be modified in order to modify the logging behavior:</p>
+      <ul>
+       <li><code>wrapper.java.additional.12=-verbose:gc</code>&nbsp;- Removing this disables the gathering and persisting of GC information.</li>
+       <li><code>set.WRAPPER_LOG_LOCATION=log/wrapper.log</code>&nbsp;- The value of this variable is used to set the log location.</li>
+       <li><code>wrapper.logfile.maxsize=20m</code>&nbsp;- This value determines the size of the wrapper log files before they wrap.</li>
+       <li><code>wrapper.logfile.maxfiles=10</code>&nbsp;- This value determines the number of wrapper log files which will be kept. The naming convention of the log files is as follows: <code>&lt;filename&gt;.&lt;n&gt;</code> where <code>n</code> increases with older log files.</li>
+      </ul>
+      <h3 id="SystemMonitor-ExportingStatistics">Exporting Statistics</h3>
+      <p></p>
+      <p>To export disk space, memory usage or throughput statistics for the system (or all statistics for the system):</p>
+      <ol>
+       <li><p>Click the <strong>Export</strong> link next to the respective graph to display the <strong>Export Statistics</strong> dialog:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="223" width="525" src="attachments/133163832/133163834.png" data-image-src="attachments/133163832/133163834.png" data-unresolved-comment-count="0" data-linked-resource-id="133163834" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="exportstat.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163832" data-linked-resource-container-version="5"></span></p></li>
+       <li><p>Select one of the following radio buttons:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh"><p>Option</p></th>
+            <th class="confluenceTh"><p>Description</p></th>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><strong>&lt;field name&gt; Statistics Only for System</strong></p></td>
+            <td class="confluenceTd"><p>Only exports the statistics from an individual field for the system.</p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p><strong>All System and Engine Statistics</strong></p></td>
+            <td class="confluenceTd"><p>Exports all statistics types for the system and engine.</p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+       <li>Select the collection time period of statistics you want to export from the <strong>Export Last</strong> drop-down list.</li>
+       <li><p>Select the <strong>Export Times Using UTC</strong> checkbox if you want to export the data using Coordinated Universal Time as the time zone.</p>
+        <div class="confluence-information-macro confluence-information-macro-warning">
+         <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>If this option is <em>not</em> selected, the data is exported using the local time of the Rhapsody engine, which could potentially result in time discrepancies, if a daylight saving changeover occurs during the period the statistics were collected.</p>
+         </div>
+        </div></li>
+       <li>Select the <strong>Export</strong> button. This exports the data to a zipped CSV&nbsp;file.</li>
+      </ol>
+      <h2 id="SystemMonitor-ActivityFeed">Activity Feed</h2>
+      <p>The <strong>Activity Feed</strong>&nbsp;is divided into two panels:</p>
+      <ul>
+       <li><a href="#SystemMonitor-CurrentIssues">Current Issues</a></li>
+       <li><a href="#SystemMonitor-HistoricalIssues">Historical Issues</a></li>
+      </ul>
+      <h3 id="SystemMonitor-CurrentIssues">Current Issues</h3>
+      <p>The <strong>Current Issues</strong>&nbsp;panel displays all the current issues for the selected component, for example:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133159530/133159532.png" data-image-src="attachments/133159530/133159532.png" data-unresolved-comment-count="0" data-linked-resource-id="133159532" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CurrentIssues.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133159530" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Alert Severity</td>
+          <td colspan="1" class="confluenceTd">Indicates the level of severity (alarm or warning).</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Issue</td>
+          <td class="confluenceTd">The name of the issue raised</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Time</td>
+          <td class="confluenceTd">The date and time the alert was raised, and how long ago.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#SystemMonitor-ManagingCurrentIssues">Actions</a></td>
+          <td class="confluenceTd">Clickable links that you can use to act upon the issues.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="SystemMonitor-ManagingCurrentIssues">Managing Current Issues</h4>
+      <p>Use the following actions to manage current issues:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Action</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Comment</p></td>
+          <td class="confluenceTd"><p>Click the <strong>Comment</strong> link to enter a comment for the issue.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Previously Resolved</p></td>
+          <td class="confluenceTd"><p>Click the link to filter the activity feed to display <em>only</em> the related historical resolved issues. This link will only show for <em>Numerical Issues</em>.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>The number represents the number of issues of the same type which are in the historically resolved part of the Activity Feed.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Dismiss Alert</p></td>
+          <td class="confluenceTd"><p>Click the link to <strong>Dismiss</strong> the issue and enter a comment in the text box. <em>Numerical Issues</em> also have the option to Suspend Notifications, where you can enter the time in minutes to suspend notifications for the "Issue" (not "Issue Type").</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>For a <em>Non-Numerical Issue</em>, clicking <strong>Dismiss</strong> will move it immediately to the <strong>Historical Issues</strong> section. Clicking the <strong>Dismiss</strong> link for a <em>Numerical Issue</em> will mark it as "Dismissed". Rhapsody will continue to check the threshold until the issue is resolved. Once the issue is resolved, it will move to the <strong>Historical Issues</strong> section. Until the issue is resolved it will stay in the <strong>Current Issues</strong>. If the severity of the issue increases, for example from "Warning" to "Alarm", the issue will no longer appear as "Dismissed". Refer to <a href="Working-with-Issues_133164039.html">Working with Issues</a> for details.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Reactivate Alert</p></td>
+          <td class="confluenceTd"><p>Click the link to cancel the "Dismissed" state, thus <strong>Reactivating</strong> the severity of the issue. Refer to&nbsp;<a href="Working-with-Issues_133164039.html">Working with Issues</a> for details.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>This link will only appear for <em>Numerical Issues</em> that are currently "Dismissed".</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Suspend Notifications</p></td>
+          <td class="confluenceTd"><p>Click the link and enter a <strong>Suspend Notification</strong> time in minutes to suspend notifications for the "Issue" (not "Issue Type").</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Resume Notifications</p></td>
+          <td class="confluenceTd"><p>Click the link to <strong>Resume Notifications</strong> for the "Issue" (not "Issue Type").</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>This link will only appear when notifications for this issue are currently suspended.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Assign</p></td>
+          <td class="confluenceTd"><p>Click the link and select a user to assign the issue to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Activity</p></td>
+          <td class="confluenceTd"><p>Click the <strong>Activity</strong> link to show or hide the activity for the specific issue.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>The number represents the number of items that will be shown.</p>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Because the system may be updating the state of an issue while you are in the process of performing an action on it, the system will occasionally not let you perform the action without first reviewing the changes that have happened. In this case, it will ask you to refresh the page and try the action again. You may wish to copy the text of any comment you have entered to your clipboard so that you can then have the option of pasting it after you have refreshed the page.</p>
+       </div>
+      </div>
+      <h3 id="SystemMonitor-HistoricalIssues">Historical Issues</h3>
+      <p>The&nbsp;<strong>Historical&nbsp;Issues</strong>&nbsp;panel displays all the current issues for the selected component, for example:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133159530/133159531.png" data-image-src="attachments/133159530/133159531.png" data-unresolved-comment-count="0" data-linked-resource-id="133159531" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="HistoricalIssues.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133159530" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#SystemMonitor-FilteringHistoricalIssues">Filters</a></td>
+          <td colspan="1" class="confluenceTd"><span>Clickable links that you can use to filter the list of displayed issues.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Alert Severity</td>
+          <td colspan="1" class="confluenceTd">Indicates the level of severity (alarm or warning).</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Issue</td>
+          <td class="confluenceTd">The name of the issue raised</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Time</td>
+          <td class="confluenceTd">The date and time the alert was raised, and how long ago.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#SystemMonitor-ManagingHistoricalIssues">Actions</a></td>
+          <td class="confluenceTd">Clickable links that you can use to manage the issues.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="SystemMonitor-FilteringHistoricalIssues">Filtering Historical Issues</h4>
+      <p>Use the following filters to filter historical issues:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Filter</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Issue Types</td>
+          <td class="confluenceTd"><p>The issue types to filter on.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Log Level</td>
+          <td class="confluenceTd"><p>The issue types to filter on.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Show/Hide Comments</td>
+          <td class="confluenceTd"><p><span>Toggle the</span>&nbsp;<strong>Comments</strong>&nbsp;icon&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133159530/133159533.png" data-image-src="attachments/133159530/133159533.png" data-unresolved-comment-count="0" data-linked-resource-id="133159533" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="commentbutton.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133159530" data-linked-resource-container-version="1"></span>&nbsp;to&nbsp;view all comments relating to the Activity Feed.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>This does not filter comments placed against an issue.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Notifications</span></td>
+          <td colspan="1" class="confluenceTd">Toggle the&nbsp;<strong>Notifications&nbsp;</strong>button to view all or none of the following entries in the Activity Feed:
+           <ul>
+            <li>send to</li>
+            <li>resend to</li>
+            <li>escalated to</li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>This shows notifications in both the Current Issues and Historical Issues panels.</p>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="SystemMonitor-ManagingHistoricalIssues">Managing Historical Issues</h4>
+      <p>Use the following actions to manage historical issues:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Action</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Make a comment</p></td>
+          <td class="confluenceTd"><p>Click the <strong>Make a comment </strong>link to add a comment to the Activity Feed.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Comment</td>
+          <td colspan="1" class="confluenceTd">Click the&nbsp;<strong>Comment</strong>&nbsp;link next to a historical issue to comment on that specific issue.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Activity</td>
+          <td colspan="1" class="confluenceTd"><p>Click the&nbsp;<strong>Activity</strong>&nbsp;link next to a historical issue to show or hide the activity for this issue.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>The number represents the number of items that will be shown.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Show error details</td>
+          <td colspan="1" class="confluenceTd"><span>Click the&nbsp;<strong>Show error details</strong></span><span>&nbsp;link next to a historical issue to show the stack trace of any error.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>&nbsp;
+      <p></p>
+      <h2 id="SystemMonitor-MemoryUsageStatistics">Memory Usage Statistics</h2>
+      <p>The <strong>Memory Usage Statistics</strong> panel displays a summary of the Rhapsody Engine's memory usage enabling you to view, at a glance, basic details about the engine:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163832/133163837.png" data-image-src="attachments/133163832/133163837.png" data-unresolved-comment-count="0" data-linked-resource-id="133163837" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="stats.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163832" data-linked-resource-container-version="5"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Available Disk Space</p></td>
+          <td class="confluenceTd"><p>The available disk space.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Available Unused Memory</p></td>
+          <td class="confluenceTd"><p>The free memory available.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Total Process Memory</p></td>
+          <td class="confluenceTd"><p>The total physical and virtual memory in use by Rhapsody(includes de-referenced memory that has not yet been garbage collected).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Total Physical Memory</p></td>
+          <td class="confluenceTd"><p>The total RAM on the system.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SystemMonitor-Notifications">Notifications</h2>
+      <p>The <strong>Notifications</strong> panel displays a read-only list of all recipients (users, watchlists, emails or SNMP).</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163832/133163839.png" data-image-src="attachments/133163832/133163839.png" data-unresolved-comment-count="0" data-linked-resource-id="133163839" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="notificationyty.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163832" data-linked-resource-container-version="5"></span></p>
+      <ul>
+       <li><p>Click the <strong>Change</strong> link to display the <strong>Change Notification</strong> dialog where you can set up custom notification preferences for the selected component and override the default set up on the <a href="Default-Settings_133163925.html">Default Notification Settings</a> page.</p>
+        <div class="confluence-information-macro confluence-information-macro-tip">
+         <span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>When you click the <strong>Change</strong> link to edit the list of recipients who will receive notifications, it <em>only</em> applies to the selected component.</p>
+         </div>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>To edit a watchlist notification preference, click the watchlist name to display the <a href="Watchlists_133163916.html">watchlist details</a>.</p>
+         </div>
+        </div></li>
+       <li>Click the <strong>Suspend All</strong> link to suspend all the notifications for the selected component. When you suspend notifications for the selected component an information banner is displayed above the <strong>Activity Feed</strong>: <br class="atl-forced-newline"> <br class="atl-forced-newline"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163832/133163838.png" data-image-src="attachments/133163832/133163838.png" data-unresolved-comment-count="0" data-linked-resource-id="133163838" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="suspend.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163832" data-linked-resource-container-version="5"></span> <br class="atl-forced-newline"> <br class="atl-forced-newline">Click the <strong>Resume Notifications</strong> link to resume notifications for the selected component. Refer to <a href="133163913.html">Suspend / Resume All Notifications</a> for details.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>To avoid an overload of notifications after engine start-up, notifications are suppressed for the first five minutes after the engine is started. You are notified of when notifications have been enabled through the activity feed with the log entry: <code>Starting the notification resender</code>.</p>
+       </div>
+      </div>
+      <h2 id="SystemMonitor-CustomThresholds">Custom Thresholds</h2>
+      <p>The <strong>Custom Thresholds</strong> panel displays a list of custom thresholds for notifications (warnings and alarms) and allows you to customize them.</p>
+      <p>Click the <strong>Change</strong> link to display the <strong>Change Thresholds</strong> dialog where you can setup threshold values:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Issue</p></th>
+          <th rowspan="2" class="confluenceTh"><p>Description</p></th>
+          <th colspan="2" class="confluenceTh">Default Value</th>
+         </tr>
+         <tr>
+          <th colspan="1" class="confluenceTh"><span style="color: rgb(0,0,0);">Warning</span></th>
+          <th colspan="1" class="confluenceTh"><span style="color: rgb(0,0,0);">Alarm</span></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Large Communication Point Queue (messages)</p></td>
+          <td class="confluenceTd"><p>When the number of messages in either the input or output queue of any communication point is higher than the selected value.</p></td>
+          <td colspan="1" class="confluenceTd">1000</td>
+          <td colspan="1" class="confluenceTd">10000</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Large Route Queue (messages)</p></td>
+          <td class="confluenceTd"><p><span>When the number of messages </span><span>in the processing queue of</span> any route is higher than the selected value.</p></td>
+          <td colspan="1" class="confluenceTd">1000</td>
+          <td colspan="1" class="confluenceTd">10000</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Large Error Queue (messages)</p></td>
+          <td class="confluenceTd"><p>When the number of messages currently in the Error Queue is higher than the selected value.</p></td>
+          <td colspan="1" class="confluenceTd">50</td>
+          <td colspan="1" class="confluenceTd">200</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Large Hold Queue (messages)</p></td>
+          <td class="confluenceTd"><p>When the number of messages currently in the Hold Queue is higher than the selected value.</p></td>
+          <td colspan="1" class="confluenceTd">50</td>
+          <td colspan="1" class="confluenceTd">200</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Low<span> Data Directory Disk Space (MB)</span></p></td>
+          <td class="confluenceTd"><p><span>If the hard drive space available for the Rhapsody data directory drops below the selected value.</span></p></td>
+          <td colspan="1" class="confluenceTd"><span>10240</span></td>
+          <td colspan="1" class="confluenceTd"><span>6144</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><span style="line-height: 13.0pt;">Low Install Directory Disk Space (MB)</span></p></td>
+          <td colspan="1" class="confluenceTd"><span>If the hard drive space available for the Rhapsody installation directory drops below the selected value.</span></td>
+          <td colspan="1" class="confluenceTd"><span>5120</span></td>
+          <td colspan="1" class="confluenceTd"><span>3072</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Low JVM Memory (MB) Average over &lt;n&gt; mins</p></td>
+          <td class="confluenceTd"><p>If the JVM memory available drops below the selected value, on average over the time period specified.</p></td>
+          <td colspan="1" class="confluenceTd">128</td>
+          <td colspan="1" class="confluenceTd">64</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>High Working Memory (%)</p></td>
+          <td class="confluenceTd"><p>When Rhapsody's working memory exceeds the selected percentage of Rhapsody's maximum memory.</p></td>
+          <td colspan="1" class="confluenceTd">75</td>
+          <td colspan="1" class="confluenceTd">85</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Long GC Pause (secs)</p></td>
+          <td class="confluenceTd"><p>When a Garbage Collection pause lasts longer than the selected value.</p></td>
+          <td colspan="1" class="confluenceTd">10</td>
+          <td colspan="1" class="confluenceTd">30</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Old live error queue messages</td>
+          <td colspan="1" class="confluenceTd">When Archive Cleanup detects the Error Queue requires defragmenting.</td>
+          <td colspan="2" class="confluenceTd">Warning</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>High CPU Usage (mins) at Minimum &lt;n&gt; %</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>If the percentage of CPU usage exceeds the selected value, on average over the time period specified.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This only reports the CPU usage by the Rhapsody process, not the overall CPU usage of your system.</p>
+             </div>
+            </div>
+           </div></td>
+          <td colspan="1" class="confluenceTd">5</td>
+          <td colspan="1" class="confluenceTd">15</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Communication Points Stopped Due To Low Space</p></td>
+          <td class="confluenceTd"><p>If Rhapsody stops communication points due to the available disk space falling below the specified minimum (which, by default, is set to 2 GB).</p></td>
+          <td colspan="2" class="confluenceTd">Alarm</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Routes Stopped Due To Low Disk Space</p></td>
+          <td class="confluenceTd"><p>If Rhapsody stops routes due to the available disk space falling below the specified minimum (which, by default, is set to 2 GB).</p></td>
+          <td colspan="2" class="confluenceTd">Alarm</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Backup Failed</p></td>
+          <td class="confluenceTd"><p>If a backup you have scheduled fails to start. This happens if multiple backups have been scheduled to run at the same time, or a backup is running when another backup is meant to start.</p></td>
+          <td colspan="2" class="confluenceTd">Alarm</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Rhapsody Starting</p></td>
+          <td class="confluenceTd"><p>Every time Rhapsody is restarted.</p></td>
+          <td colspan="2" class="confluenceTd">Warning</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Configuration Changed</p></td>
+          <td class="confluenceTd"><p>When a user changes any component of the configuration and checks in that change <span>through</span> Rhapsody IDE or the REST API.</p></td>
+          <td colspan="2" class="confluenceTd"><span>Warning</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Custom Library Changed</td>
+          <td colspan="1" class="confluenceTd"><span>When a user loads or deletes any <span>third party libraries</span> <span>through</span><span> Rhapsody IDE or the REST API.</span></span></td>
+          <td colspan="2" class="confluenceTd"><span>Warning</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Custom Module Changed</td>
+          <td colspan="1" class="confluenceTd"><span>When a user loads or deletes any <span>custom modules</span><span> <span>through</span><span> Rhapsody IDE or the REST API.</span></span></span></td>
+          <td colspan="2" class="confluenceTd"><span>Warning</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <span style="color: rgb(0,0,0);">SSL Certificate Expiry (days)<span class="confluence-anchor-link" id="SystemMonitor-SSLCertificateExpiry"></span></span>
+           </div></td>
+          <td colspan="1" class="confluenceTd"><p><span style="color: rgb(0,0,0);">When an SSL certificate used within Rhapsody is close to expiring or expired. This includes certificates installed by the user via the Rhapsody IDE, and certificates used by Rhapsody internally (for example, for accessing the Management Console using HTTPS).</span></p></td>
+          <td colspan="1" class="confluenceTd">30</td>
+          <td colspan="1" class="confluenceTd">14</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Upcoming Rhapsody License Expiry (days)</td>
+          <td colspan="1" class="confluenceTd"><p>When a valid Rhapsody license is close to expiring or expired. <span style="line-height: 13.0pt;background-color: transparent;">Additionally, a Rhapsody license expiry banner is displayed.</span></p></td>
+          <td colspan="1" class="confluenceTd">14</td>
+          <td colspan="1" class="confluenceTd">7</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>REST API call rejected due to too many incoming requests</p></td>
+          <td class="confluenceTd"><p>When Rhapsody receives more than a certain number of REST API requests within a specified time. Refer to <a href="Excessive-Calls_133161141.html">Excessive Calls</a> for details.</p></td>
+          <td colspan="2" class="confluenceTd">Warning</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Select the <strong>Yes</strong> button and then, depending on the type of notification, select the <strong>Warning</strong> or <strong>Alarm</strong> button to raise an issue for the system or enter the appropriate threshold values in the <strong>Warning</strong> and <strong>Alarm</strong> fields. Select the <strong>No</strong> button if you do not wish to raise a warning or alarm for an issue for the system.</p>
+      <p>Click the <strong>Add Time Period</strong> link to set the time scale to be applied to the threshold for the component:</p>
+      <ul>
+       <li>To apply the time period, select a time period from the drop-down list and select the <strong>Apply</strong> button.</li>
+       <li>To remove the time period, select a time period you want to remove from the drop-down list and click the <strong>Remove Selected Period</strong> link.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

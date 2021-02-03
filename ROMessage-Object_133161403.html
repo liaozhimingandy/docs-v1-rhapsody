@@ -1,0 +1,417 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>ROMessage Object</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">ROMessage Object</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The ROMessage object provides read-only access to Rhapsody messages.</p>
+      <h2 id="ROMessageObject-Properties">Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>text</code></p></td>
+          <td class="confluenceTd"><p>Read property. Gets the body of the message using the default system encoding.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>body</code></p></td>
+          <td class="confluenceTd"><p>Read property. Gets the body of the message as a byte array.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>connectionId</code></p></td>
+          <td class="confluenceTd"><p>Read property. Gets the connection identifier for this message, as an integer, if it was received on a communication point that has connection tracking enabled.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>bodyEncoding</code></p></td>
+          <td class="confluenceTd"><p>Read property. Gets the name of the current character encoding for the body of this message. Returns null if no character encoding has been set.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>xml</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Read property. Gets the message body as an XML object, as defined by the E4X standard. This will throw an exception if the message is not XML. Refer to <a href="https://developer.mozilla.org/en-US/docs/Archive/Web/E4X_tutorial/The_global_XML_object" class="external-link" rel="nofollow">The Global XML Object</a> for details on E4X's XML object.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>For performance reasons, the <span>E4X </span>XML object returned by the <code>xml</code> property is cached so that the message body does not have to be re-parsed every time it is referenced. Therefore, any changes made to the XML object are persisted between requests to the property instead of a new copy being retrieved each time. If you need to make changes to the XML object but still reference its original value, then either reference the <span>XML</span> property of two different message objects (for example, the input and output message separately), or alternatively copy the XML object before the changes are made, for example:</p>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">var myXml = new XML(input[0].xml);</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The <code>prettyPrinting</code> property of the E4X XML object is enabled by default. You can disable this property,&nbsp;but only for all JavaScript filters in your configuration, by setting it to <code>false</code> as follows (you cannot assign it to <code>false</code> directly):</p>
+              <div class="code panel pdl" style="border-width: 1px;">
+               <div class="codeContent panelContent pdl"> 
+                <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">var settings = XML.settings();
+settings.prettyPrinting = false;
+XML.setSettings(settings);&nbsp;</pre> 
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ROMessageObject-Methods">Methods</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The following methods are designed to fetch the original input message, even if you have modified it in the interim.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Method</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getBody()</code></p></td>
+          <td class="confluenceTd"><p>Gets the body of the message as a byte array.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>getBodySize()</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Returns a number representing the current message body size in bytes. This is a more efficient way of retrieving the message body size than calling <code>input.body.length</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>isBodyLargerThan(threshold)</code></p></td>
+          <td colspan="1" class="confluenceTd">Returns true if the current message body size is larger than the provided threshold, or false otherwise. The threshold must be numeric and in bytes. This is a more efficient way of comparing the message body size against a threshold than directly retrieving the size and performing a comparison.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getText(string encoding)</code></p></td>
+          <td class="confluenceTd"><p>Gets the body of the message as a string using the specified Java character encoding.</p><p>Refer to <a href="https://docs.oracle.com/javase/9/intl/supported-encodings.htm#JSINT-GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205" class="external-link" rel="nofollow">Supported Encodings</a> for a list of Java supported encoding sets.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><a href="#ROMessageObject-ExtractaFieldfromaMessage">getField(string fieldPath)</a></code></p></td>
+          <td class="confluenceTd"><p>Extracts the field, specified by the string argument, from the message and returns it as a string. If the field is valid but does not exist, null is returned. If the field is not valid, based on the message definition, an exception is thrown. The message must be parsable using one of the message definitions associated with the route.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#ROMessageObject-ExtractaListofValuesfromaMessageField">getFieldAsList(string fieldPath)</a></code></td>
+          <td colspan="1" class="confluenceTd">Extracts the field, specified by the string argument, from the message and returns it as an array. If the field is valid but does not exist, null is returned. If the field is not valid, based on the message definition, an exception is thrown. The message must be parsable using one of the message definitions associated with the route.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getRepeatCount(string fieldPath)</code></p></td>
+          <td class="confluenceTd">Returns the <span style="color: rgb(51,51,51);">number of repeats if <span>the field specified by <code>fieldPath</code> is a repeating field, or </span>the </span>number of elements within the field <span style="color: rgb(51,51,51);">if the field is non-repeating</span>. The message must be parsable using one of the message definitions associated with the route.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><a href="#ROMessageObject-ObtainMessageProperties">getProperty(string propertyName)</a></code></p></td>
+          <td class="confluenceTd"><p>Returns the value of the message property as a string, or null if the property does not exist on the message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><a href="#ROMessageObject-ObtainMessageProperties">getPropertyAsList(string propertyName)</a></code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Returns a list of the message property values with the given name. The list returned is an instance of <code>java.util.List</code> containing strings. If no property with the given name exists, an empty list is returned.</p>
+            <div class="confluence-information-macro confluence-information-macro-warning">
+             <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Property lists are stored in a serialized format in Rhapsody, with special encoding, which allows them to be parsed correctly. This may change in a future release, therefore, you must NOT parse the list manually, as you may run into problems when extensions are required. You should use the <code>getPropertyAsList(name)</code> method to retrieve the list.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getPropertyNames()</code></p></td>
+          <td class="confluenceTd"><p>Returns an instance of <code>java.util.Iterator</code> that iterates over all the available properties (returned as strings) in the message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getErrors()</code></p></td>
+          <td class="confluenceTd"><p>Returns the array of strings that describe the parsing errors that occurred when processing this message. Any filter that indicates errors either by calling <code>Message.<a href="Message-Object_133161393.html#MessageObject-addError">addError()</a></code>, or by throwing an exception out of the filter, has its errors available through the <code>getErrors()</code> method available in JavaScript. These are only available when a message has come from an error output. Returns an empty array if there are no errors.</p>
+           <ul>
+            <li>If any exception is thrown out of a filter while processing a message, the exception message and the name of the filter are added as an error to the message, allowing subsequent retrieval using the <code>getErrors()</code> method.</li>
+            <li>If the exception has a nested cause (that is, a nested exception), all the messages from the nested exceptions are also added as errors to the message (identified as nested exceptions).</li>
+            <li>If an exception is thrown out of a filter, any other changes made to the message by the filter are discarded.</li>
+            <li>If the thrown exception is a <code>FilterProcessingException</code> (or a derived class), this indicates an error with the message, so the message is sent to the error connector of the filter.</li>
+            <li>If the thrown exception is any other type, the message is sent directly to the error queue (as it generally indicates an issue with the filter rather than the message).</li>
+            <li>If the message is sent to the error connector, but there is nothing connected to the error connector for this filter, the message is sent to the error queue.</li>
+            <li>If an exception is thrown when there were multiple input messages (that is, a collector), the exception error messages are added to all the input messages, and all the messages are sent to the error connector / Error Queue.</li>
+            <li>If a filter explicitly adds errors to the message using the <code><a href="Message-Object_133161393.html#MessageObject-addError">addError()</a></code> method, the message is sent to the error connector once it leaves the filter. Unlike when an exception is thrown, any changes made to the message in this case are saved (as the filter did complete execution).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getReadableEdiMessage()</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Gets access to the internal Symphonia <code>MessageElement</code> if this is an EDI message. Retrieves the root <code>com.orion.symphonia3.MessageElement</code> object representing the entire parsed message. The Symphonia API can then be used to browse the message.</p>
+            <p><span>Refer to </span><a href="Parsing-EDI-Messages_133161394.html">Parsing EDI Messages</a><span> for details.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <p class="title">Important!</p>
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Do not attempt to use this method to change the message. Instead, use the <code><a href="Message-Object_133161393.html#MessageObject-getWritableEdiMessage">getWritableEdiMessage()</a></code> method.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code><a href="HAPIMessage-Object_133161404.html#HAPIMessageObject-getHapiMessage">getHapiMessage(<span>boolean isXml</span>)</a></code></p>
+            <p><span class="confluence-anchor-link" id="ROMessageObject-getHapiMessage"></span></p>
+           </div></td>
+          <td colspan="1" class="confluenceTd"><p><span>Creates a JavaScript object of a transformable HAPI <span>HL7 </span>message <span>using</span><span> the HAPI HL7 structures</span>.</span></p>
+           <ul>
+            <li><code>isXml</code> indicates whether the input message is in XML format. It is optional and defaults to <code>false</code>, which indicates the input message is in pipe-delimited HL7 format.</li>
+           </ul><p><span>Refer to </span><a href="HAPIMessage-Object_133161404.html">HAPIMessage Object</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>isInputIndexedProperty(string propertyName)</code></p></td>
+          <td class="confluenceTd"><p>Returns <code>true</code> if the specified property is indexed for input.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>isOutputIndexedProperty(string propertyName)</code></p></td>
+          <td class="confluenceTd"><p>Returns <code>true</code> if the specified property is indexed for output.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <code><a href="#ROMessageObject-LoadaSnapshotMessage">loadMessageSnapshot()</a><span class="confluence-anchor-link" id="ROMessageObject-loadMessageSnapshot"></span><br></code>
+           </div></td>
+          <td colspan="1" class="confluenceTd"><p>Loads the snapshot of the message which was saved with the <a href="Snapshot-Filters_133162933.html#SnapshotFilters-SaveSnapshotFilter">Save Snapshot filter</a> and returns it as a ROMessage object. This object contains the same message body and message properties that the message had when it was saved.</p>
+           <ul>
+            <li>An error is raised if you attempt to load a snapshot message after the component that saved it has been deleted.</li>
+            <li>The snapshot message must be loaded within the same locker it was saved in. Attempting to load it in another locker will result in an error.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><a href="#ROMessageObject-LoadaSnapshotMessagewithSpecifiedMessageID">loadMessageSnapshotForId(string snapshotMessageId)</a></code></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Loads the snapshot of a message with the specified message ID which was saved with the <a href="Snapshot-Filters_133162933.html#SnapshotFilters-SaveSnapshotFilter">Save Snapshot filter</a> and returns it as a ROMessage object. This object contains the same message body and message properties that the message had when it was saved.</p>
+            <ul>
+             <li>An error is raised if you attempt to load a snapshot message after the component that saved it has been deleted.</li>
+             <li><span>The snapshot message must be loaded within the same locker it was saved in. Attempting to load it in another locker will result in an error.</span></li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>This method can, in fact, be used to retrieve any message using its message ID, including <span>messages</span> that were not saved as snapshots.</p>
+             </div>
+            </div>
+            <p><span><br></span></p>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ROMessageObject-Examples">Examples</h2>
+      <p>The input object that is accessible in a JavaScript filter script is an array of ROMessage&nbsp;objects. The following examples illustrate how to use the <code>ROMessage</code> properties and methods:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146999710 {padding: 0px;}
+div.rbtoc1565146999710 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146999710 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146999710"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ROMessageObject-StoreMessageBody">Store Message Body</a></li> 
+        <li><a href="#ROMessageObject-ExtractaFieldfromaMessage">Extract a Field from a Message</a></li> 
+        <li><a href="#ROMessageObject-FindtheNumberofRepeatingElementsforaMessageField">Find the Number of Repeating Elements for a Message Field</a></li> 
+        <li><a href="#ROMessageObject-ExtractaListofValuesfromaMessageField">Extract a List of Values from a Message Field</a></li> 
+        <li><a href="#ROMessageObject-ObtainMessageProperties">Obtain Message Properties</a></li> 
+        <li><a href="#ROMessageObject-LoadaSnapshotMessage">Load a Snapshot Message</a></li> 
+        <li><a href="#ROMessageObject-LoadaSnapshotMessagewithSpecifiedMessageID">Load a Snapshot Message with&nbsp;Specified&nbsp;Message ID</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h3 id="ROMessageObject-StoreMessageBody">Store Message Body</h3>
+      <p>The following code excerpt&nbsp;gets each input message's body, and stores it in the local string <code>readOnlyBody</code>:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var readOnlyMessage = input[i];
+
+    // Get the message body
+    var readOnlyBody = readOnlyMessage.text;
+
+    //...
+
+}</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>In this example (and the code excerpts on this page), no message is inserted into the output <code>MessageCollection</code>. Each element in the <code>input[]</code> array is a read-only message, so cannot be altered in any way. Later examples show how to edit the messages and add them to the output message collection.</p>
+       </div>
+      </div>
+      <h3 id="ROMessageObject-ExtractaFieldfromaMessage">Extract a Field from a Message</h3>
+      <p>The following code excerpt&nbsp;demonstrates how to extract a field from a message.</p>
+      <p>For an EDI message, the&nbsp;<span style="color: rgb(255,0,0);"><code>.</code></span> or <span style="color: rgb(255,0,0);"><code>/</code></span>&nbsp;symbol should be used to separate the elements leading to the field. A specific repeating element can be specified by putting the repeating element number in square brackets (as in a later example). If the field is not valid, based on the message definition, an exception will be thrown. For an XML message, the field should be addressed using XPath notation. Use <span style="color: rgb(255,0,0);"><code>/</code></span> to separate elements and square brackets to specify a repeating element's index.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For an XML message, an exception will never be thrown; XML messages have no concept of an invalid field and thus will return null when the field does not exist.</p>
+       </div>
+      </div>
+      <p>For the following, we assume the route has a message definition attached to it, that defines an <code>HL7 ADT^A01</code> message with an <code>MSH</code> segment that contains the <code>CountryCode</code> field.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var readOnlyMessage = input[i];
+
+    // Get a field from the message
+    var countryCode = readOnlyMessage.getField("MSH/CountryCode");
+
+    //...
+}</pre> 
+       </div>
+      </div>
+      <h3 id="ROMessageObject-FindtheNumberofRepeatingElementsforaMessageField"><span style="line-height: 13.0pt;background-color: transparent;">Find the Number of Repeating Elements for a Message Field</span></h3>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The following code excerpt finds the number of repeating elements for a message field, and iterates through each of them. In this example, the route requires a message defined with an&nbsp;</span><code style="line-height: 13.0pt;">NK1</code><span style="line-height: 13.0pt;background-color: transparent;"> repeating message segment containing a </span><code style="line-height: 13.0pt;">Religion</code><span style="line-height: 13.0pt;background-color: transparent;"> field. The value of the </span><code style="line-height: 13.0pt;">Religion</code><span style="line-height: 13.0pt;background-color: transparent;"> field on each repeat is concatenated into the string religions, separated by semicolons</span><span style="line-height: 13.0pt;background-color: transparent;">.</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var readOnlyMessage = input[i];
+
+    // Get the number of repeats for the "NK1" field
+    var repeatCount = readOnlyMessage.getRepeatCount("NK1");
+
+    // Iterate through each repeat, getting the "Religion" field of each
+    var religions = "";
+    for (var i = 0; i &lt; repeatCount; i++) {
+        var religion = readOnlyMessage.getField("NK1[" + i + "]/Religion");
+        religions += religion + ";";
+    }
+
+    //...
+}</pre> 
+       </div>
+      </div>
+      <h3 id="ROMessageObject-ExtractaListofValuesfromaMessageField">Extract a List of Values from a Message Field</h3>
+      <p>The following code excerpt demonstrates how to extract a list of values from repeating elements for a message field, and iterates through each of them. In this example, the route requires a message defined with a&nbsp;<code>DG1</code>&nbsp;(Diagnosis) repeating message segment containing a&nbsp;<code>DiagnosisCode/Text</code>&nbsp;field.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">var readOnlyMessage = input[0];
+var diagnosisCodes = readOnlyMessage.getFieldAsList("DG1[*]/DiagnosisCode/Text");
+var str_diagnosisCodes = "";
+
+for (var i = 0; i &lt; diagnosisCodes.length; i++) {
+str_diagnosisCodes += diagnosisCodes[i] + ";"; 
+}
+log.info("List of diagnosis codes: " + str_diagnosisCodes);</pre> 
+       </div>
+      </div>
+      <h3 id="ROMessageObject-ObtainMessageProperties"><span style="line-height: 13.0pt;background-color: transparent;">Obtain Message Properties<br></span></h3>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The following two code listings show the two ways that the value of message properties can be obtained. </span></p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The first way, you can access the properties as a list. Each item in the list can be accessed by iterating through the list, as with a Java List object. We print a warning message to the log for each value property of the multi-valued property.</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var readOnlyMessage = input[i];
+
+    // Get a list of message properties
+    var properties = readOnlyMessage.getPropertyAsList("PropertyList");
+
+    // Loop through the properties, 
+    var iterator = properties.iterator();
+    while (iterator.hasNext()) {
+        var oneProperty = iterator.next();
+        log.info("One property is: " + oneProperty);
+    }
+}</pre> 
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">Alternatively, you can obtain the value of a property </span><code style="line-height: 13.0pt;">MessageName</code><span style="line-height: 13.0pt;background-color: transparent;"> as a string property.</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var readOnlyMessage = input[i];
+
+   // Get a single message property string
+   var property = readOnlyMessage.getProperty("MessageName");
+
+   //...
+}</pre> 
+       </div>
+      </div>
+      <h3 id="ROMessageObject-LoadaSnapshotMessage"><span>Load a Snapshot Message</span></h3>
+      <p><span>This code excerpt&nbsp;shows how to load a previously saved message snapshot. This contains an example of retrieving the original message property from the snapshot message and accessing the message bodies of the current message and the snapshot message.</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">var inputMessage = input[0];
+  
+// Load the snapshot
+var snapshot = inputMessage.loadMessageSnapshot();
+  
+// Retrieve one of the old properties
+var messageName = snapshot.getProperty("MessageName");
+  
+//...
+  
+// Combine both message bodies
+var combinedText = inputMessage.text + '\n' + snapshot.text;
+  
+var outputMessage = output.append(inputMessage);
+outputMessage.text = combinedText;</pre> 
+       </div>
+      </div>
+      <h3 id="ROMessageObject-LoadaSnapshotMessagewithSpecifiedMessageID">Load a Snapshot Message with&nbsp;Specified&nbsp;Message ID</h3>
+      <p><span><span>This code excerpt shows how to load a specified saved message snapshot using its message ID. This contains an example of retrieving the original message property from the snapshot message and accessing the message bodies of the current message and the snapshot message.</span></span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">var inputMessage = input[0];
+  
+// Load the snapshot
+var messageId = inputMessage.getProperty("rhapsody:SnapshotMessageId");
+var snapshot = inputMessage.loadMessageSnapshotForId(messageId);
+  
+// Retrieve one of the old properties
+var messageName = snapshot.getProperty("MessageName");
+  
+//...
+  
+// Combine both message bodies
+var combinedText = inputMessage.text + '\n' + snapshot.text;
+  
+var outputMessage = output.append(inputMessage);
+outputMessage.text = combinedText;</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

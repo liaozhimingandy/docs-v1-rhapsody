@@ -1,0 +1,275 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>MSMQ Properties</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162578.html">MSMQ (Microsoft Message Queuing)</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">MSMQ Properties</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="MSMQProperties-SettingMSMQProperties">Setting MSMQ Properties</h2>
+      <p>MSMQ properties are specified by setting Rhapsody message properties with the prefix "MSMQ:" to the desired value. Available values are listed here. These are inspected by the MSMQ communication point and set on the actual MSMQ message that is sent.</p>
+      <p>For example, to set the priority of a message to <code>4</code>, set the Rhapsody message property <code>MSMQ:Priority</code> to <code>4</code>. This can be done by the property population or JavaScript filters. In the case of numeric properties, the value can be entered as either hexadecimal or decimal.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The property population filter does not support hyphen characters in property values, so properties relating to queues or message IDs cannot be set in this manner.</p>
+       </div>
+      </div>
+      <p>The following code shows how to set MSMQ properties with JavaScript:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">message.setProperty("MSMQ:CorrelationID","32954dd3\-125a\-483b\-a152\-d73e25164b08\\42949601"); //hyphens and backslashes must be escaped!
+message.setProperty("MSMQ:ResponseQueue", "PUBLIC=0266C54E\-7C22\-47F1\-B8DD\-198929B4A6FD");
+message.setProperty("MSMQ:AdminQueue", "PUBLIC=65EB5103\-5721\-45B6-915A\-CCBD3C11EA0C");
+message.setProperty("MSMQ:AppSpecificData", "123587");
+message.setProperty("MSMQ:AuthenticationLevel", 1);
+message.setProperty("MSMQ:Label", "the label");
+message.setProperty("MSMQ:Journaling", 2);
+message.setProperty("MSMQ:AcknowledgmentType", "0xf");
+message.setProperty("MSMQ:TimeToBeReceived", "99086");
+message.setProperty("MSMQ:PrivacyLevel", "0x5");
+</pre> 
+       </div>
+      </div>
+      <p>The same result can be achieved with the property population filter:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162582/133162585.png" data-image-src="attachments/133162582/133162585.png" data-unresolved-comment-count="0" data-linked-resource-id="133162585" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="PropertyPopulation.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162582" data-linked-resource-container-version="1"></span></p>
+      <h3 id="MSMQProperties-SettingtheRecoverableProperty">Setting the <code>Recoverable</code> Property</h3>
+      <p>The MSMQ <code>Delivery</code> property can also be set in the communication point configuration by setting <code>Recoverable</code> to <code>true</code>. This setting applies to all messages sent by the communication point.</p>
+      <p>If this property is set as a Rhapsody message property. The value specified as a message property will override the value specified in the configuration.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162582/133162584.png" data-image-src="attachments/133162582/133162584.png" data-unresolved-comment-count="0" data-linked-resource-id="133162584" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Set-Config.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162582" data-linked-resource-container-version="1"></span></p>
+      <h2 id="MSMQProperties-ReceivingMSMQproperties">Receiving MSMQ properties</h2>
+      <p>The user must specify which properties they wish to retrieve from the MSMQ message in the communication point configuration via the 'Receive Properties' property.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162582/133162583.png" data-image-src="attachments/133162582/133162583.png" data-unresolved-comment-count="0" data-linked-resource-id="133162583" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ReceiveProperties.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162582" data-linked-resource-container-version="1"></span></p>
+      <p>The specified MSMQ properties are converted to Rhapsody message properties (with the 'MSMQ:' prefix) by the communication point. These can be inspected by getting the property from the message and then used for routing purposes. Numeric properties are returned in their decimal form.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image confluence-content-image-border" src="attachments/133162582/133162586.png" data-image-src="attachments/133162582/133162586.png" data-unresolved-comment-count="0" data-linked-resource-id="133162586" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CheckProperty.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162582" data-linked-resource-container-version="1"></span></p>
+      <p>Code such as the following example can be used in JavaScript connectors to achieve the same effect, for instance based on the specified response queue:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">input.getProperty("MSMQ:ResponseQueue").equalsIgnoreCase("PUBLIC=0266C54E\-7C22\-47F1\-B8DD\-198929B4A6FD"); //hyphens and backslashes must be escaped!
+</pre> 
+       </div>
+      </div>
+      <h2 id="MSMQProperties-MSMQpropertylist">MSMQ property list</h2>
+      <p>Properties that Rhapsody supports are described below. More information about these properties and MSMQ in general can be found at <a class="external-link" href="http://msdn.microsoft.com/en-us/library/ms705262(v=VS.85).aspx" rel="nofollow">http://msdn.microsoft.com/en-us/library/ms705262(v=VS.85).aspx</a></p>
+      <h3 id="MSMQProperties-Sendproperties">Send properties</h3>
+      <ul>
+       <li>CorrelationID</li>
+       <li>Priority</li>
+       <li>Delivery</li>
+       <li>AcknowledgmentType</li>
+       <li>Journaling</li>
+       <li>AppSpecific</li>
+       <li>Label</li>
+       <li>TimeToReachQueue</li>
+       <li>TimeToBeReceived</li>
+       <li>ResponseQueue</li>
+       <li>AdminQueue</li>
+       <li>AuthenticationLevel</li>
+       <li>Version</li>
+       <li>PrivacyLevel</li>
+       <li>Authenticated</li>
+       <li>HashAlgorithm</li>
+       <li>EncryptionAlgorithm</li>
+       <li>ArrivalTime</li>
+       <li>Trace</li>
+      </ul>
+      <h3 id="MSMQProperties-Receiveproperties">Receive properties</h3>
+      <ul>
+       <li>MessageType (will result in an MSMQ error if set on an outgoing message)</li>
+       <li>MessageID (will result in an MSMQ error if set on an outgoing message)</li>
+       <li>CorrelationID</li>
+       <li>Priority</li>
+       <li>Delivery</li>
+       <li>AcknowledgmentType</li>
+       <li>Journaling</li>
+       <li>AppSpecific</li>
+       <li>Label</li>
+       <li>LabelLength</li>
+       <li>TimeToReachQueue</li>
+       <li>TimeToBeReceived</li>
+       <li>ResponseQueue</li>
+       <li>ResponseQueueLength</li>
+       <li>AdminQueue</li>
+       <li>AdminQueueLength</li>
+       <li>Version</li>
+       <li>PrivacyLevel</li>
+       <li>Authenticated</li>
+       <li>HashAlgorithm</li>
+       <li>EncryptionAlgorithm</li>
+       <li>SentTime</li>
+       <li>ArrivalTime</li>
+       <li>DestinationQueue</li>
+       <li>DestinationQueueLength</li>
+       <li>Trace</li>
+       <li>FirstInTransaction</li>
+       <li>LastInTransaction</li>
+      </ul>
+      <p>Note: Length properties include the null terminator, so will be one greater than the length of the actual string they refer to. These properties are not particularly useful.</p>
+      <h3 id="MSMQProperties-Propertydetails">Property details</h3>
+      <ul>
+       <li><strong>MessageType</strong>(receive only - will result in an MSMQ error if set on an outgoing message) - The type of message
+        <ul>
+         <li>0 - Normal message</li>
+         <li>1 - Report message</li>
+         <li>2 - Arrival acknowledgement. The message has reached its destination queue</li>
+         <li>16384 (0x4000) - Receive acknowledgement. The message has been received by an application</li>
+         <li>32768 (0x8000) - Destination queue cannot be reached, the queue may have been deleted</li>
+         <li>32769 (0x8001) - The message was purged before reaching its destination queue</li>
+         <li>32770 (0x8002) - Time to reach queue has expired</li>
+         <li>32771 (0x8003) - The message has exceeded the queue quota</li>
+         <li>32772 (0x8004) - The sender does not have send access rights to the queue.</li>
+         <li>32773 (0x8005) - The message hop count was exceeded</li>
+         <li>32774 (0x8006) - The message signature is bad. The message could not be authenticated.</li>
+         <li>32775 (0x8007) - The message could not be decrypted.</li>
+         <li>32776 (0x8008) - The message could not be encrypted for the destination.</li>
+         <li>32777 (0x8009) - The message was sent to a non-transactional queue within a transaction.</li>
+         <li>32778 (0x800A) - The message was sent to a transactional queue not within a transaction.</li>
+         <li>32779 (0x800B) - The requested crypto provider for encryption is not supported by the destination.</li>
+         <li>32780 (0x800C) - The QM GUID has changed and therefore the message was thrown away.</li>
+         <li>49152 (0xC000) - The queue was deleted after the message arrived</li>
+         <li>49153 (0xC001) - The message was purged at the destination queue</li>
+         <li>49154 (0xC002) - Time to receive has expired while the message was still in its destination queue (generated by destination)</li>
+         <li>49155 (0xC003) - Time to receive has expired while the message was still in its local outgoing queue (generated locally by sender)</li>
+        </ul></li>
+      </ul>
+      <ul>
+       <li><strong>MessageID</strong> (receive only - will result in an MSMQ error if set on an outgoing message) - The id of the message. Format is "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\d", where x's are hex characters (constituting the machine guid) and d is a decimal number between 0 and 4294967295 (ID for the message that is unique on a single machine). The hyphens and backslash need to be escaped with a backslash ('\') if entered in JavaScript or conditional connectors.</li>
+       <li><strong>CorrelationID</strong> (send/receive) - The id of the message that the current message corresponds to. format is the same as MessageID. The hyphens and backslash need to be escaped if entered in JavaScript, property population or connectors.</li>
+       <li><strong>Priority</strong> (send/receive) - number 0 - 7, 7 = high.</li>
+       <li><strong>Delivery</strong>(send/receive)
+        <ul>
+         <li>0 - Faster, but messages disappear if the queue goes down.</li>
+         <li>1 - Messages persist if queue goes down, but slower.</li>
+        </ul></li>
+       <li><strong>AcknowledgmentType</strong>(send, receive) - what kind of acknowledgements to send. Also need admin queue set when sending.
+        <ul>
+         <li>0 - No acknowledgements should be generated.</li>
+         <li>1 - Send a positive acknowledgement when the message reaches the queue.</li>
+         <li>2 - Send a positive acknowledgement when the message is received.</li>
+         <li>3 - Both of 0x1 and 0x2 (MQMSG_ACKNOWLEDGMENT_NACK_REACH_QUEUE).</li>
+         <li>4 - Send a negative acknowledgment when the message cannot reach the queue (i.e. timer expired or authentication failed) (MQMSG_ACKNOWLEDGMENT_NACK_REACH_QUEUE).</li>
+         <li>8 - Send a negative acknowledgment when the message cannot be retrieved from the queue before the message's time-to-be-received timer expires.</li>
+         <li>12 (0xC) - Both of 4 and 8 (MQMSG_ACKNOWLEDGMENT_NACK_RECEIVE).</li>
+         <li>14 (0xE) - Both of 2 and 12 (MQMSG_ACKNOWLEDGMENT_FULL_RECEIVE).</li>
+         <li>Other combinations are possible (OR any individual settings to use both) but aren't as useful. eg. 0xD = 0x1 | 0xC (0xC = 4 | 8), so 0xD will result in the combined behaviour of 0x1, 0x4 and 0x8.</li>
+        </ul></li>
+       <li><span class="confluence-anchor-link" id="MSMQProperties-Journaling"></span> <strong>Journaling</strong>(send/receive) - what kind of journaling to use.
+        <ul>
+         <li>0 - no journaling.</li>
+         <li>1 - send undeliverable messages to the dead-letter queue.</li>
+         <li>2 - send copies of delivered messages to the journal queue.</li>
+         <li>3 - Both of the above two options.</li>
+        </ul></li>
+       <li><strong>AppSpecific</strong> (send/receive) - Integer containing custom application data</li>
+       <li><strong>Label</strong> - (send, receive) String</li>
+       <li><strong>LabelLength</strong> (receive)</li>
+       <li><strong>TimeToReachQueue</strong> (send, receive) set timeout in seconds - can send nack or to dead-letter depending on journaling/acknowledge settings. Default is 'long-lived' (-2) or 'infinite' (-1), which is actually the enterprise-wide setting for the time-to-reach-queue interval. This is usually 4 days (345600 seconds).</li>
+       <li><strong>TimeToBeReceived</strong> (send, receive) set timeout in seconds - can send nack or to dead-letter depending on journaling/acknowledge settings. Default is infinite (-1).</li>
+       <li><strong>ResponseQueue</strong> (send, receive) Format name of queue that other apps should respond to. specified as string with the hyphens escaped(something like PUBLIC=65EB5103-5721-45B6-915A-CCBD3C11EA0C).</li>
+       <li><strong>ResponseQueueLength</strong> (receive)</li>
+       <li><strong>AdminQueue</strong> (send, receive) Format name of the queue where MSMQ should send acknowledgments.</li>
+       <li><strong>AdminQueueLength</strong> (receive)</li>
+       <li><strong>Version</strong> (receive) Returns the wire format used to send the message. This is 0x00000010 for MSMQ 1.0, 2.0 and 3.0.</li>
+       <li><strong>PrivacyLevel</strong>- (send, receive) The level of encryption to use.
+        <ul>
+         <li>0 - no encryption</li>
+         <li>1 - 40 bit encryption of the body.</li>
+         <li>3 - 128 bit encryption of the body.</li>
+         <li><p>5 - AES encryption (MSMQ 4+)</p>
+          <div class="confluence-information-macro confluence-information-macro-note">
+           <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p>Setting the <code>MSMQ:PrivacyLevel</code> property on a message that you are planning to send causes the message to fail when the Use Active Directory Lookups configuration property is set to <code>false</code>, as it is not supported.</p>
+           </div>
+          </div></li>
+        </ul></li>
+       <li><strong>AuthenticationLevel</strong>(send)
+        <ul>
+         <li>0 - no authentication.</li>
+         <li>1 - Non-SRMP messages are signed based on the value of the source computer digital signature registry entry. If the registry entry is not added and set, an MSMQ 1.0 signature is used.</li>
+         <li>2 - For non-SRMP messages, the Message Queuing runtime ignores the source computer digital signature registry entry and signs the message using only an MSMQ 1.0 signature (SIG10).</li>
+         <li>4 - For non-SRMP messages, the Message Queuing runtime ignores the source computer digital signature registry entry and signs the message using an MSMQ 2.0 signature (SIG20).</li>
+         <li>8 - For non-SRMP messages, the Message Queuing runtime ignores the source computer digital signature registry entry and signs the message using a multiple-destination digital signature (introduced in MSMQ 3.0) or an MSMQ 2.0 signature (SIG30).</li>
+        </ul></li>
+       <li><strong>Authenticated</strong>(receive) There is no option for unauthenticated messages as these are dropped
+        <ul>
+         <li>0 - no authentication was performed on the message</li>
+         <li>1 - authentication was requested and successful.</li>
+         <li>2 - SIG10 authentication</li>
+         <li>4 - SIG20 authentication</li>
+         <li>8 - SIG30 authentication</li>
+        </ul></li>
+       <li><strong>HashAlgorithm</strong>(send, receive) Defaults to MD5 on MSMQ 1.0, 2.0 and 3.0, and to SHA on 4.0. Weaker algorithms are not enabled by default on MSMQ 4.0. Need authentication level set to actually use this property.
+        <ul>
+         <li>32769 (0x8001) - MD2</li>
+         <li>32770 (0x8002) - MD4</li>
+         <li>32771 (0x8003) - MD5</li>
+         <li>32772 (0x8004) - SHA1 (2.0 sp4, 3.0+)</li>
+         <li>32773 (0x8005) - MAC</li>
+         <li>32780 (0x800C) - SHA2 256</li>
+         <li>32781 (0x800D) - SHA2 384</li>
+         <li>32782 (0x800E) - SHA2 512</li>
+        </ul></li>
+       <li><strong>EncryptionAlgorithm</strong>(send, receive) Defaults to RC2 in MSMQ 1.0, 2.0, 3.0 and to RC4 in MSMQ 4.0.
+        <ul>
+         <li>26114 (0x6602) - RC2</li>
+         <li>26625 (0x6801) - RC4</li>
+         <li>26126 (0x660E) - AES 128</li>
+         <li>26127 (0x660F) - AES 192</li>
+         <li>26128 (0x6610) - AES 256</li>
+         <li>26129 (0x6611) - AES<br> (AES only in MSMQ 4.0+)</li>
+        </ul></li>
+       <li><strong>SentTime</strong> (receive) seconds since 00:00:00 jan 1 1970 UTC.</li>
+       <li><strong>ArrivalTime</strong> (receive) seconds since 00:00:00 jan 1 1970 UTC.</li>
+       <li><strong>DestinationQueue</strong> A string containing the format name of the original destination of the message (useful if the message is being retrieved from a dead-letter/journal queue)</li>
+       <li><strong>DestinationQueueLength</strong> (receive)</li>
+       <li><strong>Trace</strong>(send, receive) specifies whether Message Queuing traces the route of the message (sends message to the report queue).
+        <ul>
+         <li>0 - no reports.</li>
+         <li>1 - generate report message for each hop.</li>
+        </ul></li>
+       <li><strong>FirstInTransaction</strong>(receive)
+        <ul>
+         <li>0 - false</li>
+         <li>1 - true</li>
+        </ul></li>
+       <li><strong>LastInTransaction</strong>(receive)
+        <ul>
+         <li>0 - false</li>
+         <li>1 - true</li>
+        </ul></li>
+      </ul>
+      <h2 id="MSMQProperties-Limitations">Limitations</h2>
+      <p>Currently the MSMQ communication point has the following limitations that are not covered here and will be addressed in a future release:</p>
+      <ul>
+       <li>In order to reconnect to a queue that has restarted, the communication point must also be restarted.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

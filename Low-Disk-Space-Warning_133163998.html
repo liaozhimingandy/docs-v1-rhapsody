@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Low Disk Space Warning</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Accessing-the-Management-Console_133163988.html">Accessing the Management Console</a></span> </li> 
+       <li> <span><a href="Information-Banners_133163996.html">Information Banners</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Low Disk Space Warning</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody automatically stops communication points and routes when Rhapsody is running low on disk space.</p>
+      <p>If the available disk space falls below the specified minimum (which by default is set to 2GB), Rhapsody checks for running communication points and routes&nbsp;and:</p>
+      <ul>
+       <li>Raises the appropriate notification to indicate that communication points and routes are being stopped as a result of low disk space.</li>
+       <li>Logs an entry at the ERROR level describing the low disk space conditions, the configured threshold, and that the communication points and routes are being stopped.</li>
+       <li>Stops the running communication points and routes and move them into the ERROR state.</li>
+       <li>Triggers the communication point <code>stopped in error</code> and <code>route stopped in error</code> events and send notifications, as defined.</li>
+      </ul>
+      <p>Components can be restarted immediately, however, if there is still insufficient disk space, they are stopped again.</p>
+      <p>When components are stopped due to low disk space, the Management Console displays a banner at the top of the page to highlight this fact.</p>
+      <h2 id="LowDiskSpaceWarning-WhenSpaceBecomesAvailable">When Space Becomes Available</h2>
+      <p>Once the system has sufficient space restored to the data store, communication points and routes may be manually restarted in an appropriate order. Interfaces are not restored automatically due to dependencies that may be present in the configuration.</p>
+      <h2 id="LowDiskSpaceWarning-LowDiskSpaceThresholds">Low Disk Space Thresholds</h2>
+      <p>By default, the minimum disk space value is set to 2GB. To change the minimum value, update the following properties in the <code>rhapsody.properties</code> file:</p>
+      <ul>
+       <li><code>CommunicationPointExecutionService.lowDiskSpaceThreshold=xx</code></li>
+       <li><code>RouteExecutionService.lowDiskSpaceThreshold=xx</code></li>
+      </ul>
+      <p><span>The threshold values are in MB (megabytes).</span></p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

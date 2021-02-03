@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using Message Properties and Rhapsody Variables in the Mapper</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="Mapper_133163007.html">Mapper</a></span> </li> 
+       <li> <span><a href="Using-the-Mapper-Filter_133163013.html">Using the Mapper Filter</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using Message Properties and Rhapsody Variables in the Mapper</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Message properties are metadata associated with a message as it flows through Rhapsody. They may contain values extracted from the message content itself, or may contain other arbitrary data that has been associated with them. In some cases, these values may be needed within a mapping so that the property values can be included in the output message.</p>
+      <p><span>Message properties of the input message can be accessed in the mapping code</span>&nbsp;using global variables. Before running a mapping, the Mapper filter compares the list of message properties on the message to be mapped with the list of global variables defined in the mapping code. If there is a global variable with the same name as a message property, the global variable is set to the current value of the message property. <span>Similarly, Rhapsody variables defined in the Variables Manager can also be accessed in the mapping code using&nbsp;global variables</span>. The priority order for substitution is as follows:</p>
+      <ol>
+       <li>Message property.</li>
+       <li>Rhapsody variable.</li>
+       <li>Global variable.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Ensure your global variables are named in a unique manner to avoid them being accidentally overridden by message properties or Rhapsody variables that have the same name.</p>
+       </div>
+      </div>
+      <p>After a mapping has completed, the Mapper filter retrieves the final values of all the global variables used in the mapping. These global variables are then copied to message properties of the same name on the output message.</p>
+      <h2 id="UsingMessagePropertiesandRhapsodyVariablesintheMapper-DefiningGlobalVariables">Defining Global Variables</h2>
+      <p>To define global variables in a mapping project, select the <strong>Global Variables</strong> icon<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163017/133163018.png" data-image-src="attachments/133163017/133163018.png" data-unresolved-comment-count="0" data-linked-resource-id="133163018" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GlobalVariableIcon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163017" data-linked-resource-container-version="1"></span>on the Map Designer toolbar. You can then add global variables:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163017/133163019.png" data-image-src="attachments/133163017/133163019.png" data-unresolved-comment-count="0" data-linked-resource-id="133163019" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GlobalVariableDefinition.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163017" data-linked-resource-container-version="1"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

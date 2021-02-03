@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Message Object</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Message Object</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Message object provides read-write access to messages in the Rhapsody engine.</p>
+      <p>For details on parsing EDI messages, refer to&nbsp;<a href="Parsing-EDI-Messages_133161394.html">Parsing EDI Messages</a>.</p>
+      <h2 id="MessageObject-Properties">Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>text</code></p></td>
+          <td class="confluenceTd"><p>Read-write property. Gets or sets the body of the message as a string using the default system encoding. <span>However, when the message body is in XML format, it is encoded using </span><span>UTF8</span><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>body</code></p></td>
+          <td class="confluenceTd"><p>Read-write property. Gets or sets the body of the message as a byte array.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>connectionId</code></p></td>
+          <td class="confluenceTd"><p>Read-write property. Gets or sets the connection identifier as an integer.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>bodyEncoding</code></p></td>
+          <td class="confluenceTd"><p>Read-write property. Gets or sets the body encoding as a string. When writing, the message body is reset to the default system encoding if null.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>xml</code></p></td>
+          <td class="confluenceTd"><p>Read-write property. Gets or sets the message body as an E4X XML object. When writing, the message body is encoded using UTF-8.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageObject-Methods">Methods</h2>
+      <p>In addition to the methods defined in <a href="ROMessage-Object_133161403.html">ROMessage object</a>, the following methods are also available:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Method</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>setText(string body, string encoding)</code></p></td>
+          <td class="confluenceTd"><p>Sets the body of the message using the string provided. It will be encoded using the specified Java character encoding.</p><p>Refer to <a href="https://docs.oracle.com/javase/9/intl/supported-encodings.htm#JSINT-GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205" class="external-link" rel="nofollow">Supported Encodings</a> for a list of Java supported encoding sets.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>setField(string field, object value)</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Sets the value of the field in the message to the specified value. The message must be parsable using one of the message definitions associated with the route.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>If the message is in XML format and the field being set does not exist in the input message, then the new element will be appended&nbsp;to the end of the child elements of the parent element, ignoring the order defined in the XSD message definition.&nbsp;To ensure that the new element is always inserted in the right place according to the XSD message definition, set <a href="Local-Settings-Object_133161411.html"><code>nodeInsertionMode</code></a> to <code>XMLORDERING</code>.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code> <span class="confluence-anchor-link" id="MessageObject-addError"></span>addError(string error)</code></p>
+           </div></td>
+          <td class="confluenceTd"><p>Adds an error message to the message. This will cause the message to go to the error connector.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code> <span class="confluence-anchor-link" id="MessageObject-setProperty"></span>setProperty(string propertyName, string value)</code></p>
+           </div></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Sets the message property with the given name to the given value. If a property with that name already exists then its value is replaced with the new value. If no property with that name exists, then one is created with the given name and value. If the value passed in is null, then the property is removed.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>The <code>setProperty()</code> method treats integer values as the numeric type int, and all other numerical values as double, but drops any trailing zeros after the decimal point. For example:</p>
+              <ul>
+               <li><code>next.setProperty("prop", 1)</code>&nbsp;sets the property&nbsp;<code>prop</code> to the int value&nbsp;<code>1</code> (as opposed to the double value <code>1.0</code> as in versions of Rhapsody before Rhapsody 6.2.2).</li>
+               <li><code>next.setProperty("prop", 1.11)</code> sets the property&nbsp;<code>prop</code> to the double value&nbsp;<code>1.11</code>.</li>
+               <li><code>next.setProperty("prop", 1.1100)</code> sets the property&nbsp;<code>prop</code>&nbsp;to the double value <code>1.11</code>. However, <code>next.setProperty("prop", 1.00</code>)&nbsp;sets the property&nbsp;<code>prop</code>&nbsp;to the <span>int value</span> <code>1</code>.</li>
+              </ul>
+              <p>To preserve trailing zeros after the decimal point in a numerical value, specify the value as a string, for example:&nbsp;<code>next.setProperty("prop", "1.0")</code>.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>addPropertyValue(string propertyName, string value)</code></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Adds the given value to the message property with the given name. If no property with that name exists, then one is created with the given name and value.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>When using the <code>addPropertyValue()</code> method to create an array of strings, property lists are serialized using square brackets around the values. This is required to ensure that the deserialization works correctly. Without the square brackets, it is not possible to split the values correctly.</p>
+              <p>Single property values do not have square brackets. If you know that you are only setting a single value in a property, you should use the <code>setProperty()</code> method. As this does not deal with a property list, it doesn't put square brackets around it.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>indexProperty(string propertyName)</code></p></td>
+          <td class="confluenceTd"><p>Indexes a property for output (deprecated).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>indexOutputProperty(string propertyName)</code></p></td>
+          <td class="confluenceTd"><p>Indexes a property for output.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>indexInputProperty(string propertyName)</code></p></td>
+          <td class="confluenceTd"><p>Indexes a property for input.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>removeIndexingForProperty(string propertyName)</code></p></td>
+          <td class="confluenceTd"><p>Removes all indexing for the specified property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>setBody(byte[] body[, string encoding])</code></p></td>
+          <td class="confluenceTd"><p>Sets the message body to the body specified (as an array of bytes). The encoding parameter is optional.</p><p><span>Refer to </span><a href="https://docs.oracle.com/javase/9/intl/supported-encodings.htm#JSINT-GUID-187BA718-195F-4C39-B0D5-F3FDF02C7205" class="external-link" rel="nofollow">Supported Encodings</a><span>&nbsp;</span><span>for a list of Java supported encoding sets.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><code><span class="confluence-anchor-link" id="MessageObject-getWritableEdiMessage"></span>getWritableEdiMessage()</code></p>
+           </div></td>
+          <td class="confluenceTd"><p>Gets the internal Symphonia <code>MessageElement</code> for writing if this is an EDI message. Retrieves the root <code>com.orion.symphonia3.MessageElement</code> object representing the entire parsed message. The Symphonia API can then be used to browse and modify the message.</p><p><span>Refer to </span><a href="Parsing-EDI-Messages_133161394.html">Parsing EDI Messages</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>clearLastUsedDefinition()</code></p></td>
+          <td class="confluenceTd"><p>Clears the definition associated with the message. The method does not re-parse an already parsed message.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageObject-Examples">Examples</h2>
+      <p>The object returned from the <code>MessageCollection append()</code> method, a mutable copy of the original message that is now a member of the output <code>MessageCollection</code>, is a Message instance. Examples of how its properties and methods can be used in a JavaScript filter are shown below.</p>
+      <p>The following example demonstrates how the entire message body can be altered using the text property. The text "<code>\r\nPlus some new stuff.</code>" is appended to the end of the message body; the previously existing text in the message body is not changed:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var next = output.append(input[i]);
+
+    // Set the message body
+    next.text = input[i].text + "\r\nPlus some new stuff.";
+}</pre> 
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">In the following example, the message is changed by setting the value of a field. This requires a message definition with a </span> <code style="line-height: 13.0pt;">NK1</code> <span style="line-height: 13.0pt;background-color: transparent;"> message segment containing an </span> <code style="line-height: 13.0pt;">ApplicationAcknowledgement</code> <span style="line-height: 13.0pt;background-color: transparent;"> field to be associated with the route through which this message is passing. In this example the value of the field is changed to </span> <code style="line-height: 13.0pt;">X</code> <span style="line-height: 13.0pt;background-color: transparent;">.</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var next = output.append(input[i]);
+
+    // Set a field of the message
+    next.setField("NK1/ApplicationAcknowledgement","X");
+}</pre> 
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">The following example sets a property on the message. The property </span> <code style="line-height: 13.0pt;">PropertyName</code> <span style="line-height: 13.0pt;background-color: transparent;"> has the value </span> <code style="line-height: 13.0pt;">PropertyValue</code> <span style="line-height: 13.0pt;background-color: transparent;"> set. If the message has no </span> <code style="line-height: 13.0pt;">PropertyName</code> <span style="line-height: 13.0pt;background-color: transparent;"> property, one is created.</span></p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++) {
+    var next = output.append(input[i]);
+
+    // Set a property on the message
+    next.setProperty("PropertyName","PropertyValue");
+}</pre> 
+       </div>
+      </div>
+      <p>The following example demonstrates how the message body can be accessed as an array of bytes, and how to iterate through each byte. This example increments each character's ASCII code by one, so <code>A message.</code> would become <code>B!nfttbhf/</code>.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">for (var i = 0; i &lt; input.length; i++){
+    var next = output.append(input[i]);
+
+    // Get the old body as an array of bytes
+    var oldBody = input[i].getBody();
+
+    // Get the new body found by incrementing each char
+    var newBody = "";
+    for (var i = 0; i &lt; oldBody.length; i++) {
+        newBody += String.fromCharCode(oldBody[i] + 1);
+    }
+
+    // Set the new body
+    next.text = newBody;
+}</pre> 
+       </div>
+      </div>
+      <p>The following example populates the <code>MyPropList</code> property list with the values <code>qwerty</code>, <code>asdf</code>, <code>fred</code> using the <code>addPropertyValue</code> method, then retrieves the properties using the <code>getPropertyAsList()</code> method and adds the properties to a message using the <code>setProperty</code> method.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Create the message
+var next = output.append(input[0]);
+
+// Add properties to a message
+next.addPropertyValue("MyPropList", "qwerty");
+next.addPropertyValue("MyPropList", "asdf");
+next.addPropertyValue("MyPropList", "fred");
+
+// Retrieve all the properties from the list
+var props = next.getPropertyAsList("MyPropList");
+
+// Add these properties individually to the message
+for (var i = 0; i &lt; props.size(); ++i) {
+    var propName = "Prop" + i;
+    next.setProperty(propName, props.get(i));
+}</pre> 
+       </div>
+      </div>
+      <p><br> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Exponential Back-off on Authentication Failures</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Access-Control-in-Rhapsody_133160999.html">Access Control in Rhapsody</a></span> </li> 
+       <li> <span><a href="Password-Policy-Management_133161032.html">Password Policy Management</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Exponential Back-off on Authentication Failures</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><a href="Password-Policy-Management_133161032.html">Password policies</a> include an option to lock out user accounts after a number of failed login attempts, however, this is not always appropriate as it allows a malicious user to, instead, effectively perform a denial of service attack. As an alternative to account lockouts, an exponential back-off strategy provides a mechanism to prevent malicious users from attempting to obtain a user's password via brute force.</p>
+      <p>Using exponential back-off, you can temporarily lock out an account with a number of consecutive failed login attempts, preventing further login attempts until the lockout expires. The lockout time increases exponentially, but a successful login attempt resets the failed attempt count, so that subsequent attempts are no longer delayed.</p>
+      <p>The delay period is calculated as follows:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>Min(MaximumDelay, InitialPenalty + (2^(Number of failures above threshold)) * IncrementalPenalty)</pre> 
+       </div>
+      </div>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">Login failures and temporary lockouts do not accumulate across Rhapsody restarts.</span></p>
+      <h2 id="ExponentialBack-offonAuthenticationFailures-EnablingExponentialBack-off">Enabling Exponential Back-off</h2>
+      <p>To enable exponential back-off:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;User Manager... </strong>to display the User Manager.</li>
+       <li><p>Select the <strong>Password Policy</strong> tab and then select the <strong>Password Policy</strong> button. The <strong>Password Policy</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161035/133161037.png" data-image-src="attachments/133161035/133161037.png" data-unresolved-comment-count="0" data-linked-resource-id="133161037" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="PasswordPolicyEdit.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161035" data-linked-resource-container-version="1"></span></p></li>
+       <li>Under <strong>User Lockout</strong>:
+        <ol>
+         <li>Select the <strong>Temporary lockout</strong> checkbox.</li>
+         <li>In the <strong>After</strong>&nbsp;field, set the threshold or the number of login failures after which the temporary lockout applies.</li>
+        </ol></li>
+       <li>Select the <strong>OK</strong> button. This temporarily locks out the user accounts in Rhapsody, if the password is entered incorrectly more than &lt;n&gt; times.</li>
+      </ol>
+      <p>The other parameters are configured via the <code>rhapsody.properties</code> file.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>All these properties are configurable in seconds.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Name</p></th>
+          <th class="confluenceTh"><p>Range</p></th>
+          <th class="confluenceTh"><p>Default Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>UserManagementService.maximumExponentialBackoffDelay</code></p></td>
+          <td class="confluenceTd"><p>1 second - 24 hours</p></td>
+          <td class="confluenceTd"><p>20 minutes</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>UserManagementService.initialExponentialBackoffPenalty</code></p></td>
+          <td class="confluenceTd"><p>0 - 5 minutes</p></td>
+          <td class="confluenceTd"><p>30 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>UserManagementService.incrementalPenalty</code></p></td>
+          <td class="confluenceTd"><p>0 - 1 hour</p></td>
+          <td class="confluenceTd"><p>4 seconds</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The result of these default settings, with a threshold set at 3 attempts, is as follows:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>After</p></th>
+          <th class="confluenceTh"><p>Delay</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failures 0-2</p></td>
+          <td class="confluenceTd"><p>No delay</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 3</p></td>
+          <td class="confluenceTd"><p>34 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 4</p></td>
+          <td class="confluenceTd"><p>38 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 5</p></td>
+          <td class="confluenceTd"><p>46 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 6</p></td>
+          <td class="confluenceTd"><p>62 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 7</p></td>
+          <td class="confluenceTd"><p>94 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 8</p></td>
+          <td class="confluenceTd"><p>158 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 9</p></td>
+          <td class="confluenceTd"><p>286 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 10</p></td>
+          <td class="confluenceTd"><p>542 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 11</p></td>
+          <td class="confluenceTd"><p>1054 seconds</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Failure 12</p></td>
+          <td class="confluenceTd"><p>1200 seconds (maximum delay of 20 minutes)</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

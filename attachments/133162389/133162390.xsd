@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.orionhealth.com/rhapsody/2013/08/sftpConfigurationTemplate" xmlns="http://www.orionhealth.com/rhapsody/2013/08/sftpConfigurationTemplate">
+  
+  <!-- Root Element -->
+  
+  <xs:element name="ConfigurationTemplates" type="configurationTemplates" />
+
+  <!-- Types -->
+  
+  <xs:complexType name="configurationTemplates">
+    <xs:sequence>
+      <xs:element name="Template" type="template" minOccurs="1" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="template">
+    <xs:choice minOccurs="1" maxOccurs="unbounded">
+      <xs:element name="ConnectionType" type="connectionType" />
+      <xs:element name="ServerHostname" type="nonBlankString" />
+      <xs:element name="ServerPort" type="portIncludingZero"/>
+      <xs:element name="ReadTimeout" type="readTimeout" />
+      <xs:element name="ConnectionMode" type="connectionMode" />
+      <xs:element name="TransferMode" type="transferMode" />
+      <xs:element name="ServerValidationMode" type="serverValidationMode"/>
+      <xs:element name="SslServerCertificate" type="nonBlankString" />
+      <xs:element name="CipherSuites" type="cipherSuites" />
+      <xs:element name="SslHostnameValidation" type="sslHostnameValidation" />
+      <xs:element name="SslClientPrivateKey" type="xs:string" />
+      <xs:element name="SshServerPublicKey" type="xs:string" />
+      <xs:element name="SshClientAuthMode" type="sshClientAuthMode" />
+      <xs:element name="SshClientPrivateKey" type="xs:string" />
+      <xs:element name="SshCompressionMode" type="sshCompressionMode" />
+      <xs:element name="SshConfigFlag" type="sshConfigFlag" />
+      <xs:element name="SshRemoteEol" type="sshRemoteEol" />
+      <xs:element name="Username" type="xs:string" />
+      <xs:element name="Password" type="xs:string" />
+      <xs:element name="CharacterEncoding" type="xs:string" />
+      <xs:element name="ActiveModelIpAddress" type="ipV4Address" />
+      <xs:element name="ActiveModePortRange" type="portRange" />
+      <xs:element name="FtpOption" type="ftpOptions" />
+      <xs:element name="FtpsOption" type="ftpsOptions" />
+      <xs:element name="ProxyServerType" type="proxyServerType" />
+      <xs:element name="ProxyServerAddress" type="nonBlankString" />
+      <xs:element name="ProxyServerPort" type="port" />
+      <xs:element name="ProxyServerPublicAddress" type="xs:string" />
+      <xs:element name="ProxyServerUsername" type="xs:string" />
+      <xs:element name="ProxyServerPassword" type="xs:string" />
+      <xs:element name="GenerateResponseMessage" type="generateResponseMessage"/>
+      <xs:element name="InputDirectory" type="xs:string" />
+      <xs:element name="InputPatternType" type="inputPatternType" />
+      <xs:element name="InputPattern" type="nonEmptyString" />
+      <xs:element name="DirectoryTraversalMode" type="directoryTraversalMode" />
+      <xs:element name="SymbolicLinkAction" type="symbolicLinkAction" />
+      <xs:element name="PostDownloadAction" type="postDownloadAction" />
+      <xs:element name="RenameTo" type="nonEmptyString" />
+      <xs:element name="InputLocale" type="xs:string" />
+      <xs:element name="DirectoryListingParser" type="directoryListingParser" />
+      <xs:element name="JavaScriptDirectoryParser" type="nonBlankString" />
+      <xs:element name="BeforeReceiveCommand" type="xs:string" />
+      <xs:element name="AfterReceiveCommand" type="xs:string" />
+      <xs:element name="OutputDirectory" type="xs:string" />
+      <xs:element name="BaseFilename" type="xs:string" />
+      <xs:element name="Suffix" type="xs:string" />
+      <xs:element name="DuplicateBehavior" type="duplicateBehavior" />
+      <xs:element name="AppendDateTime" type="appendDateTime" />
+      <xs:element name="TemporaryFileUsage" type="temporaryFileUsage" />
+      <xs:element name="BeforeSendCommand" type="xs:string" />
+      <xs:element name="AfterSendCommand" type="xs:string" />
+    </xs:choice>
+    <xs:attribute name="id" type="nonEmptyString" use="required" />
+  </xs:complexType>
+
+  <!-- Numeric restrictions -->
+
+  <xs:simpleType name="readTimeout">
+    <xs:restriction base="xs:positiveInteger">
+      <xs:minInclusive value="1000" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Enumerations -->
+  
+  <xs:simpleType name="connectionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FTP" />
+      <xs:enumeration value="FTPSImplicit" />
+      <xs:enumeration value="FTPSExplicit" />
+      <xs:enumeration value="SFTP" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="connectionMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="active" />
+      <xs:enumeration value="passive" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="transferMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="binary" />
+      <xs:enumeration value="ascii" />
+      <xs:enumeration value="ebcdic" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="serverValidationMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="requirePreconfiguredKeys"/>
+      <xs:enumeration value="allowDynamicKeyLookup"/>
+      <xs:enumeration value="autoAddKeysForNewServers"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="cipherSuites">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="VERY_STRONG" />
+      <xs:enumeration value="FIPS" />
+      <xs:enumeration value="STRONG" />
+      <xs:enumeration value="WEAK" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sslHostnameValidation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="enabled" />
+      <xs:enumeration value="disabled" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sshClientAuthMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="password" />
+      <xs:enumeration value="publickey" />
+      <xs:enumeration value="passwordpublickey" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sshCompressionMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none" />
+      <xs:enumeration value="zlib" />
+      <xs:enumeration value="zlib@ssh.com" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sshConfigFlag">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="disableChmodOnPut" />
+      <xs:enumeration value="disableWaitOnChannelClose" />
+      <xs:enumeration value="disableChmodOnMkdir" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sshRemoteEol">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="autoDetect" />
+      <xs:enumeration value="windows" />
+      <xs:enumeration value="unix" />
+      <xs:enumeration value="mac" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ftpOptions">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="autoSubstituteIp" />
+      <xs:enumeration value="forceUniqueNames" />
+      <xs:enumeration value="enableCompression" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ftpsOptions">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="disableControlClosure" />
+      <xs:enumeration value="disableControlWait" />
+      <xs:enumeration value="disableDataClosure" />
+      <xs:enumeration value="disableDataWait" />
+      <xs:enumeration value="startWithClearChannels" />
+      <xs:enumeration value="disableSessionResumption" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="proxyServerType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none" />
+      <xs:enumeration value="http" />
+      <xs:enumeration value="socks4" />
+      <xs:enumeration value="socks5" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="generateResponseMessage">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="enabled"/>
+      <xs:enumeration value="disabled"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="inputPatternType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="wildcard" />
+      <xs:enumeration value="regex" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="directoryTraversalMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="inputDirOnly" />
+      <xs:enumeration value="recurse" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="symbolicLinkAction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ignore" />
+      <xs:enumeration value="followFile" />
+      <xs:enumeration value="followDir" />
+      <xs:enumeration value="followAll" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="postDownloadAction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="delete" />
+      <xs:enumeration value="leave" />
+      <xs:enumeration value="rename" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="directoryListingParser">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="autoDetect" />
+      <xs:enumeration value="unix" />
+      <xs:enumeration value="windows" />
+      <xs:enumeration value="vms" />
+      <xs:enumeration value="netware" />
+      <xs:enumeration value="mvs" />
+      <xs:enumeration value="os400" />
+      <xs:enumeration value="javascript" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="duplicateBehavior">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="rename" />
+      <xs:enumeration value="appendDateTime" />
+      <xs:enumeration value="doNotCheck" />
+      <xs:enumeration value="appendToFile" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="appendDateTime">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="doNotAppendDateTime" />
+      <xs:enumeration value="appendDateTime" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="temporaryFileUsage">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="noTempFiles" />
+      <xs:enumeration value="useTempFiles" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Common Types -->
+
+  <xs:simpleType name="nonEmptyString">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="nonBlankString">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="^.*\S.*$" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="ipV4Address">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="port">
+    <xs:restriction base="xs:nonNegativeInteger">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="65535" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="portIncludingZero">
+    <xs:restriction base="xs:nonNegativeInteger">
+      <xs:minInclusive value="0" />
+      <xs:maxInclusive value="65535" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="portRange">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="^(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|0?[1-9][0-9]{3}|0{0,2}[1-9][0-9]{2}|0{0,3}[1-9][0-9]|0{0,4}[1-9])-(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|0?[1-9][0-9]{3}|0{0,2}[1-9][0-9]{2}|0{0,3}[1-9][0-9]|0{0,4}[1-9])$" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Session Management</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Session Management</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>For security reasons, each login attempt to a Rhapsody engine takes by design a non-trivial amount of time to evaluate in order to prevent brute-forcing of the password store in the event that it is compromised. Internally, Rhapsody uses PBKDF2 for password storage, which salts the password, and then hashes it a large number of times which deliberately takes time to calculate (Rhapsody uses SHA-512 done 25000 times by default). This process takes a small amount of CPU processing time to process each login attempt, which normally is not a problem (there are slowdown and lockout mechanisms in place that slow down login attempts when those attempts are failing to prevent attacks). However, there is a potential risk that a large number of successful login attempts in a short period of time could consume a fair amount of CPU resources, particularly on a smaller box. This is not an issue with normal logins to Rhapsody IDE or the Management Console, but certainly could become an issue if using the REST API.</p>
+      <p>Rhapsody addresses these problems in the following ways:</p>
+      <ul>
+       <li>An authenticated session can be re-used with the REST API, therefore there is no need to log in a second and subsequent time.</li>
+       <li>Rhapsody's user management service provides a configurable limit of the maximum number of login attempts permitted each minute.</li>
+       <li><p>Rhapsody's&nbsp;web monitoring service&nbsp;provides a configurable&nbsp;maximum upload size allowed during a failure before the connection is aborted.</p></li>
+      </ul>
+      <h2 id="SessionManagement-Re-UsingSessions">Re-Using Sessions</h2>
+      <p>Re-using sessions for the Rhapsody REST API is straightforward as the sessions are tracked using cookies that are provided to the requester in the initial response. If those cookies are provided to the REST API in the next request then it will use that same session again without requiring a new login to be performed. If the cookies reference a session that no longer exists, then a new login attempt is made automatically (in other words, there is no need to handle the case where the session is no longer valid).</p>
+      <p>This functionality is simple to use from cURL, as it provides support to send (<code>-b</code> parameter) and receive (<code>-c</code> parameter) cookies. If both the <code>-b</code> and <code>-c</code> parameters are provided on the command line, then it will store all received cookies in that file, and send those same cookies on each request.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">curl -v -b cookies.txt -c cookies.txt --cacert myCert.cer --basic -u administrator:r https://engine:8444/api/alerts/active
+</pre> 
+       </div>
+      </div>
+      <p>The authentication credentials are still provided on the command line as this allows the new session to be created and authenticated if the previous session no longer exists in Rhapsody (internally REST API sessions timeout after about two minutes).</p>
+      <h2 id="SessionManagement-PreventingTooManyLogins">Preventing Too Many Logins</h2>
+      <p>The Rhapsody user management service internally tracks the number of login attempts made every minute, and refuses to allow further attempts when this limit has been reached until the minute has elapsed. Limits apply to the REST API, Rhapsody IDE, and the Management Console. These limits, however, are enforced independently and are configured to use different defaults. These values can be modified in the <code>rhapsody.properties</code> file as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence"># Configure the maximum number of login attempts per minute
+#UserManagementService.maximumLoginAttemptsPerMinute.ide_view=20
+#UserManagementService.maximumLoginAttemptsPerMinute.monitoring_view=20
+#UserManagementService.maximumLoginAttemptsPerMinute.rest_api_call=5
+</pre> 
+       </div>
+      </div>
+      <p>To edit one of these default values, uncomment the relevant lines and then restart Rhapsody.</p>
+      <p>The default value for the REST API of <code>5</code> has deliberately been set low to encourage session re-use because this is considerably less CPU intensive than re-authenticating on each request. The limit can of course be increased if there is a genuine need to do so and the Rhapsody server is able to handle the additional load.</p>
+      <p>If a REST API call is rejected for this reason, it is sent a <code>429 Too Many Requests</code> HTTP status code indicating that too many requests have been made.</p>
+      <div class="user-content-block">
+       <h2 id="SessionManagement-LimitingMaximumFileSize">Limiting Maximum File Size</h2>
+       <p>You can configure the web monitoring service to&nbsp;terminate a connection if the REST API call will fail before transferring the data (for example, if the user is missing the 'Call REST API' access right), and the data size is larger than the specified 'swallow' size (to within an accuracy of a few hundred kilobytes). Under these conditions, the caller does not see a response to the API call, and as such does not receive an error message.</p>
+       <p><span>You can limit the&nbsp;maximum&nbsp;file size by adjusting the values of the following properties in the&nbsp;<code>rhapsody.properties</code>&nbsp;file:</span></p>
+       <div class="code panel pdl" style="border-width: 1px;">
+        <div class="codeContent panelContent pdl"> 
+         <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence"># Configure the maximum upload size (in bytes) allowed during a failure before the connection is aborted
+#WebMonitoringService.http.maxswallowsize=104857600
+#WebMonitoringService.https.maxswallowsize=104857600</pre> 
+        </div>
+       </div>
+       <p>To edit one of these default values, uncomment the relevant lines&nbsp;and then restart Rhapsody. The following values are of note:</p>
+       <ul>
+        <li>The default value is 104,857,600 bytes (100MB).</li>
+        <li>The maximum value is 2,147,483,647 bytes&nbsp;(2GB).</li>
+        <li>A negative value indicates unlimited file size (the connection is never terminated, regardless of file size).</li>
+       </ul>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

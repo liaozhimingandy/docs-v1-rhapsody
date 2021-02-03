@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>String Transform</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+       <li> <span><a href="Global-Functions_133161395.html">Global Functions</a></span> </li> 
+       <li> <span><a href="dataMap-Functions_133161397.html">dataMap Functions</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">String Transform</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="StringTransform-Signature">Signature</h2>
+      <p><code>output = dataMap(inputString, fileName, columnSeparator, defaultValue)</code><br> <code>output = dataMapColumns(inputString, inputColumn, outputColumn, fileName, columnSeparator, defaultValue)</code></p>
+      <h2 id="StringTransform-ReturnValue">Return Value</h2>
+      <p>Once the input is found in the first column of the translation file, the value in the second column is returned.</p>
+      <p>Examples:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Code</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(...);</code></p></td>
+          <td class="confluenceTd"><p>Store the translated value in a variable.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>next.setProperty("property", dataMap(...));</code></p></td>
+          <td class="confluenceTd"><p>Store the translated value in a property.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="StringTransform-Arguments">Arguments</h2>
+      <p><strong>inputString</strong><br> A string to lookup in the first column of the translation file.</p>
+      <p>Examples:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Code</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(input[i].getProperty("AProperty"), file);</code></p></td>
+          <td class="confluenceTd"><p>Message property input.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap("WGTN", file);</code></p></td>
+          <td class="confluenceTd"><p>String input.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>multiple = next.getField("ZZZ/City") <br class="atl-forced-newline">+ "|" <br class="atl-forced-newline">+ next.getProperty("postcode"); <br class="atl-forced-newline"> out = dataMap(multiple, file);</code></p></td>
+          <td class="confluenceTd"><p>Multi-value input.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br class="atl-forced-newline"> <strong>inputColumn (for dataMapColumns)</strong><br> The column in the translation table to look up the inputString in. Rows which are missing the input column are ignored. If all rows are missing the input column an error is reported.</p>
+      <p></p>
+      <p>Column numbers start at zero; the first column is 0, the second column is 1, and so on.</p>
+      <p>Examples:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Code</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMapColumns(inputString, 0, 1, file);</code></p></td>
+          <td class="confluenceTd"><p>Lookup inputString in the first column, and return the value in the second column.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMapColumns(inputString, 3, 1, file);</code></p></td>
+          <td class="confluenceTd"><p>Lookup inputString in the fourth column of the multi-column file.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br class="atl-forced-newline"> <strong>outputColumn (for dataMapColumns)</strong><br> The column in the translation file to extract the output value from. If the output column is missing from the matching row, an empty string is used as the output value.</p>
+      <p>Column numbers start at zero; the first column is 0, the second column is 1 and so on.</p>
+      <p>Examples:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Code</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMapColumns(inputString, 0, 1, file);</code></p></td>
+          <td class="confluenceTd"><p>Lookup inputString in the first column, and return the value in the second column.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMapColumns(inputString, 0, 2, file);</code></p></td>
+          <td class="confluenceTd"><p>Return the value in the third column of the multi-column file.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br class="atl-forced-newline"> <strong>fileName</strong><br> Absolute file path to a text file containing a translation table.</p>
+      <p>Examples:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Code</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, "C:\\translations<br class="atl-forced-newline">simple.txt");</code></p></td>
+          <td class="confluenceTd"><p>Double backslash file path.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, "C:/translations/simple.txt");</code></p></td>
+          <td class="confluenceTd"><p>Forward slash file path.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>&nbsp;</p>
+      <p></p>
+      <p><strong>columnSeparator (optional)</strong><br> An optional column separator for the translation file. If an empty string or null is passed in, or the argument omitted completely, the default separator of a comma (",") will be used.</p>
+      <p>Examples:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Code</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file);</code></p></td>
+          <td class="confluenceTd"><p>No column separator supplied; use the default separator of ',' <br class="atl-forced-newline"> Example line: input,output.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file, null);</code></p></td>
+          <td class="confluenceTd"><p>Null column separator supplied; use the default separator of ','<br class="atl-forced-newline"> Example line: input,output.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file, "");</code></p></td>
+          <td class="confluenceTd"><p>Empty string; use the default separator of ',' <br class="atl-forced-newline">Example line: input,output.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file, "|");</code></p></td>
+          <td class="confluenceTd"><p>A custom column separator of '|' <br class="atl-forced-newline"> Example line: input|output.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file, " =&gt; ");</code></p></td>
+          <td class="confluenceTd"><p>A custom column separator of ' =&gt; ' <br class="atl-forced-newline">Example line: input =&gt; output.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file, "\t");</code></p></td>
+          <td class="confluenceTd"><p>Tab separated columns <br class="atl-forced-newline">Example line: input output.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br class="atl-forced-newline"> <strong>defaultValue (optional)</strong><br> An optional default value to use when the input is not found in the translation file. Passed in default values override a <code>%default%</code> line in the translation file.</p>
+      <p>Examples:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file, ",");</code></p></td>
+          <td class="confluenceTd"><p>No default value supplied. Use the %default% in the translation file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file, ",", "");</code></p></td>
+          <td class="confluenceTd"><p>Empty string means no default value. Use the %default% in the translation file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file, ",", "UNKNOWN");</code></p></td>
+          <td class="confluenceTd"><p>Default value of <code>UNKNOWN</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>out = dataMap(inputString, file, ",", inputString);</code></p></td>
+          <td class="confluenceTd"><p>If a translation is not found, return the input string.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

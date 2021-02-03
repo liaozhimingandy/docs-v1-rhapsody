@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Snapshot Filters</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Snapshot Filters</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <strong>Snapshot Save</strong> and <strong>Snapshot Load</strong> filters enable users to save and restore messages bodies at specific states. The filters are designed to work together.</p>
+      <p>The <a href="#SnapshotFilters-SaveSnapshotFilter">Snapshot Save filter</a>&nbsp;takes a 'snapshot' of a message by recording its message body and encoding as it passes through the filter. The message ID and encoding of the snapshot message is appended to the message as set of <a href="#SnapshotFilters-StandardProperties">standard message properties</a>. When the message arrives at the <a href="#SnapshotFilters-SnapshotLoadFilter">Snapshot Load filter</a>, the filter uses the snapshot message stored in its message properties to replace its message body and respective encoding.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Running Error Queue defragmentation can cause any affected saved snapshot messages in the Error Queue to become irretrievable. Refer to <a href="Archive-Cleanup_133164049.html#ArchiveCleanup-ErrorQueueDefragmentation">Error Queue Defragmentation</a> for details.</p>
+       </div>
+      </div>
+      <h2 id="SnapshotFilters-StandardProperties">Standard Properties</h2>
+      <p>The filters make use of the following standard message properties:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>rhapsody:SnapshotMessageId</span></code></td>
+          <td class="confluenceTd"><p>The message identifier representing the message body at the time the snapshot is taken.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>rhapsody:SnapshotBodyEncoding</span></code></td>
+          <td class="confluenceTd"><p>The message encoding of message body at the time the snapshot is taken.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="SnapshotFilters-SnapshotSaveFilter">Snapshot Save Filter</h2>
+      <h2 id="SnapshotFilters-"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162933/133162934.bmp" data-image-src="attachments/133162933/133162934.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162934" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="snapshot-save.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162933" data-linked-resource-container-version="1"></span></h2>
+      <p>The <strong>Snapshot Save</strong> filter copies<span>&nbsp;a reference to the current message body to the property&nbsp;<span><code>rhapsody:SnapshotMessageId</code>.&nbsp;It also copies&nbsp;the value in the encoding type property&nbsp;(<code>rhapsody:BodyEncoding</code>) of a message to&nbsp;the property&nbsp;<code>rhapsody:SnapshotBodyEncoding</code>.</span></span></p>
+      <p><span><span>The snapshot message property values can be used by a downstream&nbsp;<a href="#SnapshotFilters-SnapshotLoadFilter">Snapshot Load filter</a> to restore the message body to the state it was in when it entered the Snapshot Save filter.&nbsp;</span></span>A snapshot message is available in Rhapsody until the message it is associated with is removed by&nbsp;<a href="Archive-Cleanup_133164049.html">Archive Cleanup</a>.</p>
+      <p>The Snapshot Save&nbsp;filter has no configuration properties.</p>
+      <h2 id="SnapshotFilters-SnapshotLoadFilter">Snapshot&nbsp;Load Filter</h2>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162933/133162935.bmp" data-image-src="attachments/133162933/133162935.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162935" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="snapshot-load.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162933" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>Snapshot Load</strong> filter replaces the message body of an input message with the message body of the snapshot message specified in the&nbsp;<code>rhapsody:SnapshotMessageId</code> property. You can configure the filter to allow an input message to pass through unmodified or direct it to the Error Queue when&nbsp;<span><code>rhapsody:SnapshotMessageId</code>&nbsp;</span>is missing. The&nbsp;filter also replaces the message encoding of the input message with the&nbsp;message encoding specified in the&nbsp;<code>rhapsody:SnapshotBodyEncoding</code>&nbsp;property. The <code>rhapsody:SnapshotBodyEncoding</code> is not a required property: if it is missing or otherwise unusable, the body encoding is set to undefined, erasing any previous encoding setting.</p>
+      <p>The filter only modifies the message body of the input message (and the message encoding if available); the input message retains all of its existing message properties. The Snapshot Load&nbsp;filter is suitable for&nbsp;cases where a message is required to retain its current meta-state (such as message properties), as well as its original message body, for example when handling an acknowledgment of a message sent to an external system.</p>
+      <p>It is possible for other filters to change the values of <code>rhapsody:SnapshotMessageId</code> and <code>rhapsody:SnapshotBodyEncoding</code>. The Snapshot Load&nbsp;filter will attempt to use these properties as appropriate. If multiple filters change the values of these properties, the&nbsp;Snapshot Load filter restores&nbsp;the body text to the most recent values only. It will set the message encoding as defined, so users must ensure these properties are set correctly. However, it is recommended that the Snapshot Load&nbsp;filter is used in conjunction with the Snapshot Save filter whenever possible.</p>
+      <p>Messages can only be loaded using the Snapshot Load filter if the target message state was set within the same locker. Any attempt to load a message state from outside the existing locker will result in an error.</p>
+      <h3 id="SnapshotFilters-ConfigurationProperties">Configuration Properties</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>Fail on processing error</span></code></td>
+          <td class="confluenceTd"><p><span>Specifies whether the filter should abort the operation if any errors occur while replacing the message body:</span></p>
+           <ul>
+            <li><span><code>True</code> (default) - <span>the message is sent to the Error Queue if any errors occur </span><span>replacing</span><span> the message bodies. </span></span></li>
+            <li><span><code>False</code> - the filter ignores any errors and allows the message to pass through unchanged. </span>This property should only be set to false in scenarios where a failure to replace the message body should not stop normal processing on the route.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>Fail on missing snapshot properties<br></span></code></p></td>
+          <td class="confluenceTd"><p><span style="line-height: 13.0pt;background-color: transparent;">Specifies whether the filter should abort the operation&nbsp;if the required snapshot message ID is missing:</span></p>
+           <ul>
+            <li><code>True</code> (default) -<span> the message is sent to </span><span>the Error Queue</span><span> if any required properties are missing.</span></li>
+            <li><span style="line-height: 13.0pt;background-color: transparent;"><code>False</code><span> - </span> the filter ignores any errors and <span>allows the message to pass through unchanged</span>. </span>This property should only be set to false in scenarios where not all of the messages reaching the filter have a saved snapshot, but need to continue processing on the route.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="SnapshotFilters-JavascriptObjects">Javascript Objects</h3>
+      <p>Filters that use JavaScript can load snapshot messages using the following JavaScript object methods:</p>
+      <ul>
+       <li><code>loadMessageSnapshot()</code> -&nbsp;loads&nbsp;a ROMessage object from&nbsp;the&nbsp;<code>rhapsody:SnapshotMessageId</code>&nbsp;property.</li>
+       <li><code>loadMessageSnapshotForId(string snapshotMessageId)</code> -&nbsp;loads&nbsp;a ROMessage object from the specified message ID.</li>
+      </ul>
+      <p><span style="color: rgb(51,51,51);">Unlike the Load Snapshot filter, the load snapshot JavaScript methods retrieve&nbsp;the snapshot message exactly as it was saved by the Snapshot Save filter. They do not alter the loaded message in any way – the message body, encodings, and all message properties are unchanged. To modify any attribute of a loaded snapshot message, you must use the appropriate JavaScript methods to do so.</span></p>
+      <p><span style="color: rgb(51,51,51);">These JavaScript methods are suitable for scenarios where an amalgam of the original message and its later modified version is required, for example&nbsp;when performing complex mappings. Note, however, If you replace the message body with the one from the snapshot message, then ensure you preserve the encodings by either using&nbsp;the&nbsp;<code>setText(string body, string encoding)</code>&nbsp;method or setting the&nbsp;<code>text</code>&nbsp;and&nbsp;<code>bodyEncoding</code>&nbsp;properties synchronously.</span></p>
+      <p><span style="color: rgb(51,51,51);">Refer to <a href="ROMessage-Object_133161403.html#ROMessageObject-loadMessageSnapshot">ROMessage Object</a>&nbsp;for details and examples on these methods.</span></p>
+      <h2 id="SnapshotFilters-MultipleSnapshots"><span style="color: rgb(0,0,0);font-size: 20.0px;">Multiple Snapshots</span></h2>
+      <p>Only one snapshot message ID can be stored at a time in the&nbsp;<code>rhapsody:SnapshotMessageId</code>&nbsp;property. However, you can capture additional snapshot messages during the lifetime of the message.</p>
+      <p>For example, to replace a snapshot message with another:</p>
+      <ol>
+       <li>Use the Snapshot Save filter to populate the value stored in the&nbsp;<code>rhapsody:SnapshotMessageId</code>&nbsp;property with the message ID of the first snapshot message.</li>
+       <li><p>Create a new property, say <code>StoreSnapshotMsg1</code> and&nbsp;set it<span>&nbsp;</span>to the value&nbsp;stored in the&nbsp;<code>rhapsody:SnapshotMessageId</code>&nbsp;property (the&nbsp;message ID of the first snapshot message) using a JavaScript filter, for example:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;next.setProperty("StoreSnapshotMsg1", next.getProperty("rhapsody:SnapshotMessageId"));</pre> 
+         </div>
+        </div></li>
+       <li>Use the Snapshot Save filter&nbsp;to replace the value stored in the&nbsp;<code>rhapsody:SnapshotMessageId</code>&nbsp;property with the message ID of the second snapshot message.</li>
+      </ol>
+      <p>To restore the first snapshot message:</p>
+      <ol>
+       <li>Set the&nbsp;<code>rhapsody:SnapshotMessageId</code>&nbsp;property to the value from the property <code><span>StoreSnapshotMsg1</span></code>.</li>
+       <li>Use Snapshot Load filter to load the first snapshot message.</li>
+      </ol>
+      <p>Alternatively, to restore the first snapshot message, use a JavaScript filter and the <code>loadMessageSnapshotForId</code> method, for example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: js; gutter: false; theme: Confluence" data-theme="Confluence">loadMessageSnapshotForId(next.getProperty("StoreSnapshotMsg1"));</pre> 
+       </div>
+      </div>
+      <p> </p>
+      <div>
+       <span style="color: rgb(255,0,0);"><br></span>
+      </div> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

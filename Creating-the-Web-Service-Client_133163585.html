@@ -1,0 +1,514 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Creating the Web Service Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Web-Services_133163490.html">Web Services</a></span> </li> 
+       <li> <span><a href="Tutorials_133163522.html">Tutorials</a></span> </li> 
+       <li> <span><a href="Simple-Patient-Lookup-Service_133163523.html">Simple Patient Lookup Service</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Creating the Web Service Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Click the <strong>New Communication Point</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163586.png" data-image-src="attachments/133163585/133163586.png" data-unresolved-comment-count="0" data-linked-resource-id="133163586" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_newcommpoint.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span> on the standard toolbar to create a new <strong>Web Service Client</strong> communication point called <strong>Patient Lookup Web Service Client</strong>.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163594.png" data-image-src="attachments/133163585/133163594.png" data-unresolved-comment-count="0" data-linked-resource-id="133163594" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateWebServiceClient.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <p>Complete the following:</p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146988946 {padding: 0px;}
+div.rbtoc1565146988946 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146988946 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565146988946"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CreatingtheWebServiceClient-GeneralTab">General Tab</a></li> 
+        <li><a href="#CreatingtheWebServiceClient-ConfigurationTab">Configuration Tab</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#CreatingtheWebServiceClient-WebServiceConsumerCommunicationProperties:GeneralTab">Web Service Consumer Communication Properties: General Tab</a></li> 
+          <li><a href="#CreatingtheWebServiceClient-WebServiceConsumerCommunicationProperties:SecurityTab">Web Service Consumer Communication Properties: Security Tab</a></li> 
+          <li><a href="#CreatingtheWebServiceClient-WebServiceConsumerCommunicationProperties:OperationsTab(AddOperationlookupById)">Web Service Consumer Communication Properties: Operations Tab (Add Operation lookupById)</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#CreatingtheWebServiceClient-OperationEditor:RequestTab">Operation Editor: Request Tab</a></li> 
+            <li><a href="#CreatingtheWebServiceClient-OperationEditor:ResponseTab">Operation Editor: Response Tab</a></li> 
+            <li><a href="#CreatingtheWebServiceClient-OperationEditor:FaultTab">Operation Editor: Fault Tab</a></li> 
+           </ul> </li> 
+          <li><a href="#CreatingtheWebServiceClient-WebServiceConsumerCommunicationProperties:OperationsTab(AddOperationlookupByName)">Web Service Consumer Communication Properties: Operations Tab (Add Operation lookupByName)</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#CreatingtheWebServiceClient-OperationEditor:RequestTab.1">Operation Editor: Request Tab</a></li> 
+            <li><a href="#CreatingtheWebServiceClient-OperationEditor:ResponseTab.1">Operation Editor: Response Tab</a></li> 
+            <li><a href="#CreatingtheWebServiceClient-OperationEditor:FaultTab.1">Operation Editor: Fault Tab</a></li> 
+           </ul> </li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <h2 id="CreatingtheWebServiceClient-GeneralTab">General Tab</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>General Properties</strong></p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Mode</p></td>
+          <td class="confluenceTd"><p><code>Out-&gt;In</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CreatingtheWebServiceClient-ConfigurationTab">Configuration Tab</h2>
+      <p>Click the <strong>Edit Communication Point Configuration</strong> link, and enter the following details.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Web-Service-Client_133162592.html">Web Service Client Communication Point</a> for field definitions.</p>
+       </div>
+      </div>
+      <h3 id="CreatingtheWebServiceClient-WebServiceConsumerCommunicationProperties:GeneralTab">Web Service Consumer Communication Properties: General Tab</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163591.png" data-image-src="attachments/133163585/133163591.png" data-unresolved-comment-count="0" data-linked-resource-id="133163591" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSConsumerPropertiesGeneral.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <p></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>WSDL</strong></p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>WSDL URL</p></td>
+          <td class="confluenceTd"><p>Reload WSDL <br> &nbsp;<br> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="500" src="attachments/133163585/133163595.png" data-image-src="attachments/133163585/133163595.png" data-unresolved-comment-count="0" data-linked-resource-id="133163595" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LoadWSDL.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span> <br> &nbsp;<br> WSDL URL: <code>http://&lt;server&gt;:8050/services/PatientLookupService?wsdl</code> <br> &nbsp;<br> Click the <strong>Load</strong> button. The message <em>Successfully imported web service 'PatientLookupService' from WSDL.</em> is displayed. Click the <strong>Close</strong> button.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Connection</strong></p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Endpoint URL</p></td>
+          <td class="confluenceTd"><p><code>http://&lt;server&gt;:8050/services/PatientLookupService.PatientLookupServiceHttpSoap12Endpoint</code> (automatically populated)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Binding</p></td>
+          <td class="confluenceTd"><p><code>SOAP 1.2</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Send WS-Addressing Headers</p></td>
+          <td class="confluenceTd"><p><code>selected</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Timeout (ms)</p></td>
+          <td class="confluenceTd"><p><code>60,000</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTPS Client Authentication</p></td>
+          <td class="confluenceTd"><p><code>Disabled</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Web Service Certificate</p></td>
+          <td class="confluenceTd"><p><code>PatientLookupService</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Client Private Key</p></td>
+          <td class="confluenceTd"><p><code>PatientLookupServiceClient</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Definition</p></td>
+          <td class="confluenceTd"><p><code>PatientLookup.s3d</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="CreatingtheWebServiceClient-WebServiceConsumerCommunicationProperties:SecurityTab">Web Service Consumer Communication Properties: Security Tab</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163592.png" data-image-src="attachments/133163585/133163592.png" data-unresolved-comment-count="0" data-linked-resource-id="133163592" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSConsumerPropertiesSecurity.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Security Binding</p></td>
+          <td class="confluenceTd"><p><code>Asymmetric Security Binding (both the client and server use private keys)</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Authentication</strong></p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Authentication Method</p></td>
+          <td class="confluenceTd"><p><code>X509 Token Authentication</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Security Binding Operations</strong></p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Algorithm Suite</p></td>
+          <td class="confluenceTd"><p><code>Basic 256</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Protection Order</p></td>
+          <td class="confluenceTd"><p><code>Sign Then Encryt</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Include Timestamp in Requests</p></td>
+          <td class="confluenceTd"><p><code>selected</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Initiator Token</p></td>
+          <td class="confluenceTd"><p><code>Reference Using SHA-1 Thumbprint</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Recipient Token</p></td>
+          <td class="confluenceTd"><p><code>Reference Using SHA-1 Thumbprint</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Edit Signing and Encryption Parameters</strong></p></td>
+          <td class="confluenceTd"><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163593.png" data-image-src="attachments/133163585/133163593.png" data-unresolved-comment-count="0" data-linked-resource-id="133163593" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSConsumerPropertiesSecurity2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span> <br> &nbsp; <br> Encryption Mode: <code>Encrypt Entire Body</code> <br> Signing Mode: <code>Sign Entire Body</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p></p>
+      <h3 id="CreatingtheWebServiceClient-WebServiceConsumerCommunicationProperties:OperationsTab(AddOperationlookupById)">Web Service Consumer Communication Properties: Operations Tab (Add Operation lookupById)</h3>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Web-Service-Operations_133162608.html">Web Service Operations</a> for field definitions.</p>
+       </div>
+      </div>
+      <p>Click the <strong>Add Operation</strong> button.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163598.png" data-image-src="attachments/133163585/133163598.png" data-unresolved-comment-count="0" data-linked-resource-id="133163598" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="OperationEditorRequestTab.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Operation</strong></p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Name</p></td>
+          <td class="confluenceTd"><p>Select <code>lookupById</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Request-Response</code> (automatically populated)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Namespace</p></td>
+          <td class="confluenceTd"><p><code>http://www.orionhealth.com/rhapsody/2010/03/PatientLookupService</code> (automatically populated)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Action</p></td>
+          <td class="confluenceTd"><p><code>urn:lookupById</code> (automatically populated)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Request WS-Addressing Action</p></td>
+          <td class="confluenceTd"><p><code>urn:lookupById</code> (automatically populated)</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="CreatingtheWebServiceClient-OperationEditor:RequestTab">Operation Editor: Request Tab</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Construct SOAP body contents using a template and values from the Rhapsody message body and properties</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Template</p></td>
+          <td class="confluenceTd">
+           <div class="preformatted panel" style="border-width: 1px;">
+            <div class="preformattedContent panelContent"> 
+             <pre>&lt;pat:lookupById xmlns:pat="http://www.orionhealth.com/rhapsody/2010/03/PatientLookupService"&gt;
+  &lt;pat:id&gt;string&lt;/pat:id&gt;
+&lt;/pat:lookupById&gt; </pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Content Insertion</strong></p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Source Type</p></td>
+          <td class="confluenceTd"><p><code>Field</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Property / Field Name</p></td>
+          <td class="confluenceTd"><p><code>Query.Id</code> (click <strong>...</strong> to select)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Type</p></td>
+          <td class="confluenceTd"><p><code>Text</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Target XPath</p></td>
+          <td class="confluenceTd"><p><code>//pat:id</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Edit Signing and Encryption Parameters</strong></p></td>
+          <td class="confluenceTd"><p>Inherit settings from web service configuration: <code>selected</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p></p>
+      <h4 id="CreatingtheWebServiceClient-OperationEditor:ResponseTab">Operation Editor: Response Tab</h4>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163588.png" data-image-src="attachments/133163585/133163588.png" data-unresolved-comment-count="0" data-linked-resource-id="133163588" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="OperationEditorResponseTab.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Extract contents from SOAP message into Rhapsody message body and properties</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>XML Namespace Mapping</strong></p></td>
+          <td class="confluenceTd"><p>(automatically populated)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Prefix</p></td>
+          <td class="confluenceTd"><p><code>ns1</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Namespace URI</p></td>
+          <td class="confluenceTd"><p><code>http://www.orionhealth.com/rhapsody/2010/03/PatientLookupService</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Content Extraction</strong></p></td>
+          <td class="confluenceTd"><p>SourceXPath: <code>//ns1:id</code>, Target Type: <code>Field</code>, Target Property / Field: <code>Response.Id</code> <br> SourceXPath: <code>//ns1:firstName</code>, Target Type: <code>Field</code>, Target Property / Field: <code>Response.FirstName</code> <br> SourceXPath: <code>//ns1:lastName</code>, Target Type: <code>Field</code>, Target Property / Field: <code>Response.LastName</code> <br> SourceXPath: <code>//ns1:phone</code>, Target Type: <code>Field</code>, Target Property / Field: <code>Response.Phone</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Edit Signing and Encryption Parameters</strong></p></td>
+          <td class="confluenceTd"><p>Inherit settings from web service configuration: <code>selected</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="CreatingtheWebServiceClient-OperationEditor:FaultTab">Operation Editor: Fault Tab</h4>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163596.png" data-image-src="attachments/133163585/133163596.png" data-unresolved-comment-count="0" data-linked-resource-id="133163596" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="OperationEditorFaultTab.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <p></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Execute Custom JavaScript When SOAP Fault Is Received</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>JavaScript</strong></p></td>
+          <td class="confluenceTd">
+           <div class="preformatted panel" style="border-width: 1px;">
+            <div class="preformattedContent panelContent"> 
+             <pre>// Check the fault code
+if (fault.faultCode.localName == 'Receiver') {
+	// Treat as a connection error
+	fault.treatAsConnectionError();
+}
+
+// Insert fault details into message
+default xml namespace = "http://www.w3.org/2003/05/soap-envelope";
+output.text = "Header|Error\rError|||\r";
+output.setField("Error/Code", fault.envelope..Code.Value);
+output.setField("Error/SubCode", fault.envelope..Subcode.Value);
+output.setField("Error/Message", fault.envelope..Reason.Text); </pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Edit Signing and Encryption Parameters</strong></p></td>
+          <td class="confluenceTd"><p>Encryption Mode: <code>Do not Encrypt</code> <br> Signing Mode: <code>Do not Sign</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p></p>
+      <h3 id="CreatingtheWebServiceClient-WebServiceConsumerCommunicationProperties:OperationsTab(AddOperationlookupByName)">Web Service Consumer Communication Properties: Operations Tab (Add Operation lookupByName)</h3>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Web-Service-Operations_133162608.html">Web Service Operations</a> for field definitions.</p>
+       </div>
+      </div>
+      <p>Click <strong>Add Operation</strong>.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163587.png" data-image-src="attachments/133163585/133163587.png" data-unresolved-comment-count="0" data-linked-resource-id="133163587" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="OperationEditorRequestTab2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Operation</strong></p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Name</p></td>
+          <td class="confluenceTd"><p>Select <code>lookupByName</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Request-Response</code> (automatically populated)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Namespace</p></td>
+          <td class="confluenceTd"><p><code>http://www.orionhealth.com/rhapsody/2010/03/PatientLookupService</code> (automatically populated)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Action</p></td>
+          <td class="confluenceTd"><p><code>urn:lookupByName</code> (automatically populated)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Request WS-Addressing Action</p></td>
+          <td class="confluenceTd"><p><code>urn:lookupByName</code> (automatically populated)</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="CreatingtheWebServiceClient-OperationEditor:RequestTab.1">Operation Editor: Request Tab</h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Construct SOAP body contents using a template and values from the Rhapsody message body and properties</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Template</p></td>
+          <td class="confluenceTd">
+           <div class="preformatted panel" style="border-width: 1px;">
+            <div class="preformattedContent panelContent"> 
+             <pre>&lt;pat:lookupByName xmlns:pat="http:&amp;#47;&amp;#47;www.orionhealth.com/rhapsody/2010/03/PatientLookupService"&gt;
+  &lt;pat:firstName&gt;string&lt;/pat:firstName&gt;
+  &lt;pat:lastName&gt;string&lt;/pat:lastName&gt;
+&lt;/pat:lookupByName&gt; </pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Content Insertion</strong></p></td>
+          <td class="confluenceTd"><p>Source Type: <code>Field</code>, Property / Field Name: <code>Query.FirstName</code>, Content Type: <code>Text</code>, Target XPath: <code>//pat:firstName</code> <br> Source Type: <code>Field</code>, Property / Field Name: <code>Query.LastName</code>, Content Type: <code>Text</code>, Target XPath: <code>//pat:lastName</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Edit Signing and Encryption Parameters</strong></p></td>
+          <td class="confluenceTd"><p>Inherit settings from web service configuration: <code>selected</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p></p>
+      <h4 id="CreatingtheWebServiceClient-OperationEditor:ResponseTab.1">Operation Editor: Response Tab</h4>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163589.png" data-image-src="attachments/133163585/133163589.png" data-unresolved-comment-count="0" data-linked-resource-id="133163589" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="OperationEditorResponseTab2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Extract contents from SOAP message into Rhapsody message body and properties</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>XML Namespace Mapping</strong></p></td>
+          <td class="confluenceTd"><p>(automatically populated)</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Prefix</p></td>
+          <td class="confluenceTd"><p><code>ns1</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Namespace URI</p></td>
+          <td class="confluenceTd"><p><code>http://www.orionhealth.com/rhapsody/2010/03/PatientLookupService</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Content Extraction</strong></p></td>
+          <td class="confluenceTd"><p>SourceXPath: <code>//ns1:id</code>, Target Type: <code>Field</code>, Target Property / Field: <code>Response.Id</code> <br> SourceXPath: <code>//ns1:firstName</code>, Target Type: <code>Field</code>, Target Property / Field: <code>Response.FirstName</code> <br> SourceXPath: <code>//ns1:lastName</code>, Target Type: <code>Field</code>, Target Property / Field: <code>Response.LastName</code> <br> SourceXPath: <code>//ns1:phone</code>, Target Type: <code>Field</code>, Target Property / Field: <code>Response.Phone</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Edit Signing and Encryption Parameters</strong></p></td>
+          <td class="confluenceTd"><p>Inherit settings from web service configuration: <code>selected</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h4 id="CreatingtheWebServiceClient-OperationEditor:FaultTab.1">Operation Editor: Fault Tab</h4>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163597.png" data-image-src="attachments/133163585/133163597.png" data-unresolved-comment-count="0" data-linked-resource-id="133163597" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="OperationEditorFaultTab2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <p></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Mode</p></td>
+          <td class="confluenceTd"><p><code>Treat SOAP Faults As Message Errors</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>Edit Signing and Encryption Parameters</strong></p></td>
+          <td class="confluenceTd"><p>Inherit settings from web service configuration: <code>selected</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The <strong>Operations</strong> tab should now include two operations.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163585/133163590.png" data-image-src="attachments/133163585/133163590.png" data-unresolved-comment-count="0" data-linked-resource-id="133163590" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WSConsumerOperations.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163585" data-linked-resource-container-version="1"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

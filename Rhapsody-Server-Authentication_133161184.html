@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Rhapsody Server Authentication</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Rhapsody Server Authentication</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>When the Rhapsody IDE connects to a Rhapsody engine, the IDE needs to verify the Rhapsody engine's identity before it performs the login process. This is important to ensure that the Rhapsody IDE connection is to the expected Rhapsody engine, rather than another computer or process masquerading as a Rhapsody engine. The Rhapsody server authentication process is performed prior to transmitting the username and password to the engine, and involves examining the SSL certificate presented by the Rhapsody engine when the SSL connection is established.</p>
+      <p>By default, a Rhapsody engine generates a new self-signed certificate during startup if none exists, but this can be changed to use a <a href="Using-a-User-defined-Certificate_133161221.html">user-defined certificate </a>instead.</p>
+      <p>The Rhapsody server authentication process trusts a connection if, and only if, all the following are true:</p>
+      <ul>
+       <li>The SSL certificate presented by the Rhapsody engine is valid (for example, not expired, has a valid signature, and not revoked).</li>
+       <li>The presented certificate or its ultimate issuer are trusted by the Rhapsody IDE machine, meaning that either the certificate has been explicitly accepted previously by the user, or is issued by a certificate authority trusted by the Rhapsody IDE machine.</li>
+       <li>The hostname used to connect to the Rhapsody engine matches one of the hostnames in the presented SSL certificate. This rule is not enforced when connecting to an engine on the IDE machine (using a hostname of <code>localhost</code> or <code>127.0.0.1</code>) and can be selectively turned off on an engine by engine basis.</li>
+      </ul>
+      <p>If the Rhapsody IDE determines that it can trust the Rhapsody engine, then the login process continues without further user interaction. If it is not able to trust the connection, however, a certificate error or warning form is displayed to the user. These scenarios are described in the following sections:</p>
+      <ul>
+       <li><a href="Untrusted-Self-signed-Certificate-Warning_133161198.html">Untrusted Self-signed Certificate Warning</a></li>
+       <li><a href="New-Rhapsody-Engine-Certificate-Warning_133161194.html">New Rhapsody Engine Certificate Warning</a></li>
+       <li><a href="Old-Rhapsody-Engine-Certificate-Warning_133161190.html">Old Rhapsody Engine Certificate Warning</a></li>
+       <li><a href="Invalid-SSL-Certificate-Error_133161192.html">Invalid SSL Certificate Error</a></li>
+       <li><a href="Certificate-Mismatch-Error_133161215.html">Certificate Mismatch Error</a></li>
+       <li><a href="Hostname-Mismatch-Error_133161200.html">Hostname Mismatch Error</a></li>
+       <li><a href="Untrusted-Self-signed-Certificate-Error_133161196.html">Untrusted Self-signed Certificate Error</a></li>
+      </ul>
+      <p>Where possible the Rhapsody IDE attempts to store some minimal information about trusted Rhapsody engines that it has connected to so it can correctly detect and report subsequent changes to the SSL certificate. This information is stored using a combination of the <em>Windows</em> <span class="st">®</span> registry and <em>Windows</em> <span class="st">®</span> certificate store. Refer to<span>&nbsp;<a href="Administrative-Control-of-Rhapsody-Server-Authentication_133161185.html">Administrative Control of Rhapsody Server Authentication&nbsp;</a></span>for details.<strong> <br> </strong></p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

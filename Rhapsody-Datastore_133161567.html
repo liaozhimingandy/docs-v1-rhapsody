@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Rhapsody Datastore</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Directory-Structure_133161562.html">Rhapsody Directory Structure</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Rhapsody Datastore</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Rhapsody datastore is a file-based system used to&nbsp;store the engine configuration and state information as well as the message archive.</p>
+      <p>The default location for the datastore files is&nbsp;<code><span>&lt;RhapsodyInstallDirectory&gt;</span>\rhapsody\data</code>.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Sub-directory</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\backup</code></p></td>
+          <td class="confluenceTd">Contains the backups schedule.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>\charactermap</span></code></td>
+          <td class="confluenceTd">Stores the global mapping file,&nbsp;<code>characterMapping.xml</code>. Refer to&nbsp;<a href="Character-Encoding-Translator_133163370.html#CharacterEncodingTranslator-GlobalMappingFile">Global Mapping File</a>&nbsp;for details.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>\cleanup</code></td>
+          <td class="confluenceTd"><span>Holds configuration details that control when cleanup is performed.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\cleanuptrace</code></p></td>
+          <td class="confluenceTd">Contains the cleanup trace log files used by the <a href="Management-Console_133163667.html">Management Console</a>.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\commpoints</code></p></td>
+          <td class="confluenceTd">Contains indexes for certain communication points.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\config</code></p></td>
+          <td class="confluenceTd"><span>Contains the Rhapsody configuration.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>\filters</span></code></p></td>
+          <td class="confluenceTd"><span>Used by the <a href="Duplicate-Message-Detection_133163339.html">Duplicate Message Detection</a> filter to store the data structure for tracking duplicate messages.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>\idgeneration</span></code></p></td>
+          <td class="confluenceTd"><span>Stores persistent information about the current state of each ID generator.&nbsp;</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>\index</span></code></p></td>
+          <td class="confluenceTd"><span>Contains indexes created to access properties on messages.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>\lib</span></code></p></td>
+          <td class="confluenceTd"><p>Contains external libraries that are common between many communication points. For example, you can add third-party JDBC drivers here instead of attaching them to each individual communication point. However, if you attach a library to a communication point it will override any library that is in this directory.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>\logs</span></code></p></td>
+          <td class="confluenceTd"><p>Contains the following log folders used by the Management Console:</p>
+           <ul>
+            <li><code>\logs\audit</code></li>
+            <li><code><span style="line-height: 13.0pt;background-color: transparent;">\logs\component</span></code></li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p><span>These files are&nbsp;</span><em>not </em>text logs<span>, and should not be attached to support tickets. The text logs can be found in the <code>log</code> directory under the main Rhapsody binaries directory.</span></p>
+            </div>
+           </div><p><code><br></code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>\lookuptable</span></code></td>
+          <td class="confluenceTd"><p>Contains the following databases:</p>
+           <ul>
+            <li><code>lookuptable</code>&nbsp;– <span>contains lookup table data.</span></li>
+            <li><code>failure</code>&nbsp;– contains lookup failures that were recorded during the lookup process.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>\messageevents</span></code></p></td>
+          <td class="confluenceTd"><p>Contains data about events that occur to messages, which is used to display the message path in the Management Console.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>\messagemodifier</code></td>
+          <td colspan="1" class="confluenceTd">Not currently used for any purpose.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span><a href="Message-Store_133161569.html">\messagestore</a></span></code></p></td>
+          <td class="confluenceTd"><p>Holds both the message body, and all the metadata and properties of messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>\messagetables</span></code></p></td>
+          <td class="confluenceTd"><p>Contains indexes for the Hold Queue and Error Queue.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>\modules</span></code></p></td>
+          <td class="confluenceTd"><p>Contains all the uploaded modules, such as custom communication points and filters.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code><span>\monitoring</span></code></p></td>
+          <td class="confluenceTd"><p>Contains a settings file used by the Management Console.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>\<span style="line-height: 13.0pt;">notifications</span></code></td>
+          <td colspan="1" class="confluenceTd"><p>Contains notifications history and respective indexes etc.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\persistentmapstore</code></p></td>
+          <td class="confluenceTd"><p>Used by communication points to store values that must be persisted, for example, a database key value.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>\queue</code></p></td>
+          <td class="confluenceTd"><p>Stores index files that point into the message store. These indexes control how messages are queued inside the engine. The&nbsp;<code>\queue</code> data store includes the:</p>
+           <ul>
+            <li>Input Message Store.</li>
+            <li>Output Message Store.</li>
+            <li>Process Message Store.</li>
+            <li>Redirected Message Store.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\startup</code></p></td>
+          <td colspan="1" class="confluenceTd"><p><span>Stores</span> the startup state information for a communication point or route. The storage location of the startup metadata can be changed by adding the&nbsp;<code>StartupService.directory</code>&nbsp;property to the&nbsp;<code>rhapsody.properties</code>&nbsp;file. If this directory is not present, it is automatically created.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\statistics</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Stores statistical information used to plot&nbsp;graphs in the Management Console, and also the total message counts for components.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\store</code></p></td>
+          <td colspan="1" class="confluenceTd">Used as a general storage location. &nbsp;</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\tmp</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Used to store files <span>temporarily </span>as they are being processed by Rhapsody.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\tracking</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Used to store information about messages currently being tracked.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\transaction</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Contains a transaction system that operates in a similar way to a database. &nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\users</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Contains all the user data. This data is protected with encryption and a one-way hash system so that it is impossible to recover a password. If the contents of this directory are deleted the administration account is automatically recreated.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>\validation</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>Contains the current data validation status, which is used to ensure that data is validated correctly after an unclean shutdown.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

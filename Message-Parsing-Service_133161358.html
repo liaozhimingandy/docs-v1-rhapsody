@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Message Parsing Service</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="RDK-Reference_133161352.html">RDK Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Message Parsing Service</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p> </p>
+      <p>The MessageParsingService&nbsp;provides a mechanism for components to retrieve loaded message definitions, and to parse messages. The parsing service provides an internal cache of parsed messages, thereby allowing&nbsp;<span class="s2">Rhapsody</span> to avoid parsing messages multiple times when this is not necessary.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Method</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>LoadedDefinition getLoadedDefinition(Definition <span class="s1">definition</span>)</code></p></td>
+          <td class="confluenceTd"><p>Retrieves a loaded message definition ready for use, from the specified definition.</p><p>Parameters:</p>
+           <ul>
+            <li><code>definition</code> - the definition to be loaded.</li>
+           </ul><p><span>Exceptions</span>:</p>
+           <ul>
+            <li><code>DefinitionException</code> - if an error occurs loading the definition.&nbsp;</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>LoadedDefinition getLoadedDefinition(Definition <span class="s1">definition</span>, LoadedDefinitionKey <span class="s1">key</span>)</code></p></td>
+          <td class="confluenceTd"><p class="p1">Retrieves a loaded message definition ready for use, from the specified definition.</p><p class="p1">Parameters:</p>
+           <ul>
+            <li class="p1"><code>definition</code> - the definition to be loaded.</li>
+            <li class="p1"><span class="s1"><code>key</code> - a discriminator to be used to enable multiple loadings of the same definition, passing </span><span class="s2">null</span><span class="s1"> will be the same as calling <code><a rel="nofollow"><span class="s3">getLoadedDefinition(Definition)</span></a></code></span><span class="s1"><a rel="nofollow"><span class="s3">.</span></a></span></li>
+           </ul><p class="p1"><span><span>Exceptions</span>:</span></p>
+           <ul>
+            <li class="p1"><span><code>DefinitionException</code> - if an error occurs loading the definition.&nbsp;</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>MessageFormatFactory getMessageFormatFactory()</code></p></td>
+          <td class="confluenceTd"><p class="p1">Retrieves the message format factory for this environment. Message formats allow messages to be parsed and processed without the filters or communication points knowing how the messages are parsed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1"><code>saveParsedMessage(Message <span class="s1">message</span>, MessageXPathContext <span class="s1">context</span>)</code></p></td>
+          <td class="confluenceTd"><p class="p1">Method returns the parsed message body to the service, allowing the message parsing service to <span class="s1">utilize</span> its cache. Returning the parsed message bodies to the cache greatly improves the performance of <span class="s1">Rhapsody. </span>If any changes were made to the parsed body, the changes are parsed<span class="s1">-</span>out to the persistence store, updating the message object itself.</p><p class="p1">This method should not be called if changes have been made to the message context while those changes should not be saved. However, it should be called when no changes are made (or if the changes should be saved) as this allows reuse of the parsed bodies.</p><p class="p1">Parameters:</p>
+           <ul>
+            <li class="p1"><code>message</code> - the message whose parsed body is being returned. If this parameter is null, unmodified message contexts are returned to the cache for re<span class="s1">-</span>use by other messages, and other contexts are discarded.</li>
+            <li class="p1"><code>context</code> - the parsed message body.</li>
+           </ul><p class="p1"><span>Exceptions</span>:</p>
+           <ul>
+            <li class="p1"><code>MessageException</code> - if an error occurs writing out the message body, when saving a modified parsed message.</li>
+            <li class="p1"><code>InterruptedException</code> - when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted, either before or during the activity.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p class="p1"><code>setMessageFormat(Message <span class="s1">message</span>, MessageFormat <span class="s1">messageFormat</span>, String <span class="s1">messageName</span>)</code></p></td>
+          <td colspan="1" class="confluenceTd"><p class="p1"><span class="s1">Marks this message as being most recently parsed using the specified message format with the specified message name. This means that the specified message format is then preferred when the message next needs to be parsed and no specific message format is provided. This method does not need to be called if the MessageFormat was actually used to parse the message as it is set automatically in that case.</span></p><p class="p1"><span class="s1">It is primarily intended for filters that modify the message body and are aware of what the new message format is (for example, the Mapper filter). If the message name is null, then the existing message name in the <code><span class="s2">StandardMessageProperty.OUTPUT_MESSAGE_TYPE</span></code> property is left unchanged. If the message name is an empty string, then the existing message name is cleared. Otherwise, the <code><span class="s2">StandardMessageProperty.OUTPUT_MESSAGE_TYPE</span></code> property is updated with the new message name.</span></p><p class="p1">Parameters:</p>
+           <ul>
+            <li class="p1"><code>message</code> - the message.</li>
+            <li class="p1"><code>messageFormat</code> - the message format.</li>
+            <li class="p1"><code>messageName</code> - the new message name.</li>
+           </ul><p class="p1"><span>Exceptions</span>:</p>
+           <ul>
+            <li class="p1"><code>NullPointerException</code> - if either <code>message</code> or <code>messageFormat</code> is null.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p>
+      <p><span style="text-indent: 20.0px;width: auto;padding: 0.0px 4.0px 0.0px 0.0px;text-align: center;color: rgb(255,255,255);z-index: 8675309;display: none;cursor: pointer;">Save</span></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

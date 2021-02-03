@@ -1,0 +1,465 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>HTTP Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="HTTP-Client-and-Server_133162622.html">HTTP Client and Server</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">HTTP Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162623/133162631.png" data-image-src="attachments/133162623/133162631.png" data-unresolved-comment-count="0" data-linked-resource-id="133162631" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="HTTP-Client-comm-32.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162623" data-linked-resource-container-version="8"></span></p>
+      <p>The <strong>HTTP Client</strong> communication point&nbsp;is used to make requests to remote HTTP servers and allow remote resources to be accessed using the HyperText Transfer Protocol (HTTP). Refer to <a href="#HTTPClient-PublishedProperties">Published Properties</a> for a list of properties associated with this communication point.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The&nbsp;HTTP Client&nbsp;communication point does not support pre-emptive authentication.</p>
+       </div>
+      </div>
+      <p>Supported Operational Modes:&nbsp;<em>Input</em>,&nbsp;<em>Output</em>,&nbsp;<em>Out-&gt;In</em>.</p>
+      <h2 id="HTTPClient-OperationalModes"><span style="color: rgb(0,0,0);">Operational Modes</span></h2>
+      <ul>
+       <li><strong><em>Input&nbsp;Mode</em></strong> - the HTTP Client communication point sends a request to the HTTP server at regular intervals. If the server response includes a success code, the content of the response forms the body of the Rhapsody message to be processed by the engine.</li>
+       <li><strong><em>Output&nbsp;</em>Mode</strong> - The HTTP Client communication point sends a request to the HTTP server when it receives a message from the Rhapsody engine. The HTTP Client communication point's&nbsp;<strong>Message Content</strong> configuration property determines the content of the HTTP request that is sent to the HTTP server.&nbsp;</li>
+       <li><strong><em>Out→In</em>&nbsp;Mode</strong> - The HTTP Client communication point sends a request to the HTTP server when it receives a message from the Rhapsody engine. If the server response includes a success code, the content&nbsp;of the response forms the body of the message to be processed by the engine.</li>
+      </ul>
+      <h2 id="HTTPClient-TLS/SSLSupport"><span>TLS/SSL Support</span></h2>
+      <p><span> <span>For details on Transport Layer Security/Secure Sockets Layer (TLS/SSL) support in Rhapsody, refer to&nbsp;<a href="133161183.html">TLS/SSL Support in Rhapsody</a>.</span> </span></p>
+      <h2 id="HTTPClient-ConfigurationProperties">Configuration Properties</h2>
+      <h3 id="HTTPClient-InputModeProperties">Input Mode Properties</h3>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>URL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The URL of the resource to get. It should specify HTTP as the protocol and contain the name of the server and the path of the resource, for example:</p>
+            <div class="preformatted panel" style="border-width: 1px;">
+             <div class="preformattedContent panelContent"> 
+              <pre>http://rhapsody.orionhealth.com/eap/login.jsp</pre> 
+             </div>
+            </div>
+            <p>It may include request parameters followed by <code>?</code>, for example:</p>
+            <div class="preformatted panel" style="border-width: 1px;">
+             <div class="preformattedContent panelContent"> 
+              <pre>http://rhapsody.orionhealth.com/eap/login.jsp?user=lee&amp;password=abc</pre> 
+             </div>
+            </div>
+            <p>The URL can also be a message property when running in <em>Output</em> or <em>Out-&gt;In</em>mode which enables you to direct the message dynamically based on the message content.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTP Method</p></td>
+          <td class="confluenceTd"><p>The HTTP Method for the URL request. Rhapsody currently supports <code>GET</code>, <code>POST</code>, <code>HEAD</code>, <code>OPTIONS</code>, <code>PUT</code>, <code>DELETE</code>, <code>TRACE</code> and <code>AUTO</code> methods. <code>GET</code><span>&nbsp;</span>and <code>POST</code> are<span> commonly used.</span></p><p>If <code>AUTO</code> is selected, the Client will use the method set by the HTTP server, if a method is not found <code>GET</code> is used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Request Headers</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>A list of request header names and the values to be mapped that enable you to put custom properties into an HTTP header. They can come from message properties or literals.</p>
+            <p>&nbsp; <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162623/133162624.png" data-image-src="attachments/133162623/133162624.png" data-unresolved-comment-count="0" data-linked-resource-id="133162624" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RequestHeaders.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162623" data-linked-resource-container-version="8"></span></p>
+            <p>Use the <code>$MessageProperty</code> notation to specify that the actual value should be retrieved from a message property.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Follow Redirects</p></td>
+          <td class="confluenceTd"><p>Sets whether HTTP redirects (requests with response code 3xx) should be automatically followed:</p>
+           <ul>
+            <li><span>Enabled</span>.</li>
+            <li><span>Disabled</span> (default) - <span>if this property </span>is disabled and<span> the server response indicates a redirect of the request, an error will be generated.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use HTTPS</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to use the secure HTTP protocol (HTTPS) over the connection. It is recommended that HTTPS be enabled for HTTP Client communication points whenever it is supported by the remote server.</p>
+            <ul>
+             <li><span>Enabled</span>.</li>
+             <li><span>Disabled</span> (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details on TLS/SSL (Transport Layer Security/Secure Sockets Layer) support in Rhapsody.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a> <span>for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><span>Refer to</span> <a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a> <span>for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>List of trusted certificates to use for authenticating the HTTPS server. This option is only available if <strong>Use HTTPS </strong>is enabled. If one or more certificates are configured in this property then the certificate presented by the server must either match one of the configured certificates, or have been signed by one of the configured certificates. If no certificates are configured in this property then the certificate presented by the server must have been signed by a trusted certificate authority.</p><p><span>Refer to</span> <a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a> <span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>List of private keys used for HTTPS client authentication if this is required by the HTTPS server. If HTTPS client authentication is enabled, the HTTP Client Communication Point will present the certificate associated with this private key during the TLS negotiation, allowing the server to authenticate the client.&nbsp;This option is only available if <strong>Use <strong>HTTPS</strong> </strong>is <span>enabled</span>. Optional but can be configured with the HTTPS client's private key.</p><p><span>Refer to</span> <a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a> <span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Hostname Verification</p></td>
+          <td class="confluenceTd"><p>Whether to enable or disable hostname verification:</p>
+           <ul>
+            <li><code>Enable</code> (default).</li>
+            <li><code>Disable</code>.</li>
+           </ul><p>Hostname verification is a server authentication security mechanism. It ensures that the hostname specified in the certificate presented by the server is the same as the hostname specified in the URL property above. If the hostnames are different, the connection attempt will fail. The exception to this is where the remote server is, in fact, the localhost.&nbsp;</p><p>Setting this property to&nbsp;<code>Disable</code>&nbsp;means that the hostname used to connect to the HTTPS server is not verified against the expected hostnames included in the server's SSL certificate, however, the server's certificate is still authenticated against the&nbsp;<strong>Trusted Certificates</strong>&nbsp;configuration property.&nbsp;This is a weakening of the security provided by server-authenticated SSL. We strongly recommend being fully aware of the risks involved before making the decision to disable hostname verification. If you are unsure of the potential consequences, we recommend leaving verification enabled. This option cannot be disabled if the trusted certificate authorities are being used to validate the certificate presented by the server (in other words, the <strong>Trusted Certificates</strong> configuration property has not been explicitly set).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTP Authentication Username</p></td>
+          <td class="confluenceTd"><p>The username to send if the server requires basic or digest authentication. This can be set as either a literal, a Rhapsody variable (using the <code>$(variableName)</code> notation), or a Rhapsody message property (using the <code>$propertyName</code> notation).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTP Authentication Password</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The password to send if the server requires basic or digest authentication. <span>This can be set as either a literal, a Rhapsody variable (using the</span> <code>$(variableName)</code><span> notation), or a Rhapsody message property (using the</span> <code>$propertyName</code> <span>notation).</span></p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>As message properties are visible in the Management Console to users with the appropriate access right, it is recommended that passwords provided in message properties are kept in their obfuscated form. If those passwords are retrieved via Rhapsody variables using JavaScript, then the retrieval functions can leave them in this format - refer to <a href="Global-Functions_133161395.html#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a> for details. If those passwords are provided as literals elsewhere in the configuration, then the <a href="Encrypting-Your-Password_133164477.html">Encrypt Password</a> function in the Rhapsody IDE can be used.</p>
+             </div>
+            </div>
+            <p><span><br></span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Protocol Support</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Identifies the level of support for application-level protocols which use HTTP:</p>
+            <ul>
+             <li><code>Standard HTTP Only</code> (default).</li>
+             <li><code>SOAP Support</code>.</li>
+             <li><code>ebXML Support</code>.</li>
+            </ul>
+            <p>When <strong>Protocol Support</strong> is<strong> </strong>set to <code>SOAP Support</code>, if the <code>soap:soapAction</code>&nbsp;property is present in the incoming message, the HTTP Client communication point uses the <code>soap:soapAction</code>&nbsp;property to determine the <code>SOAPAction</code>&nbsp;request header for outgoing HTTP messages. If the <code>soap:soapAction</code>&nbsp;property is not present in the incoming message, the communication point generates the property in the outgoing message, setting it by default to an empty string (<code>""</code>).</p>
+            <p>When <strong>Protocol Support is </strong>set to <code>ebXML Support</code>,&nbsp;the communication point extracts the <code>eb:SOAPAction</code>&nbsp;property from incoming messages if present, or generates the property in outgoing messages with a default value of <code>ebXML</code>.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Read Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>How long to wait (in milliseconds) when trying to read a response from the server.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Connect Timeout (ms)</td>
+          <td colspan="1" class="confluenceTd">How long to wait (in milliseconds) when trying to connect to a server.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy Type</td>
+          <td colspan="1" class="confluenceTd"><p>The proxy type for this connection:</p>
+           <ul>
+            <li><code>System</code> (default) - use any proxy settings configured on the JVM or host computer.</li>
+            <li><code>None/Direct</code>.</li>
+            <li><code>HTTP</code>.</li>
+            <li><code>SOCKS</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy Hostname</td>
+          <td colspan="1" class="confluenceTd"><p>The proxy hostname.</p><p>Use the <code>$<span>propertyName</span></code> notation to specify that the proxy hostname should be retrieved from a message property.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy Port</td>
+          <td colspan="1" class="confluenceTd"><p>The proxy port.</p><p>Use the <code>$<span>propertyName</span></code> notation to specify that the proxy port should be retrieved from a message property.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy HTTP Authentication Username</td>
+          <td colspan="1" class="confluenceTd"><p>The username to send if the proxy server requires basic or digest HTTP authentication.</p><p>Use the <code>$<span>propertyName</span></code> notation to specify that the proxy username should be retrieved from a message property.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy HTTP Authentication Password</td>
+          <td colspan="1" class="confluenceTd"><p>The password to send if the proxy server requires basic or digest HTTP authentication.</p><p>Use the <code>$<span>propertyName</span></code> notation to specify that the proxy password should be retrieved from a message property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Refresh Rate</p></td>
+          <td class="confluenceTd"><p>Specifies the frequency (in milliseconds) that the URL request is sent to the HTTP server at the location specified in the <strong>URL</strong> configuration property. This property is optional with a default value of <code>60000ms</code> (1 minute).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Set If-Modified-Since header</p></td>
+          <td class="confluenceTd"><p><code style="letter-spacing: 0.0px;"><span>Whether to set the If-Modified-Since header:</span></code></p>
+           <ul>
+            <li>Enabled - communication point will save the time when the received message was modified (part of the HTTP response header obtained from the HTTP server) and use it to retrieve the next message only if it was modified after the previous message. Another way to look at it is a conditional GET method based on the modification time of the content.</li>
+            <li><span>Disabled</span> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response Headers</p></td>
+          <td class="confluenceTd"><p>A list of headers to be read from the incoming HTTP response messages and the corresponding message properties to which the header values should be written.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="HTTPClient-OutputModeProperties">Output Mode Properties</h3>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>URL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The URL of the resource to get. It should specify HTTP as the protocol and contain the name of the server and the path of the resource, for example:</p>
+            <div class="preformatted panel" style="border-width: 1px;">
+             <div class="preformattedContent panelContent"> 
+              <pre>http://rhapsody.orionhealth.com/eap/login.jsp</pre> 
+             </div>
+            </div>
+            <p>It may include request parameters followed by <code>?</code>, for example:</p>
+            <div class="preformatted panel" style="border-width: 1px;">
+             <div class="preformattedContent panelContent"> 
+              <pre>http://rhapsody.orionhealth.com/eap/login.jsp?user=lee&amp;password=abc</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTP Method</p></td>
+          <td class="confluenceTd"><p>The HTTP method for the URL request. Rhapsody currently supports <code>GET</code>, <code>POST</code>, <code>HEAD</code>, <code>OPTIONS</code>, <code>PUT</code>, <code>DELETE</code>, <code>TRACE</code> and <code>AUTO</code> methods.</p><p>If <code>AUTO</code> is selected, the Client uses the method set by the HTTP server; if a method is not found, <code>GET</code> is used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Request Headers</p></td>
+          <td class="confluenceTd"><p>A list of request header names and the values to be mapped. Use the <code>$MessageProperty</code> notation to specify that the actual value should be retrieved from a message property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Follow Redirects</p></td>
+          <td class="confluenceTd"><p>Sets whether HTTP redirects (requests with response code 3xx) should be automatically followed:</p>
+           <ul>
+            <li><span>Enabled</span>.</li>
+            <li><span>Disabled</span> (default) - if this property is disabled<span> and the server response indicates redirect the request, an error will be generated.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use HTTPS</p></td>
+          <td class="confluenceTd"><p>Whether to use the secure HTTP protocol (HTTPS) over the connection.</p>
+           <ul>
+            <li><span>Enabled</span>.</li>
+            <li><span>Disabled</span> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p><span>List of trusted certificates to use for authenticating the HTTPS server. This option is only available if</span> <strong>Use HTTPS</strong> <span>is <span>enabled</span></span><span>. If one or more certificates are configured in this property, then the certificate presented by the server must either match one of the configured certificates, or have been signed by one of the configured certificates. If no certificates are configured in this property, then the certificate presented by the server must have been signed by a trusted certificate authority.</span></p><p><span>Refer to</span> <a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>List of private keys used for HTTPS client authentication if this is required by the HTTPS server. If HTTPS client authentication is enabled, the HTTP Client Communication Point will present the certificate associated with this private key during the TLS negotiation, allowing the server to authenticate the client.&nbsp;This option is only available if <strong>Use <strong>HTTPS</strong> </strong>is <span>enabled</span>. Optional but can be configured with the HTTPS client's private key.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Hostname Verification</p></td>
+          <td class="confluenceTd"><p>Options: <code>Enable</code>, <code>Disable</code>. Default: <code>Enable</code>.</p><p>Whether to enable or disable hostname verification. Hostname verification is a server authentication security mechanism. It ensures that the hostname specified in the certificate presented by the server is the same as the hostname specified in the URL property above. If the hostnames are different, the connection attempt will fail. The exception to this is where the remote server is, in fact, the localhost.</p><p>Setting this property to <code>Disable</code> means that the hostname used to connect to the HTTPS server is not verified against the expected hostnames included in the server's SSL certificate, however, the server's certificate is still authenticated against the <strong>Trusted Certificates</strong> configuration property.&nbsp;This is a weakening of the security provided by server-authenticated SSL. We strongly recommend being fully aware of the risks involved before making the decision to disable hostname verification. If you are unsure of the potential consequences, we recommend leaving verification enabled. This option cannot be disabled if the trusted certificate authorities are being used to validate the certificate presented by the server (in other words, the <strong>Trusted Certificates</strong> configuration property has not been explicitly set).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTP Authentication Username</p></td>
+          <td class="confluenceTd"><p><span>The username to send if the server requires basic or digest authentication. </span></p><p><span>This can be set as either a literal, a Rhapsody variable (using the </span> <code>$(variableName)</code> <span>notation), or a Rhapsody message property (using the</span> <code>$propertyName</code> <span>notation).</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTP Authentication Password</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The password to send if the server requires basic or digest authentication.</p>
+            <p>This can be set as either a literal, a Rhapsody variable (using the <code>$(variableName)</code> notation), or a Rhapsody message property (using the <code>$propertyName</code> notation).</p>
+            <div class="confluence-information-macro confluence-information-macro-warning">
+             <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>As message properties are visible in the Management Console to users with the appropriate access rights, it is highly recommended that you encrypt passwords provided in this message using the <a href="Encrypting-Your-Password_133164477.html">Encrypt Password</a> function in the Rhapsody IDE. Alternatively, you can use <a href="Dynamic-Configuration-Using-XML-Templates_133162389.html">Configuration Templates</a>, which do not require providing the password in a message property.</p>
+              <p><span>If the passwords are retrieved from a Rhapsody variable using JavaScript, then the retrieval functions can leave them in this format. Refer to</span> <a href="Global-Functions_133161395.html#GlobalFunctions-EncryptedRhapsodyVariables">Encrypted Rhapsody Variables</a> <span>for details.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Protocol Support</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Identifies the level of support for application-level protocols which use HTTP:</p>
+            <ul>
+             <li><code>Standard HTTP Only</code> (default).</li>
+             <li><code>SOAP Support</code><span>.</span></li>
+             <li><code>ebXML Support</code><span>.</span></li>
+            </ul>
+            <p>When <strong>Protocol Support</strong> is<strong> </strong>set to <code>SOAP Support</code>, if the <code>soap:soapAction</code>&nbsp;property is present in the incoming message, the HTTP Client communication point uses the <code>soap:soapAction</code>&nbsp;property to determine the <code>SOAPAction</code>&nbsp;request header for outgoing HTTP messages. If the <code>soap:soapAction</code>&nbsp;property is not present in the incoming message, the communication point generates the property in the outgoing message, setting it by default to an empty string (<code>""</code>).</p>
+            <p>When <strong>Protocol Support is </strong>set to <code>ebXML Support</code>,&nbsp;the communication point extracts the <code>eb:SOAPAction</code>&nbsp;property from incoming messages if present, or generates the property in outgoing messages with a default value of <code>ebXML</code>.</p>
+            <p></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Read Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>How long to wait (in milliseconds) when trying to read a response from the server.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Connect Timeout (ms)</td>
+          <td colspan="1" class="confluenceTd">How long to wait (in milliseconds) when trying to connect to a server.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy Type</td>
+          <td colspan="1" class="confluenceTd"><p>The proxy type for this connection:</p>
+           <ul>
+            <li><code>System</code> (default) - use any proxy settings configured on the JVM or host computer.</li>
+            <li><code>None/Direct</code>.</li>
+            <li><code>HTTP</code>.</li>
+            <li><code>SOCKS</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy Hostname</td>
+          <td colspan="1" class="confluenceTd"><p>The proxy hostname.</p><p>Use the <code>$<span>propertyName</span></code> notation to specify that the proxy hostname should be retrieved from a message property.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy Port</td>
+          <td colspan="1" class="confluenceTd"><p>The proxy port.</p><p>Use the <code>$<span>propertyName</span></code> notation to specify that the proxy port should be retrieved from a message property.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy HTTP Authentication Username</td>
+          <td colspan="1" class="confluenceTd"><p>The username to send if the proxy server requires basic or digest HTTP authentication.</p><p>Use the <code>$<span>propertyName</span></code> notation to specify that the proxy username should be retrieved from a message property.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Proxy HTTP Authentication Password</td>
+          <td colspan="1" class="confluenceTd"><p>The password to send if the proxy server requires basic or digest HTTP authentication.</p><p>Use the <code>$<span>propertyName</span></code> notation to specify that the proxy password should be retrieved from a message property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Content</p></td>
+          <td class="confluenceTd"><p>This property selects what to put as the content of the HTTP request that is sent to the HTTP server:</p>
+           <ul>
+            <li><code>None</code>.</li>
+            <li><code>Message Body</code> (default).</li>
+            <li><code>www-form-urlencoded</code>.</li>
+           </ul><p><code>Message Body</code> and <code>www-form-urlencoded</code> are only valid for <code>POST</code> and <code>PUT</code> methods. For all other methods, this property should be set to <code>None</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Type</p></td>
+          <td class="confluenceTd"><p>The MIME type of the HTTP response body contained in the body of the returned message, for example: text or image. <span>Refer to </span><a href="Configuration_133162170.html">File Naming Options</a><span> for details on using a route's published properties or a Rhapsody variable as the value for this property.</span></p><p>This property is only available if <strong>Message Content</strong> is set to <code>Message Body</code>.</p><p><span>The default is </span><code>text/plain</code><span>. </span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Encoding</p></td>
+          <td class="confluenceTd"><p>The MIME encoding (character set) used to encode the message content.</p><p>Only available if <strong>Message Content</strong> is set to <code>Message Body</code>. Refer to <a href="Configuration_133162170.html">File Naming Options</a> for details on using a route's published properties or a Rhapsody variable as the value for this property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition File</p></td>
+          <td class="confluenceTd"><p>Message definition which is used to parse and extract fields from the message that comes into the communication point from a Rhapsody route.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Additional Request Headers</p></td>
+          <td class="confluenceTd"><p>A list of <em>name-value</em> pairs, where for each pair the <em>name</em> is an HTTP request parameter and the <em>value</em> is the value for the parameter extracted from the incoming message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Request Parameters</p></td>
+          <td class="confluenceTd"><p>A list of <em>name-value</em> pairs, where for each pair <em>name</em> is an HTTP request parameter and <em>value</em> is the value for the parameter extracted from the incoming message. <em>value </em>can be a<em> </em>literal value, or a message property (for example, using <code>$propertyName</code> sets <em>value</em> to the value of the message property <code><span>propertyName</span></code><span>&nbsp;</span>in the incoming message). These pairs are encoded into the URL part of the HTTP request.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Form Names and Values</p></td>
+          <td class="confluenceTd"><p>A list of <em>name-value</em> pairs which will be encoded into the content of the request, <span>where for each pair</span> <em>value</em> is extracted from the incoming message. <em>value </em><span>can be a</span><em> </em><span>literal value, or a message property (using <code>$propertyName</code> sets<span>&nbsp;</span><em>value</em><span> to the value of the message </span>property <code>propertyName</code><span>&nbsp;</span>in<span> the incoming message</span></span><span>).</span></p><p>This configuration property is available only if <strong>Message Content</strong> property is set to <code>www-form-urlencoded</code>, and the option is only valid for <code>POST</code> and <code>PUT</code> methods.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On 4xx Error Response</p></td>
+          <td class="confluenceTd"><p>Sets an action for the incomplete HTTP client request errors (4xx errors):</p>
+           <ul>
+            <li><code>Mark as connection failed</code> (default) - the settings in <strong>Connection Retries</strong> of the <strong>Connection</strong> tab of the communication point's properties are applied.</li>
+            <li><code>Treat as message error</code> - <span>the original message is&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector. However, if the error output connector is not connected to other components, the message is sent to the Error Queue</span>.</li>
+            <li><code>Return message as input</code> - the message itself becomes the received data.</li>
+            <li><code>Return error content as input</code> - the content of the error message becomes the received data.</li>
+            <li><code>Mark connection as timed out</code> - the settings in the <strong>Out-&gt;In Properties</strong> of the <strong>Connection</strong> tab of the communication point's properties are applied.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On 5xx Error Response</p></td>
+          <td class="confluenceTd"><p>Sets an action for the HTTP server errors (5xx errors):</p>
+           <ul>
+            <li><code>Mark as connection failed</code> (default) - the settings in <strong>Connection Retries</strong> of the <strong>Connection</strong> tab of the communication point's properties are applied.</li>
+            <li><code>Treat as message error</code> - <span>the original message is&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector. However, if the error output connector is not connected to other components, the message is sent to the Error Queue</span>.</li>
+            <li><code>Return message as input</code> - the message itself becomes the received data.</li>
+            <li><code>Return error content as input</code> - the content of the error message becomes the received data.</li>
+            <li><code>Mark connection as timed out</code> - the settings in the <strong>Out-&gt;In Properties</strong> of the <strong>Connection</strong> tab of the communication point's properties are applied.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Dynamic Connection Failed Action</td>
+          <td colspan="1" class="confluenceTd"><p>Sets an action for a connection error or socket timeout when the host uses message properties:</p>
+           <ul>
+            <li><code>Mark as connection failed</code> - the settings in <strong>Connection Retries</strong> of the <strong>Connection</strong> tab of the communication point's properties are applied.</li>
+            <li><code>Treat as message error</code>&nbsp;<span>(default) </span>- the original message is&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector. However, if the error output connector is not connected to other components, the message is sent to the Error Queue.</li>
+            <li><code>Return message as input</code> - the message itself becomes the received data.</li>
+            <li><code>Return error content as input</code> - the content of the error message becomes the received data.</li>
+            <li><code>Mark connection as timed out</code> - the settings in the <strong>Out-&gt;In Properties</strong> of the <strong>Connection</strong> tab of the communication point's properties are applied.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Copy headers</p></td>
+          <td class="confluenceTd"><p>When a message is received in the HTTP client the HTTP headers are copied onto message properties in lower case with the prefix <code>http:</code>. If <strong>Copy Headers</strong> is enabled, these HTTP headers can be copied to the request message using regular expressions to match the HTTP header names.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Regular expressions</p></td>
+          <td class="confluenceTd"><p>The list of regular expressions to match the HTTP headers and actions (Copy to request or Discard) to take. If a regular expression matches an HTTP header it will be copied to the request, or discarded depending on the setting of 'action'. If the header does not match the next regular expression in the list will be tried. If no regular expressions match the header it will be discarded.</p><p><span>This communication point supports </span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html" class="external-link" rel="nofollow">Java Regex</a><span> (case insensitive).</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="HTTPClient-Out->InModeProperties">Out-&gt;In Mode Properties</h3>
+      <p>The configuration properties for the HTTP Client communication point in <em>Out-&gt;In</em> mode is a combination of the properties for <em>Input</em> and <em>Output</em> modes.</p>
+      <p>Refer to <a href="Connection_133162193.html#Connection-Out->InMode">Out-&gt;In Mode</a> for general details on a communication point's <em>Out-&gt;In</em> mode.</p>
+      <h2 id="HTTPClient-publishedpropertiesPublishedProperties"><span class="confluence-anchor-link" id="HTTPClient-publishedproperties"></span>Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for the HTTP Client communication point are:</p>
+      <ul>
+       <li><code>Response Code</code> - the status code from the HTTP response status line of the HTTP response which returned this message.</li>
+       <li><code>Response Message</code> - the reason phrase from the HTTP response status line of the HTTP response which returned this message.</li>
+       <li><code>Content Type</code> - the MIME type of the HTTP response body which is contained in the body of the returned message.</li>
+       <li><code>Content Encoding</code> - the MIME encoding (character set) of the HTTP response body which is contained in the body of the returned message.</li>
+       <li><code>httpClient:DynamicConnectError</code> - the&nbsp;error type when the HTTP response is not received due to a connection error (<span><code>CONNECTION_FAILED</code>)&nbsp;</span>or socket timeout (<code><span>SOCKET_TIME_OUT</span></code>).</li>
+       <li><code>httpClient:DynamicConnectErrorDetail</code> - the&nbsp;error message when the HTTP response&nbsp;is not to received due to a connection error or socket timeout.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

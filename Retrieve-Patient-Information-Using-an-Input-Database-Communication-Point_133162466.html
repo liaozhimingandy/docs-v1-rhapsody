@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Retrieve Patient Information Using an Input Database Communication Point</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Database-Communication-Points_133162442.html">Database Communication Points</a></span> </li> 
+       <li> <span><a href="Database_133162443.html">Database</a></span> </li> 
+       <li> <span><a href="Using-the-Database-Communication-Point_133162447.html">Using the Database Communication Point</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Retrieve Patient Information Using an Input Database Communication Point</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>In this scenario, patient information is stored in a number of tables in the database, and is inserted there by another application. An input database communication point needs to be configured to watch the database, and generate a message every time a new patient is inserted. The generated message will then be processed by a Rhapsody route.</p>
+      <h2 id="RetrievePatientInformationUsinganInputDatabaseCommunicationPoint-DatabaseStructure">Database Structure</h2>
+      <p>The database that the information will be inserted into for this scenario has four relevant tables. The SQL script for creating these tables are as follows:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>CREATE TABLE Address (
+ AddressID int identity(1,1) PRIMARY KEY, 
+ PatientID int NOT NULL,
+ StreetAddress varchar(100) NOT NULL,
+ City varchar(50) NOT NULL,
+ StateOrProvince varchar(50) NULL,
+ Country varchar(50) NOT NULL
+)
+</pre> 
+       </div>
+      </div>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>CREATE TABLE NextOfKin (
+ NextOfKinID int identity(1,1) PRIMARY KEY,
+ PatientID int NOT NULL,
+ FamilyName varchar(50) NOT NULL,
+ GivenName varchar(50) NULL,
+ Sex varchar(1) NULL,
+ Relationship varchar(5) NOT NULL,
+ PhoneNumber varchar(20) NULL,
+)
+</pre> 
+       </div>
+      </div>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>CREATE TABLE NextOfKinAddress (
+ AddressID int identity(1,1) PRIMARY KEY,
+ NextOfKinID int NOT NULL,
+ StreetAddress varchar(100) NOT NULL,
+ City varchar(50) NOT NULL,
+ StateOrProvince varchar(50) NULL,
+ Country varchar(50) NOT NULL
+)
+</pre> 
+       </div>
+      </div>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>CREATE TABLE Patient (
+ PatientID int identity(1,1) PRIMARY KEY,
+ FamilyName varchar(50) NOT NULL,
+ GivenName varchar(50) NULL,
+ Title varchar(4) NULL,
+ Gender varchar(1) NULL,
+ DateOfBirth datetime NULL
+)
+</pre> 
+       </div>
+      </div>
+      <p>The primary table in this scenario is the <strong>Patient</strong> table. It has a one-to-many relationship with the <strong>Address</strong> and <strong>NextOfKin</strong> tables, and the <strong>NextOfKin</strong> table has a one-to-many address with the <strong>NextOfKinAddress</strong> table.</p>
+      <p>Four statements are required; one to retrieve data from each table.</p>
+      <p>Due to the table relationships, the <strong>Address</strong> and <strong>NextOfKin</strong> statements will be nested under the <strong>Patient</strong> statement, and the <strong>NextOfKinAddress</strong> statement will be nested underneath the <strong>NextOfKin</strong> statement. The generated XML message will reflect this structure.</p>
+      <p>This gives a configuration outline as follows:</p>
+      <ul>
+       <li><em>Statement One:</em> Selects the new patients from the Patient table, ordering them by their generated identifiers.</li>
+       <li><em>Statement Two:</em> This is a child statement of statement one, and retrieves all the addresses for the patient in question.</li>
+       <li><em>Statement Three:</em> This is a child statement of statement one, and retrieves all the next of kins for the patient in question.</li>
+       <li><em>Statement Four:</em> This is a child statement of statement three, and retrieves all the addresses of the next of kin in question.</li>
+      </ul>
+      <h2 id="RetrievePatientInformationUsinganInputDatabaseCommunicationPoint-CreatingtheCommunicationPoint">Creating the Communication Point</h2>
+      <p>Create a new Database communication point in the Rhapsody IDE and give it an appropriate name. Then configure the database connection settings from within the IDE to point the communication point at the database. Once this is done, click the <strong>Create Configuration</strong> link to launch the<strong>&nbsp;Database Configuration Editor</strong>.</p>
+      <h2 id="RetrievePatientInformationUsinganInputDatabaseCommunicationPoint-ConfiguringDatabasePolling">Configuring Database Polling</h2>
+      <p>Click the <strong>Database Polling</strong> button in the top-left corner of the<strong>&nbsp;Database Configuration Editor</strong> to display the polling options. Configure the polling options to use the <strong>PatientId</strong> column in the <strong>Patient</strong> table as the key, with an initial key value of <code>0</code> (zero), and a polling interval of <code>30</code> seconds.</p>
+      <h2 id="RetrievePatientInformationUsinganInputDatabaseCommunicationPoint-RetrievingDatafromthePatientTable">Retrieving Data from the Patient Table</h2>
+      <p>Drag a new <strong>Execute SQL</strong> object from the toolbox onto the editor. This will be used to retrieve information from the Patient table.</p>
+      <p>Open the statement and rename it to <em>Patient</em>. Select the <strong>Patient</strong> table in the Server Explorer tree, and select the <strong>Generate SQL</strong> button.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162468.png" data-image-src="attachments/133162466/133162468.png" data-unresolved-comment-count="0" data-linked-resource-id="133162468" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="patientGeneratedSelect.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>The generated SQL needs to be modified to allow the database communication point to select the patient identifier (as it knows the last identifier that was used), and to order the records appropriately. The SQL should be changed to the following:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162467.png" data-image-src="attachments/133162466/133162467.png" data-unresolved-comment-count="0" data-linked-resource-id="133162467" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="patientFinalSql.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>The reason we refer to the <strong>PatientID</strong> column as <code>@patientid</code> here, is that it the column we configured previously as the <code>key</code> column for this configuration. That is the column Rhapsody uses to determine when new rows are available.</p>
+      <p>Finally, give the statement an appropriate summary and close it.</p>
+      <h2 id="RetrievePatientInformationUsinganInputDatabaseCommunicationPoint-RetrievingDatafromtheAddressTable">Retrieving Data from the Address Table</h2>
+      <p>Drag a new <strong>Execute SQL</strong> object onto the main editor, and make it a child of the <strong>Patient</strong> statement using the green arrow icons.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162474.png" data-image-src="attachments/133162466/133162474.png" data-unresolved-comment-count="0" data-linked-resource-id="133162474" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="overviewEditorDraggedSecondStatement.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>Open the statement and rename it to <em>Address</em>. Select the <strong>Address</strong> table in the Server Explorer tree, and click the <strong>Generate SQL</strong> button.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162475.png" data-image-src="attachments/133162466/133162475.png" data-unresolved-comment-count="0" data-linked-resource-id="133162475" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="addressGeneratedSelect.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>The generated SQL needs to be modified so it uses the patient identifier retrieved in the previous statement instead of trying to use a message property. Change the SQL to the following:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162476.png" data-image-src="attachments/133162466/133162476.png" data-unresolved-comment-count="0" data-linked-resource-id="133162476" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="addressFinalSql.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>Finally give the statement an appropriate summary and close it.</p>
+      <h2 id="RetrievePatientInformationUsinganInputDatabaseCommunicationPoint-RetrievingDatafromtheNextOfKinTable">Retrieving Data from the NextOfKin Table</h2>
+      <p>Drag a new <strong>Execute SQL</strong> object onto the main editor, and make it a child of the <strong>Patient</strong> statement using the green arrow icons.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162473.png" data-image-src="attachments/133162466/133162473.png" data-unresolved-comment-count="0" data-linked-resource-id="133162473" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="overviewEditorDraggedThirdStatement.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>Open the statement and rename it to <em>NextOfKin</em>. Select the <strong>NextOfKin</strong> table in the Server Explorer tree, and click the <strong>Generate SQL</strong> button.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162472.png" data-image-src="attachments/133162466/133162472.png" data-unresolved-comment-count="0" data-linked-resource-id="133162472" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="nextofkinGeneratedSelect.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>The generated SQL needs to be modified so it uses the patient identifier retrieved in the previous statement instead of trying to use a message property. Change the SQL to the following:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162479.png" data-image-src="attachments/133162466/133162479.png" data-unresolved-comment-count="0" data-linked-resource-id="133162479" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="nextofkinFinalSql.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>Finally give the statement an appropriate summary and close it.</p>
+      <h2 id="RetrievePatientInformationUsinganInputDatabaseCommunicationPoint-RetrievingDatafromtheNextOfKinAddressTable">Retrieving Data from the NextOfKinAddress Table</h2>
+      <p>Drag a new <strong>Execute SQL</strong> object onto the main editor, and make it a child of the <strong>NextOfKin</strong> statement using the green arrow icons.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162480.png" data-image-src="attachments/133162466/133162480.png" data-unresolved-comment-count="0" data-linked-resource-id="133162480" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="overviewEditorDraggedFourthStatement.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>Open the statement and rename it to <em>NextOfKinAddress</em>. Select the <strong>NextOfKinAddress</strong> table in the Server Explorer tree, and click the <strong>Generate SQL</strong> Statement button.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162481.png" data-image-src="attachments/133162466/133162481.png" data-unresolved-comment-count="0" data-linked-resource-id="133162481" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="nextofkinaddressGeneratedSelect.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>The generated SQL needs to be modified so it uses the next of kin identifier retrieved in the previous statement instead of trying to use a message property. Change the SQL to the following:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162478.png" data-image-src="attachments/133162466/133162478.png" data-unresolved-comment-count="0" data-linked-resource-id="133162478" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="nextofkinaddressFinalSql.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <p>Finally give the statement an appropriate summary and close it. The final configuration should look like this:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162466/133162477.png" data-image-src="attachments/133162466/133162477.png" data-unresolved-comment-count="0" data-linked-resource-id="133162477" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="finalConfiguration.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162466" data-linked-resource-container-version="1"></span></p>
+      <h2 id="RetrievePatientInformationUsinganInputDatabaseCommunicationPoint-XMLMessageGeneration">XML Message Generation</h2>
+      <p>The configuration can now be checked in, and the database communication point hooked up to a route. Once this is done, messages will be generated once data is inserted into the tables. The format of the generated XML message will match the structure of our configured statements.</p>
+      <p>An XML message generated with this configuration is shown below:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0"?&gt;
+&lt;message&gt;
+   &lt;Patient&gt;
+      &lt;Gender&gt;M&lt;/Gender&gt;
+      &lt;Title&gt;Mr&lt;/Title&gt;
+      &lt;FamilyName&gt;Bloggs&lt;/FamilyName&gt;
+      &lt;DateOfBirth&gt;1980-04-15 00:00:00.0&lt;/DateOfBirth&gt;
+      &lt;PatientID&gt;1&lt;/PatientID&gt;
+      &lt;GivenName&gt;Joe&lt;/GivenName&gt;
+      &lt;Address&gt;
+         &lt;Country&gt;AUS&lt;/Country&gt;
+         &lt;StateOrProvince&gt;Queensland&lt;/StateOrProvince&gt;
+         &lt;StreetAddress&gt;34 Brunswick St&lt;/StreetAddress&gt;
+         &lt;City&gt;Brisbane&lt;/City&gt;
+         &lt;AddressID&gt;1&lt;/AddressID&gt;
+      &lt;/Address&gt;
+      &lt;Address&gt;
+         &lt;Country&gt;NZL&lt;/Country&gt;
+         &lt;StateOrProvince&gt;Auckland&lt;/StateOrProvince&gt;
+         &lt;StreetAddress&gt;34 Ponsonby Rd&lt;/StreetAddress&gt;
+         &lt;City&gt;Ponsonby&lt;/City&gt;
+         &lt;AddressID&gt;2&lt;/AddressID&gt;
+      &lt;/Address&gt;
+      &lt;NextOfKin&gt;
+         &lt;Sex&gt;F&lt;/Sex&gt;
+         &lt;PhoneNumber null="yes"&gt;&lt;/PhoneNumber&gt;
+         &lt;FamilyName&gt;DuSHANE&lt;/FamilyName&gt;
+         &lt;NextOfKinID&gt;1&lt;/NextOfKinID&gt;
+         &lt;GivenName&gt;HANNA &lt;/GivenName&gt;
+         &lt;Relationship&gt;21&lt;/Relationship&gt;
+         &lt;NextOfKinAddress&gt;
+            &lt;Country&gt;KNA&lt;/Country&gt;
+            &lt;StateOrProvince&gt;Samoa&lt;/StateOrProvince&gt;
+            &lt;StreetAddress&gt;qwer&lt;/StreetAddress&gt;
+            &lt;City&gt;New York&lt;/City&gt;
+            &lt;AddressID&gt;1&lt;/AddressID&gt;
+         &lt;/NextOfKinAddress&gt;
+         &lt;NextOfKinAddress&gt;
+            &lt;Country&gt;CZE&lt;/Country&gt;
+            &lt;StateOrProvince&gt;North Australia&lt;/StateOrProvince&gt;
+            &lt;StreetAddress&gt;adsasd&lt;/StreetAddress&gt;
+            &lt;City&gt;Auckland&lt;/City&gt;
+            &lt;AddressID&gt;2&lt;/AddressID&gt;
+         &lt;/NextOfKinAddress&gt;
+      &lt;/NextOfKin&gt;
+      &lt;NextOfKin&gt;
+         &lt;Sex&gt;A&lt;/Sex&gt;
+         &lt;PhoneNumber null="yes"&gt;&lt;/PhoneNumber&gt;
+         &lt;FamilyName&gt;SEABORN&lt;/FamilyName&gt;
+         &lt;NextOfKinID&gt;2&lt;/NextOfKinID&gt;
+         &lt;GivenName&gt;KRISTINA &lt;/GivenName&gt;
+         &lt;Relationship&gt;20&lt;/Relationship&gt;
+         &lt;NextOfKinAddress&gt;
+            &lt;Country&gt;AFG&lt;/Country&gt;
+            &lt;StateOrProvince&gt;Sumatra&lt;/StateOrProvince&gt;
+            &lt;StreetAddress&gt;blah de blah&lt;/StreetAddress&gt;
+            &lt;City&gt;Oregon&lt;/City&gt;
+            &lt;AddressID&gt;3&lt;/AddressID&gt;
+         &lt;/NextOfKinAddress&gt;
+         &lt;NextOfKinAddress&gt;
+            &lt;Country&gt;SLE&lt;/Country&gt;
+            &lt;StateOrProvince&gt;North Australia&lt;/StateOrProvince&gt;
+            &lt;StreetAddress&gt;blah de blah&lt;/StreetAddress&gt;
+            &lt;City&gt;Italy&lt;/City&gt;
+            &lt;AddressID&gt;4&lt;/AddressID&gt;
+         &lt;/NextOfKinAddress&gt;
+      &lt;/NextOfKin&gt;
+   &lt;/Patient&gt;
+   &lt;Patient&gt;
+      &lt;Gender&gt;M&lt;/Gender&gt;
+      &lt;Title&gt;Mr&lt;/Title&gt;
+      &lt;FamilyName&gt;Smith&lt;/FamilyName&gt;
+      &lt;DateOfBirth&gt;1980-04-15 00:00:00.0&lt;/DateOfBirth&gt;
+      &lt;PatientID&gt;2&lt;/PatientID&gt;
+      &lt;GivenName&gt;John&lt;/GivenName&gt;
+   &lt;/Patient&gt;
+&lt;/message&gt;&nbsp;</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

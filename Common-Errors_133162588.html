@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Common Errors</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="133162578.html">MSMQ (Microsoft Message Queuing)</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Common Errors</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><strong>Error</strong><br> Communication point '&lt;comm point name&gt;' configured incorrectly: Error loading native MSMQ library - is MSMQ and the appropriate VC redistributable package installed?</p> 
+      <p><strong>Action</strong><br> This error occurs when we get a <code>java.lang.UnsatisfiedLinkError</code> when trying to load our JNI library to talk to MSMQ. This DLL has static references to both the VC 2005 SP1 redistributable package, and to the MSMQ client libraries. This means that it cannot be loaded if these references cannot be satisfied. Consequently this error generally means that either the VC 2005 SP1 redistributable package or the MSMQ client are not installed.</p> 
+      <p><br class="atl-forced-newline"> <strong>Error</strong><br> Communication point '&lt;comm point name&gt;' configured incorrectly: An MSMQ failure occurred while trying to open the receive queue: Error while generating queue format name: MQ_ERROR_UNSUPPORTED_OPERATION: Unsupported operation when running MSMQ in workgroup mode.</p> 
+      <p><strong>Action</strong><br> The MSMQ server that you are connecting to is not running as part of a <em>Windows</em>® domain (it is running in workgroup mode), and so public queues are not supported. However, the configuration indicates that a public queue is wanted. Either fix the queue name to reflect a private queue, or put the server on the domain.</p> 
+      <p>Private queues always have a name beginning with <code>private$</code>. For example the private queue <code>fred</code> is referenced as <code>private$\fred</code>.</p> 
+      <p><br class="atl-forced-newline"> <strong>Error</strong><br> Communication point '&lt;comm point name&gt;' configured incorrectly: An MSMQ failure occurred while trying to open the receive queue: Error while generating queue format name: MQ_ERROR_QUEUE_NOT_FOUND: Queue not found.</p> 
+      <p><strong>Action</strong><br> The specified queue was not found on the server. Check that the queue exists and that its name has been spelled correctly. Note that in some cases this error can be returned if the queue does exist, but the user Rhapsody is running as does not have browse access to the queue.</p> 
+      <p><br class="atl-forced-newline"> <strong>Error</strong><br> Communication point '&lt;comm point name&gt;' configured incorrectly: An MSMQ failure occurred while trying to open the receive queue: Error while opening queue: MQ_ERROR_ACCESS_DENIED: Access denied.</p> 
+      <p><strong>Action</strong><br> The specified queue was found, but the Rhapsody user has no access to it. By default Rhapsody runs as the LocalSystem user. This user will generally have no access by default to any local queues (although the LocalSystem user can be explicitly added). For remote queues, the permissions can only be changed using the Everyone group.</p> 
+      <p>If more stringent permissions are required, then Rhapsody should be configured to run as a domain user, and then that user should be given the appropriate permissions for the relevant queues.</p> 
+      <p><br class="atl-forced-newline"> <strong>Error</strong></p> 
+      <ul> 
+       <li>Communication point '&lt;comm point name&gt;' configured incorrectly: An MSMQ failure occurred while trying to open the receive queue: Error while generating queue format name: Queue not found.</li> 
+       <li>Communication point '&lt;comm point name&gt;' configured incorrectly: An MSMQ failure occurred while trying to open the send queue: Error while generating queue format name: Queue not found.</li> 
+      </ul> 
+      <p><strong>Action</strong><br> An IP address has been entered for the Receive Host Name or the Send Host Name. The server name must be a host name and not an IP address. </p> 
+      <p><br class="atl-forced-newline"> <strong>Error</strong><br> Communication point '&lt;comm point name&gt;' configured incorrectly: MSMQ error: Error while opening queue: MQ_ERROR_QUEUE_NOT_FOUND: Queue not found.</p> 
+      <p><strong>Action</strong><br> Ensure that the queue exists and has not been deleted.</p> 
+      <p><br class="atl-forced-newline"> <strong>Error</strong><br> Messages are going missing and are not arriving on the intended queue.</p> 
+      <p><strong>Action</strong><br> Ensure that the queue is still present and has not been deleted. It is possible that the queue has since been deleted by a user action after the MSMQ communication point was set up. Non-transactional message send operations will continue to succeed irrespective of whether the queue is present or not.</p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

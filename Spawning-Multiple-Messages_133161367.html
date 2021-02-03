@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Spawning Multiple Messages</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Spawning Multiple Messages</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="Standard">The following example describes a <code>doProcessMessage()</code> filter method that outputs multiple messages for each one one input message:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public Message[] doProcessMessage(final Message[] messages) throws MessageException, FilterProcessingException,
+                                                InterruptedException {
+                               
+	List&lt;Message&gt; outputMessageList = new ArrayList&lt;Message&gt;();
+                               
+    for (int i = 0; i&lt; messages.length; i++) {
+                                               
+    	Message message = messages[i];
+        try {
+        	byte[] inputBuffer = Messages.asBytes(message);                                        
+            byte[][] jpegArray = dicomInvoker.getJPG(inputBuffer);
+            if (null==jpegArray || 0==jpegArray.length) {
+            	throw new FilterProcessingException("No images could be processed");
+            } else {
+            	for (int jpegs=0; jpegs &lt; jpegArray.length; ++jpegs) {
+                                                                                               
+ 					Message outmessage = message.spawn();
+                    Messages.setBody(outmessage, jpegArray[jpegs]);
+                    outputMessageList.add(outmessage);
+                }
+            }
+        } catch (UnsupportedEncodingException e) {
+            throw new FilterProcessingException("Error with message encoding.", e);
+        } catch (IOException e) {
+            throw new MessageException("Error reading message.", e);
+        }                                             
+	}
+    return  (Message[])outputMessageList.toArray(new Message[outputMessageList.size()]);
+}</pre> 
+       </div>
+      </div>
+      <ul>
+       <li class="Standard"><p>Create a <code>List</code> to hold the output messages:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;List&lt;Message&gt; outputMessageList= new ArrayList&lt;Message&gt;(1);</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>For each <code>Message</code> you want to send, invoke the <code>spawn()</code> method against the input message:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Message outmessage = message.spawn();</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Add this message instance to a <code>List</code> multiple times for each output message:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">outputMessageList.add(outmessage);</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Return the <code>List</code> as an array of Messages:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;return (Message[])outputMessageList.toArray(new Message[outputMessageList.size()]);</pre> 
+         </div>
+        </div></li>
+      </ul>
+      <p class="Standard"> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

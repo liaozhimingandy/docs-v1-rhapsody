@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Management (Communication Points)</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Configuring-Communication-Points_133162165.html">Configuring Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Management (Communication Points)</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <strong>Management</strong> tab enables you to manage the message volumes on a communication point.</p>
+      <p>Message throttling enables Rhapsody to limit the number of messages sent or received by a communication point so they are spread out over a longer time period. This can be useful when a particular communication point sends or receives large numbers of messages in short bursts, as it can spread out these messages over a longer period.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162181/133162182.png" data-image-src="attachments/133162181/133162182.png" data-unresolved-comment-count="0" data-linked-resource-id="133162182" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Management.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162181" data-linked-resource-container-version="1"></span><br> <span class="confluence-anchor-link" id="Management(CommunicationPoints)-commpoint_properties_management"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Fields</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Limit the rate of incoming messages</p></td>
+          <td class="confluenceTd"><p>Input throttling enables Rhapsody to limit the number of messages received by a communication point so they are spread over a longer time period. This can be useful when a particular communication point may receive large numbers of messages in short bursts, as it can spread out these messages over a longer period.</p>
+           <ul>
+            <li><strong>Allow &lt;<code>N&gt;</code> messages per &lt;<code>T&gt;</code> to be received</strong> - maximum number of messages that may be received over the specified timeframe. If the number of messages is set to -1, then input throttling is not applied.</li>
+            <li><strong>Restrict message flow for each connection individually</strong> - if this checkbox is selected, then the throttling applies to each connection of the communication point, rather than to the communication point as a whole. For example, two connections may be limited in speed to 10 messages per minute each, but Rhapsody will handle the 20 messages per minute.</li>
+            <li><strong>Input throttling behavior</strong><span> - the output message throttling behavior:</span>
+             <ul>
+              <li><code>Bursty</code> - <span>if </span><strong><code>N</code></strong> = 60 and <strong><code>T</code></strong> = 1 minute, the throttle guarantees that a maximum of 60 messages are received each minute. The throttle does not, however, pay any attention to the distribution of messages within each minute.</li>
+              <li><code>Linear</code> - <span>if </span><strong><code>N</code></strong> = 60 and <strong><code>T</code></strong> = 1 minute, a maximum of 60 messages are received per minute with a one-second gap between each pair of messages. Thus, the throttle maintains a minimum delay between each individual message. If receiving a message takes longer than usual, then the gap between messages is larger and fewer than 60 messages are received per minute, even if there are messages in the queue. This is particularly relevant if the messages-per-second ratio is very high.</li>
+             </ul></li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Input throttling is disabled for communication points operating in <em>Out-&gt;In</em> mode or <em>Output</em> mode with <a href="Connection_133162193.html#Connection-ContinuedRouting">continued routing</a> enabled.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Limit the rate of outgoing messages</p></td>
+          <td class="confluenceTd"><p>Output throttling enables Rhapsody to limit the number of messages sent by a communication point so they are spread over a longer time period. This can be useful when a remote system cannot process messages as fast as Rhapsody is generating them.</p>
+           <ul>
+            <li><p><strong>Allow <code>&lt;N&gt;</code> messages per <code>&lt;T&gt;</code> to be sent</strong> - the maximum number of messages that may be sent during the specified timeframe. If the number of messages is set to -1, then output throttling is not applied.</p></li>
+            <li><p><strong>Restrict message flow for each connection individually</strong> - if this checkbox is selected, then the throttling applies to each connection of the communication point, rather than to the communication point as a whole.</p></li>
+            <li><p><strong>Output throttling behavior</strong> - the output message throttling behavior:</p>
+             <ul>
+              <li><p><code>Bursty</code> - <span>if </span><strong><code>N</code></strong> = 60 and <strong><code>T</code></strong> = 1 minute, the throttle guarantees that a maximum of 60 messages are sent each minute. The throttle does not, however, pay any attention to the distribution of messages within each minute.</p></li>
+              <li><p><code>Linear</code> - <span>if </span><strong><code>N</code></strong> = 60 and <strong><code>T</code></strong> = 1 minute, a maximum of 60 messages are sent per minute with a <span>one-second</span> gap between each pair of messages. Thus, the throttle maintains a minimum delay between each individual message. If sending a message takes longer than usual, then the gap between messages is larger and fewer than 60 messages are sent per minute, even if there are messages in the queue. This is particularly relevant if the messages-per-second ratio is very high.</p></li>
+             </ul></li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Output throttling is disabled for communication points operating in <em>In-&gt;Out</em> mode.</p>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The message throttling scheme is not completely rigid in separating message intervals. If there is an idle time longer than the throttle period, it is possible to get more messages sent within the same timeframe. This is because the throttling algorithm aims to keep the one message per minute rate, even if there are no messages on the queue.</p>
+      <p>For example, consider a communication point that is configured to use input throttling and receive one message per minute. There is a two-minute period where no messages are on the waiting queue and then several appear together. The first message is sent immediately, as there is no message during the two-minute idle time, and the second is also sent immediately, as it is for the current minute. Depending on when the minute timer is initialized, the third may be sent a few seconds later. After that, all messages will be a minute apart (assuming there are still messages in the queue).</p>
+      <p>In the case of output throttling in the same scenario, if there is a large pause between messages, no extra messages will be sent. The communication point will wait until the current interval elapses before sending any more. This means that there can be fewer messages sent than expected.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

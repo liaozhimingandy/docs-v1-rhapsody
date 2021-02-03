@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Column Data Type Setting</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Column Data Type Setting</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>In some database and driver combinations, data type conversion errors can occur, for example when a parameter (a message property or field) in an SQL query is null. To avoid such errors, you can explicitly set values by specifying the data type of the column into which a parameter is to be inserted. The data type can be specified using the optional <code>&lt;columnType&gt;</code> element:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{{&lt;columnType parameter="parameter" type="sqlType"&gt;}}</pre> 
+       </div>
+      </div>
+      <p>A column's data type is declared with a <code>&lt;columnType&gt;</code> element, nested directly within the associated <code>&lt;statement&gt;</code> element. Both the <code>parameter</code> and the <code>type</code> attributes are required. The parameter attribute must be one of the parameters used in the associated <code>&lt;sql&gt;</code> or <code>&lt;procedure&gt;</code> SQL code (including the <code>$</code> or <code>@</code> character). The type attribute is either the fully qualified name of the Java constant representing the SQL type of the parameter for vendor-specific types, or one of the following standard enumerated values: <code>ARRAY</code>, <code>BIGINT</code>, <code>BINARY</code>, <code>BIT</code>, <code>BLOB</code>, <code>BOOLEAN</code>, <code>CHAR</code>, <code>CLOB</code>, <code>DATALINK</code>, <code>DATE</code>, <code>DECIMAL</code>, <code>DISTINCT</code>, <code>DOUBLE</code>, <code>FLOAT</code>, <code>INTEGER</code>, <code>JAVA_OBJECT</code>, <code>LONGVARBINARY</code>, <code>LONGVARCHAR</code>, <code>NULL</code>, <code>NUMERIC</code>, <code>OTHER</code>, <code>REAL</code>, <code>REF</code>, <code>SMALLINT</code>, <code>STRUCT</code>, <code>TIME</code>, <code>TIMESTAMP</code>, <code>TINYINT</code>, <code>VARBINARY</code>, and <code>VARCHAR</code>.</p>
+      <p>By default, the data type&nbsp;specified in <code>&lt;columnType&gt;</code> is used only when a parameter (a message property or field) in an SQL query is null. From Rhapsody 5.5.4 onwards, the specified data type can be used to override any parameter by using the optional <code>&lt;alwaysUseColumnType&gt;</code> element:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{{&lt;alwaysUseColumnType&gt;true&lt;/alwaysUseColumnType&gt;}}</pre> 
+       </div>
+      </div>
+      <p>If <code>&lt;alwaysUseColumnType&gt;</code> is set to true, then the specified column type is always used. If the <code>&lt;alwaysUseColumnType&gt;</code> is false, then the specified column type is only used if the parameter value is null.</p>
+      <p>The global setting defining the default behaviour of <code>&lt;columnType&gt;</code> can be configured by updating the <code>rhapsody.properties</code> file<span>:</span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Property
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Default Value
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="p1">DatabaseModule.alwaysUseColumnType</p></td>
+          <td class="confluenceTd"><p class="p1">If set to true, then by default the specified column type is always used for all database component configurations. <code>If &lt;alwaysUseColumnType&gt;</code> is present in the configuration, its value overrides the global setting.</p></td>
+          <td class="confluenceTd"><span style="color: rgb(0,0,0);"> <code>false</code> </span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>An example of a statement using <code>&lt;columnType&gt;</code> is as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement&gt;
+	&lt;alwaysUseColumnType&gt;true&lt;/alwaysUseColumnType&gt;
+ 	&lt;sql&gt;
+ 		INSERT INTO aTable(columnOne, columnTwo, columnThree, columnFour) VALUES ($propertyOne, @message.field, $propertyTwo, $messagecontent) 
+ 	&lt;/sql&gt;
+ 	&lt;columnType parameter="$propertyOne" type="VARCHAR" /&gt;
+ 	&lt;columnType parameter="@message.field" type="INTEGER" /&gt;
+ 	&lt;columnType parameter="$propertyTwo" type="CHAR" /&gt;
+ 	&lt;columnType parameter="$messagecontent" type="BLOB" /&gt;
+&lt;/statement&gt;
+</pre> 
+       </div>
+      </div>
+      <p>In addition, if the given parameter value is an empty string and the column type represents character data (such as <code>CHAR</code>, <code>VARCHAR</code>, <code>LONGVARCHAR</code>) then its value is set as the empty string. However, for a non-character data type (such as, <code>INTEGER</code>, <code>DECIMAL</code>, and so on), an empty string is regarded as a null value and so the value will be explicitly set as null.</p>
+      <p> </p>
+      <p>&nbsp;</p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Database Message Extraction</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="Database-Filters_133163055.html">Database Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Database Message Extraction</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163070/133163071.png" data-image-src="attachments/133163070/133163071.png" data-unresolved-comment-count="0" data-linked-resource-id="133163071" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image043.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163070" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Database Message Extraction</strong> filter&nbsp;provides the ability to replace the body of a message with an XML message generated from some database queries.</p>
+      <p>Because the configuration of a database filter is flexible and potentially very complex, the <a href="Database-Configuration_133161571.html">Database Configuration</a>&nbsp;is used to configure how it interacts with the database.</p>
+      <p>After you have added a new Database Message Extraction&nbsp;filter to your route:</p>
+      <ol>
+       <li>Read the&nbsp;<a href="#DatabaseMessageExtraction-Caveats">Caveats</a>&nbsp;related to using this filter.</li>
+       <li>Configure the database connection using its <a href="#DatabaseMessageExtraction-ConfigurationProperties">Configuration Properties</a>.</li>
+       <li>Configure the message definition (if any) to use for messages processed by this filter.</li>
+       <li>Launch the <a href="Database-Configuration_133161571.html">Database Configuration</a>&nbsp;by clicking the <strong>Create Configuration</strong> link.</li>
+      </ol>
+      <p>This filter operates in a similar manner to the <a href="Database_133162443.html">Database</a> communication point when it is running in input mode. The difference lies in the fact that the Database communication point polls a database regularly to detect changes using a static query, whereas the database message extraction filter can perform a dynamic query using values from the incoming message.&nbsp;<span>Refer to </span> <a href="Database-Components-Best-Practice-Guide_133161762.html">Database Components Best Practice Guide</a> <span> for guidance on the usage of database queries.</span></p>
+      <h2 id="DatabaseMessageExtraction-Caveats">Caveats</h2>
+      <h3 id="DatabaseMessageExtraction-LosingDatabaseConnection">Losing Database Connection</h3>
+      <p>When the database connection used by a database filter is lost, messages that the filter was attempting to process during the outage are sent to the Error Queue. The database connection is re-attempted three times for every incoming message. When the database connection is re-established, the filter recovers automatically and begins to process new messages. Consequently, when you manually reprocess the messages in the Error Queue, FIFO ordering of the messages is likely to be lost.</p>
+      <p>In Rhapsody versions previous to Rhapsody 6.2.3, the database filters are not able to recover automatically if the connection is lost during an insert or update query. In these circumstances, a manual route restart is required and users have the opportunity to reprocess the messages in the Error Queue before restarting the route, thereby preserving FIFO ordering.&nbsp;The database filters automatically recover if the connection is lost during select queries or before the insert or update queries are started.</p>
+      <p>If FIFO ordering <span>of messages </span>is critical for your purposes, it is recommended you use the <a href="#DatabaseMessageExtraction-Database">Database</a> communication point.</p>
+      <h3 id="DatabaseMessageExtraction-CLOBSupport">CLOB Support</h3>
+      <p><span>The Database Message Extraction&nbsp;filter supports CLOB, which only supports ASCII character sets, not multi-byte character sets.</span></p>
+      <h3 id="DatabaseMessageExtraction-ResultSubstitutionNotSupported">Result Substitution Not Supported</h3>
+      <p><span>The Database Message Extraction filter does not support&nbsp;</span> <a href="Result-Substitution_133161688.html">Result Substitution</a> <span>.</span></p>
+      <h3 id="DatabaseMessageExtraction-EmptyQueryResults">Empty Query Results</h3>
+      <p><span>The Database Message Extraction filter replaces the body of the incoming message with the result of the query executed by the filter. When the query returns no result, the filter sends the message to the Error Queue. To prevent the filter from sending messages with empty query results to the Error Queue, the&nbsp;</span> <span>&nbsp;</span> <code>&lt;allowEmptyResult/&gt;</code> <span>&nbsp;tag&nbsp;should be added manually to XML file in the&nbsp;</span> <strong>Configuration File</strong> <span>&nbsp;property in the filter's configuration properties.</span></p>
+      <h3 id="DatabaseMessageExtraction-TestingFilterConfiguration">Testing Filter Configuration</h3>
+      <p><span>When using third party JDBC drivers (such as MySql or SQLite), you cannot test the configuration of database filters using the in-built </span> <span>filter testing</span> <span> functionality, because it cannot create the respective database driver classes. To test your filter configuration, start the relevant route and generate the test message using an appropriate input communication point, for example: the <a href="Directory_133162648.html">Directory</a> or <a href="Timer_133162523.html">Timer</a> communication point.</span></p>
+      <h2 id="DatabaseMessageExtraction-ConfigurationProperties">Configuration Properties</h2>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to <a href="Database-Configuration_133161571.html">Database Configuration</a> and <a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a> for details on configuring the filter.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The type of database to connect to:</p>
+            <ul>
+             <li><code>Microsoft SQL Server - Microsoft Driver</code> - the com.microsoft.sqlserver.jdbc.SQLServerDriver <span>is used to enable access.</span></li>
+             <li><code>Microsoft SQL Server - jTDS</code> - the net.sourceforge.jtds.jdbc.Driver&nbsp;<span>is used to enable access.</span> <code><br></code></li>
+             <li><code>Oracle</code> - the oracle.jdbc.OracleDriver is used to enable access.</li>
+             <li><code>MySQL</code> - you must download the MySQL JDBC driver (com.mysql.jdbc.Driver) and attach it to the communication point <span>as an auxiliary file</span>. If you want to use the <a href="https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-overview.html" rel="nofollow" class="external-link" title="Follow link">MySQL Connector/J</a> driver (com.mysql.cj.jdbc.Driver), then you must select <code>Manual Setting</code>.</li>
+             <li><code>Microsoft Access</code> - the sun.jdbc.odbc.JdbcOdbcDriver is used to enable access.</li>
+             <li><code>PostgreSQL</code> - the org.postgresql.Driver is used to enable access.</li>
+             <li><code><span>Manual Setting</span></code><span> - </span><span><span>the JDBC driver and database URL must be included in the configuration file. Refer to </span> <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> <span>for details.</span> </span></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Host</p></td>
+          <td class="confluenceTd"><p>The hostname/IP address of the database to connect to.</p><p>This property is available only if the <strong>Database</strong> <span>property</span> is not <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>The port number to connect to on the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database Name</p></td>
+          <td class="confluenceTd"><p>The name of the database. If <code>Microsoft Access</code> is selected for the <strong>Database</strong> property, the name of the data source should be provided.</p><p>This property is available only if the <strong>Database</strong> <span>property</span> is <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The username with which to log in to the database.</p><p>This property is available only if the <strong>Database</strong> <span>property</span> is not <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p>The password with which to log in to the database.</p><p>This property is available only if the <strong>Database</strong> <span>property</span> is not <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Additional Connection Properties</p></td>
+          <td colspan="1" class="confluenceTd"><p>A list of name/value pairs of message properties to be set on database connection.</p><p>The listed properties are not used when the <strong>Database</strong> property is set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Configuration File</p></td>
+          <td class="confluenceTd"><p>This is an XML file that controls how the filter interacts with the database. While the XML can be edited manually, the recommended approach is to click the <strong>Create Configuration</strong> or <strong>Edit Configuration</strong> links to launch the <a href="Database-Configuration_133161571.html">Database Configuration Editor</a>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Body Column</p></td>
+          <td class="confluenceTd"><p>The Message Body Column Overrides the normal XML message format and uses the specified column as the message body:</p>
+           <ul>
+            <li>If the message body is contained in a single field in the database, enter the name of the database column that contains the message body. Rhapsody will load the value in this column into the message body instead of creating an XML document based on the query. Fields defined in the query file are added to the new message as message properties. If the column specified does not exist, an error is generated. If the configuration returns multiple rows, only the first row is retrieved and used for message properties.</li>
+            <li>If this property is empty, the message body is returned as an XML document constructed from the query result set.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Type</p></td>
+          <td class="confluenceTd"><p>The message type when no definition is specified:</p>
+           <ul>
+            <li><code>Plain Text</code> (default).</li>
+            <li><code>XML</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition</p></td>
+          <td class="confluenceTd"><p>The message definition file that describes the structure of the incoming and outgoing messages. <br>Specifying a message definition allows the filter to access fields inside the message. This can be used to read or edit information in the message. The message definition is required if the database configuration references specific fields on the message.</p><p>This is not required if no content extraction/insertion is to be performed (property-only lookups).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Retry Attempts</p></td>
+          <td class="confluenceTd"><p>The number of retry attempts if a database deadlock occurs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Query Timeout</p></td>
+          <td class="confluenceTd"><p>Use the query timeout option to specify how long, in seconds, a remote operation can take before the procedure times out. The default value is 0. The timeout should be applied to all SQL/procedure queries in the configuration file.</p><p>It is important to set a suitable timeout to ensure that queries do not block indefinitely as this would manifest as a hang in Rhapsody, which could block either a communication point thread or a route executor thread. Long queries could occur due to one of the following:</p>
+           <ul>
+            <li>Performance issues within the database.</li>
+            <li>Poor database configuration such as lack of indexing.</li>
+            <li>Poor database query design.</li>
+            <li>Locks on database resources by another application or deadlocks within the Database.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Retry Delay</p></td>
+          <td class="confluenceTd"><p>The delay (ms) between each retry attempt when deadlock occurs. The maximum is <code>5000ms</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <span class="confluence-anchor-link" id="DatabaseMessageExtraction-SocketTimeout"></span>Socket Timeout
+           </div></td>
+          <td colspan="1" class="confluenceTd"><p>Specifies how long, in seconds, the underlying connection should remain open before timing out. The socket timeout prevents Rhapsody from waiting indefinitely for results from a database in the event Rhapsody loses its connection to the database.</p><p>A value of zero indicates the timeout is not configured.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

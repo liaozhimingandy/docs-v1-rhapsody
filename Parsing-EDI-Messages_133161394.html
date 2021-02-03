@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Parsing EDI Messages</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a></span> </li> 
+       <li> <span><a href="Message-Object_133161393.html">Message Object</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Parsing EDI Messages</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The following methods are available within the JavaScript filter to allow access to the Symphonia Parsing Engine.</p>
+      <ul>
+       <li><code>JSROMessage.getReadableEdiMessage()</code></li>
+       <li><code>JSMessage.getWritableEdiMessage()</code></li>
+      </ul>
+      <p>These methods both retrieve the root <code>com.orion.symphonia3.MessageElement</code> object representing the entire parsed message. The Symphonia API can then be used to browse and modify the message.</p>
+      <p>The difference between the methods is that the readable version must <em>not</em> be used to change the message at all. Any changes made using the parsed message returned from this method may be discarded. The writable version should be used when changes need to be made.</p>
+      <p>Any changes made to the message are written out either when the filter processing completes, or if the text or body property is requested subsequently in the JavaScript. Both of these messages throw an exception if the message is not parsing with any of the EDI message definitions on the route. For example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Add the output message
+var next = output.append(input[0]);
+
+// Get the writable message and MSH segment
+var msg = next.getWritableEdiMessage();
+var msh = msg.getElementAt("MSH");
+
+// Set the sender
+msh.getElementAt("SendingApplication").setValue("EDI Explorer");
+msh.getElementAt("SendingFacility").setValue("Rhapsody Org");</pre> 
+       </div>
+      </div>
+      <p>Advanced message handling is available by utilizing the <code>getWritableEdiMessage</code> object. Details of the functionality available can be found in the EDI documentation for the MessageElement interface. This documentation is normally located at <code>&lt;Rhapsody IDE Install Directory&gt;\EDI\Java Engine\docs\blank.html</code>.</p>
+      <p>For example, a segment may be removed from the message as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">var msg = next.getWritableEdiMessage();
+
+// Iterate through all the orders and all the results to find the invalid results and store the element index of each.
+&nbsp;
+// Delete in reverse order as elements are moved forward when one is deleted.
+invalidResults.reverse();
+for (var i = 0; i &lt; invalidResults.length; i++) {
+	var index = invalidResults[i];
+	var results = msg.getElementAt("Order[" + index.orderIndex + "]/Results");
+&nbsp;
+    // Remove invalid results element.
+	results.removeElementAt(index.resultIndex); 
+}</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

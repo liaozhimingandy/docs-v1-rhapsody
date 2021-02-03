@@ -1,0 +1,312 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>FreeMarker Mapper</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">FreeMarker Mapper</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162925/133162926.bmp" data-image-src="attachments/133162925/133162926.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162926" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="freemarker32.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162925" data-linked-resource-container-version="17"></span></p>
+      <p>The <strong>FreeMarker Mapper </strong>filter transforms the input message from one format to another using the FreeMarker template engine.</p>
+      <h2 id="FreeMarkerMapper-ConfigurationOptions">Configuration Options</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Option
+           </div></th>
+          <th colspan="1" class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Maximum Concurrency</td>
+          <td colspan="1" class="confluenceTd"><p>The maximum level of concurrency for this filter. Limiting the level of concurrency limits memory usage. A setting of <code>0</code> (zero) means unlimited. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">FreeMarker Mapping Template</td>
+          <td colspan="1" class="confluenceTd"><p>A FreeMarker template (FTL) file that defines a template for replacing the entire message body. The input message body context is available <span style="line-height: 13.0pt;background-color: transparent;">through a template parameter called </span> <code style="line-height: 13.0pt;">inputEDI</code> <span style="line-height: 13.0pt;background-color: transparent;"> (for EDI messages) and <code>inputXML</code> (for XML messages) during the template processing. <span>Refer to </span><a href="FreeMarker-API-Object-Reference_133162927.html">FreeMarker API Object Reference</a> <span>for details. </span> </span></p><p><span style="line-height: 13.0pt;background-color: transparent;">The template file is included as an auxiliary file. Other FreeMarker templates can be added to the auxiliary files on the filter and referenced from within the main template. Refer to <a href="#FreeMarkerMapper-ReferencingTemplates">Referencing Templates</a> for details.</span></p><p><span style="line-height: 13.0pt;background-color: transparent;">To add a file, either:</span></p>
+           <ul>
+            <li><span style="line-height: 13.0pt;background-color: transparent;">Select the <strong>Browse</strong> button to add a file located on your local drive, or </span></li>
+            <li><span style="line-height: 13.0pt;background-color: transparent;">Click the <strong>Edit Configuration</strong> link to open the <a href="FreeMarker-Template-Editor_133162931.html">FreeMarker Template Editor</a>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Input Message Type</span></td>
+          <td colspan="1" class="confluenceTd"><p><span>Specifies whether the input message conforms to an EDI message definition, or <span>is in XML format</span>:</span></p>
+           <ul>
+            <li><span> <code>EDI</code> (default) - the JavaScript object <code><a href="FreeMarker-API-Object-Reference_133162927.html#FreeMarkerAPIObjectReference-EDIInputMessage">inputEDI</a></code>&nbsp;can be used to access fields within the input message.</span></li>
+            <li><span> <code>XML</code> - the JavaScript object <code><a href="FreeMarker-API-Object-Reference_133162927.html#FreeMarkerAPIObjectReference-XMLInputMessage">inputXML</a></code> or <code>inputEDI</code> can be used to access for accessing fields within the input message.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">EDI Message Definition</td>
+          <td class="confluenceTd">The name of the EDI message definition (s3d) file used to parse input messages. When this option is set, only EDI messages are allowed as input messages and messages in other formats are sent to the error connector.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Missing Fields Mode</td>
+          <td colspan="1" class="confluenceTd"><p>How to handle missing fields:</p>
+           <ul>
+            <li><code>Return null values for missing fields</code> (default) -<span> a lookup on an EDI message field that does not exist returns null, which if not handled correctly may cause the mapping to fail and the message to be moved to the Error Queue.</span></li>
+            <li><span><code>Convert missing fields to empty strings</code> - <span>the filter returns an empty string if the EDI field is missing.</span> </span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Output Character Encoding</td>
+          <td colspan="1" class="confluenceTd"><p><span>Specifies the</span> character encoding used when generating the output message body.</p><p>If no character encoding is configured on the filter but a Freemarker template is defined, then the filter attempts to default the character encoding to the same encoding used in the template file. If neither a template file or character encoding is configured, then the character encoding defaults to the same encoding used on the input message.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Automatically Trim Whitespace</p></td>
+          <td colspan="1" class="confluenceTd"><p><span>Whether to trim leading and trailing whitespace <span>automatically</span> from the template:</span></p>
+           <ul>
+            <li><span> <span>Enabled</span> (default).</span></li>
+            <li><span> Disabled.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Escape Characters Mode</p></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specifies whether to use escape characters for a specified format:</p>
+            <ul>
+             <li><code>None</code> (default) - the exact value is retrieved.</li>
+             <li><code>XML</code> - special characters are converted to their entities.</li>
+             <li><code>HL7</code> - special characters are converted to their escape sequences.</li>
+            </ul>
+            <div class="sectionColumnWrapper">
+             <div class="sectionMacro">
+              <div class="sectionMacroRow">
+               <div class="columnMacro" style="width:15%;min-width:15%;max-width:15%;">
+                <h4 id="FreeMarkerMapper-XMLConversion">XML Conversion</h4>
+                <div class="table-wrap">
+                 <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+                  <tbody>
+                   <tr>
+                    <th style="text-align: center;" class="confluenceTh">From</th>
+                    <th style="text-align: center;" class="confluenceTh">To</th>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">&amp;</td>
+                    <td class="confluenceTd">&amp;amp;</td>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">"</td>
+                    <td class="confluenceTd">&amp;quot;</td>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">'</td>
+                    <td class="confluenceTd">&amp;apos;</td>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">&lt;</td>
+                    <td class="confluenceTd">&amp;lt;</td>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">&gt;</td>
+                    <td class="confluenceTd">&amp;gt;</td>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">\T\&nbsp;</td>
+                    <td class="confluenceTd">&amp;amp;</td>
+                   </tr>
+                   <tr>
+                    <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">\X0D\</span></td>
+                    <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">&amp;#xD;</span></td>
+                   </tr>
+                   <tr>
+                    <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">\X0A\</span></td>
+                    <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">&amp;#xA;</span></td>
+                   </tr>
+                  </tbody>
+                 </table>
+                </div>
+               </div>
+               <div class="columnMacro">
+                <h4 id="FreeMarkerMapper-HL7Conversion">HL7 Conversion</h4>
+                <div class="table-wrap">
+                 <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+                  <tbody>
+                   <tr>
+                    <th style="text-align: center;" class="confluenceTh">From</th>
+                    <th style="text-align: center;" class="confluenceTh">To</th>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">\&nbsp;</td>
+                    <td class="confluenceTd">\E\&nbsp;</td>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">|&nbsp;</td>
+                    <td class="confluenceTd">\F\&nbsp;</td>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">~</td>
+                    <td class="confluenceTd">\R\&nbsp;</td>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">^</td>
+                    <td class="confluenceTd">\S\&nbsp;</td>
+                   </tr>
+                   <tr>
+                    <td class="confluenceTd">&amp;</td>
+                    <td class="confluenceTd">\T\</td>
+                   </tr>
+                   <tr>
+                    <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">\n </span></td>
+                    <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">\X0D\</span></td>
+                   </tr>
+                   <tr>
+                    <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">\r</span></td>
+                    <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">\X0A\</span></td>
+                   </tr>
+                  </tbody>
+                 </table>
+                </div>
+               </div>
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Segment Delimiter Auto-Correct</p></td>
+          <td colspan="1" class="confluenceTd"><p>Whether to auto-correct invalid segment delimiters:</p>
+           <ul>
+            <li><span>Enabled</span> (default).</li>
+            <li><span>Disabled</span>.</li>
+           </ul><p>This property is only available when <strong>Escape Characters Mode</strong> is set to <code>HL7</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">FreeMarker Template Language Version</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The version of the FreeMarker template language to use:</p>
+            <ul>
+             <li><span><code>2.3.19</code> (default) - set <span>by default </span><span>for compatibility with filters created in versions of Rhapsody before Rhapsody 6.5.&nbsp;</span></span></li>
+             <li><span><code><span>2.3.28</span></code><span> - the latest FreeMarker template language version supported and recommended <span>f</span><span>or filters created in </span><span>Rhapsody 6.5.</span><span> </span></span></span></li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Refer to&nbsp;<a rel="nofollow" href="https://freemarker.apache.org/docs/app_versions.html" class="external-link">FTL version history</a>&nbsp;for details on the differences between the FreeMarker template language versions. This property provides best-effort backward-compatibility with previous versions of Rhapsody. FreeMarker templates that rely on parser quirks and undocumented features might break after upgrading to Rhapsody 6.5. If this happens, then affected filters will either enter an unconfigured state or start sending all messages to the error output connector.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="FreeMarkerMapper-ReferencingTemplates">Referencing Templates</h2>
+      <p>The FreeMarker Mapper filter provides ways to reference other templates through the&nbsp;<a class="external-link" rel="nofollow" href="http://freemarker.org/docs/ref_directive_include.html">include</a>&nbsp;and&nbsp;<a class="external-link" rel="nofollow" href="http://freemarker.org/docs/ref_directive_import.html">import</a>&nbsp;functions. Within Rhapsody, auxiliary files can be the parameter of these functions.</p>
+      <h3 class="action-body flooded" id="FreeMarkerMapper-IncludeFunction">Include Function</h3>
+      <p>You can use the <span style="color: rgb(51,51,51);">include function as described in the following example</span>:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>template.ftl</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">original
+&lt;#include "myAuxiliaryFile.ftl"&gt;</pre> 
+       </div>
+      </div>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>myAuxiliaryFile.ftl</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">included</pre> 
+       </div>
+      </div>
+      <p>results in a template equivalent to:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">original
+included</pre> 
+       </div>
+      </div>
+      <p><span style="font-family: Arial , Helvetica , MingLiU , sans-serif;line-height: 13.0pt;background-color: transparent;">assuming <code>template.ftl</code> has been chosen for the <code>FreeMarker Mapping Template</code> option and <code>myAuxiliaryFile.ftl</code>&nbsp;is attached as an auxiliary file.&nbsp;</span></p>
+      <h3 id="FreeMarkerMapper-ImportFunction">Import Function</h3>
+      <p>You can use the import function as described in the following example <span style="color: rgb(23,43,77);font-size: 14.0px;font-weight: 400;letter-spacing: 0.0px;">:</span></p>
+      <div>
+       <div class="twixi-wrap verbose actionContainer">
+        <p><br></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+          <b>inputMessage.xml</b>
+         </div>
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;xml&gt;
+  &lt;example&gt;test&lt;/example&gt;
+&lt;/xml&gt;</pre> 
+         </div>
+        </div>
+        <div class="action-body flooded">
+         <div class="code panel pdl" style="border-width: 1px;">
+          <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+           <b>template.ftl</b>
+          </div>
+          <div class="codeContent panelContent pdl"> 
+           <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;#import "myAuxiliaryFile.ftl" as aux&gt;
+&lt;#assign value = inputXML.xml.example&gt;
+original
+&lt;@aux.demo output=value&gt;</pre> 
+          </div>
+         </div>
+         <div class="code panel pdl" style="border-width: 1px;">
+          <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+           <b>myAuxiliaryFile.ftl</b>
+          </div>
+          <div class="codeContent panelContent pdl"> 
+           <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;#macro demo output&gt;
+    ${output}
+&lt;/macro&gt;</pre> 
+          </div>
+         </div>
+         <p>outputs:</p>
+        </div>
+        <div class="action-body flooded">
+         <p><br></p>
+         <div class="code panel pdl" style="border-width: 1px;">
+          <div class="codeContent panelContent pdl"> 
+           <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">original
+test</pre> 
+          </div>
+         </div>
+         <p>assuming that <code>template.ftl</code>&nbsp;has been chosen for the <code>FreeMarker Mapping Template</code>&nbsp;option, <code>myAuxiliaryFile.ftl</code>&nbsp;is attached as an auxiliary file and the input message is&nbsp;<code>inputMessage.xml</code>.</p>
+        </div>
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

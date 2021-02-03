@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>login</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="Unattended-Installations_133164341.html">Unattended Installations</a></span> </li> 
+       <li> <span><a href="Configuring-Rhapsody-IDE-Unattended_133164342.html">Configuring Rhapsody IDE Unattended</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">login</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section describes how to:</p>
+      <ul class="alternate">
+       <li>Log on to a newly installed engine to configure it.</li>
+       <li>Log on to an existing engine and perform an automated task, such as saving an RLC.</li>
+      </ul>
+      <h2 id="login-Alternatives">Alternatives</h2>
+      <p>There are three ways to log on:</p>
+      <ol>
+       <li>Use a <code>&lt;login/&gt;</code> element in the <a href="#login-XML">script</a>.</li>
+       <li>Enter&nbsp;<code>/login user pass hostname port</code> on the <a href="#login-CommandLineLogin">command line</a>.</li>
+       <li>Do neither. The normal <strong>Login</strong> dialog will be displayed. The script will run after the login.</li>
+      </ol>
+      <h2 id="login-RhapsodyServerAuthentication"><a name="RhapsodyIDEComms-DocumentationNotes-RhapsodyServerAuthentication" rel="nofollow"></a>Rhapsody Server Authentication</h2>
+      <p>When the Rhapsody IDE connects to a Rhapsody engine, it needs to verify the Rhapsody engine's identity before it performs the login process. This is important to ensure that the connection has been made to the expected Rhapsody engine, rather than another computer or process masquerading as a Rhapsody engine. This Rhapsody server authentication process is performed prior to transmitting the username and password to the engine, and involves examining the SSL certificate presented by the Rhapsody engine when the SSL connection is established. Refer to <a href="Rhapsody-Server-Authentication_133161184.html"><span class="confluence-link"><span class="confluence-link">Rhapsody Server Authentication</span></span></a><span class="confluence-link">&nbsp;</span>for details.</p>
+      <p>After executing its validation rules, the Rhapsody IDE will have one of three possible validation results:</p>
+      <ul>
+       <li>The validation was successful so the login can now proceed without any further user interaction.</li>
+       <li>A validation warning occurred, but the user can continue the login regardless.</li>
+       <li>A validation error occurred and the login cannot proceed.</li>
+      </ul>
+      <p>Normally the validation warning cases result in the Rhapsody IDE presenting a warning form to the user so that they can determine whether they should proceed with the login or not. However, this is not possible with a scripted login since its entire purpose is to be fully scripted. This is a particular concern with scripting a configuration load immediately after a new Rhapsody installation, since the new Rhapsody engine will have generated a self-signed certificate, but that certificate will not be trusted by the Rhapsody IDE (since it has not seen it before). There are a number of options to handle this case:</p>
+      <ol>
+       <li>Install an SSL certificate issued by a trusted certificate authority (most likely an internal organization CA) on the Rhapsody engine prior to starting it for the first time. If the certificate authority used to generate the certificate is trusted by the computer that the Rhapsody IDE is running on (and the certificate is valid and has the correct hostnames), then the Rhapsody IDE will trust the engine immediately and will report a validation success. Refer to <span> <a href="Rhapsody-Server-Authentication_133161184.html">Rhapsody Server Authentication</a> </span>and for details.</li>
+       <li>Retrieve the Rhapsody engine's newly generated SSL certificate and install it on the computer that the Rhapsody IDE is running on prior to running the script. The Rhapsody IDE looks for trusted Rhapsody engines in the registry when performing the server validation and so if the certificate thumbprint is stored in the registry prior to running the Rhapsody IDE, it will trust it when connecting to that Rhapsody engine. Refer to <span> <a href="Using-SSL-Certificates_133161217.html">Using SSL Certificates</a>&nbsp;</span>and <a href="Storing-Trusted-Rhapsody-Engine-Connection-Details_133161186.html">Storing Trusted Rhapsody Engine Connection Details </a>for details.</li>
+       <li><p>Use the <a href="#login-CommandLineLogin">command line options </a>or <a href="#login-XML">attributes on the &lt;login/&gt; element </a>to suppress the validation warning that occurs so that the login can proceed irrespective of the warning. This gives the same effect as a user clicking the continue login option on the appropriate warning form when manually logging in. It is recommended that these options only be used when connecting to a Rhapsody engine within a secure network environment since suppressing the warnings gives no opportunity to examine the presented SSL certificate prior to the login.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>These options only provide a way to address certificate warnings, not certificate errors.</p>
+         </div>
+        </div></li>
+      </ol>
+      <h2 id="login-XML">XML</h2>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;!-- Login to 198.51.100.1 on port 3041 with user "administrator" and password "rhapsody" --&gt;
+&lt;login username="administrator" password="rhapsody" hostname="198.51.100.1" port="3041"/&gt;
+
+&lt;!-- Login to host 198.51.100.1 on port 3041 with user "administrator" and the password "rhapsody" --&gt;
+&lt;login hostname="198.51.100.1"/&gt;
+
+&lt;!-- Login to localhost on port 3041 with user "administrator" and the password "sunshine" --&gt;
+&lt;login password="sunshine"/&gt;
+
+&lt;!-- Login to 198.51.100.1 on port 3041 with user "bob" and password "freedom" --&gt;
+&lt;login username="bob" password="freedom" hostname="198.51.100.1"/&gt;</pre> 
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Attribute</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+          <th class="confluenceTh"><p>Default Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>username</code></p></td>
+          <td class="confluenceTd"><p>The <em>root</em> user.</p></td>
+          <td class="confluenceTd"><p><code>Administrator</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>password</code></p></td>
+          <td class="confluenceTd"><p>Default password for the <em>root</em> user.</p></td>
+          <td class="confluenceTd"><p><code>rhapsody</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>hostname</code></p></td>
+          <td class="confluenceTd"><p>The machine the Rhapsody engine is running on.</p></td>
+          <td class="confluenceTd"><p><code>localhost</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>port</code></p></td>
+          <td class="confluenceTd"><p>The default administration port for Rhapsody engines.</p></td>
+          <td class="confluenceTd"><p><code>3041</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>ignoreNewSelfSignedCertificateWarning</code></td>
+          <td colspan="1" class="confluenceTd"><p>A boolean attribute that determines whether the Rhapsody IDE should ignore the warning about an engine presenting a self-signed certificate when it has no previous certificate stored for this engine. This is the expected warning that will occur when connecting to a new Rhapsody engine that is using the default generated SSL certificate</p></td>
+          <td colspan="1" class="confluenceTd"><code>false</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>ignoreOldSharedCertificateWarning</code></td>
+          <td colspan="1" class="confluenceTd"><p>A boolean attribute that determines whether the Rhapsody IDE should ignore the warning about an engine presenting the old shared SSL certificate. It is highly recommended that any such engine be upgraded to the latest service pack for that version as soon as possible so that it can use a custom SSL certificate</p></td>
+          <td colspan="1" class="confluenceTd"><code>false</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>ignoreCaIssuedCertificateChangeWarning</code></td>
+          <td colspan="1" class="confluenceTd"><p>A boolean attribute that determines whether the Rhapsody IDE should ignore the warning about an engine presenting a new certificate issued by a trusted certificate authority, when the Rhapsody IDE has seen a different certificate for this same engine previously.</p></td>
+          <td colspan="1" class="confluenceTd"><code>false</code></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The login settings are recorded in the script execution log file.</p>
+      <h3 id="login-CommandLineLogin"><a name="RhapsodyIDEComms-DocumentationNotes-CommandLineLogin" rel="nofollow"></a>Command Line Login</h3>
+      <p>A login alternative is to provide the connection details on the command line as:</p>
+      <div>
+       <div class="syntaxhighlighter nogutter  java">
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">/login user pass hostname port</pre> 
+         </div>
+        </div>
+        <p>If the login is done in this manner, three additional command line options are available to allow suppression of the Rhapsody IDE server validation warnings. Note that these flags have no effect when logging into the Rhapsody IDE normally, or if logging in using the <code>&lt;login/&gt;</code> XML element in the script.</p>
+       </div>
+      </div>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Command Line Option</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>/ignoreNewSelfSignedCertificateWarning</code></td>
+          <td class="confluenceTd">If set, Rhapsody IDE ignores the warning about an engine presenting a self-signed certificate when it has no previous certificate stored for this engine. This is the expected warning that occurs when connecting to a new Rhapsody engine that is using the default generated SSL certificate.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>/ignoreOldSharedCertificateWarning</code></td>
+          <td class="confluenceTd">If set, Rhapsody IDE ignores the warning about an engine presenting the old shared SSL certificate. It is highly recommended that any such engine be upgraded to the latest service pack for that version as soon as possible so that it can use a custom SSL certificate.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>/ignoreCaIssuedCertificateChangeWarning</code></td>
+          <td class="confluenceTd">If set, Rhapsody IDE ignores the warning about an engine presenting a new certificate issued by a trusted certificate authority when Rhapsody IDE has previously seen a different certificate for this same engine.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

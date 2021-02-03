@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Web Service Hosting</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Web Service Hosting</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162537/133162538.png" data-image-src="attachments/133162537/133162538.png" data-unresolved-comment-count="0" data-linked-resource-id="133162538" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SOAP-Server-comm-32.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162537" data-linked-resource-container-version="1"></span></p>
+      <p>Messages received by a Rhapsody web service are routed to a <strong>Web Service Hosting</strong> communication point, which allows the messages to be routed in Rhapsody. The configuration of the communication point controls how the incoming SOAP messages for the web service are translated to Rhapsody messages and message properties, and vice versa for the responses. In other words, the Web Service Hosting communication point provides a bridge between the web service and the Rhapsody messaging system by converting the SOAP requests, responses and faults to and from Rhapsody messages. Unlike other communication points, which have a <strong>Configuration</strong> tab, this communication point uses a custom user interface.</p>
+      <p>Multiple Web Service Hosting&nbsp;communication points can implement the same operations for a web service. Using multiple Web Service Hosting communication points&nbsp;allows incoming messages to be processed by one of those communication points, thereby providing a form of load balancing.&nbsp;The communication points fail to start if the set of operations are not exactly the same.</p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">Rhapsody messages are populated, using content from the SOAP request, in one of the following ways:</span></p>
+      <ul>
+       <li>The Rhapsody message body receives the entire contents of the SOAP body.</li>
+       <li>The Rhapsody message body receives the entire SOAP envelope.</li>
+       <li>The Rhapsody message body and properties are populated by extracting values from the SOAP message using XPaths.</li>
+      </ul>
+      <p>SOAP response and faults are populated, using content from the Rhapsody message, in one of the following ways:</p>
+      <ul>
+       <li>The Rhapsody message body is used as the contents of the SOAP body.</li>
+       <li>The Rhapsody message body is used as the entire SOAP envelope.</li>
+       <li>You can provide a template XML file for the contents of the SOAP body, then the template is populated using message properties and the Rhapsody message body (using XPaths&nbsp;to refer to locations in the template).</li>
+      </ul>
+      <p>In order to configure the Web Service Hosting communication point to send a fault response, the message property <code>rhapsody:SoapFault</code> must be set on the Rhapsody message and the Web Service Hosting communication point must have the fault response tab configured.</p>
+      <p>Supported Operational Modes: <em>In -&gt; Out</em>, <em>Out -&gt; In</em>,<em> Input</em>.</p>
+      <h2 id="WebServiceHosting-ConfigurationProperties">Configuration Properties</h2>
+      <p>Click the <strong>Edit Communication Point Configuration</strong> link to view the properties you can configure:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162537/133162539.png" data-image-src="attachments/133162537/133162539.png" data-unresolved-comment-count="0" data-linked-resource-id="133162539" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceHosting1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162537" data-linked-resource-container-version="1"></span>&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162537/133162540.png" data-image-src="attachments/133162537/133162540.png" data-unresolved-comment-count="0" data-linked-resource-id="133162540" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="WebServiceHostingTimeouts.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162537" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><strong>Web Service</strong></td>
+          <td class="confluenceTd">Select a web service from the list. If no web services have been created, then this communication point cannot be configured. If the web service is changed after you add operations to the communication point, Rhapsody displays a warning to indicate that changing the web service will delete the existing operations.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><strong>Operations</strong></td>
+          <td class="confluenceTd">The operations that have been implemented on this communication point. The view displays how the Input, Output and Fault elements are mapped to the Rhapsody messages.&nbsp;<br class="atl-forced-newline">A communication point may implement more than one operation for the same Web service. Refer to&nbsp;<a href="Web-Service-Hosting-Operations_133162542.html">Web Service Hosting Operations</a>&nbsp;for details.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><strong>Timeouts</strong></td>
+          <td class="confluenceTd"><p>In addition to the response fault mappings, the communication point can also send a custom SOAP fault if a response timeout occurs. These are optional parameters, and allow the communication point to return a static SOAP response when the timeout occurs. They are configured separately for SOAP 1.1 and&nbsp;1.2,&nbsp;and set the entire SOAP envelope that will be used as the response.&nbsp;<br class="atl-forced-newline">This timeout is configured for the communication point as a whole, not on a&nbsp;per operation&nbsp;basis.&nbsp;</p><p>The communication point provides a configuration property to configure a static response to be sent when a timeout occurs (only for the&nbsp;<em>In-&gt;Out</em>&nbsp;mode). If this property is not set, then a standard SOAP fault is sent. If the request was synchronous, then an HTTP response code of 503 is used when returning the fault.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

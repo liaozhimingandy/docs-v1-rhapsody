@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Untrusted Self-signed Certificate Warning</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Rhapsody-Server-Authentication_133161184.html">Rhapsody Server Authentication</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Untrusted Self-signed Certificate Warning</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Untrusted Self-signed Certificate warning dialog is displayed when connecting to a Rhapsody engine that presents a valid self-signed certificate that is not trusted by the Rhapsody IDE. This warning is expected when connecting to a Rhapsody engine for the very first time unless that Rhapsody engine has explicitly been changed to use a CA issued certificate. This is because a Rhapsody engine will be using a self-signed certificate unless explicitly changed.</p>
+      <p>The warning is shown because the Rhapsody IDE is unable to determine whether it is connecting to the correct engine or not. This can be verified manually by comparing the certificate thumbprint shown in the screenshot, to the certificate thumbprint stored on disk on the Rhapsody server in the <code>&lt;Rhapsody&gt;/rhapsody/ide.sha1.txt</code> file. If these thumbprints match then the certificate can safely be trusted; if they do not match then the connection should be aborted as it is not the expected SSL certificate.</p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is critical that the identity of the Rhapsody server is verified before establishing the connection by comparing the SHA-1 certificate thumbprint presented in the warning shown in the following screenshot, to the value on the Rhapsody server generated at startup. If in doubt, consult a system administrator, as failure to verify the Rhapsody identify could compromise the integrity of the engine.</p>
+       </div>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161198/133161199.png" data-image-src="attachments/133161198/133161199.png" data-unresolved-comment-count="0" data-linked-resource-id="133161199" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="UntrustedSelfSignedCertificate3.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161198" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">No</td>
+          <td class="confluenceTd">Cancels the connection so the login does not take place.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Yes</td>
+          <td class="confluenceTd">Allows the login attempt to proceed.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Permanently trust this connection</td>
+          <td colspan="1" class="confluenceTd"><p>If <strong>Yes</strong> is clicked with this not checked, then the SSL certificate is only trusted for this current IDE session. This warning is shown again the next time the Rhapsody IDE connects to this engine.</p><p>If <strong>Yes</strong> is clicked with this option checked, then the SSL certificate is saved so that this warning does not need to be displayed again for this Rhapsody engine as long as the Rhapsody engine keeps using the same SSL certificate. Rhapsody engines trusted in this manner can be viewed using the <a href="Rhapsody-IDE-Trust-Manager_133161202.html">Rhapsody IDE Trust Manager </a>application. We recommend this option be checked once the certificate thumbprint has been manually verified as this will enable the Rhapsody IDE to detect a subsequent certificate change.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">View certificate</td>
+          <td class="confluenceTd">Displays the SSL certificate presented by the Rhapsody engine using the standard <em>Windows</em><span class="st">®</span> certificate viewer.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

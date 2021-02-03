@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Connectivity Problems</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Rhapsody_133164108.html">Troubleshooting Rhapsody</a></span> </li> 
+       <li> <span><a href="Troubleshooting-Examples_133164109.html">Troubleshooting Examples</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Connectivity Problems</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="box contents">
+       <p>Connectivity problems can be caused by issues ranging from configuration to network setup. When a connectivity problem is identified, start by reviewing the configuration for the component in the Management Console:</p>
+       <ol>
+        <li><p>Check the log panel for&nbsp;any error messages have been recorded. The log typically contains information on the cause of a connection failure (from the Rhapsody point-of-view). Where the log indicates that an error has occurred, click the <strong>Show Error Details</strong> link for detailed information about the nature of the issue.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164121/133164122.png" data-image-src="attachments/133164121/133164122.png" data-unresolved-comment-count="0" data-linked-resource-id="133164122" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CommPointLog.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164121" data-linked-resource-container-version="1"></span></p></li>
+        <li>Check that the connection settings are correct. Sometimes the problem is an incorrect port number, hostname or directory setting.</li>
+        <li>When a simple configuration fault has been ruled out, further diagnosis steps depend on the communication point being used and the factors that might cause a connectivity problem.
+         <ul>
+          <li>For directory or FTP communication points: <br>
+           <ul>
+            <li>Check permissions on the file system. Rhapsody needs read/write access to files.&nbsp;</li>
+            <li>Remember to check the username that the Rhapsody process is running as. On a Windows server, remember that by default Rhapsody uses the "Local System" account that does not have access to any network file systems.</li>
+           </ul></li>
+          <li>For network-based communication points (for example, FTP or TCP Client): <br>
+           <ul>
+            <li>Try to use a third-party tool (for example, FileZilla for an FTP server, or Fiddler for an HTTP connection) to connect to the external system from the Rhapsody server.</li>
+            <li>TCP Client and Server communication points have a connection logging feature that logs connections and data.</li>
+            <li>Sometimes the issue exists at the network level and a tool such as Wireshark is required to inspect the messages between Rhapsody and the external system.&nbsp;</li>
+           </ul></li>
+          <li>For the database communication points:
+           <ul>
+            <li>Try to connect to the database directly using a third-party tool. Check to see that the SQL query when run directly returns the expected results.</li>
+           </ul></li>
+         </ul></li>
+       </ol>
+       <div>
+        <p> </p>
+       </div>
+      </div> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

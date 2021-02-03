@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Rhapsody Log Files</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Directory-Structure_133161562.html">Rhapsody Directory Structure</a></span> </li> 
+       <li> <span><a href="Rhapsody-Log_133161563.html">Rhapsody Log</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Rhapsody Log Files</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody's log files are found in the Rhapsody installation directory:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146936505 {padding: 0px;}
+div.rbtoc1565146936505 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146936505 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146936505"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#RhapsodyLogFiles-\log\wrapper.log">\log\wrapper.log</a></li> 
+        <li><a href="#RhapsodyLogFiles-\log\log.txt">\log\log.txt</a></li> 
+        <li><a href="#RhapsodyLogFiles-\derby.log">\derby.log</a></li> 
+        <li><a href="#RhapsodyLogFiles-\equinox\************.log">\equinox\************.log</a></li> 
+        <li><a href="#RhapsodyLogFiles-\log\************.log">\log\************.log</a></li> 
+        <li><a href="#RhapsodyLogFiles-\hs_err_pid****.log">\hs_err_pid****.log</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="RhapsodyLogFiles-\log\wrapper.log"><code>\log\wrapper.log</code></h2>
+      <p>The wrapper is where the 'service' application writes information relating to JVM startups, shutdowns and crashes. It is also where <code>stdout</code> and <code>stderr</code> are redirected, so sometimes will contain other important information.</p>
+      <p>This log should be collected any time there is an issue with startup, shutdown or memory. In other words, any Rhapsody issue that is not caused by route or communication point configuration.</p>
+      <h2 id="RhapsodyLogFiles-\log\log.txt"><code>\log\log.txt</code></h2>
+      <p>These logs are the text version of the main Rhapsody logging. This is where all components in Rhapsody log information. These logs should be included any time there is a problem with Rhapsody. These logs are rolling, so will overwrite old information automatically. By default, Rhapsody stores ten files, with a 5MB file size. You can alter the default settings by changing the following lines in <code>log4j.properties</code>.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>log4j.appender.FILE.MaxBackupIndex=9
+log4j.appender.FILE.MaxFileSize=5MB</pre> 
+       </div>
+      </div>
+      <h2 id="RhapsodyLogFiles-\derby.log"><code>\derby.log</code></h2>
+      <p>Logs events regarding the internal Derby database.&nbsp;Rhapsody uses the&nbsp;Derby database to implement lookup tables.</p>
+      <h2 id="RhapsodyLogFiles-\equinox\************.log"><code>\equinox\************.log</code></h2>
+      <p>These logs are the OSGi startup logs. A new log is created every time Rhapsody is restarted. These logs should be included any time there is a problem that stops Rhapsody from starting up or a custom module does not load.</p>
+      <h2 id="RhapsodyLogFiles-\log\************.log"><code>\log\************.log </code></h2>
+      <p>These logs are the data version of the main Rhapsody log. They include binary data, which makes reading difficult. These logs are only needed if the text version has overridden the information that is relevant, that is,&nbsp;for example, the oldest information in the text log is from yesterday, but the problem reported happened three days ago.</p>
+      <h2 id="RhapsodyLogFiles-\hs_err_pid****.log"><code>\hs_err_pid****.log</code></h2>
+      <p>These logs are JVM crash logs. They are only created when the JVM crashes and should be included if they exist (especially when dealing with a crash).</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

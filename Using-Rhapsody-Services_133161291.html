@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using Rhapsody Services</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using Rhapsody Services</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="UsingRhapsodyServices-AuxiliaryFilesService">Auxiliary Files Service</h2>
+      <p>You can use auxiliary files to pass a file to a custom filter or communication point using the Auxiliary Files Service.</p>
+      <p class="Standard">Auxiliary files can either be attached to a filter or communication point via the <strong>Auxiliary</strong> tab in the <strong>Configuration</strong> dialog, or they can be embedded into the custom module JAR file. The technique for fetching the files is the same for both methods:</p>
+      <ol>
+       <li class="Standard"><p>Starting with the&nbsp;<code>BlockingCommPoint</code> you created earlier, modify the properties bean to hold the contents of a file passed as a property from Rhapsody IDE.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package com.orionhealth.EMEA.rhapsody.module.BlockingCommPoint;
+
+public class PropertiesBean {
+	int port;
+    String fileContents;
+
+    public String getFileContents() {
+    	return fileContents;
+    }
+               &nbsp;
+	public void setFileContents(String fileContents) {
+        this.fileContents = fileContents;
+    }
+               &nbsp;
+	public int getPort() {
+    	return port;
+    }
+    public void setPort(int port) {
+    	this.port = port;
+    }
+}
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">Edit your <code>BlockingCommPoint</code> class.</li>
+       <li class="Standard"><p>Add the file type property.&nbsp;</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static final String PROPSFILE= "FILE|*f||configuration file||Set this to any file";
+private static final String[] props = { PORT, PROPSFILE };</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Now modify the&nbsp;<code>configure()</code> method to read the file.&nbsp; Use Eclipse to automatically add all the <code>try/catch</code> blocks.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">...
+property = config.getConfiguratedProperties().get("FILE");
+if (null==property || 0==property.length()) {
+	throw new CommunicationPointConfigurationException("Required field 'file' missing.");
+} else {
+	InputStream fileStream = null;
+	try {
+    	fileStream = Activator.getAuxiliaryFilesService().openAuxiliaryFile(getCommunicationPointInfo(), property);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fileStream));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+        	sb.append(line + "\n");
+        }
+        fileStream.close();
+        String fileString = sb.toString();
+        this.properties.setFileContents(fileString);
+    } catch (FileNotFoundException e) {
+        throw new CommunicationPointConfigurationException("",e);
+    } catch (SecurityException e) {
+        throw new CommunicationPointConfigurationException("",e);
+    } catch (IOException e){
+        throw new CommunicationPointConfigurationException("",e);
+    } finally {
+		if (fileStream != null) {
+			try {
+				fileStream.close();
+			} catch (IOException ignore) { }
+		}
+	}
+}</pre> 
+         </div>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <p class="title">Closing streams</p>
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>It is best practice to close streams when you are finished with them (as in the example above), to release the resources. This should be done in the <code>finally</code> block, so that the stream will still get closed even if an exception is thrown in the <code>try</code> block.</p>
+         </div>
+        </div></li>
+       <li class="Standard"><p>Now you can use the file in the Connection class – use it as the contents for the input message:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">protected String read() {
+                                               
+	readThread = new Thread() {
+		@Override
+    	public void run() {
+        	try {
+            	Thread.sleep(10000); // sleep for 10 seconds
+            } catch (InterruptedException e) {
+			} 
+        }
+    };
+    readThread.start();
+    try {
+    	readThread.join();
+        return config.getFileContents();
+    } catch (InterruptedException e) {
+        return "";
+    } finally {
+        readThread = null;
+    }
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Modify the <code>Activator</code> so it can receive the Auxiliary File Service from Rhapsody:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class Activator {
+               
+	private static AuxiliaryFilesService auxiliaryFilesService;
+               
+    protected void setAuxiliaryFilesService(final AuxiliaryFilesService auxiliaryFilesService) {
+    	Activator.auxiliaryFilesService = auxiliaryFilesService;
+    }
+
+    protected void unsetAuxiliaryFilesService(final AuxiliaryFilesService auxiliaryFilesService) {
+    	Activator.auxiliaryFilesService = null;
+    }
+               
+    public static AuxiliaryFilesService getAuxiliaryFilesService() {
+        return Activator.auxiliaryFilesService;
+    }</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Finally modify the <code>Service.xml</code> to specify how the service should be injected into the module:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;component name="com.orionhealth.EMEA.rhapsody.module.BlockingCommPoint" immediate="true"&gt;
+	&lt;implementation class="com.orionhealth.EMEA.rhapsody.module.BlockingCommPoint.Activator"/&gt;
+    &lt;reference name="AUXILIARY_FILE" interface="com.orchestral.rhapsody.configuration.auxiliaryfiles.AuxiliaryFilesService"
+ 		bind="setAuxiliaryFilesService" unbind="unsetAuxiliaryFilesService"/&gt;
+&lt;/component&gt;</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>You can also get the file as a <code>File</code> object as follows:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">File auxiliaryFile;
+try {
+	auxiliaryFile = Activator.getAuxiliaryFilesService().getAuxiliaryFile(getFilterInfo(), bodyFile);
+} catch (FileNotFoundException e) {
+    throw new FilterConfigurationException("Body file '" + bodyFile + "' not found.");
+} catch (SecurityException e) {
+    throw new FilterConfigurationException("Error opening body file '" + bodyFile + "'.");
+}
+</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h2 id="UsingRhapsodyServices-ConfiguringYourCustomModuletoUseOtherRhapsodyServices">Configuring Your Custom Module to Use Other Rhapsody Services</h2>
+      <h3 id="UsingRhapsodyServices-ModifyingService.xmltoReferencetheServices">Modifying&nbsp;<code>Service.xml</code>&nbsp;to Reference the Services</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;component name="com.orionhealth.EMEA.rhapsody.module.dicom" immediate="true"&gt;
+                &lt;implementation class="com.orionhealth.EMEA.rhapsody.module.dicom.Activator"/&gt;
+                &lt;reference name="AUXILIARY_FILE" interface="com.orchestral.rhapsody.configuration.auxiliaryfiles.AuxiliaryFilesService" bind="setAuxiliaryFilesService" unbind="unsetAuxiliaryFilesService"/&gt;
+                &lt;reference name="DEFINITION" interface="com.orchestral.rhapsody.model.definition.DefinitionService" bind="setDefinitionService" unbind="unsetDefinitionService"/&gt;
+                &lt;reference name="MESSAGE_PARSING" interface="com.orchestral.rhapsody.messageparsing.MessageParsingService" bind="setMessageParsingService" unbind="unsetMessageParsingService"/&gt;
+                &lt;reference name="PERSISTENT_MAP" interface="com.orchestral.rhapsody.persistentmap.PersistentMapService" bind="setPersistentMapService" unbind="unsetPersistentMapService"/&gt;
+                &lt;reference name="SECURITY" interface="com.orchestral.rhapsody.configuration.security.SecurityObjectsService" bind="setSecurityObjectsService" unbind="unsetSecurityObjectsService"/&gt;
+                &lt;reference name="XML" interface="javax.xml.parsers.DocumentBuilderFactory" target="(&amp;amp;(parser.namespaceAware=true)(parser.validating=false))" bind="setDocumentBuilderFactory" unbind="unsetDocumentBuilderFactory"/&gt;
+                &lt;reference name="ID" interface="com.orchestral.rhapsody.idgenerator.IdGeneratorFactory" unbind="unsetIdGeneratorFactory" bind="setIdGeneratorFactory"/&gt;
+                &lt;reference name="VARIABLES" interface="com.orchestral.rhapsody.configuration.variables.VariablesService" unbind="unsetVariablesService" bind="setVariablesService"/&gt;
+&lt;/component&gt;</pre> 
+       </div>
+      </div>
+      <h3 id="UsingRhapsodyServices-ModifyingActivatortoReferencetheServices">Modifying Activator to Reference the Services</h3>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;import com.orchestral.rhapsody.configuration.auxiliaryfiles.AuxiliaryFilesService;
+ import com.orchestral.rhapsody.configuration.security.SecurityObjectsService;
+ import com.orchestral.rhapsody.configuration.variables.VariablesService;
+ import com.orchestral.rhapsody.idgenerator.IdGeneratorFactory;
+ import com.orchestral.rhapsody.messageparsing.MessageParsingService;
+ import com.orchestral.rhapsody.model.definition.DefinitionService;
+ import com.orchestral.rhapsody.module.FilterRegistration;
+ import com.orchestral.rhapsody.module.communicationpoint.CommunicationPointInfo;
+ import com.orchestral.rhapsody.persistentmap.PersistentMap;
+ import com.orchestral.rhapsody.persistentmap.PersistentMapService;
+ import com.orchestral.rhapsody.security.SecurityException;
+ import com.orionhealth.EMEA.rhapsody.module.dicom.update.DICOMTagUpdater;
+…
+
+ public class Activator {
+ 
+                 private static AuxiliaryFilesService auxiliaryFilesService;
+                 private static DefinitionService definitionService;
+                 private static MessageParsingService messageParsingService;
+                 private static PersistentMapService persistentMapService;
+                 private static SecurityObjectsService securityObjectsService;
+                 private static DocumentBuilderFactory documentBuilderFactory;
+                 private static IdGeneratorFactory idGeneratorFactory;
+                 private static VariablesService variablesService;
+ 
+                 private Set&lt;ServiceRegistration&gt; registrations = new HashSet&lt;ServiceRegistration&gt;();
+ 
+                 protected void setAuxiliaryFilesService(
+                                                 final AuxiliaryFilesService auxiliaryFilesService) {
+                                 Activator.auxiliaryFilesService = auxiliaryFilesService;
+                 }
+ 
+                 protected void unsetAuxiliaryFilesService(
+                                                 final AuxiliaryFilesService auxiliaryFilesService) {
+                                 Activator.auxiliaryFilesService = null;
+                 }
+ 
+                 protected void setDefinitionService(
+                                                 final DefinitionService definitionService) {
+                                 Activator.definitionService = definitionService;
+                 }
+ 
+                 protected void unsetDefinitionService(
+                                                 final DefinitionService definitionService) {
+                                 Activator.definitionService = null;
+                 }
+ 
+                 protected void setMessageParsingService(
+                                                 final MessageParsingService messageParsingService) {
+                                 Activator.messageParsingService = messageParsingService;
+                 }
+ 
+                 protected void unsetMessageParsingService(
+                                                 final MessageParsingService messageParsingService) {
+                                 Activator.messageParsingService = null;
+                 }
+ 
+                 protected void setPersistentMapService(
+                                                 final PersistentMapService persistentMapService) {
+                                 Activator.persistentMapService = persistentMapService;
+                 }
+ 
+                 protected void unsetPersistentMapService(
+                                                 final PersistentMapService persistentMapService) {
+                                 Activator.persistentMapService = null;
+                 }
+ 
+                 protected void setSecurityObjectsService(
+                                                 final SecurityObjectsService securityObjectsService) {
+                                 Activator.securityObjectsService = securityObjectsService;
+                 }
+ 
+                 protected void unsetSecurityObjectsService(
+                                                 final SecurityObjectsService securityObjectsService) {
+                                 Activator.securityObjectsService = null;
+                 }
+ 
+                 public void setDocumentBuilderFactory(final DocumentBuilderFactory factory) {
+                                 Activator.documentBuilderFactory = factory;
+                 }
+ 
+                 protected void unsetDocumentBuilderFactory(
+                                                 final DocumentBuilderFactory factory) {
+                                 Activator.documentBuilderFactory = null;
+                 }
+ 
+                 protected void setIdGeneratorFactory(
+                                                 final IdGeneratorFactory idGeneratorFactory) {
+                                 Activator.idGeneratorFactory = idGeneratorFactory;
+                 }
+ 
+                 protected void unsetIdGeneratorFactory(
+                                                 final IdGeneratorFactory idGeneratorFactory) {
+                                 Activator.idGeneratorFactory = null;
+                 }
+ 
+                 protected void setVariablesService(final VariablesService variablesService) {
+                                 Activator.variablesService = variablesService;
+                 }
+ 
+                 protected void unsetVariablesService(final VariablesService variablesService) {
+                                 Activator.variablesService = null;
+                 }
+ 
+                 public static AuxiliaryFilesService getAuxiliaryFilesService()
+                                                 throws FileNotFoundException, SecurityException {
+                                 return Activator.auxiliaryFilesService;
+                 }
+ 
+                 public static DefinitionService getDefinitionService() {
+                                 return Activator.definitionService;
+                 }
+ 
+                 public static MessageParsingService getMessageParsingService() {
+                                 return Activator.messageParsingService;
+                 }
+ 
+                 public static PersistentMap getPersistentMap(
+                                                 final CommunicationPointInfo communicationPointInfo) {
+                                 return Activator.persistentMapService
+                                                                 .getPersistentMap(communicationPointInfo);
+                 }
+ 
+                 public static SecurityObjectsService getSecurityObjectsService() {
+                                 return Activator.securityObjectsService;
+                 }
+ 
+                 public static DocumentBuilderFactory getDocumentBuilderFactory() {
+                                 return Activator.documentBuilderFactory;
+                 }
+ 
+                 public static IdGeneratorFactory getIdGeneratorFactory() {
+                                 return Activator.idGeneratorFactory;
+                 }
+ 
+                 public static VariablesService getVariablesService() {
+                                 return Activator.variablesService;
+                 }
+ 
+                 ...
+ 
+ }</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

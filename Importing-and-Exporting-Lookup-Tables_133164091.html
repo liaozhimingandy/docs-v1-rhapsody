@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Importing and Exporting Lookup Tables</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Management_133164048.html">Management</a></span> </li> 
+       <li> <span><a href="Monitoring-Lookup-Tables_133164084.html">Monitoring Lookup Tables</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Importing and Exporting Lookup Tables</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>By using the <strong>Import</strong> and <strong>Export</strong> feature, you can quickly replace entire lookup tables no matter how large they are:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147025386 {padding: 0px;}
+div.rbtoc1565147025386 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147025386 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147025386"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ImportingandExportingLookupTables-ImportingLookupTables">Importing Lookup Tables</a></li> 
+        <li><a href="#ImportingandExportingLookupTables-ExportingLookupTables">Exporting Lookup Tables</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="ImportingandExportingLookupTables-ImportingLookupTables">Importing Lookup Tables</h2>
+      <p>The <code>.csv</code> file you import must contain column headers, and the column headers must match (case-insensitive) the names of the columns defined in the lookup table. The columns in the <code>.csv</code> file do not need to be in the same order as those in the table.</p>
+      <p>If the first row of the imported data matches the column headers, then the row is not imported as data, and the columns in the existing table and imported table are matched up even if they are in a different order. If a row in the imported data has too many values, then the extra values are silently ignored. If a row in the imported data has too few values, then the additional values are assumed to be empty strings. If the imported data is malformed, Rhapsody prompts you with an error message.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <div class="mod-content">
+         <p>Importing CSV files with very high row counts into lookup tables will not be successful if the client PC has insufficient memory, or the Rhapsody engine has a small heap size. Depending on the hardware configuration, there is a practical limit of approximately 600,000 rows.</p>
+        </div>
+       </div>
+      </div>
+      <p>To import a <code>.csv</code> file that contains your lookup table data:</p>
+      <ol>
+       <li>Navigate to <strong>Management&gt;Lookup Tables</strong>. The <strong>Lookup Tables</strong> list page is displayed.</li>
+       <li>To display the <strong>Import Values </strong>dialog, choose one of the following methods:
+        <ul>
+         <li>Select the the appropriate table to display the lookup Table details page and click the <strong>Import</strong> link.</li>
+         <li><p>Hover your mouse over the <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164091/133164094.png" data-image-src="attachments/133164091/133164094.png" data-unresolved-comment-count="0" data-linked-resource-id="133164094" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LookupIcon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164091" data-linked-resource-container-version="1"></span> icon and click the <strong>Import Values</strong> link in the popover.</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="242" width="540" src="attachments/133164091/133164092.png" data-image-src="attachments/133164091/133164092.png" data-unresolved-comment-count="0" data-linked-resource-id="133164092" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="importtabledata.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164091" data-linked-resource-container-version="1"></span></p></li>
+        </ul></li>
+       <li>Select the appropriate option:
+        <ul>
+         <li>Append the data you import to the end of the table as new entries, or</li>
+         <li>Overwrite the existing data in the table with the data you import, or</li>
+         <li>Update the existing table with the data from the <code>.csv</code> file. If you select <strong>Update the existing table with the values in the imported data</strong>:
+          <ul>
+           <li>And if you want the match to be case-sensitive, select the <strong>Case Sensitive</strong> button.</li>
+           <li><p>Select the appropriate columns listed next to <strong>Columns to Match</strong>. Rhapsody then uses the columns you select to match the rows in the existing table with the rows in the imported data.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>You must select at least one column to match.</p>
+             </div>
+            </div><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="340" width="571" src="attachments/133164091/133164093.png" data-image-src="attachments/133164091/133164093.png" data-unresolved-comment-count="0" data-linked-resource-id="133164093" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="importtabledata2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164091" data-linked-resource-container-version="1"></span></p></li>
+          </ul></li>
+        </ul></li>
+      </ol>
+      <ol>
+       <li>Select the <strong>Choose File</strong> button for the <strong>Choose File</strong> field to locate the <code>.csv</code> file. This file must be UTF-8 encoded.</li>
+       <li><p>Select&nbsp;the <strong>Import</strong> button to import the data. If you have not checked out the table, Rhapsody automatically checks it out for you.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>When importing data into an existing table, Rhapsody prompts you if it detects differences between the two tables, and does not proceed with the import until you rectify the errors.</p>
+          <p>If a row is matched, then it is replaced with the imported data. If a row is matched using a case-insensitive match, then the update will change the case. If a row in the imported data is not matched, then it is appended. Existing table rows that do not match the imported data are left unchanged.</p>
+         </div>
+        </div></li>
+       <li>Select&nbsp;the <strong>Save</strong> button.</li>
+      </ol>
+      <h2 id="ImportingandExportingLookupTables-ExportingLookupTables">Exporting Lookup Tables</h2>
+      <p>To export your lookup table data:</p>
+      <ol>
+       <li>Navigate to <strong>Management&gt;Lookup Tables</strong>. The <strong>Lookup Tables</strong> list page is displayed.</li>
+       <li>Choose one of the following methods:
+        <ul>
+         <li>Select the the appropriate table to display the lookup table details page and click the <strong>Export</strong> link for the Lookup Values or Lookup Failures table.</li>
+         <li>Hover your mouse over the <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164091/133164094.png" data-image-src="attachments/133164091/133164094.png" data-unresolved-comment-count="0" data-linked-resource-id="133164094" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LookupIcon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164091" data-linked-resource-container-version="1"></span> icon and click the <strong>Export Values</strong> or <strong>Export Failures</strong> link in the popover.</li>
+        </ul></li>
+       <li><p>Save the <code>.csv</code> file to a convenient location. The <code>.csv</code> file is UTF-8 encoded and, by default, has a filename that matches the table ID.</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>The format of the file name of an export values file is <code>LookupTable-&lt;id&gt;-values-&lt;date of creation&gt;-&lt;time of creation&gt;</code> and for an export failures file <code>LookupTable-&lt;id&gt;-failures-&lt;date of creation&gt;-&lt;time of creation&gt;</code>, for example <code>LookupTable-22-values-20110908-092341.csv</code> and <code>LookupTable-22-failures-20110908-092341.csv</code>, respectively.</p>
+         </div>
+        </div></li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

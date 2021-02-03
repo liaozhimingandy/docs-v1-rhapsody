@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>How Bouncy Castle Handles Rijndael Keys</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Managing-Certificates-and-Keys_133161222.html">Managing Certificates and Keys</a></span> </li> 
+       <li> <span><a href="Managing-Symmetric-Keys_133161243.html">Managing Symmetric Keys</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">How Bouncy Castle Handles Rijndael Keys</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Keys saved using the Rijndael algorithm are actually saved with the Advanced Encryption Standard (AES) algorithm in certain cases.</p>
+      <p>From the <a href="Managing-Symmetric-Keys_133161243.html">Symmetric Keys</a> tab in the <strong>Certificate and Key Manager</strong>, generate:</p>
+      <ol>
+       <li>A Rijndael key using the default key size for the algorithm.&nbsp;The key is generated with the AES algorithm and a key size of 128 bits.</li>
+       <li>A Rijndael key of size 192 bits.&nbsp;The key is generated with the AES algorithm and a key size of 192 bits.</li>
+       <li>A Rijndael key of size 256 bits.&nbsp;The key is generated with the AES algorithm and a key size of 256 bits.</li>
+       <li><p>A Rijndael key of size 255 bits.&nbsp;The key is generated with the Rijndael algorithm and a key size of 256 bits.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>255 bits is a valid size for the AES algorithm, but Bouncy Castle creates the key using the Rijndael algorithm.</p>
+         </div>
+        </div></li>
+       <li>A Rijndael key of size 168 bits.&nbsp;The key is generated with the Rijndael algorithm and a key size of 168 bits.&nbsp;</li>
+      </ol>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161247/133161248.png" data-image-src="attachments/133161247/133161248.png" data-unresolved-comment-count="0" data-linked-resource-id="133161248" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Quirks1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161247" data-linked-resource-container-version="1"></span> <br class="atl-forced-newline"> <br class="atl-forced-newline"> The Advanced Encryption Standard (AES) is a subset of the Rijndael algorithm. The AES algorithm is a 128-bit block cipher that supports three different key sizes: 128, 192 and 256 bits. The Rijndael algorithm has a greater range of valid key sizes. Bouncy Castle checks the key size for the Rijndael algorithm and if it meets the AES standard, then it saves the key as AES.</p>
+      <p>If the key is generated from the <a href="Symmetric-Cryptography_133162096.html">Symmetric Cryptography filter</a>, then the Rijndael key is not displayed when you select the&nbsp;<strong>...</strong>&nbsp;button in the <strong>Symmetric Key Name</strong> field, because the keys are filtered by algorithm type:<br class="atl-forced-newline"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161247/133161250.png" data-image-src="attachments/133161247/133161250.png" data-unresolved-comment-count="0" data-linked-resource-id="133161250" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Quirks2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161247" data-linked-resource-container-version="1"></span> <br class="atl-forced-newline"> <br class="atl-forced-newline"> You have to change the <strong>Cipher Name</strong> to <code>AES</code> for the other keys to be displayed:<br class="atl-forced-newline"> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161247/133161249.png" data-image-src="attachments/133161247/133161249.png" data-unresolved-comment-count="0" data-linked-resource-id="133161249" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Quirks3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161247" data-linked-resource-container-version="1"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

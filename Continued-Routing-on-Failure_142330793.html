@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Continued Routing on Failure</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Advanced-Routing_133308065.html">Advanced Routing</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Continued Routing on Failure</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Continued routing on failure is an&nbsp;Advanced Routing mode that provides custom error handling by,&nbsp;for example, enabling an output communication point to re-route messages for further processing upon transmission failure instead of sending them directly to the Error Queue.</p>
+      <p><span style="color: rgb(51,51,51);">This functionality is available at all times for communication points operating in&nbsp;<em>Output</em>,&nbsp;<em>Out-&gt;In</em>, and&nbsp;<em>Bidirectional</em>&nbsp;modes.&nbsp;Continued routing on failure is enabled on an output communication point when it is placed on the <em style="letter-spacing: 0.0px;">input</em> side of the route, and its error output connector ('red lollipop') is connected to another component (in other words, a filter) in the route. Failed messages received by the communication point are sent to the Failed Queue for processing.&nbsp;Failed messages are&nbsp;populated with error-related message properties, which can be used to&nbsp;configure downstream route logic to handle failed messages automatically, instead of requiring manual user intervention&nbsp;when they are sent to the Error Queue.&nbsp;A failed message in this context is a message that fails to transmit due to message errors, connection errors (after retries have been exceeded),&nbsp;or as per the action configured in&nbsp;a message tracking scheme.</span></p>
+      <p>The Management Console enables you to search for failed messages via the Output Search page, and also provides message counts for the Failed Queue and Failed Archive (in addition to error messages in the Error Queue) for a communication point.</p>
+      <p>Continued routing on failure&nbsp;can be used in conjunction with <a href="Continued-Routing-on-Success_142330783.html">continued routing on success</a>, so that further actions can be performed for both successfully transmitted messages and failed messages by the same output communication point.</p>
+      <p><span style="letter-spacing: 0.0px;">Refer to the following sections for&nbsp;details:</span></p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146963064 {padding: 0px;}
+div.rbtoc1565146963064 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146963064 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146963064"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ContinuedRoutingonFailure-Configuring">Configuring</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ContinuedRoutingonFailure-ConnectionErrors">Connection Errors</a></li> 
+          <li><a href="#ContinuedRoutingonFailure-MessageErrors">Message Errors</a></li> 
+          <li><a href="#ContinuedRoutingonFailure-MessageTracking">Message Tracking</a></li> 
+         </ul> </li> 
+        <li><a href="#ContinuedRoutingonFailure-Monitoring">Monitoring</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ContinuedRoutingonFailure-MessageEvents">Message Events</a></li> 
+          <li><a href="#ContinuedRoutingonFailure-FailedQueue">Failed Queue</a></li> 
+          <li><a href="#ContinuedRoutingonFailure-OutputSearch">Output Search</a></li> 
+          <li><a href="#ContinuedRoutingonFailure-Notifications">Notifications</a></li> 
+         </ul> </li> 
+        <li><a href="#ContinuedRoutingonFailure-InfiniteLoopDetection">Infinite Loop Detection</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="500" src="attachments/142330793/142330790.png" data-image-src="attachments/142330793/142330790.png" data-unresolved-comment-count="0" data-linked-resource-id="142330790" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Advanced Routing Route 1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="142330793" data-linked-resource-container-version="47"></span>&nbsp;&nbsp;<span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="500" src="attachments/142330793/142330791.png" data-image-src="attachments/142330793/142330791.png" data-unresolved-comment-count="0" data-linked-resource-id="142330791" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Advanced Routing Route 2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="142330793" data-linked-resource-container-version="47"></span></p>
+      <h2 id="ContinuedRoutingonFailure-Configuring"><span style="color: rgb(51,51,51);">Configuring</span></h2>
+      <p><span style="color: rgb(51,51,51);">To configure continued routing on failure:<br></span></p>
+      <ol>
+       <li><p>Drag and drop an output communication point that requires failed message handling to the&nbsp;<em>input side</em>&nbsp;of the route.</p></li>
+       <li><p>An error output connector (as in the 'red lollipop' normally displayed for filters) is automatically displayed on the output communication point when it is placed on the route's input side. The&nbsp;error output connector is shown by default for all communication points placed on a route's input side that are configured in&nbsp;<em>Output</em>,&nbsp;<em>Out→In</em>&nbsp;or&nbsp;<em>Bidirectional</em>&nbsp;mode.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Rhapsody IDE does not display the error output connector for Sink, Dynamic Router and Error Message Redirector communication points because they transfer messages to another route within the engine and hence technically cannot fail to send.</p>
+         </div>
+        </div></li>
+       <li>Use a connector&nbsp;to connect the error output connector to the components configured for processing failed messages in the route; if the error output connector is not connected, failed messages are sent to the Error Queue.&nbsp;For details on, messages that fail due to:
+        <ul>
+         <li>Message errors, refer to&nbsp;<a href="#ContinuedRoutingonFailure-MessageErrors">Message Errors</a>.</li>
+         <li>Connection errors, refer&nbsp;to <a href="#ContinuedRoutingonFailure-ConnectionErrors">Connection Errors</a>.</li>
+         <li><span style="letter-spacing: 0.0px;"><span style="letter-spacing: 0.0px;">A particular </span></span>response code or error option configured<span style="letter-spacing: 0.0px;"><span style="letter-spacing: 0.0px;"> in a message tracking scheme, r</span></span>efer to&nbsp;<a href="#ContinuedRoutingonFailure-MessageTracking">Message Tracking</a>.</li>
+        </ul></li>
+      </ol>
+      <p>You can, if required, combine continued routing on success with continued routing&nbsp;on failure. In this case, a connector can be placed on the communication point to components in the route to handle successful messages, and the communication point's&nbsp;the error output&nbsp;connector can be connected to components to handle failed messages.</p>
+      <p>In the following example, the route receives processed messages from an upstream route and uploads them to an SFTP Server&nbsp;via an (S)FTP Client communication point running in&nbsp;<em>Output</em>&nbsp;mode. Using Advanced Routing, when a message is successfully transmitted, the&nbsp;(S)FTP Client communication point sends&nbsp;a notification to users via an Email Client communication point. When the upload fails with a 5xx server return code (indicating a message error),&nbsp;the&nbsp;(S)FTP Client communication point uses a message property to send the message to a&nbsp;database that stores failed messages. If the upload fails for any other reason, the message is sent&nbsp;to a&nbsp;backup SFTP Server.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="1000" src="attachments/142330793/148505652.png" data-image-src="attachments/142330793/148505652.png" data-unresolved-comment-count="0" data-linked-resource-id="148505652" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="AdvancedRoutingUseCase1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="142330793" data-linked-resource-container-version="47"></span></p>
+      <h3 id="ContinuedRoutingonFailure-ConnectionErrors">Connection Errors</h3>
+      <p>Connection errors are&nbsp;transmission failures that typically occur because a communication point could not connect to an external system after<span>&nbsp;exceeding the maximum number of connection retries configured per message</span>.</p>
+      <p>To enable continued routing on failure&nbsp;for connection errors, set the communication point's&nbsp;<strong>Retries Exceeded Action</strong> to <code>Treat as error</code>&nbsp;in the&nbsp;<strong>Connection Retries</strong>&nbsp;panel&nbsp;under the <a href="Connection_133162193.html">Connection</a> tab in the communication point's properties dialog.&nbsp;Refer to&nbsp;<a href="Connection_133162193.html#Connection-ConnectionRetries">Connection Retries</a>&nbsp;for details.</p>
+      <p>Additionally, for communication points in&nbsp;<em>Out→In</em>&nbsp;mode, connection errors are also defined as occurring when no response is received after&nbsp;response timeouts and&nbsp;the maximum number of resends.&nbsp;To enable&nbsp;continued routing on failure&nbsp;in this case, set the communication point's&nbsp;<strong>Fail Action</strong>&nbsp;to&nbsp;<code>Treat as error</code>&nbsp;or <code>Treat as error&nbsp;and close connection</code>&nbsp;in the&nbsp;<strong>Out-&gt;In Mode Connection Properties</strong> panel&nbsp;under the&nbsp;<a href="Connection_133162193.html">Connection</a>&nbsp;tab in the communication point's properties dialog.&nbsp;Refer to&nbsp;<a href="Connection_133162193.html#Connection-Out->InMode">Out-&gt;In Mode Connection Properties</a>&nbsp;for details.</p>
+      <p>When a connection error occurs, the&nbsp;failed message is sent to the error output connector (if the error output connector of the communication point is connected). The following standard message&nbsp;properties are added to the failed message to provide&nbsp;the reason for the failure, so that connected downstream components can determine what course of action to take:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th colspan="1" class="confluenceTh">Message Property</th>
+          <th colspan="1" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>rhapsody:ErrorCause</pre></td>
+          <td class="confluenceTd"><p>Is set to:</p>
+           <ul>
+            <li><code>connection.retries_exceeded</code> to indicate the message was sent to the Failed Queue <span style="color: rgb(51,51,51);">because of a connection error.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>tracking.retries_exceeded</code> to indicate the message was sent to the Failed Queue because of a response timeout for a communication point operating in <em>Out→In</em>&nbsp;mode.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>rhapsody:ErrorCommunicationPointId</pre></td>
+          <td colspan="1" class="confluenceTd">Provides the identifier of the communication point where the message failed.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>rhapsody:ErrorCommunicationPointName</pre></td>
+          <td class="confluenceTd"><p>Provides the name of the communication point where the message failed.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>In previous versions of Rhapsody before Rhapsody 6.5</span>, the connection retries exceeded action for communication points has an option to send messages that fail only to the Error Queue. With the introduction of <span style="color: rgb(51,51,51);">continued routing on failure</span>, the&nbsp;<code>Send to Error Queue</code>&nbsp;option has been replaced by&nbsp;<code>Treat as error</code>. The new option enables routes to handle failed messages if required, or send them to the Error Queue.</p>
+        <p><span><span>Consequently</span><span>, options to redirect messages to input or output communication points have been marked as deprecated</span> for connection errors. </span>While these deprecated options still function as before, it is recommended you use Advanced Routing functionality instead.</p>
+       </div>
+      </div>
+      <h3 id="ContinuedRoutingonFailure-MessageErrors"><span style="color: rgb(51,51,51);">Message Errors</span></h3>
+      <p>Message errors are transmission failures that typically occur when a communication point sends a message that is rejected by a receiving system.</p>
+      <p>When a message error occurs, the&nbsp;<span>failed message is sent to&nbsp;error output connector (if the error output connector of the communication point is connected).&nbsp;T</span>he following standard message properties are added to the failed message to provide&nbsp;the reason for the failure,&nbsp;so that connected downstream components can determine what course of action to take:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="letter-spacing: 0.0px;">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th colspan="1" class="confluenceTh">Message Property</th>
+          <th colspan="1" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>rhapsody:ErrorCause</pre></td>
+          <td class="confluenceTd"><p>Is set to <span><code>transmission.sending</code> to indicate <span>the message was sent to the </span><span>Failed Queue because of a</span><span> message error. S</span></span>ome communication points provide a detailed reason from the underlying connection when it is available via additional message properties.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>rhapsody:ErrorCommunicationPointId</pre></td>
+          <td colspan="1" class="confluenceTd">Provides the identifier of the communication point where the message failed.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>rhapsody:ErrorCommunicationPointName</pre></td>
+          <td class="confluenceTd">Provides the name of the communication point where the message failed.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The following communication points&nbsp;provide additional information for the reason a message error occurred via published message properties.&nbsp;These message properties&nbsp;are supplied when the communication point is unsuccessful in transmitting a message over a connection and receives an error response&nbsp;from the server&nbsp;indicating the failure reason.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="letter-spacing: 0.0px;">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <thead>
+         <tr>
+          <th class="confluenceTh"><p>Communication Point</p></th>
+          <th class="confluenceTh"><p>Supported Mode</p></th>
+          <th colspan="1" class="confluenceTh"><p>Message Properties</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><a href="133162373.html#id-(S)FTPClient-PublishedProperties">(S)FTP Client</a></td>
+          <td class="confluenceTd"><em>Output</em>, <em>Out→In</em></td>
+          <td colspan="1" class="confluenceTd"><code>sftp:ReplyCode</code></td>
+          <td class="confluenceTd">An FTP server return code.</td>
+         </tr>
+         <tr>
+          <td rowspan="3" class="confluenceTd"><a href="Database_133162443.html">Database</a></td>
+          <td rowspan="3" class="confluenceTd"><em>Output</em>, <em>Out→In</em></td>
+          <td colspan="1" class="confluenceTd"><p><code>database:SQLState</code></p></td>
+          <td class="confluenceTd"><p>A success or failure code that conforms to SQL standards.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>database:ErrorCode<br></code></td>
+          <td colspan="1" class="confluenceTd"><p>A vendor specific error code.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>database:ErrorReason </code></td>
+          <td colspan="1" class="confluenceTd"><p>A detailed description of the error.</p></td>
+         </tr>
+         <tr>
+          <td rowspan="3" class="confluenceTd"><a href="Database-Insertion_133162485.html">Database Insertion</a></td>
+          <td rowspan="3" class="confluenceTd"><em>Output</em></td>
+          <td colspan="1" class="confluenceTd"><p><code>databaseInsertion:SQLState</code></p></td>
+          <td class="confluenceTd"><p>A success or failure code that conforms to SQL standards.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>databaseInsertion:ErrorCode</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>A vendor specific error code.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>databaseInsertion:ErrorReason</code></p></td>
+          <td colspan="1" class="confluenceTd"><p>A detailed description of the error.</p></td>
+         </tr>
+         <tr>
+          <td rowspan="2" class="confluenceTd"><a href="HTTP-Client_133162623.html">HTTP Client</a></td>
+          <td rowspan="2" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><em>Output</em>, <em>Out→In</em>*</p>
+           </div></td>
+          <td colspan="1" class="confluenceTd"><code>ResponseCode</code></td>
+          <td class="confluenceTd"><p>An HTTP response code.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>ResponseMessage </code></td>
+          <td colspan="1" class="confluenceTd"><p>An HTTP response status.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><sup>*The message properties already exist for the&nbsp;HTTP Client communication point in&nbsp;<em>Out→In</em>&nbsp;mode. They are made available for the adjacent downstream component when using Advanced Routing.</sup></p>
+      <p><span style="color: rgb(51,51,51);font-size: 16.0px;font-weight: bold;letter-spacing: -0.006em;">User-determined Message Failures</span></p>
+      <p>Rhapsody automatically determines whether a failed message has occurred as a result of a message error or connection error. However, for the following communication points,&nbsp;users can specify whether to treat failed messages as message errors or connection errors, for certain failure causes, by setting a specific configuration property:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th colspan="1" class="confluenceTh">Communication Point</th>
+          <th colspan="1" class="confluenceTh">Configuration Property</th>
+          <th colspan="1" class="confluenceTh">Value</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="Database_133162443.html">Database</a></td>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">Message Errors</span></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><code>Treat as message error</code>&nbsp;(default).</li>
+            <li><code>Treat as connection error</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td rowspan="3" class="confluenceTd"><a href="HTTP-Client_133162623.html">HTTP Client</a></td>
+          <td colspan="1" class="confluenceTd">Dynamic Connection Failed Action</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><code>Treat as message error</code><span>&nbsp;(default).</span></li>
+            <li><code>Mark as connection failed</code>.<span><br></span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>On 4xx Error Response</p></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><code>Treat as message error</code>&nbsp;(default).</li>
+            <li><code>Mark as connection failed</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>On 5xx Error Response</p></td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><code>Treat as message error</code>&nbsp;(default).</li>
+            <li><code>Mark as connection failed</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="TCP-Client_133162495.html">TCP Client</a></td>
+          <td colspan="1" class="confluenceTd">Dynamic Connection Failed Action</td>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li><code>Treat as message error</code>&nbsp;(default).</li>
+            <li><code>Treat as connection error</code>.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="ContinuedRoutingonFailure-MessageTracking">Message Tracking</h3>
+      <p>Failed messages can also be generated by a message tracking scheme as part of&nbsp;<a href="#ContinuedRoutingonFailure-ResponseHandling">response handling</a> and <a href="Error-Handling_133163249.html">error handling</a>.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>In previous versions of Rhapsody before Rhapsody 6.5, message tracking has options to send failed messages only to the Error Queue. <span>With the introduction of </span><span style="color: rgb(51,51,51);">continued routing on failure</span><span>, the&nbsp;</span><code>Send to Error Queue</code><span>&nbsp;option has been replaced by&nbsp;</span><code>Treat as error</code>.<span style="font-family: monospace;"> </span>The new option enables routes to handle failed messages if required, or send them to the Error Queue.</p>
+        <p><span>Consequently</span>, options to redirect messages to input or output communication points have been marked as deprecated <span>for message tracking response and error handling options</span>. While these deprecated options still function&nbsp;as before, it is recommended you use Advanced Routing functionality instead.</p>
+       </div>
+      </div>
+      <h4 id="ContinuedRoutingonFailure-ResponseHandling">Response Handling</h4>
+      <p>In a message tracking scheme, users can specify a message to be treated as failed for <a href="Maintaining-Message-Tracking-Schemes_133161829.html#MaintainingMessageTrackingSchemes-MaintainingResponseCodeActions">a&nbsp;particular response code</a>. This is configured in the message tracking scheme's&nbsp;<strong>Response Handling</strong>&nbsp;tab by setting&nbsp;<strong>Action&nbsp;when received</strong> to&nbsp;<code>Treat as error</code>. Refer to&nbsp;<a href="Maintaining-Message-Tracking-Schemes_133161829.html">Maintaining Message Tracking Schemes</a>&nbsp;for details.</p>
+      <p><span style="color: rgb(51,51,51);font-weight: 600;letter-spacing: -0.003em;">Error Handling</span></p>
+      <p>In a message tracking&nbsp;scheme, users can specify a message to be treated as failed&nbsp;for&nbsp;<a href="Maintaining-Message-Tracking-Schemes_133161829.html#MaintainingMessageTrackingSchemes-NoResponseHandling">no response</a> and <a href="Maintaining-Message-Tracking-Schemes_133161829.html#MaintainingMessageTrackingSchemes-OtherErrorHandlingOptions">other errors</a>. These are configured in the message tracking scheme's&nbsp;<strong>Error Handling</strong>&nbsp;tab by setting <strong>Action after maximum resends</strong> to&nbsp;<code>Treat as error</code>. Refer to&nbsp;<a href="Maintaining-Message-Tracking-Schemes_133161829.html">Maintaining Message Tracking Schemes</a>&nbsp;for details.</p>
+      <h4 id="ContinuedRoutingonFailure-MessageProperties"><span style="color: rgb(51,51,51);">Message Properties</span></h4>
+      <p>A failed message is&nbsp;sent to the error output connector of the communication point (if the error output connector of the communication point is connected).&nbsp;The following standard message properties are added to the failed message to provide&nbsp;the reason for the failure,&nbsp;so that connected downstream components can determine what course of action to take:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th colspan="1" class="confluenceTh">Message Property</th>
+          <th colspan="1" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>rhapsody:ErrorCause</pre></td>
+          <td class="confluenceTd"><p>Provides the reason why the message was sent to the <span>Failed Queue</span>:</p>
+           <ul>
+            <li><code><code>tracking.response.code</code></code><span> -&nbsp;indicates the message&nbsp;was failed as per the configured response action in the message tracking scheme for the response code.</span></li>
+            <li><code>tracking.retries_exceeded</code> - no response was received after the maximum number of resends.</li>
+            <li><code>tracking.message.unrecognized</code> - an unrecognized original message was received.</li>
+            <li><code>tracking.message.duplicate</code> - a duplicate original message was received.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre>rhapsody:ErrorCommunicationPointId</pre></td>
+          <td colspan="1" class="confluenceTd"><span>Provides the identifier of the communication point where the message failed.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>rhapsody:ErrorCommunicationPointName</pre></td>
+          <td class="confluenceTd"><p><span>Provides the name of the communication point where the message failed.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ContinuedRoutingonFailure-Monitoring"><span style="color: rgb(51,51,51);font-size: 20.0px;letter-spacing: -0.008em;">Monitoring</span></h2>
+      <h3 id="ContinuedRoutingonFailure-MessageEvents">Message Events</h3>
+      <p>On the Management Console's&nbsp;<a href="Message-View_133163772.html">Message View</a>&nbsp;page, message events are displayed in a single path for a communication point using continued routing on failure. A message failing to send is indicated as a message event in Message View:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="250" src="attachments/142330793/142330792.png" data-image-src="attachments/142330793/142330792.png" data-unresolved-comment-count="0" data-linked-resource-id="142330792" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="ContinuedRoutingOnFailure.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="142330793" data-linked-resource-container-version="47"></span></p>
+      <h3 id="ContinuedRoutingonFailure-FailedQueue">Failed Queue</h3>
+      <p>Communication points, with continued routing on failure configured, send failed messages&nbsp;to&nbsp;a queue called the Failed Queue for processing.</p>
+      <p>The&nbsp;<a href="Monitoring-Communication-Points_133163693.html">Monitoring Communication Points</a> page displays:</p>
+      <ul>
+       <li>The number of unprocessed failed messages on the Failed Queue for a communication point.</li>
+       <li>The total number of failed messages processed by a communication point in the Failed Archive.</li>
+      </ul>
+      <p>The <a href="Communication-Point-Details_133163702.html">Communication Point Details</a> page displays:</p>
+      <ul>
+       <li>A graph depicting failed message throughput statistics for the communication point.</li>
+       <li>The number of messages failed by the communication point since the communication point was created and started for the first time.</li>
+       <li>The number of messages failed by the communication point since the count was reset.</li>
+       <li><span style="letter-spacing: 0.0px;">The number of messages </span><span style="letter-spacing: 0.0px;">queued for processing</span><span style="letter-spacing: 0.0px;"> by the communication point via </span><span style="letter-spacing: 0.0px;">Advanced Routing (continued routing on failure)</span><span style="letter-spacing: 0.0px;">, but which cannot be sent on&nbsp;because the receiving system is unavailable.</span></li>
+       <li>Whether the communication point is configured to continue routing on success.<span style="letter-spacing: 0.0px;"><br></span></li>
+      </ul>
+      <h3 id="ContinuedRoutingonFailure-OutputSearch">Output Search</h3>
+      <p>Output search results include messages that have failed as a result of connection errors or message errors. Refer to <a href="Output-Search_133163845.html">Output Search</a> for details.</p>
+      <h3 id="ContinuedRoutingonFailure-Notifications">Notifications</h3>
+      <p>A notification alert is raised if the Failed Queue of a communication point is not empty for a user-defined period of time. Refer to <a href="Default-Settings_133163925.html#DefaultSettings-CommunicationPoints">Default Settings</a> for the default settings for notification thresholds for communication points.</p>
+      <h2 id="ContinuedRoutingonFailure-InfiniteLoopDetection">Infinite Loop Detection</h2>
+      <p>As in the case of the&nbsp;<a href="Dynamic-Router_133162358.html">Dynamic Router</a>&nbsp;communication point, communication points using Advanced Routing provide some&nbsp;built-in protection against accidental infinite loops through a configurable limit on the number of times that a single input message can be sent by a communication point. Refer to&nbsp;<a href="Dynamic-Router_133162358.html#DynamicRouter-InfiniteLoopDetection">Infinite Loop Detection</a>&nbsp;for details.<br> </p>
+      <div>
+       <span style="letter-spacing: 0.0px;"><br></span>
+      </div>
+      <div>
+       <span style="color: rgb(255,0,0);"><br></span>
+      </div> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

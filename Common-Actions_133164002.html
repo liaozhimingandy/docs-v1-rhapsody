@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Common Actions</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Accessing-the-Management-Console_133163988.html">Accessing the Management Console</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Common Actions</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section details actions that are common across the Management Console:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147011247 {padding: 0px;}
+div.rbtoc1565147011247 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147011247 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147011247"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CommonActions-AccesstoDoki">Access to Doki</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#CommonActions-ChangingDocumentationURL">Changing Documentation URL</a></li> 
+          <li><a href="#CommonActions-ChangingtheDocumentationTooltip">Changing the Documentation Tooltip</a></li> 
+          <li><a href="#CommonActions-EnablingandDisablingtheHelpDocumentation">Enabling and Disabling the Help Documentation</a></li> 
+         </ul> </li> 
+        <li><a href="#CommonActions-ManagingTables">Managing Tables</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#CommonActions-SortingbyColumn">Sorting by Column</a></li> 
+         </ul> </li> 
+        <li><a href="#CommonActions-ConfiguringColumns">Configuring Columns</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="CommonActions-AccesstoDoki">Access to Doki</h2>
+      <p>Documentation Help enables you to connect to the Rhapsody Documentation Wiki (Doki). When enabled, the <strong>Documentation Help</strong> icon&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164002/133164003.png" data-image-src="attachments/133164002/133164003.png" data-unresolved-comment-count="0" data-linked-resource-id="133164003" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="help.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span>&nbsp;is displayed in the top right-hand corner of Management Console pages:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" width="1000" src="attachments/133164002/133164009.png" data-image-src="attachments/133164002/133164009.png" data-unresolved-comment-count="0" data-linked-resource-id="133164009" data-linked-resource-version="4" data-linked-resource-type="attachment" data-linked-resource-default-alias="ManagemeneConsoleHeaderBar.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span></p>
+      <p>When you click the icon, a new browser tab opens and connects to the documentation home of the Rhapsody Interface Engine at <i>https://doki.orionhealth.com/display/public/RHAP/Home.</i></p>
+      <p>You can configure the behavior of the Documentation Help through the following properties in the <code>rhapsody.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence"># Configure the enable state of the documentation icon in the the web management console
+#WebMonitorService.documentationHelp.enabled=true
+# Configure the URL to link to the documentation help page  
+#WebMonitoringService.documentationHelp.url=
+# Configure the tooltip text showing on the documentation help icon
+#WebMonitoringService.documentationHelp.tooltip=</pre> 
+       </div>
+      </div>
+      <h3 id="CommonActions-ChangingDocumentationURL">Changing Documentation URL</h3>
+      <p>You can change the default documentation URL by setting the <code>WebMonitoringService.documentationHelp.url</code> property:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Value</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Blank value (default).</p></td>
+          <td class="confluenceTd"><p>Default documentation URL.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Entry missing or commented out.</p></td>
+          <td class="confluenceTd"><p>Default <span>documentation </span>URL.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Entry present with a valid URL.</p></td>
+          <td class="confluenceTd"><p>The value overrides the default <span>documentation </span>URL.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="CommonActions-ChangingtheDocumentationTooltip">Changing the Documentation Tooltip</h3>
+      <p>You can change the default tooltip&nbsp;on the <strong>Documentation Link</strong><span>&nbsp;icon&nbsp;</span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164002/133164003.png" data-image-src="attachments/133164002/133164003.png" data-unresolved-comment-count="0" data-linked-resource-id="133164003" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="help.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span>&nbsp;by setting the <code>WebMonitoringService.documentationHelp.tooltip</code> property:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Value</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Blank value (default).</p></td>
+          <td class="confluenceTd"><p>Default <span>tooltip </span>to connect to the online documentation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Entry missing or commented out.</p></td>
+          <td class="confluenceTd"><p><span>Default tooltip to connect to the online documentation.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span>Entry present with non-blank value.</span></p></td>
+          <td class="confluenceTd"><p>The value overrides the default tooltip text.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="CommonActions-EnablingandDisablingtheHelpDocumentation">Enabling and Disabling the Help Documentation</h3>
+      <p>To enable or disable Documentation Help, set the <code>WebMonitorService.documentationHelp.enabled</code> property:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Value</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Entry missing<span> or commented out.</span></p></td>
+          <td class="confluenceTd"><p>Icon present.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span>True (default).</span></p></td>
+          <td class="confluenceTd"><p>Icon present.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span>False.</span></p></td>
+          <td class="confluenceTd"><p><span>Icon not present.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="CommonActions-ManagingTables">Managing Tables</h2>
+      <h3 id="CommonActions-SortingbyColumn">Sorting by Column</h3>
+      <p>To sort a table by column:</p>
+      <ul>
+       <li><span>Click the column's heading name.</span></li>
+       <li><span>Re-click the column's&nbsp;heading name to toggle between ascending and descending order, denoted by the<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164002/133164010.png" data-image-src="attachments/133164002/133164010.png" data-unresolved-comment-count="0" data-linked-resource-id="133164010" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="sort-asc.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span>and<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164002/133164011.png" data-image-src="attachments/133164002/133164011.png" data-unresolved-comment-count="0" data-linked-resource-id="133164011" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="sort-desc.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span>icons, respectively.</span></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If you are monitoring components, ensure you are viewing the table in list view.</p>
+       </div>
+      </div>
+      <h2 id="CommonActions-ConfiguringColumns">Configuring Columns</h2>
+      <p>To configure which columns to display in the search table, c<span style="line-height: 13.0pt;">lick the </span><strong style="line-height: 13.0pt;">Add</strong><span style="line-height: 13.0pt;"> icon </span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164002/133164012.png" data-image-src="attachments/133164002/133164012.png" data-unresolved-comment-count="0" data-linked-resource-id="133164012" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="plus.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span>&nbsp;<span style="line-height: 13.0pt;">to display the <strong>Display Column</strong> dialog:</span></p>
+      <ul>
+       <li>Select the columns you want&nbsp;to be displayed in the search table.</li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Deselect the columns you want&nbsp;to be hidden in the&nbsp;search table.</span></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Fields that are greyed out are required fields, and cannot be hidden.</p>
+       </div>
+      </div>
+      <p><br> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

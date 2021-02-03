@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Preventing Non-administrators Accepting Self-signed Certificates</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Rhapsody-Server-Authentication_133161184.html">Rhapsody Server Authentication</a></span> </li> 
+       <li> <span><a href="Administrative-Control-of-Rhapsody-Server-Authentication_133161185.html">Administrative Control of Rhapsody Server Authentication</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Preventing Non-administrators Accepting Self-signed Certificates</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>In a default installation, it is possible for any Rhapsody IDE user to accept a connection to a Rhapsody engine that uses a self-signed certificate, provided the certificate is otherwise valid and the other authentication criteria are met. However, in some cases this may not be desirable.</p>
+      <p>It is possible to set a flag in the registry to prevent the Rhapsody IDE from connecting to a Rhapsody engine that uses a self-signed certificate unless engine has been pre-approved by an administrator. This is done by creating a <code>DWORD</code> value called <code>AllowUserSelfSignedCertificates</code> with a value of zero in one of the following registry keys:</p>
+      <ul>
+       <li><code>HKEY_LOCAL_MACHINE\Software\Rhapsody\Rhapsody IDE 6\Engines</code> (32-bit).</li>
+       <li><code>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Rhapsody\Rhapsody IDE 6\Engines</code> (64-bit).</li>
+      </ul>
+      <p>The connection details for 32-bit and 64-bit computers are stored in different locations. The relevant architecture here is the computer the Rhapsody IDE is running on, not the architecture the Rhapsody engine is running on.</p>
+      <p>If this registry value is set, then the Rhapsody IDE does not allow the user to connect to a Rhapsody engine using a self-signed certificate unless the connection details (including the certificate thumbprint) for that engine can be found in the registry already under <code>HKEY_LOCAL_MACHINE</code>. Connection details for engines using self-signed certificates stored under <code>HKEY_CURRENT_USER</code> are ignored when this flag is set.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        The user can accept connections to Rhapsody engines using certificates issued by a trusted certificate authority normally.
+       </div>
+      </div>
+      <p>If this option is enabled, one of the following two modes of operation is in use:</p>
+      <ul>
+       <li>Rhapsody engines use self-signed certificates, and the connection details for these engines are manually added by the system administrator as required. It is likely that the registry values for these connection details are pushed out via domain policy.</li>
+       <li>Rhapsody engines use certificates issued by a trusted root certificate which is trusted by computers running the Rhapsody IDE. Often this root certificate is for an internal organization certificate authority, and the certificate is pushed out via domain policy.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

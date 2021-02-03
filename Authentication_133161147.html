@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Authentication</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Authentication</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This section provides details about the authentication mechanism used for the Rhapsody REST API. It includes examples of how this API can be called, in this case using the cURL command line application (available on most *nix installations by default, and can be downloaded for <em>Windows®</em>).</p>
+      <h2 id="Authentication-BasicHTTPAuthentication">Basic HTTP Authentication</h2>
+      <p>The REST APIs perform authentication using basic HTTP authentication over an HTTPS connection. Though basic HTTP authentication effectively sends the plain-text password, the HTTPS connection ensures it is not visible to any observing third party. Basic HTTP authentication using cURL is performed as follows:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">curl -v -k --basic -u administrator:rhapsody -H "Accept: application/json" https://localhost:8444/api/alerts/active
+</pre> 
+       </div>
+      </div>
+      <ul>
+       <li><code>-v</code>&nbsp;– verbose mode.</li>
+       <li><code>-k</code>&nbsp;–&nbsp;turns off SSL server authentication.</li>
+       <li><code>--basic</code>&nbsp;–&nbsp;enables basic HTTP authentication.</li>
+       <li><code>-u: administrator:rhapsody</code> –&nbsp;logs in using a username <code>administrator</code> and a password <code>rhapsody</code>.</li>
+       <li><code>-H "Accept: application/json"</code>&nbsp;–&nbsp;requests the REST web service to return the response data in JSON format (rather than HTML which is the default). The response to this particular request is JSON data containing the active alerts in the Rhapsody engine.</li>
+      </ul>
+      <h2 id="Authentication-HTTPSServerAuthentication">HTTPS Server Authentication</h2>
+      <p>Basic HTTP authentication uses HTTPS to make the connection, but explicitly disables server authentication. Even though the connection is encrypted, it is vulnerable to a man-in-the-middle attack as the request does not verify that it is connected to the server it thinks that it is connected to. The <code>-k</code> parameter tells cURL to disable this authentication. While this is is acceptable for a testing environment, but is obviously not ideal for a production scenario where it is desirable to guarantee that a man-in-the-middle attack is not possible. Removing the <code>-k</code> parameter, however, causes the cURL command to fail since it does not trust the server it is connecting to.</p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>While many of the REST APIs can be called over both HTTP and HTTPS, it should be noted that standard HTTP is not secure and therefore should not be used in most cases. It is subject to various forms of attacks, including but not limited to eavesdropping, man-in-the-middle and replay attacks, which will compromise the security of the connection. It is instead recommend that standard HTTP be disabled and the Management Console and REST API accessed solely using HTTPS. See&nbsp;</span> <a href="Using-a-User-defined-Certificate-for-the-HTTPS-Mode_133163995.html">Using a User-defined Certificate for the HTTPS Mode</a> <span>&nbsp;for how to configure the HTTPS certificate and enable or disable the HTTP port.</span></p>
+       </div>
+      </div>
+      <p>To allow cURL to connect to the Rhapsody REST API over HTTPS with server authentication, do the following:</p>
+      <ol>
+       <li>Download the SSL certificate from the Rhapsody server, and store it on the disk in Privacy Enhanced Mail (PEM) format.</li>
+       <li>Provide the SSL certificate to cURL when it is run.</li>
+       <li>Ensure that the URL provided to cURL contains the actual hostname of the server. For example, do not use <code>localhost</code>.</li>
+      </ol>
+      <h3 id="Authentication-DownloadtheSSLCertificate">Download the SSL Certificate</h3>
+      <p><span style="color: rgb(0,0,0);">To retrieve the SSL certificate:</span></p>
+      <ol>
+       <li>Start the Rhapsody HTTPS Management Console. By default the URL is <code>https://&lt;enginename&gt;:8444/rhapsody</code>. This generates SSL certificate errors unless the certificate has previously been explicitly trusted (or a CA issued certificate has been obtained and installed), but does provide a way to open and then download the certificate.</li>
+       <li>If using IE, continue past the SSL errors, then click the Certificate Error icon in the address bar and select <strong>View Certificates</strong>. <br>If using Chrome, click the Security icon at the start of the address bar and then the <strong>Certificate Information</strong> link. <br>This shows the SSL certificate in the standard <em>Windows®</em> certificate viewer.</li>
+       <li>Download the certificate by selecting the <strong>Details</strong> tab at the top of the window, then click the <strong>Copy to File...</strong> button on the <strong>Details</strong> window. This starts the Certificate Export wizard.</li>
+       <li>Export the certificate as<strong> DER encoded binary X.509 (.CER)</strong>, which corresponds to the PEM certificate format expected by cURL.</li>
+       <li>Save the certificate to the disk, and note its location and filename.</li>
+      </ol>
+      <h3 id="Authentication-cURLandServerAuthentication">cURL and Server Authentication</h3>
+      <p>cURL can then be called as follows to use the downloaded certificate:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">curl -v --cacert &lt;theCertificate.cer&gt; --basic -u administrator:rhapsody -H "Accept: application/json" https://server:8444/api/alerts/active
+</pre> 
+       </div>
+      </div>
+      <p>The <code>--cacert</code> parameter tells cURL when its trusted certificates can be found, and so is directed to the Rhapsody server's certificate by giving it the path to the download certificate file (encapsulate it within double quotes if the path contains spaces). SSL authentication only succeeds if the server you are connecting to presents either the certificate you already have, or a certificate issued by that certificate, and so consequently prevents man-in-the-middle attacks. This SSL authentication is done prior to sending the username and password, so an attacker is unable to view this information before cURL terminates the connection.</p>
+      <p>It is essential that the URL used to connect to the Rhapsody REST API contains the real hostname for the machine - specifically it must use one of the hostnames that are included in the SSL certificate. If it fails to do this, then cURL will abort the connection due to a hostname mismatch. SSL certificates generated for a Rhapsody engine at installation time include all hostnames available for that machine at the time Rhapsody is first started; on the other hand, manually generated SSL certificates may not. View the certificate (double-click it in <em>Windows®</em>) to see which hostnames are included by looking at the Subject (the CN attribute) and the <code>SubjectAltnerativeNames</code> extension.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

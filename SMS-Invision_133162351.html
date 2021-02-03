@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>SMS Invision</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">SMS Invision</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162351/133162352.jpg" data-image-src="attachments/133162351/133162352.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162352" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_commptdefault.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162351" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>SMS Invision</strong> communication point&nbsp;connects to a remote TN3270 server using the LU2.1 protocol and listens for connections on the port specified by the Remote Host and Remote Port properties. The optional properties Local Address and Local Port can be used to force the communication point to connect using a specific interface and local TCP/IP port number.</p>
+      <p>Generally, the TN3270 server is a <em>Microsoft</em>® SNA server or <em>IBM</em> communications server. The Remote Port for these systems is generally <code>23</code>.</p>
+      <p>The SMS Invision communication point also needs to know which Logical Unit (LU) (also known as the terminal ID) to connect to, and the CICS log-on string. The LU is normally an 8 character string and for SMS outbound interfaces this would be the terminal ID for the interface.</p>
+      <p>The CICS log-on string determines whether the connection is to the Test or Production system. This string can be the CICS region to connect to or be of the form:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">LOGON APPLID=CICS????</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For communicating between two Transaction Programs (TPs) using the&nbsp;LU6.2 protocol, use the <a href="SNA-LU6.2_133162551.html">SNA LU6.2</a> communication point.</p>
+       </div>
+      </div>
+      <p>Supported Operational Modes: <em>Input</em>, <em>Output</em>.</p>
+      <h2 id="SMSInvision-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Host</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the TN3270 server to which you want to connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Port</p></td>
+          <td class="confluenceTd"><p>The port number on the remote host to which to connect. This should generally be set to <code>23</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p><span>The hostname or</span>IP address of the local interface to which to bind the socket connection (all interfaces if empty).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p><span>The port</span> number to which to bind the local socket.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br> If <code>True</code>, the secure socket layer is used for this connection and all messages are encrypted.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details on TLS/SSL (Transport Layer Security/Secure Sockets Layer) support in Rhapsody. <br class="atl-forced-newline">Refer to <a href="http://en.wikipedia.org/wiki/Ssl" class="external-link" rel="nofollow">http://en.wikipedia.org/wiki/Ssl</a> for details on SSL.</p>
+              <p>It is recommended that SSL be enabled for TCP Client communication points whenever it is supported by the remote server.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><p><span>The SSL Protocol Mode that should be used.<span>&nbsp;</span>Defaults to <code>TLSv1.2</code> for newly created communication points.</span></p><p><span><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td colspan="1" class="confluenceTd"><p>Limits the SSL cipher suites that can be used, allowing a minimum encryption level to be set:</p>
+           <ul>
+            <li><code>Very Strong Cipher Suites (AES-256)</code>.</li>
+            <li><code>FIPS Cipher Suites (AES-128, AES-256, TripleDES-168)</code><span> <span>(default)</span></span>.</li>
+            <li><code>Strong Cipher Suites (AES-128, AES-256, TripleDES-168, RC4-128)</code>.</li>
+            <li><p><code>Weak Cipher Suites (AES-128, AES-256, TripleDES-168, RC4-128, DES-56, DES-40, RC-40)</code>.</p></li>
+           </ul><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL Client Mode</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br>If <code>True</code>, SSL client mode is implemented.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p><span>Identifies the private keys used for authenticating Rhapsody's end of the SSL connection. When configured with a private key, the SSL client supports SSL client authentication if requested by the SSL server.</span></p><p><span><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a><span> for details.</span></span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p><span>Identifies the trusted certificates used at the non-Rhapsody end of the SSL connection. If it is not configured with the SSL server's certificate, then this SSL client operates in anonymous server authentication mode. It is highly recommended that the server's certificate always be provided here to allow server authentication to be performed.</span></p><p><span><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span> for details.</span></span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>CICS Logon String</p></td>
+          <td class="confluenceTd"><p>The string to send to the mainframe once connected to the LU.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>LU Name</p></td>
+          <td class="confluenceTd"><p>The name of the 'Logical Unit' to which to connect. If empty, then the TN3270 server automatically chooses one for you.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SC63 Compression</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br> If <code>True</code>, the messages sent are compressed using SC63 space compression and received messages are decompressed.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Region Code</p></td>
+          <td class="confluenceTd"><p>The two character region code configured on the SMS Invision system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Hospital Code</p></td>
+          <td class="confluenceTd"><p>The two character hospital code configured on the SMS Invision system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>System ID</p></td>
+          <td class="confluenceTd"><p>The two character system ID that determines the destination of the messages sent to the SMS Invision system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br> If <code>True</code>, establishing and dropping of all connections to the communication point are logged to the log file specified in the <strong>Connection Log File</strong> property.<br> Use of this logging facility slows the communication point down considerably. It is intended for debugging purposes and should not generally be used.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br> If <code>True</code>, all data passed over the connections of the communication point is logged to the log file. This is potentially a lot of data.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Options: <code>True</code>, <code>False</code>. Default: <code>False</code><br> If <code>True</code>, the hexadecimal representation of the data is logged to the log file.<br> If <code>False</code>, the data is logged exactly as it is as it passes over the communication point connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The full file name (path and file name) of the file on the server to which to log the information.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Specify if timestamps should be logged with each event.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

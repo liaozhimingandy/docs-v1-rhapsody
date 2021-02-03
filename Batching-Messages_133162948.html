@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Batching Messages</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="133162940.html">Batch / De-batch</a></span> </li> 
+       <li> <span><a href="Batching-and-De-batching-Messages_133162943.html">Batching and De-batching Messages</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Batching Messages</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>To create a batch of messages, the <strong>Mode</strong> configuration property must be set to <code>Batch</code>, and separator information must be defined in the <strong>Separator</strong> property, as shown in the following screenshot:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162948/133162949.png" data-image-src="attachments/133162948/133162949.png" data-unresolved-comment-count="0" data-linked-resource-id="133162949" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DebatchMessageConfig.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162948" data-linked-resource-container-version="1"></span></p>
+      <p>The default (separate messages) means that the separator character will be used between each message only, with no trailing separator at the end of the last message.</p>
+      <p>To define the size of the batch message created, <a href="133163388.html">Message Collector</a> properties of the filter are used. The <a href="133163388.html">Message Collector</a>&nbsp;properties allow the filter to wait for a set number of messages, or a set amount of time. Select the required option in the <strong>Message Collector Type</strong> field.</p>
+      <h2 id="BatchingMessages-BatchingMessagesbyNumberofMessages">Batching Messages by Number of Messages</h2>
+      <p>In the following example, the <strong>Batch / De-batch</strong> filter collects messages from the input source, and when three messages are received, the batch is sent:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162948/133162950.png" data-image-src="attachments/133162948/133162950.png" data-unresolved-comment-count="0" data-linked-resource-id="133162950" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DebatchMessageCollector.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162948" data-linked-resource-container-version="1"></span></p>
+      <p>Refer to <a href="133163388.html">Message Collector</a> for a description of each of these settings.</p>
+      <h2 id="BatchingMessages-BatchingMessagesbyTime">Batching Messages by Time</h2>
+      <p>In the following example, the <strong>Batch / De-batch</strong> filter collects messages from the input source, and then every 60 minutes all current messages are sent as a batch.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162948/133162951.png" data-image-src="attachments/133162948/133162951.png" data-unresolved-comment-count="0" data-linked-resource-id="133162951" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DebachTimeHoldConfig.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162948" data-linked-resource-container-version="1"></span></p>
+      <p>Refer to <a href="133163388.html">Message Collector</a> for a description of each of these settings.&nbsp;In this example the <strong>Message Collector Type</strong> is set to <code>Size and/or Time</code>. The time period to hold on to the messages is defined by the <strong>Message Set Timeout</strong> and <strong>Timeout Units</strong> properties.</p>
+      <p>The debatch filter will send a message batch every 60 minutes. The messages within the batch will be separated by the @ as defined on the Configuration tab.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

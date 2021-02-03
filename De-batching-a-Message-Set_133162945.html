@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>De-batching a Message Set</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="133162940.html">Batch / De-batch</a></span> </li> 
+       <li> <span><a href="Batching-and-De-batching-Messages_133162943.html">Batching and De-batching Messages</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">De-batching a Message Set</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>This scenario involves reading a batched message set that is separated by the non-printable characters: ETX and EOT (End of Text and End Of Transmission respectively). Then splitting this message into several messages whenever this separator pair occurs.</p>
+      <h2 id="De-batchingaMessageSet-ConfiguringtheFilter">Configuring the Filter</h2>
+      <p>Debatching a message set that contains non-printable characters, requires configuring two parameters:</p>
+      <ol>
+       <li>The <strong>Mode</strong> must be set to <code>De-batch</code>.</li>
+       <li>The <strong>Message Separator Expression</strong> requires a regular expression string that identifies the separator characters.</li>
+      </ol>
+      <p>For separating ETX and EOT we need to refer to an <a href="#De-batchingaMessageSet-asciitable">ascii table</a> to determine the appropriate hexadecimal characters. For ETX and EOT the hexadecimal values are 03 and 04 respectively. Therefore, the regular expression string is <code>\x03\0x04</code>.</p>
+      <p>Alternatively we can define a unicode escape sequence which would look like <code>\u0003\0u0004</code>. These escape sequences are not case sensitive and can be defined in lower or upper case. The remaining parameters can be left as their default values for this example. The completed configuration is shown in the following screenshot:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162945/133162946.png" data-image-src="attachments/133162945/133162946.png" data-unresolved-comment-count="0" data-linked-resource-id="133162946" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DebatchConfig.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162945" data-linked-resource-container-version="1"></span></p>
+      <h2 id="De-batchingaMessageSet-asciitableASCIITable"><span class="confluence-anchor-link" id="De-batchingaMessageSet-asciitable"></span>ASCII Table</h2>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162945/133162947.png" data-image-src="attachments/133162945/133162947.png" data-unresolved-comment-count="0" data-linked-resource-id="133162947" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="asciifull.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162945" data-linked-resource-container-version="1"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

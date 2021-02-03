@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Storing Trusted Rhapsody Engine Connection Details</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Rhapsody-Server-Authentication_133161184.html">Rhapsody Server Authentication</a></span> </li> 
+       <li> <span><a href="Administrative-Control-of-Rhapsody-Server-Authentication_133161185.html">Administrative Control of Rhapsody Server Authentication</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Storing Trusted Rhapsody Engine Connection Details</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Rhapsody IDE stores the details of trusted Rhapsody engines using a combination of the registry and the <em>Windows</em>® certificate store. Each Rhapsody engine has its own registry key stored under <code>HKEY_CURRENT_USER\Software\Rhapsody\Rhapsody IDE 6\Engines</code>, where the engine registry key is named after its hostname and port combination. For example, a Rhapsody engine with hostname <code>rhap</code> listening on port 3041 would have its details stored at <code>HKEY_CURRENT_USER\Software\Rhapsody\Rhapsody IDE 6\Engines\rhap:3041</code>.</p>
+      <p>Up to two registry values may be stored under each of these registry keys:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161186/133161187.png" data-image-src="attachments/133161186/133161187.png" data-unresolved-comment-count="0" data-linked-resource-id="133161187" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RegistryEditor.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161186" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Name
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Type
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">CertificateThumbprint</td>
+          <td class="confluenceTd">String</td>
+          <td class="confluenceTd">The SHA-1 thumbprint of the Rhapsody engine's SSL certificate. This is used to determine when the SSL certificate subsequently changes.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">IgnoreHostnameCheck</td>
+          <td class="confluenceTd">DWORD</td>
+          <td class="confluenceTd">This value can be set to non-zero to indicate that the Rhapsody IDE should not verify that the hostname used to connect to the engine can be found in its SSL certificate. By default the hostname check is enabled unless the connection is to '<code>localhost</code>' or '<code>127.0.0.1</code>'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The SSL certificates themselves are not stored in the registry, but are instead stored in the current user's <em>Windows</em>® certificate store in a section called <code>Rhapsody IDE</code>. These certificates are not actually consulted when authenticating a Rhapsody engine (the SHA-1 thumbprint is sufficient for that), but are stored so that they can be displayed to the user subsequently if the certificate changes, or if viewing them via the <a href="Rhapsody-IDE-Trust-Manager_133161202.html">Rhapsody IDE Trust Manager</a>. Consequently these certificates can be removed without affecting the authentication process.</p>
+      <p>As this information is just stored in the registry, the system administrator can populate the registry with the connection details of pre-authenticated engines. While these can be created in <code>HKEY_CURRENT_USER</code>, that would allow the user to modify those keys themselves. They can alternatively be created in <code>HKEY_LOCAL_MACHINE</code> so that a non-administrative user is unable to modify them.</p>
+      <p>The Rhapsody IDE actually retrieves the connection details for trusted Rhapsody engines from two of the following three locations:</p>
+      <ul>
+       <li><code>HKEY_CURRENT_USER\Software\Rhapsody\Rhapsody IDE 6\Engines</code>.</li>
+       <li><code>HKEY_LOCAL_MACHINE\Software\Rhapsody\Rhapsody IDE 6\Engines</code> (32-bit).</li>
+       <li><code>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Rhapsody\Rhapsody IDE 6\Engines</code> (64-bit).</li>
+      </ul>
+      <p>The connection details for 32-bit and 64-bit computers are stored in different locations. The relevant architecture here is the computer the Rhapsody IDE is running on, not the architecture the Rhapsody engine is running on.</p>
+      <p>Any connection details stored within <code>HKEY_LOCAL_MACHINE</code> are treated as read-only by the Rhapsody IDE and Rhapsody IDE Trust Manager (even if the current user happens to have administrative privileges on the local machine). In addition, if connection details are found in both <code>HKEY_CURRENT_USER and HKEY_LOCAL_MACHINE</code> for the same Rhapsody engine, the read-only connection details in <code>HKEY_LOCAL_MACHINE</code> take precedence. Therefore, a non-administrative user cannot override the settings from the system administrator.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

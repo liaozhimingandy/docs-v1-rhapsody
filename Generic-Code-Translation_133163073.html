@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Generic Code Translation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="Database-Filters_133163055.html">Database Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Generic Code Translation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163073/133163074.jpg" data-image-src="attachments/133163073/133163074.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163074" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image087.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163073" data-linked-resource-container-version="3"></span></p>
+      <p>The <strong>Generic Code Translation</strong> filter&nbsp;enables simple lookups in a database table based on message fields to replace or populate other message fields.</p>
+      <p>The message body is replaced with the data in the file specified in the <strong>Message File</strong> field, if one is supplied. Following the replacement, the message is parsed using the Definition File and each field in the message (listed in the <strong>Substitute Field Mappings</strong> field) has its value replaced, which is retrieved from a database, with the respective value.</p>
+      <p>One or more fields in the message (listed in the <strong>Key Field Mappings</strong> field) are referenced in order to retrieve required information from the database.</p>
+      <h2 id="GenericCodeTranslation-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition File</p></td>
+          <td class="confluenceTd"><p>Identifies the Message Definition file that defines incoming and outgoing messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message File</p></td>
+          <td class="confluenceTd"><p>An optional file that is used to replace the entire message body. This file is used to replace the body of the incoming message before the values are inserted.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The type of database to connect to:</p>
+            <ul>
+             <li><code>Microsoft SQL Server - Microsoft Driver</code> - the com.microsoft.sqlserver.jdbc.SQLServerDriver <span>is used to enable access.</span></li>
+             <li><code>Microsoft SQL Server - jTDS</code> - the net.sourceforge.jtds.jdbc.Driver&nbsp;<span>is used to enable access.</span> <code><br></code></li>
+             <li><code>Oracle</code> - the oracle.jdbc.OracleDriver is used to enable access.</li>
+             <li><code>MySQL</code> - you must download the MySQL JDBC driver (com.mysql.jdbc.Driver) and attach it to the communication point <span>as an auxiliary file</span>. If you want to use the <a href="https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-overview.html" rel="nofollow" class="external-link" title="Follow link">MySQL Connector/J</a> driver (com.mysql.cj.jdbc.Driver), then you must select <code>Manual Setting</code>.</li>
+             <li><code>Microsoft Access</code> - the sun.jdbc.odbc.JdbcOdbcDriver is used to enable access.</li>
+             <li><code>PostgreSQL</code> - the org.postgresql.Driver is used to enable access.</li>
+             <li><code><span>Manual Setting</span></code><span> - </span><span><span>the JDBC driver and database URL must be included in the configuration file. Refer to </span> <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> <span>for details.</span> </span></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Host</p></td>
+          <td class="confluenceTd"><p>The hostname/IP address of the database to connect to.</p><p>This property is available only if <strong>Database</strong> is not <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>The port number to connect to on the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database Name</p></td>
+          <td class="confluenceTd"><p>The name of the database. If <code>Microsoft Access</code> is selected for the database property then the name of the data source should be provided.</p><p>This property is available only if <strong>Database</strong> is not <span>set </span>to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>JDBC Driver</p></td>
+          <td class="confluenceTd"><p>The name of a JDBC driver class.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database URL</p></td>
+          <td class="confluenceTd"><p>The JDBC URL to connect the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The database user to connect as.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p>The password for that user.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Additional Connection Properties</p></td>
+          <td colspan="1" class="confluenceTd"><p>A list of name/value pairs of message properties to be set on the database connection.</p><p>The listed properties are not used when <strong>Database</strong> is set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database Table</p></td>
+          <td class="confluenceTd"><p>The name of the database table for which to lookup. The SQL statement to be executed has the general form:</p><p><code>SELECT LookupColumn_1, ..., LookupColumn_N FROM Table</code> <br><code>WHERE KeyColumn_1 = value_1 AND ... KeyColumn_N = value_N</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Key Field Mappings</p></td>
+          <td class="confluenceTd"><p>An array of Field and Column Name. The message field data is extracted from the input message in order to define required conditions. All listed column names and the respective values are used in the <code>WHERE</code> clause of the SQL statement and appended with <code>AND</code> operator.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Substitute Field Mappings</p></td>
+          <td class="confluenceTd"><p>An array of "Field" and "Column Name". The listed fields are inserted or replaced by return values of the respective lookup columns in the table. (First row of the result set will be used to populate the message if the SQL statement returns more than one row.)</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Socket Timeout</td>
+          <td colspan="1" class="confluenceTd"><p>Specifies how long, in seconds, the underlying connection should remain open before timing out. The socket timeout prevents Rhapsody from waiting indefinitely for results from a database in the event Rhapsody loses its connection to the database.</p><p>A value of zero indicates the timeout is not configured.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="GenericCodeTranslation-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a> for the Generic Code Translation filter are:</p>
+      <ul>
+       <li><p><code>ResultRows</code> - indicates whether there are rows matched in the database by the SQL query used to perform the field translation:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <tbody>
+           <tr>
+            <th class="confluenceTh">Value</th>
+            <th class="confluenceTh">Description</th>
+           </tr>
+           <tr>
+            <td class="confluenceTd">0</td>
+            <td class="confluenceTd">No results</td>
+           </tr>
+           <tr>
+            <td class="confluenceTd">1</td>
+            <td class="confluenceTd">Single Result</td>
+           </tr>
+           <tr>
+            <td class="confluenceTd">2</td>
+            <td class="confluenceTd">Multiple Results</td>
+           </tr>
+          </tbody>
+         </table>
+        </div></li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

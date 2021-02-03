@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Messaging in Rhapsody</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Learning-Rhapsody_133164369.html">Learning Rhapsody</a></span> </li> 
+       <li> <span><a href="What-Rhapsody-Does_133164569.html">What Rhapsody Does</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Messaging in Rhapsody</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The fundamental unit of data Rhapsody operates on is known as a message. A message is a discrete block of data received at a communication point under a messaging protocol.</p>
+      <p>A message may be unstructured (or handled as unstructured) or structured (intelligent). An unstructured message normally passes through the engine with little or no examination or modification, while an intelligent message has a well-known defined structure, which enables Rhapsody to operate on the message content. Structured messages conform to a messaging standard such as:</p>
+      <ul>
+       <li><p>HL7</p></li>
+       <li><p>EDIFACT</p></li>
+       <li><p>X.12</p></li>
+       <li><p>HIPAA</p></li>
+       <li><p>XML</p></li>
+       <li><p>User-defined flatwire structure</p></li>
+      </ul>
+      <h2 id="MessaginginRhapsody-MessageAttributes">Message Attributes</h2>
+      <p>Messages in Rhapsody are effectively composed of three attributes:</p>
+      <ul>
+       <li><p><a href="Messaging-in-Rhapsody_133164573.html">Message Body</a></p></li>
+       <li><a href="Messaging-in-Rhapsody_133164573.html">Message Metadata</a></li>
+       <li><a href="#MessaginginRhapsody-MessageEvents">Message Events</a></li>
+      </ul>
+      <h3 class="box contents" id="MessaginginRhapsody-MessageBody">Message Body</h3>
+      <p>The message body is the data contained within a message.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>In versions of Rhapsody before <span>Rhapsody 6.4,</span> the engine is limited to receiving, storing or sending messages no larger than 2GB. This limitation has been removed as of Rhapsody 6.4. However, the maximum size of messages that can be processed by the engine is dependent on a number of factors and in most cases remains much smaller than 2GB.</p>
+       </div>
+      </div>
+      <h3 id="MessaginginRhapsody-MessageMetadata">Message Metadata</h3>
+      <p>Message metadata contains all message data that is not the message body, and&nbsp;refers to details about the message, including:&nbsp;</p>
+      <ul>
+       <li>The time the message entered Rhapsody.</li>
+       <li>A reference to the message body.</li>
+       <li>The message body encoding.</li>
+       <li>The message's current location within Rhapsody and its next destination.</li>
+       <li>Message properties.</li>
+      </ul>
+      <p><span style="color: rgb(51,51,51);">Message properties can also be attached to messages. Such properties are simple string values attached to the message and accessed via a name (stored as a name-value pair). The properties can be extracted from the message itself, or other arbitrary values configured by an interface developer. This allows these values to be easily used again at a later point for such actions as:</span></p>
+      <ul>
+       <li>Conditionally routing messages.</li>
+       <li>Locating a message and viewing its contents in the Management Console.</li>
+       <li>Dynamic configuration of a filter or communication point (for example, the remote hostname parameter of a <a href="TCP-Client_133162495.html">TCP Client</a> communication point can be retrieved from a message property, rather than being specified as a fixed value).</li>
+      </ul>
+      <p>The most common use of message properties is via property extraction on a route. Routes can be configured to extract known fields from every message and place them into the defined message property. This can be done through the Route Properties dialog and requires a message definition to be associated with the route. The interface developer can then associate a name for the message property with a path to the field in each message. Properties can be extracted from every message that passes through the route, or on only specified message types.</p>
+      <p>Refer to&nbsp;<a href="Configuration_133162170.html#Configuration-MessageProperties">Message Properties</a>&nbsp;for details on how to use message properties to configure components.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span style="color: rgb(51,51,51);">Message properties are not designed to hold large amounts of data. To avoid issues, it is recommended you use message properties no more than a few kilobytes in size.</span></p>
+       </div>
+      </div>
+      <h3 id="MessaginginRhapsody-MessageEvents">Message Events</h3>
+      <p>Message events describe the path a message takes as it is processed through Rhapsody.&nbsp;Every transition the message makes between components is recorded as a separate message event.</p>
+      <p><span style="color: rgb(0,0,0);font-size: 20.0px;">Message Handling</span></p>
+      <p>There are three types of information that are saved for a message –&nbsp;the message metadata, the message body and message events:</p>
+      <ul>
+       <li>A message event is created and stored every time a message passes through a filter or communication point. Message events are used to generate the message path view&nbsp;(<a href="Message-View_133163772.html">Message View</a>) in the <a href="Management-Console_133163667.html">Management Console</a>.</li>
+       <li>The message body, which stores the actual message contents, is written to disk<span>&nbsp;when Rhapsody receives the message and thereafter</span>&nbsp;whenever the message body is modified.</li>
+       <li>The message metadata is saved to disk when message properties, message body or any other message information is modified. It is also saved when the message is parsed by a definition on the route. A message is parsed once per route when it is first accessed (in other words, it is not parsed by every filter on the route).&nbsp;</li>
+      </ul>
+      <h3 id="MessaginginRhapsody-MessageandAcknowledgmentTracking">Message and Acknowledgment Tracking</h3>
+      <p>When sending data within an enterprise or to an external destination, it is vital to know the message has arrived correctly at its intended destination. Rhapsody automatically tracks message acknowledgments from receiving systems and optionally returns them to the originating system.</p>
+      <p>For each outgoing tracked message, Rhapsody maintains a watch for a response and matches it to the original message. The status of a tracked message can be viewed at any time using the <a href="Management-Console_133163667.html">Management Console</a>. Such messages can be automatically resent if no response arrives after a given period. Alternatively, these messages can be manually resent via the Management Console.</p>
+      <h3 class="box contents" id="MessaginginRhapsody-HandlingIntelligentMessages">Handling Intelligent Messages</h3>
+      <p>Support for handling intelligent messages is provided by the <a href="Rhapsody-Messaging-Toolkit_133161274.html">Rhapsody Messaging Toolkit</a> toolset, included in the Rhapsody distribution. Symphonia components include:</p>
+      <ul>
+       <li>EDI <span style="color: rgb(0,0,0);">(Electronic Data Interchange)</span> Designer - enables message definitions to be constructed.</li>
+       <li>EDI Explorer - enables messages to be examined according to a definition.</li>
+       <li>Map Designer - enables message transformation rules to be established.</li>
+       <li>Symphonia - an engine embedded within the Rhapsody engine.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

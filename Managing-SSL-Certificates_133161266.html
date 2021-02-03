@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Managing SSL Certificates</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Managing-Certificates-and-Keys_133161222.html">Managing Certificates and Keys</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Managing SSL Certificates</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A certificate is a <code>*.cer</code> file containing information about the owner of the certificate, its date of issue, a serial number or other uniquely identifying detail. Certificates are used by the Secure Sockets Layer (SSL) protocol to establish a secure connection between two systems and are found as part of the configuration of a number of Rhapsody components, including the Asymmetric Cryptography and Signing / Verifying XML filters, and the TCP Client and Server communication points.</p>
+      <p>To manage SSL private keys, refer to&nbsp;<a href="Managing-SSL-Private-Keys_133161251.html">Managing SSL Private Keys</a>.</p>
+      <h2 id="ManagingSSLCertificates-ViewingSSLCertificates">Viewing SSL Certificates</h2>
+      <p>To view the SSL Certificates registered on the Rhapsody server, navigate to<strong>&nbsp;View&gt;</strong><strong>Certificate and Key Manager</strong>&nbsp;to display the&nbsp;<strong>Certificate and Key Manager</strong>&nbsp;and select the&nbsp;<strong>SSL Certificates&nbsp;</strong>tab:</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="720" src="attachments/133161266/133161267.png" data-image-src="attachments/133161266/133161267.png" data-unresolved-comment-count="0" data-linked-resource-id="133161267" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="Cert-and-Key-Manager.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161266" data-linked-resource-container-version="4"></span></p>
+      <p>The<strong>&nbsp;</strong>tab provides the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Field
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">The name of the SSL certificate.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Issued To</td>
+          <td class="confluenceTd">The name of the end user the SSL certificate is issued to.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Issued By</td>
+          <td class="confluenceTd">The name of the certificate authority the SSL certificate is issued by.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Expiration Date</td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The date the SSL certificate expires.</p>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span style="color: rgb(51,51,51);">You can set up a notification to alert you when an SSL certificate used within Rhapsody is close to expiring or has expired. For details, refer to the <a href="System-Monitor_133163832.html#SystemMonitor-SSLCertificateExpiry">SSL Certificate Expiry</a> notification on the System Monitor page in the <span style="color: rgb(51,51,51);">Management Console</span>.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can perform the following actions from the tab via buttons or the right-click menu:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Action
+           </div></th>
+          <th class="confluenceTh">
+           <div class="tablesorter-header-inner">
+            Description
+           </div></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingSSLCertificates-ImportinganSSLCertificate">Import...</a></td>
+          <td class="confluenceTd">Add an SSL certificate.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingSSLCertificates-ExportinganSSLCertificate">Export...</a></td>
+          <td colspan="1" class="confluenceTd">Save an SSL certificate for exporting.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingSSLCertificates-RemovinganSSLCertificate">Remove</a></td>
+          <td class="confluenceTd">Delete an SSL certificate.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Show Uses</td>
+          <td colspan="1" class="confluenceTd">Open the <strong>Security Object Uses</strong> dialog to display the components an SSL certificate is being used in. Double-click a component to view or edit its configuration properties.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Filter</td>
+          <td colspan="1" class="confluenceTd">Perform text-based filtering to filter the list of displayed&nbsp;<span>SSL certificate</span>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ManagingSSLCertificates-ImportinganSSLCertificate">Importing an SSL Certificate</h2>
+      <p>You can import an SSL certificate&nbsp;(<code>*.cer</code> file) that has previously been obtained from a recognized certification authority such as <em>Microsoft®</em>, <em>Verisign</em> or <em>Thwaite</em>, or exported from another Rhapsody installation.</p>
+      <p>To import an SSL certificate:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li><p>On the <strong>SSL Certificates </strong>tab, select the <strong>Import...</strong> button. The <strong>Import SSL Certificate</strong> dialog is displayed:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161266/133161268.png" data-image-src="attachments/133161266/133161268.png" data-unresolved-comment-count="0" data-linked-resource-id="133161268" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="importSSLCert.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161266" data-linked-resource-container-version="4"></span></p></li>
+       <li>Enter:&nbsp;
+        <ul>
+         <li>A name in the&nbsp;<strong>Certificate</strong><strong>&nbsp;Alias</strong>&nbsp;field to identify the SSL &nbsp;certificate, if required.</li>
+         <li>The path of the SSL certificate&nbsp;you want to import in the&nbsp;<strong>Filename</strong>&nbsp;field or click the&nbsp;<strong>Browse</strong>&nbsp;link to locate it.</li>
+         <li>The password&nbsp;to decrypt the file&nbsp;in the&nbsp;<strong>Password</strong>&nbsp;field, if required.</li>
+        </ul></li>
+       <li>Select the <strong>Import</strong> button to import the certificate.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If the imported certificate includes the owner's private key, the information in the file is encrypted and you must enter the password used to encrypt the file to view its contents.</p>
+       </div>
+      </div>
+      <p><span style="color: rgb(0,0,0);font-size: 20.0px;">Exporting an SSL Certificate</span></p>
+      <p>You can also export an SSL certificate&nbsp;as a <code>*.cer</code> file, then import it on another Rhapsody server. Only the owner's public key is included in an exported file. Use the <strong>SSL Private Keys </strong>tab to export a private key. Refer to <a href="Managing-SSL-Private-Keys_133161251.html#ManagingSSLPrivateKeys-ExportingaPrivateKey">Exporting a Private Key</a> for details.</p>
+      <p>To export an SSL&nbsp;certificate:</p>
+      <ol>
+       <li>Navigate to <strong>View&gt;Certificate and Key Manager</strong>.</li>
+       <li>On the <strong>SSL</strong>&nbsp;<strong>Certificates</strong>&nbsp;tab, select a certificate, and then select the <strong>Export...</strong> button.</li>
+       <li>Decide where you want to store the certificate, and then select the <strong>Save</strong> button.</li>
+      </ol>
+      <h2 id="ManagingSSLCertificates-RemovinganSSLCertificate">Removing an SSL Certificate</h2>
+      <p>Deleting an SSL&nbsp;certificate automatically deletes the private key associated with the certificate.</p>
+      <p>To delete an SSL&nbsp;certificate and private key pair:</p>
+      <ol>
+       <li>Navigate to&nbsp;<strong>View&gt;</strong><strong>Certificate and Key Manager</strong>.</li>
+       <li>On the <strong>SSL Certificates </strong>tab, select the key you want to remove.</li>
+       <li><p>Select the <strong>Remove </strong>button<span>. A</span>&nbsp;confirmation dialog is displayed with the following message:<br> <em>The certificate associated with this private key will be automatically removed when you remove the private key. Are you sure you want to delete private key "&lt;name&gt;" from the server?</em></p></li>
+       <li>Select the <strong>Yes</strong> button to remove the key&nbsp;(you can undo the deletion by selecting the&nbsp;<strong>Undo Remove</strong>&nbsp;button).</li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

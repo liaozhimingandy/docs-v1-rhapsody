@@ -1,0 +1,292 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>X12 Validator</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="X12-Filters_133163343.html">X12 Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">X12 Validator</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163367/133163368.png" data-image-src="attachments/133163367/133163368.png" data-unresolved-comment-count="0" data-linked-resource-id="133163368" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="X-12 Validator (32x32).png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163367" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>X12 Validator</strong> filter&nbsp;is used to check the validity of HIPAA X12 messages. The validator will perform validation of the Envelope, Functional Group or both and output a TA1 or 999 acknowledgment depending on the configuration of the filter and the validity of the input message. The filter can be configured to output the original message, acknowledgments and reports, always or never, or when valid or invalid.</p>
+      <p>The report that is generated is an XML document, with a detailed validation breakdown, that when used in conjunction with an XSLT stylesheet can produce a stylized HTML file. Refer to&nbsp;<a href="attachments/133163367/133163369.html" data-linked-resource-id="133163369" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ValidationReport.html" data-linked-resource-content-type="application/octet-stream" data-linked-resource-container-id="133163367" data-linked-resource-container-version="1">Validation Report</a> for a sample validation report.</p>
+      <h2 id="X12Validator-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">X12 Project</td>
+          <td colspan="1" class="confluenceTd"><p>The X12 project to use for validation. By default, the Rhapsody Default X12 Project is selected.</p><p>To select an X12 project:</p>
+           <ol>
+            <li>Select the browse button to open the <strong>Select X12 Project</strong> dialog.</li>
+            <li>Select one of the X12 projects available <span>in the same locker as your filter.</span></li>
+           </ol><p>To manage X12 projects, use the <a href="X12-Projects_133161843.html">X12 Projects Manager</a>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Transaction Sets</p></td>
+          <td class="confluenceTd"><p>The transaction sets to accept and validate. If no selection is made, then all known transaction sets are validated.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Validate</p></td>
+          <td class="confluenceTd"><p>Whether you want to validate only the envelope, only the functional groups, or both:</p>
+           <ul>
+            <li><code>Envelope</code>.</li>
+            <li><code>Functional Groups</code> <span>(default).</span></li>
+            <li><code>Envelope and Functional Groups</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Original</p></td>
+          <td class="confluenceTd"><p>When to output the original message.</p>
+           <ul>
+            <li><code>Always</code> (default).</li>
+            <li><code>Never</code>.</li>
+            <li><code>When Valid</code>.</li>
+            <li><code>When Invalid</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Acknowledgment</p></td>
+          <td class="confluenceTd"><p>When to output a TA1 or 999 acknowledgment:</p>
+           <ul>
+            <li><code>Always</code> (default).</li>
+            <li><code>Never</code>.</li>
+            <li><code>When Valid</code>.</li>
+            <li><code>When Invalid</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Report</p></td>
+          <td class="confluenceTd"><p>When to output a report:</p>
+           <ul>
+            <li><code>Always</code><span> (default).</span></li>
+            <li><code>Never</code><span>.</span></li>
+            <li><code>When Valid</code><span>.</span></li>
+            <li><code>When Invalid</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Invalid Destination</p></td>
+          <td class="confluenceTd"><p><span>Whether</span> the acknowledgments and originals for an invalid message should be sent through the normal connector or error connector:</p>
+           <ul>
+            <li><code>Error Connector</code><span> (default).</span></li>
+            <li><code>Normal Connector</code><span>.</span></li>
+           </ul><p>Output for valid messages always goes through the normal connector.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Generate Invalid 999</p></td>
+          <td class="confluenceTd"><p>Whether an invalid 999 should be generated when the GS06 is invalid:</p>
+           <ul>
+            <li><code>Never</code><span> (default).</span></li>
+            <li><code>When GS06 is invalid</code><span>.</span></li>
+           </ul><p>If the original GS06 is invalid, then it is not possible to generate a useful and valid 999. This option allows creating a slightly invalid 999 that contains the bad GS06 value.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Invalid Control Fields</p></td>
+          <td class="confluenceTd"><p>Whether ISA05, ISA06, ISA07, ISA08, GS02 or GS03 are all copied from the original message into the acknowledgment:</p>
+           <ul>
+            <li><code>Copy the fields including illegal characters</code><span> (default).</span></li>
+            <li><code>Leave the fields that illegal characters empty</code><span>.</span></li>
+            <li><code>Copy the fields excluding illegal characters</code><span>.</span></li>
+           </ul><p><span><span>When they contain characters not included in the basic and extended character set, this property determines how the values are copied across to these six fields in the acknowledgment.</span><br></span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>ISA Control Number Counter</p></td>
+          <td class="confluenceTd"><p>The name of the JavaScript counter to use to generate unique Interchange Control Numbers (ISA13). Interchange Control Numbers are required to be unique for long periods of time.</p><p><span>The d</span><span>efault value is <code><span>ISA13</span></code>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>GS Control Number Counter</p></td>
+          <td class="confluenceTd"><p>The name of the JavaScript counter to use to generate unique Group Control Numbers (GS06). Group Control Numbers are required to be unique for long periods of time.</p><p>The d<span>efault value is </span><code>GS06</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>ST Control Number Counter</p></td>
+          <td class="confluenceTd"><p>The name of the JavaScript counter to use to generate unique Transaction Set Control Numbers (ST02). Leave blank to number the transaction sets from 0001 within each functional group. Transaction Set Control Numbers only have to be unique within the functional group. Only set a counter if the Transaction Set Control Numbers are to be unique for long periods of time across all functional groups and interchanges.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output Type Property</p></td>
+          <td class="confluenceTd"><p>The name of the property to write the output type into. The property will contain <code>ORIGINAL</code>, <code>ACKNOWLEDGMENT</code> or <code>REPORT</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Valid Property</p></td>
+          <td class="confluenceTd"><p>The name of the property to write whether the message is valid or invalid. The property will contain either <code>VALID</code> or <code>INVALID</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Acknowledged Property</p></td>
+          <td class="confluenceTd"><p>The name of the property to write whether the message has been acknowledged. The property will contain either <code>ACKED</code> or <code>UNACKED</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Validation Report Version</p></td>
+          <td colspan="1" class="confluenceTd"><p>The version of the XML validation report to be generated:</p>
+           <ul>
+            <li><code><span>Version 1</span></code>.</li>
+            <li><code><span>Version 2</span></code> (default) - enables the XML report.</li>
+           </ul><p>The settings for <strong>Filtered Report XML Nodes</strong> are removed when <strong>Validation Report Version</strong> is set to Version 1.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Filtered Report XML Nodes</td>
+          <td class="confluenceTd"><p>Which XML nodes should not be printed in the report. <span>Refer to </span><a href="#X12Validator-XMLReportFiltering">XML Report Filtering</a><span> for details on filtering the XML report.</span></p><p>The&nbsp;<strong>Filtered Report XML Nodes</strong>&nbsp;property is only available when&nbsp;<strong>Validation Report Version</strong>&nbsp;is set to <code>Version 2</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span>Validation Options</span></td>
+          <td colspan="1" class="confluenceTd"><p>Enables you to configure validation options through the <strong>Validation Options</strong> dialog:</p>
+           <ul>
+            <li><p><code>Ignore addendum when matching transaction set types</code> - when matching the transaction set, the Addendum is omitted from the Guide Id (GS08/ST03). For example, when this option is enabled both 005010X224<span style="color: rgb(255,0,0);">A2</span> and 005010X224<span style="color: rgb(255,0,0);">A3</span> would be recognized and validated as an 837D transaction set. Enabling this option does not change any validation rules or syntax checks, meaning a 005010X224<span style="color: rgb(255,0,0);">A2 </span>would be validated against the supported version of 005010X224<span style="color: rgb(255,0,0);">A3</span>. This has the potential for false triggers and can potentially break HIPAA compliance.</p></li>
+            <li><p><code>Ignore HIPAA version when matching transaction set types</code> - when matching the transaction set, the HIPAA version is omitted from the Guide <span>Id</span> (GS08/ST03). For example, when this <span>option</span> is enabled both <span style="color: rgb(255,0,0);">005010</span>X224 and <span style="color: rgb(255,0,0);">004010</span>X224 would be recognized and validated as a v5010 837D transaction set. Enabling this option does not change any validation rules or syntax checks, meaning a <span style="color: rgb(255,0,0);">004010</span>X224 would be validated against the rules for v5010 only. This has the potential for false triggers and can potentially break HIPAA compliance.</p></li>
+            <li><code>Match transaction set types using only the Guide Id</code> - the transaction set is identified exclusively by the value found in GS08 of the interchange. If this value is missing, it will be validated against the value in ST03. This option enables a message to be identified when the Functional Identifier (GS01) and/or the Purpose Codes (BHT02) are missing from the interchange.</li>
+            <li>
+             <div class="user-content-block">
+              <p><code>Set AK901 to R for any rejected transaction sets</code>&nbsp;- typically for any submitted interchange, if some of the transactions sets are rejected and some are accepted, then the AK901 of the outputted 999 should be set to <code>P</code>. If specified, <span>validation property</span> should be set to <code>VALID</code>. When enabled, this option overrules that convention and sets the AK901 to <code>R</code> if there is an error with&nbsp;<em>any</em>&nbsp;of the submitted transactions sets and, if applicable, the validation property is set to <code>INVALID</code>.</p>
+             </div></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="X12Validator-XMLReportFiltering">XML Report Filtering</h2>
+      <p>The XML validation report generated by the filter can be filtered so selected XML elements are not generated.</p>
+      <p>To enable filtering:</p>
+      <ol>
+       <li>Ensure&nbsp;<strong>Validation Report Version</strong>&nbsp;is set to Version 2.&nbsp;Reports generated using version 2 and have the&nbsp;<code>formatVersion</code>&nbsp;attribute set to&nbsp;<code>2</code>&nbsp;in the&nbsp;<code>report</code>&nbsp;element:&nbsp;<code>&lt;report formatVersion="2"&gt;</code>. Reports generated using version 1 do not contain the&nbsp;<code>formatVersion</code>&nbsp;attribute in the&nbsp;<code>report</code>&nbsp;element:&nbsp;<code>&lt;report&gt;</code>.</li>
+       <li>Set the&nbsp;<strong>Filtered Report XML Nodes</strong>&nbsp;configuration&nbsp;property with the values you want filtered. There are three types of values that you can enter:
+        <ul>
+         <li>Element names - prevent any elements with the entered names from being written to the report. For example, to remove&nbsp;all instances of the element&nbsp;<code>&lt;raw&gt;</code>,&nbsp;enter the value&nbsp;<code>raw</code>.</li>
+         <li>Relative paths - prevent any elements that match the entered partial paths from being written to the report. For example, to remove all instances of the element&nbsp;<code>&lt;raw&gt;</code>&nbsp;that are a child of the element&nbsp;<code>&lt;segment&gt;</code>, enter <code>&lt;segment&gt;/raw</code>.</li>
+         <li>Absolute paths - prevent elements that match the entered&nbsp;exact paths from being written to the report. For example, entering&nbsp;<code>/report/raw</code>. removes all instances of the element <code>&lt;raw&gt;</code> that is the child of the top-level element <code>&lt;report&gt;</code>.</li>
+        </ul></li>
+      </ol>
+      <h2 id="X12Validator-HIPAAX12005010Transactions">HIPAA X12 005010 Transactions</h2>
+      <p>The following table lists the implementation standards used by the filter for HIPAA X12 005010 transactions:</p>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th style="text-align: center;" class="confluenceTh">Transaction&nbsp;</th>
+          <th style="text-align: center;" class="confluenceTh">Implementation&nbsp;</th>
+          <th style="text-align: center;" class="confluenceTh">Syntactic&nbsp;</th>
+          <th style="text-align: center;" class="confluenceTh">Semantic&nbsp;</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">270&nbsp;</td>
+          <td class="confluenceTd">x279A1&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">271&nbsp;</td>
+          <td class="confluenceTd">x279A1&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">276&nbsp;</td>
+          <td class="confluenceTd">x212&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">277&nbsp;</td>
+          <td class="confluenceTd">x212&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">277</td>
+          <td colspan="1" class="confluenceTd">x214</td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+          <td colspan="1" class="confluenceTd"><p><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">278_REQ&nbsp;</td>
+          <td class="confluenceTd">x217&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">278_RES&nbsp;</td>
+          <td class="confluenceTd">x217&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">820&nbsp;</td>
+          <td class="confluenceTd">x218&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">834&nbsp;</td>
+          <td class="confluenceTd">x220A1&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">835&nbsp;</td>
+          <td class="confluenceTd">x221A1&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">837P&nbsp;</td>
+          <td class="confluenceTd">x222A1&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">837I&nbsp;</td>
+          <td class="confluenceTd">x223A2&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">837D&nbsp;</td>
+          <td class="confluenceTd">x224A2&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">997&nbsp;</td>
+          <td class="confluenceTd">x230&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-cross" src="images/icons/emoticons/error.svg" data-emoticon-name="cross" alt="(error)"></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">999&nbsp;</td>
+          <td class="confluenceTd">x231A1&nbsp;</td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+          <td class="confluenceTd"><img class="emoticon emoticon-tick" src="images/icons/emoticons/check.svg" data-emoticon-name="tick" alt="(tick)"></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Processing Model</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Learning-Rhapsody_133164369.html">Learning Rhapsody</a></span> </li> 
+       <li> <span><a href="What-Rhapsody-Does_133164569.html">What Rhapsody Does</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Processing Model</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="box contents">
+       <p>The Rhapsody processing model can be regarded as an end-to-end pipeline, not a single connection, and is tightly integrated with the structure of the Rhapsody data model (message storage and associated metadata) and the management of queues and transactions as the message progresses through the route.</p>
+       <p>At its core, Rhapsody handles messages (blocks of data) which it receives through connections with remote systems. These messages are passed through processing pipelines where business logic may be applied, and are ultimately transmitted to remote systems.</p>
+       <p>Rhapsody maintains the state of the message, the previous processing history, and the current processing state, therefore guaranteeing message delivery. If a processing step fails (for example, as a result of host or engine failure), the current processing step can be rolled back and re-executed as processing resumes.</p>
+       <h2 id="ProcessingModel-BasicConcepts">Basic Concepts</h2>
+       <p>Rhapsody configurations are based on the following basic concepts:</p>
+       <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146921514 {padding: 0px;}
+div.rbtoc1565146921514 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146921514 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+       <div class="toc-macro rbtoc1565146921514"> 
+        <ul class="toc-indentation"> 
+         <li><a href="#ProcessingModel-Lockers">Lockers</a></li> 
+         <li><a href="#ProcessingModel-CommunicationPoints">Communication Points</a></li> 
+         <li><a href="#ProcessingModel-Routes">Routes</a></li> 
+         <li><a href="#ProcessingModel-Filters">Filters</a></li> 
+         <li><a href="#ProcessingModel-Connectors">Connectors</a></li> 
+         <li><a href="#ProcessingModel-DefinitionFiles">Definition Files</a></li> 
+         <li><a href="#ProcessingModel-RhapsodyVariables">Rhapsody Variables</a></li> 
+        </ul> 
+       </div>
+       <p></p>
+       <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="650" src="attachments/133164581/148510203.png" data-image-src="attachments/133164581/148510203.png" data-unresolved-comment-count="0" data-linked-resource-id="148510203" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="Components.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164581" data-linked-resource-container-version="5"></span></p>
+       <h3 id="ProcessingModel-Lockers">Lockers</h3>
+       <p><a href="Lockers_133162089.html">Lockers</a> are containers that allow you to group your configuration such that it is compartmentalized from the other parts of the configuration. A locker contains a collection of communication points, routes, filters, connectors, and definition files. Access can be restricted through Rhapsody's&nbsp;<a href="Access-Control-in-Rhapsody_133160999.html">access control</a>&nbsp;functionality, so that only certain users can see and edit the configuration of a given locker.</p>
+       <h3 id="ProcessingModel-CommunicationPoints">Communication Points</h3>
+       <p><a href="Communication-Point-Types_133162205.html">Communication points</a>&nbsp;are an interface to an external system. They are the mechanism by which Rhapsody sends and receives information to and from the external systems. Messages arrive at an Input communication point, and are processed by the filters and conditional connectors in the route and passed to one or more Output communication points. From there, the messages are sent to the receiving application(s).</p>
+       <p>The method of communication is defined by the type of communication point used. A large number of protocols are supported.</p>
+       <p>Communication points can operate in a number of different operational modes, depending on their type. A communication point can receive messages, send messages, send and receive messages, or be restricted by the order messages are sent and received as follows:</p>
+       <ul>
+        <li><em>Input</em> - can only be used to receive messages from external systems.</li>
+        <li><em>Output</em> -&nbsp;can only be used to send messages to from external system (an exception is when the communication point has <a href="Continued-Routing-on-Success_142330783.html">continued routing upon success</a> enabled).</li>
+        <li><em>Bi-directional</em> - messages can be both sent and received simultaneously. Used when incoming and outgoing messages are sent and received independently of each other.</li>
+        <li><em>Out-&gt;In</em> - when a message is sent, the communication point waits for a response before sending the next message.</li>
+        <li><em>In-&gt;Out</em> - when a message is received, the communication point will refuse to accept further messages until a response has been sent.</li>
+       </ul>
+       <p>Not all operational modes are supported for all <a href="Communication-Point-Types_133162205.html">communication point types</a>.</p>
+       <h3 id="ProcessingModel-Routes">Routes</h3>
+       <p><a href="Routes_133161995.html">Routes</a>&nbsp;are a defined pathway that determines how messages will travel from Input to Output communication points. A route has input communication points to receive messages and output communication points to which it delivers messages. Between these communication points, a route may contain any number of filters.</p>
+       <h3 id="ProcessingModel-Filters">Filters</h3>
+       <p><a href="Filter-Types_133162712.html">Filters</a>&nbsp;are a component that processes and often modifies the message in some specific way as it passes through the route. Rhapsody has a number of predefined filters for common tasks such as mapping from one message format to another, code validation and database lookups.</p>
+       <h3 id="ProcessingModel-Connectors">Connectors</h3>
+       <p><a href="Connectors_133162108.html">Connectors</a> enable messages to flow from one component to another. Connectors may pass all messages, or apply selection criteria based on the message's structure or content. There are three types of connectors:</p>
+       <ul>
+        <li>Standard connectors are used to pass messages from one Rhapsody component to another in a route and do not restrict or change the messages passing along them.</li>
+        <li>A Conditional connector is used to selectively route messages based on their structure and/or contents. Conditional connectors (and JavaScript connectors) must originate from a filter. Messages that do not meet the criteria set by the Conditional connector are routed to the No Match connector on the filter or, if it does not exist, to the Error connector. If neither of these connectors is configured, non-matching messages are routed to the Error Queue, which may be viewed in <a href="Management-Console_133163667.html">Management Console</a>.</li>
+        <li>The JavaScript connector uses a JavaScript expression to make routing decisions for messages reaching the connector. It offers more flexibility than the Conditional connector, but requires some knowledge of JavaScript to implement. The JavaScript expression entered as the routing criteria is evaluated by the Rhapsody engine. If the expression evaluates to&nbsp;<code>True</code>, the message is passed through the connector; if <code>False</code>, the message is routed to the No Match connector if it is present; otherwise, it is passed to the Error Connector or Error Queue.</li>
+       </ul>
+       <h3 id="ProcessingModel-DefinitionFiles">Definition Files</h3>
+       <p>A definition file is a file that defines the structure of the messages being processed, which in turn allows Rhapsody to read and manipulate message data. Different message definitions are used for the different message types:</p>
+       <ul>
+        <li>XML messages typically use a W3C XML Schema (<code>*.xsd</code>).</li>
+        <li>EDI messages typically use a Rhapsody EDI message definition (<code>*.s3d</code>).</li>
+       </ul>
+       <h3 id="ProcessingModel-RhapsodyVariables">Rhapsody Variables</h3>
+       <p><a href="Rhapsody-Variables_133163434.html">Rhapsody variables</a> enable the use of parameters in multiple places or environments (for example, development, test, and production) that can be easily changed. Once a change has been made to a Rhapsody variable, that change is automatically applied to all components that use it.</p>
+       <h2 class="main" id="ProcessingModel-BasicSequence">Basic Sequence</h2>
+       <div class="box contents">
+        <p>A single route requires the following components:</p>
+        <ul>
+         <li>One or more Input communication points.</li>
+         <li>Optionally, one or more filters.</li>
+         <li>Connections between the route components defining the path to be taken by the message.</li>
+         <li>One or more Output communication points&nbsp;transmitting the message to a remote host or location.</li>
+        </ul>
+        <p>A simple pass-through route may contain only a connection between an Input and an Output communication point.</p>
+        <p>The general processing sequence is as follows:</p>
+        <ol>
+         <li><p>A message received on an Input communication point&nbsp;(connection from a remote system) and immediately persisted to the datastore.</p></li>
+         <li><p>The&nbsp;message&nbsp;passed to a route where the message structure may be analyzed and business logic may be applied by filters on the route.</p></li>
+         <li>The&nbsp;message&nbsp;is passed to an Output communication point&nbsp;and is then transmitted to a recipient system (optionally, the message may be passed to additional routes for processing).</li>
+        </ol>
+        <p>At each step of its path, the message is persisted to the data store whenever it is modified. The progress of the message through the engine is maintained in queues associated with components and in the transaction record. The latter is updated as a message completes each processing step and before it is output from the component.</p>
+        <p>Refer to <a href="Messaging-in-Rhapsody_133164573.html">Messaging in Rhapsody</a> for details on message structure and handling in Rhapsody.</p>
+        <p> </p>
+       </div>
+      </div> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

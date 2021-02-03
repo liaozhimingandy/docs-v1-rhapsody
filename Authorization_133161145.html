@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Authorization</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Authorization</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Authorization for the REST API is performed using the existing access rights infrastructure within Rhapsody:</p>
+      <ul>
+       <li>A root-level access right 'Call REST API' provides general access to Rhapsody's REST API, and all other new access rights related to the REST API depend on it (Rhapsody IDE understands these dependencies and displays them appropriately). For new installations, this access right is automatically granted to the administrators group; for upgraded engines this access right is granted to any existing groups that currently have the <code>USERS_EDIT</code> access right (which is often the administrators group).</li>
+       <li>Access rights have also been defined to call each REST API method, generally with separate access rights for reading a particular service and writing to a particular service. These access rights relate to specific REST API functionality, and can be configured independently from allowing access to that functionality in Rhapsody IDE or Management Console. REST API methods will only return results for lockers that the user has access to. For example, to get the Error Queue count for the whole engine, the user needs the ability to search Error and Hold Queues on every locker.</li>
+       <li>By default, the Developer and Monitoring Access Groups do not have access to any REST API methods and the Administrator Access Group only has access to a basic set. Refer to <a href="Access-Control-in-Rhapsody_133160999.html">Access Control in Rhapsody</a> for details on how to configure access rights.</li>
+       <li>For security reasons, the Administrator user cannot be granted access to the <a href="Message-Retrieval_133161101.html">Message Retrieval</a>&nbsp;and&nbsp;<a href="Message-Searches_133161099.html">Message Searches</a> REST API methods.</li>
+      </ul>
+      <p>Refer to&nbsp;<a href="Access-Rights_133161013.html">Access Rights</a> for a full list of access rights that&nbsp;control access to the REST API methods.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

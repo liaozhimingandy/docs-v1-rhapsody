@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Optimizing Rhapsody for Fast Start-up Times</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Deployment_133164213.html">Deployment</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Optimizing Rhapsody for Fast Start-up Times</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>In a high availability (HA) Active/Passive cluster, Rhapsody should start up and resume normal operations in a timely manner. During a manual switch-over, start-up times are easier to control as the switch can be scheduled during off-peak hours when message processing loads are low. However, during unexpected fail-overs, the previous environment and message processing state cannot be recovered.</p>
+      <p>Rhapsody start-up times are primarily influenced by two factors:</p>
+      <ul>
+       <li><a href="#OptimizingRhapsodyforFastStart-upTimes-LiveMessageValidation">Live Message Validation</a></li>
+       <li><a href="#OptimizingRhapsodyforFastStart-upTimes-TransactionReplays">Transaction Replays</a></li>
+      </ul>
+      <h2 id="OptimizingRhapsodyforFastStart-upTimes-LiveMessageValidation">Live Message Validation</h2>
+      <p>After an unclean shutdown, Rhapsody performs validation on its live message store at next start-up in order to ensure that no data integrity issues exist as a result of the abnormal termination. Therefore, the start-up time is influenced directly by the number of live messages present at the time of termination. The lower the number of messages, the shorter the start-up time.</p>
+      <h2 class="SubheadingLevel2OH" id="OptimizingRhapsodyforFastStart-upTimes-TransactionReplays">Transaction Replays</h2>
+      <p class="SubheadingLevel2OH">Transactions occurring within Rhapsody are written to a rolling data store which is optimized for frequent writes and infrequent reads. The store itself is comprised of one or more action records, each for one or more transactions. After an unclean shutdown, the persisted transaction store is restored in memory and active transactions are reconstructed such that operations that were not yet committed at the time of failure can be rolled back to maintain state integrity. Depending on the exact version of Rhapsody, long running transactions may have a severe performance impact on Rhapsody start-up times after an unclean shutdown due to having a transaction data store stretching into the gigabyte range. Long running transactions are primarily caused by filter operations which take a long time to execute, such as a non-responsive or very slow database operation.</p>
+      <h2 class="SubheadingLevel2OH" id="OptimizingRhapsodyforFastStart-upTimes-Guidelines">Guidelines</h2>
+      <p>Implementing the following guidelines are recommended in order to optimize Rhapsody for fast start-up times:</p>
+      <ul>
+       <li>Ensure the system hosting Rhapsody is sufficiently resourced to prevent a build-up of messages on queues. This includes allocating sufficient memory and CPU cores to Rhapsody as well as conducting performance profiling with anticipated message loads. Rapid processing of messages results in small message queues which in turn results in fast start-up of Rhapsody.</li>
+       <li>Employ queue depth notifications for early warning of performance and routing problems. It is important to take action once live queue depths start to build for two reasons. First, this may be indicative of a processing, connectivity or performance issue on the system, which may pre-empt a more serious event such as an unclean shutdown within the engine. Second, the queue build-up will significantly impact start-up time if the engine does experience an unclean shutdown.</li>
+       <li>Modify the number of route threads and communication point connections according to the results of any performance profiling done on production-type loads. If messages are building up in a specific communication point, increasing the number of communication point connections would allow more messages to pass through that interface in parallel.</li>
+       <li>Do not use hold queues in production. Monitor error queues and ensure that messages on the error queue are dealt with promptly. Once again, messages on these queues have a direct, negative impact on start-up time.</li>
+       <li>If long running transactions are an issue with messages being ‘stuck’ in filters or taking a long time to process coupled with high parallel message throughput (this can be observed by monitoring the size of the transaction data store on disk), upgrading to the latest version of Rhapsody should be considered a priority. The latest version incorporates design changes to the transaction store which significantly reduces the impact of long running transactions on Rhapsody start-up times.</li>
+       <li>If the configuration does include filter operations which are unavoidably slow, consider setting the concurrency flag to 1 for these filters in order to prevent more than one message from being processed in these filters simultaneously. While this would have an adverse performance impact on that specific route (effectively serializing operations within it), it would improve the performance of the rest of the engine and prevent this one route from blocking all the route threads.</li>
+       <li>Where possible, any inter-operation with external systems (such as a database operation) should employ low time-outs in order to prevent blocking operations. This improves the overall responsiveness of the system as well as preventing the transaction file from growing.</li>
+      </ul>
+      <p>Lastly, it is imperative that the HA software is able to detect failures within Rhapsody in a timely manner such that an HA fail-over can be initiated.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

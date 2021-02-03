@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Connectors</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Connectors</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A connector allows messages to flow from one component to another in a route. Connectors may pass all messages or apply selection criteria based on the message structure or content. There are three types of connectors:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146941917 {padding: 0px;}
+div.rbtoc1565146941917 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146941917 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146941917"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#Connectors-StandardConnector">Standard Connector</a></li> 
+        <li><a href="#Connectors-ConditionalConnector">Conditional Connector</a></li> 
+        <li><a href="#Connectors-JavaScriptConnector">JavaScript Connector</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p>To add a connector to a route, select the appropriate Connector icon on the toolbar, then drag the connector from one component (a communication point, filter, or filter output connector) to another. A blue square is displayed around the component when it is selected. Release the mouse button to create the connection.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>While it is possible to create cross-route Conditional and JavaScript connectors, it is not recommended you do so as they are not supported.</p>
+       </div>
+      </div>
+      <p>To remove a connection between two components, select the connection (changing its appearance to bold), then press the <code>DELETE</code> key. A dialog asking for confirmation of this action may be displayed. Alternatively, right-click the connector, then click <strong>Delete Connection</strong>.</p>
+      <h2 id="Connectors-StandardConnector">Standard Connector</h2>
+      <p>Standard connectors <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162108/133162111.png" data-image-src="attachments/133162108/133162111.png" data-unresolved-comment-count="0" data-linked-resource-id="133162111" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_connector.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162108" data-linked-resource-container-version="1"></span> are used to pass messages from one Rhapsody component to another in a route and do not restrict or change the messages passing along them.</p>
+      <h2 id="Connectors-ConditionalConnector">Conditional Connector</h2>
+      <p>A Conditional connector <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162108/133162112.png" data-image-src="attachments/133162108/133162112.png" data-unresolved-comment-count="0" data-linked-resource-id="133162112" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_connector2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162108" data-linked-resource-container-version="1"></span> is used to route messages selectively based on their structure and/or contents.</p>
+      <p>Conditional connectors (and JavaScript connectors) must originate from a filter. Messages that do not meet the criteria set by the Conditional connector are routed to the No Match or Error connector on the filter. If neither of these connectors is configured, non-matching messages are routed to the Error Queue, which may be viewed in&nbsp;Management Console.</p>
+      <p>Refer to <a href="Adding-a-Condition_133162116.html">Adding a Condition</a> and <a href="Testing-Conditional-Connectors_133162134.html">Testing Conditional Connectors</a> to learn how to add conditions to your route and test them.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If knowledge of a message type or structure is required, a message definition must be applied to the route before conditions can be created. This tells Rhapsody the structure of the messages it is parsing and enables messages to be selectively routed depending on their structure and content.</p>
+       </div>
+      </div>
+      <p>For example, in the following screenshot, an HL7 version 2.4 <code>ADT^A01</code> message definition has been applied to the route. The Conditional connector has been configured to pass only <code>ACK^A01</code> (acknowledgment) messages. <code>ADT^A01</code> messages contained in this definition are blocked. Additionally, as part of the configuration of the message definition, a property called <code>AcknowledgmentCode</code> is created and mapped to a specific location in the message. The connector will pass messages only if they are acknowledgment messages containing the string <code>AA</code> (Acknowledgment Accepted) in the location specified by this property mapping.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162108/133162113.png" data-image-src="attachments/133162108/133162113.png" data-unresolved-comment-count="0" data-linked-resource-id="133162113" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="conditionalConnector2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162108" data-linked-resource-container-version="1"></span></p>
+      <p>If multiple message definitions exist on the route, multiple message types could be identified in the conditions. All specified criteria must be true in order for a message to pass through a Conditional connector.</p>
+      <h2 id="Connectors-JavaScriptConnector">JavaScript Connector</h2>
+      <p>The JavaScript connector <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162108/133162110.png" data-image-src="attachments/133162108/133162110.png" data-unresolved-comment-count="0" data-linked-resource-id="133162110" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_connector3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162108" data-linked-resource-container-version="1"></span> uses a JavaScript expression to make routing decisions for messages reaching the connector. This offers more flexibility than the Conditional connector, but does require some knowledge of JavaScript to implement.</p>
+      <p>The JavaScript expression entered as the criteria is evaluated by the Rhapsody engine. If <code>True</code>, the message is passed through the connector. If <code>False</code>, the message is routed to the No Match connector if it is present, otherwise to the Error connector or Error Queue.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162108/133162109.png" data-image-src="attachments/133162108/133162109.png" data-unresolved-comment-count="0" data-linked-resource-id="133162109" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="conditionalConnector3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162108" data-linked-resource-container-version="1"></span></p>
+      <p>This example is the JavaScript equivalent of the Conditional connector configuration. The full text of the expression is:</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>input.getField("MSH.MessageType") == "ACK^A01" &amp;&amp; input.getProperty("AcknowledgmentCode") == "AA" </pre> 
+       </div>
+      </div>
+      <p>A&nbsp;<a href="ROMessage-Object_133161403.html">ROMessage object</a> is a read-only message.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>input</code></p></td>
+          <td class="confluenceTd"><p>A ROMessage (read-only message) object</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The following table describes the JavaScript Connector ROMessageObject properties available on the <a href="ROMessage-Object_133161403.html">ROMessage object</a>:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>text</code></p></td>
+          <td class="confluenceTd"><p>Returns the body of the message as a string</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The&nbsp;<code>text</code>&nbsp;property&nbsp;is immutable and hence can only be read.&nbsp;</p>
+      <p>The following table describes the JavaScript Connector ROMessageObject methods available on the <a href="ROMessage-Object_133161403.html">ROMessage object</a>:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Method</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getField(name)</code></p></td>
+          <td class="confluenceTd"><p>Extracts the field named in the string argument from the message and returns it (as a string) to the caller. If the field does not exist, a null is returned. The message must be parsable using one of the message definitions attached to the route.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getProperty(name)</code></p></td>
+          <td class="confluenceTd"><p>Returns the value of the message property as a string to the caller, or null if the property does not exist on the message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getErrors()</code></p></td>
+          <td class="confluenceTd"><p>Returns a string array of error messages that occurred while processing the message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>getText(encoding)</code></p></td>
+          <td class="confluenceTd"><p>Returns the body of the message as a string using the supplied character encoding.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <ul>
+       <li>Refer to&nbsp;<a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a>&nbsp;for details on JavaScript and the objects that Rhapsody exposes.</li>
+       <li><span style="line-height: 13.0pt;">Refer to&nbsp;</span><a href="Shared-JavaScript-Libraries_133161861.html">Shared JavaScript Libraries</a><span style="line-height: 13.0pt;">&nbsp;for details on how to manage shared&nbsp;JavaScript libraries.</span></li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

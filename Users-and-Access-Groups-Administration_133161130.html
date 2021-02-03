@@ -1,0 +1,372 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Users and Access Groups Administration</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Administration-REST-API-Methods_133161103.html">Administration REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Users and Access Groups Administration</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods for managing users and access groups:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005163 {padding: 0px;}
+div.rbtoc1565147005163 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005163 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147005163"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#UsersandAccessGroupsAdministration-Users">Users</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#UsersandAccessGroupsAdministration-GET/admin/usermanagement/users">GET /admin/usermanagement/users</a></li> 
+          <li><a href="#UsersandAccessGroupsAdministration-PUT/admin/usermanagement/users">PUT /admin/usermanagement/users</a></li> 
+         </ul> </li> 
+        <li><a href="#UsersandAccessGroupsAdministration-AccessGroups">Access Groups</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#UsersandAccessGroupsAdministration-GET/admin/usermanagement/accessgroups">GET /admin/usermanagement/accessgroups</a></li> 
+          <li><a href="#UsersandAccessGroupsAdministration-PUT/admin/usermanagement/accessgroups">PUT /admin/usermanagement/accessgroups</a></li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For details on how to manage groups and users, refer to <a href="Access-Control-in-Rhapsody_133160999.html">Access Control in Rhapsody</a>.</p>
+       </div>
+      </div>
+      <h2 id="UsersandAccessGroupsAdministration-Users">Users</h2>
+      <h3 id="UsersandAccessGroupsAdministration-GET/admin/usermanagement/users">GET /admin/usermanagement/users</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>GET /admin/usermanagement/users</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd"><p>Returns the list of users added to the engine.</p>
+           <ul>
+            <li>When saving the users, the Administrator user is not returned.</li>
+            <li>This method fails if LDAP is enabled.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Accept: application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept: application/vnd.orchestral.rhapsody.6_3+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>200 OK</code> - returns the users information in JSON format.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd"><p>The <code>groups</code> attribute is the name of the default access group (<code>administrator</code>, <code>dashboard</code>, <code>developer</code>, <code>monitoring</code>) or the GUID of a user-defined group.</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "data":{
+    "users":[
+    {
+      "disabled": false,
+      "forceChangePassword": false,
+      "fullName": "ana",
+      "name": "ana",
+      "passwordNeverExpires": false,
+      "password": "********",
+      "groups":[
+        "f08872ac-e2ef-48cf-88e5-ad1d923b3092"
+      ]
+    },
+    {
+      "disabled": false,
+      "forceChangePassword": true,
+      "fullName": "bob",
+      "name": "bob",
+      "passwordNeverExpires": false,
+      "password": "********",
+      "groups":[
+        "administrator"
+      ]
+    }]
+  },
+  "error": null
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th style="text-align: center;" class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Save users REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="UsersandAccessGroupsAdministration-PUT/admin/usermanagement/users">PUT /admin/usermanagement/users</h3>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">URI</th>
+          <td class="confluenceTd"><code>PUT /admin/usermanagement/users</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Description</th>
+          <td class="confluenceTd"><p>Overrides existing users on the engine with the ones provided. Existing users that are not included in the request body are deleted. Changes made to users through this method are primarily used for set-up purposes.</p>
+           <ul>
+            <li>The Administrator cannot be modified via this method.</li>
+            <li>This method fails if LDAP is enabled.</li>
+            <li>You cannot delete a user who is currently calling the method.</li>
+            <li>New users must provide a password; this is optional for existing users.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh">Request Header</th>
+          <td class="confluenceTd"><code>Content-Type: application/json</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_3+json</code> <br> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a>&nbsp;</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Request Body</th>
+          <td class="confluenceTd"><p>The <code>groups</code> attribute is the name of the default access group (<code>administrator</code>, <code>dashboard</code>, <code>developer</code>, <code>monitoring</code>) or the GUID of a user-defined group.</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{
+  "users":[
+  {
+    "disabled": false,
+    "forceChangePassword": false,
+    "fullName": "ana",
+    "name": "ana",
+    "passwordNeverExpires": false,
+    "password": "********",
+    "groups":[
+      "f08872ac-e2ef-48cf-88e5-ad1d923b3092"
+    ]
+  }]
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Status</th>
+          <td class="confluenceTd"><code>204 No Content</code> - the users were loaded successfully.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Response Body</th>
+          <td class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Access Rights</th>
+          <td class="confluenceTd">'Load users REST API'.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="UsersandAccessGroupsAdministration-AccessGroups">Access Groups</h2>
+      <p>Access rights give an access group global default permissions to all lockers. An access group can be accorded specific access rights to specific lockers by explicitly setting the access rights for each locker.</p>
+      <h3 id="UsersandAccessGroupsAdministration-GET/admin/usermanagement/accessgroups">GET /admin/usermanagement/accessgroups</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /admin/usermanagement/accessgroups</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Returns the access groups.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>This method provides the <a href="Access-Rights_133161013.html">internal value</a> of access rights in the response body.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept: application/json</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept: application/vnd.orchestral.rhapsody.6_2+json</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>200 OK</code> - returns the access groups information in JSON format.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{  
+    "data":{  
+        "accessGroups":[  
+            {  
+                "disabled":false,
+                "displayName":"Deploy",
+                "id":"8425c1b0-3975-439d-8b41-710efe7553f6",
+                "passwordNeverExpires":false,
+                "accessRights":[  
+                    "engine debugging",
+                    "ide view",
+                    "monitoring view",
+                    "keys export private",
+                    "notification-delivery-methods edit"
+                ],
+                "lockerRights":[  
+                    {  
+                        "uuid":"63995af9-5ce9-447b-bbce-3eb6fe3db6e5",
+                        "lockerUuid":"f93b8036-6e58-48fd-8017-b77ee079a995",
+                        "accessRights":[  
+                            "monitoring view",
+                            "locker view"
+                        ]
+                    },
+                    {  
+                        "uuid":"024e2682-91be-4460-b02e-4f0396a583c6",
+                        "lockerUuid":"0a07eff7-d9e3-4225-9acf-b0ca2e058967",
+                        "accessRights":[  
+                            "ide edit",
+                            "ide view"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "error":null
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Save access groups REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="UsersandAccessGroupsAdministration-PUT/admin/usermanagement/accessgroups">PUT /admin/usermanagement/accessgroups</h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /admin/usermanagement/accessgroups</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Overrides access groups with the ones provided. Existing access groups that are not included in the request body are deleted. A new group is created when the access group ID parameter <code>id</code> is not provided in the request body.&nbsp;</p><p>Changes made to access groups through this method are primarily used for set-up purposes.</p>
+           <div class="confluence-information-macro confluence-information-macro-information">
+            <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>This method uses the <a href="Access-Rights_133161013.html">internal value</a> of access rights in the request body.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_2+json<br> </code> <a href="Request-and-Response-Formats_133161143.html">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: xml; gutter: false; theme: Confluence" data-theme="Confluence">{  
+    "accessGroups":[  
+        {  
+            "disabled":false,
+            "displayName":"Deploy",
+            "id":"8425c1b0-3975-439d-8b41-710efe7553f6",
+            "passwordNeverExpires":false,
+            "accessRights":[  
+                "engine debugging",
+                "ide view",
+                "monitoring view",
+                "keys export private",
+                "notification-delivery-methods edit"
+            ],
+            "lockerRights":[  
+                {  
+                    "uuid":"63995af9-5ce9-447b-bbce-3eb6fe3db6e5",
+                    "lockerUuid":"f93b8036-6e58-48fd-8017-b77ee079a995",
+                    "accessRights":[  
+                        "monitoring view",
+                        "locker view"
+                    ]
+                },
+                {  
+                    "uuid":"024e2682-91be-4460-b02e-4f0396a583c6",
+                    "lockerUuid":"0a07eff7-d9e3-4225-9acf-b0ca2e058967",
+                    "accessRights":[  
+                        "ide edit",
+                        "ide view"
+                    ]
+                }
+            ]
+        }
+    ]
+}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><code>204 No Content</code> - the&nbsp;access groups were loaded successfully.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Body</strong> </span></td>
+          <td colspan="1" class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Load access groups REST API'.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

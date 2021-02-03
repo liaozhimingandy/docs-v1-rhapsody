@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Error Message Redirector</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Error Message Redirector</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162530/133162531.jpg" data-image-src="attachments/133162530/133162531.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162531" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image035.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162530" data-linked-resource-container-version="1"></span></p>
+      <p>The <strong>Error Message Redirector</strong> communication point&nbsp;allows tracked messages, which have met some error condition specified in a message tracking scheme, to be redirected for further processing rather than simply being discarded or sent to the error queue.</p>
+      <p>The Error Message Redirector is a bidirectional communication point and only functions in bidirectional mode. Essentially, it works by receiving in the input direction the very messages which it sends in the output direction. The messages it sends are messages which have been forwarded to it by the message tracking functionality. As this message forwarding occurs internally, there is no need to attach a connector from a filter elsewhere on the route to the communication point; the communication point can stand alone on the output side of the route. While it is possible to have a connector leading to the communication point from a filter, this is not the expected usage of the Error Message Redirector, and could potentially lead to messages being sent in an infinite loop (if there is a path leading from the communication point in input mode to the same communication point in output mode).</p>
+      <p>The sending of a message is synchronized with the receiving of the message, so that a send is not considered complete until the receive is complete. This means that messages cannot be lost if Rhapsody shuts down during a send or receive. The received message is then copied, and it is this copy which enters Rhapsody as a new message with its own message id. Redirecting messages in this way through the Error Message Redirector communication point means that a route can be created using the standard Rhapsody functionality to specifically handle the error condition of a tracked message not receiving a response. The following image illustrates a sample route.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="356" width="560" src="attachments/133162530/133162532.jpg" data-image-src="attachments/133162530/133162532.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162532" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image036.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162530" data-linked-resource-container-version="1"></span></p>
+      <p>The Error Message Redirector communication point has no configuration properties. Using it is simply a matter of adding it to a route, and then configuring one or more message tracking schemes to send messages to it upon error.</p>
+      <p>Supported Operational Modes: <em>Bidirectional</em></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

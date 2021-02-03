@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>NHS DTS Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">NHS DTS Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162619/133162620.jpg" data-image-src="attachments/133162619/133162620.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162620" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_commptdefault.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162619" data-linked-resource-container-version="9"></span></p>
+      <p>The <strong>NHS</strong>&nbsp;<strong>DTS Client</strong> communication point&nbsp;enables messages to be sent and received from the NHS <span>Data Transfer Service</span>&nbsp;(DTS) system. This service is used for message exchange between medical providers.</p>
+      <p>The&nbsp;communication point sends messages into the DTS directory along with a control file that Rhapsody creates, or it reads messages from the DTS directory. Refer to <a href="NHS-DTS-Client_133162619.html">Published Properties</a> for a list of properties associated with this communication point.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This communication point is sold as an extra component for the <span>United Kingdom</span> and is not included in the standard Rhapsody install. It was intended to connect to the United Kingdom's NHS DTS (Data Transfer Service) system. The DTS system has now been replaced by the MESH (Message Exchange for Social Healthcare) system with some backwards compatibility. The primary medium for communication with MESH servers is through an exposed REST API, which this communication point does not support. Instead, Rhapsody now offers MESH connectivity through a standard configuration solution utilizing the REST API provided by the <span style="letter-spacing: 0.0px;">MESH system</span>. For details, contact <a href="Rhapsody-Support_133163665.html">Rhapsody Support</a>.</p>
+       </div>
+      </div>
+      <p>Supported Operational Modes: <em>All</em>.</p>
+      <h2 id="NHSDTSClient-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>DTS Directory</p></td>
+          <td class="confluenceTd"><p>The DTS directory to look for files and messages to process. This is the directory that contains the <em>IN</em> and <em>OUT</em> directories.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Site ID</p></td>
+          <td class="confluenceTd"><p>The DTS client User ID.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Address Type</p></td>
+          <td class="confluenceTd"><p>The type of address used for the transfer:</p>
+           <ul>
+            <li><code>SMTP</code> (d<span>efault).</span></li>
+            <li><code>DTS</code>.</li>
+            <li><code>All</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>From SMTP Address</p></td>
+          <td class="confluenceTd"><p>If using <code>SMTP</code>, the SMTP address of the originator of the data transfer.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>To SMTP address</p></td>
+          <td class="confluenceTd"><p>If using <code>SMTP</code>, the SMTP address of the recipient of the data transfer.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>From DTS address</p></td>
+          <td class="confluenceTd"><p>If using <code>DTS</code>, the DTS address of the originator of the data transfer.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>To DTS address</p></td>
+          <td class="confluenceTd"><p>If using <code>DTS</code>, the DTS address of the recipient of the data transfer.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Control ID</p></td>
+          <td class="confluenceTd"><p>The unique identifier of the data message. If message tracking is used, this must be the same as the value used for the message control ID.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Subject</p></td>
+          <td class="confluenceTd"><p>The subject of the data transfer for the SMTP email subject.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Compress</p></td>
+          <td class="confluenceTd"><p>Indicates if the data file can be compressed by the DTS client.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encrypted</p></td>
+          <td class="confluenceTd"><p>Indicates that the data file has been encrypted.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Workflow ID</p></td>
+          <td class="confluenceTd"><p>Identifier for the workflow that the data transfer is a part of.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Process ID</p></td>
+          <td class="confluenceTd"><p>Identifier to specify the type of processing that might be required before forwarding to the recipient.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Refer to <a href="General_133162189.html#General-In->OutandOut->InProperties">Out-&gt;In and In-&gt;Out Properties</a> for general details on the NHS DTS Client communication point's <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes.</p>
+      <h2 id="NHSDTSClient-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for the NHS DTS Client communication point are:</p>
+      <ul>
+       <li><code>DTSTransactionType</code> - input messages have the <code>DTSTransactionType</code> property which indicates if it is an <code>IN_Data</code> or <code>IN_Status</code>.</li>
+       <li><code>XMLElements</code> - all elements from the control file are added as properties.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

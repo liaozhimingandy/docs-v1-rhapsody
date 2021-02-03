@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Adding Third-party Libraries to a Custom Component</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Adding Third-party Libraries to a Custom Component</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>You can add third-party libraries to your custom filter or communication point:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147008728 {padding: 0px;}
+div.rbtoc1565147008728 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147008728 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147008728"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#AddingThird-partyLibrariestoaCustomComponent-Third-partyJavaLibraries">Third-party Java Libraries</a></li> 
+        <li><a href="#AddingThird-partyLibrariestoaCustomComponent-Third-partySystemLibraries(.so)onLinux">Third-party System Libraries (.so) on Linux</a></li> 
+        <li><a href="#AddingThird-partyLibrariestoaCustomComponent-Third-partysystemlibraries(.dll)onWindows">Third-party system libraries (.dll) on Windows</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="AddingThird-partyLibrariestoaCustomComponent-Third-partyJavaLibraries">Third-party Java Libraries</h2>
+      <p class="Standard">To add logging to your filter using third-party JAR files (<code>log4j.jar</code>) into our custom module:</p>
+      <ol>
+       <li class="Standard">Create a&nbsp;<code>lib</code> folder in your project.</li>
+       <li class="Standard">Add the third-party JAR files into the <code>lib</code> folder.</li>
+       <li class="Standard"><p>Add the JAR files to the path in your <code>MANIFEST.MF</code> file, comma-separated (it is recommended you use the visual editor rather than editing the file directly – use runtime tab and classpath entry):</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Bundle-ClassPath: .,
+lib/commons-cli-1.2.jar,
+lib/dcm4che-audit-2.0.25.jar,</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">Add them to your project build for Eclipse.</li>
+       <li class="Standard">Ensure your Ant script that creates the module JAR also includes them.</li>
+      </ol>
+      <h2 id="AddingThird-partyLibrariestoaCustomComponent-Third-partySystemLibraries(.so)onLinux">Third-party System Libraries (.so) on Linux</h2>
+      <p class="Standard">To add 'system libraries' such as shared library objects (<code>*.so</code>) in Linux:</p>
+      <ol>
+       <li class="Standard">Add the <code>so</code> files into a <code>lib</code> folder in your project – refer to <code>libCallDcm.so</code>:<br><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="186" width="323" src="attachments/133161292/133161294.bmp" data-image-src="attachments/133161292/133161294.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161294" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="thirdParty1..bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161292" data-linked-resource-container-version="1"></span></li>
+       <li class="Standard"><p>Load the shared library in your Java code. Here, check if it is a Linux instance as the syntax is slightly different for <em>Windows</em>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">// Linux                 
+if (System.getProperty("os.name").toLowerCase().equals("Linux".toLowerCase())){
+    System.loadLibrary("CallDcm"); // libCallDcm.so
+}
+// Windows
+else {
+    System.loadLibrary("zlib1.dll");  // zlib1.dll
+    System.loadLibrary("libCallDcm"); // libCallDcm.dll
+}</pre> 
+         </div>
+        </div><p class="Standard">Note for Linux how we omit <code>lib</code>&nbsp;and <code>.so</code>&nbsp;as you would for any native use of libraries.</p></li>
+       <li class="Standard"><p class="Standard">Modify your <code>MANIFEST.MF</code> to reference the library by adding a Bundle-NativeCode line:</p>
+        <ul>
+         <li class="Standard"><p class="Standard">&nbsp;For 64-bit Linux, add the following line:</p>
+          <div class="code panel pdl" style="border-width: 1px;">
+           <div class="codeContent panelContent pdl"> 
+            <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Bundle-NativeCode: lib/libCallDcm.so; osname=Linux; processor=amd64</pre> 
+           </div>
+          </div></li>
+         <li><p class="Standard">If you have both <em>Windows</em> and Linux support, add the following line (all on one line):</p>
+          <div class="code panel pdl" style="border-width: 1px;">
+           <div class="codeContent panelContent pdl"> 
+            <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Bundle-NativeCode: lib/libCallDcm.so; osname=Linux; processor=amd64, lib/zlib1.dll; lib/libCallDcm.dll; osname="Windows Server 2008"; osname="Windows 7"; processor=amd64; processor=x86_64</pre> 
+           </div>
+          </div></li>
+        </ul></li>
+      </ol>
+      <h2 id="AddingThird-partyLibrariestoaCustomComponent-Third-partysystemlibraries(.dll)onWindows">Third-party system libraries (<code>.dll</code>) on Windows</h2>
+      <p class="Standard">To add 'system libraries' such as DLLs in Windows:</p>
+      <ol>
+       <li>Add the DLL files into a <code>lib</code> folder in your project – refer to <code>libCallDcm.dll</code> and&nbsp;<code>zlib1.dll</code>:<br><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="186" width="323" src="attachments/133161292/133161293.bmp" data-image-src="attachments/133161292/133161293.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161293" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="thirdParty2.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161292" data-linked-resource-container-version="1"></span><br>Note that in this example, <code>zlib1.dll</code> is required by <code>libCallDcm.dll</code>.&nbsp; Put all dependencies into the <code>lib</code> folder.</li>
+       <li class="Standard"><p>In your Java code, load the libraries in reverse order. For example, if you want to load <code>libCallDcm.dll</code>, which is dependent on <code>zlib1.dll</code>, then load <code>zlib1.dll</code> first:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">System.loadLibrary("zlib1.dll"); // zlib1.dll
+System.loadLibrary("libCallDcm"); // libCallDcm.dll
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Modify your <code>MANIFEST.MF</code> to reference the library by adding a Bundle-NativeCode line. For 64-bit <em>Windows</em>,&nbsp;add the&nbsp;following&nbsp;line:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Bundle-NativeCode: lib/libCallDcm.dll; osname="Windows Server 2008"; osname="Windows 7"; processor=amd64; processor=x86_64</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

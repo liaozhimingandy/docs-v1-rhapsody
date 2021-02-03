@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Configuration of Coded Fields</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+       <li> <span><a href="HL7-Code-Translation-and-Validation-Filters_133163271.html">HL7 Code Translation and Validation Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Configuration of Coded Fields</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The user must configure which fields are to be validated. The fields in question must be of the Coded Element (CE) HL7 data type (or compatible format). This data type is composed of up to three sets of subfields:</p>
+      <ol>
+       <li>Is composed of three string subfields for a code identifier, an optional description of the code and a coding system, respectively, representing the main code.</li>
+       <li>Is similar, but represents an alternative code.</li>
+       <li>(if present) represents a version, alternate version, and original text.</li>
+      </ol>
+      <p>The first set is required for both code validation and translation. The second and third set are only required if the filter is configured in such a way as needing them; that is, versions are used or code translation is set to use the alternative fields.</p>
+      <p>Repeating Coded Fields and Coded Fields inside multiple levels of repeating structures are handled by the <a href="HL7-External-Code-Validation_133163277.html">HL7 External Code Validation</a>.</p>
+      <p>The structure of HL7 CE like composites is as follows:</p>
+      <ul>
+       <li><em>COMPONENT NAME</em></li>
+       <li>Identifier</li>
+       <li>Text</li>
+       <li>Name of Coding System</li>
+       <li>Alternate Identifier</li>
+       <li>Alternate Text</li>
+       <li>Name of Alternate Coding System</li>
+       <li>Coding System Version ID</li>
+       <li>Alternate Coding System Version ID</li>
+       <li>Original Text</li>
+      </ul>
+      <p><span class="confluence-anchor-link" id="ConfigurationofCodedFields-CodeSet"></span></p>
+      <h2 id="ConfigurationofCodedFields-ConfigurationoftheCodeSet">Configuration of the Code Set</h2>
+      <p>The user must configure the database table(s) containing the coding systems against which coded fields are validated. All coding systems must be in one database.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163272/133163273.jpg" data-image-src="attachments/133163272/133163273.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163273" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image125.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163272" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Table Name</p></td>
+          <td class="confluenceTd"><p>The name of the table in the database.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Identifier Column</p></td>
+          <td class="confluenceTd"><p>The name of the column in the table that contains the coding system's identifiers.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Description Column</p></td>
+          <td class="confluenceTd"><p>The name of the column in the table that contains the identifier descriptions. Leaving this field blank turns off description validation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System</p></td>
+          <td class="confluenceTd"><p>The name of the coding system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version</p></td>
+          <td class="confluenceTd"><p>The version of the coding system. A version can only be included in HL7 2.5 or higher messages so this will often be left blank.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Coding System Column</p></td>
+          <td class="confluenceTd"><p>The name of the column in the table that contains the coding system names.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version Column</p></td>
+          <td class="confluenceTd"><p>The name of the column in the table that contains the coding system's version. A version can only be included in HL7 2.5 or higher messages so this will often be left blank.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The Code Validation filter can read Coding Systems from three database table structures:</p>
+      <ul>
+       <li>A table which describes a single coding system. Refer to <a href="Single-Coding-System_133163276.html">Single Coding System</a> for details.</li>
+       <li>A table which describes multiple coding systems. Refer to <a href="Multiple-Coding-Systems_133163274.html">Multiple Coding Systems</a> for details.</li>
+       <li>A table which describes multiple coding systems but only a single coding system is used. Refer to <a href="Multiple-Coding-Systems-with-Single-Coding_133163275.html">Multiple Coding Systems with Single Coding</a> for details.</li>
+      </ul>
+      <h3 id="ConfigurationofCodedFields-Versions">Versions</h3>
+      <p>Versions can be checked in any of the above situations by adding either a version or a version column or both. If version information is checked it is considered part of the coding system; if the coding system exists but the version is wrong this is treated as a coding system wrong.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

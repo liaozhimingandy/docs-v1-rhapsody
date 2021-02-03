@@ -1,0 +1,496 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Components Web Service</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="SOAP-API_133161152.html">SOAP API</a></span> </li> 
+       <li> <span><a href="Web-Services-API_133161170.html">Web Services API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Components Web Service</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Rhapsody Components Web service provides operations to find the communication points and routes in the Rhapsody configuration, simple statistical information about these components, and allows them to be stopped and started.</p>
+      <p>All these operations use WS-Security to verify that the caller has sufficient privileges. The Web service supports WS-Security with UsernameToken authentication. The password must be provided as plain text.</p>
+      <p>Once a user has been authenticated, the Web service verifies that they have permissions to make Web service calls and perform the requested operation. A SOAP fault is raised if the authentication or permission check fails.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>WSDL Location</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>RhapsodyComponentsService?wsdl</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>SOAP 1.1 Endpoint</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>RhapsodyComponentsService.</code><code>RhapsodyComponentsServiceHttpsSoap11Endpoint</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>SOAP 1.2 Endpoint</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>RhapsodyComponentsService.</code><code>RhapsodyComponentsServiceHttpsSoap12Endpoint</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><strong>In This Section</strong></p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005906 {padding: 0px;}
+div.rbtoc1565147005906 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005906 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565147005906"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ComponentsWebService-Operations">Operations</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ComponentsWebService-getAllComponents">getAllComponents</a></li> 
+          <li><a href="#ComponentsWebService-getComponentInformation">getComponentInformation</a></li> 
+          <li><a href="#ComponentsWebService-startComponent">startComponent</a></li> 
+          <li><a href="#ComponentsWebService-stopComponent">stopComponent</a></li> 
+          <li><a href="#ComponentsWebService-restartComponent">restartComponent</a></li> 
+         </ul> </li> 
+        <li><a href="#ComponentsWebService-SOAPFaults">SOAP Faults</a></li> 
+       </ul> 
+      </div>
+      <h2 id="ComponentsWebService-Operations">Operations</h2>
+      <h3 id="ComponentsWebService-getAllComponents">getAllComponents</h3>
+      <p>Retrieves an object that represents the folder hierarchy in the Rhapsody configuration, including all communication points, routes, and Web services (which are all in the root folder). Only lockers that the user has view permissions for will be returned. The name, internal ID and current state of each communication point and route is returned.</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;    
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-24" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsu:Created&gt;2009-09-23T22:18:26.391Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:getAllComponents/&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getAllComponentsResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+         &lt;ns1:rootFolder id="0" name=""&gt;
+            &lt;ns1:folder id="4" name="Tracking Locker"&gt;
+               &lt;ns1:folder id="13" name="System2"&gt;
+                  &lt;ns1:component id="35" name="System2 Server Route" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="16" name="System2 TCP Client" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="32" name="System2 Input Route" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="12" name="System2 Internal TCP Server" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="14" name="System2 Sink" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="15" name="System2 Source" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+               &lt;/ns1:folder&gt;
+               &lt;ns1:folder id="8" name="System1"&gt;
+                  &lt;ns1:component id="7" name="System1 Internal TCP Server" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="9" name="System1 Sink" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="10" name="System1 Source" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="27" name="System1 Input Route" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="11" name="System1 TCP Client" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="30" name="System1 Server Route" state="STOPPED" type="ROUTE"/&gt;
+               &lt;/ns1:folder&gt;
+               &lt;ns1:folder id="18" name="System3"&gt;
+                  &lt;ns1:component id="38" name="System3-2" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="39" name="System3-3" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="37" name="System3 Input Route" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="42" name="System3-5" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="40" name="System3-4" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="41" name="System3-1" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="51" name="System3 Server Route" state="STOPPED" type="ROUTE"/&gt;
+                  &lt;ns1:component id="17" name="System3 Internal TCP Server" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="19" name="System3 Sink" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="21" name="System3-1 TCP Client" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="20" name="System3 Source" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="23" name="System3-3 TCP Client" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="22" name="System3-2 TCP Client" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="25" name="System3-5 TCP Client" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="24" name="System3-4 TCP Client" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+               &lt;/ns1:folder&gt;
+               &lt;ns1:folder id="5" name="Manual Tracking"&gt;
+                  &lt;ns1:component id="3" name="Input TCP Server" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="6" name="Manual TCP Client" state="STOPPED" type="COMMUNICATION_POINT"/&gt;
+                  &lt;ns1:component id="26" name="Manual Input Route" state="STOPPED" type="ROUTE"/&gt;
+               &lt;/ns1:folder&gt;
+            &lt;/ns1:folder&gt;
+            &lt;ns1:component id="200" name="TestService4" state="RUNNING" type="WEB_SERVICE"/&gt;
+            &lt;ns1:component id="203" name="TestService5" state="RUNNING" type="WEB_SERVICE"/&gt;
+            &lt;ns1:component id="202" name="TestService2" state="RUNNING" type="WEB_SERVICE"/&gt;
+         &lt;/ns1:rootFolder&gt;
+      &lt;/ns1:getAllComponentsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <h3 id="ComponentsWebService-getComponentInformation">getComponentInformation</h3>
+      <p>Retrieves some simple statistical information about a specific communication point, route or Web service. The operation takes two parameters — the ID or full path of the component, and the component type. SOAP faults are raised if the component cannot be found or the user has insufficient privileges to view the component.</p>
+      <p><strong>Sample Communication Point Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;    
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-24" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsu:Created&gt;2009-09-23T22:18:26.391Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:getComponentInformation&gt;
+         &lt;rhap:path&gt;Tracking - Load Testing/System1/System1 Internal TCP Server&lt;/rhap:path&gt;
+         &lt;rhap:type&gt;COMMUNICATION_POINT&lt;/rhap:type&gt;
+      &lt;/rhap:getComponentInformation&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample Communication Point Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getComponentInformationResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+         &lt;ns1:communicationPointInformation communicationPointType="TCP Server" id="7" mode="BIDIRECTIONAL" name="System1 Internal TCP Server" path="Tracking - Load Testing/System1/System1 Internal TCP Server" state="STOPPED" type="COMMUNICATION_POINT"&gt;
+            &lt;ns1:inboundQueueSize&gt;0&lt;/ns1:inboundQueueSize&gt;
+            &lt;ns1:outboundQueueSize&gt;0&lt;/ns1:outboundQueueSize&gt;
+            &lt;ns1:receivedCount&gt;481465&lt;/ns1:receivedCount&gt;
+            &lt;ns1:sentCount&gt;481455&lt;/ns1:sentCount&gt;
+         &lt;/ns1:communicationPointInformation&gt;
+      &lt;/ns1:getComponentInformationResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Route Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;    
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-24" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsu:Created&gt;2009-09-23T22:18:26.391Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:getComponentInformation&gt;
+         &lt;rhap:id&gt;27&lt;/rhap:id&gt;
+         &lt;rhap:type&gt;ROUTE&lt;/rhap:type&gt;
+      &lt;/rhap:getComponentInformation&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Route Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getComponentInformationResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+         &lt;ns1:routeInformation id="27" name="System1 Input Route" path="Tracking - Load Testing/System1/System1 Input Route" state="STOPPED" type="ROUTE"&gt;
+            &lt;ns1:processingQueueSize&gt;0&lt;/ns1:processingQueueSize&gt;
+            &lt;ns1:waitingQueueSize&gt;0&lt;/ns1:waitingQueueSize&gt;
+            &lt;ns1:processedCount&gt;970905&lt;/ns1:processedCount&gt;
+         &lt;/ns1:routeInformation&gt;
+      &lt;/ns1:getComponentInformationResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Web Service Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;    
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-24" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsu:Created&gt;2009-09-23T22:18:26.391Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:getComponentInformation&gt;
+         &lt;rhap:id&gt;200&lt;/rhap:id&gt;
+         &lt;rhap:type&gt;WEB_SERVICE&lt;/rhap:type&gt;
+      &lt;/rhap:getComponentInformation&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Web Service Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:getComponentInformationResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+         &lt;ns1:webServiceInformation id="200" name="TestService4" state="RUNNING" type="WEB_SERVICE"&gt;
+            &lt;ns1:inputIdleTime millis="42468"&gt;PT42.47S&lt;/ns1:inputIdleTime&gt;
+            &lt;ns1:outputIdleTime millis="42468"&gt;PT42.47S&lt;/ns1:outputIdleTime&gt;
+            &lt;ns1:upTime millis="42468"&gt;PT42.47S&lt;/ns1:upTime&gt;
+            &lt;ns1:receivedCount&gt;3&lt;/ns1:receivedCount&gt;
+            &lt;ns1:sentCount&gt;3&lt;/ns1:sentCount&gt;
+            &lt;ns1:wsdlLocation&gt;https://DaveWin7:8050/services/TestService4?wsdl&lt;/ns1:wsdlLocation&gt;
+         &lt;/ns1:webServiceInformation&gt;
+      &lt;/ns1:getComponentInformationResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <h3 id="ComponentsWebService-startComponent">startComponent</h3>
+      <p>Starts the specified communication point or route. The operation takes two parameters — the ID or full path of the component, and the component type. SOAP faults are raised if the specified component cannot be found, if an error occurs while starting the component (but not if it starts, then stops shortly afterwards with a connection error), or if the user has insufficient privileges to start the component. This operation has no effect if the component is already running.</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;    
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-24" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsu:Created&gt;2009-09-23T22:18:26.391Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:startComponent&gt;
+         &lt;rhap:id&gt;27&lt;/rhap:id&gt;
+         &lt;rhap:type&gt;ROUTE&lt;/rhap:type&gt;
+      &lt;/rhap:startComponent&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:startComponentResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"/&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <h3 id="ComponentsWebService-stopComponent">stopComponent</h3>
+      <p>Stops the specified communication point or route. The operation takes two parameters — the ID or full path of the component, and the component type. SOAP faults are raised if the specified component cannot be found, if an error occurs while stopping the component, or if the user has insufficient privileges to stop the component. This operation has no effect if the component has already stopped.</p>
+      <p><strong>Sample Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;    
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-24" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsu:Created&gt;2009-09-23T22:18:26.391Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:stopComponent&gt;
+         &lt;rhap:id&gt;10&lt;/rhap:id&gt;
+         &lt;rhap:type&gt;COMMUNICATION_POINT&lt;/rhap:type&gt;
+      &lt;/rhap:stopComponent&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Header&gt;&lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:stopComponentResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"/&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <h3 id="ComponentsWebService-restartComponent">restartComponent</h3>
+      <p>Restarts a communication point, route or Web service. The operation takes two parameters — the ID or full path of the component, and the component type. SOAP faults are raised if the specified component cannot be found, if an error occurs while stopping the component, or if the user has insufficient privileges to restart the component. For communication points and routes, this operation has the same effect as stopping and then starting them again. For Web services, this causes their connectors to be rebuilt.</p>
+      <p><strong>Sample Communication Point Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;    
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-24" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsu:Created&gt;2009-09-23T22:18:26.391Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:restartComponent&gt;
+         &lt;rhap:id&gt;198&lt;/rhap:id&gt;
+         &lt;rhap:type&gt;COMMUNICATION_POINT&lt;/rhap:type&gt;
+      &lt;/rhap:restartComponent&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Route Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;    
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-24" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsu:Created&gt;2009-09-23T22:18:26.391Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:restartComponent&gt;
+         &lt;rhap:id&gt;143&lt;/rhap:id&gt;
+         &lt;rhap:type&gt;ROUTE&lt;/rhap:type&gt;
+      &lt;/rhap:restartComponent&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample Web Service Request</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:rhap="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;    
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-24" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsu:Created&gt;2009-09-23T22:18:26.391Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;rhap:restartComponent&gt;
+         &lt;rhap:id&gt;202&lt;/rhap:id&gt;
+         &lt;rhap:type&gt;WEB_SERVICE&lt;/rhap:type&gt;
+      &lt;/rhap:restartComponent&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:restartComponentResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"/&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <h2 id="ComponentsWebService-SOAPFaults">SOAP Faults</h2>
+      <p>The Rhapsody Components service raises SOAP faults when syntactical or semantical errors are discovered in the request, or if an error occurs when generating the response. If the request reaches the Rhapsody Components service (that is, it isn't rejected by the framework due to bad XML/SOAP formatting or invalid security parameters), then the SOAP fault returned will include an instance of a <code>ComponentException</code> (defined in the WSDL), which includes an error code and description indicating the problem.</p>
+      <p>The SOAP fault code will be set to Sender/Client (for SOAP 1.2/1.1) for errors in the request, or Receiver/Server (1.2/1.1) for errors generating the response. The <code>ComponentException</code> object will be included in the details section of the fault. If using SOAP 1.2, then the subcode of the fault will be an instance of <code>componentErrorCode</code> (defined in the WSDL as an enumeration) indicating the error that occurred.</p>
+      <p><strong>Sample SOAP 1.2 Fault</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;soapenv:Fault&gt;
+         &lt;soapenv:Code&gt;
+            &lt;soapenv:Value&gt;soapenv:Sender&lt;/soapenv:Value&gt;
+            &lt;soapenv:Subcode&gt;
+               &lt;soapenv:Value xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;ns1:ComponentNotFound&lt;/soapenv:Value&gt;
+            &lt;/soapenv:Subcode&gt;
+         &lt;/soapenv:Code&gt;
+         &lt;soapenv:Reason&gt;
+            &lt;soapenv:Text xml:lang="en-US"&gt;Component not found&lt;/soapenv:Text&gt;
+         &lt;/soapenv:Reason&gt;
+         &lt;soapenv:Detail&gt;
+            &lt;ns1:ComponentException xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+               &lt;ns1:ErrorCode&gt;ComponentNotFound&lt;/ns1:ErrorCode&gt;
+               &lt;ns1:Message&gt;Component not found&lt;/ns1:Message&gt;
+            &lt;/ns1:ComponentException&gt;
+         &lt;/soapenv:Detail&gt;
+      &lt;/soapenv:Fault&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample SOAP 1.1 Fault</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;soapenv:Fault&gt;
+         &lt;faultcode&gt;soapenv:Client&lt;/faultcode&gt;
+         &lt;faultstring&gt;Component not found&lt;/faultstring&gt;
+         &lt;detail&gt;
+            &lt;ns1:ComponentException xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2009/09/rhapsodyComponentsService"&gt;
+               &lt;ns1:ErrorCode&gt;ComponentNotFound&lt;/ns1:ErrorCode&gt;
+               &lt;ns1:Message&gt;Component not found&lt;/ns1:Message&gt;
+            &lt;/ns1:ComponentException&gt;
+         &lt;/detail&gt;
+      &lt;/soapenv:Fault&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

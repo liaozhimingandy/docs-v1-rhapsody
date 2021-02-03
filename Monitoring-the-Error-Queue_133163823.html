@@ -1,0 +1,385 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Monitoring the Error Queue</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Monitoring_133163674.html">Monitoring</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Monitoring the Error Queue</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148512" class="wrapped confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <colgroup>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path</em> : <strong>Monitoring&gt;Error Queue</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Read <a href="Access-Rights_133161013.html">Access Rights</a>:</em></p>
+           <ul>
+            <li>Log in to Management Console</li>
+            <li>View locker</li>
+            <li>Search Error and Hold Queues</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em><em>Write <a href="Access-Rights_133161013.html">Access Rights</a></em>:</em></p>
+           <ul>
+            <li>Redirect messages</li>
+            <li>Reinject messages</li>
+            <li>Release/Reprocess messages</li>
+            <li>Delete held/errored messages</li>
+            <li>Download messages</li>
+            <li>Export messages</li>
+            <li>Perform bulk operations</li>
+            <li>Manage orphaned messages</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148512']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148512',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>The <strong>Error Queue</strong> page displays a list of all messages which have been routed to the Error Queue filter or the Error connector from any filter in lockers where the user has the 'Search Error and Hold Queues' access right.</p>
+      <p>You can perform a number of actions from the Error Queue&nbsp;page. For details, refer to:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147015747 {padding: 0px;}
+div.rbtoc1565147015747 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147015747 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147015747"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#MonitoringtheErrorQueue-GeneratingSearchResults">Generating Search Results</a></li> 
+        <li><a href="#MonitoringtheErrorQueue-ViewingSearchResults">Viewing Search Results</a></li> 
+        <li><a href="#MonitoringtheErrorQueue-ManagingSearchResults">Managing Search Results</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#MonitoringtheErrorQueue-FilteringSearchResults">Filtering Search Results</a></li> 
+          <li><a href="#MonitoringtheErrorQueue-ConfiguringColumns">Configuring Columns</a></li> 
+          <li><a href="#MonitoringtheErrorQueue-SortingbyColumn">Sorting by Column</a></li> 
+         </ul> </li> 
+        <li><a href="#MonitoringtheErrorQueue-ViewingSearchEntryDetails">Viewing Search Entry Details</a></li> 
+        <li><a href="#MonitoringtheErrorQueue-ManagingSearchEntries">Managing Search Entries</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p>If users have the 'Manage orphaned messages' access right, they can also view&nbsp;<a href="Orphaned-Messages_133163741.html">orphaned messages</a>&nbsp;(messages where the input communication point has been deleted) in the Error Queue.</p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Error messages which have been routed to the Error Queue filter or the Error connector from lockers where the user does not have the 'Search Error and Hold Queue' access right, and orphaned messages where the user does not have the right to view them, are not shown in the message search results. A warning banner is displayed stating that there are error messages the user does not have permission to view.</p>
+        <p>A count of all user-viewable messages on the Error Queue is displayed in the Monitoring menu. When a user does not have permission to view all error messages in the Error Queue, the limited count of the messages they can view<span> is displayed. The count is displayed with</span> a <strong>+ </strong>symbol after the number<strong>, </strong>where the <strong>+ </strong>symbol indicates that there are error messages on the Rhapsody engine that the user cannot view.</p>
+       </div>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="530" width="1000" src="attachments/133163823/133163824.png" data-image-src="attachments/133163823/133163824.png" data-unresolved-comment-count="0" data-linked-resource-id="133163824" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="errorqueue1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163823" data-linked-resource-container-version="14"></span></p>
+      <h2 id="MonitoringtheErrorQueue-GeneratingSearchResults">Generating Search Results</h2>
+      <p>You can use the following search criteria to filter your search:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeframe</p></td>
+          <td class="confluenceTd"><p>Select&nbsp;<strong>From / To</strong>&nbsp;or&nbsp;<strong>Show Last</strong>&nbsp;to display messages within a certain time period.</p><p>If&nbsp;<strong>From / To</strong>&nbsp;is selected:</p>
+           <ul>
+            <li>In the&nbsp;<strong>From</strong>&nbsp;field, enter the date and time to start the search from (set to one hour before the current time by default).</li>
+            <li>In the&nbsp;<strong>To</strong>&nbsp;field, enter the date and time to end the search at.</li>
+           </ul><p>If&nbsp;<strong>Show Last</strong>&nbsp;is selected, enter the preceding time period that you want to search. Either select&nbsp;<code>mins</code>,&nbsp;<code>hours</code>,&nbsp;<code>days</code>,&nbsp;<code>weeks</code>&nbsp;or&nbsp;<code>months</code>&nbsp;from the drop-down list, or click on one of the time links (<strong>10min</strong>,&nbsp;<strong>1h</strong>,&nbsp;<strong>24h</strong>).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Search Order</p></td>
+          <td class="confluenceTd"><p>Sorts search results by time in either <strong>Ascending</strong> or <strong>Descending</strong> order.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Communication Points</p></td>
+          <td class="confluenceTd"><p>Select the input or output communication points on which you want to search.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Routes</p></td>
+          <td class="confluenceTd"><p>Select the routes on which you want to search.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Input Time</p></td>
+          <td colspan="1" class="confluenceTd"><p>Select <strong>From / To</strong> or <strong>Show Last</strong> to display messages that arrived at Rhapsody within a certain time period.</p><p>If <strong>From / To</strong> is selected:</p>
+           <ul>
+            <li>In the <strong>From</strong> field, enter the date and time to start the search from (set to one hour before the current time by default).</li>
+            <li>In the <strong>To</strong> field, enter the date and time to end the search at.</li>
+           </ul><p>If <strong>Show Last</strong> is selected, enter the preceding time period that you want to search. Either select <strong>mins</strong>, <strong>hours</strong>, <strong>days</strong>, <strong>weeks</strong> or <strong>months</strong> from the drop-down list, or click on one of the time links (<strong>10min</strong>, <strong>1h</strong>, <strong>24h</strong>).</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Error Message Contains</td>
+          <td colspan="1" class="confluenceTd"><p>Search for a text string in the error trace <span>(listed in the </span><strong>Error Details</strong><span> column) </span>of messages <span>sent to the Error Queue</span>. <span>Enter your expression and then select either </span><strong>Case-Sensitive</strong><span>, </span><strong>Ignore Case</strong><span> or </span><strong>Regular Expression</strong><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Message Contains</p></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span>Search for a text string in the message body of the messages sent to the Error Queue. Enter your expression and then select either </span><strong>Case-Sensitive</strong><span>, </span><strong>Ignore Case</strong><span> or </span><strong>Regular Expression</strong><span>.</span></p>
+            <p><span><span>The Management Console supports </span><a href="https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html" class="external-link" rel="nofollow">Java Regex</a>.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Caution should be used when using the <strong>Message Contains</strong> search option. This is a full-text search which results in a search over the entire set of stored messages. The time taken to perform a search is proportional to the number of stored messages. To ensure fast searches, filter your search by specifying the communication point on which the message was received or by specifying the date range in which the message was received.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can perform the following actions&nbsp;to search messages in the Error Queue:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Search</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Click the&nbsp;<strong>Search</strong>&nbsp;button to initiate a search.</p>
+            <div class="confluence-information-macro confluence-information-macro-tip">
+             <span class="aui-icon aui-icon-small aui-iconfont-approve confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              Your recent searches can be retrieved from the 
+              <a href="Recent-Results_133163842.html">Recent Results</a> page.
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Reset</td>
+          <td class="confluenceTd"><p>Click the&nbsp;<strong>Reset</strong>&nbsp;link to discard your search criteria.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Reload</td>
+          <td class="confluenceTd"><p>Click the&nbsp;<strong>Reload</strong>&nbsp;link to reload a search query.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Select Saved Search</td>
+          <td colspan="1" class="confluenceTd"><p>Select a saved search (if one is available) from the&nbsp;<strong>Select Saved Search</strong>&nbsp;drop-down list.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Search Options</td>
+          <td colspan="1" class="confluenceTd">Click the<strong> Search</strong> <strong>Options</strong> link to select or deselect optional search criteria in the<strong> Search Options</strong> drop-down list.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Hide</td>
+          <td colspan="1" class="confluenceTd"><span>Click the</span>&nbsp;<strong>Hide </strong><span>link to show or hide the optional search fields</span>.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If search criteria are displayed in grey, it is not available for selection. Only conditions displayed in black can be used as search criteria.</p>
+       </div>
+      </div>
+      <h2 id="MonitoringtheErrorQueue-ViewingSearchResults">Viewing Search Results</h2>
+      <p>Search results are displayed as a list of search entries in a table with the following columns:</p>
+      <ul>
+       <li>Time</li>
+       <li>Component</li>
+       <li>Route</li>
+       <li>Locker</li>
+       <li>Next Destination</li>
+       <li>Error Details</li>
+       <li>Input Time</li>
+       <li>Received By</li>
+       <li>Message Identifier</li>
+      </ul>
+      <h2 id="MonitoringtheErrorQueue-ManagingSearchResults">Managing Search Results</h2>
+      <p>You can perform the following action to manage your search results:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Action</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Save Search</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Select the <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163823/133163830.png" data-image-src="attachments/133163823/133163830.png" data-unresolved-comment-count="0" data-linked-resource-id="133163830" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="save.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163823" data-linked-resource-container-version="14"></span> icon to save the search criteria so you can easily re-run a search. To save the search result, enter a name for your saved search in the input text field and select the <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163823/133163830.png" data-image-src="attachments/133163823/133163830.png" data-unresolved-comment-count="0" data-linked-resource-id="133163830" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="save.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163823" data-linked-resource-container-version="14"></span><span> icon</span>. The saved search can then be selected from the <strong>Select Saved Search</strong> drop-down list or the <a href="Saved-Searches_133163855.html">Saved Searches</a> page.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#MonitoringtheErrorQueue-FilteringSearchResults">Quick Filter</a></td>
+          <td colspan="1" class="confluenceTd"><p>Click the <strong>Quick Filter</strong> link to display the Filtering Bar to filter the search results.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#MonitoringtheErrorQueue-ConfiguringColumns">Configure Columns</a></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span style="line-height: 13.0pt;background-color: transparent;">Select the </span><strong style="line-height: 13.0pt;">Configure</strong><span style="line-height: 13.0pt;background-color: transparent;"> icon </span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163823/133163831.png" data-image-src="attachments/133163823/133163831.png" data-unresolved-comment-count="0" data-linked-resource-id="133163831" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="plus.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163823" data-linked-resource-container-version="14"></span><span style="line-height: 13.0pt;background-color: transparent;"> to configure the columns for the table.</span></p>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="MonitoringtheErrorQueue-FilteringSearchResults">Filtering Search Results</h3>
+      <p>To filter the search table using text criteria on a per column basis on the displayed page:</p>
+      <ol>
+       <li><p>Click the&nbsp;<strong>Quick</strong>&nbsp;<strong>Filter</strong>&nbsp;link&nbsp;to display the&nbsp;<strong>Filtering Bar:</strong></p><p><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="116" width="782" src="attachments/133164002/133164017.png" data-image-src="attachments/133164002/133164017.png" data-unresolved-comment-count="0" data-linked-resource-id="133164017" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="FilteringBar.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span></strong><strong><br></strong></p></li>
+       <li>Enter your filtering term in the&nbsp;<strong>Filtering Bar&nbsp;</strong>field<strong>&nbsp;</strong>for the column you wish to filter the search results against.</li>
+       <li>Press the&nbsp;<strong>Enter</strong>&nbsp;key to filter the search results, or select&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164002/133164008.png" data-image-src="attachments/133164002/133164008.png" data-unresolved-comment-count="0" data-linked-resource-id="133164008" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="close.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span>&nbsp;to cancel the filtering and close the&nbsp;<strong>Filtering Bar</strong>.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Only the page currently displayed is filtered.</p>
+       </div>
+      </div>
+      <h3 id="MonitoringtheErrorQueue-ConfiguringColumns"><span>Configuring Columns</span></h3>
+      <p>To configure which columns to display in the search table, select<span> the&nbsp;</span><strong>Add</strong><span>&nbsp;icon&nbsp;</span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164002/133164012.png" data-image-src="attachments/133164002/133164012.png" data-unresolved-comment-count="0" data-linked-resource-id="133164012" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="plus.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span>&nbsp;<span>to display the&nbsp;<strong>Display Column</strong>&nbsp;dialog:</span></p>
+      <ul>
+       <li>Select the columns you want&nbsp;to be displayed in the search table.</li>
+       <li><span>Deselect the columns you want&nbsp;to be hidden in the&nbsp;search table.</span></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Fields that are greyed out are required fields, and cannot be hidden.</p>
+       </div>
+      </div>
+      <h3 id="MonitoringtheErrorQueue-SortingbyColumn">Sorting by Column</h3>
+      <p>To sort a table by column (only the page currently displayed is sorted):</p>
+      <ul>
+       <li>Click the column's heading name.</li>
+       <li>Re-click the column's&nbsp;heading name to toggle between ascending and descending order, denoted by the<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164002/133164010.png" data-image-src="attachments/133164002/133164010.png" data-unresolved-comment-count="0" data-linked-resource-id="133164010" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="sort-asc.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span>and<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164002/133164011.png" data-image-src="attachments/133164002/133164011.png" data-unresolved-comment-count="0" data-linked-resource-id="133164011" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="sort-desc.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164002" data-linked-resource-container-version="3"></span>icons, respectively.</li>
+      </ul>
+      <h2 id="MonitoringtheErrorQueue-ViewingSearchEntryDetails"><span style="background-color: transparent;">Viewing Search Entry Details</span></h2>
+      <p><span style="color: rgb(0,72,102);"><span style="color: rgb(0,0,0);">Click any entry in the results list to display the</span>&nbsp;<a href="Message-View_133163772.html">Message View</a>&nbsp;<span style="color: rgb(0,0,0);">page (or Ctrl-click&nbsp;to display the<span style="color: rgb(0,72,102);">&nbsp;</span><a href="Message-View_133163772.html">Message View</a><span style="color: rgb(0,72,102);">&nbsp;</span>page in a new tab).</span></span></p>
+      <h2 id="MonitoringtheErrorQueue-ManagingSearchEntries">Managing Search Entries</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The buttons for some actions may be enabled when the action is not actually possible, particularly in the case where there are <a href="Orphaned-Messages_133163741.html">Orphaned Messages</a> on the queue. Additionally, all actions on the Error and Hold Queues check permissions for the selected messages and will fail to complete if the user does not have the correct access rights.</p>
+       </div>
+      </div>
+      <p>You can perform the following actions to manage error messages:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Action</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Reinject</p></td>
+          <td class="confluenceTd"><p>The message is reinjected into the engine at its original point of entry. To reinject messages, select one or more messages in the queue, and select the <strong>Reinject</strong> button.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Redirect</p></td>
+          <td class="confluenceTd"><p>The message is redirected to a selected filter or communication point. To redirect messages, select one or more messages in the queue, and select the <strong>Redirect</strong> button.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Reprocess</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The message is sent back to the filter on which the error originally occurred. Selected messages can be reprocessed by selecting the <strong>Reprocess</strong> button.</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>To preserve FIFO order when reprocessing, redirecting or re-injecting for large message volumes, ensure the messages are sorted from oldest to newest.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Delete</p></td>
+          <td class="confluenceTd"><p>The message is removed (deleted) from the queue and no additional processing is performed on the message. To delete messages, select one or more messages in the queue, and click the <strong>Delete</strong> link.</p><p>Alternatively, to delete all the messages from this search, click the <strong>Delete All</strong> link. Using the <strong>Delete All</strong> link will only delete messages that the user has permission to delete. This will be determined either by the user having the 'Delete held/errored messages' access right on the locker that the message originated from, or in the case of <a href="Orphaned-Messages_133163741.html">orphaned messages</a>, the user having the 'Manage orphaned messages' access right. Feedback is displayed to the user to indicate how many of the messages were deleted.&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Download</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The message body is downloaded as a compressed file. To download messages, select one or more messages in the queue, and click the <strong>Download</strong> link to save the file to a convenient location.</p>
+            <p>Alternatively, to download all the messages from this search, click the <strong>Download All</strong> link. <span>The </span><strong>Download All</strong><span> link enables you to download messages that you have permission to download. Permissions are determined either by you having the 'Download messages' access right on the locker that the message originated from, or in the case of </span><a href="Orphaned-Messages_133163741.html">orphaned messages</a><span>, you having the 'Manage orphaned messages' access right.</span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Downloading a large number of messages <span>may take an extended period of time to complete</span>, especially when the Engine is under high load. It is recommended to perform this operation at off-peak times.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">Export</span></td>
+          <td colspan="1" class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span style="color: rgb(0,0,0);">The message metadata is exported as a compressed file. To export messages, select one or more messages in the queue, and click the <strong>Export</strong> link to save the file to a convenient location. The exported data includes the message search information, as well as the message properties, and error information.</span></p>
+            <p><span style="color: rgb(0,0,0);">Alternatively, to export all the messages from this search, click the <strong>Export All</strong> link. <span>The </span><strong>Export All</strong><span> link enables you to export messages that you have permission to export. Permissions are determined either by you having the 'Export messages' access right on the locker that the message originated from, or in the case of orphaned messages, you having the 'Manage orphaned messages' access right.</span></span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Exporting a large number of messages <span>may take an extended period of time to complete</span>, especially when the engine is under high load. It is recommended you perform this operation at off-peak times.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

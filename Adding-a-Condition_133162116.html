@@ -1,0 +1,347 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Adding a Condition</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Connectors_133162108.html">Connectors</a></span> </li> 
+       <li> <span><a href="Managing-Conditional-Connectors_133162114.html">Managing Conditional Connectors</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Adding a Condition</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Conditional Connector Editor makes it easy to add new conditions, create new groups of conditions, change the group type (AND/OR) and remove conditions. The visual display makes nested conditions obvious without you having to understand the boolean logic behind it.</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146942137 {padding: 0px;}
+div.rbtoc1565146942137 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146942137 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146942137"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#AddingaCondition-AddingaCondition">Adding a Condition</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#AddingaCondition-FilterMessagesusingaMessageProperty">Filter Messages using a Message Property</a></li> 
+          <li><a href="#AddingaCondition-FilterMessagesusingaMessageType">Filter Messages using a Message Type</a></li> 
+          <li><a href="#AddingaCondition-FilterMessagesusingaFieldwithintheMessage">Filter Messages using a Field within the Message</a></li> 
+          <li><a href="#AddingaCondition-FilterMessagesusingaMessageBody">Filter Messages using a Message Body</a></li> 
+         </ul> </li> 
+        <li><a href="#AddingaCondition-ConvertingConditionalConnectors">Converting Conditional Connectors</a></li> 
+        <li><a href="#AddingaCondition-Non-existentorEmptyFields">Non-existent or Empty Fields</a></li> 
+        <li><a href="#AddingaCondition-Date-timeOperators">Date-time Operators</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="AddingaCondition-AddingaCondition">Adding a Condition</h2>
+      <p>To add a new condition to a conditional connector:</p>
+      <ol>
+       <li>Select the <strong>Conditional Connector</strong> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/42573379/44532904.png" data-image-src="https://docs.rhapsody.health/download/attachments/42573379/icon_connector2.png?version=1&amp;modificationDate=1328058819895&amp;api=v2" data-unresolved-comment-count="0" data-linked-resource-id="44532904" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_connector2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="42573379" data-linked-resource-container-version="8"></span> icon on the toolbar, then drag a connection from the input filter to the destination component. Alternatively, right-click a standard connector, then select <strong>Add Condition</strong>.</li>
+       <li>A new connector is created. Click the <strong>no conditions set</strong> link that is part of the new connector's label.</li>
+       <li><p>In the <strong>Edit Conditional Connector</strong> dialog, in the <strong>Description</strong> field, enter a description for the condition. The description is optional and if provided is displayed in the Route Editor as a hyperlink. If a description is not provided, Rhapsody IDE carries out a simple serialization on the configured conditions and generates a pseudo-code description.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162116/133162123.png" data-image-src="attachments/133162116/133162123.png" data-unresolved-comment-count="0" data-linked-resource-id="133162123" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddCondition.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162116" data-linked-resource-container-version="1"></span></p></li>
+       <li>Click the <strong>Add new condition</strong>, <strong>Add grouped condition</strong> or <strong>Add condition to group</strong> link to create a new condition.</li>
+       <li>In the <strong>Condition Type</strong> field, select how you want Rhapsody to filter the messages – by using a message type, a message property, a field within the message, or a message body.&nbsp;The condition parameters you have to enter vary according to the type of condition you select:
+        <ul>
+         <li><a href="#AddingaCondition-FilterMessagesusingaMessageProperty">Filter messages using a message property</a>.</li>
+         <li><a href="#AddingaCondition-FilterMessagesusingaMessageType">Filter messages using a message type</a>.</li>
+         <li><a href="#AddingaCondition-FilterMessagesusingaFieldwithintheMessage">Filter messages using a field within the message</a>.</li>
+         <li><a href="#AddingaCondition-FilterMessagesusingaMessageBody">Filter messages using a message body</a>.</li>
+        </ul></li>
+       <li>Click the&nbsp;<strong>OK</strong>&nbsp;button to add the condition.&nbsp;If you clicked the:
+        <ul>
+         <li><strong>Add new condition</strong>&nbsp;link and there are no other conditions, the new condition is added as the first condition. If there is at least one existing condition, a new group is created and the new condition is added as the last condition in the group. The new group is created as an AND group, however, you can change this by clicking the&nbsp;<strong>Switch to OR</strong>&nbsp;link.&nbsp;</li>
+         <li><strong>Add grouped condition</strong>&nbsp;link, a new AND group is created, and the new condition is inserted as the last child in the group.&nbsp;</li>
+         <li><strong>Add condition to group</strong>&nbsp;link, the new condition is inserted into the existing group at the location where the link is clicked. No new group is created in this case.</li>
+        </ul></li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If you have more than one condition, you can reorder the conditions by dragging and dropping them.</p>
+       </div>
+      </div>
+      <p>Alternatively, to copy a condition to a conditional connector:</p>
+      <ol>
+       <li>Select an existing conditional connector and copy its condition by selecting&nbsp;<strong>Copy</strong>&nbsp;option in the right-click menu.</li>
+       <li>Create a new conditional connector (or standard connector) as required.</li>
+       <li>Select the new connector and paste the copied condition onto the connector by selecting the&nbsp;<strong>Paste</strong>&nbsp;option&nbsp;in the right-click menu.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Any test messages associated with a conditional connector are not copied using this method. The test messages are stored in the source filter.</p>
+       </div>
+      </div>
+      <h3 id="AddingaCondition-FilterMessagesusingaMessageProperty">Filter Messages using a Message Property</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162116/133162120.png" data-image-src="attachments/133162116/133162120.png" data-unresolved-comment-count="0" data-linked-resource-id="133162120" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CCMessageProperty1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162116" data-linked-resource-container-version="1"></span><br class="atl-forced-newline"><br class="atl-forced-newline"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162116/133162121.png" data-image-src="attachments/133162116/133162121.png" data-unresolved-comment-count="0" data-linked-resource-id="133162121" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CCMessageProperty2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162116" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Property</p></td>
+          <td class="confluenceTd"><p>Select or enter the name of a message property. This field lists all the properties published by the filters and communication points on the route, and extracted from the message using route property extraction. <br class="atl-forced-newline">If a dollar sign (<code>$</code>) precedes the property name, it is ignored.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operator</p></td>
+          <td class="confluenceTd"><p>Select a comparison operation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operand</p></td>
+          <td class="confluenceTd"><p>Enter a literal or Rhapsody variable. If the operator is set to <code>Exists</code> or <code>Does not exist</code>, this field is not available.</p><p>Rhapsody variables can be entered manually, for example, <code>$(variableName)</code>, or by clicking the <strong>Select Rhapsody Variable</strong> link and selecting a variable from the list.</p><p><span>If the operator is set to </span><code>Found in lookup table</code><span> or </span><code>Not found in lookup table</code><span>, then click the </span><strong>Select Lookup Table Column</strong><span> link to select a column in the table.</span></p><p>If the operator is set to <code>Regular expression match (Javascript)</code> or <span><code>Regular expression match (GNU)</code>,</span> then Rhapsody environment variables cannot be used. Rhapsody IDE validates the regular expression when you check in the route containing the connector.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p><code> <code>Regular expression match (GNU)</code></code> and <code>Regular expression match (Javascript)</code> fail to match an expression containing any of the following character class operators:</p>
+             <ul>
+              <li>[:alnum:] - Any alphanumeric character.</li>
+              <li>[:alpha:] - Any alphabetical character.</li>
+              <li>[:blank:] - A space or horizontal tab.</li>
+              <li>[:cntrl:] - A control character.</li>
+              <li>[:digit:] - A decimal digit.</li>
+              <li>[:graph:] - A non-space, non-control character.</li>
+              <li>[:lower:] - A lowercase letter.</li>
+              <li>[:print:] - Same as graph, but also space and tab.</li>
+              <li>[:punct:] - A punctuation character.</li>
+              <li>[:space:] - Any whitespace character, including newline and return.</li>
+              <li>[:upper:] - An uppercase letter.</li>
+              <li>[:xdigit:] - A valid hexadecimal digit.</li>
+             </ul>
+            </div>
+           </div><p></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="AddingaCondition-FilterMessagesusingaMessageType">Filter Messages using a Message Type</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162116/133162117.png" data-image-src="attachments/133162116/133162117.png" data-unresolved-comment-count="0" data-linked-resource-id="133162117" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CCMessageType.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162116" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operator</p></td>
+          <td class="confluenceTd"><p>Select an operation: <code>Message type is one of the following types</code> or <code>Message type is NOT one of the following types</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Type (not labeled)</p></td>
+          <td class="confluenceTd"><p>Use the checkboxes to select the messages you require. If there are multiple definitions on the route, then each definition is displayed in a separate tab.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="AddingaCondition-FilterMessagesusingaFieldwithintheMessage">Filter Messages using a Field within the Message</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/42573379/44532909.png" data-image-src="https://docs.rhapsody.health/download/attachments/42573379/CCFieldInMessage.png?version=1&amp;modificationDate=1328058883731&amp;api=v2" data-unresolved-comment-count="0" data-linked-resource-id="44532909" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CCFieldInMessage.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="42573379" data-linked-resource-container-version="8"></span><br class="atl-forced-newline"><br class="atl-forced-newline"><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/42573379/44532910.png" data-image-src="https://docs.rhapsody.health/download/attachments/42573379/CCFieldInMessage2.png?version=1&amp;modificationDate=1328058883750&amp;api=v2" data-unresolved-comment-count="0" data-linked-resource-id="44532910" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CCFieldInMessage2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="42573379" data-linked-resource-container-version="8"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Field Path</p></td>
+          <td class="confluenceTd"><p>Click the <strong>Select Field</strong> link to select the field path. The <strong>Field Selection Dialog</strong> uses the definition attached to the route, therefore the <strong>Select Field</strong> link is not available if there are no definitions on the route. If there are multiple definitions attached to the route, first select a message definition, then select a field using the messages from that definition.</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162116/133162122.png" data-image-src="attachments/133162116/133162122.png" data-unresolved-comment-count="0" data-linked-resource-id="133162122" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CCFieldSelection.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162116" data-linked-resource-container-version="1"></span></p><p>For filtering messages using repeating fields, you can use the wildcard operator to set the field path.&nbsp;This results in the connector performing operations on<span> a comma-separated list of values of all the repeating fields that match the field path.</span></p><p>For example,<span>&nbsp;</span>setting the field path in a Conditional connector to <code><span>PATIENT_RESULT</span><span class="error" style="color: rgb(208,68,55);">[*]</span><span>.ORDER_OBSERVATION</span><span class="error" style="color: rgb(208,68,55);">[*]</span></code><span><code>.OBR.Priority</code> results in the connector performing its operations on a comma-<span>separated</span> list containing the values of all repeating <code>Priority</code><span> fields</span>. For a message with three <span><code>PATIENT_RESULT</code> groups each with two <span><code>ORDER_OBSERVATION</code> groups, the comma-separated list contains the values of the six <code>Priority</code> fields.</span></span></span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operator</p></td>
+          <td class="confluenceTd"><p>Select a comparison operation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span>Operand</span></p></td>
+          <td class="confluenceTd"><p>Enter a literal or Rhapsody variable. If the operator is set to <code>Exists</code> or <code>Does not exist</code>, this field is not available.&nbsp;</p><p>Rhapsody variables can be entered manually, for example, <code>$(variableName)</code>, or by clicking the <strong>Select Rhapsody Variable</strong> link and selecting a variable from the list.</p><p><span>If the operator is set to </span><code>Found in lookup table</code><span> or </span><code>Not found in lookup table</code><span>, then click the </span><strong>Select Lookup Table Column</strong><span> link to select a column in the table.</span></p><p><span>If the operator is set to <code>Regular expression match (Javascript)</code> or <span><code>Regular expression match (GNU)</code>,</span> then Rhapsody environment variables cannot be used. Rhapsody IDE validates the regular expression when you check in the route containing the connector.</span></p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p><code> <code>Regular expression match (GNU)</code></code> and <code>Regular expression match (Javascript)</code> fail to match an expression containing any of the following character class operators:</p>
+             <ul>
+              <li>[:alnum:] - Any alphanumeric character.</li>
+              <li>[:alpha:] - Any alphabetical character.</li>
+              <li>[:blank:] - A space or horizontal tab.</li>
+              <li>[:cntrl:] - A control character.</li>
+              <li>[:digit:] - A decimal digit.</li>
+              <li>[:graph:] - A non-space, non-control character.</li>
+              <li>[:lower:] - A lowercase letter.</li>
+              <li>[:print:] - Same as graph, but also space and tab.</li>
+              <li>[:punct:] - A punctuation character.</li>
+              <li>[:space:] - Any whitespace character, including newline and return.</li>
+              <li>[:upper:] - An uppercase letter.</li>
+              <li>[:xdigit:] - A valid hexadecimal digit.</li>
+             </ul>
+            </div>
+           </div><p></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="AddingaCondition-FilterMessagesusingaMessageBody">Filter Messages using a Message Body</h3>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162116/133162118.png" data-image-src="attachments/133162116/133162118.png" data-unresolved-comment-count="0" data-linked-resource-id="133162118" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CCMessageBody.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162116" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Field</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operator</p></td>
+          <td class="confluenceTd"><p>Select a comparison operation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operand</p></td>
+          <td class="confluenceTd"><p>Enter a literal or Rhapsody variable. If the operator is set to <code>Exists</code> or <code>Does not exist</code>, this field is not available.&nbsp;</p><p>Rhapsody variables can be entered manually, for example, <code>$(variableName)</code>, or by clicking the <strong>Select Rhapsody Variable</strong> link and selecting a variable from the list.</p><p><span>If the operator is set to </span><code>Found in lookup table</code><span> or </span><code>Not found in lookup table</code><span>, then click the </span><strong>Select Lookup Table Column</strong><span> link to select a column in the table.</span></p><p>If the operator is set to <code>Regular expression match (Javascript)</code> or <span><code>Regular expression match (GNU)</code>,</span> then Rhapsody environment variables cannot be used. Rhapsody IDE validates the regular expression when you check in the route containing the connector.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p><code> <code>Regular expression match (GNU)</code></code> and <code>Regular expression match (Javascript)</code> fail to match an expression containing any of the following character class operators:</p>
+             <ul>
+              <li>[:alnum:] - Any alphanumeric character.</li>
+              <li>[:alpha:] - Any alphabetical character.</li>
+              <li>[:blank:] - A space or horizontal tab.</li>
+              <li>[:cntrl:] - A control character.</li>
+              <li>[:digit:] - A decimal digit.</li>
+              <li>[:graph:] - A non-space, non-control character.</li>
+              <li>[:lower:] - A lowercase letter.</li>
+              <li>[:print:] - Same as graph, but also space and tab.</li>
+              <li>[:punct:] - A punctuation character.</li>
+              <li>[:space:] - Any whitespace character, including newline and return.</li>
+              <li>[:upper:] - An uppercase letter.</li>
+              <li>[:xdigit:] - A valid hexadecimal digit.</li>
+             </ul>
+            </div>
+           </div><p></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><br><span style="color: rgb(0,0,0);font-size: 20.0px;">Group Types</span></p>
+      <p>Rhapsody supports two types of condition groups.</p>
+      <ul>
+       <li>AND groups - where the individual conditions are combined using a boolean AND operator.</li>
+       <li>OR groups - where the conditions are combined using a boolean OR operator.</li>
+      </ul>
+      <p>All new groups are initially created using the AND operator. However, you can change this by clicking the <strong>Switch to OR</strong> link. You can revert to using the AND operator by clicking the <strong>Switch to AND</strong> link.</p>
+      <h2 id="AddingaCondition-ConvertingConditionalConnectors">Converting Conditional Connectors</h2>
+      <p>For more fine-grained control, the IDE provides an option to convert your conditions to JavaScript. This is done by right-clicking a conditional connector, and selecting <strong>Convert Condition To JavaScript</strong>.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/42573379/44532907.png" data-image-src="https://docs.rhapsody.health/download/attachments/42573379/ConvertToJavaScript1.png?version=1&amp;modificationDate=1328058883678&amp;api=v2" data-unresolved-comment-count="0" data-linked-resource-id="44532907" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConvertToJavaScript1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="42573379" data-linked-resource-container-version="8"></span></p>
+      <p>Selecting this option carries out a one-way conversion from the conditional connector to a JavaScript connector, and is only available when connected to an engine supporting this functionality. If you choose to convert to JavaScript, the following dialog is displayed:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162116/133162119.png" data-image-src="attachments/133162116/133162119.png" data-unresolved-comment-count="0" data-linked-resource-id="133162119" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConvertToJavaScript2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162116" data-linked-resource-container-version="1"></span></p>
+      <ul>
+       <li><strong>Convert</strong> - converts the conditional connector to a JavaScript connector.</li>
+       <li><strong>Copy</strong> - copies the JavaScript to the clipboard instead of changing the existing connector.</li>
+       <li><strong>Cancel</strong> - cancels the conversion.</li>
+      </ul>
+      <h2 id="AddingaCondition-Non-existentorEmptyFields">Non-existent or Empty Fields</h2>
+      <p>All conditions that test the value of a field, whether they are negative or positive conditions, first implicitly check whether the field value actually exists. If the field does not exist or is empty, then the condition is false regardless of what the condition is.</p>
+      <p>This can lead to counterintuitive results if the condition is a negative condition.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is recommended you test your conditional connectors when you create them. Refer to&nbsp;<a href="Testing-Conditional-Connectors_133162134.html">Testing Conditional Connectors</a>&nbsp;for details.</p>
+       </div>
+      </div>
+      <p>Consider the following scenario:</p>
+      <ul>
+       <li>P is the positive condition: "Field F starts with 123".</li>
+       <li>N is the corresponding negative condition: "Field F does not start with 123".</li>
+      </ul>
+      <p>The conditions evaluate as follows:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field Value</th>
+          <th class="confluenceTh">Result of P</th>
+          <th class="confluenceTh">Result of N</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">1234</td>
+          <td class="confluenceTd">true</td>
+          <td class="confluenceTd">false</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">5678</td>
+          <td class="confluenceTd">false</td>
+          <td class="confluenceTd">true</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">[Field exists but is empty]</td>
+          <td class="confluenceTd">false</td>
+          <td class="confluenceTd">false</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">[Field does not exist]</td>
+          <td colspan="1" class="confluenceTd">false</td>
+          <td colspan="1" class="confluenceTd">false</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>In other words, if a condition is true, then the inverse of the condition is always false. However, if a condition is false, then the inverse of the condition is only true if the field exists and has a value - it is false if the field does not exist or is empty.</p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <span>You can inspect the JavaScript&nbsp;code that is being invoked from a conditional connector by converting the conditional connector to a JavaScript connector. Refer to&nbsp;</span>
+        <a href="#AddingaCondition-ConvertingConditionalConnectors">Converting Conditional Connectors</a>
+        <span>&nbsp;for details.</span>&nbsp;
+       </div>
+      </div>
+      <h2 id="AddingaCondition-Date-timeOperators">Date-time Operators</h2>
+      <p>Date-time operators take the following form:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162116/133162124.png" data-image-src="attachments/133162116/133162124.png" data-unresolved-comment-count="0" data-linked-resource-id="133162124" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ConditionalConnectoDateTime.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162116" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Condition Parameter</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Date Format</td>
+          <td class="confluenceTd"><p>The standard defining the date-time format:</p>
+           <ul>
+            <li><code>HL7v2</code> (default) - the HL7 v2.7 DTM format: <code>YYYY[MM[DD[HHMM[SS[.S[S[S[S]]]]]]]][+/-ZZZZ]</code>.</li>
+            <li><code>XML</code> - the <code>xsd:dateTime</code> format: <code>[-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]</code>.</li>
+            <li><code>ISO8601</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Date</td>
+          <td class="confluenceTd"><p>The reference date for comparison.</p><p>Select the <strong>Use the current date at time of comparison</strong> checkbox to set the Date parameter automatically to the current date-time of the Rhapsody system.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Range</td>
+          <td class="confluenceTd">The date range for comparison, in a user-defined unit of measure, beginning (<code>After</code>) or ending (<code>Before</code>) with the reference date.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

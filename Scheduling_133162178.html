@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Scheduling</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Configuring-Communication-Points_133162165.html">Configuring Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Scheduling</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody enables you to schedule when a communication point is active. By default, communication points are able to send or receive messages, regardless of the hour of the day or day of the week. However, if you want to limit when a communication point is active, you can define when the communication point is active on the&nbsp;<strong>Scheduling</strong>&nbsp;tab:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162178/133162179.png" data-image-src="attachments/133162178/133162179.png" data-unresolved-comment-count="0" data-linked-resource-id="133162179" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="scheduling.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162178" data-linked-resource-container-version="10"></span></p>
+      <h2 id="Scheduling-commpoint_schedulingEnableScheduling"><span class="confluence-anchor-link" id="Scheduling-commpoint_scheduling"></span>Enable Scheduling</h2>
+      <p>To enable scheduling, check the&nbsp;<strong>Enable Scheduling for this Communication Point</strong>&nbsp;checkbox.</p>
+      <p>Schedule settings are preserved in Rhapsody IDE, and also preserved upon check-in in the RLC, even when&nbsp;scheduling is disabled.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody uses the system date-time to start and stop scheduled communication points. In the event of time shifts due to daylight savings time, a communication point's runtime might be extended, cut short, or skipped altogether depending on how it was configured.</p>
+       </div>
+      </div>
+      <h2 id="Scheduling-DailyScheduling">Daily Scheduling</h2>
+      <p>The&nbsp;<strong>Daily</strong>&nbsp;pane of the scheduling tab enables you to define if the communication point should only run for certain hours of certain days of the week; for example, Monday, Wednesday, and Friday 09:00am - 12:00pm.</p>
+      <h2 id="Scheduling-WeeklyScheduling">Weekly Scheduling</h2>
+      <p>The&nbsp;<strong>Weekly</strong>&nbsp;pane of the scheduling tab enables you to define if the communication point should only run for a period of time that spans one or more days; for example, Monday 09:00am through to Friday 05:00pm.</p>
+      <h2 id="Scheduling-AdvancedScheduling">Advanced Scheduling</h2>
+      <p>The&nbsp;<strong>Advanced</strong>&nbsp;pane of the scheduling tab enables you to define multiple start times, stop times, and restart times for a communication point using CRON expressions (refer to&nbsp;<a href="Third-party-Licenses_133164610.html">Third-party Licenses</a>&nbsp;for details on the job scheduling system used by Rhapsody). This enables you to define times to:</p>
+      <ul>
+       <li>Start the communication point.</li>
+       <li>Stop the communication point.</li>
+       <li>Restart the communication point. The communication point is stopped and immediately restarted at the specified time.</li>
+      </ul>
+      <p>To define start times, stop times, and restart times, click the&nbsp;<strong>Define Advanced Scheduling</strong>&nbsp;link. The&nbsp;<strong>Advanced Scheduling</strong>&nbsp;dialog is displayed:</p>
+      <p>&nbsp;<span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162178/133162180.png" data-image-src="attachments/133162178/133162180.png" data-unresolved-comment-count="0" data-linked-resource-id="133162180" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="Advanced-Scheduling.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162178" data-linked-resource-container-version="10"></span><br><span class="confluence-anchor-link" id="Scheduling-sched_adv"></span><br><span class="confluence-anchor-link" id="Scheduling-syntaxrules"></span></p>
+      <h3 id="Scheduling-SyntaxRules">Syntax Rules</h3>
+      <p>The format for the command is:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;Seconds&gt; &lt;Minutes&gt; &lt;Hours&gt; &lt;Day-of-month&gt; &lt;Month&gt; &lt;Day-of-week&gt; &lt;Year&gt;</pre> 
+       </div>
+      </div>
+      <p>where each field is defined as:</p>
+      <div class="table-wrap">
+       <table style="margin-left: 2.0px;" class="confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th colspan="1" class="confluenceTh">Description</th>
+          <th class="confluenceTh">Allowed Values</th>
+          <th class="confluenceTh">Allowed Special Characters</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Seconds</td>
+          <td colspan="1" class="confluenceTd">The second at which the action should occur. Do not set as&nbsp;<code>*</code>&nbsp;or the action is run every second.</td>
+          <td class="confluenceTd">0-59</td>
+          <td class="confluenceTd">, - * /</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Minutes</td>
+          <td colspan="1" class="confluenceTd"><p>The minute at which the action should occur. Do not set as&nbsp;<code>*</code>&nbsp;or the action is run every minute.</p></td>
+          <td class="confluenceTd">0-59</td>
+          <td class="confluenceTd">, - * /</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Hours</td>
+          <td colspan="1" class="confluenceTd"><p>The hour at which the action should occur. Use&nbsp;<code>*</code>&nbsp;for every hour.</p></td>
+          <td class="confluenceTd">0-23</td>
+          <td class="confluenceTd">, - * /</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Day-of-month</td>
+          <td colspan="1" class="confluenceTd"><p>The day of the month on which the action should occur,&nbsp;<code>1</code>&nbsp;through&nbsp;<code>31</code>. Use&nbsp;<code>*</code>&nbsp;for every day. Use&nbsp;<code>?</code>&nbsp;if the day is unknown.</p></td>
+          <td class="confluenceTd">1-31</td>
+          <td class="confluenceTd">, - * ? / L W</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Month</td>
+          <td colspan="1" class="confluenceTd">The month in which the action should occur. Use&nbsp;<code>*</code>&nbsp;for every month.</td>
+          <td class="confluenceTd">1-12 or JAN-DEC</td>
+          <td class="confluenceTd">, - * /</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Day-of-Week</td>
+          <td colspan="1" class="confluenceTd">The day of the week on which the action should occur. Use&nbsp;<code>*</code>&nbsp;for every day. Use&nbsp;<code>?</code>&nbsp;if the day is unknown.</td>
+          <td class="confluenceTd">1-7 or SUN-SAT</td>
+          <td class="confluenceTd">, - * ? / L #</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Year (optional)</td>
+          <td colspan="1" class="confluenceTd">The year in which the action should occur.</td>
+          <td class="confluenceTd">empty or 1970-2199</td>
+          <td class="confluenceTd">, - * /</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="Scheduling-SpecialCharacters">Special Characters</h3>
+      <p>The following special characters can be used:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Character</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>*</code> (all values)</p></td>
+          <td class="confluenceTd"><p>Used to select all values within a field. For example, <code>*</code> in the minute field means <code>every minute</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>?</code> (no specific value)</p></td>
+          <td class="confluenceTd"><p>Useful when you need to specify something in one of the two fields in which the character is allowed, but not the other. For example, if you want to trigger an event on a particular day of the month (say, the 10th), but don't care what day of the week that happens to be, enter a <code>10</code> in the day-of-month field, and <code>?</code> in the day-of-week field.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code><strong><strong>-</strong></strong></code></td>
+          <td colspan="1" class="confluenceTd">Used to specify ranges. For example, <code>10<strong><strong>-</strong></strong>12</code> in the hour field means the hours <code>10</code>, <code>11</code> and <code>12</code>.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>,</code></p></td>
+          <td class="confluenceTd"><p>Used to specify additional values. For example, <code>MON</code>, <code>WED</code>, <code>FRI</code> in the day-of-week field means the days Monday, Wednesday, and Friday.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>L</code> (last)</p></td>
+          <td class="confluenceTd"><p>Has distinct meanings depending on the context. The value <code>L</code> in the day-of-month field refers to the last day of the month - for example, day 31 for January, day 28 for February on non-leap years. If used in the day-of-week field by itself, it simply means&nbsp;<code>7</code> or&nbsp;<code>SAT</code>. But if used in the day-of-week field after another value, it means the last 'xxx' day of the month - for example, <code>6L</code> means the last Friday of the month.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">W (weekday)</td>
+          <td colspan="1" class="confluenceTd">Used to specify the weekday (Monday to Friday) nearest the given day. For example, <code>15W</code> in the day-of-month field means the nearest weekday to the 15th of the month. So if the 15th is a Saturday, the trigger will fire on Friday the 14th.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>#</code></td>
+          <td colspan="1" class="confluenceTd">Used to specify the 'nth' day of the week in the month. For example, the value of <code>6#3</code> in the day-of-week field means the third Friday of the month (day <code>6</code> is Friday, and <code>#3</code> is the 3rd one in the month).</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is possible for an expression to be valid, but not supported. For example, if you define an expression to stop a communication point before it is started. Rhapsody validates the expression and also calls the next valid time to check that the expression is supported. If you define multiple valid expressions that the scheduler does not support, Rhapsody treats these as not parse-able and the communication point is given an unconfigured state.</p>
+       </div>
+      </div>
+      <p><span class="confluence-anchor-link" id="Scheduling-egexpressions"></span></p>
+      <h3 id="Scheduling-ExampleExpressions">Example Expressions</h3>
+      <p>The following table lists some examples of basic expressions:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Crom Expression</p></th>
+          <th class="confluenceTh"><p>Meaning</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 0 12 * * ?</code></p></td>
+          <td class="confluenceTd"><p>12pm (noon) every day.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>"0 15 10 ? * *</code></p></td>
+          <td class="confluenceTd"><p>10:15am every day.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>"0 * 14 * * ?</code></p></td>
+          <td class="confluenceTd"><p>Every minute starting at 2pm and ending at 2:59pm, every day.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 0/5 14 * * ?</code></p></td>
+          <td class="confluenceTd"><p>Every 5 minutes starting at 2pm and ending at 2:55pm, every day.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 15 10 15 * ?"</code></p></td>
+          <td class="confluenceTd"><p>10:15am on the 15th day of every month.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 10,44 14 ? 3 WED</code></p></td>
+          <td class="confluenceTd"><p>2:10pm and at 2:44pm every Wednesday in the month of March.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>0 15 10 ? * MON-FRI</code></p></td>
+          <td class="confluenceTd"><p>10:15am every Monday, Tuesday, Wednesday, Thursday, and Friday.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>0 0 0 ? * 3#3 *</code></p></td>
+          <td colspan="1" class="confluenceTd">Midnight on the third Wednesday of every month.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Support for specifying both a day-of-week and a day-of-month value is not available. You need to use the <code>?</code> character in one of these fields.</p>
+       </div>
+      </div>
+      <p> </p>
+      <p><br></p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Managing Licensing</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Managing Licensing</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>A valid license must be installed for you to be able to use Rhapsody. The license is installed as part of the <a href="Registering-and-Licensing-Rhapsody_133164148.html">Rhapsody Site Configuration</a> process. However, if you want to view the license details, or if you want to install additional licenses or remove licenses, you can do so from the <strong>About Rhapsody</strong> dialog:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146929890 {padding: 0px;}
+div.rbtoc1565146929890 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146929890 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146929890"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ManagingLicensing-LicensingOverview">Licensing Overview</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#ManagingLicensing-LicenseType">License Type</a></li> 
+          <li><a href="#ManagingLicensing-EnvironmentType">Environment Type</a></li> 
+          <li><a href="#ManagingLicensing-LicenseValidityStatus">License Validity Status</a></li> 
+          <li><a href="#ManagingLicensing-AccessRights">Access Rights</a></li> 
+          <li><a href="#ManagingLicensing-RegisteringandLicensingRhapsody">Registering and Licensing Rhapsody</a></li> 
+         </ul> </li> 
+        <li><a href="#ManagingLicensing-ViewingLicenseDetails">Viewing License Details</a></li> 
+        <li><a href="#ManagingLicensing-InstallingaLicense">Installing a License</a></li> 
+        <li><a href="#ManagingLicensing-RemovingaLicense">Removing a License</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="640" src="attachments/133160983/133160989.png" data-image-src="attachments/133160983/133160989.png" data-unresolved-comment-count="0" data-linked-resource-id="133160989" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="About-License.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160983" data-linked-resource-container-version="8"></span></p>
+      <h2 id="ManagingLicensing-LicensingOverview">Licensing Overview</h2>
+      <h3 id="ManagingLicensing-LicenseType">License Type</h3>
+      <p>There are two types of licenses:</p>
+      <ul>
+       <li><p><strong>Cumulative license </strong><span>- licenses that can be installed&nbsp;cumulatively provided that they have same major version and environment type. For example, a user with a 10-communication point cumulative license can add a 10-communication point cumulative license to their existing license, allowing for the use of 20 communication points. <br></span></p></li>
+      </ul>
+      <ul>
+       <li><span style="color: rgb(0,0,0);"><strong>Non-cumulative </strong></span><span><strong>license </strong>- a license that does not allow cumulative behavior and overrides the existing licenses after it is installed. Installing a non-cumulative license results in all existing licenses becoming <a href="#ManagingLicensing-LicenseValidityStatus">inactive</a>. For example, if a user has a 10-communication point cumulative license and installs a five-communication point non-cumulative license, the previous cumulative license becomes inactive and the new number of licensed communication points becomes five. Removing the <span style="color: rgb(0,0,0);">five-communication point </span>non-cumulative license reverts the change back&nbsp; to the <span>10-communication point <span>cumulative </span></span>license.</span></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p class="_mce_tagged_br"><span>Cumulative licensing is only<span>&nbsp;</span>supported as of Rhapsody 6.</span> A cumulative license can only be installed on top existing cumulative licenses, not on top of a non-cumulative license.</p>
+       </div>
+      </div>
+      <h3 id="ManagingLicensing-EnvironmentType">Environment Type</h3>
+      <p>Licenses are categorized into different engine environment types depending on their usage:</p>
+      <ul>
+       <li class="_mce_tagged_br">Development</li>
+       <li class="_mce_tagged_br">Test</li>
+       <li class="_mce_tagged_br">Demo</li>
+       <li class="_mce_tagged_br">Production</li>
+      </ul>
+      <p>Only licenses with same environment type can be used on the same Rhapsody engine instance. Installing a license which has different environment type to existing licenses results in existing licenses becoming inactive. Removing that license reverts the changes. The environment type is displayed in the Information Bar of the Management Console, and the License Information section of the <strong>About Rhapsody</strong> dialog in the Rhapsody IDE.</p>
+      <p>When no valid license is installed, the environment type is displayed as <code>Unlicensed</code>.</p>
+      <h3 class="pagetitle" id="ManagingLicensing-LicenseValidityStatus">License Validity Status</h3>
+      <p>Installed licenses that are currently active are referred to as valid licenses; licenses that are currently inactive are referred to as invalid licenses.</p>
+      <p>A valid license becomes invalid when it expires.</p>
+      <p>Installing or removing a license which has a different environment type or license type may result in changes in the validity status of installed licenses.</p>
+      <h3 id="ManagingLicensing-AccessRights">Access Rights</h3>
+      <p>You require the appropriate access rights to manage licenses through the Rhapsody IDE or the <a href="Monitoring-REST-API-Methods_133161062.html">REST API</a>:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Managing licenses via...</p></th>
+          <th class="confluenceTh"><p>Required access rights</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Rhapsody IDE</td>
+          <td class="confluenceTd"><p>'Manage licenses'</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">REST API</td>
+          <td class="confluenceTd"><p>'Manage licenses'<br><span style="line-height: 13.0pt;background-color: transparent;">'Call REST API'<br></span><span style="line-height: 13.0pt;background-color: transparent;">'Read licenses REST API'<br></span><span style="line-height: 13.0pt;background-color: transparent;">'Write licenses REST API'</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 class="plugin_pagetree_children_content" id="ManagingLicensing-RegisteringandLicensingRhapsody">Registering and Licensing Rhapsody</h3>
+      <p>Refer to<a href="Registering-and-Licensing-Rhapsody_133164148.html"> Registering and Licensing Rhapsody</a> for details.</p>
+      <h2 id="ManagingLicensing-ViewingLicenseDetails">Viewing License Details</h2>
+      <p>To view license details, from the Rhapsody IDE navigate to <strong>Help&gt;About Rhapsody IDE... </strong>to display the<strong>&nbsp;<strong>About Rhapsody</strong>&nbsp;</strong>dialog.</p>
+      <p>The <strong>About Rhapsody</strong> dialog displays the following information:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">dialog Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Rhapsody Versions</td>
+          <td class="confluenceTd">
+           <ul>
+            <li>Rhapsody IDE version.</li>
+            <li>Rhapsody Engine version.</li>
+            <li>Rhapsody Engine release date.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Copyright Information</td>
+          <td class="confluenceTd">Copyright information for&nbsp;Rhapsody and third-party licenses.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">License Information</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="71" width="610" src="attachments/133160983/133160988.png" data-image-src="attachments/133160983/133160988.png" data-unresolved-comment-count="0" data-linked-resource-id="133160988" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="environment.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160983" data-linked-resource-container-version="8"></span><br></span></p>
+            <ul>
+             <li><span><strong>Maximum Communication Points</strong> - the maximum n</span>umber of permissible communication points that can be created.</li>
+             <li><span><strong>Licensed Communication Points in Use</strong> - t<span>he current number of communication points being used in the engine configuration. The following communication points do not count towards the total: the <a href="Sink_133162411.html">Sink</a>, <a href="Timer_133162523.html">Timer</a>, <a href="Error-Message-Redirector_133162530.html">Error Message Redirector</a> and <a href="Dynamic-Router_133162358.html">Dynamic Router</a> communication points.</span></span></li>
+             <li><strong>Environment</strong> - t<span>he engine environment type.</span></li>
+             <li><span><strong>Next Expiry Date</strong> - the date of expiry of the earliest license to expire</span>.</li>
+            </ul>
+            <p>If you attempt to create more communication points than the number for which you are licensed, the following message is displayed:</p>
+            <div class="code panel pdl" style="border-width: 1px;">
+             <div class="codeContent panelContent pdl"> 
+              <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">This Rhapsody Engine is only licensed to use a maximum of &lt;n&gt; communication points.</pre> 
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Installed Licenses</td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><strong><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" height="81" width="598" src="attachments/133160983/133160987.png" data-image-src="attachments/133160983/133160987.png" data-unresolved-comment-count="0" data-linked-resource-id="133160987" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="status.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160983" data-linked-resource-container-version="8"></span></strong></p>
+            <ul>
+             <li><strong>Remove</strong> button - allows the user to remove a license.</li>
+             <li><strong>Install</strong> button - allows the user to install a license.</li>
+             <li>Name - license name.</li>
+             <li>Version - Engine version.</li>
+             <li>Licensee - the owner of the license.</li>
+             <li>Type - <a href="#ManagingLicensing-EnvironmentType">environment type</a>.</li>
+             <li>Issue Date - license issue date.</li>
+             <li>Expiry date - license expiry date.</li>
+            </ul>
+            <p>Licenses which are invalid (inactive) are displayed in grey.</p>
+           </div></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="ManagingLicensing-InstallingaLicense">Installing a License</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Before installing a new license, ensure you have read <a href="#ManagingLicensing-LicensingOverview">Licensing Overview</a>.</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>A license obtained for one Rhapsody installation cannot be used on another. A separate license is needed for each installation.</p>
+       </div>
+      </div>
+      <p>To install a license:</p>
+      <ol>
+       <li><p>From the Rhapsody IDE, navigate to <strong>Help&gt;About Rhapsody IDE... </strong>to display the <strong>About Rhapsody</strong> dialog:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="640" src="attachments/133160983/133160989.png" data-image-src="attachments/133160983/133160989.png" data-unresolved-comment-count="0" data-linked-resource-id="133160989" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="About-License.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160983" data-linked-resource-container-version="8"></span></p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>This information is important to relay when you contact <a href="Rhapsody-Support_133163665.html">Rhapsody Support </a>for assistance.</p>
+         </div>
+        </div></li>
+       <li>Click the <strong>Install License</strong> button.</li>
+       <li><p>Locate your Rhapsody license (<code>.ohl</code>) file, then click the <strong>Open</strong> button to install the license.</p></li>
+       <li><p>If installing the license introduces changes to your licensing, the<strong> License Changes Confirmation</strong> dialog is displayed. The <strong>License Changes Confirmation</strong> dialog displays a comparison of your current license with the license to be installed. The differences are highlighted:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="560" src="attachments/133160983/133160986.png" data-image-src="attachments/133160983/133160986.png" data-unresolved-comment-count="0" data-linked-resource-id="133160986" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="LicenseChangesNewLicense.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160983" data-linked-resource-container-version="8"></span></p></li>
+       <li>Click the <strong>Confirm</strong> button to confirm the changes and install the license, or the <strong>Cancel</strong> button to revert to the current license.</li>
+      </ol>
+      <h2 id="ManagingLicensing-RemovingaLicense">Removing a License</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Before deleting a license, ensure you have read <a href="#ManagingLicensing-LicensingOverview">Licensing Overview</a>.</p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>You may not be able to reinstall a license after it is removed if its install window has expired.&nbsp;It is recommended you take extra care when removing existing licenses.</p>
+       </div>
+      </div>
+      <p>To remove a license:</p>
+      <ol>
+       <li><p>From the Rhapsody IDE, navigate to <strong>Help&gt;About Rhapsody IDE... </strong>to display the <strong>About Rhapsody</strong> dialog:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="640" src="attachments/133160983/133160989.png" data-image-src="attachments/133160983/133160989.png" data-unresolved-comment-count="0" data-linked-resource-id="133160989" data-linked-resource-version="2" data-linked-resource-type="attachment" data-linked-resource-default-alias="About-License.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160983" data-linked-resource-container-version="8"></span></p></li>
+       <li><p>Select the license that you want to remove and click the <strong>Remove</strong> button to display the <strong>Delete License</strong> dialog.</p></li>
+       <li>Click the <strong>OK</strong> button to delete the license or the <strong>Cancel</strong> button to abort the deletion.</li>
+       <li><p>If deleting the license introduces changes to your licensing, the<strong> License Changes Confirmation</strong> dialog is displayed. The <strong>License Changes Confirmation</strong> dialog displays a comparison of your current license with when the current license is removed. The differences are highlighted:</p><p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="560" src="attachments/133160983/133160984.png" data-image-src="attachments/133160983/133160984.png" data-unresolved-comment-count="0" data-linked-resource-id="133160984" data-linked-resource-version="3" data-linked-resource-type="attachment" data-linked-resource-default-alias="LicenseChangesDeleting.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133160983" data-linked-resource-container-version="8"></span></p></li>
+       <li>Click the <strong>Confirm</strong> button to confirm the changes and delete the license, or the <strong>Cancel</strong> button to abort the deletion.</li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

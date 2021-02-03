@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Customizing the Generated Acknowledgment Type</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+       <li> <span><a href="HL7-Acknowledgement-Generation_133163288.html">HL7 Acknowledgement Generation</a></span> </li> 
+       <li> <span><a href="Generating-HL7-Acknowledgements_133163292.html">Generating HL7 Acknowledgements</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Customizing the Generated Acknowledgment Type</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>By default, the ACK Generation Filter only generates ACK messages. However, in some circumstances a more specific acknowledgment message type is required. For example, a system sending an ADTA01 message may only accept an ACKA01 as a valid acknowledgment.</p>
+      <p>There are two ways to configure this behavior using the ACK Generation Filter:</p>
+      <ol>
+       <li>Response message mapping - using the <strong>Response Message Mapping</strong> configuration property to define the acknowledgment message type.</li>
+       <li>Copying the message type - using the <strong>Fields to Copy</strong> configuration property.</li>
+      </ol>
+      <h2 id="CustomizingtheGeneratedAcknowledgmentType-ResponseMessageMapping">Response Message Mapping</h2>
+      <p>The <strong>Response Message Mapping</strong> configuration property allows a specific acknowledgment message type to be specified for each message that can be received by the filter. When the <strong>HL7 Acknowledgement Generation</strong> filter is ready to create a new acknowledgment message, it will search this configuration parameter to see if a specific acknowledgment type has been configured for the received message. If none is found, the default of <code>ACK</code> is used instead.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163295/133163296.png" data-image-src="attachments/133163295/133163296.png" data-unresolved-comment-count="0" data-linked-resource-id="133163296" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ResponseMsgMapping.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163295" data-linked-resource-container-version="1"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The message definition of specified acknowledgment message types must be included in the EDI Message Definition (<code>.s3d</code> file) provided in the <strong>Message Definition</strong> configuration parameter. If they are not included, the <strong>HL7 Acknowledgement Generation</strong> filter will not be able to create the specified message type and acknowledgment generation will fail.</p>
+       </div>
+      </div>
+      <h2 id="CustomizingtheGeneratedAcknowledgmentType-CopyingtheMessageType">Copying the Message Type</h2>
+      <p>The <strong>Fields to copy</strong> configuration parameter is used to copy values from the original message and the generated acknowledgment. By default, this includes things such as the message control ID, and the sender and receiver information, however it can easily be extended to copy across the trigger event component of the message type as well.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="652" width="532" src="attachments/133163295/133163297.png" data-image-src="attachments/133163295/133163297.png" data-unresolved-comment-count="0" data-linked-resource-id="133163297" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="FieldsToCopy.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163295" data-linked-resource-container-version="1"></span></p>
+      <p>This approach takes advantage of the fact that in HL7 acknowledgments, it is the trigger event component of the message type that is matched between the original and acknowledgment messages. For example, the trigger event of the ADTA01 message is <code>A01</code>, which is the same as the correct acknowledgment type of <code>ACKA01</code>.</p>
+      <p>This method creates a normal <code>ACK</code> message, however, since all the <code>ACK</code>, <code>ACKA01</code>, <code>ACKA02</code>, ... messages have exactly the same structure, this is an easy way to get the desired behavior without having to include separate message definitions for each type.</p>
+      <h2 id="CustomizingtheGeneratedAcknowledgmentType-ComparingApproaches">Comparing Approaches</h2>
+      <p>The response message mapping approach has greater flexibility as it allows any acknowledgment message type to be specified in the configuration, and internally the correct acknowledgment type is created (this is important if additional non-standard information needs to be added into the acknowledgment).</p>
+      <p>However, copying the message type is significantly simpler to configure, as the acknowledgment types do not need to be included in the message definition, and no response message mapping needs to be defined.</p>
+      <p>Therefore, both methods have their uses depending on the circumstances.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

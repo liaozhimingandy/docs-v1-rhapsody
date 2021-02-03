@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Threads</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="System-State_133163948.html">System State</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Threads</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="table-wrap">
+       <table id="TBL1565043148561" class="confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><em>Menu Path</em> : <strong>System State&gt;Threads</strong></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>Read</em> <em><a href="Access-Rights_133161013.html">Access Rights</a></em><em>:</em></p>
+           <ul>
+            <li>Log in to Management Console</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><em>Write</em> <em><a href="Access-Rights_133161013.html">Access Rights</a></em><em>:</em></p>
+           <ul>
+            <li>Manage threads</li>
+            <li>Generate system information</li>
+           </ul></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148561']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148561',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>The <strong>Threads</strong> page provides both a view of how Rhapsody operates and recovery control in the event of serious failures, such as runaway routes or hung communication points. In most cases, Rhapsody should recover automatically. If not, these controls provide a way to attempt further recovery without having to bring down the engine, which may disconnect a number of additional running interfaces.</p>
+      <p>Occasionally, individual processes lock up and are difficult to bring back under control; for example, runaway routes or hung communication points. Normally, when a communication point or route is stopped, the automatic shutdown process completes the following actions:</p>
+      <ol>
+       <li>Signals the component to shut down cleanly.</li>
+       <li>If the component is still running after approximately 30 seconds, a shutdown&nbsp;interrupts the threads running the component.</li>
+       <li>If the component is still running after a further 30 seconds or so, a&nbsp;shutdown forcibly stops the threads running the component.</li>
+      </ol>
+      <p>If completing the above steps fails to stop a thread, that thread is most likely stuck in native code and Rhapsody will not be able to stop it automatically. However, the thread can be stopped manually from the <strong>Threads</strong> page.</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="925" width="1015" src="attachments/133163978/133163979.png" data-image-src="attachments/133163978/133163979.png" data-unresolved-comment-count="0" data-linked-resource-id="133163979" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="thread10.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163978" data-linked-resource-container-version="2"></span></p>
+      <p>A warning banner is displayed under the page heading with the following text: <code>Interrupting or stopping threads is only recommended in extreme circumstances for advanced Rhapsody users.</code></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>You cannot interrupt or stop a thread that has only recently been interrupted, stopped, or has just entered the stopping state.</p>
+       </div>
+      </div>
+      <p>There are four tables displayed on this page:</p>
+      <ul>
+       <li><a href="Route-Execution-Threads_133163982.html">Route Execution Threads</a> - displays all threads allocated to route processing. They are not dependent on the number of routes as every thread can process messages from any route. If a route exists within the <strong>Route</strong> column it will link to the <a href="Route-Details_133163757.html">Route Properties</a> Page.</li>
+       <li><a href="Message-Collector-Timeout-Threads_133163986.html">Message Collector Timeout Threads</a> - displays threads controlling the timeouts of message collectors. If a filter exists within the <strong>Filter</strong> column it will link to the <a href="Filter-Details_133163753.html">Filter Details</a> Page.</li>
+       <li><a href="Administration-Threads_133163980.html">Administration Threads</a> - displays threads processing IDE commands. Each IDE connection has a thread associated with it. This allows specific connections to be terminated as required.</li>
+       <li><a href="Communication-Point-Threads_133163984.html">Communication Point Threads</a> - displays all threads associated with communication points.</li>
+      </ul>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

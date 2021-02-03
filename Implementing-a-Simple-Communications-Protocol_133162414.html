@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Implementing a Simple Communications Protocol</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="JavaScript-TCP-Client-and-Server_133162413.html">JavaScript TCP Client and Server</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Implementing a Simple Communications Protocol</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Typically, the <strong>JavaScript TCP Client</strong> communication point is used to connect to a remote TCP server to send messages, or the <strong>JavaScript TCP Server</strong> communication point is used to receive messages from a remote TCP client. <br> &nbsp;<br> In order to provide a full, working example of the usage of these communication points, we will describe the configuration of each communication point within Rhapsody to send messages from the client to the server.</p>
+       </div>
+      </div>
+      <p>In this example, we will use the following communications protocol to send messages from the TCP client to the server:</p>
+      <ol>
+       <li>Client sends an ENQ byte (ASCII 0x05)</li>
+       <li>Server sends an ACK byte (ASCII 0x06)</li>
+       <li>Client sends a message length indicator byte</li>
+       <li>Client sends the message</li>
+       <li>Server sends an ACK byte</li>
+       <li>Client sends an EOT byte (ASCII 0x04)</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>For simplicity, this example assumes messages of lengths less than 256 bytes. In the real world, four-byte integers would be used to represent the length and bit shifting would be employed to send each byte of the integer value.</p>
+       </div>
+      </div>
+      <h2 id="ImplementingaSimpleCommunicationsProtocol-JavaScriptTCPClientCommunicationPoint">JavaScript TCP Client Communication Point</h2>
+      <p>As with the standard TCP Client communication point, the <strong>Remote Host</strong> and <strong>Remote Port</strong> properties must be set to the name or IP address of the server machine and the port number of the server application to which you are connecting. You may also need to configure secure connections (that is, set <strong>Use SSL</strong> to <code>True</code> and configure the other related, dependent properties as appropriate), but secure connections will not be used in this example.</p>
+      <p>Where this communication point differs from the standard TCP client communication point is that it omits settings related to message wrappers (headers and trailers separating messages in the TCP stream), and instead provides JavaScript scripts to perform message sending and receiving, and also initialization of the communication channel. Each of these scripts can make use of standard JavaScript language features, and also provide additional objects, as detailed in the <a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a>.</p>
+      <p>In order to implement the above communications protocol in the JavaScript TCP Client communication point, we will configure the Send property as follows.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>// For clarity, set meaningfully named variables for
+// the byte values used.
+var ENQ = 5;
+var ACK = 6;
+var EOT = 4;
+// Write out the initial ENQ and flush the connection
+// to force it to send the byte (it usually won't be
+// sent otherwise, because the TCP buffer isn't full).
+conn.write(ENQ);
+conn.flush();
+// Read in the first ACK response from the server;
+// abort if it is not an ACK.
+var firstAckResponse = conn.readByte();
+
+if (firstAckResponse != ACK) {
+throw new java.io.IOException( "Expected first ACK byte; received '" + firstAckResponse + "'"); }
+
+// Write out the outgoing message length.
+var len = message.text.length;
+conn.write(len);
+
+// Write out the message body itself and flush to be
+// sure it is sent.
+conn.write(message.text);
+conn.flush();
+// Read in the second ACK response and abort if it // is not an ACK.
+var secondAckResponse = conn.readByte();
+if (secondAckResponse != ACK) {
+throw new java.io.IOException( "Expected second ACK byte; received '" + secondAckResponse + "'"); }
+
+// Write out the terminating EOT.
+conn.write(EOT);
+conn.flush();
+</pre> 
+       </div>
+      </div>
+      <p>This implements the communications protocol as described and, in addition, aborts if the server responds with different values than expected.</p>
+      <h2 id="ImplementingaSimpleCommunicationsProtocol-JavaScriptTCPServerCommunicationPoint">JavaScript TCP Server Communication Point</h2>
+      <p>As with the standard TCP Server communication point, the Local Port property must be set to a port number which client applications will try to connect to. You may also need to configure secure connections (i.e. set Use SSL to true and configure the other related, dependent properties as appropriate), but secure connections will not be used in this example and will not be described further.</p>
+      <p>Analogous to the client communication point, where this communication point differs from the standard TCP server communication point is that it omits settings related to message wrappers, and instead provides JavaScript scripts to perform message sending and receiving, and also initialization of the communication channel. Again, each of these scripts can make use of standard JavaScript language features, and also provide additional objects, as detailed in the <a href="JavaScript-Object-Reference_133161390.html">JavaScript Object Reference</a>.</p>
+      <p>In order to implement the above communications protocol in the JavaScript TCP Server communication point, we will configure the Receive property as follows.</p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>// For clarity, set meaningfully named variables for
+// the byte values used.
+
+var ENQ = 5;
+var ACK = 6;
+var EOT = 4;
+
+// Read in the initial ENQ request and abort if it is
+// not an ENQ.
+var enqRequest = conn.readByte();
+if (enqRequest != ENQ) {
+throw new java.io.IOException(
+"Expected ENQ byte; received '" + enqRequest + "'"); }
+
+// Write out the first ACK response.
+conn.write(ACK);
+conn.flush();
+
+// Read in the length of the incoming message, and
+// then the message itself.
+var len = conn.readByte();
+var message = conn.readString(len);
+result.text = message;
+
+// Write out the second ACK response.
+conn.write(ACK);
+conn.flush();
+
+// Read in the terminating EOT and abort if
+// it is not an EOT.
+var eotResponse = conn.readByte();
+if (eotResponse != EOT) {
+throw new java.io.IOException(
+"Expected EOT byte; received '" + eotRequest + "'");
+}
+
+// Return true to indicate successful receipt
+// of a message. Note that no "return" keyword is
+// required here.
+true;
+
+</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

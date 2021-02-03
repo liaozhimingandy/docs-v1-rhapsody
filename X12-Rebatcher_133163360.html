@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>X12 Rebatcher</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="X12-Filters_133163343.html">X12 Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">X12 Rebatcher</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163360/133163361.png" data-image-src="attachments/133163360/133163361.png" data-unresolved-comment-count="0" data-linked-resource-id="133163361" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="X-12 Rebatcher (32x32).png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163360" data-linked-resource-container-version="2"></span></p>
+      <p>A message that is split by the <a href="X12-Splitter_133163365.html">X12 Splitter</a> can be batched back together using the <strong>X12 Rebatcher</strong> filter&nbsp;at the Interchange (ISA-IEA), Functional Group (GS-GE), Transaction Set (ST-SE), Claim, AK3 and IK5 levels in conjunction with the Message Collector.</p>
+      <h2 id="X12Rebatcher-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Rebatch Level</p></td>
+          <td class="confluenceTd"><p>The level at which the message should be re-batched:</p>
+           <ul>
+            <li><code>AK3 (997 transaction set, loop 2100)</code><span>.</span></li>
+            <li><code>IK3 (999 transaction set, loop 2100)</code><span>.</span></li>
+            <li><code>Interchange (ISA-IEA)</code><span> (default). </span></li>
+            <li><code>Functional Group (GS-GE)</code><span>.</span></li>
+            <li><code>Transaction Set (ST-SE)</code><span>.</span></li>
+            <li><code>Claim (837 transaction set, loop 2300)</code><span>.</span></li>
+            <li><code>Claim (IBC U277 transaction set, loops 2200D and 2200E)</code><span>.</span></li>
+           </ul><p>Each of the messages being re-batched may have multiple copies of the <strong>Rebatch Level</strong>, but must only have a single copy of any level containing the <strong>Rebatch Level</strong>. For example, when re-batching on claims, each message being re-batched must have a single interchange (ISA-IEA), functional group (GS-GE), transaction set (ST-SE) and so on, down to the claim.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Group Property</p></td>
+          <td class="confluenceTd"><p>If a group property is configured, messages will only be re-batched with messages that share the same group property. If the collector collects messages with more than one value in the group property, then a message will be output for each group of messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Rebatch Index Property</p></td>
+          <td class="confluenceTd"><p>When the <strong>Rebatch Index Property</strong> is set and used in the <a href="X12-Splitter_133163365.html">X12 Splitter</a> filter, and the messages are split and re-batched using the same Split/Rebatch Level, without the messages being structurally changed, then the <strong>Rebatch Index Property</strong> optimization can speed up the re-batching process.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>ISA-GS: Ignore Times</p></td>
+          <td class="confluenceTd"><p>When comparing messages for identical ISA and GS segments, whether to ignore the fields ISA08 (Interchange Date), ISA09 (Interchange Time), GS04 (Date) and GS05 (Time):</p>
+           <ul>
+            <li><span><span>Enabled</span>.</span></li>
+            <li><span><span>Disabled</span> (default)</span><span>. </span></li>
+           </ul><p>This option is useful when responses to an interchange are generated independently and then merged together.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>ISA-GS: Ignore Control Numbers</p></td>
+          <td class="confluenceTd"><p>When comparing messages for identical ISA and GS segments, whether to ignore the fields ISA13 (Interchange Control Number) and GS06 (Group Control Number):</p>
+           <ul>
+            <li><span>Enabled</span>.</li>
+            <li><span>Disabled</span> (default).</li>
+           </ul><p>This option is useful when responses to an interchange are generated independently and then merged together.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="X12Rebatcher-MessageCollectorSettingsfortheX12Rebatcher">Message Collector Settings for the X12 Rebatcher</h2>
+      <p>A variety of message collector types are available depending on the use of the X12 Rebatcher. The following is a sample configuration that can be used in conjunction with the X12 Rebatcher:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163360/133163364.png" data-image-src="attachments/133163360/133163364.png" data-unresolved-comment-count="0" data-linked-resource-id="133163364" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="properties_X12RebatcherMC.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163360" data-linked-resource-container-version="2"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Set Identifier Property</p></td>
+          <td class="confluenceTd"><p>When a batch message enters the Rhapsody route it can be identified by setting a property prior to splitting by the <a href="X12-Splitter_133163365.html">X12 Splitter</a> filter. This property is used within this field to identify the original batch message for each split, in order to rebatch the splits together correctly.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Total Count Property</p></td>
+          <td class="confluenceTd"><p>The property which contains the total number of messages within a set. The <strong>Split Count Property</strong> defined in the <a href="X12-Splitter_133163365.html">X12 Splitter</a> filter configuration is used here.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Index Base</p></td>
+          <td class="confluenceTd"><p>The number base for indexes, that is zero- or one-based.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Index Property</p></td>
+          <td class="confluenceTd"><p>The message property which contains the index position of a message within the set. The Split Index Property defined in the <a href="X12-Splitter_133163365.html">X12 Splitter</a> configuration is used here.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Set Timeout</p></td>
+          <td class="confluenceTd"><p>Identifies the length of time the messages must wait in the collector before the message collection is considered complete, if the full size is not reached. Set this to zero (0) for no limit on time, that is size-based collection only.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Units</p></td>
+          <td class="confluenceTd"><p>Identifies the units of measure for the timeout:</p>
+           <ul>
+            <li><code>Seconds</code><span>.</span></li>
+            <li><code>Minutes</code><span> (default).</span></li>
+            <li><code>Hours</code><span>.</span></li>
+            <li><code>Days</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout Destination</p></td>
+          <td class="confluenceTd"><p>Identifies the location which messages that are part of an incomplete collection are sent to, once the timeout period is reached:</p>
+           <ul>
+            <li><code>Error Connector</code><span>.</span></li>
+            <li><code>No-Match Connector</code><span>.</span></li>
+            <li><code>Process as Usual</code><span> (default).</span></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>Refer to <a href="133163388.html">Message Collector</a> for details on the remaining settings.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

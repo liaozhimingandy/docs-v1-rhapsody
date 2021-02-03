@@ -1,0 +1,547 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Message Retrieval</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="REST-API_133161058.html">REST API</a></span> </li> 
+       <li> <span><a href="REST-API-Calls_133161061.html">REST API Calls</a></span> </li> 
+       <li> <span><a href="Monitoring-REST-API-Methods_133161062.html">Monitoring REST API Methods</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Message Retrieval</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The REST API provides the following methods to retrieve various parts of a message:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147003220 {padding: 0px;}
+div.rbtoc1565147003220 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147003220 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147003220"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#MessageRetrieval-GET/api/message/<id>/meta">GET /api/message/&lt;id&gt;/meta</a></li> 
+        <li><a href="#MessageRetrieval-GET/api/message/<id>/path">GET /api/message/&lt;id&gt;/path</a></li> 
+        <li><a href="#MessageRetrieval-GET/api/message/<id>/body">GET /api/message/&lt;id&gt;/body</a></li> 
+        <li><a href="#MessageRetrieval-GET/api/message/<id>">GET /api/message/&lt;id&gt;</a></li> 
+        <li><a href="#MessageRetrieval-POST/api/message">POST /api/message</a></li> 
+        <li><a href="#MessageRetrieval-DELETE/api/message/<id>">DELETE /api/message/&lt;id&gt;</a></li> 
+        <li><a href="#MessageRetrieval-PUT/api/message/<id>">PUT /api/message/&lt;id&gt;</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The message retrieval REST API methods expose Protected Health Information (PHI) data. It is the responsibility of the Rhapsody administrator to ensure that access rights for these methods are granted to the appropriate users. It is the responsibility of the users to ensure these methods are implemented securely when dealing with PHI.</p>
+       </div>
+      </div>
+      <h2 id="MessageRetrieval-GET/api/message/<id>/meta">GET /api/message/&lt;id&gt;/meta</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/message/&lt;id&gt;/meta</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves the message metadata for a specified message (primarily, but not exclusively, the message properties).</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:</code> <code>application/json</code>, <code>text/html<br> </code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept:</code> <code>application/vnd.orchestral.rhapsody.6_0+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Status</strong> </span></td>
+          <td colspan="1" class="confluenceTd"><code>200 OK</code><span> - operation successful.</span></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p><span>The response body has the following data object structure:</span></p>
+           <ul>
+            <li style="list-style-type: none;background-image: none;">
+             <ul>
+              <li><code>rootMessageIdentifier</code> - [str] the identifier of the original input message.</li>
+              <li><code>messageIdentifier</code> - [str] the identifier of this message.</li>
+              <li><code>properties </code>- [array] of properties:
+               <ul>
+                <li><code>name</code> - [str] representing name of property.</li>
+                <li><code>value</code> - [str] representing value of property.</li>
+               </ul></li>
+              <li><code>inputTime</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>.</li>
+              <li><code>bodyEncoding</code> - [str] the Java encoding name of the message body or null if not explicitly set.</li>
+              <li><code>errors</code>- [array] of errors:
+               <ul>
+                <li><code>errorCode</code> - [str] the error code (not always be present as custom filters may not provide them).</li>
+                <li><code>errorMessage</code> - [str] the error translated either using the requester's locale or if not available, the Rhapsody locale.</li>
+               </ul></li>
+             </ul></li>
+           </ul>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Currently, the method returns null (indicating the default system encoding) if no character encoding has been explicitly set.</p>
+            </div>
+           </div>
+           <div id="expander-712784908" class="expand-container">
+            <div id="expander-control-712784908" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example</span>
+            </div>
+            <div id="expander-content-712784908" class="expand-content">
+             <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161062/133161072.png" data-image-src="attachments/133161062/133161072.png" data-unresolved-comment-count="0" data-linked-resource-id="133161072" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GET-message-id-meta.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161062" data-linked-resource-container-version="4"></span></p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View message metadata REST API'.<br>'View message properties' (on the message's locker).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageRetrieval-GET/api/message/<id>/path">GET /api/message/&lt;id&gt;/path</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/message/&lt;id&gt;/path</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves the message path for a specified message and all the events associated with the message.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:</code> <code>application/json</code>, <code>text/html<br></code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept:</code> <code>application/vnd.orchestral.rhapsody.6_0+json</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><span><code>200 OK</code> - operation successful.</span></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p><span>A tree structure of path objects with the root path objects returned at the data object level:</span></p>
+           <ul>
+            <li style="list-style-type: none;background-image: none;">
+             <ul>
+              <li><code>messageIdentifier</code> - [str] identifier of this message.</li>
+              <li><code>onPath</code> - [bool] true if this particular path element is followed to reach the identifier of the requested message. Used by the Management Console to highlight the active path.</li>
+              <li><code>componentInfo </code>- [object] of component information:
+               <ul>
+                <li><code>name</code> - [str] component name.</li>
+                <li><code>id</code> - [int] component identifier.</li>
+                <li><code>folderPath</code> - [str] component folder path.</li>
+               </ul></li>
+              <li><code>children</code> - [array] of these path elements.</li>
+              <li><code>events </code>- [array] of events pertaining to this specific path element:
+               <ul>
+                <li><code>timestamp</code> - [str] date-time in <a href="ISO8601-Date-Time-Format_133161140.html">ISO8601 format</a>.</li>
+                <li><code>eventType</code> - [enumerated str] containing enumerated value of the possible event types.</li>
+                <li><code>description</code> - [str] describing the event and possibly its parameters, translated using either the requester's locale or if not available, the Rhapsody locale.</li>
+                <li><code>parameters</code>- [array] of parameters:
+                 <ul>
+                  <li><code>type </code>- [str] containing an enumerated value of the following optional parameter types:</li>
+                 </ul>
+                 <ul class="alternate">
+                  <li style="list-style-type: none;background-image: none;">
+                   <ul class="alternate">
+                    <li><code>PROCESSING_TIME</code> - [int] transmitted as a number in nanoseconds.</li>
+                    <li><code>STRING</code> - translated using the requester's locale if available, or otherwise the Rhapsody locale.</li>
+                    <li><code>EXCEPTION</code> - translated exception message.</li>
+                    <li><code>MESSAGE_IDENTIFIER</code> - transmitted as a string</li>
+                    <li><code>COMPONENT_IDENTIFIER</code> - transmitted as <code>componentInfo</code> containing the component name, identifier and folder path.</li>
+                    <li><code>LIST_OF_STRINGS</code> - transmitted as a array containing translated strings</li>
+                    <li><code>LIST_OF_MESSAGE_IDENTIFIERS</code> - transmitted as an array of strings</li>
+                    <li><code>LIST_OF_ERRORS </code>- array of error objects:
+                     <ul class="alternate">
+                      <li>errorCode - [str] the error code (optional).</li>
+                      <li>errorMessage - translated error message.</li>
+                     </ul></li>
+                   </ul></li>
+                 </ul>
+                 <ul>
+                  <li><code>value</code> - the value type depends on the parameter type.</li>
+                 </ul></li>
+               </ul></li>
+             </ul></li>
+           </ul>
+           <div id="expander-1686826709" class="expand-container">
+            <div id="expander-control-1686826709" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example</span>
+            </div>
+            <div id="expander-content-1686826709" class="expand-content">
+             <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image" width="900" src="attachments/133161062/133161063.png" data-image-src="attachments/133161062/133161063.png" data-unresolved-comment-count="0" data-linked-resource-id="133161063" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="MessagePathExample.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161062" data-linked-resource-container-version="4"></span> <br> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161062/133161071.png" data-image-src="attachments/133161062/133161071.png" data-unresolved-comment-count="0" data-linked-resource-id="133161071" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GET-message-id-path.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161062" data-linked-resource-container-version="4"></span></p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View message metadata REST API'.<br>'View message properties' (on the message's locker).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageRetrieval-GET/api/message/<id>/body">GET /api/message/&lt;id&gt;/body</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/message/&lt;id&gt;/body</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves the message body for the specified message. The message itself is returned as binary, but a parameter on the response <code>Content-Type</code> indicates the character encoding associated with the message body if this has been explicitly set in Rhapsody. No character encoding information is returned if this has never been explicitly set within Rhapsody.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>If you attempt to retrieve a message body that was stored in the Secondary Body Store and deleted, then you will encounter the HTTP error <code>410 Gone</code>. Refer to <a href="Message-Store_133161569.html">Message Store</a> for details on the Secondary Body Store.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:</code> <code>application/octet-stream<br> </code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept:</code> <code>application/vnd.orchestral.rhapsody.6_0+octet-stream</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Status</span> </strong></td>
+          <td colspan="1" class="confluenceTd"><span><code>200 OK</code> - operation successful.</span></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p>If the body is requested as <code>application/octet-stream</code>, then the <code>Content-Disposition</code> header is set to an appropriate filename for the message using the <code>Filename</code> message property, or if not present, the message identifier.</p>
+           <div id="expander-1823144962" class="expand-container">
+            <div id="expander-control-1823144962" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example</span>
+            </div>
+            <div id="expander-content-1823144962" class="expand-content">
+             <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161062/133161073.png" data-image-src="attachments/133161062/133161073.png" data-unresolved-comment-count="0" data-linked-resource-id="133161073" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GET-message-id-body.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161062" data-linked-resource-container-version="4"></span></p>
+            </div>
+           </div>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>Currently, the method returns the default system encoding if no character encoding has been explicitly set.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View message body REST API'.<br>'View message bodies&nbsp;(on the message's locker).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageRetrieval-GET/api/message/<id>">GET /api/message/&lt;id&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>GET /api/message/&lt;id&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves a multi-part response containing both the message metadata and body for a specified message. Access Rights govern whether the message metadata or body or both are returned.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>If you attempt to retrieve a message whose body was stored in the Secondary Body Store and deleted, then the message body is not returned. Refer to <a href="Message-Store_133161569.html">Message Store</a> for details on the Secondary Body Store.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Accept:</code> <code>multipart/mixed<br> </code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Accept:</code> <code>multipart/vnd.orchestral.rhapsody.6_0+mixed</code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>Empty.</p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"> <strong>Response Status</strong> </span></td>
+          <td colspan="1" class="confluenceTd"><span><code>200 OK</code> - operation successful.</span></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p>Up to three MIME body parts are included in a valid multi-part response: <br class="atl-forced-newline"> <br class="atl-forced-newline"><code>Content-X-Rhapsody-Messagepart</code> - inline with a filename of <code>meta</code>. <br><code>Content-Type</code> - <code>application/json</code>. <br class="atl-forced-newline">Refer to <a href="#MessageRetrieval-GET/message/<id>/meta">GET /api/message/&lt;id&gt;/meta</a> for details on the response body structure. <br class="atl-forced-newline"> <br class="atl-forced-newline"><code>Content-X-Rhapsody-Messagepart</code> - inline with a filename of <code>path</code>. <br><code>Content-Type</code> - <code>application/json</code>. <br class="atl-forced-newline">Refer to <a href="#MessageRetrieval-GET/message/<id>/path">GET /api/message/&lt;id&gt;/path</a> for details on the response body structure. <br class="atl-forced-newline"> <br class="atl-forced-newline"><code>Content-X-Rhapsody-Messagepart</code> - <code>body</code>. <br class="atl-forced-newline"><code>Content-Type</code> - <code>application/octet-stream</code> (with a character set parameter if the character encoding has been explicitly set). <br class="atl-forced-newline"><code>Content-Disposition</code> - attachment with a filename as described in <a href="#MessageRetrieval-GET/message/<id>/body">GET /api/message/&lt;id&gt;/body</a>. <br class="atl-forced-newline">Refer to <a href="#MessageRetrieval-GET/message/<id>/body">GET /api/message/&lt;id&gt;/body</a> for details on the response body structure.</p>
+           <div id="expander-1800597615" class="expand-container">
+            <div id="expander-control-1800597615" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example</span>
+            </div>
+            <div id="expander-content-1800597615" class="expand-content">
+             <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161062/133161068.png" data-image-src="attachments/133161062/133161068.png" data-unresolved-comment-count="0" data-linked-resource-id="133161068" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="GET-message-id.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161062" data-linked-resource-container-version="4"></span></p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View message metadata REST API' (for the metadata and path).<br class="atl-forced-newline">'View message body REST API' (for the message body).<br>'View message properties' (on the message's locker, for the metadata and path).<br>'View message bodies' (on the message's locker, for the message body).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageRetrieval-POST/api/message">POST /api/message</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>POST /api/message</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Retrieves a number of messages in a single request using a list of message identifiers.</p>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>If you attempt to retrieve a message whose body was stored in the Secondary Body Store and deleted, then the message body is not returned. Refer to <a href="Message-Store_133161569.html">Message Store</a> for details on the Secondary Body Store.</p>
+            </div>
+           </div>
+           <div class="confluence-information-macro confluence-information-macro-note">
+            <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p>The maximum number of messages you can retrieve is 1000. If you attempt to retrieve more than 1000 messages, you will encounter an error response.</p>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><code>Accept:</code> <code>multipart/mixed</code> <br> <code>Content-type:</code> <code>application/json</code></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Accept:</code> <code>multipart/vnd.orchestral.rhapsody.6_0+mixed</code> <br> <code>Content-type:</code> <code>application/vnd.orchestral.rhapsody.6_0+json</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd"><p>An array of strings which are message identifiers, for example:</p>
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">{"messageIdentifiers":["1.8064.31","1.3712.14"]}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><span style="color: rgb(0,0,0);"><strong>Response Status</strong> </span></td>
+          <td colspan="1" class="confluenceTd"><code>200 OK</code> - operation successful.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Body</p></th>
+          <td class="confluenceTd"><p>A MIME multi-part response which is equivalent to calling <a href="#MessageRetrieval-GET/message/<id>">GET /api/message/&lt;id&gt;</a> for each requested message. A response body is returned even if only some of the messages are found (an error is returned if no messages are requested, or none are found, or if any message identifiers are syntactically invalid).</p>
+           <div id="expander-541722080" class="expand-container">
+            <div id="expander-control-541722080" class="expand-control">
+             <span class="expand-control-icon"><img style="vertical-align:middle;" class="expand-control-image" src="images/icons/grey_arrow_down.png"></span>
+             <span class="expand-control-text">Example</span>
+            </div>
+            <div id="expander-content-541722080" class="expand-content">
+             <div class="preformatted panel" style="border-width: 1px;">
+              <div class="preformattedContent panelContent"> 
+               <pre>--Boundary_3_561221000_1350951799938
+Content-Type: multipart/mixed; boundary=Boundary_1_2079557031_1350951799923
+
+--Boundary_1_2079557031_1350951799923
+Content-X-Rhapsody-Messagepart: meta
+Content-Type: application/json
+
+{"properties":{"InputTime":"1350951541245","id":"30","rhapsody:BodyEncoding":"windows\u002D1252","rhapsody:InputCommunicationPoint":"Message\u0020Source\u0020\u002810\u0020messages\u0029","rhapsody:InputCommunicationPointId":"137"},"errors":[],"bodyEncoding":"windows\u002D1252","messageIdentifier":"1\u002E8064\u002E31","rootMessageIdentifier":"1\u002E8064\u002E31","inputTime":"20121023T131901\u002E245\u002B1300"}
+--Boundary_1_2079557031_1350951799923
+Content-X-Rhapsody-Messagepart: path
+Content-Type: application/json
+
+{"children":[{"children":[{"children":[],"events":[{"timestamp":"20121023T131902\u002E007\u002B1300","parameters":[],"description":"Delivered\u0020to\u0020communication\u0020point","eventType":"DELIVERED\u005FTO\u005FCOMMUNICATION\u005FPOINT"},{"timestamp":"20121023T131902\u002E546\u002B1300","parameters":[{"value":1301,"type":"PROCESSING\u005FTIME"}],"description":"Sent\u0020by\u0020communication\u0020point\u002C\u0020total\u0020processing\u0020took\u00201\u002E301\u0020seconds\u002E","eventType":"SENT\u005FBY\u005FCOMMUNICATION\u005FPOINT"}],"componentInfo":{"name":"W\u0020\u002D\u0020\u0028D\u0029\u0020\u002D\u0020\u0028ReS\u0020\u002D\u0020ReO\u0029\u0020\u002D\u0020A","id":133,"folderPath":"RLC\u002FNotifications\u002FWorsening\u0020Alert\u0020Level\u002FWarning\u0020\u002D\u0020Alarm\u002FWarning\u0020\u002D\u0020\u0028Dismissed\u0029\u0020\u002D\u0020\u0028Resolved\u0020Automatically\u0020\u002D\u0020Reopened\u0020Automatically\u0029\u0020\u002D\u0020Alarm\u002FDo\u0020not\u0020start"},"messageIdentifier":"1\u002E8064\u002E175","onPath":false}],"events":[{"timestamp":"20121023T131902\u002E004\u002B1300","parameters":[],"description":"Placed\u0020on\u0020route","eventType":"PLACED\u005FON\u005FROUTE"}],"componentInfo":{"name":"NewRoute","id":199,"folderPath":"RLC\u002FNotifications\u002FWorsening\u0020Alert\u0020Level\u002FWarning\u0020\u002D\u0020Alarm\u002FWarning\u0020\u002D\u0020\u0028Dismissed\u0029\u0020\u002D\u0020\u0028Resolved\u0020Automatically\u0020\u002D\u0020Reopened\u0020Automatically\u0029\u0020\u002D\u0020Alarm\u002FStart\u0020\u002D\u002010\u0020messages\u0020\u0028Warning\u0029"},"messageIdentifier":"1\u002E8064\u002E174","onPath":false}],"events":[{"timestamp":"20121023T131901\u002E245\u002B1300","parameters":[],"description":"Received\u0020by\u0020communication\u0020point","eventType":"RECEIVED"}],"componentInfo":{"name":"Message\u0020Source\u0020\u002810\u0020messages\u0029","id":137,"folderPath":"RLC\u002FNotifications\u002FWorsening\u0020Alert\u0020Level\u002FWarning\u0020\u002D\u0020Alarm\u002FWarning\u0020\u002D\u0020\u0028Dismissed\u0029\u0020\u002D\u0020\u0028Resolved\u0020Automatically\u0020\u002D\u0020Reopened\u0020Automatically\u0029\u0020\u002D\u0020Alarm\u002FStart\u0020\u002D\u002010\u0020messages\u0020\u0028Warning\u0029"},"messageIdentifier":"1\u002E8064\u002E31","onPath":true}
+--Boundary_1_2079557031_1350951799923
+Content-Disposition: attachment;filename=1.8064.31;charset=windows-1252
+Content-X-Rhapsody-Messagepart: body
+Content-Type: application/octet-stream
+
+MSH|^~\&amp;|BAXP|001|BAXP|001|20020502145546||ADT^A01|69495|P|2.2|||AL|NE
+EVN|A01|20020502145519
+PID|0001||2528083|000353883|DUNN^BOY BABY^^^||20020502|M||C|14415 BROOK DRIVE^^WOODBRIDGE^VA^22193-0000^USA^^001|001|(703)680-3330|||S|NP|2528083^^^|||2527821||VA
+PV1|0001|I|NN^0190^C|NB|||00889^KEFALE, GEORGIS|00889^KEFALE, GEORGIS||NBN||||N||N|00889^KEFALE, GEORGIS|I||D||||||||||||||||||||||||200205021451
+OBX|0001|ST|^ADMIT DIAGNOSIS TEXT||NORMAL NEWBORN
+OBX|0002|ST|1010.1^WEIGHT(KG)^AS4
+OBX|0003|ST|1010.3^HEIGHT(CM)^AS4
+
+--Boundary_1_2079557031_1350951799923--
+
+--Boundary_3_561221000_1350951799938
+Content-Type: multipart/mixed; boundary=Boundary_2_1182032819_1350951799936
+
+--Boundary_2_1182032819_1350951799936
+Content-X-Rhapsody-Messagepart: meta
+Content-Type: application/json
+
+{"properties":{"InputTime":"1350951541143","id":"13","rhapsody:BodyEncoding":"windows\u002D1252","rhapsody:InputCommunicationPoint":"Message\u0020Source\u0020\u002810\u0020messages\u0029","rhapsody:InputCommunicationPointId":"137"},"errors":[],"bodyEncoding":"windows\u002D1252","messageIdentifier":"1\u002E3712\u002E14","rootMessageIdentifier":"1\u002E3712\u002E14","inputTime":"20121023T131901\u002E143\u002B1300"}
+--Boundary_2_1182032819_1350951799936
+Content-X-Rhapsody-Messagepart: path
+Content-Type: application/json
+
+{"children":[{"children":[{"children":[],"events":[{"timestamp":"20121023T131901\u002E992\u002B1300","parameters":[],"description":"Delivered\u0020to\u0020communication\u0020point","eventType":"DELIVERED\u005FTO\u005FCOMMUNICATION\u005FPOINT"},{"timestamp":"20121023T131902\u002E541\u002B1300","parameters":[{"value":1398,"type":"PROCESSING\u005FTIME"}],"description":"Sent\u0020by\u0020communication\u0020point\u002C\u0020total\u0020processing\u0020took\u00201\u002E398\u0020seconds\u002E","eventType":"SENT\u005FBY\u005FCOMMUNICATION\u005FPOINT"}],"componentInfo":{"name":"W\u0020\u002D\u0020\u0028D\u0029\u0020\u002D\u0020\u0028ReS\u0020\u002D\u0020ReO\u0029\u0020\u002D\u0020A","id":133,"folderPath":"RLC\u002FNotifications\u002FWorsening\u0020Alert\u0020Level\u002FWarning\u0020\u002D\u0020Alarm\u002FWarning\u0020\u002D\u0020\u0028Dismissed\u0029\u0020\u002D\u0020\u0028Resolved\u0020Automatically\u0020\u002D\u0020Reopened\u0020Automatically\u0029\u0020\u002D\u0020Alarm\u002FDo\u0020not\u0020start"},"messageIdentifier":"1\u002E3712\u002E136","onPath":false}],"events":[{"timestamp":"20121023T131901\u002E992\u002B1300","parameters":[],"description":"Placed\u0020on\u0020route","eventType":"PLACED\u005FON\u005FROUTE"}],"componentInfo":{"name":"NewRoute","id":199,"folderPath":"RLC\u002FNotifications\u002FWorsening\u0020Alert\u0020Level\u002FWarning\u0020\u002D\u0020Alarm\u002FWarning\u0020\u002D\u0020\u0028Dismissed\u0029\u0020\u002D\u0020\u0028Resolved\u0020Automatically\u0020\u002D\u0020Reopened\u0020Automatically\u0029\u0020\u002D\u0020Alarm\u002FStart\u0020\u002D\u002010\u0020messages\u0020\u0028Warning\u0029"},"messageIdentifier":"1\u002E3712\u002E135","onPath":false}],"events":[{"timestamp":"20121023T131901\u002E153\u002B1300","parameters":[],"description":"Received\u0020by\u0020communication\u0020point","eventType":"RECEIVED"}],"componentInfo":{"name":"Message\u0020Source\u0020\u002810\u0020messages\u0029","id":137,"folderPath":"RLC\u002FNotifications\u002FWorsening\u0020Alert\u0020Level\u002FWarning\u0020\u002D\u0020Alarm\u002FWarning\u0020\u002D\u0020\u0028Dismissed\u0029\u0020\u002D\u0020\u0028Resolved\u0020Automatically\u0020\u002D\u0020Reopened\u0020Automatically\u0029\u0020\u002D\u0020Alarm\u002FStart\u0020\u002D\u002010\u0020messages\u0020\u0028Warning\u0029"},"messageIdentifier":"1\u002E3712\u002E14","onPath":true}
+--Boundary_2_1182032819_1350951799936
+Content-Disposition: attachment;filename=1.3712.14;charset=windows-1252
+Content-X-Rhapsody-Messagepart: body
+Content-Type: application/octet-stream
+
+MSH|^~\&amp;|BAXP|001|BAXP|001|20020502145546||ADT^A01|69495|P|2.2|||AL|NE
+EVN|A01|20020502145519
+PID|0001||2528083|000353883|DUNN^BOY BABY^^^||20020502|M||C|14415 BROOK DRIVE^^WOODBRIDGE^VA^22193-0000^USA^^001|001|(703)680-3330|||S|NP|2528083^^^|||2527821||VA
+PV1|0001|I|NN^0190^C|NB|||00889^KEFALE, GEORGIS|00889^KEFALE, GEORGIS||NBN||||N||N|00889^KEFALE, GEORGIS|I||D||||||||||||||||||||||||200205021451
+OBX|0001|ST|^ADMIT DIAGNOSIS TEXT||NORMAL NEWBORN
+OBX|0002|ST|1010.1^WEIGHT(KG)^AS4
+OBX|0003|ST|1010.3^HEIGHT(CM)^AS4
+
+--Boundary_2_1182032819_1350951799936--
+
+--Boundary_3_561221000_1350951799938--
+</pre> 
+              </div>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'View message metadata REST API'.<br class="atl-forced-newline">'View message body REST API'.<br>'View message properties' (on the message's locker).<br>'View message bodies' (on the message's locker).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageRetrieval-DELETE/api/message/<id>">DELETE /api/message/&lt;id&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>DELETE /api/message/&lt;id&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Deletes the current message from the Error Queue or Hold Queue.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><code>Content-Type: application/json<br></code><a href="Request-and-Response-Formats_133161143.html#RequestandResponseFormats-CrossSiteRequestForgeryProtection">CSRF Protection Enabled</a></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+json<br></code><a href="Request-and-Response-Formats_133161143.html#RequestandResponseFormats-CrossSiteRequestForgeryProtection">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{"messageTable":"ERROR"}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><span class="line"><span class="header-value"><code>204 No Content</code> - operation successful . </span> </span></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong><span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Delete message REST API'.<br>'Delete held/errored messages' (on the message's locker).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="MessageRetrieval-PUT/api/message/<id>">PUT /api/message/&lt;id&gt;</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>URI</p></th>
+          <td class="confluenceTd"><p><code>PUT /api/message/&lt;id&gt;</code></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Description</p></th>
+          <td class="confluenceTd"><p>Releases the current message from the Error Queue or Hold Queue.</p></td>
+         </tr>
+         <tr>
+          <th rowspan="2" class="confluenceTh"><p>Request Header</p></th>
+          <td class="confluenceTd"><p><code>Content-Type: application/json<br></code><a href="Request-and-Response-Formats_133161143.html#RequestandResponseFormats-CrossSiteRequestForgeryProtection">CSRF Protection Enabled</a></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>Content-Type: application/vnd.orchestral.rhapsody.6_1+json<br></code><a href="Request-and-Response-Formats_133161143.html#RequestandResponseFormats-CrossSiteRequestForgeryProtection">CSRF Protection Enabled</a><code><br></code></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Request Body</p></th>
+          <td class="confluenceTd">
+           <div class="code panel pdl" style="border-width: 1px;">
+            <div class="codeContent panelContent pdl"> 
+             <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: javascript; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;{"messageTable":"ERROR"}</pre> 
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Response Status</p></th>
+          <td class="confluenceTd"><p><span class="line"><code>204</code> <span class="header-value"> <code>No Content</code> - operation successful. </span> </span></p></td>
+         </tr>
+         <tr>
+          <td class="highlight-grey confluenceTd" colspan="1" data-highlight-colour="grey"><strong> <span style="color: rgb(0,0,0);">Response Body </span> </strong></td>
+          <td colspan="1" class="confluenceTd">Empty.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>Access Rights</p></th>
+          <td class="confluenceTd"><p>'Release message REST API'.<br>'Release/reprocess messages' (on the message's locker).</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

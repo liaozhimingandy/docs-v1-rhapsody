@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Certificate Mismatch Error</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+       <li> <span><a href="Security-Provisions_133161176.html">Security Provisions</a></span> </li> 
+       <li> <span><a href="Rhapsody-Server-Authentication_133161184.html">Rhapsody Server Authentication</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Certificate Mismatch Error</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Certificate Mismatch error dialog is displayed if the Rhapsody engine presented a valid self-signed SSL certificate. This self-signed certificate, however, is different to the certificate that has been previously used to connect to this engine. This is the expected behavior if the Rhapsody engine's certificate has been changed to a new self-signed certificate. However, care must be taken when you encounter this scenario as it may mean an attacker is attempting to impersonate the Rhapsody engine and intercept your communications.</p>
+      <p>We strongly recommend that you manually verify the SSL certificate before using any available workarounds. This is done by comparing the certificate thumbprint, shown in the following screenshot, to the <a href="Generated-Self-Signed-SSL-Certificates_133161218.html"><span class="confluence-link">certificate thumbprint</span> </a>stored on disk on the Rhapsody server in the <code>&lt;Rhapsody&gt;/rhapsody/ide.sha1.txt</code> file. If these thumbprints match, then the certificate can safely be trusted; if they do not match, then the connection should be aborted as it is not the expected SSL certificate.</p>
+      <p>If it is the Rhapsody engine's SSL certificate that has been changed, then the <a href="Rhapsody-IDE-Trust-Manager_133161202.html">Rhapsody IDE Trust Manager </a>can be used to remove the old reference to this Rhapsody engine, and then re-established the connection. A warning dialog is still displayed afterwards (because the Rhapsody IDE would effectively be connecting to the Rhapsody engine with a self-signed certificate for the first time), but the SSL certificate can now be accepted.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161215/133161216.png" data-image-src="attachments/133161215/133161216.png" data-unresolved-comment-count="0" data-linked-resource-id="133161216" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CertificateMismatch2.PNG" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161215" data-linked-resource-container-version="1"></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Close</td>
+          <td class="confluenceTd">Cancels the connection so the login does not take place.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">View certificate</td>
+          <td class="confluenceTd">Displays the SSL certificate presented by the Rhapsody engine using the standard <em>Windows</em><span class="st">®</span> certificate viewer.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">View Previous Certificate</td>
+          <td class="confluenceTd">Displays the SSL certificate that was presented by this Rhapsody engine the last time the Rhapsody IDE connected to it. If this certificate is not available, then the thumbprint of the previous SSL certificate is displayed in place of this link.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Rhapsody IDE Trust Manager</td>
+          <td class="confluenceTd"><p>Launches the <a href="Rhapsody-IDE-Trust-Manager_133161202.html">Rhapsody IDE Trust Manager </a>to allow manual editing of the Rhapsody IDE trust relationships.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

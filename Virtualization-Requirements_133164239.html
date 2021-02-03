@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Virtualization Requirements</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Deployment_133164213.html">Deployment</a></span> </li> 
+       <li> <span><a href="Running-Rhapsody-on-a-Virtual-Machine_133164237.html">Running Rhapsody on a Virtual Machine</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Virtualization Requirements</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>When deploying Rhapsody onto a virtual machine, for example VMware vCenter Server, VirtualBox, Virtual PC, you must configure the following features of the virtual machine:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146929444 {padding: 0px;}
+div.rbtoc1565146929444 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146929444 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146929444"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#VirtualizationRequirements-HostClusterSettings">Host Cluster Settings</a></li> 
+        <li><a href="#VirtualizationRequirements-CPUAllocation">CPU Allocation</a></li> 
+        <li><a href="#VirtualizationRequirements-DataStoragePersistence">Data Storage Persistence</a></li> 
+        <li><a href="#VirtualizationRequirements-VirtualMachineMemoryAllocation">Virtual Machine Memory Allocation</a></li> 
+        <li><a href="#VirtualizationRequirements-RhapsodyApplicationMemoryAllocation">Rhapsody Application Memory Allocation</a></li> 
+        <li><a href="#VirtualizationRequirements-TimeSynchronization">Time Synchronization</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><span>This document is intended for the virtualization and system administrators in charge of managing the Rhapsody server.</span></p>
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Refer to&nbsp;<a href="http://kb.vmware.com/kb/1008480" class="external-link" rel="nofollow">Best practices for running Java in a virtual machine (1008480)</a>&nbsp;for additional information.</p>
+       </div>
+      </div>
+      <h2 id="VirtualizationRequirements-HostClusterSettings">Host Cluster Settings</h2>
+      <p>When clustering your hosts, follow your vendor’s recommendations for how best to configure your cluster for virtual machines running Java virtual machines (JVM). &nbsp;&nbsp;</p>
+      <p>In a VMware vCenter environment, set the Dynamic Resource Scheduler (DRS) to fully automatic with the migration threshold to the second tick on that scale (one level removed from the most conservative setting).&nbsp; This will limit the frequency at which automatic vMotion’s occur. Configure resource pools to further divide physical resources and compartmentalize them between virtual machine groups.</p>
+      <h2 id="VirtualizationRequirements-CPUAllocation">CPU Allocation</h2>
+      <p>At least two virtual CPUs (vCPUs) must be allocated for the virtual machine running Rhapsody.&nbsp; This is the minimum requirement to allow Rhapsody and the operating system to operate simultaneously.&nbsp; A virtual CPU is a single core in the physical CPUs.&nbsp; Therefore, only having a single vCPU could cause process queuing for OS processes and all other application running on the virtual machine.&nbsp; This also places a physical resource constraint on your virtual machines because the maximum vCPUs that can be specified to a virtual machine is equal to the number of cores on the host because all allocated vCPUs need to be available to a virtual machine simultaneously for any processing to occur.&nbsp; Additionally, a vCPU must be added to the virtual machine for every JVM instance (for example, every Rhapsody instance on the virtual machine).&nbsp; In cases with moderate to high load, the number of vCPUs would likely need to be increased for the higher load.</p>
+      <h2 id="VirtualizationRequirements-DataStoragePersistence">Data Storage Persistence</h2>
+      <p>Rhapsody's data store is saved in a file system and the Rhapsody engine should be treated as you would a database server.&nbsp; It is a best practice for Rhapsody that the data store for the Rhapsody engine be allocated a dedicated disk. When Rhapsody is run on a virtual machine, the data store must be kept on disk accessed on the block level.&nbsp; This can be achieved by using a physical disk attached to the virtual machine, or, in a VMware environment, a virtualized disk (VMDK). If a VMDK is used, the datastore for the virtual machine must follow the <a href="Datastore-Setup_133161568.html">guidelines for Rhapsody data store setup</a>. In addition, the virtual disk must use a thick provisioned disk, preferably with the eager zero option. For optimal performance, the data store should be on a fast SAN (Storage Area Network). Note that the use of NFS for the data store is not supported due to problems discovered from practise, as block level access is required. When using a VMDK it is imperative that snapshots not be used on the virtual machine for any time period longer than a maintenance window. Due to Rhapsody’s intensive disk I/O usage, snapshots can grow quickly in production causing significant performance degradation.&nbsp;</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>You must refer to <a href="Datastore-Setup_133161568.html">Datastore Setup</a> for important information on configuring your data store.</p>
+       </div>
+      </div>
+      <h2 id="VirtualizationRequirements-VirtualMachineMemoryAllocation">Virtual Machine Memory Allocation</h2>
+      <ul>
+       <li>The virtual machine running Rhapsody must have access to enough allocated physical RAM on the server hosting the virtual machine to satisfy the virtual machine's memory requirements. Specifically, the memory allocated to the virtual machine must not exceed the physical memory of the server.</li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">The virtual machine running Rhapsody must not share memory with other virtual machines on the same server.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">For optimal performance, at least 2GB of RAM must be available for the operating system of the virtual machine server.</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">When calculating minimum RAM, consider other applications using memory resources.&nbsp; The total allocated RAM should equal the sum of:</span>
+        <ul>
+         <li>2GB for the operating system</li>
+         <li>Desired RAM for the Rhapsody JVM.</li>
+         <li>RAM for all other running applications.</li>
+         <li>In order to achieve these goals, reserve memory on the virtual machine for the entire amount of allocated RAM.&nbsp;</li>
+         <li>Reserving this amount of memory also mitigates the detrimental impact memory ballooning has on the Rhapsody engine as the virtual machine will always have the memory resources allocated to it.</li>
+         <li>Never set the RAM of the virtual machine equal to the entire unallocated RAM of the host server, as it needs a small amount of additional RAM for overhead of running the virtual machine.</li>
+        </ul></li>
+      </ul>
+      <h2 id="VirtualizationRequirements-RhapsodyApplicationMemoryAllocation">Rhapsody Application Memory Allocation</h2>
+      <p>Rhapsody must have sufficient memory for the intended message load.&nbsp; In general, there must be enough memory to ensure that Rhapsody's In Use portion does not exceed 80% of the total allocation in the event of an unexpected high memory load.&nbsp; Allocating too much memory is also not recommended, as it can result in Rhapsody being unresponsive for long durations due to long garbage collection cycles.&nbsp; Furthermore, if the virtual machine is moved between hosts while running, using a process such as&nbsp;using VMware’s vMotion, the larger the amount of memory the slower that migration will be.&nbsp;</p>
+      <p>When allocating memory to Rhapsody, keep in mind two other users of memory on a virtual machine: the virtual machine's operating system, and the Java process running Rhapsody.&nbsp; Two gigabytes is often enough for the operating system and Java, and the rest can be allocated to the JVM that contains Rhapsody.&nbsp; However, if Rhapsody's workload does not require this much memory, then allocating less to Rhapsody may result in better performance.&nbsp; When allocating memory, remember to consider the memory resources of other virtual machines sharing your host server.</p>
+      <h2 id="VirtualizationRequirements-TimeSynchronization">Time Synchronization</h2>
+      <p>Ensure that your operating system on the virtual machine is configured to synchronize its clock with a NTP server or domain controller.&nbsp; The time in the virtual machine can be synchronized with hosts, if supported by your hypervisor vendor.&nbsp; The most benign consequence of having the time out-of-sync&nbsp;is that logs report time inconsistently with other servers making troubleshooting difficult or impossible to coordinate time between them.&nbsp; If the time is too far out of sync from the NTP server, the virtual machine and its applications may not be able to communicate with other systems, such as cross-host encryption issues and expired request issues.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+      <p><span style="line-height: 13.0pt;background-color: transparent;"> <br></span></p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

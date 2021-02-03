@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Lookup Table Web Service</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Remote-Monitoring-and-Administration_133161056.html">Remote Monitoring and Administration</a></span> </li> 
+       <li> <span><a href="SOAP-API_133161152.html">SOAP API</a></span> </li> 
+       <li> <span><a href="Web-Services-API_133161170.html">Web Services API</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Lookup Table Web Service</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Lookup Table service provides an operation to perform lookups using a Rhapsody lookup table that has been previously defined. Each lookup operation performs a query on a single table using the column-value pairs provided in the request. The response returns either a single value, all the values in the matched row, or a SOAP fault is raised if no match occurs.</p>
+      <p>The operation uses WS-Security to verify that the caller has sufficient privileges. The Web service supports WS-Security with UsernameToken authentication. The password must be provided as plain text.</p>
+      <p>Once a user has been authenticated, the Web service verifies that they have permissions to make Web service calls and perform the requested operation. A SOAP fault is raised if the authentication or permission check fails.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>WSDL Location</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>LookupTableService?wsdl</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>SOAP 1.1 Endpoint</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>LookupTableService.LookupTableServiceHttpsSoap11Endpoint</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><strong>SOAP 1.2 Endpoint</strong></p></td>
+          <td class="confluenceTd"><p><code>https://&lt;RhapsodyEngine&gt;:&lt;WSPort&gt;/services/<code><code><code><wbr></code></code></code>LookupTableService.LookupTableServiceHttpsSoap12Endpoint</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p><strong>In This Section</strong></p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147005982 {padding: 0px;}
+div.rbtoc1565147005982 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147005982 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565147005982"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#LookupTableWebService-Operations">Operations</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#LookupTableWebService-lookup">lookup</a></li> 
+         </ul> </li> 
+        <li><a href="#LookupTableWebService-SOAPFaults">SOAP Faults</a></li> 
+       </ul> 
+      </div>
+      <h2 id="LookupTableWebService-Operations">Operations</h2>
+      <h3 id="LookupTableWebService-lookup">lookup</h3>
+      <p>The lookup operation performs a single lookup against a table in the Rhapsody configuration. The lookup request will define the table to use, the column name-value pairs to use for the query, and optionally the column to return as the result. If the result column is not defined, then all the columns in the matched row are returned.</p>
+      <p>A SOAP fault is raised if either the specified table was not found, any of the specified columns were not found, or if no values were matched using the criteria provided.</p>
+      <p><strong>Sample Request for All Columns</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:look="http://www.orionhealth.com/rhapsody/api/2010/03/lookupTableService" xmlns:soap="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security soap:mustUnderstand="true" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-1" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"&gt;dV2NyzR2ZogH3KzyvFGmcg==&lt;/wsse:Nonce&gt;
+            &lt;wsu:Created&gt;2010-06-27T23:53:30.814Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;look:lookup&gt;
+         &lt;look:lookupQuery table="IpLocation"&gt;
+            &lt;look:column name="ip_cidr"&gt;65.162.15.0/24&lt;/look:column&gt;
+         &lt;/look:lookupQuery&gt;
+      &lt;/look:lookup&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt; </pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response with All Columns</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:lookupResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2010/03/lookupTableService"&gt;
+         &lt;ns1:column name="ip_start"&gt;1101139712&lt;/ns1:column&gt;
+         &lt;ns1:column name="ip_cidr"&gt;65.162.15.0/24&lt;/ns1:column&gt;
+         &lt;ns1:column name="country_code"&gt;US&lt;/ns1:column&gt;
+         &lt;ns1:column name="country_name"&gt;United States&lt;/ns1:column&gt;
+      &lt;/ns1:lookupResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt; </pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample Request for a Single Column</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soap:Envelope xmlns:look="http://www.orionhealth.com/rhapsody/api/2010/03/lookupTableService" xmlns:soap="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soap:Header&gt;
+      &lt;wsse:Security soap:mustUnderstand="true" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"&gt;
+         &lt;wsse:UsernameToken wsu:Id="UsernameToken-1" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"&gt;
+            &lt;wsse:Username&gt;administrator&lt;/wsse:Username&gt;
+            &lt;wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"&gt;r&lt;/wsse:Password&gt;
+            &lt;wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary"&gt;dV2NyzR2ZogH3KzyvFGmcg==&lt;/wsse:Nonce&gt;
+            &lt;wsu:Created&gt;2010-06-27T23:53:30.814Z&lt;/wsu:Created&gt;
+         &lt;/wsse:UsernameToken&gt;
+      &lt;/wsse:Security&gt;
+   &lt;/soap:Header&gt;
+   &lt;soap:Body&gt;
+      &lt;look:lookup&gt;
+         &lt;look:lookupQuery table="IpLocation" resultColumn="country_code"&gt;
+            &lt;look:column name="ip_cidr"&gt;65.162.15.0/24&lt;/look:column&gt;
+         &lt;/look:lookupQuery&gt;
+      &lt;/look:lookup&gt;
+   &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt; </pre> 
+       </div>
+      </div>
+      <p><strong>Sample Response with a Single Column</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;ns1:lookupResponse xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2010/03/lookupTableService"&gt;
+         &lt;ns1:column name="country_code"&gt;US&lt;/ns1:column&gt;
+      &lt;/ns1:lookupResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt; </pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <h2 id="LookupTableWebService-SOAPFaults">SOAP Faults</h2>
+      <p>The Lookup Table service raises SOAP faults when syntactical or semantical errors are discovered in the request, or if an error occurs when generating the response. If the request reaches the Lookup Table service (that is, it is not rejected by the framework due to bad XML/SOAP formatting or invalid security parameters), then the SOAP fault returned will include an instance of a <code>LookupTableException</code> (defined in the WSDL), which includes an error code and description indicating the problem.</p>
+      <p>The SOAP fault code will be set to Sender/Client (for SOAP 1.2/1.1) for errors in the request, or Receiver/Server (1.2/1.1) for errors generating the response. The <code>LookupTableException</code> object will be included in the Details section of the fault. If using SOAP 1.2, then the sub-code of the fault will be an instance of <code>lookupErrorCode</code> (defined in the WSDL as an enumeration) indicating the error that occurred.</p>
+      <p><strong>Sample Fault when No Match is Found</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;soapenv:Fault&gt;
+         &lt;soapenv:Code&gt;
+            &lt;soapenv:Value&gt;soapenv:Sender&lt;/soapenv:Value&gt;
+            &lt;soapenv:Subcode&gt;
+               &lt;soapenv:Value xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2010/03/lookupTableService"&gt;ns1:EmptyResultSet&lt;/soapenv:Value&gt;
+            &lt;/soapenv:Subcode&gt;
+         &lt;/soapenv:Code&gt;
+         &lt;soapenv:Reason&gt;
+            &lt;soapenv:Text xml:lang="en-US"&gt;No results found for query.&lt;/soapenv:Text&gt;
+         &lt;/soapenv:Reason&gt;
+         &lt;soapenv:Node&gt;https://engine:8449/services/LookupTableService.LookupTableServiceHttpsSoap12Endpoint&lt;/soapenv:Node&gt;
+         &lt;soapenv:Detail&gt;
+            &lt;ns1:LookupException xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2010/03/lookupTableService"&gt;
+               &lt;ns1:ErrorCode&gt;EmptyResultSet&lt;/ns1:ErrorCode&gt;
+               &lt;ns1:Message&gt;No results found for query.&lt;/ns1:Message&gt;
+            &lt;/ns1:LookupException&gt;
+         &lt;/soapenv:Detail&gt;
+      &lt;/soapenv:Fault&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt; </pre> 
+       </div>
+      </div>
+      <p>&nbsp;</p>
+      <p><strong>Sample Fault when Table not Found</strong></p>
+      <div class="preformatted panel" style="border-width: 1px;">
+       <div class="preformattedContent panelContent"> 
+        <pre>&lt;soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"&gt;
+   &lt;soapenv:Body&gt;
+      &lt;soapenv:Fault&gt;
+         &lt;soapenv:Code&gt;
+            &lt;soapenv:Value&gt;soapenv:Sender&lt;/soapenv:Value&gt;
+            &lt;soapenv:Subcode&gt;
+               &lt;soapenv:Value xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2010/03/lookupTableService"&gt;ns1:TableNotFound&lt;/soapenv:Value&gt;
+            &lt;/soapenv:Subcode&gt;
+         &lt;/soapenv:Code&gt;
+         &lt;soapenv:Reason&gt;
+            &lt;soapenv:Text xml:lang="en-US"&gt;Table IpLoacation not found&lt;/soapenv:Text&gt;
+         &lt;/soapenv:Reason&gt;
+         &lt;soapenv:Node&gt;https://engine:8449/services/LookupTableService.LookupTableServiceHttpsSoap12Endpoint&lt;/soapenv:Node&gt;
+         &lt;soapenv:Detail&gt;
+            &lt;ns1:LookupException xmlns:ns1="http://www.orionhealth.com/rhapsody/api/2010/03/lookupTableService"&gt;
+               &lt;ns1:ErrorCode&gt;TableNotFound&lt;/ns1:ErrorCode&gt;
+               &lt;ns1:Message&gt;Table IpLoacation not found&lt;/ns1:Message&gt;
+            &lt;/ns1:LookupException&gt;
+         &lt;/soapenv:Detail&gt;
+      &lt;/soapenv:Fault&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt; </pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

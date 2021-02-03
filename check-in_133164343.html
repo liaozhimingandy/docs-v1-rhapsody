@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>check-in</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Installing-Rhapsody_133164241.html">Installing Rhapsody</a></span> </li> 
+       <li> <span><a href="Unattended-Installations_133164341.html">Unattended Installations</a></span> </li> 
+       <li> <span><a href="Configuring-Rhapsody-IDE-Unattended_133164342.html">Configuring Rhapsody IDE Unattended</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">check-in</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><code>The &lt;check-in/&gt;</code> element allows configuration changes to be grouped together with an associated commit comment. The following elements can be nested inside the <code>&lt;check-in/&gt;</code> element:</p>
+      <ul>
+       <li><code><a href="import-webservice-users_133164356.html">&lt;import-webservice-users/&gt;</a></code></li>
+       <li><code><a href="rename_133164355.html">&lt;rename-locker/&gt;</a></code></li>
+       <li><code><a href="rename_133164355.html">&lt;rename-folder/&gt;</a></code></li>
+       <li><code><a href="rename_133164355.html">&lt;rename-communication-point/&gt;</a></code></li>
+       <li><code><a href="rename_133164355.html">&lt;rename-route/&gt;</a></code></li>
+       <li><code><a href="reconfigure_133164350.html">&lt;reconfigure/&gt;</a></code></li>
+      </ul>
+      <p>Any of these elements can be used as direct children of the root <code>&lt;script/&gt;</code> element. However, when used in this way, the changes that they make are committed immediately with an empty commit comment. They must be placed into the new <code>&lt;check-in/&gt;</code> element if you want to use a non-empty commit comment.<br><br>The <code>&lt;check-in/&gt;</code> element can take two attributes:</p>
+      <ul>
+       <li><a href="#check-in-Check-inComment"><code>checkInMessage</code></a></li>
+       <li><code><a href="#check-in-prompt">prompt</a></code></li>
+      </ul>
+      <p>A commit using the <code>&lt;check-in/&gt;</code> element only takes place if actual changes were made to the configuration. Refer to <a href="Checking-In_133161455.html#CheckingIn-ModificationsResultinginNoChanges">Modifications Resulting in No Changes</a> for details.</p>
+      <h2 id="check-in-Check-inComment">Check-in Comment</h2>
+      <p><code>checkInMessage</code> is an optional attribute. It can be set to a non-empty string that contains the commit comment to use for the configuration changes. If it is not provided, then an empty commit comment is used.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>attribute='value'</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre>checkInMessage='&lt;commit_comment&gt;'</pre></td>
+          <td class="confluenceTd"><p>Add a commit comment to the RLC.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="check-in-Prompt">Prompt</h2>
+      <p><code>prompt</code> is an optional attribute. It determines whether the user is prompted for confirmation before changes are committed.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>attribute="value"</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><pre><code>prompt</code>="true"</pre></td>
+          <td class="confluenceTd"><p>The <strong>Check-in</strong> dialog is displayed to the user to commit the changes.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><pre><code>prompt</code>="false"</pre></td>
+          <td colspan="1" class="confluenceTd"><p>The changes are committed automatically</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="check-in-Example">Example</h2>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;check-in checkInMessage='Make some changes'&gt;
+    &lt;rename-locker old="Labs" new="Radiology"/&gt;
+   &nbsp;&lt;rename-folder old="Locker/B/C" new="Test/Observations"/&gt;
+    &lt;rename-communication-point folder="Test/Observations" old="Input 22" new="Observation Input"/&gt;
+    &lt;rename-communication-point folder="Test/Observations" old="Output 22" new="Observation Output"/&gt;
+    &lt;rename-route folder="Test/Observations" old="Route 22" new="Observation Test Route"/&gt;
+    &lt;reconfigure&gt;
+        &lt;communication-point folder="Validation" name="TCP Server"&gt;
+            &lt;set property="LOCALPORT" value="23456"/&gt;
+        &lt;/communication-point&gt;
+        &lt;filter name="Observation Mapper" folder="Test/Observations" route="Observation Test Route"&gt;
+            &lt;set property="NumberInstances" value="1"/&gt;
+        &lt;/filter&gt;
+    &lt;/reconfigure&gt;
+&lt;/check-in&gt;</pre> 
+       </div>
+      </div>
+      <p> </p>
+      <p>&nbsp;</p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

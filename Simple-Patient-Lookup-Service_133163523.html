@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Simple Patient Lookup Service</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Web-Services_133163490.html">Web Services</a></span> </li> 
+       <li> <span><a href="Tutorials_133163522.html">Tutorials</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Simple Patient Lookup Service</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>&nbsp;</p>
+      <p>Before you create the Web service, you must set up the following:</p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146988528 {padding: 0px;}
+div.rbtoc1565146988528 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146988528 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565146988528"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#SimplePatientLookupService-CreatePrivateKeysandCertificates">Create Private Keys and Certificates</a></li> 
+        <li><a href="#SimplePatientLookupService-AddaUsertotheWebServiceUserStore">Add a User to the Web Service User Store</a></li> 
+        <li><a href="#SimplePatientLookupService-CreatetheFolderStructurefortheCommunicationPointsandRoutes">Create the Folder Structure for the Communication Points and Routes</a></li> 
+        <li><a href="#SimplePatientLookupService-LoadtheMessageDefinitionFile">Load the Message Definition File</a></li> 
+       </ul> 
+      </div>
+      <h2 id="SimplePatientLookupService-CreatePrivateKeysandCertificates">Create Private Keys and Certificates</h2>
+      <div class="table-wrap">
+       <table id="TBL1565043148429" class="confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>View&gt;Certificate and Key Manager&gt;SSL Private Keys&gt;Generate New...</strong></p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148429']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148429',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <ol>
+       <li>Create two private key and certificate pairs using Rhapsody IDE, and import them into Rhapsody's certificate store. In the <strong>Password</strong> field, enter <em>r</em> as the password to encrypt the file containing the private key. Refer to <a href="Managing-SSL-Private-Keys_133161251.html">Generating a New Certificate and Private Key</a> for step-by-step instructions.<br>Name: <code>PatientLookupService</code><br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163532.png" data-image-src="attachments/133163523/133163532.png" data-unresolved-comment-count="0" data-linked-resource-id="133163532" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCertificate1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span><br>Name: <code>PatientLookupServiceClient</code><br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163533.png" data-image-src="attachments/133163523/133163533.png" data-unresolved-comment-count="0" data-linked-resource-id="133163533" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCertificate2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span></li>
+       <li>Your Rhapsody certificate store should now include two private certificates and keys:<br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163534.png" data-image-src="attachments/133163523/133163534.png" data-unresolved-comment-count="0" data-linked-resource-id="133163534" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCertificate3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163537.png" data-image-src="attachments/133163523/133163537.png" data-unresolved-comment-count="0" data-linked-resource-id="133163537" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateCertificate4.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span></li>
+      </ol>
+      <h2 id="SimplePatientLookupService-AddaUsertotheWebServiceUserStore">Add a User to the Web Service User Store</h2>
+      <div class="table-wrap">
+       <table id="TBL1565043148430" class="confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>View&gt;Web Services&gt;Edit Users&gt;Add</strong></p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148430']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148430',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <ol>
+       <li>Add a user, <code>localClient</code>. Refer to <a href="Managing-Web-Service-User-Stores_133163497.html">Adding a User</a> for step-by-step instructions:<br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163531.png" data-image-src="attachments/133163523/133163531.png" data-unresolved-comment-count="0" data-linked-resource-id="133163531" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddUser1.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span></li>
+       <li>Select <code>localClient</code>, click <strong>Edit Certificates</strong>, then select <strong>PatientLookupServiceClient</strong>:<br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163538.png" data-image-src="attachments/133163523/133163538.png" data-unresolved-comment-count="0" data-linked-resource-id="133163538" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddUser2.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span></li>
+       <li>Your Web service user store should now have the following user:<br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163528.png" data-image-src="attachments/133163523/133163528.png" data-unresolved-comment-count="0" data-linked-resource-id="133163528" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="AddUser3.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span></li>
+      </ol>
+      <h2 id="SimplePatientLookupService-CreatetheFolderStructurefortheCommunicationPointsandRoutes">Create the Folder Structure for the Communication Points and Routes</h2>
+      <p>In Rhapsody IDE, click the <strong>New Locker</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163527.png" data-image-src="attachments/133163523/133163527.png" data-unresolved-comment-count="0" data-linked-resource-id="133163527" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="new_locker.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span> on the standard toolbar to create a new <strong>Patient Lookup</strong> locker, then <span>click the </span><strong>New Folder</strong><span> icon </span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163526.png" data-image-src="attachments/133163523/133163526.png" data-unresolved-comment-count="0" data-linked-resource-id="133163526" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="new_folder.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span><span> on the standard toolbar to create</span> two child folders: <strong>Client</strong> and <strong>Server</strong>:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163529.png" data-image-src="attachments/133163523/133163529.png" data-unresolved-comment-count="0" data-linked-resource-id="133163529" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CreateFolders.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span></p>
+      <h2 id="SimplePatientLookupService-LoadtheMessageDefinitionFile">Load the Message Definition File</h2>
+      <div class="table-wrap">
+       <table id="TBL1565043148431" class="confluenceTable" bordercolor="#ffcc66" bgcolor="#ffffcc">
+        <tbody>
+         <tr>
+          <td class="confluenceTd"><p><strong>View &gt; File Manager...</strong></p></td>
+         </tr>
+        </tbody> 
+        <script type="text/javascript">
+
+$("table[id='TBL1565043148431']").data("appfire-table","true");
+(new org_swift_TableSorter()).customTable('TBL1565043148431',[],'',
+1,'lightgoldenrodyellow',false,
+'Click to sort','',false,
+false,false,true,
+0,false,'',true,
+'',false,false,'','','','',
+true,'',
+''
+);
+
+</script> 
+       </table>
+      </div>
+      <p>Using the File Manager in Rhapsody IDE, load the message definition file <code>PatientLookup.s3d</code> (<a href="attachments/133163523/133163525.s3d" data-linked-resource-id="133163525" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="PatientLookup.s3d" data-linked-resource-content-type="application/octet-stream" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1">download</a>) into the <strong>Patient Lookup</strong><span> locker</span>:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163523/133163530.png" data-image-src="attachments/133163523/133163530.png" data-unresolved-comment-count="0" data-linked-resource-id="133163530" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="LoadMessageDefinition.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133163523" data-linked-resource-container-version="1"></span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

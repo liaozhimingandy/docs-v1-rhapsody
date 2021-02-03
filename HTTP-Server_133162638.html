@@ -1,0 +1,339 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>HTTP Server</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="HTTP-Client-and-Server_133162622.html">HTTP Client and Server</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">HTTP Server</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162638/133162647.png" data-image-src="attachments/133162638/133162647.png" data-unresolved-comment-count="0" data-linked-resource-id="133162647" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="HTTP-Server-comm-32.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162638" data-linked-resource-container-version="6"></span></p>
+      <p>The <strong>HTTP Server</strong> communication point&nbsp;enables Rhapsody to act as an HTTP server (or web server) so HTTP clients (such as web browsers) can directly send or receive messages to and from Rhapsody. In general, the HTTP Server communication point is configured to listen for HTTP requests to a specific URL on a certain port and perform a certain action when the request arrives. It can be configured to perform a different action for different HTTP request methods (for example, it can perform one action on a GET and another on a PUT). Some actions can only be performed when the communication point is running in a certain mode (<em>Input</em> or <em>Output</em> mode).</p>
+      <p>It should also be noted that some actions cannot be performed in response to requests of a certain method because they do not make sense; for example, a message cannot be received from an HTTP <code>GET</code> request because <code>GET</code> requests do not contain any content. Similarly, you cannot ask the communication point to send a message in response to a HEAD request as responses to HEAD requests may not contain any content.</p>
+      <p>You can have multiple HTTP servers running on the same port, as long as they have a different context; for example, <code>http://&lt;Local Address&gt;:&lt;Port&gt;/&lt;Context Path&gt;</code>. Refer to <a href="#HTTPServer-PublishedProperties">Published Properties</a> for a list of properties associated with this communication point.</p>
+      <p>Supported Operational Modes: <em>Input</em>, <em>Output</em>, <em>In-&gt;Out</em>.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>In order to make this server communication point more tolerant to connection failures from clients or misconfigured clients, we recommend that its connection retry count is set to infinite. Refer to <a href="General_133162189.html">Connection Retries</a> for details.</p>
+       </div>
+      </div>
+      <h2 id="HTTPServer-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p>The local interface to listen for connections on; if empty, all interfaces are listened on.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p>The port to listen for connections on. HTTP usually runs on port<code>80</code>, HTTPS on port <code>443</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Context Path</p></td>
+          <td class="confluenceTd"><p>The URL path that this communication point will respond to requests for. The full URL for HTTP requests for this communication point will be of the form: <code>http://&lt;Local Address&gt;:&lt;Port&gt;/&lt;Context Path&gt;</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout</p></td>
+          <td class="confluenceTd"><p>An internal timeout, which is the length of time the communication point waits for the servlet to generate a response. If a response is not generated within the specified timeout period, the communication point sends a 504 Gateway Timeout error response to the client HTTP system.</p><p>In <em>In-&gt;Out</em> mode the <strong>Timeout</strong> property is automatically set to the same value as the communication point's <strong>Response Timeout</strong> setting.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use <span>HTTPS</span></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Identifies whether to use HTTPS (encrypted communication) instead of HTTP:</p>
+            <ul>
+             <li><span>Enabled</span> - use HTTPS.</li>
+             <li><span>Disabled</span> (default).</li>
+            </ul>
+            <p>Refer to&nbsp;<a href="133161183.html">TLS/SSL Support in Rhapsody</a>&nbsp;for details on TLS/SSL (Transport Layer Security/Secure Sockets Layer) support in Rhapsody.&nbsp;</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p><span>It is strongly recommended that SSL </span>is<span> enabled for HTTP Server communication points.</span></p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><span>Refer to </span> <a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a> <span>for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><span>Refer to </span> <a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a> <span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Require Client Authentication</p></td>
+          <td class="confluenceTd"><p>Determines whether HTTPS client authentication is to be performed. If this is enabled then the <strong>Trusted Certificates</strong> configuration property must be configured with the certificates used to authenticate the HTTPS clients. In order to successfully connect, an HTTPS client must present either the configured certificate, or a certificate directly or indirectly issued by the configured certificate. It is highly recommended that client authentication be enabled if possible.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>The list of private keys to choose from when selecting a private key to use in the communication with the client. During the establishment of the TLS session, the HTTP Server communication point presents the SSL certificate associated with this private key to any HTTPS client that tries to connect. This allows the HTTPS client to verify that it is connecting to the HTTPS server that it expected. As it is mandatory, it is not possible to configure the HTTPS server to operate with anonymous server authentication. If required, a private key can be generated from Rhapsody's <a href="Managing-Certificates-and-Keys_133161222.html">Certificate Manager</a>.</p><p><span>Refer to&nbsp;</span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span>&nbsp;for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Identifies the trusted certificates used at the non-Rhapsody end of the HTTPS connection. If it is configured with one or more certificates, then the HTTPS server requires client authentication as part of the TLS protocol negotiation,&nbsp;and will reject clients that do not present either the configured certificate,&nbsp;or a certificate directly or indirectly issued by the configured certificate.&nbsp;Only required if client authentication is required.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTP Actions</p></td>
+          <td class="confluenceTd"><p>The action to perform when a request is received (Rhapsody currently supports <code>GET</code>, <code>PUT</code>, <code>POST</code>, <code>HEAD</code>, <code>TRACE</code>, <code>DELETE</code>, and <code>OPTIONS</code>). Refer to <a href="#HTTPServer-SupportedHTTPActions">Supported HTTP Actions</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Redirect URL</p></td>
+          <td class="confluenceTd"><p>The URL to redirect to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Static Content</p></td>
+          <td class="confluenceTd"><p>The static content to return.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Request Parameters</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The request parameters to use to populate message properties on the new Rhapsody message. These enable you to match <code>POST</code> request properties to the Rhapsody properties.</p>
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162638/133162639.png" data-image-src="attachments/133162638/133162639.png" data-unresolved-comment-count="0" data-linked-resource-id="133162639" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="RequestParameters.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133162638" data-linked-resource-container-version="6"></span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Body Parameter Name</p></td>
+          <td class="confluenceTd"><p>The value of the named request parameter will be used as the body of the new Rhapsody message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Allow Null Message Body</p></td>
+          <td class="confluenceTd"><p>Whether a new Rhapsody message may have a null body when receiving a message from request parameters:</p>
+           <ul>
+            <li><span>Enabled</span>.</li>
+            <li><span>Disabled</span>.</li>
+           </ul><p>Only available if <strong>Message Body Parameter Name</strong> is specified.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Protocol Support</p></td>
+          <td class="confluenceTd"><p>Identifies the level of support for application-level protocols which use HTTP:</p>
+           <ul>
+            <li><code>Standard HTTP Only</code>.</li>
+            <li><code>SOAP Support</code>.</li>
+            <li><code>ebXML Support</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Request Headers</p></td>
+          <td class="confluenceTd"><p>A list of headers from incoming HTTP request messages which should be set as the associated properties on input.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="HTTPServer-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p>The local interface to listen for connections on; if empty, all interfaces will be listened on.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p>The port to listen for connections on. HTTP usually runs on port <code>80</code>, HTTPS on port <code>443</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Context Path</p></td>
+          <td class="confluenceTd"><p>The URL path that this communication point will respond to requests for. The full URL for HTTP requests for this communication point will be of the form: <code>http://&lt;Local Address&gt;:/Path&gt;</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Timeout</p></td>
+          <td class="confluenceTd"><p>An internal timeout, which is the length of time the communication point waits for the servlet to generate a response. If a response is not generated within the specified timeout period, the communication point sends a 504 Gateway Timeout error response to the client HTTP system.</p><p>In <em>In-&gt;Out</em> mode the <strong>Timeout</strong> property is automatically set to the same value as the communication point's <strong>Response Timeout</strong> setting.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use <span>HTTPS</span></p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to use HTTPS (encrypted communication) instead of HTTP:</p>
+            <ul>
+             <li><span><span>Enabled</span>.</span></li>
+             <li><span><span>Disabled</span> (default).</span><span>&nbsp;</span></li>
+            </ul>
+            <p><span><span>Refer to&nbsp;</span><a href="133161183.html">TLS/SSL Support in Rhapsody</a><span>&nbsp;for details.&nbsp;</span></span></p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is strongly recommended that SSL be enabled for HTTP Server communication points.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a><span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a><span> for details.</span></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Require Client Authentication</p></td>
+          <td class="confluenceTd"><p>Determines whether HTTPS client authentication is to be performed. If this is enabled then the <strong>Trusted Certificates</strong> configuration property must be configured with the certificates used to authenticate the HTTPS clients. In order to successfully connect, an HTTPS client must present either the configured certificate, or a certificate directly or indirectly issued by the configured certificate. <span>It is highly recommended that client authentication be enabled if possible.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>The list of private keys to choose from when selecting a private key to use in the communication with the client. During the establishment of the TLS session, the HTTP Server communication point will present the SSL certificate associated with this private key to any HTTPS client that tries to connect. This allows the HTTPS client to verify that it is connecting to the HTTPS server that it expected. As it is mandatory, it is not possible to configure the HTTPS server to operate with anonymous server authentication. If required, a private key can be generated from Rhapsody's certificate manager.</p><p><span>Refer to&nbsp;</span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a><span>&nbsp;for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Identifies the trusted certificates used at the non-Rhapsody end of the HTTPS connection. If it is configured with one or more certificates, then the HTTPS server requires client authentication as part of the TLS protocol negotiation, and will reject clients that do not present either the configured certificate, or a certificate directly or indirectly issued by the configured certificate.&nbsp;Only required if client authentication is required.</p><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a><span> for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>HTTP Actions</p></td>
+          <td class="confluenceTd"><p>The action to perform when a request is received (Rhapsody currently supports <code>GET</code>, <code>PUT</code>, <code>POST</code>, <code>HEAD</code>, <code>TRACE</code>, <code>DELETE</code>, and <code>OPTIONS</code>).</p><p>Refer to <a href="#HTTPServer-SupportedHTTPActions">Supported HTTP Actions</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Redirect URL</p></td>
+          <td class="confluenceTd"><p>The URL to redirect to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Static Content</p></td>
+          <td class="confluenceTd"><p>The static content to return.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Request Parameters</p></td>
+          <td class="confluenceTd"><p>The request parameters to use to populate message properties on the new Rhapsody message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Body Parameter Name</p></td>
+          <td class="confluenceTd"><p>The value of the named request parameter will be used as the body of the new Rhapsody message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Allow Null Message Body</p></td>
+          <td class="confluenceTd"><p><span>Whether a new Rhapsody message may have a null body when receiving a message from request parameters</span>:</p>
+           <ul>
+            <li><span>Enabled</span>.</li>
+            <li><span><span>Disabled</span>.</span></li>
+           </ul><p><span><span>Only available if <strong>Message Body Parameter Name</strong> is specified.</span></span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Protocol Support</p></td>
+          <td class="confluenceTd"><p>Identifies the level of support for application-level protocols which use HTTP:</p>
+           <ul>
+            <li><code>Standard HTTP Only</code><span>. </span></li>
+            <li><code>SOAP Support</code><span>. </span></li>
+            <li><code>ebXML Support</code><span>.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Type</p></td>
+          <td class="confluenceTd"><p>The MIME content type of the Rhapsody message to be sent in the content of the HTTP response: usually, <code>text/plain</code>, <code>text/xml</code> or <code>text/rtf</code>.</p><p>You can use a published message property on a route or a Rhapsody variable as the value for this property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Response Headers</p></td>
+          <td class="confluenceTd"><p>A list of headers to be read from the incoming HTTP response messages and the corresponding message properties to which the header values should be written.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Copy headers</p></td>
+          <td class="confluenceTd"><p>When a message is received in either the HTTP client or HTTP server Communication Point the HTTP headers are copied onto message properties in lower case with the prefix <code>http:</code>.</p><p>If <strong>Copy headers</strong> is enabled, these HTTP headers can be copied to the response message using regular expressions to match the HTTP header names.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Regular expressions</p></td>
+          <td class="confluenceTd"><p>List of regular expressions to match the HTTP headers and actions (Copy to response or Discard) to take. If a regular expression matches an HTTP header it will be copied to the response or discarded depending on the setting of 'action'. If the header does not match the next regular expression in the list will be tried. If no regular expressions match the header it will be discarded.</p><p><span>This communication point supports </span><a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html" class="external-link" rel="nofollow">Java Regex</a><span> (case insensitive).</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="HTTPServer-In->OutMode"><span style="color: rgb(0,0,0);">In-&gt;Out&nbsp;Mode</span></h2>
+      <p>The configuration properties for the HTTP Server communication point in <em>In-&gt;Out</em>&nbsp;mode is a combination of the properties described above.</p>
+      <p>Refer to <a href="Connection_133162193.html#Connection-In-&amp;gt;OutandOut-&amp;gt;InProperties">Out-&gt;In and In-&gt;Out Properties</a> for general details on a communication point's <em>In-&gt;Out</em>&nbsp;mode.</p>
+      <h2 id="HTTPServer-SupportedHTTPActions">Supported HTTP Actions</h2>
+      <p>The actions that the HTTP Server communication point can perform are:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146947142 {padding: 0px;}
+div.rbtoc1565146947142 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146947142 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146947142"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#HTTPServer-ReceiveMessage">Receive Message</a></li> 
+        <li><a href="#HTTPServer-ReceiveMessageinQueryParameters">Receive Message in Query Parameters</a></li> 
+        <li><a href="#HTTPServer-ReturnMessage">Return Message</a></li> 
+        <li><a href="#HTTPServer-ReturnStaticContent">Return Static Content</a></li> 
+        <li><a href="#HTTPServer-RedirecttoRedirectURL">Redirect to Redirect URL</a></li> 
+        <li><a href="#HTTPServer-ActionNotSupported">Action Not Supported</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h3 id="HTTPServer-ReceiveMessage">Receive Message</h3>
+      <p>Receive a message from the request by reading the HTTP content associated with the request. If the communication point is in <em>In-&gt;Out</em> mode then the HTTP response from the server will contain a message in its content.</p>
+      <p>If the communication point is in input mode, a response will be returned with a 200 response code and the message <em>Rhapsody successfully processed the message</em> as the response content. This action cannot be used when the communication point is running in output mode.</p>
+      <h3 id="HTTPServer-ReceiveMessageinQueryParameters">Receive Message in Query Parameters</h3>
+      <p>Receive a message from the request's query parameters. The exact query parameters looked for are defined by the <strong>Request Parameters</strong> and <strong>Message Body Parameter Name</strong> configuration parameters. If the communication point is in <em>In-&gt;Out</em> mode the HTTP response from the server will contain a message in its content.</p>
+      <p>If the communication point is in input mode, a response will be returned with a 200 response code and the message <em>Rhapsody successfully processed the message</em> as the response content. This action cannot be used when the communication point is running in output mode.</p>
+      <h3 id="HTTPServer-ReturnMessage">Return Message</h3>
+      <p>Ignores any request parameters or content and returns a response with a 200 response code and the next queued Rhapsody message in the response content. If there is no queued message for the communication point and no message arrives within the specified timeout period, it returns a 504 (Gateway timeout) response code.</p>
+      <p>This action can only be used when the communication point is running in output mode.</p>
+      <h3 id="HTTPServer-ReturnStaticContent">Return Static Content</h3>
+      <p>Ignores any request parameters or content and returns a response with a 200 response code and the static content specified by the <strong>Static Content</strong> configuration parameter in the response content. This is useful as a response to a GET for returning an HTML page which contains a form that allows the user to POST content back to the communication point. The POST action can then receive the content as a Rhapsody message.</p>
+      <h3 id="HTTPServer-RedirecttoRedirectURL">Redirect to Redirect URL</h3>
+      <p>This redirects the request to the URL specified by the <strong>Redirect URL</strong> configuration property.</p>
+      <h3 id="HTTPServer-ActionNotSupported">Action Not Supported</h3>
+      <p>This means this communication point does not support the request method and all such requests will be returned a 405 (Method Not Supported) HTTP response.</p>
+      <h2 id="HTTPServer-PublishedProperties">Published Properties</h2>
+      <p><a href="Message-Properties_133164574.html#MessageProperties-PublishedMessageProperties">Published properties</a>&nbsp;for&nbsp;the HTTP Server communication point are:</p>
+      <ul>
+       <li><code>ContentType</code>&nbsp;- the MIME content type of the Rhapsody message received in the content of the HTTP&nbsp;request: usually&nbsp;<code>text/plain</code>, <code>text/xml</code>,or <code>text/rtf</code>.</li>
+       <li><code>RequestMethod</code>&nbsp;- the HTTP request method that was used to make the request to the HTTP Server communication point. Typically <code>POST</code>, <code>GET</code>, <code>PUT</code>,or <code>DELETE</code>.</li>
+       <li><code>ServerURL</code>&nbsp;- the URL of this HTTP Server communication point that messages were received from.</li>
+       <li><code>http:request-line</code>&nbsp;- the request line that was used to make the request to the HTTP Server communication point.</li>
+       <li><code>http:request-url</code>&nbsp;- the URL that was requested in the request to the HTTP Server communication point.</li>
+      </ul>
+      <p>Multiple clients can connect to a single HTTP Server communication point.&nbsp;After the TLS handshake,&nbsp;the HTTP Server communication point&nbsp;sets the following message properties identifying&nbsp;which client sent the message:</p>
+      <ul>
+       <li><span style="color: rgb(0,0,0);"> <code>IncomingSubjectFromCertificate</code>&nbsp;- the&nbsp;</span>Subject DN.</li>
+       <li><span style="color: rgb(0,0,0);"> <code>IncomingIssuerFromCertificate</code>&nbsp;- the&nbsp;</span>Issuer DN.</li>
+       <li><span style="color: rgb(0,0,0);"> <span style="color: rgb(0,0,0);"> <code>IncomingSerialNumberFromCertificate</code>&nbsp;- the&nbsp;</span> </span> <span style="line-height: 13.0pt;">Issuer serial number (formatted as a decimal number).</span></li>
+       <li><span style="color: rgb(0,0,0);"> <span style="color: rgb(0,0,0);"> <code>IncomingSubjectKeyIdentifierFromCertificate</code>&nbsp;- the h</span></span><span style="line-height: 13.0pt;">ex-encoded subject key identifier (if that optional extension is present).</span></li>
+      </ul>
+      <h2 id="HTTPServer-StatusCode">Status Code</h2>
+      <p>The message property <code>ResponseCode</code> is used to set the status code on the response. The HTTP Client communication point sets <code>ResponseCode</code> from the HTTP response status line. If&nbsp;<code>ResponseCode</code>&nbsp;has not been set,&nbsp;<code>OK</code> (<code>200</code>) is used.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

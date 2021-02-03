@@ -1,0 +1,378 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>TCP Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="TCP-Client-and-Server_133162494.html">TCP Client and Server</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">TCP Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162495/133162498.jpg" data-image-src="attachments/133162495/133162498.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162498" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image081.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162495" data-linked-resource-container-version="14"></span></p>
+      <p>The <strong>TCP Client</strong> communication point&nbsp;connects to a remote TCP server listening for connections on the port specified by the <strong>Remote Host</strong> and <strong>Remote Port</strong> properties. The optional properties <strong>Local Address</strong> and <strong>Local Port</strong> can be used to force the communication point to connect using a specific interface and local TCP/IP port number.</p>
+      <p>Messages on a TCP stream must be wrapped with a header and/or trailer in order to identify when a message starts and ends. The input and output <strong>Wrapper</strong>, <strong>Header</strong>, <strong>Trailer</strong>, and <strong>Endian-ness</strong> properties are used to configure message wrapping.</p>
+      <p>Supported Operational Modes: <em>All</em></p>
+      <h2 id="TCPClient-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Host</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the remote system (a TCP server) to which the client will connect. This is required for a TCP client in order to make a connection.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Port</p></td>
+          <td class="confluenceTd"><p>The port number on the remote host to which the client will connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p><span>The hostname</span> or IP address of the local interface to bind the socket connection (all interfaces if empty). It generally should be left blank. It is usually only used if your Rhapsody server has multiple network interfaces (that is, multiple network cards, or network card and VPN connection, and so on) and you want to explicitly force the TCP client connection to use that particular network interface. There are generally very few scenarios where this is required.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p><span>The port</span> number to bind the local socket. If you do not set this, Rhapsody will pick an unused port.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p><span>Whether to use SSL:</span></p>
+            <ul>
+             <li>Enabled - secure socket layer is used for this connection and all messages are encrypted.</li>
+             <li>Disabled (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is recommended that you enable SSL for TCP Client communication points whenever it is supported by the remote server. Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span> <a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a> <span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><p><span>Refer to</span> <a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a> <span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL Client Mode</p></td>
+          <td class="confluenceTd"><p>Whether to use SSL client mode:</p>
+           <ul>
+            <li><span>Enabled</span> (default) - SSL client mode is enabled (in other words, this communication point acts as the SSL client and send the ClientHello packet to initiate the SSL negotiation).&nbsp;In most cases, the TCP client is also the SSL client and the TCP server is the SSL server.</li>
+            <li><span>Disabled</span> - SSL client mode is disabled.</li>
+           </ul><p>Note that this is <em>not</em> the same as enabling client authentication: TLS client authentication is enabled by configuring one or more trusted certificates for the connection. <strong>Secure Keys</strong> configures the private key that each client-server side uses to authenticate itself to the other side; <strong>Trusted Certificates</strong> configures how each client-server side authenticates the other side.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd"><p>Identifies the private keys used for authenticating Rhapsody's end of the SSL connection. When configured with a private key, the SSL client supports SSL client authentication if requested by the SSL server.</p><p>Refer to <a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd"><p>Identifies the trusted certificates used at the non-Rhapsody end of the SSL connection. If it is not configured with the SSL server's certificate, then this SSL client operates in anonymous server authentication mode. It is highly recommended that the server's certificate always be provided here to allow server authentication to be performed.</p><p><span>Refer to </span> <a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a> <span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>The time in milliseconds to wait for a connection being established before aborting the connection attempt. A value of zero or less is treated as an infinite timeout. In most cases, this does not need to be changed as the connection either succeeds or fails prior to this timeout.</p><p>The d<span>efault value is </span> <code>300000</code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Dynamic Connection Failed Action</td>
+          <td colspan="1" class="confluenceTd"><p><span style="letter-spacing: 0.0px;">Whether to treat errors as message or connection errors when the host or port uses properties or variables.</span></p>
+           <ul>
+            <li><code>Treat as message error</code> (d<span>efault).</span></li>
+            <li><code>Treat as connection error</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Whether to log connections and disconnections:</p>
+           <ul>
+            <li><span>Enabled</span> - details of when a connection to the communication point is established and dropped are logged to the log file specified in <strong>Connection Log File</strong>. Use of this logging facility slows the communication point down considerably. It is intended for debugging purposes and should not generally be used in production.</li>
+            <li><span>Disabled</span> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Whether to log data:</p>
+           <ul>
+            <li><span>Enabled</span>&nbsp;- all data passed over the connections of the communication point is logged to the log file. This is potentially a large amount of data.</li>
+            <li><span>Disabled</span>&nbsp;(default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Whether to log data in hexadecimal form:</p>
+           <ul>
+            <li><span>Enabled</span>&nbsp;- the hexadecimal representation of the data is logged to the log file.</li>
+            <li><span>Disabled</span>&nbsp;(default) - the data is logged exactly as it is as it passes over the communication point connection.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The full file name (path and file name) of the file on the server to log the information to.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Whether to include extra log information:</p>
+           <ul>
+            <li><code>None</code>.</li>
+            <li><code>Log Time</code> (default) - the timestamps are logged with each event.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Mode</p></td>
+          <td class="confluenceTd"><p>The connection mode:</p>
+           <ul>
+            <li><code>Disconnect if not sending/receiving</code>.</li>
+            <li><code>Maintain a constant connection</code> (default) - allows the communication point to hold on to the TCP connections made to the TCP server. However, this is not advised if the communication point is expected to stay idle for extended periods of time without any TCP activity.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Incoming Wrapper</p></td>
+          <td class="confluenceTd"><p>Message wrapping around messages received over the socket connection.</p>
+           <ul>
+            <li><code>Minimal</code> <span>(default) </span>- HL7 minimal LLP protocol.</li>
+            <li><code>User</code> - user-defined header and/or trailer.</li>
+            <li><code>Hybrid</code> - HL7 hybrid LLP protocol.</li>
+            <li><code>None</code> - no header and trailer.</li>
+           </ul><p><span>Refer to </span><a href="Configuration_133162170.html#Configuration-WrapperOptions">Wrapper Options</a> <span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Strip Wrapping</p></td>
+          <td class="confluenceTd"><p>Determines whether or not to strip the wrapping off received messages:</p>
+           <ul>
+            <li><span> <span>Enabled</span> (default).</span></li>
+            <li><span> <span>Disabled</span>.</span></li>
+           </ul><p>Refer to <a href="Configuration_133162170.html#Configuration-WrapperOptions">Strip Wrapping</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Incoming Header</p></td>
+          <td class="confluenceTd"><p>This property defines the header that identifies the start of a message on the socket connection.</p><p><span>Only available when</span> <strong>Incoming Wrapper</strong><span> is set </span>to <code>User</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Incoming Trailer</p></td>
+          <td class="confluenceTd"><p>This property defines the trailer that identifies the end of a message on the socket connection.</p><p><span>Only available when </span><strong>Incoming Wrapper</strong><span> is set </span>to <code>User</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Incoming Endian-ness</p></td>
+          <td class="confluenceTd"><p>Determines the incoming endian-ness:</p>
+           <ul>
+            <li><code>Big</code> (default) - big-endian order (most significant byte first).</li>
+            <li><code>Little</code> - little-endian order (least significant byte first).</li>
+           </ul><p>Only available when <strong>Incoming Wrapper</strong> is set to <code>User</code>. Certain codes used in the header and trailer definitions can output binary data.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="TCPClient-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup> 
+         <col> 
+         <col> 
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Host</p></td>
+          <td class="confluenceTd"><p>The hostname or IP address of the remote system to which the client will connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Remote Port</p></td>
+          <td class="confluenceTd"><p>The port number on the remote host to which the client will connect.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Address</p></td>
+          <td class="confluenceTd"><p><span>The hostname or </span>IP address of the local interface to bind the socket connection (all interfaces if empty).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Local Port</p></td>
+          <td class="confluenceTd"><p><span>The port</span> number to bind the local socket.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Whether to use SSL:</p>
+            <ul>
+             <li>Enabled - secure socket layer is used for this connection and all messages are encrypted.</li>
+             <li>Disabled (default).</li>
+            </ul>
+            <div class="confluence-information-macro confluence-information-macro-information">
+             <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>It is recommended that you enable SSL for TCP Client communication points whenever it is supported by the remote server. Refer to <a href="133161183.html">TLS/SSL Support in Rhapsody</a> for details.</p>
+             </div>
+            </div>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Protocol Mode</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLProtocolVersions">SSL Protocol Versions</a> <span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SSL Cipher Suites</p></td>
+          <td class="confluenceTd"><p><span>Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-SSLCipherSuites">SSL Cipher Suites</a> <span>for details.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Use SSL Client Mode</p></td>
+          <td class="confluenceTd"><p>Whether to use SSL client mode:</p>
+           <ul>
+            <li>Enabled (default) - SSL client mode is enabled (in other words, this communication point acts as the SSL client and send the ClientHello packet to initiate the SSL negotiation).&nbsp;In most cases, the TCP client is also the SSL client and the TCP server is the SSL server.</li>
+            <li><span>Disabled</span> - <span>SSL client mode is disabled.</span></li>
+           </ul><p>Note that this is <em>not</em> the same as enabling client authentication: TLS client authentication is enabled by configuring one or more trusted certificates for the connection. <strong>Secure Keys</strong> configures the private key that each client-server side uses to authenticate itself to the other side; <strong>Trusted Certificates</strong> configures how each client-server side authenticates the other side.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Secure Keys</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Identifies the private keys used for authenticating Rhapsody's end of the SSL connection. When configured with a private key, the SSL client supports SSL client authentication if requested by the SSL server.</p>
+            <p><span style="letter-spacing: 0.0px;">Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ClientAuthentication">Client Authentication</a> <span style="letter-spacing: 0.0px;">for details.</span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Trusted Certificates</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Identifies the trusted certificates used at the non-Rhapsody end of the SSL connection. If it is not configured with the SSL server's certificate, then this SSL client operates in anonymous server authentication mode. It is highly recommended that the server's certificate always be provided here to allow server authentication to be performed.</p>
+            <p><span style="letter-spacing: 0.0px;">Refer to </span><a href="133161183.html#TLS/SSLSupportinRhapsody-ServerAuthentication">Server Authentication</a> <span style="letter-spacing: 0.0px;">for details.</span></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Timeout (ms)</p></td>
+          <td class="confluenceTd"><p>The time in milliseconds to wait for a connection being established before aborting the connection attempt. A value of zero or less is treated as an infinite timeout. In most cases, this does not need to be changed as the connection either succeeds or fails prior to this timeout.</p><p>The default value is <code>300000</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Dynamic Connection Failed Action</td>
+          <td colspan="1" class="confluenceTd"><p>Whether to treat errors as message or connection errors when the host or port uses properties or variables:</p>
+           <ul>
+            <li><code>Treat as message error</code> (default).</li>
+            <li><code>Treat as connection error</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Connections</p></td>
+          <td class="confluenceTd"><p>Whether to log connections and disconnections:</p>
+           <ul>
+            <li><span>Enabled</span> - details of when a connection to the communication point is established and dropped are logged to the log file specified in <strong>Connection Log File</strong>. Use of this logging facility slows the communication point down considerably. It is intended for debugging purposes and should not generally be used in production.</li>
+            <li><span>Disabled</span> (default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data</p></td>
+          <td class="confluenceTd"><p>Whether to log data:</p>
+           <ul>
+            <li>Enabled&nbsp;- all data passed over the connections of the communication point is logged to the log file. This is potentially a large amount of data.</li>
+            <li><span>Disabled</span>&nbsp;(default).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Log Data As Hex</p></td>
+          <td class="confluenceTd"><p>Whether to log data in hexadecimal form:</p>
+           <ul>
+            <li><span>Enabled</span>&nbsp;- the hexadecimal representation of the data is logged to the log file.</li>
+            <li><span>Disabled</span>&nbsp;(default) - the data is logged exactly as it is as it passes over the communication point connection.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Log File</p></td>
+          <td class="confluenceTd"><p>The full file name (path and file name) of the file on the server to which you want to log the information.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Extra Information</p></td>
+          <td class="confluenceTd"><p>Whether to include extra log information:</p>
+           <ul>
+            <li><code>None</code>.</li>
+            <li><code>Log Time</code> (default) - the timestamps are logged with each event.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Connection Mode</p></td>
+          <td class="confluenceTd"><p>Determines the connection mode:</p>
+           <ul>
+            <li><code>Disconnect if not sending/receiving</code>.</li>
+            <li><code>Maintain a constant connection</code> (default) <span>- enables the</span><span> communication point to hold on to the TCP connections made to the TCP server. </span> <span>This is not advised if the communication point is expected to stay idle for extended periods of time without any TCP activity.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Wrapper</p></td>
+          <td class="confluenceTd"><p>Message wrapping around messages received over the socket connection. Refer to <a href="Configuration_133162170.html#Configuration-WrapperOptions">Wrapper Options</a> for details.</p>
+           <ul>
+            <li><code>Minimal</code> <span>(default) </span>- HL7 minimal LLP protocol.</li>
+            <li><code>User</code> - user-defined header and/or trailer.</li>
+            <li><code>Hybrid</code> - HL7 hybrid LLP protocol.</li>
+            <li><code>None</code> - no header and trailer.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Header</p></td>
+          <td class="confluenceTd"><p>Defines the header written to the socket connection before each message.</p><p><span>Only available when </span><strong>Outgoing Wrapper</strong><span> is set </span>to <code>User</code>.<span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Trailer</p></td>
+          <td class="confluenceTd"><p><span>Defines</span> the trailer that is written to the socket connection after each message.</p><p><span>Only available when </span><strong>Outgoing Wrapper</strong><span> is set </span>to <code>User</code>.<span>&nbsp;</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Outgoing Endian-ness</p></td>
+          <td class="confluenceTd"><p>Determines the outgoing endian-ness:</p>
+           <ul>
+            <li><code>Big</code> (default) - big-endian order (most significant byte first).</li>
+            <li><code>Little</code> - little-endian order (least significant byte first).</li>
+           </ul><p>Only used when <strong>Outgoing Wrapper</strong> is set to <code>User</code>. Certain codes used in the header and trailer definitions can output binary data.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">Outgoing TCP Packets</span></td>
+          <td colspan="1" class="confluenceTd"><p>Determines whether to include the wrapper in the same TCP packet:</p>
+           <ul>
+            <li><code>Include wrapper in the same TCP packet as message</code> (default) - the header and trailer are included in the same TCP packet as the message.</li>
+            <li><code>Send outgoing message over multiple TCP packets</code> - an outgoing message is always split into at least two TCP packets, which can on occasion assist in detecting broken TCP connections.</li>
+           </ul><p>Only applied when<span>&nbsp;<strong>Outgoing</strong> </span><strong>Wrapper</strong><span> is <em>not</em> set to</span> <code>None</code><span>. </span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="TCPClient-Bidirectional,In->OutandOut->InMode">Bidirectional, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> Mode</h2>
+      <p>The configuration properties for the TCP Client communication point in <em>Bidirectional</em>, <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes is a combination of the properties described above.</p>
+      <p>Refer to <a href="General_133162189.html#General-mixedmodeproperties">Out-&gt;In and In-&gt;Out Properties</a> for general details on a communication point's <em>In-&gt;Out</em> and <em>Out-&gt;In</em> modes.</p>
+      <h2 id="TCPClient-ConnectionMonitoring">Connection Monitoring</h2>
+      <p>Refer to <a href="Connection-Monitoring_133162166.html">Connection Monitoring</a>&nbsp;for details.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

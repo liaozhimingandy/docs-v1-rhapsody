@@ -1,0 +1,1449 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Custom Communication Point with Polling Connection</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+       <li> <span><a href="Creating-Custom-Communication-Points_133161276.html">Creating Custom Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Custom Communication Point with Polling Connection</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p class="Standard">This section describes how to create a two-way communication point with a polling read mechanism.</p>
+      <p class="Standard">You will first create the communication point and then the connection:</p>
+      <p class="Standard"><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147008401 {padding: 0px;}
+div.rbtoc1565147008401 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147008401 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565147008401"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-CreatingaCommunicationPoint">Creating a Communication Point</a></li> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-CreatingtheConnectionClass">Creating the Connection Class</a> 
+         <ul class="toc-indentation"> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-ConnectionState">Connection State</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-ConnectionLife-cycle">Connection Life-cycle</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-MimickingaNetworkProtocolConnection">Mimicking a Network Protocol Connection</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-ConfiguringtheSendandReceiveMethods">Configuring the Send and Receive Methods</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-DeployingandTestingtheCommunicationPoint">Deploying and Testing the Communication Point</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-AddingLogging">Adding Logging</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-Configuringlog4j.properties">Configuring log4j.properties</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-ConfiguringClasses">Configuring Classes</a></li> 
+           </ul> </li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-AddingThreadedConnectionEstablishment">Adding Threaded Connection Establishment</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-AddingPropertiestoCommunicationPoint">Adding Properties to Communication Point</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-PassingPropertiestotheConnection">Passing Properties to the Connection</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-ImplementingIdleTimeoutImplementingIdleTimeout,DropConnectionandReconnect">Implementing Idle Timeout, Drop Connection and Reconnect</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-SummaryofCommunicationPointClassMethods">Summary of Communication Point Class Methods</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-constructor">constructor</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-getPropertyList()">getPropertyList()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-configure()">configure()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-getConnection()">getConnection()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-getImplementationKind()">getImplementationKind()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-shutdown()">shutdown()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-cleanup()">cleanup()</a></li> 
+           </ul> </li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-SummaryofCreatingaConnectionClass">Summary of Creating a Connection Class</a></li> 
+          <li><a href="#CustomCommunicationPointwithPollingConnection-SummaryofConnectionClassMethods">Summary of Connection Class Methods</a> 
+           <ul class="toc-indentation"> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-getState()">getState()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-constructor.1">constructor</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-getId()">getId()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-receiveMessage()">receiveMessage()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-finishComms()">finishComms()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-sendMessage()">sendMessage()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-initSend()">initSend()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-isInputAvailable()">isInputAvailable()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-reconnect()">reconnect()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-cleanup().1">cleanup()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-dropConnection()">dropConnection()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-finishSend()">finishSend()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-messageProcessed()">messageProcessed()</a></li> 
+            <li><a href="#CustomCommunicationPointwithPollingConnection-getRefreshDelay()">getRefreshDelay()</a></li> 
+           </ul> </li> 
+         </ul> </li> 
+       </ul> 
+      </div>
+      <p></p>
+      <p class="Standard">For the purposes of this example, Supported Mode is&nbsp;<code>SupportedMode.TWO_WAY</code>. As a two-way implementation, it is assumed the output and input messages are on the same thread. Whenever Rhapsody sends a message on a connection, a servant thread will be generated that responds with a reply message after a short delay.&nbsp; The send message method will return immediately and have no further relationship with the awaited response.</p>
+      <p class="Standard">As the connection will not actually connect to anything over the network, the spawned servant thread will simply generate its own response after the delay, mimicking a delayed response over the network.&nbsp;The servant thread will come back with a delayed response.</p>
+      <h2 id="CustomCommunicationPointwithPollingConnection-CreatingaCommunicationPoint">Creating a Communication Point</h2>
+      <p class="Standard">To create a communication point:</p>
+      <ol>
+       <li class="Standard">Copy your filter project in Eclipse (right-click and select&nbsp;<strong>Copy</strong>) and paste (in Eclipse, right-click and select&nbsp;<strong>Paste</strong>) as a&nbsp;new project called&nbsp;<code>PollingCommPoint</code>.</li>
+       <li class="Standard">Add a package called <code>com.orionhealth.EMEA.rhapsody.module.PollingCommPoint</code>:<br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161278/133161288.bmp" data-image-src="attachments/133161278/133161288.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161288" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CustomCommPt1.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></li>
+       <li class="Standard">Create class <code>PollingCommPoint</code> in package&nbsp;<code>com.orionhealth.EMEA.rhapsody.module.PollingCommPoint</code>:<br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161278/133161287.bmp" data-image-src="attachments/133161278/133161287.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161287" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CustomCommPt2.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></li>
+       <li class="Standard">For the Superclass, extend the class <code>AbstractCommunicationPoint</code>:<br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161278/133161286.bmp" data-image-src="attachments/133161278/133161286.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161286" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CustomCommPt3.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></li>
+       <li class="Standard">Eclipse will prompt you that you need a default constructor – accept its suggestion:<br><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="195" width="723" src="attachments/133161278/133161285.bmp" data-image-src="attachments/133161278/133161285.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161285" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CustomCommPt4.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></li>
+       <li class="Standard"><p>Modify the constructor it created, changing <code>arg0</code> to <code>communicationPointInfo</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public PollingCommPoint(CommunicationPointInfo communicationPointInfo) {
+    super(communicationPointInfo);
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">To prevent a <code>NullPointerException</code>, we make sure that we return an empty properties set from <code>getPropertyList()</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override                
+public String[] getPropertyList() {
+    return new String[0];
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Indicate the <code>SupportedMode</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public SupportedMode getImplementationKind() {
+    SupportedMode supportedMode = SupportedMode.TWO_WAY;
+    return supportedMode;
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Since you have no configuration properties, leave the <code>configure()</code> method as it is:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public void configure(CommunicationPointConfiguration arg0)
+    throws CommunicationPointException, InterruptedException {
+    // TODO Auto-generated method stub
+}</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h2 id="CustomCommunicationPointwithPollingConnection-CreatingtheConnectionClass">Creating the Connection Class</h2>
+      <ol>
+       <li class="Standard">Create a new class called <code>PollingCommPointConnection</code> in package <code>com.orionhealth.EMEA.rhapsody.module.PollingCommPoint</code>.<br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161278/133161284.bmp" data-image-src="attachments/133161278/133161284.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161284" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CustomCommPt7.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></li>
+       <li class="Standard">Select interface <code>PollingInputConnection</code><br><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161278/133161283.bmp" data-image-src="attachments/133161278/133161283.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161283" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CustomCommPt8.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></li>
+       <li class="Standard">Your connection can extend one of three interfaces:</li>
+       <li style="list-style-type: none;background-image: none;">
+        <ul>
+         <li class="Standard"><code>PollingInputConnection </code></li>
+         <li class="Standard"><code>CommunicationPointConnection</code></li>
+         <li class="Standard"><code>SingleConnectionCommunicationPoint</code></li>
+        </ul></li>
+       <li class="Standard"><p>Create a connection that requires the Rhapsody Engine to poll our connection until you tell Rhapsody a message is ready for collection. Start by giving your connection a unique operating ID:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class PollingCommPointConnection implements PollingInputConnection {
+    static AtomicInteger idGen = new AtomicInteger();
+    private final int id;
+}</pre> 
+         </div>
+        </div></li>
+       <li><p>Press&nbsp;<strong>Ctrl+Shift+O</strong> to import <code>AtomicInteger</code>.</p></li>
+       <li><p>Add a constructor that also serves to set the ID:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public PollingCommPointConnection() {
+    this.id = idGen.getAndIncrement();
+}</pre> 
+         </div>
+        </div><p><strong>constructor()</strong> – used to create the connection and to pass properties from the <code>CommunicationPoint</code> class to the connection.&nbsp; Create a unique id here for the connection.</p></li>
+       <li><p>Now modify the <code>getId()</code> method to return the ID:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public int getId() {
+    return this.id;
+}</pre> 
+         </div>
+        </div><p><strong>getId()</strong> – Gets the ID that identifies this connection. Should be unique amongst all connections from the same communication point, and must not change over the lifetime of the connection.&nbsp; You can create the ID in the constructor.&nbsp; Here we create a unique identifier for this object instance in this current JVM invocation.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <p class="title">ID generation</p>
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Generating unique IDs is absolutely required for <em>In-&gt;Out</em> connections, or similar implementations where an input message will generate responses back to the sender. For cases where you are implementing a communication point that is for example operating in <em>Input</em> only or <em>Output</em> only, the ID of the connection is not important.</p>
+         </div>
+        </div></li>
+       <li><p>Set up the <code>refreshDelay</code>, or the polling interval.&nbsp; This is easily done by setting the <code>getRefreshDelay()</code> method to tell the Rhapsody Engine how long to wait between polling attempts:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public int getRefreshDelay() {
+    return 5*1000; // 5 seconds
+}</pre> 
+         </div>
+        </div><p class="Standard"><strong>getRefreshDelay() </strong>– only available when implementing<code> PollingInputConnection</code>. The input thread for a polled communication point loops calling <code>isInputAvailable()</code> and if this returns <code>true</code> it will read and process a message. If no input is available, then it will sleep for the period returned by <code>getRefreshDelay()</code>. When you are not implementing <code>PollingInputConnection</code>, then the <code>receiveMessage()</code> method will have to be blocking (i.e. it does not return until it has a message to return with).</p></li>
+      </ol>
+      <h3 id="CustomCommunicationPointwithPollingConnection-ConnectionState">Connection State</h3>
+      <p class="Standard">A connection has a number of states:</p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147008407 {padding: 0px;}
+div.rbtoc1565147008407 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147008407 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565147008407"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-CLOSED">CLOSED</a></li> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-CONNECTED">CONNECTED</a></li> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-UNCONNECTED">UNCONNECTED</a></li> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-ERROR">ERROR</a></li> 
+       </ul> 
+      </div>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-CLOSED">CLOSED</h4>
+      <p class="Standard"><code>CLOSED</code> is the initial state of the connection before a connection is established.&nbsp; This is what your connection constructor will initiate it to before it does anything else.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-CONNECTED">CONNECTED</h4>
+      <p class="Standard"><code>CONNECTED</code> is the state of the connection when a network connection is established (by the constructor or by <code>initSend()</code> or by the <code>reconnect()</code> method depending on how you write your class).</p>
+      <ul>
+       <li>By the constructor if that is where you set up your connection - recommended.</li>
+       <li>By <code>initSend()</code> if you want a deferred connection setup until the first message must be processed.&nbsp; This only makes sense if its an Out-&gt;In, not an In-&gt;Out.&nbsp; But rather think of <code>initSend()</code> more as a transaction wrapper not a connection wrapper and do not do connection setup in<code> initSend()</code>.</li>
+       <li>By <code>reconnect()</code> if you also use the <a href="Custom-Communication-Point-with-Polling-Connection_133161278.html">Idle Timeout feature</a>.</li>
+      </ul>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-UNCONNECTED">UNCONNECTED</h4>
+      <p class="Standard">The Rhapsody Engine can force a connection drop by calling <code>dropConnection()</code>.&nbsp;It does this only if an idle timeout is configured for the communication point.&nbsp;The idea is that it will then re-establish a fresh connection (with <code>reconnect()</code>) whenever the next message comes along.&nbsp; Hence your <code>dropConnection</code> method is the only method changes the state to UNCONNECTED.</p>
+      <p class="Standard">The <code>UNCONNECTED</code> state changes to <code>CONNECTED</code> when the engine calls <code>reconnect()</code> following a <code>dropConnection()</code>.&nbsp;</p>
+      <p class="Standard"><code>reconnect()</code> will be called by the engine if <code>sendMessage(Message) </code>is about to be called and the <code>getState()</code> returns <code>UNCONNECTED</code>. But it will <strong>ONLY</strong> be called after a previous call to <code>dropConnection()</code>.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-ERROR">ERROR</h4>
+      <p class="Standard">It is expected that when a <code>ConnectionFailedException</code> is thrown from any method, for any reason, that the state of the connection is set to <code>ERROR</code> and any other communication threads using the connection will throw a <code>ConnectionFailedException</code> the next time they attempt to use the connection.&nbsp; You simply return <code>ERROR</code> in the <code>getState()</code> call and the Engine will do the rest; you do not have to explicitly throw the exception in each of your methods.&nbsp;</p>
+      <p class="Standard">Do not throw an exception from <code>initSend()</code> when the connection is <code>UNCONNECTED</code> if you want the <code>reconnect()</code> method to work.&nbsp; Throwing an exception will cause the engine to tear down the connection and create a new one, but if you want to be able to do a 'soft' reconnect then you'll want the <code>reconnect()</code> method to be called instead.</p>
+      <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565147008407 {padding: 0px;}
+div.rbtoc1565147008407 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565147008407 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style>
+      <div class="toc-macro rbtoc1565147008407"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-CLOSED">CLOSED</a></li> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-CONNECTED">CONNECTED</a></li> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-UNCONNECTED">UNCONNECTED</a></li> 
+        <li><a href="#CustomCommunicationPointwithPollingConnection-ERROR">ERROR</a></li> 
+       </ul> 
+      </div>
+      <h3 class="Standard" id="CustomCommunicationPointwithPollingConnection-ConnectionLife-cycle">Connection Life-cycle</h3>
+      <p class="Standard">Connections start in the <code>CLOSED</code> state.&nbsp; When <code>dropConnection()</code> is called, if this connection is able to disconnect and be reconnected at a later time,&nbsp;then <code>dropConnection()</code> should disconnect and set the connection state to <code>CommunicationPointConnection.State.UNCONNECTED</code>. Otherwise, it should be set to <code>CLOSED</code> or to <code>ERROR</code> if the close does not work. When <code>initSend()</code> is called, you should throw <code>ConnectionException</code> if the connection state is <code>ERROR</code> to cause the engine to destroy and replace the connection instance.&nbsp;But if the state is <code>UNCONNECTED</code>, then do not throw an exception in <code>initSend()</code>, instead leave the engine to call <code>reconnect()</code>.&nbsp;<code>reconnect()</code> will reconnect and set the state back to <code>CONNECTED</code>, or to <code>ERROR</code> if it cannot reconnect.</p>
+      <p>What is the difference between unconnected and closed? They are the same except that <code>UNCONNECTED</code>&nbsp;follows <code>CONNECTED</code> after a <code>dropConnection()</code> from the engine. Whereas <code>CLOSED</code> is the starting state – before the very first connection is made to put the&nbsp;communication point in <code>CONNECTED</code> state. So think of <code>CLOSED</code> as "NEW".</p>
+      <ol>
+       <li class="Standard"><p>Add a variable to the class to manage this, and set it to start off in <code>CLOSED</code> state:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;public class PollingCommPointConnection implements PollingInputConnection {
+
+ 	static AtomicInteger idGen = new AtomicInteger();
+    private final int id;
+    private CommunicationPointConnection.State state = CommunicationPointConnection.State.CLOSED;</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Get your <code>getState()</code> method to return this state (returns the connection state of the connection):</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">	@Override
+    public State getState() {
+    	return state;
+    }</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h3 id="CustomCommunicationPointwithPollingConnection-MimickingaNetworkProtocolConnection">Mimicking a Network Protocol Connection</h3>
+      <p>To create an inner class that mimics an actual network connection:</p>
+      <ol>
+       <li class="Standard"><p>Your <code>PollingCommPointConnection</code> class is a wrapper around some kind of protocol connection and hence you can&nbsp;mimic one here to make the example more real.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">/**
+ * Pretend connection type.
+ * In real life this might be for example a TCP connection
+ *
+ */
+private class NetworkProtocolConnection {
+	private boolean connectionstate=false; // true=connected, false=not connected
+
+    protected NetworkProtocolConnection() {                                    
+    }
+
+    protected void write(String msg) throws IOException {             
+    }
+
+    protected void close() {
+    	connectionstate=false;
+    };
+
+    protected void open(){
+    	// sleep pretending to be connecting
+        try {
+        	Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
+        	state = CommunicationPointConnection.State.ERROR;
+        }
+        connectionstate=true;
+    };
+
+    protected boolean getStatus() {
+        return this.connectionstate;
+    }
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Each connection class instance manages only a single connection, so&nbsp;add a local instance reference the connection:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;public class PollingCommPointConnection implements PollingInputConnection {
+
+
+                ...
+                private NetworkProtocolConnection connection=null;
+
+                private class NetworkProtocolConnection {
+                ...
+                }
+</pre> 
+         </div>
+        </div></li>
+       <li><p class="Standard">Modify the constructor now so that it can create a <code>Connection</code> instance:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public PollingCommPointConnection() {                      
+	this.id = idGen.getAndIncrement();
+
+	state = CommunicationPointConnection.State.CLOSED;
+	connection=new NetworkProtocolConnection();
+
+	// now establish the connection
+    connection.open();
+
+	if (true==connection.getStatus()) {
+    	state = CommunicationPointConnection.State.CONNECTED;
+    } else {
+        state = CommunicationPointConnection.State.ERROR;
+    }
+}</pre> 
+         </div>
+        </div></li>
+       <li>Now&nbsp;modify the communication point to create an instance of your <code>PollingCommPointConnection</code>.</li>
+       <li><p>Go back to your <code>PollingCommPoint.java</code> and fix the <code>getConnection()</code> method:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">	@Override
+	public CommunicationPointConnection getConnection() throws ConnectionException, InterruptedException {
+    	return new PollingCommPointConnection();
+    }</pre> 
+         </div>
+        </div></li>
+       <li><p class="Standard">For now your Communication Point is complete, but more is required to do on the PollingCommPointConnection as it must send and receive messages and handle polling.</p></li>
+      </ol>
+      <h3 id="CustomCommunicationPointwithPollingConnection-ConfiguringtheSendandReceiveMethods">Configuring the Send and Receive Methods</h3>
+      <ol>
+       <li>Before a message or message set is sent, the&nbsp;<code>initSen</code><code>d()</code> method gets called by the Engine. You can use this to setup any session requirements for the send.&nbsp; So this method can be used to perform some function that is required to prepare the connection for sending messages.&nbsp; However note that the engine calls <code>reconnect()</code> after&nbsp;<code>initSen</code><code>d()</code> so you may have to invoke <code>reconnect()</code> from within&nbsp;<code>initSen</code><code>d()</code> if you need the connection to be established before your code in&nbsp;<code>initSen</code><code>d()</code>.</li>
+       <li>Then&nbsp;<code>sendMessag</code><code>e()</code> is called for each message in the set.&nbsp;</li>
+       <li>Finally&nbsp;<code>finishSen</code><code>d()</code> is called by the Engine and you can then close off any session requirements.</li>
+       <li><p>Set up the<strong>&nbsp;</strong><code>initSen</code><code>d()</code> method here. You do not have any session requirements for the 'protocol', so ignore all states except for <code>ERROR</code>.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">	@Override
+	public void initSend() throws ConnectionException {
+    	if (null != logger) {
+			logger.debug(CLASSNAME+" "+"initSend()");
+		}
+		// check the connection
+		if (CommunicationPointConnection.State.ERROR==this.state) {                            &nbsp;
+			throw new ConnectionFailedException("initSend found connection in ERROR state");
+		}
+                           
+        // set up any session required on top of the connection
+	}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">If&nbsp;<code>initSen</code> <code>d()</code> does throw an exception, the engine will clean up and start a new communication point instance and create a new connection instance.</li>
+       <li class="Standard"><p>Add two more variables to the <code>PollingCommPointConnection</code> class – one to hold the response message and one to flag that there is a response message available:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;    private Boolean isInputAvailable = false;               &nbsp;
+	 private String pretendInputMsg="";</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Now implement the <code>write()</code> method on the bogus network connector. It&nbsp;will 'send' the message by discarding the message and then we will invoke a thread that will send a response back<span style="line-height: 13.0pt;background-color: transparent;">:</span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private class NetworkProtocolConnection{
+	
+       ...
+	/**
+	 * Pretend send method
+	 * 'sends' a message and then arranges for a response by invoking a thread
+	 * that pretends to be the downstream system replying.
+	 * @param msg
+	 * @throws IOException
+	 */                         
+	protected void write(String msg) throws IOException {             
+        new Thread() {
+			@Override
+        	public void run() {
+				try {
+					Thread.sleep(10000); // sleep for 10 seconds
+                                                                                                                                                                   
+ 					// now pretend a message has been received
+					pretendInputMsg="reply";
+					isInputAvailable=true;
+                                                                                              &nbsp;
+				} catch(Exception ignored) {}
+ 			}
+		}.start();
+ 	}
+
+	...
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">The code above spawned an anonymous thread that will respond after 10 seconds with a reply message and will set the&nbsp;<code>isInputAvailabl</code><code>e</code> flag to <code>true</code> so that it can detect that there is input available.</li>
+       <li class="Standard"><p>Wire up the <code>PollingCommPointConnection</code> class to call the network <code>write()</code> method from the&nbsp;<code>sendMessag</code><code>e()</code>&nbsp;method. Note its the Rhapsody Engine that calls&nbsp;<code>sendMessag</code><code>e()</code> when there is an outgoing message queued up for sending:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public void sendMessage(final Message message) throws ConnectionException, SendMessageFailedException {    
+                               
+	if (CommunicationPointConnection.State.CONNECTED!=this.getState()) {
+    	state = CommunicationPointConnection.State.ERROR;
+        throw new ConnectionFailedException("cannot get connection - status is disconnected", new Exception());
+    } else if(null==connection) {
+        state = CommunicationPointConnection.State.ERROR;
+        throw new ConnectionFailedException("cannot get connection - appears to be null", new Exception());
+    } else {
+        // try to send message
+        try {
+        	connection.write(Messages.asString(message));
+        } catch (IOException e) {
+            this.dropConnection();
+            throw new SendMessageFailedException("Error writing message", e);
+        }
+    }
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">Notice that you can leave Rhapsody to handle any connection problems and&nbsp;leave Rhapsody to then retry the<code>sendMessag</code><code>e()</code>.</li>
+       <li class="Standard"><code>finishSen</code><code>d()</code>&nbsp;can be left empty as it&nbsp;has no send lifecycle requirements.&nbsp;<code>finishSen</code><code>d()</code> is called by Rhapsody to end a set of message sends that was initiated by the call to&nbsp;<code>initSen</code><code>d()</code>.</li>
+       <li class="Standard">Now turn your attention back to receiving messages.&nbsp; As before, the thread generates a receive message for you.</li>
+       <li class="Standard"><p>You can now get the&nbsp;<code>isInputAvailable()</code> method to flag correctly to Rhapsody that the message is or is not available:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override               &nbsp;
+public boolean isInputAvailable() throws ConnectionFailedException, InterruptedException {
+	return isInputAvailable;
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Next implement the<code>receiveMessag</code>&nbsp;<code>e() </code>method which the engine will call if&nbsp;<code>isInputAvailabl</code><code>e</code> returns <code>true</code><span style="line-height: 13.0pt;background-color: transparent;">:</span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public boolean receiveMessage(final Message message) throws ConnectionException, MessageException {
+	// return false if input is not available
+	// .. only for polling type connector!
+	// normal connector blocks here
+	if (false == isInputAvailable) {
+		return false;
+	}
+	try {
+		Messages.setBody(message, "this is a received message " + this.pretendInputMsg);
+	} catch (IOException io) {
+		throw new MessageException(io.toString());
+	}
+	isInputAvailable = false;
+	return true;
+
+}</pre> 
+         </div>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p class="Standard">Note that the method <code>receiveMessage</code> does not allow another receiveMessage until another send.&nbsp; This is synchronous behaviour appropriate to In-&gt;Out configuration.</p>
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">However, if you&nbsp;did not implement this latching behaviour, an Out-&gt;In configuration could still receive multiple input messages after a single send (TCP Client communication point behaves like this) and only <a href="Message-Tracking-Schemes_133161791.html">Message Tracking Schemes</a> can show there are multiple responses - by default Rhapsody discards any more than one so you will not&nbsp;know unless you have a Message Tracking scheme enabled.</p></li>
+       <li class="Standard"><p class="Standard">Finally, implement a <code>messageProcessed()</code> method. Rhapsody engine calls this method to signify that it has finished processing a received message just obtained from <code>receiveMessage()</code>.</p></li>
+       <li class="Standard"><p class="Standard">Do nothing in response to Rhapsody calling our <code>messageProcessed()</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public void messageProcessed(boolean arg0) throws ConnectionException, MessageProcessedFailedException {
+	// do nothing
+}</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h3 id="CustomCommunicationPointwithPollingConnection-DeployingandTestingtheCommunicationPoint">Deploying and Testing the Communication Point</h3>
+      <p class="Standard">To deploy and test your communication point, modify your Activator:</p>
+      <ol>
+       <li class="Standard">Add in the <code>CommunicationPointRegistration</code> class.</li>
+       <li class="Standard">Comment out the filter registration.</li>
+       <li class="Standard"><p>Add in your communication point registration:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">final String cr = CommunicationPointRegistration.class.getName();
+
+//             this.registrations.add(context.registerService(fr,
+//             new FilterRegistration("UPPERCASEFILTER",
+//             "Upper Case Filter", "Utility", UpperCaseFilter.class, "/Smiley-32.bmp",
+//             "/Smiley-16.bmp"), null));
+                               
+this.registrations.add(context.registerService(cr, new CommunicationPointRegistration(
+                "POLLINGCOMMPOINT", "Example Polling Communication Point",
+                PollingCommPoint.class, "/Smiley-32.bmp",
+                "/Smiley-16.bmp", null), null));
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">Press&nbsp;<strong>Ctrl+Shift+O</strong> in order to clean up the imports.</li>
+       <li class="Standard"><p>Clean up the project by deleting the <code>UpperCaseFilter</code> class.</p></li>
+       <li class="Standard"><p>Open your <code>META-INF/MANIFEST.MF</code> and modify <code>Bundle-Name</code> and <code>Bundle-SymbolicNam</code>e:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">Bundle-Name: PollingCommPoint
+Bundle-SymbolicName: PollingCommPoint</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Modify the project name in your Ant <code>build.</code>xml file:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;project name="com.orionhealth.EMEA.rhapsody.module.PollingCommPoint"</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">Run the ant script to generate your module JAR file.</li>
+       <li class="Standard">Deploy the JAR file&nbsp;as you did for the custom filter and restart Rhapsody.</li>
+       <li class="Standard">Create a test route:<br><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="418" width="675" src="attachments/133161278/133161282.bmp" data-image-src="attachments/133161278/133161282.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161282" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CommPtPolling1.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></li>
+       <li class="Standard">Configure the Communication Point to be <strong>Out-&gt;In</strong>.</li>
+       <li class="Standard">Confirm you can send a message.</li>
+       <li class="Standard">Confirm you can receive a response message:</li>
+      </ol>
+      <h3 id="CustomCommunicationPointwithPollingConnection-AddingLogging">Adding Logging</h3>
+      <h4 id="CustomCommunicationPointwithPollingConnection-Configuringlog4j.properties">Configuring log4j.properties</h4>
+      <p class="Standard">To add logging so you&nbsp;can monitor the behavior of our communication point in the logs:</p>
+      <ol>
+       <li class="Standard">Configure log4j to log the debug messages. To do this, you must determine the ID of the communication point on our route.&nbsp;</li>
+       <li class="Standard">Fire up SOAP-UI and create a new project by importing your Rhapsody WSDL which is located at <code>https://localhost:8449/services/RhapsodyComponentsService?wsdl</code>.</li>
+       <li class="Standard">Configure security details for the interface:&nbsp; username, password, and specify PassWordText in WSS-Type.</li>
+       <li class="Standard"><p>Then invoke the <code>getAllComponents</code> method and find the ID of your component ("3989" in this case):</p>
+        <div class="confluence-information-macro confluence-information-macro-information">
+         <p class="title">Alternative method to get communication point id</p>
+         <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>If you are using Rhapsody 5 or greater you can get the communication point id from its URL in the Management Console.</p>
+         </div>
+        </div></li>
+       <li class="Standard">You can now edit the <code>log4j.properties</code> file which is in your Rhapsody folder.</li>
+       <li class="Standard">Add the following to the file (somewhere after the Default Logging settings), changing the ID to reflect the correct ID for your component:</li>
+      </ol>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence"># 3989 Appender
+log4j.logger.CommunicationPoint.3989=TRACE,3989
+log4j.appender.3989=org.apache.log4j.RollingFileAppender
+log4j.appender.3989.File=logs/3989.txt
+log4j.appender.3989.MaxBackupIndex=9
+log4j.appender.3989.MaxFileSize=5MB
+log4j.appender.3989.layout=org.apache.log4j.PatternLayout
+log4j.appender.3989.layout.ConversionPattern=%d %5.5p [%32.32t] [%40.40c] %m%n
+</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        Note that the above settings are not suitable for production – logging debug messages will slow a production server.
+       </div>
+      </div>
+      <h4 id="CustomCommunicationPointwithPollingConnection-ConfiguringClasses">Configuring Classes</h4>
+      <p class="Standard">Now&nbsp;modify the connector class to have a <code>Logger</code> instance:</p>
+      <ol>
+       <li class="Standard"><p>Add the <code>Logger</code> instance variable and a <code>CLASSNAME</code> string to use in the logging</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;public class PollingCommPointConnection implements PollingInputConnection {
+                private final static String CLASSNAME = PollingCommPointConnection.class.getSimpleName();
+                private final Logger logger;
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Add an argument to the constructor to set the <code>Logger</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public PollingCommPointConnection(final Logger logger) {                    
+	this.id = idGen.getAndIncrement();
+    this.logger = logger;</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Add debug logging to each method so you can trace when the engine is calling our methods, and that way understand the behavior of the communication point:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public PollingCommPointConnection(final Logger logger) {                    
+	this.id = idGen.getAndIncrement();
+    this.logger = logger;
+    if (null!=logger) {
+		logger.debug(CLASSNAME+" "+"Constructor(logger)");
+	}
+	...
+    @Override
+    public void cleanup() {
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"cleanup()");
+		}
+    }
+
+    @Override
+    public void dropConnection() {
+    	if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"dropConnection()");
+		}
+    }
+
+    @Override
+    public void finishComms() {
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"finishComms()");
+		}
+    }
+
+    @Override
+    public void finishSend() throws InterruptedException {
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"finishSend()");
+		}
+    }
+
+    @Override
+    public int getId() {
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"getId()");
+		}
+        return this.id;
+    }
+
+    @Override
+    public State getState() {
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"getState()");
+		}
+        return state;
+    }
+
+    @Override
+    public void initSend() throws ConnectionException {
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"initSend()");
+		}
+	}
+
+    @Override
+    public void messageProcessed(boolean arg0) throws ConnectionException, MessageProcessedFailedException, InterruptedException {
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"messageProcessed("+arg0+")");
+		}
+    }
+
+    @Override
+    public boolean receiveMessage(final Message message) throws ConnectionException, MessageException {
+        if (null!=logger) {&nbsp;
+			logger.debug(CLASSNAME+" "+"receiveMessage(msg)");
+		}
+	}
+               
+    @Override
+    public void reconnect() throws ConnectionException, InterruptedException {
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"reconnect()");
+		}
+    }
+
+    @Override
+    public void sendMessage(final Message message) throws ConnectionException, SendMessageFailedException {    
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"sendMessage(msg)");
+		}
+        …
+    }
+
+    @Override
+    public int getRefreshDelay() {
+        int delay = 5*1000; // 5 seconds
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"getRefreshDelay()-&gt;"+delay);
+		}
+        return delay;
+    }
+
+    @Override
+    public boolean isInputAvailable() throws ConnectionFailedException, InterruptedException {
+        if (null!=logger) {
+			logger.debug(CLASSNAME+" "+"isInputAvailable()-&gt;"+isInputAvailable);
+		}
+        return isInputAvailable;
+    }
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Modify the communication point class to pass in the <code>Logger</code> argument:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public CommunicationPointConnection getConnection() throws ConnectionException, InterruptedException {
+	return new PollingCommPointConnection(getLogger());
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Add logging to the communication point class:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;public class PollingCommPoint extends AbstractCommunicationPoint {
+
+ 	private final static String CLASSNAME = PollingCommPoint.class.getSimpleName();</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Add&nbsp;logging to each method so you can track the behavior of the Communication Point:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package com.orionhealth.EMEA.rhapsody.module.PollingCommPoint;
+
+import com.orchestral.rhapsody.module.communicationpoint.AbstractCommunicationPoint;
+import com.orchestral.rhapsody.module.communicationpoint.CommunicationPointConfiguration;
+import com.orchestral.rhapsody.module.communicationpoint.CommunicationPointConnection;
+import com.orchestral.rhapsody.module.communicationpoint.CommunicationPointException;
+import com.orchestral.rhapsody.module.communicationpoint.CommunicationPointInfo;
+import com.orchestral.rhapsody.module.communicationpoint.ConnectionException;
+import com.orchestral.rhapsody.module.communicationpoint.SupportedMode;
+
+public class PollingCommPoint extends AbstractCommunicationPoint {
+
+	private final static String CLASSNAME = PollingCommPoint.class.getSimpleName();
+               
+    public PollingCommPoint(CommunicationPointInfo communicationPointInfo) {
+		super(communicationPointInfo);
+        if (null!=getLogger()) {
+			getLogger().debug(CLASSNAME+" "+"constructor()");
+		}
+    }
+
+    @Override
+    public void configure(CommunicationPointConfiguration arg0)
+                                                throws CommunicationPointException, InterruptedException {
+        if (null!=getLogger()) {&nbsp;
+			getLogger().debug(CLASSNAME+" "+"configure()");
+		}
+    }
+
+    @Override
+    public CommunicationPointConnection getConnection()
+                                                throws ConnectionException, InterruptedException {
+    	if (null!=getLogger()) {
+			getLogger().debug(CLASSNAME+" "+"getConnection()");
+		}
+        return new PollingCommPointConnection(getLogger());
+    }
+
+    @Override
+    public SupportedMode getImplementationKind() {
+    	if (null!=getLogger()) {&nbsp;
+			getLogger().debug(CLASSNAME+" "+ "getImplementationKind()");
+		}
+        SupportedMode supportedMode = SupportedMode.TWO_WAY;
+        return supportedMode;
+    }
+
+
+    @Override
+    public void cleanup() {
+        if (null!=getLogger()) {
+			getLogger().debug(CLASSNAME+" "+"cleanup()");
+		}
+        super.cleanup();
+    }
+
+    @Override
+    public void shutdown() {
+    	if (null!=getLogger()) {&nbsp;
+			getLogger().debug(CLASSNAME+" "+"shutdown()");
+		}
+        super.shutdown();
+    }
+
+    @Override
+    public String[] getPropertyList() {
+    	if (null!=getLogger()) {
+			getLogger().debug(CLASSNAME+" "+"getPropertyList()");
+		}
+        return new String[0];
+    }
+}
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Build then deploy the new jar. Restart your components and look for the log file <code>logs/&lt;ID&gt;.txt eg logs/3989.txt</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">CommunicationPoint.3989] Starting communication point execution thread
+CommunicationPoint.3989] Communication point started
+CommunicationPoint.3989] Communication point execution thread started
+CommunicationPoint.3989] PollingCommPoint getConnection()</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>When you send a message you will see the following:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">CommunicationPoint.3989] Enqueuing message for sending on communication point 'Example Polling Communication Point'
+CommunicationPoint.3989] PollingCommPointConnection Constructor(logger)
+CommunicationPoint.3989] PollingCommPoint getConnection() thread finished
+CommunicationPoint.3989] PollingCommPointConnection getId()
+CommunicationPoint.3989] PollingCommPointConnection getId()
+CommunicationPoint.3989] PollingCommPointConnection initSend()
+CommunicationPoint.3989] PollingCommPointConnection getState()
+CommunicationPoint.3989] PollingCommPointConnection sendMessage(msg)
+CommunicationPoint.3989] PollingCommPointConnection getState()
+CommunicationPoint.3989] PollingCommPointConnection finishSend()
+CommunicationPoint.3989] PollingCommPointConnection getState()
+CommunicationPoint.3989] PollingCommPointConnection isInputAvailable()-&gt;false
+CommunicationPoint.3989] PollingCommPointConnection getState()
+CommunicationPoint.3989] PollingCommPointConnection getRefreshDelay()-&gt;5000
+… delay of 5 seconds ...
+CommunicationPoint.3989] PollingCommPointConnection getState()
+CommunicationPoint.3989] PollingCommPointConnection isInputAvailable()-&gt;false
+CommunicationPoint.3989] PollingCommPointConnection getState()
+CommunicationPoint.3989] PollingCommPointConnection getRefreshDelay()-&gt;5000
+… delay of 5 seconds ...
+CommunicationPoint.3989] PollingCommPointConnection getState()
+CommunicationPoint.3989] PollingCommPointConnection isInputAvailable()-&gt;true
+CommunicationPoint.3989] PollingCommPointConnection receiveMessage(msg)
+CommunicationPoint.3989] PollingCommPointConnection messageProcessed(true)</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <p class="Standard">This logging illustrates how the polling mechanism works and how <code>getRefreshDelay</code> and <code>isInputAvailable</code> work.</p>
+      <h3 id="CustomCommunicationPointwithPollingConnection-AddingThreadedConnectionEstablishment">Adding Threaded Connection Establishment</h3>
+      <p class="Standard">The <code>getConnection()</code> method expects blocked connection setup attempts.&nbsp; This example added a <code>Thread.sleep()</code> to imitate slow connection establishment behavior.&nbsp; However, you still need to deal with the issue of the communication point trying to shutdown whilst connections are still being established.</p>
+      <p class="Standard">To do this you need to delegate connection establishment to a thread, and then during a shutdown (when the <code>shutdown()</code> method is called by the engine), go and <code>interrupt()</code> those threads.</p>
+      <ol>
+       <li class="Standard"><p>Create the thread by adding an inner class definition for the&nbsp;<code>Thread</code> class:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class PollingCommPoint extends AbstractCommunicationPoint {
+               
+	private class ConnectionGetterThread extends Thread {
+    	private CommunicationPointConnection connection = null;
+                               
+        public ConnectionGetterThread(CommunicationPointConnection connection) {
+        	this.setConnection(connection);
+        }
+                               
+        public void run() {
+        	if (null!=getLogger()){&nbsp;
+				getLogger().debug(typeAbbreviation+" "+this.getClass().getSimpleName()+" getConnection() thread started");
+			}
+                                               
+            // pretend it takes time to get a connection
+            try {
+            	Thread.sleep(10000L);
+                setConnection(new ExampleBiDirConnection(getLogger(), properties));
+                if (null!=getLogger()) {
+					getLogger().debug(typeAbbreviation+" "+this.getClass().getSimpleName()+" getConnection() thread finished");
+				}
+            } catch (InterruptedException ignored) {
+                if (null!=getLogger()) {
+					getLogger().debug(typeAbbreviation+" "+this.getClass().getSimpleName()+" getConnection() thread interrupted");
+				}
+            }
+        }
+
+        private void setConnection(CommunicationPointConnection connection) {
+        	this.connection = connection;
+        }
+
+        public CommunicationPointConnection getConnection() {
+        	return connection;
+        }
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">The purpose of the thread is to simply get a connection. &nbsp;Add accessor methods so you can get hold of the connection object from the thread.&nbsp; Also add some logging so you can test the <code>shutdown()</code> method does actually kill the threads.</li>
+       <li class="Standard"><p>Add&nbsp;a <code>List</code>&nbsp;to store all the threads that are trying to get connections:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class PollingCommPoint extends AbstractCommunicationPoint {
+private List&lt;Thread&gt; connectionGetters = new ArrayList&lt;Thread&gt;();
+
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Modify the <code>getConnection()</code> method to delegate to the thread.&nbsp; Note once you delegate to the thread, you still want to block waiting for the connection to be setup.&nbsp; Do that by <code>join</code>ing the thread – this causes it to block until the <code>run()</code> method on the thread completes.&nbsp; Once the thread completes, it can be removed from the list of incomplete connection threads.</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public CommunicationPointConnection getConnection() throws ConnectionException, InterruptedException {
+	if (null!=getLogger()) {
+		getLogger().debug(CLASSNAME+" "+"getConnection()");
+	}
+
+    CommunicationPointConnection connection = null;
+                               
+    ConnectionGetterThread connectionGetterThread = new ConnectionGetterThread(connection);
+    this.connectionGetters.add(connectionGetterThread);
+    try {
+    	connectionGetterThread.start();
+        // now wait until thread has create the connection
+        connectionGetterThread.join();
+    } catch (InterruptedException e) {
+        // threads interrupted
+    } finally{
+        this.connectionGetters.remove(connectionGetterThread);
+    }
+                               
+    return connectionGetterThread.getConnection();
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Finally, create a shutdown method that cleans up any connections that are not complete:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public void shutdown() {
+	if (null!=getLogger()) {
+		getLogger().debug(CLASSNAME+" "+"shutdown()");
+	}
+    super.shutdown();
+                               
+    // Here cancel any threads that are trying to get connections.             
+    for (Thread connGetterThread: this.connectionGetters) {
+    	connGetterThread.interrupt();
+    }
+}
+</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <p class="Standard">Since this method terminates the threads, there may be implications to the protocol you are implementing. For example, if the connection is half set up and needs a signal from you to tear it down from that state,&nbsp;&nbsp;<code>finishComms()</code> and <code>cleanup()</code> will be invoked against your connection instance, which you can use to try clean up anything like that.</p>
+      <p class="Standard">You can then test this – start your communication point and immediately stop it.&nbsp; Observe the logged result.</p>
+      <h3 id="CustomCommunicationPointwithPollingConnection-AddingPropertiestoCommunicationPoint">Adding Properties to Communication Point</h3>
+      <p class="Standard">To add a network port configuration option to the Communication Point:</p>
+      <ol>
+       <li class="Standard"><p>Add a static <code>String</code> for the property describing the property:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static String PORT = "PORT|*s||network port||Set this to any value";</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Create a properties array that you can return in <code>getPropertyList()</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static final String[] props = { PORT };</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Add a variable to hold your property:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;private int port;</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Modify the getPropertyList() method to return the properties array:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public String[] getPropertyList() {
+	if (null!=getLogger()) {
+		getLogger().debug(CLASSNAME+" "+"getPropertyList()");
+	}
+    return props;
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Modify doConfigure to take the properties from Rhapsody IDE and set them on the class. Notice we also change the argument name from arg0 to config:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public void configure(CommunicationPointConfiguration config) throws CommunicationPointException, InterruptedException {
+	if (null!=getLogger()) { getLogger().debug(CLASSNAME+" "+"configure()"); }
+	String property = config.getConfiguratedProperties().get("PORT");
+	if (null==property) {
+		throw new CommunicationPointConfigurationException("Required field 'port' missing.");
+	} else {
+		try {
+			this.port = Integer.parseInt(property);
+		} catch (NumberFormatException nfe) {
+			throw new CommunicationPointConfigurationException("Required field 'port' should be an integer.", nfe);
+		}
+	}
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">Deploy and test that the port property is available in Rhapsody IDE:<br><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="211" width="709" src="attachments/133161278/133161281.bmp" data-image-src="attachments/133161278/133161281.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161281" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CommPtPolling7.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></li>
+       <li class="Standard">Set it to a non-integer value to confirm that a configuration error will be thrown during commit:<br><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="307" width="720" src="attachments/133161278/133161280.bmp" data-image-src="attachments/133161278/133161280.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161280" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CommPtPolling8.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></li>
+      </ol>
+      <h3 id="CustomCommunicationPointwithPollingConnection-PassingPropertiestotheConnection">Passing Properties to the Connection</h3>
+      <p class="Standard">To modify the&nbsp;<code>PollingCommPointConnection</code> class constructor to receive properties from the Communication Point class:</p>
+      <ol>
+       <li class="Standard">Create a properties bean that can hold configuration data and be used to pass configuration:</li>
+       <li class="Standard"><p>Add a new class called <code>com.orionhealth.EMEA.rhapsody.module.PollingCommPoint.PropertiesBean</code></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">package com.orionhealth.EMEA.rhapsody.module.PollingCommPoint;
+
+
+public class PropertiesBean {
+	int port;
+
+    public int getPort() {
+    	return port;
+    }
+   &nbsp;
+	public void setPort(int port) {
+    	this.port = port;
+    }
+}
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Modify the <code>PollingCommPointConnection</code> constructor to receive the bean:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private final PropertiesBean config;
+	...
+    public PollingCommPointConnection(final Logger logger, PropertiesBean config) {                          
+    	...
+        this.config = config;
+    }
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p class="Standard">Modify the <code>PollingCommPoint</code> class to use the <code>PropertiesBean</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;public class ExampleBiDirCommunicationPoint extends AbstractCommunicationPoint {
+ 	...
+    private PropertiesBean properties = new PropertiesBean();
+    ...
+    @Override
+    public void configure(CommunicationPointConfiguration config) throws CommunicationPointException, InterruptedException {
+    	if (null!=getLogger()) {&nbsp;
+			getLogger().debug(CLASSNAME+" "+"configure()");
+		}
+                               
+    	String property = config.getConfiguratedProperties().get("PORT");
+    	if (null==property) {
+    		throw new CommunicationPointConfigurationException("Required field 'port' missing.");
+    	} else {
+        	try {
+        		this.properties.setPort(Integer.parseInt(property));
+        	} catch(NumberFormatException nfe) {
+            	throw new CommunicationPointConfigurationException("Required field 'port' should be an integer.", nfe);
+        	}
+    	}                             
+	}
+	...</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Modify the <code>getConnection</code> process to pass the <code>PropertiesBean</code>:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">...
+setConnection(new PollingCommPointConnection(getLogger(), properties));
+...
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard">The connection establishment code can now make use of this port value.</li>
+       <li class="Standard"><p>Modify the <code>open()</code> method on the nested <code>Connection</code> class to take a port value</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">protected void open(int port){
+	// sleep pretending to be connecting to port
+    try {
+    	Thread.sleep(1000);
+    } catch (InterruptedException ignored) {
+    }
+    state=true;
+};</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p>Now pass the port through to the nested connection:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public PollingCommPointConnection(final Logger logger, PropertiesBean config) {                          
+	this.id = idGen.getAndIncrement();
+    this.logger = logger;
+    this.config = config;
+    if (null!=logger) {
+		logger.debug(CLASSNAME+" "+"Constructor(logger)");
+	}
+                               
+    state = CommunicationPointConnection.State.CLOSED;
+                               
+    connection=new NetworkProtocolConnection();
+                               
+    // now establish the connection
+    connection.open(config.getPort());
+</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <p class="Standard">Since the protocol is bogus, you do not really do anything with the port, but if you were implementing a TCP connection then it would, of course, be useful.</p>
+      <h3 id="CustomCommunicationPointwithPollingConnection-ImplementingIdleTimeoutImplementingIdleTimeout,DropConnectionandReconnect"><span class="confluence-anchor-link" id="CustomCommunicationPointwithPollingConnection-ImplementingIdleTimeout"></span>Implementing Idle Timeout, Drop Connection and Reconnect</h3>
+      <p><br>The <code>dropConnection()</code> method is called by engine when a connection should be dropped specifically due to idle timeout, that is the time in which no messages sent, or for a communication point stop, or for an engine shutdown.</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161278/133161279.bmp" data-image-src="attachments/133161278/133161279.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133161279" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="CommPtPolling9.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133161278" data-linked-resource-container-version="1"></span></p>
+      <p class="Contents3">Timeout is something that is configured via the IDE and is common to all Communication Points.&nbsp;<code style="line-height: 13.0pt;background-color: transparent;">dropConnection</code><span style="line-height: 13.0pt;background-color: transparent;"> will be called on timeout by the engine when:</span></p>
+      <ol>
+       <li>The connection is doing output only,</li>
+       <li>An idle time-out is specified and</li>
+       <li>No message has been sent from the connection in that amount of time.</li>
+      </ol>
+      <p class="Contents3">The <code>dropConnection()</code> method should disconnect and set the connection's state to <code>CommunicationPointConnection.State.UNCONNECTED</code>.</p>
+      <p class="Contents3">Every resource opened in the constructor should be cleaned away by <code>dropConnection()</code>&nbsp;so that when the engine calls <code>dropConnection()</code> prior to destroying a communication point then everything gets cleaned up.</p>
+      <ol>
+       <li class="Contents3"><p>Add a <code>dropConnection()</code> method implementation:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public void dropConnection() {
+	if (null!=logger) {
+		logger.debug(CLASSNAME+" "+"dropConnection()");
+	}
+	if (null!=connection) {
+        try {                       
+        	connection.close();
+            state = CommunicationPointConnection.State.UNCONNECTED;
+        } catch(Exception ignored) {
+            state = CommunicationPointConnection.State.ERROR;
+        }
+    } else {
+        state = CommunicationPointConnection.State.ERROR;
+    }
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Contents3"><p>You also need a <code>reconnect()</code> method:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">@Override
+public void reconnect() throws ConnectionException, InterruptedException {
+
+	if (null!=logger) {
+		logger.debug(CLASSNAME+" "+"reconnect()");
+	}
+                               
+    if (null!=connection) {
+    	connection.close();
+    }
+                               
+    connection=new NetworkProtocolConnection();
+                               
+    // now establish the connection
+    connection.open(config.getPort());
+
+    if (true==connection.getStatus()) {
+    	state = CommunicationPointConnection.State.CONNECTED;
+    } else {
+        state = CommunicationPointConnection.State.ERROR;
+    }
+}
+</pre> 
+         </div>
+        </div></li>
+       <li class="Contents3">When the timeout is reached, the Rhapsody engine drops this connection if the connection is able to be dropped, and then reconnects again.</li>
+      </ol>
+      <p class="Contents3">This is useful to handle protocol problem cases (e.g. when a firewall 'loses' a protocol handshake message and connections become unusable and have to be restarted).&nbsp; It eliminates the issue of stale connections that cannot be used although they appear to be usable.</p>
+      <p class="Contents3">As you will see from your log file, after send inactivity, the idle timeout passes and the engine drops the connection. Nothing happens (except frequent calls to <code>getState()</code>) until another message send is attempted, at which time <code>initSend()</code> is called followed by <code>reconnect()</code>:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">CommunicationPoint.3989] Communication point started
+.. a message gets sent ..
+CommunicationPoint.3989] PollingCommPointConnection finishSend()
+
+
+... idle time passes ...
+
+
+ [             
+    CommunicationPoint.3989] Dropping idle connection for communication 
+point 'Example Polling Communication Point [3989, 0]'.
+PollingCommPointConnection getState()
+PollingCommPointConnection dropConnection()
+
+
+... time passes and nothing changes until a message send is requested ...
+
+
+CommunicationPoint.3989] Enqueuing message for sending on communication point 'Example Polling Communication Point'
+PollingCommPointConnection getState()
+PollingCommPointConnection initSend()
+PollingCommPointConnection getState()
+PollingCommPointConnection reconnect()
+PollingCommPointConnection sendMessage(msg)
+... etc ...
+</pre> 
+       </div>
+      </div>
+      <h3 id="CustomCommunicationPointwithPollingConnection-SummaryofCommunicationPointClassMethods">Summary of Communication Point Class Methods</h3>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-constructor"><strong>constructor</strong></h4>
+      <p class="Standard">Do not create connections here as the engine manages connections and holds references to them. Just set up anything required for the Communication Point in general or common to all connections that belong to this communication point.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-getPropertyList()"><code><strong>getPropertyList()</strong></code></h4>
+      <p class="Standard">Get the property list for the IDE as per this example. Note that prior to commit, the engine creates an initial dummy instance of the communication point that the IDE interacts with in order to validate the properties. Once checked in, the properties are set on the actual communication point instance.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public static final String[] props = {                               &nbsp;
+	"username|*$s||Username||Username to login with",
+    "hostname|*$s||Hostname||Host or IP address",
+    "password|*$s||User password||User's password if using user authentication"
+};
+...
+public String[] getPropertyList() {
+	return props;
+}</pre> 
+       </div>
+      </div>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-configure()"><code><strong>configure()</strong></code></h4>
+      <p class="Standard">Called by Rhapsody IDE to set properties as specified in <code><strong>getPropertyList</strong>()</code>.&nbsp;Note that prior to commit, the engine creates an initial dummy instance of the communication point that Rhapsody IDE interacts with in order to validate the properties. Once checked in, the properties are set on the actual communication point instance.</p>
+      <p class="Standard">To fetch the properties from inside the <code>configure()</code> method, follow this:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">String property = config.getConfiguratedProperties().get("hostname");               &nbsp;
+if (null==property) {
+	throw new CommunicationPointConfigurationException("Required field 'hostname' missing.");
+} else {
+	this.properties.setHostname(property);
+}</pre> 
+       </div>
+      </div>
+      <p class="Standard">You can also modify the configuration based on the communications mode:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">ConfiguredMode configuredMode = config.getMode();
+switch (configuredMode) {
+	case INPUT :
+                //do input config
+    case OUTPUT :
+                //do output config
+    case IN_OUT :
+                //do in out config
+    case OUT_IN :
+                //do out in config
+    case BIDIRECTIONAL :
+                //do bidirectional config
+}</pre> 
+       </div>
+      </div>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-getConnection()"><code><strong>getConnection()</strong></code></h4>
+      <p class="Standard">This method is called by the engine to create a connection instance. If multiple connections are specified via the IDE for the communication point, then this method will be called multiple times (in parallel, in other words independently).</p>
+      <p class="Standard">The connection is a different class that is instantiated and returned via <code>getConnection()</code>.&nbsp; Do not instantiate the connection in the communication point class constructor, but rather via the <code>getConnection()</code> method, so the engine can manage the instance. This method can block until a connection can be created or until <code>shutdown()</code> is called.&nbsp; i.e. you can delegate to a thread to create the connection (and<code> join</code> the thread to cause the block), that way you can kill the thread if you need to unblock from the <code>shutdown()</code> method.</p>
+      <p class="Standard">Note you should not keep a reference to a connection in the communication point class:</p>
+      <ol>
+       <li>The IDE is where you specify one or multiple connections, so you do not create connections in the constructor of the communication point as their number is unknown.</li>
+       <li>All you provide is the <code>getConnection()</code> method to setup a connection – in other words, create an object instance that is also connected.</li>
+       <li>The engine manages connection teardown, not you (even if you are implementing <code>SingleConnectionCommunicationPoint</code>).&nbsp; When killing a connection, the engine itself (not you) calls the <code>dropConnection()</code> and <code>cleanup()</code> against each connection and makes the connections available for garbage collection.</li>
+      </ol>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-getImplementationKind()"><code><strong>getImplementationKind()</strong></code></h4>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="highlight-grey confluenceTh" colspan="1" data-highlight-colour="grey">Mode</th>
+          <th class="highlight-grey confluenceTh" colspan="1" data-highlight-colour="grey">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><strong>BIDIRECTIONAL</strong></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication point can send and receive messages at the same time.</p><p class="TableContents">Send and receive may be on different threads. Can be polling or non-polling.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><strong>INPUT</strong></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication point can only receive messages.</p><p class="TableContents">Can be polling or non-polling.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><strong>OUTPUT</strong></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication point can only send messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><strong>TWO_WAY</strong></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication point can send and receive messages but can only do one of these at a time (IN-&gt;OUT or OUT-&gt;IN).</p><p class="TableContents">Send and receive can be on the same thread.&nbsp;Can be polling or non-polling.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p class="TableContents"><strong>UNIDIRECTIONAL</strong></p></td>
+          <td class="confluenceTd"><p class="TableContents">Communication Point can either send or receive messages but cannot be configured to do both (only INPUT or only OUTPUT).</p><p class="TableContents">Can be polling or non-polling.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>For example,&nbsp;<code>return SupportedMode.OUTPUT</code>.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-shutdown()"><code><strong>shutdown()</strong></code></h4>
+      <p class="Standard">This is a signal to stop attempting to get connections.&nbsp; Must cause any blocked call to <code>getConnection</code> to return with a <code>null</code> result.&nbsp;</p>
+      <p class="Standard">For this to work you can implement a connection getting thread that is registered in a <code>Map</code> so that you can iterate the map to interrupt the connection establishment threads (an example of which is included in this tutorial).</p>
+      <p class="Standard">After calling <code>shutdown()</code> on the communication point, during a shutdown request, the engine then calls <code>dropConnection()</code> and <code>cleanup()</code> on each active connection.&nbsp; The communication point <code>cleanup()</code> method is not called,&nbsp; only the connection <code>cleanup()</code> method. You do not have to implement connection dropping code in this <code>shutdown()</code> method.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-cleanup()"><code><strong>cleanup()</strong></code></h4>
+      <p class="Standard">Cleans up this communication point.&nbsp; The purpose is very different to the cleanup that is found on the connection object.&nbsp; Called when the communication point is deleted from the engine configuration, in other words it is removed from all routes and all folders. This method is not called if you remove a communication point from all routes – it must be from the folder as well.</p>
+      <p class="Standard"><code>cleanup()</code> is also invoked during a configuration change from Rhapsody IDE.&nbsp;</p>
+      <p class="Standard">Note that the Engine takes responsibility for destroying connections and connection objects by calling <code>dropConnection()</code>, you do not have to implement that here.</p>
+      <h3 id="CustomCommunicationPointwithPollingConnection-SummaryofCreatingaConnectionClass">Summary of Creating a Connection Class</h3>
+      <p class="Standard">When creating a class that implements the connection for a communication point, choose one of the following:</p>
+      <ul>
+       <li><code>implements PollingInputConnection</code></li>
+       <li><code>implements CommunicationPointConnection</code></li>
+       <li><code>implements SingleConnectionCommunicationPoint</code></li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is possible to write an implementation that does not implement the <code>PollingInputConnection</code> interface and where <code>receiveMessage(Message)</code> immediately returns <code>false</code> if no message is available. Such an implementation will work correctly but will result in a busy loop (with the engine constantly calling <code>receiveMessage(Message)</code>) which will impact negatively on the performance of the Rhapsody server.</p>
+       </div>
+      </div>
+      <h3 id="CustomCommunicationPointwithPollingConnection-SummaryofConnectionClassMethods">Summary of Connection Class Methods</h3>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-getState()"><code>getState()</code></h4>
+      <p class="Standard">Must return one of the following:</p>
+      <ul>
+       <li class="Standard"><code>&nbsp;CommunicationPointConnection.State.CONNECTED</code></li>
+       <li class="Standard"><code>&nbsp;CommunicationPointConnection.State.UNCONNECTED</code></li>
+       <li class="Standard"><code>&nbsp;CommunicationPointConnection.State.ERROR</code></li>
+       <li class="Standard"><code>&nbsp;CommunicationPointConnection.State.CLOSED</code></li>
+      </ul>
+      <p class="Standard">For example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">if (!this.isInitialized) {
+	return CommunicationPointConnection.State.UNCONNECTED;
+} else {
+	return CommunicationPointConnection.State.CONNECTED;
+}</pre> 
+       </div>
+      </div>
+      <p class="Standard"><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;">Connections start in the CLOSED state.&nbsp; When </span><code style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;">dropConnection()</code><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;"> is called, if this connection is able to disconnect and be reconnected at a later time then </span><code style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;">dropConnection()</code><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;"> should disconnect and set the connections state to </span><code style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;">CommunicationPointConnection.State.UNCONNECTED</code><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;">. &nbsp;Otherwise it should be set to CLOSED or to ERROR if the close does not work.&nbsp; When </span><code style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;">initSend()</code><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;"> is called, you should throw a&nbsp;</span><code style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;">ConnectionException</code><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;"> if the connection state is ERROR to cause the engine to destroy and replace the connection instance.&nbsp;But if the state is UNCONNECTED, then do not throw an exception in </span><code style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;">initSend()</code><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;">, instead leave the engine to call </span><code style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;">reconnect()</code><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;">.&nbsp;</span><code style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;">reconnect()</code><span style="color: rgb(0,0,0);font-weight: normal;line-height: 13.0pt;background-color: transparent;"> will reconnect and set the state back to CONNECTED, or to ERROR if it cannot reconnect.</span></p>
+      <p class="Standard">The difference between unconnected and closed is that UNCONNECTED follows CONNECTED after a <code>dropConnection()</code> from the engine, whereas CLOSED is the starting state before the very first connection is made to put communication point in CONNECTED state. One can think of CLOSED as 'NEW'.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-constructor.1">constructor</h4>
+      <p class="Standard">Used to create the connection. Create a unique id here for the connection (refer to the <code><a href="#CustomCommunicationPointwithPollingConnection-getId()">getId()</a></code> method).&nbsp; You could also use the constructor to pass in a logger instance and to pass in properties from the <code>CommunicationPoint</code>.</p>
+      <h4 id="CustomCommunicationPointwithPollingConnection-getId()"><code><strong>getId</strong>()</code></h4>
+      <p>Gets the ID that identifies this connection. Should be unique amongst all connections from the same communication point, and must not change over the lifetime of the connection. Do not make this method verbose – it gets called a few times every second. You can create the id in the constructor.&nbsp; Here we create a unique identifier for this object instance in this current JVM invocation:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">static AtomicInteger idGen = new AtomicInteger();
+private final int id;
+...
+constructor(..)
+{
+	this.id = idGen.getAndIncrement();
+    ...
+}</pre> 
+       </div>
+      </div>
+      <h4 id="CustomCommunicationPointwithPollingConnection-receiveMessage()"><code><strong style="line-height: 13.0pt;background-color: transparent;">receiveMessage()</strong></code></h4>
+      <p><span style="line-height: 13.0pt;background-color: transparent;">Gets a message from the connection:</span></p>
+      <ul>
+       <li class="Standard">In <strong>non-polling </strong>style connection, this is a blocking method that blocks the thread (for example, blocked socket read).</li>
+       <li class="Standard">In the <strong>polling style</strong>, this is non-blocking and must immediately return, but is only called if <code>isInputAvailable()</code> returns <code>true</code>.</li>
+      </ul>
+      <p class="Standard">Must write any incoming message data to the body of the message. Return <code>true</code> if a full message was successfully received and <code>false</code> otherwise. The message object passed into this method is a blank message prepared by the engine and ready for you to populate with the actual response message from your connection.</p>
+      <p class="Standard">Properties may also be set on the <code>Message</code>.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">For an <em>In-&gt;Out</em> it is automatic that we get our "In" properties on the "Out"&nbsp;side, because the method gets passed a message object into which we write a body.&nbsp;</span></p>
+      <p class="Standard"><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span><span style="line-height: 13.0pt;background-color: transparent;">If the communication point is running in INPUT, OUTPUT or OUT-&gt;IN mode then&nbsp;</span><span style="line-height: 13.0pt;background-color: transparent;">there will only be one thread using any one connection and you only have to worry about the interaction of multiple connections, i.e. you do not have to worry about different threads calling <code>receiveMessage</code> and <code>sendMessage</code> as it's the same thread doing both.</span></p>
+      <p class="Standard">If the communication point is running in BIDIRECTIONAL mode there will be separate threads calling the <code>sendMessage(Message)</code> and <code>receiveMessage(Message)</code> methods of the communication point connections, so they must be either completely independent of each other (which is common) or synchronized.</p>
+      <p class="Standard">If you want to ensure that your communication point can only ever have one connection at a time, you can implement the <code>SingleConnectionCommunicationPoint</code> interface:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public boolean receiveMessage(final Message message) throws ConnectionException, MessageException {
+	final WritableByteChannel channel = message.newBody().getChannel();
+    final ByteBuffer byteBuffer = ByteBuffer.allocate(100);
+    ...
+    byteBuffer.put(&lt;&lt;inputmessage&gt;&gt;.getBytes());
+    byteBuffer.flip();
+    // e.g. set a property
+    message.getProperty(propName).setValue(propValue);
+    try {
+    	while(byteBuffer.hasRemaining()){
+        	channel.write(byteBuffer);
+        }
+    } catch (final IOException e) {
+        throw new MessageException("Error while writing to message", e);
+    }
+        return true;
+}</pre> 
+       </div>
+      </div>
+      <p class="Textbody">To write to a message:</p>
+      <ul>
+       <li class="Standard">Call <code>message.newBody().getOutputStream()</code> to get message body <code>OutputStream</code>.</li>
+       <li class="Standard">Or <code>WritableByteChannel channel = message.newBody().getChannel();</code></li>
+       <li class="Standard"><p>Use the&nbsp;<code>Messages</code> class to set message body:</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">String body = "message body text";
+Messages.setBody(message, body);</pre> 
+         </div>
+        </div></li>
+      </ul>
+      <p class="Standard">The <code>setBody()</code> method allows setting message body as text or byte array or <code>ByteBuffer</code>. Encoding should also be specified if text is used.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-finishComms()"><code><strong>finishComms()</strong></code></h4>
+      <p>Signals to finish any communication taking place as soon as possible. Basically used to interrupt blocked receive methods.</p>
+      <p class="Standard">If you want to implement <code>finishComms()</code>, then delegate to a thread to do the blocked read so <code>finishComms()</code> can kill the thread.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">The method throws a:</span></p>
+      <ul>
+       <li class="Standard"><code>ConnectionException</code>&nbsp;if the connection failed during the receive.</li>
+       <li class="Standard"><code>MessageException</code>&nbsp;if the connection failed to manipulate the message.</li>
+       <li class="Standard"><code>java.lang.InterruptedException</code>&nbsp;if the thread is interrupted while receiving a message.</li>
+      </ul>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-sendMessage()"><code><strong>sendMessage()</strong></code></h4>
+      <p class="Standard">Sends a message over the connection (one or a batch of messages follow <code><a href="#CustomCommunicationPointwithPollingConnection-initSend()">initSend()</a></code>).&nbsp;<span>The method throws:</span></p>
+      <ul>
+       <li class="Standard"><code>ConnectionException</code> if the connection fails.</li>
+       <li class="Standard"><code>SendMessageFailedException</code> if the message is badly formed and therefore cannot be sent. This is very rarely used since the vast majority of communication points do little to no message processing they just send the body via the communications mechanism.</li>
+      </ul>
+      <p class="Standard">It is important the correct exception is thrown at the correct time by implementations of this method.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">A <code>ConnectionException</code> will result in the connection being dropped.&nbsp; Rhapsody will automatically try to re-establish the connection and resend the message that was attempting to be sent when the connection failed.&nbsp;</span><span style="line-height: 13.0pt;background-color: transparent;">So if a badly formed message incorrectly causes a <code>ConnectionException</code> then you will get repeated errors until the communication point is forced to shut down. A <code>SendMessageFailedException</code> causes the message to be sent to the error queue but the connection is left open. So a bad connection which incorrectly results in a <code>SendMessageFailedException</code> will result in many messages being sent to the Error Queue.</span></p>
+      <p class="Standard">If this method returns without throwing an error Rhapsody assumes the message has been sent safely and will mark the message as sent.</p>
+      <p class="Textbody">This is how to get message body InputStream:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">message.getBody().getInputStream();
+
+// use the Messages class to get message body as a String
+String body = Messages.asString(message);
+
+// The message body can also be read as a ByteBuffer
+message.getBody().getChannel().read(byteBuffer);</pre> 
+       </div>
+      </div>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-initSend()"><code><strong>initSend()</strong></code></h4>
+      <p class="Standard"><span style="line-height: 13.0pt;background-color: transparent;">The engine invokes </span><code style="line-height: 13.0pt;">initSend()</code><span style="line-height: 13.0pt;background-color: transparent;"> to notify the connection that one or a number of messages is about to be sent. The actual connection was established in the constructor or in the </span><code style="line-height: 13.0pt;">reconnect()</code><span style="line-height: 13.0pt;background-color: transparent;"> method.&nbsp;</span><code style="line-height: 13.0pt;">initSend()</code><span style="line-height: 13.0pt;background-color: transparent;"> is used to set up a transaction or session over an already established connection.&nbsp;</span></p>
+      <p class="Standard">But if the connection is not in CONNECTED state you could simply return (not throwing an exception) and let the engine re-establish it, which it will do by tearing down the connection object and creating a new instance. The engine calls <code>getState()</code> immediately after&nbsp;<code>initSend()</code>, and if the connection is not CONNECTED, then the engine will take action to <code>reconnect()</code> or to tear down the object and create a new connection instance.</p>
+      <p class="Textbody"><code>initSend()</code> is called immediately before multiple calls to <code>sendMessage(Message),</code> which are then followed by a call to <code><a href="#CustomCommunicationPointwithPollingConnection-finishSend()">finishSend()</a></code>. So this method can be used to perform some function that is required to prepare the connection for sending messages for example to open a session of some kind.&nbsp;&nbsp;</p>
+      <p class="Standard">An alternative approach is to use <code>initSend()</code> to establish the connection if you are not expecting to first receive any messages before sending (Out-&gt;In) or you are not expecting to receive at all (In).&nbsp; You could also get <code>initSend()</code> to invoke <code>reconnect()</code> when the connection state is UNCONNECTED, but that's only if your <code>initSend()</code> code needs the connection to be in CONNECTED state for some reason.&nbsp; However, it is better to not use <code>initSend()</code> then for connection purposes, rather think of it as a transaction lifecycle method.</p>
+      <p class="Textbody"><span>Note that&nbsp;</span><code>initSend()</code><span>&nbsp;is called <em>before</em>&nbsp;</span><code><a href="#CustomCommunicationPointwithPollingConnection-reconnect()">reconnect()</a></code><span>&nbsp;if a connection was dropped using&nbsp;</span><code><a href="#CustomCommunicationPointwithPollingConnection-dropConnection()">dropConnection()</a></code><span>, hence it cannot expect there to be a connection when&nbsp;</span><code>initSend()</code><span>&nbsp;is invoked and this might affect whether you decide to also invoke reconnect() from within initSend().</span></p>
+      <p class="Textbody"><code>initSend()</code> can check the connection and throw a <code>ConnectionException</code> if the connection is in ERROR state.&nbsp; However if in the UNCONNECTED state, do not throw an exception because then the engine cannot call <code>reconnect()</code> to allow a soft reconnect without tearing down the connection object. Just do not do anything in <code>initSend()</code> if UNCONNECTED.</p>
+      <p class="Textbody">If you do throw an exception, Rhapsody will then deal with that by calling <code><a href="#CustomCommunicationPointwithPollingConnection-cleanup()">cleanup()</a></code> on the connection object, then will destroy the connection, then it will request a new connection instance and finally call <code>initSend()</code> again. It will repeat this until the connection retry limit is met. At that point, it will call <code>cleanup()</code>, and then call the <code>shutdown()</code> method on the CommunicationPoint.&nbsp; After that it will put the CommunicationPoint in a shutdown state. It will appear in Rhapsody IDE with a red exclamation mark against it.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-isInputAvailable()"><code><strong>isInputAvailable()</strong></code></h4>
+      <p class="Standard">only implemented in the polling connection type that implements interface&nbsp;<span style="line-height: 13.0pt;background-color: transparent;"><code>PollingInputConnection</code>.</span></p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-reconnect()"><strong><code>reconnect()</code></strong></h4>
+      <p class="Standard">Reconnects this connection if required. Will be called by the engine if <code>sendMessage(Message)</code> is about to be called and the <code>getState()</code> returns <code>CommunicationPointConnection.State.UNCONNECTED</code>. But it will only be called after a previous call to <code>dropConnection()</code>&nbsp;and only gets called after <code>initSend()</code> and if that <code>initSend()</code> call does not throw an exception.&nbsp;<code style="line-height: 13.0pt;background-color: transparent;">reconnect()</code><span style="line-height: 13.0pt;background-color: transparent;"> differs from <code>initSend</code> in that <code>initSend</code> does not necessarily do a reconnect (unless you implement that behavior).&nbsp;</span></p>
+      <p class="Standard"><span style="line-height: 13.0pt;background-color: transparent;">If <code>reconnect()</code> cannot reconnect, then set the state to ERROR.</span></p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-cleanup().1"><code><strong>cleanup()</strong></code><strong> </strong></h4>
+      <p class="Standard">Called by the engine to clean up just before destroying the connection after the connection has finished being used. If <code><a href="#CustomCommunicationPointwithPollingConnection-initSend()">initSend()</a></code> throws a <code>ConnectionException</code>, this is called before destroying the instance. The engine will then restart the communication point (create a new object instance) and create a new connection instance.&nbsp; Note that <code>finishComms()</code> is called prior to cleanup and is invoked to clean up any blocked reads.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-dropConnection()"><code><strong>dropConnection</strong>()</code></h4>
+      <p class="Standard">The <code>dropConnection()</code> method is called by engine when a connection should be dropped specifically due to idle timeout (that is the time in which no messages sent), or for a communication point stop, or for an engine shutdown.&nbsp;</p>
+      <p class="Contents3">Timeout is something that is configured via Rhapsody IDE and is common to all communication points.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;"><code>dropConnection()</code> will be called on timeout by the engine when</span></p>
+      <ol>
+       <li>The connection is doing output only,</li>
+       <li>an idle time-out is specified and</li>
+       <li>no message has been sent from the connection in that amount of time.</li>
+      </ol>
+      <p class="Contents3"><span>When the timeout is reached, the Rhapsody engine drops this connection if the connection is able to be dropped and then reconnects again.&nbsp;<span>This is useful to handle protocol problem cases (eg when a firewall 'loses' a protocol handshake message, and connections become unusable and have to be restarted). It eliminates the issue of stale connections that cannot be used although they appear to be usable.</span></span></p>
+      <p class="Contents3"><span>&nbsp;</span>The <code>dropConnection()</code> method should disconnect and set the connections state to <code>CommunicationPointConnection.State.UNCONNECTED</code>.</p>
+      <p class="Contents3">Every resource opened in the constructor should be cleaned away by <code>dropConnection()</code>&nbsp;so that when the engine calls <code>dropConnection()</code> prior to destroying a communication point then everything gets cleaned up.</p>
+      <h4 id="CustomCommunicationPointwithPollingConnection-finishSend()">finishSend()</h4>
+      <p class="Standard">Cleans up a connection after sending a number of messages. Called immediately after (one or multiple calls) to <code>sendMessage(Message)</code>. This method can be used to perform some function to clean up the connection after sending the message data. Note that Rhapsody regards a message as sent when the <code>sendMessage(Message)</code> completes successfully so this method may not implement any code vital to the successful sending of the message. It is intended to be used for some routine task that only needs to be done once a connection has finished sending all messages queued for it, but is not critical to the actual sending of the messages. e.g. this could be used to close a session (but not a connection).&nbsp;However, if you want to have short-lived connections (so they are more manageable)then use it to close connections.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-messageProcessed()"><strong><code>messageProcessed()</code></strong></h4>
+      <p class="Standard">Rhapsody engine calls this method to signify that it has finished processing a received message just obtained from <code>receiveMessage()</code>.</p>
+      <h4 class="Standard" id="CustomCommunicationPointwithPollingConnection-getRefreshDelay()"><code><strong>getRefreshDelay()</strong></code></h4>
+      <p class="Standard">Only used when implementing <code>PollingInputConnection</code>. The input thread for a polled communication point loops calling <code>isInputAvailable()</code> and if this returns <code>true</code> it will read and process a message. If no input is available, then it will sleep for the period returned by <code>getRefreshDelay()</code>.</p>
+      <p class="Standard"> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

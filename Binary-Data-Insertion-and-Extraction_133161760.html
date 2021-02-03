@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Binary Data Insertion and Extraction</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Binary Data Insertion and Extraction</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <a href="Database_133162443.html">Database</a>&nbsp;communication point, <a href="Database-Message-Extraction_133163070.html">Database Message Extraction</a> filter&nbsp;and <a href="Database-Lookup-Filter_133161782.html">Database Lookup</a>&nbsp;filter support binary data types insertion and extraction to MS-SQL Server and Oracle database.</p>
+      <h2 id="BinaryDataInsertionandExtraction-BinaryDataTypes">Binary Data Types</h2>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Oracle</p></th>
+          <td class="confluenceTd"><p>Blob, raw<span style="line-height: 13.0pt;">(n), long raw</span></p></td>
+          <td class="confluenceTd"><p><a href="http://msdn.microsoft.com/en-us/library/cydxhzhz(v=vs.80).aspx" class="external-link" rel="nofollow">MSDN Library</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>MSSql</p></th>
+          <td class="confluenceTd"><p>binary(n), varbinary</p></td>
+          <td class="confluenceTd"><p><a href="http://msdn.microsoft.com/en-us/library/ms188362.aspx" class="external-link" rel="nofollow">MSDN Library</a></p></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh"><p>&nbsp;</p></th>
+          <td class="confluenceTd"><p>image</p></td>
+          <td class="confluenceTd"><p><a href="http://msdn.microsoft.com/en-us/library/ms187993.aspx" class="external-link" rel="nofollow">MSDN Library</a></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="BinaryDataInsertionandExtraction-BinaryEncoding">Binary Encoding</h2>
+      <p>The &lt;binaryEncoding&gt; element determines how the Rhapsody database components encode binary values from columns and stored procedure results as strings when required.&nbsp;<span style="line-height: 13.0pt;">Conversion into a string is required if the binary value is:</span></p>
+      <ul>
+       <li>Inserted into a message property.</li>
+       <li>Inserted into a field in the input message.</li>
+       <li>Used to generate an XML message containing results from a number of columns and/or rows.</li>
+      </ul>
+      <p>The conversion does not occur if subsequent SQL queries implicitly or explicitly change the effective column type (for example, by casting the result to another SQL datatype). The conversion only occurs in the scenarios listed above, and then only when the Rhapsody database components know that the data type is a binary type. The&nbsp;<a href="Column-Data-Type-Setting_133161768.html">&lt;columnType&gt;</a>&nbsp;XML element can be explicitly added to the Rhapsody database configuration to assist it to detect a binary type in some cases. In particular, conversion is not required when using the&nbsp;<strong>Message Body Column</strong>&nbsp;configuration parameter for the&nbsp;<a href="Database_133162443.html">Database</a>&nbsp;communication point or&nbsp;<a href="Database-Message-Extraction_133163070.html">Database Message Extraction</a>&nbsp;filter, as in those cases the binary value is directly inserted into the Rhapsody message body without any conversion being required.</p>
+      <p>The binary encoding can be set to either base64 or UTF-8. For compatibility reasons, the encoding defaults to UTF-8 if this element is not included in the database configuration. However, the <a href="Database-Configuration_133161571.html">Database Configuration</a> automatically enables it by default as of Rhapsody 5.5.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;config&gt;
+  &lt;binaryEncoding&gt;base64&lt;/binaryEncoding&gt;
+  &lt;statement&gt;
+    &lt;sql&gt;SELECT ONE,TWO,THREE,FOUR FROM BinaryTest WHERE ID = 2&lt;/sql&gt;
+    &lt;substituteColumn name='ONE'&gt;$one&lt;/substituteColumn&gt;
+    &lt;substituteColumn name='TWO'&gt;$two&lt;/substituteColumn&gt;
+    &lt;substituteColumn name='THREE'&gt;$three&lt;/substituteColumn&gt;
+    &lt;substituteColumn name='FOUR'&gt;$four&lt;/substituteColumn&gt;
+  &lt;/statement&gt;
+&lt;/config&gt;</pre> 
+       </div>
+      </div>
+      <h2 id="BinaryDataInsertionandExtraction-BinaryDataTypeExamples">Binary Data Type Examples</h2>
+      <p>The following examples show how they can be accessed from within Rhapsody.</p>
+      <h3 id="BinaryDataInsertionandExtraction-Example:InserttextdataintobinarydatatypecolumnsofMSSQLdatabase">Example: Insert text data into binary data type columns of MSSQL database</h3>
+      <p>This example uses message properties to insert some text data into binary data type columns in a table.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="Insert"&gt;
+	&lt;sql&gt;INSERT INTO DataTable VALUES ($idTwo, $varBinaryData, 'test', $binaryData, $longvarbinaryData, 'test', 'test')&lt;/sql&gt;
+	&lt;columnType parameter="$binaryData" type="BINARY" ide:description="Binary data" /&gt;
+	&lt;columnType parameter="$varBinaryData" type="VARBINARY" ide:description="varbinary data" /&gt;
+	&lt;columnType parameter="$longvarbinaryData" type="LONGVARBINARY" ide:description="longvarbinary data" /&gt;
+&lt;/statement&gt;</pre> 
+       </div>
+      </div>
+      <ul>
+       <li>The <code>columnType</code> element should be defined to specify the data type of the table column to be inserted.</li>
+      </ul>
+      <h3 id="BinaryDataInsertionandExtraction-Example:InserttextdataintobinarydatatypecolumnsofMSSqldatabaseusingCASTfunction">Example: Insert text data into binary data type columns of MSSql database using CAST function</h3>
+      <p>This example uses <code>CAST</code> function to insert a literal into a binary data type column in a table.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="Insert"&gt;
+    &lt;sql&gt;INSERT INTO DataTable VALUES ($idOne, null, null, CAST('abcde' AS BINARY), null, null, null)&lt;/sql&gt;
+&lt;/statement&gt;</pre> 
+       </div>
+      </div>
+      <ul>
+       <li>The <code>columnType</code> element should not be defined when CAST function is used.</li>
+      </ul>
+      <h3 id="BinaryDataInsertionandExtraction-Example:InsertwholemessagebodyintoblobdatatypecolumnsofOracledatabase"><span style="color: rgb(0,0,0);">Example: Insert whole message body into blob data type columns of Oracle database</span></h3>
+      <p>This example uses the&nbsp;<code>$messageContent</code> property to insert whole message body.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="Insert"&gt;
+    &lt;sql&gt;INSERT INTO FileTable VALUES (600, 'Jane', $messageContent)&lt;/sql&gt;
+    &lt;columnType parameter="$messageContent" type="BLOB" ide:description="Blob data" /&gt;
+&lt;/statement&gt;</pre> 
+       </div>
+      </div>
+      <ul>
+       <li>The '<code>columnType</code> element should be defined to specify the data type of the table column to be inserted. The configuration can be used to store image (jpeg or gif, etc.) or PDF files into the database.</li>
+      </ul>
+      <h3 id="BinaryDataInsertionandExtraction-Example:Createamessagewithbinarydataextractedfromdatabase">Example: Create a message with binary data extracted from database</h3>
+      <p>Database Communication point Database running in input mode can be used to generate a message where it contains binary data extracted from a table.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;config xmlns:ide="http://www.orionhealth.com/Rhapsody/IDE" xmlns:user="http://www.orionhealth.com/Rhapsody/IDE/UserData" ide:version="3.3.0.59809" ide:ideCompatibleVersion="3.0" ide:schemaName="dbo" ide:connectionName="Gate"&gt;
+	&lt;rowsInMessage&gt;1&lt;/rowsInMessage&gt;
+	&lt;statement name="Select"&gt;
+		&lt;sql&gt;SELECT document FROM DocumentTable where title = 'document 4'&lt;/sql&gt;
+	&lt;/statement&gt;
+&lt;/config&gt;</pre> 
+       </div>
+      </div>
+      <ul>
+       <li>The <code>SELECT</code> statement should use a column, of which the data type is binary.</li>
+       <li>The <code>rowsInMessage</code> element should be set to <code>1</code> so that a separate message is generated for each returned row.</li>
+       <li>The <code>Message Body Column</code> configuration property should be set to <code>document</code> (binary data column) so that the message is generated with this column value.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

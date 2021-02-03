@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Amazon SQS</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Amazon SQS</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162408/133162409.bmp" data-image-src="attachments/133162408/133162409.bmp" data-unresolved-comment-count="0" data-linked-resource-id="133162409" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="SQS-32x32.bmp" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/bmp" data-linked-resource-container-id="133162408" data-linked-resource-container-version="3"></span></p>
+      <p>The&nbsp;<strong>Amazon SQS</strong>&nbsp;communication point enables you to connect to an <a href="https://aws.amazon.com/sqs/" class="external-link" rel="nofollow">Amazon Simple Queue&nbsp;Service (Amazon SQS)</a>, a message queuing service.</p>
+      <p>Supported Operational Modes: <em>Input</em>,&nbsp;<em>Output</em>.</p>
+      <h2 id="AmazonSQS-InputModeProperties">Input Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Input Queue URL</p></td>
+          <td class="confluenceTd"><p>The URL of the AWS SQS queue that this communication point will receive messages from.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>AWS Access Key Id</p></td>
+          <td colspan="1" class="confluenceTd"><span>The AWS access key identifier to use to receive messages from the queue. This can be left blank if this is running in EC2 with an IAM role that grants the required permissions.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>AWS Secret Key</p></td>
+          <td colspan="1" class="confluenceTd"><p>The AWS access secret key to use to receive messages from the queue. This can be left blank if this is running in EC2 with an IAM role that grants the required permissions.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Refresh Delay (ms)</p></td>
+          <td colspan="1" class="confluenceTd"><span>The delay, in milliseconds, between each SQS queue polling attempt when the previous attempt found no available messages. If long polling is enabled this is the delay between when the previous polling attempt completes and when the next attempt starts.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>SQS Wait Time (s)</p></td>
+          <td colspan="1" class="confluenceTd"><span>Enables long polling if configured to a non-zero value. If no message is available when long polling is enabled then SQS will hold onto the polling request for up to the specified number of seconds while waiting for a new message to arrive. The maximum allowed value is 20 seconds.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Receive Body As</p></td>
+          <td colspan="1" class="confluenceTd"><p>Determines how the message body is received:</p>
+           <ul>
+            <li><code>String</code> - <span>receive the message body as a UTF-8 encoded string.</span></li>
+            <li><code>Hex Encoded Binary</code> - <span>decode the received message as hex and save it as a binary value.</span></li>
+            <li><code>Base64 Encoded Binary</code> - <span>decode the received message as base64 and save it as a binary value.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">On Body Decode Error</td>
+          <td colspan="1" class="confluenceTd"><p>Determines the action to take if decoding the incoming message body as either hex or base64 fails:</p>
+           <ul>
+            <li><code>Treat as Connection Error</code> - <span>the message will be retried and likely will eventually be sent to the appropriate SQS dead letter queue.</span></li>
+            <li><code>Discard Message</code> - <span>the message is logged and discarded by Rhapsody.</span></li>
+            <li><code>Receive Message</code> - <span>the message is received by Rhapsody but sets a message property </span>called <span style="color: rgb(128,0,0);"><code>sqs:BodyDecodeFailed</code></span> so<span> that it can be handled in the route.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Message Attributes</td>
+          <td colspan="1" class="confluenceTd"><p>Names of SQS message attributes that should be retrieved and stored as message properties in Rhapsody. If present, each of these message attributes is stored as a Rhapsody message property with a name prefixed with <span style="color: rgb(128,0,0);"><code>sqs:attrib:</code></span>. Each message can have up to 10 attributes.</p>
+           <ul>
+            <li><code>Name</code>.</li>
+            <li><code>Value</code>.</li>
+            <li><code>Type: String / Number</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Connection Timeout (ms)</p></td>
+          <td colspan="1" class="confluenceTd"><span>The connection timeout, in milliseconds, to use when attempting to connect to the Amazon SQS queue.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Read Timeout (ms)</p></td>
+          <td colspan="1" class="confluenceTd"><span>The read timeout, in milliseconds, to use when waiting for a response from an Amazon SQS queue.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="AmazonSQS-OutputModeProperties">Output Mode Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Property</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Output Queue URL</p></td>
+          <td colspan="1" class="confluenceTd"><p>The URL of the AWS SQS queue that this communication point will deliver messages to.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>AWS Access Key Id</p></td>
+          <td colspan="1" class="confluenceTd"><p>The AWS access key identifier to use to send messages to the queue. This can be left blank if this is running in EC2 with an IAM role that grants the required permissions.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>AWS Secret Key</p></td>
+          <td colspan="1" class="confluenceTd"><p>The AWS access secret key to use to send messages to the queue. This can be left blank if this is running in EC2 with an IAM role that grants the required permissions.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Send Body As</p><p><br></p></td>
+          <td colspan="1" class="confluenceTd"><p>Determines how the message body is sent:</p>
+           <ul>
+            <li><code>String</code> - <span>load the message body as a string using its current character encoding <span>and transmit it as a string.</span></span></li>
+            <li><code>Hex Encoded Binary</code> - <span>load the message body as a binary blob and transmits it using hex encoding.</span></li>
+            <li><code>Base64 Encoded Binary</code> - <span>load the message body as a binary blob and transmits it using base64 encoding.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>SQS Message Attributes</p></td>
+          <td colspan="1" class="confluenceTd"><p>SQS message attributes can be set on the outgoing message using either literal values, or values retrieved from Rhapsody message properties. Prefix the value with <span style="color: rgb(128,0,0);"><code>$</code></span> to indicate that a message property should be used. Attributes for message properties are only added if the message property is present and has a non-empty value. Each message can have up to 10 attributes.</p>
+           <ul>
+            <li><code>Name</code>.</li>
+            <li><code>Value</code>.</li>
+            <li><code>Type: String / Number</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Connection Timeout (ms)</p></td>
+          <td colspan="1" class="confluenceTd"><p>The connection timeout, in milliseconds, to use when attempting to connect to the Amazon SQS queue.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Read Timeout (ms)</p></td>
+          <td colspan="1" class="confluenceTd">The read timeout, in milliseconds, to use when waiting for a response from an Amazon SQS queue.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Upgrade with Partial Backup</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Installing-or-Upgrading-Rhapsody_133164145.html">Installing or Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Upgrading-Rhapsody_133164179.html">Upgrading Rhapsody</a></span> </li> 
+       <li> <span><a href="Upgrade-Strategies_133164181.html">Upgrade Strategies</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Upgrade with Partial Backup</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span>Upgrading with a partial backup</span>&nbsp;is the recommended upgrade strategy for any environment where retaining the message archive is not critical. It involves a standard upgrade with a backup of the non-message-related sub-directories of the datastore.</p>
+      <p>The main advantage is that the backup size should be a small percentage of the total datastore size because the message-related directories make up the majority of the total size. The main disadvantage, however, is that any messages that are live within Rhapsody (traversing routes, or on any route or communication point queues) would not be recoverable in the event of an upgrade failure.</p>
+      <p>Performing the upgrade during off-peak hours especially helps this strategy because there should not be as many in-flight messages to drain. However, Rhapsody should still be drained of live in-flight messages, as well as any route or communication point queues. The alternative is to have a plan ready to be able to find and resend these in-flight messages in the event of an upgrade failure.</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th colspan="1" class="confluenceTh">Requirements</th>
+          <td colspan="1" class="confluenceTd">
+           <ul>
+            <li>Sufficient disk space for a partial copy of the datastore (excluding message-related directories).</li>
+            <li>Sufficient downtime for:
+             <ul>
+              <li>Rhapsody engine to be drained of messages and/or a plan to be able to find/resend in-flight messages at the time of shutting down Rhapsody.</li>
+              <li>Copy to be performed</li>
+              <li>Upgrade to be performed.</li>
+              <li>Post-upgrade tasks to be completed.</li>
+             </ul></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Upgrade Type</th>
+          <td class="confluenceTd">Standard.</td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Backup Type</th>
+          <td class="confluenceTd">
+           <ul>
+            <li>Inclusion list (sub-directories within the datastore to be copied): <code>backup</code>, <code>charactermap</code>, <code>cleanup</code>, <code>cleanuptrace</code>&nbsp;(optional), <code>config</code>, <code>idgeneration</code>, <code>lib</code>, <code>logs</code> (optional), <code>lookuptables</code>, <code>modules</code>, <code>monitoring</code>, <code>notifications</code>, <code>persistentmapstore</code>, <code>startup</code>, store, <code>statistics</code> (all engine statistics that are viewable in the Management Console), <code>users</code>.</li>
+            <li>Exclusion list (the message-related tables to be&nbsp;<em>excluded</em>&nbsp;from the <span>datastore </span>copy): <code>commpoints</code>, <code>filters</code>, <code>index</code>, <code>messageevents</code>, <code>messagestore</code>, <code>messagetables</code>, <code>queue</code>, <code>tracking</code>, <code>transaction</code>.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <th class="confluenceTh">Rollback</th>
+          <td class="confluenceTd">
+           <ul>
+            <li>Reinstall original version of Rhapsody engine and IDE.</li>
+            <li>Use original wrapper files (to retain memory settings) and log4j file.</li>
+            <li>Point Rhapsody to copied datastore.</li>
+            <li>Initiate message resend plan.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="UpgradewithPartialBackup-BeforeYouBegin">Before You Begin</h2>
+      <p></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>It is strongly recommended that you carry out the upgrade on a test or development server before you upgrade your production server.</p>
+       </div>
+      </div>
+      <p></p>
+      <p>Complete the following tasks before you upgrade Rhapsody:</p>
+      <ul>
+       <li>Check you meet the&nbsp;<a href="System-Requirements_133164187.html" class="external-link" rel="nofollow">System Requirements</a>.</li>
+       <li>Read the&nbsp;<a href="Upgrade-Caveats_133164183.html">upgrade caveats</a>.</li>
+       <li>Obtain the correct licenses before installing Rhapsody.</li>
+       <li>Ensure installation files for the original Rhapsody version are present (in case&nbsp;of failure and a rollback is required).</li>
+       <li>Ensure installation files for new Rhapsody version are present (for the upgrade).</li>
+       <li>If not already done, check the size of sub-directories on the inclusion list. To find the location of the datastore, check the value of the&nbsp;<code>InitialisationService.dataDirectory</code>&nbsp;property in the <code>rhapsody.properties</code> file (located in&nbsp;<code>&lt;Rhapsody installation directory&gt;/rhapsody</code>).</li>
+       <li>If not already done, calculate an estimate of the time to perform the copy. This could be done by performing a copy in a non-production environment and extrapolating the time, or discussing this with your infrastructure team.</li>
+       <li>If you have not already done so, choose the location of the backup&nbsp;datastore.</li>
+       <li>Make copies of your&nbsp;<a href="Upgrade-Strategies_133164181.html#UpgradeStrategies-WrapperFiles">wrapper files</a>,&nbsp;<code><a href="Upgrade-Strategies_133164181.html#UpgradeStrategies-log4jPropertiesFile">log4j.properties</a></code> file <span>and <code><a href="Upgrade-Strategies_133164181.html#UpgradeStrategies-JavaSecurityFile">java.security</a></code> file,&nbsp;</span>and move them to a backup location.</li>
+      </ul>
+      <h2 id="UpgradewithPartialBackup-PreparingforanUpgrade"><span>Preparing for an Upgrade</span></h2>
+      <p>To prepare Rhapsody (the Rhapsody Engine and Rhapsody IDE) for upgrade:</p>
+      <ol>
+       <li>Stop all input communication points.</li>
+       <li>Ensure that all messages on the route have completed processing.</li>
+       <li>After all the messages are processed, stop all the output communication points and routes.</li>
+       <li><p>Stop the Rhapsody engine.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Because of changes to the&nbsp;<a href="Data-Validation-Service_133161269.html" class="external-link" rel="nofollow">Data Validation Service</a>&nbsp;in Rhapsody 6.3, ensure you perform a clean shutdown of the engine (stop all the components before shutting down the engine) before upgrading from versions of Rhapsody before Rhapsody 6.3.</p>
+         </div>
+        </div></li>
+       <li><p>Uninstall the Rhapsody IDE.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Under certain circumstances, side-by-side installations of older and newer versions of Rhapsody IDE are possible. Refer to Rhapsody IDE's <a href="Installing-Rhapsody-IDE_133164335.html">Upgrade Recommendations</a> for details.</p>
+         </div>
+        </div></li>
+       <li>Enable Rhapsody safe-mode so that a successful upgrade can be verified without starting message flow (as these messages would not be recoverable if a rollback must be performed).
+        <ul>
+         <li><p>Set the&nbsp;<strong>StartupService.safeMode</strong>&nbsp;property&nbsp;to&nbsp;<code>true</code>&nbsp;in the&nbsp;<code>rhapsody.properties</code>&nbsp;file&nbsp;and save it.</p></li>
+        </ul></li>
+       <li><p>Perform copy operation of the sub-directories <span>within the </span>datastore on the inclusion list to a separate location.</p></li>
+      </ol>
+      <h2 id="UpgradewithPartialBackup-UpgradingRhapsody">Upgrading Rhapsody</h2>
+      <p></p>
+      <p>To upgrade Rhapsody:</p>
+      <ol>
+       <li>Obtain the Rhapsody installers from <a href="-Support_133163665.html">Rhapsody Support</a>.</li>
+       <li><p>Upgrade the Rhapsody engine using the Rhapsody engine installer:</p>
+        <div class="table-wrap">
+         <table class="wrapped confluenceTable">
+          <thead>
+           <tr>
+            <th class="confluenceTh">
+             <div class="tablesorter-header-inner">
+              <p>Environment</p>
+             </div></th>
+            <th class="confluenceTh">
+             <div class="tablesorter-header-inner">
+              <p>Refer to...</p>
+             </div></th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <td class="confluenceTd"><p><em>Windows®</em></p></td>
+            <td class="confluenceTd"><p><a href="Installing-the--Engine-on-Windows_133164314.html" class="external-link" rel="nofollow">Installing the Rhapsody Engine on&nbsp;<em>Windows®</em> </a></p></td>
+           </tr>
+           <tr>
+            <td class="confluenceTd"><p>*nix</p></td>
+            <td class="confluenceTd"><p><a href="133164332.html" class="external-link" rel="nofollow">Installing the Rhapsody Engine on *nix</a></p></td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+        <div class="confluence-information-macro confluence-information-macro-warning">
+         <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>If you select the Cancel button during the upgrade, you may not be able to start your engine.</p>
+         </div>
+        </div></li>
+       <li><p>Install Rhapsody IDE in a <em>Windows® </em>environment using the Rhapsody IDE installer. Refer to&nbsp;<a href="Installing--IDE_133164335.html" class="external-link" rel="nofollow">Installing Rhapsody IDE</a>&nbsp;for details. Ensure you do not configure the installer to start the engine automatically upon upgrade.</p></li>
+       <li>Manually copy any changes you have made to the new&nbsp;<a href="Upgrade-Strategies_133164181.html">wrapper files</a>&nbsp;and&nbsp;<a href="Upgrade-Strategies_133164181.html">log4j.properties</a>&nbsp;file from your backup copies.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Rhapsody engine and Rhapsody IDE can be upgraded in any order.</p>
+       </div>
+      </div>
+      <p></p>
+      <h2 id="UpgradewithPartialBackup-Post-upgradetasks">Post-upgrade tasks</h2>
+      <h3 id="UpgradewithPartialBackup-VerifyingtheUpgrade"><span style="color: rgb(0,0,0);">Verifying the Upgrade</span></h3>
+      <p></p>
+      <p>To verify the overall success of upgrade:</p>
+      <ol>
+       <li>Start the Rhapsody engine. If using&nbsp;<em>Windows®</em>, ensure the&nbsp;<strong>Rhapsody Service Monitor</strong>&nbsp;icon&nbsp;indicates that the Rhapsody engine is running.</li>
+       <li>Double-click the&nbsp;<strong>Rhapsody Service Monitor</strong>&nbsp;icon, or&nbsp;enter&nbsp;<code>http://&lt;server&gt;:&lt;port&gt;/rhapsody</code>&nbsp;in&nbsp;your browser to access the&nbsp;<a href="Management-Console_133163667.html" class="external-link" rel="nofollow">Management Console</a>.</li>
+       <li>Log on to the Management Console as an administrator. The administrator password remains unchanged after installing the upgrade.</li>
+       <li>Ensure that the version number in the title bar&nbsp;is&nbsp;<code>&lt;majorVersion&gt;.&lt;minorVersion&gt;.&lt;servicePack&gt;.&lt;build&gt;</code>.</li>
+       <li>Start Rhapsody IDE and connect to the Rhapsody engine as an administrator.</li>
+       <li><span>If applicable, register and license your engine. Refer to&nbsp;</span> <a href="Registering-and-Licensing-_133164148.html" class="external-link" rel="nofollow">Registering and Licensing Rhapsody</a> <span>for details.</span></li>
+      </ol>
+      <p></p>
+      <p></p>
+      <p>If the upgrade is:</p>
+      <ul>
+       <li>Successful:&nbsp;
+        <ol>
+         <li>Stop the Rhapsody engine.</li>
+         <li>Disable Rhapsody safe-mode by setting&nbsp;the&nbsp;<code>StartupService.safeMode</code>&nbsp;property&nbsp;to&nbsp;<code>false</code>&nbsp;in&nbsp;the&nbsp;<code>rhapsody.properties</code>&nbsp;file&nbsp;and save it.</li>
+         <li>Restart the Rhapsody engine.</li>
+        </ol></li>
+       <li>Unsuccessful and rollback is necessary, refer to&nbsp;<a href="#UpgradewithPartialBackup-RollingBack">Rolling Back</a>.</li>
+      </ul>
+      <p></p>
+      <h3 id="UpgradewithPartialBackup-Roll-back">Roll-back</h3>
+      <p></p>
+      <p>If a failure occurs during the upgrade, a roll-back will likely be necessary. This roll-back would not require a new license.</p>
+      <p>To perform roll-back to the previous version of Rhapsody:</p>
+      <ol>
+       <li>Uninstall your newly installed engine. Refer to&nbsp;<a href="Uninstalling-_133164360.html" class="external-link" rel="nofollow">Uninstalling Rhapsody</a>&nbsp;for details.</li>
+       <li>Delete the current datastore.</li>
+       <li>Make a copy of the backup&nbsp;datastore&nbsp;and move it back to the&nbsp;<code>data</code>&nbsp;directory.</li>
+       <li>Reinstall the previous version of the engine. Ensure you set the <span>Data Directory Location</span> in the engine installer <span>to the location of the backup&nbsp;</span>datastore.</li>
+       <li><span>Reinstall the previous version of</span> <span>Rhapsody </span>IDE.</li>
+       <li>After re-installation, stop the Rhapsody engine if it is running.</li>
+       <li>Use the original wrapper files and <span> <code>log4j.properties</code> file </span>(and<span> any other files that had customizations&nbsp;</span>as backed up during pre-upgrade steps).</li>
+       <li>Restart the engine.</li>
+      </ol>
+      <p></p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

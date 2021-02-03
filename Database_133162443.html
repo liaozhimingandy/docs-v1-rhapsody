@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Database</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Communication-Points_133162164.html">Communication Points</a></span> </li> 
+       <li> <span><a href="Communication-Point-Types_133162205.html">Communication Point Types</a></span> </li> 
+       <li> <span><a href="Database-Communication-Points_133162442.html">Database Communication Points</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Database</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162443/133162444.jpg" data-image-src="attachments/133162443/133162444.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162444" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image022.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162443" data-linked-resource-container-version="12"></span></p>
+      <p>The <strong>Database</strong> communication point&nbsp;enables information to be accessed from or saved to a database. It allows complex database queries to be arbitrarily executed by Rhapsody to insert, update, or modify an existing database.</p>
+      <p>Supported Operational Modes: <em> <a href="#Database-InputMode">Input</a></em>,&nbsp;<em><a href="#Database-OutputMode">Output</a></em>,&nbsp;<em><a href="#Database-Out->InMode">Out-&gt;In</a> </em>&nbsp;(<em>In-&gt;Out</em>&nbsp;is not supported).</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The Database communication point only supports one connection when in <em>Input </em>mode. Increasing the number of connections through the <strong>Connection</strong> tab of the communication point's <strong>Properties</strong> dialog does not have any effect when using <em>Input</em> mode.</p>
+       </div>
+      </div>
+      <p><span style="color: rgb(0,0,0);font-size: 20.0px;">Configuration Properties</span></p>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>The configuration of a Database communication point is flexible and therefore potentially complex. Refer to:</p>
+        <ul>
+         <li><a href="Database-Configuration_133161571.html">Database Configuration</a> and <a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a> for details on configuring this communication point's interaction with the database.</li>
+         <li><a href="Database-Components-Best-Practice-Guide_133161762.html">Database Components Best Practice Guide</a> for guidance on the usage of database queries.</li>
+        </ul>
+       </div>
+      </div>
+      <p>To create a new Database communication point:</p>
+      <ol>
+       <li>Create the Database communication point connection.</li>
+       <li><p>Configure the message definition to use for messages processed by this communication point, if required.</p>
+        <div class="confluence-information-macro confluence-information-macro-note">
+         <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+         <div class="confluence-information-macro-body">
+          <p>Message definitions cannot be used with input <span>Database</span> communication points. Message definitions are only required for output database communication points if the database configuration needs to extract fields within an incoming message.</p>
+         </div>
+        </div></li>
+       <li>Create the database configuration files used within the Rhapsody Engine from the <a href="Database-Configuration_133161571.html">Database Configuration Editor</a>. To launch the Database Configuration Editor, click the <strong>Create Configuration</strong> link.</li>
+      </ol>
+      <h2 id="Database-InputMode">Input Mode</h2>
+      <p>A database communication point in input mode is used to poll a database table to detect changes. When changes are detected, the communication point generates one or more XML messages based on the SQL queries configured. These messages are passed into the route for processing. Refer to&nbsp;<a href="Properties-for-XML-Message-Generation_133161770.html">Properties for XML Message Generation</a> for details.</p>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>Rhapsody does not take on responsibility for the query results until they are written to a route. It is recommended that you design queries that return a row at a time (or a small number of rows at a time) with an appropriately structured key value. If the input query returns a large number of rows, the query may be impacted by external factors. Ideally, the query to relate to a single message.</p>
+       </div>
+      </div>
+      <p>The input polling options for a Database communication point are set using the <strong>Database Polling Options</strong>&nbsp;dialogue in the Database Configuration Editor. Refer to&nbsp;<a href="Database-Polling_133161729.html">Database Polling</a> for details.</p>
+      <p>Additional options which allow some customization of the generated XML message are also available by setting the <strong style="letter-spacing: 0.0px;">Configuration Options</strong> in the editor.</p>
+      <h3 id="Database-InputModeProperties">Input Mode Properties</h3>
+      <p>The properties for the Database communication point in <em>Input</em>&nbsp;mode are as follows:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p></p>
+            <p>The type of database to connect to:</p>
+            <ul>
+             <li><code>Microsoft SQL Server - Microsoft Driver</code> - the com.microsoft.sqlserver.jdbc.SQLServerDriver <span>is used to enable access.</span></li>
+             <li><code>Microsoft SQL Server - jTDS</code> - the net.sourceforge.jtds.jdbc.Driver&nbsp;<span>is used to enable access.</span> <code><br></code></li>
+             <li><code>Oracle</code> - the oracle.jdbc.OracleDriver is used to enable access.</li>
+             <li><code>MySQL</code> - you must download the MySQL JDBC driver (com.mysql.jdbc.Driver) and attach it to the communication point <span>as an auxiliary file</span>. If you want to use the <a href="https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-overview.html" rel="nofollow" class="external-link" title="Follow link">MySQL Connector/J</a> driver (com.mysql.cj.jdbc.Driver), then you must select <code>Manual Setting</code>.</li>
+             <li><code>Microsoft Access</code> - the sun.jdbc.odbc.JdbcOdbcDriver is used to enable access.</li>
+             <li><code>PostgreSQL</code> - the org.postgresql.Driver is used to enable access.</li>
+             <li><code><span>Manual Setting</span></code><span> - </span><span><span>the JDBC driver and database URL must be included in the configuration file. Refer to </span> <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> <span>for details.</span> </span></li>
+            </ul>
+            <p></p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Host</p></td>
+          <td class="confluenceTd"><p>The hostname/IP address of the database to connect to.</p><p>This property is only available if <strong>Database</strong> is not set to <code><span style="line-height: 13.0pt;">Manual Setting</span></code><span style="line-height: 13.0pt;background-color: transparent;">.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Port</p></td>
+          <td class="confluenceTd"><p>The port number to connect to the database.</p><p><span>This property is only available if</span> <strong>Database</strong><span> is not set to </span><code>Manual Setting</code> <span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database Name</p></td>
+          <td class="confluenceTd"><p>The name of the database. If the database selected is <code>Microsoft Access</code>, the name of the data source should be provided.</p><p><span>This property is only available if</span> <strong>Database</strong><span> is not set to </span><code>Manual Setting</code> <span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The username for database access.</p><p><span>This property is only available if</span> <strong>Database</strong><span> is not set to </span><code>Manual Setting</code> <span>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p>The password for database access.</p><p><span>This property is only available if</span> <strong>Database</strong><span> is not set to </span><code>Manual Setting</code> <span>.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Additional Connection Properties</p></td>
+          <td colspan="1" class="confluenceTd"><p><span>A list of name/value pairs of message properties to be set on the database connection. </span></p><p><span>The listed properties are not used when <strong>Database</strong> is set to <code>Manual Setting</code>.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Configuration File</p></td>
+          <td class="confluenceTd"><p>This is an XML file that controls how the communication point interacts with the database. While the XML can be edited manually, the recommended approach is to use the <a href="Database-Configuration_133161571.html">Database Configuration Editor</a>.</p><p><span style="line-height: 13.0pt;background-color: transparent;">To launch the Database Configuration Editor, click the </span><strong style="line-height: 13.0pt;">Create Configuration</strong> <span style="line-height: 13.0pt;background-color: transparent;">link (if a configuration has not yet been created) or the </span><strong style="line-height: 13.0pt;">Edit Configuration</strong> <span style="line-height: 13.0pt;background-color: transparent;">link (if a configuration exists) in the <strong>Configuration File</strong> field. </span></p><p>Alternatively, to add an existing configuration to a database:</p>
+           <ul>
+            <li>Select the <strong>Browse</strong> button in the Configuration File field to display the <em>Windows</em>® Open dialog.</li>
+            <li><span style="line-height: 13.0pt;background-color: transparent;">Search for and add the configuration file to the communication point.</span></li>
+           </ul><p>To update the configuration file, click the <strong>Edit Configuration</strong> link. The <a href="Database-Configuration_133161571.html">Database Configuration Editor</a> is then displayed, which enables you to edit the configuration file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Query Timeout</p></td>
+          <td class="confluenceTd"><p>Use the query timeout option to specify how long, in seconds, a remote operation can take before the procedure times out. The default value is 0. The timeout should be applied to all SQL/procedure queries in the configuration file.</p><p>It is important to set a suitable timeout to ensure that queries do not block indefinitely as this would manifest as a hang in Rhapsody, which could block either a communication point thread or a route executor thread. Long queries could occur due to one of the following reasons:</p>
+           <ul>
+            <li>Performance issues within the database.</li>
+            <li>Poor database configuration such as lack of indexing.</li>
+            <li>Poor database query design.</li>
+            <li>Locks on database resources by another application or deadlocks within the Database.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Socket Timeout</td>
+          <td colspan="1" class="confluenceTd"><p>Specifies how long, in seconds, the underlying connection should remain open before timing out. The socket timeout prevents Rhapsody from waiting indefinitely for results from a database in the event Rhapsody loses its connection to the database.</p><p>A value of zero indicates the timeout is not configured.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Body Column</p></td>
+          <td class="confluenceTd"><p>Overrides the normal XML message format and uses the specified column as the message body:</p>
+           <ul>
+            <li>If the message body is contained in a single field in the database, enter the name of the database column that contains the message body. Rhapsody will load the value in this column into the message body instead of creating an XML document based on the query. Fields defined in the query file are added to the new message as message properties. If the column specified does not exist, an error is generated. If the configuration returns multiple rows, only the first row is retrieved and used for message properties.</li>
+            <li>If this property is empty, the message body is returned as an XML document constructed from the query result set.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="Database-OutputMode">Output Mode</h2>
+      <p>A database communication point running in <em>Output</em> mode is used to run arbitrary database queries or operations which can be based on data from the incoming message. It is frequently used to insert or update data retrieved from a message.</p>
+      <p>The properties for the Database communication point in <em>Output</em> mode are similar to those for <em>Input</em> mode, with the following differences:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Database</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>The type of database to connect to:</p>
+            <ul>
+             <li><code>Microsoft SQL Server - Microsoft Driver</code> - the com.microsoft.sqlserver.jdbc.SQLServerDriver <span>is used to enable access.</span></li>
+             <li><code>Microsoft SQL Server - jTDS</code> - the net.sourceforge.jtds.jdbc.Driver&nbsp;<span>is used to enable access.</span> <code><br></code></li>
+             <li><code>Oracle</code> - the oracle.jdbc.OracleDriver is used to enable access.</li>
+             <li><code>MySQL</code> - you must download the MySQL JDBC driver (com.mysql.jdbc.Driver) and attach it to the communication point <span>as an auxiliary file</span>. If you want to use the <a href="https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-overview.html" rel="nofollow" class="external-link" title="Follow link">MySQL Connector/J</a> driver (com.mysql.cj.jdbc.Driver), then you must select <code>Manual Setting</code>.</li>
+             <li><code>Microsoft Access</code> - the sun.jdbc.odbc.JdbcOdbcDriver is used to enable access.</li>
+             <li><code>PostgreSQL</code> - the org.postgresql.Driver is used to enable access.</li>
+             <li><code><span>Manual Setting</span></code><span> - </span><span><span>the JDBC driver and database URL must be included in the configuration file. Refer to </span> <a href="Main-Database-Configuration_133161776.html">Database Drivers and URLs</a> <span>for details.</span> </span></li>
+            </ul>
+           </div></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Host</p></td>
+          <td colspan="1" class="confluenceTd"><p>The hostname/IP address of the database to connect to.</p><p>This property is only available if <strong>Database</strong> is not set to <code><span>Manual Setting</span></code><span>.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Port</p></td>
+          <td colspan="1" class="confluenceTd"><p>The port number to connect to the database.</p><p>This property is only available if <strong>Database</strong> is not set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Database Name</p></td>
+          <td colspan="1" class="confluenceTd"><p>The name of the database. If the database selected is <code>Microsoft Access</code>, the name of the data source should be provided.</p><p>This property is only available if the <strong>Database</strong> is not set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Username</p></td>
+          <td colspan="1" class="confluenceTd"><p>The username for database access.</p><p>This property is only available if <strong>Database</strong> is not set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Password</p></td>
+          <td colspan="1" class="confluenceTd"><p>The password for database access.</p><p>This property is only available if <strong>Database</strong> is not set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p>Additional connection properties</p></td>
+          <td colspan="1" class="confluenceTd"><p>A list of name/value pairs of message properties to be set on the database connection.</p><p>The listed properties are not used when <strong>Database</strong> is set to <code>Manual Setting</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Configuration File</p></td>
+          <td class="confluenceTd"><p>An XML file that controls how the communication point interacts with the database. While the XML can be edited manually, the recommended approach is to use the <a href="Database-Configuration_133161571.html">Database Configuration Editor</a>.</p><p>To launch the Database Configuration Editor, click the <strong>Create Configuration</strong> link (if a configuration has not yet been created) or the <strong>Edit Configuration</strong> link (if a configuration exists) in the Configuration File field.</p><p>Alternatively, to add an existing configuration to a database:</p>
+           <ul>
+            <li>Select the <strong>Browse</strong> button in the Configuration File field to display the <em>Windows</em>® Open dialog.</li>
+            <li><span style="line-height: 13.0pt;background-color: transparent;">Search for and add the configuration file to the communication point.</span></li>
+           </ul><p>To update the configuration file, click the <strong>Edit Configuration</strong> link. The <a href="Database-Configuration_133161571.html">Database Configuration Editor</a> is then displayed, which enables you to edit the configuration file.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Query Timeout</p></td>
+          <td class="confluenceTd"><p>Used to specify how long, in seconds, a remote operation can take before the procedure times out. The default value is 0. The timeout should be applied to all SQL/procedure queries in the configuration file.</p><p>It is important to set a suitable timeout to ensure that queries do not block indefinitely as this would manifest as a hang in Rhapsody, which could block either a communication point thread or a route executor thread. Long queries could occur due to one of the following:</p>
+           <ul>
+            <li>Performance issues within the database.</li>
+            <li>Poor database configuration such as lack of indexing.</li>
+            <li>Poor database query design.</li>
+            <li>Locks on database resources by another application or deadlocks within the Database.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Socket Timeout</td>
+          <td colspan="1" class="confluenceTd"><p>Specifies how long, in seconds, the underlying connection should remain open before timing out. The socket timeout prevents Rhapsody from waiting indefinitely for results from a database in the event Rhapsody loses its connection to the database.</p><p><span>A value of zero indicates the timeout is not configured.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Message Type</p></td>
+          <td class="confluenceTd"><p>Identifies the output message type when no definition is specified:</p>
+           <ul>
+            <li><code>Plain Text</code> (default) - the communication point should not try to parse the message at all.</li>
+            <li><code>XML</code> - the communication point should try parsing the incoming message using standard XML (and allow XPaths to access the fields).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition</p></td>
+          <td class="confluenceTd"><p>Identifies the message definition used to parse a message. The Database communication point can be configured to build SQL queries based on values retrieved from a message. If this is done, a message definition is required so the message can be parsed.</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">Message Errors</span></td>
+          <td colspan="1" class="confluenceTd"><p>Enables the Database communication point to treat message errors as connection errors:</p>
+           <ul>
+            <li><span><code>Treat as Message Error</code> (default) - message errors are treated as message errors, resulting in <span>the message being&nbsp;re-routed via the&nbsp;communication point's&nbsp;error output connector, or if the error output connector is not connected to other components, to the Error Queue</span>.</span></li>
+            <li><span><code>Treat as Connection Error</code> - message errors are treated as if they were connection errors. As a result, the communication point connection retries and retries per message functionality is used to determine the consequent action, as per the settings in&nbsp;<strong>Connection Retries</strong>&nbsp;of the&nbsp;<strong>Connection</strong>&nbsp;tab of the communication point's properties.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Treat Deadlock as Connection Error</p></td>
+          <td class="confluenceTd"><p><span>Determines</span> whether a database deadlock is treated as a connection error or as a message error.</p>
+           <ul>
+            <li><span>Enabled</span> (default) - a deadlock is treated as a connection error, the retry mechanism is invoked and the message is resent.</li>
+            <li><span>Disabled</span> - a deadlock is treated as a message error and results in the message being sent to the error connector of the communication point <span>(if connected)</span> or the <span>Error Queue</span>.</li>
+           </ul><p><span>This property is disabled </span><span><span>if </span><strong>Message Errors</strong><span> is set to </span><code>Treat As Connection Error</code><span>.</span> </span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Treat Query Timeout as Connection Error</p></td>
+          <td class="confluenceTd"><p>Determines whether a query timeout is treated as a connection error or as a message error.</p>
+           <ul>
+            <li><span>Enabled</span> (default) - a <span>query timeout</span> is treated as a connection error, the retry mechanism is invoked and the message is resent.</li>
+            <li><span>Disabled</span> - a <span>query timeout</span> is treated as a message error and results in the message being&nbsp;sent to the error connector of the communication point <span>(if connected)</span> or the Error Queue.</li>
+           </ul><p><span>This property is disabled </span><span>if <strong>Message Errors</strong> is set to <code>Treat As Connection Error</code>.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="Database-Out->InMode"><span style="color: rgb(0,0,0);">Out-&gt;In Mode</span></h2>
+      <p>The Database communication point in <em>Out-&gt;In</em> mode functions in a similar way to <em>Output</em> mode, except the message is returned to the communication point once all queries have completed. When in this mode, the Database communication point operates in a similar manner to the <a href="Database-Lookup_133163067.html">Database Lookup</a> filter. However, it is preferable to use the Database communication point if you are changing the database.</p>
+      <p>The properties for the Database communication point in <em>Out-&gt;In</em> mode are a combination of those described above. Refer to <a href="General_133162189.html#General-mixedmodeproperties">Out-&gt;In Properties</a> for general details on a communication point's <em>Out-&gt;In</em> modes.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

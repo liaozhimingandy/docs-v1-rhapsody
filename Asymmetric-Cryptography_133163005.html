@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Asymmetric Cryptography</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Asymmetric Cryptography</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163005/133163006.jpg" data-image-src="attachments/133163005/133163006.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163006" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image018.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163005" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>Asymmetric Cryptography</strong> filter&nbsp;encrypts or decrypts messages using an asymmetric (public / private key) cryptography algorithm. The encryption operation generates a PKCS #7 Enveloped Message with a public key contained in the Certificate (also called Digital ID). This should be obtained from a trusted Certificating Authority (CA) such as Thawte or Verisign. The decryption operation is the inverse of the encryption operation where the corresponding private key is used to open the envelope.</p>
+      <p>Asymmetric keys are listed on the <strong>Symmetric Key</strong> tab of the <strong>Certificate Manager</strong> screen and can be managed using the Certificate Manager.</p>
+      <h2 id="AsymmetricCryptography-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Encrypt or Decrypt</p></td>
+          <td class="confluenceTd"><p>Identifies whether a file processed by this filter is to be encrypted or decrypted. Encrypt mode generates a PKCS #7 enveloped message:</p>
+           <ul>
+            <li><code>Encrypt</code><span> (d<span>efault).</span></span></li>
+            <li><code>Decrypt</code><span>. </span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Recipients Certificates</p></td>
+          <td class="confluenceTd"><p>The certificate to use for the encryption/decryption. Click the <strong>...</strong> Browse button to display the list of certificates held in the Rhapsody certificate store. Manage this list using the <strong>Certificate Manager</strong>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Private Key</p></td>
+          <td class="confluenceTd"><p>The Private Key is used to decrypt the PKCS #7 enveloped message which must be associated with the Certificate. Click the <strong>...</strong> Browse button to display the list of private keys held in the Rhapsody certificate store. Manage this list using the <strong>Certificate Manager</strong>.</p><p><span>Only available if </span><strong>Encrypt or Decrypt</strong><span> is set to <code>Decrypt</code>. </span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Content Cipher</p></td>
+          <td class="confluenceTd"><p>The name of the symmetric cipher and the block mode to use to encrypt the content of the message. Available algorithms are:</p>
+           <ul>
+            <li><code>CAST5-CBC</code></li>
+            <li><code>DES-EDE3-CBC</code></li>
+            <li><code>IDEA-CBC</code></li>
+            <li><code>RC2-CBC</code></li>
+           </ul><p>Only available if <strong>Encrypt or Decrypt</strong> is set to <span><code>Encrypt</code>.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="AsymmetricCryptography-CryptographyBackground">Cryptography Background</h2>
+      <p>Cryptography is the art of combining an input message (the plain text) with a user-specified password to generate an encrypted output (the cipher text) in such a way that, given the cipher text, it is extremely difficult to recover the original plain text without knowing the encryption password. The algorithms that combine the password and plain text are called ciphers.</p>
+      <p>Many ciphers accept a fixed length password (also called a key). The currently secure key length for encryption ranges from 128 to 256 bits, with most modern algorithms using keys of at least 128 bits. A message encrypted with such a key is impregnable.</p>
+      <p>In certain countries there is now legislation which governs the level of encryption required for data protection. For example, companies involved in financial services or health care are often required to guarantee that they protect data with 128-bit encryption.</p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

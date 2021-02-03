@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using a User-defined Certificate for the HTTPS Mode</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Accessing-the-Management-Console_133163988.html">Accessing the Management Console</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using a User-defined Certificate for the HTTPS Mode</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The <code>rhapsody.properties</code> file contains a number of options that can be configured to customize the certificate used for HTTPS.</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property Name</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+          <th class="confluenceTh"><p>Default Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>WebMonitoringService.ssl.keystore</code></p></td>
+          <td class="confluenceTd"><p>The name of the keystore file that contains the private key that should be used. This can either be an absolute path, or a path relative to the <code>&lt;RhapsodyInstallDirectory&gt;\Rhapsody</code> directory.</p></td>
+          <td class="confluenceTd"><p><code>monitoring.keystore</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>WebMonitoringService.http.enabled</code></p></td>
+          <td class="confluenceTd"><p><span>Whether</span> HTTP is enabled.</p>
+           <div class="confluence-information-macro confluence-information-macro-warning">
+            <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+            <div class="confluence-information-macro-body">
+             <p><span>Standard HTTP is not secure and therefore should not be used in most cases. It is subject to various forms of attacks, including but not limited to eavesdropping, man-in-the-middle and replay attacks, which will compromise the security of the connection. Therefore, it is recommended that you access the Management Console solely using HTTPS, and you do not enable <span>standard HTTP.</span></span></p>
+            </div>
+           </div></td>
+          <td class="confluenceTd"><p><code>false</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>WebMonitoringService.http.port</code></p></td>
+          <td class="confluenceTd"><p>The HTTP port that the Rhapsody service is hosted on.</p></td>
+          <td class="confluenceTd"><p><code>8081</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>WebMonitoringService.https.enabled</code></p></td>
+          <td class="confluenceTd"><p>Whether HTTPS is enabled.</p></td>
+          <td class="confluenceTd"><p><code>true</code> (if the keystore file can be found).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>WebMonitoringService.https.port</code></p></td>
+          <td class="confluenceTd"><p>The HTTPS port that the Rhapsody service is hosted on.</p></td>
+          <td class="confluenceTd"><p><code>8444</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>WebMonitoringService.ssl.password</code></p></td>
+          <td class="confluenceTd"><p>The password for the keystore containing the private key that should be used.</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>WebMonitoringService.ssl.keypassword</code></p></td>
+          <td class="confluenceTd"><p>The password for the key within the keystore that should be used.</p></td>
+          <td class="confluenceTd"><p>&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>WebMonitoringService.ssl.protocol</code></p></td>
+          <td class="confluenceTd"><p>The protocol to use: SSL or TLS, or specific versions thereof.</p></td>
+          <td class="confluenceTd"><p><code>TLS</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>WebMonitoringService.ssl.keystoretype</code></p></td>
+          <td class="confluenceTd"><p>The type of keystore that is being used. These are described in more detail in the documentation for the Java keytool application, but the main ones that are relevant here are JKS (the Java keystore type) and PKCS12 (a <code>.pfx</code> file).</p></td>
+          <td class="confluenceTd"><p><code>JKS</code></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>WebMonitoringService.ssl.enabledProtocols</code></p></td>
+          <td colspan="1" class="confluenceTd">This can be set to a whitespace or comma separated list of the SSL protocols that should be enabled for the Management Console. Valid SSL protocols include SSLv2Hello (not available on AIX), TLSv1, TLSv1.1, and TLSv1.2.</td>
+          <td colspan="1" class="confluenceTd">If this property is not set, it defaults to just enabling the TLSv1 protocol.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>WebMonitoringService.ssl.enabledCiphers</code></p></td>
+          <td colspan="1" class="confluenceTd">This can be set to a whitespace or comma separated list of the SSL cipher suites that should be enabled for the Management Console.</td>
+          <td colspan="1" class="confluenceTd">This defaults to enabling the AES-128, AES-256 and TripleDES-168 cipher suites. A full list of the default enabled cipher suites can be seen in the default <code>rhapsody.properties</code> file.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>For example, to use a custom private key, place it in the <code>&lt;RhapsodyInstallDirectory&gt;\Rhapsody</code> directory, then add or replace the following lines in the <code>rhapsody.properties</code> file:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">WebMonitoringService.ssl.keystore=&lt;Filename&gt;.pfx
+WebMonitoringService.ssl.password=&lt;password&gt;
+WebMonitoringService.ssl.keypassword=&lt;password&gt;
+WebMonitoringService.ssl.keystoretype=PKCS12</pre> 
+       </div>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>In addition to providing the ability to using a PFX file directly, Rhapsody enables you to import the PFX files into a Java keystore using the Java&nbsp;<a href="https://docs.oracle.com/javase/8/docs/technotes/tools/windows/keytool.html" class="external-link" rel="nofollow">Key and Certificate Management Tool</a>&nbsp;(keytool)&nbsp;application. Unlike PFX files which only contain a single private key (meaning the store password and key password are the same), Java keystore files can hold multiple key types</p>
+       </div>
+      </div>
+      <h2 id="UsingaUser-definedCertificatefortheHTTPSMode-RelatedTopics">Related Topics</h2>
+      <ul>
+       <li><a href="Framework-Settings_133161157.html">Remote Monitoring API Framework Settings</a></li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

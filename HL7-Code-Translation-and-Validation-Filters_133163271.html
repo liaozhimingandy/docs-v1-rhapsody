@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>HL7 Code Translation and Validation Filters</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="HL7-Filters_133163076.html">HL7 Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">HL7 Code Translation and Validation Filters</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The HL7 External Code Translation and Validation filters are used to translate and validate the contents of pre-configured coded fields. The fields to be validated must be configured and must be of the Coded Element (CE) HL7 data type (or compatible format).</p>
+      <p>Refer to:<strong><br></strong></p>
+      <p></p>
+      <ul class="childpages-macro">
+       <li><a href="Configuration-of-Coded-Fields_133163272.html">Configuration of Coded Fields</a></li>
+       <li><a href="HL7-External-Code-Translation_133163280.html">HL7 External Code Translation</a></li>
+       <li><a href="HL7-External-Code-Validation_133163277.html">HL7 External Code Validation</a></li>
+      </ul>
+      <p></p>
+      <h2 id="HL7CodeTranslationandValidationFilters-Performance">Performance</h2>
+      <p>As the Code Validation and Translation filters use the database to look up coded fields, this can become a bottleneck in a route. The filter employs two strategies to increase performance.</p>
+      <h3 id="HL7CodeTranslationandValidationFilters-ConnectionPooling">Connection Pooling</h3>
+      <p>Connection pooling allows the filter to hold multiple connections to the database at the same time. The connections the filter has are kept until the filter is stopped. Therefore caution should be used when allocating the pool sizes, as if it is too large, other applications or filters may not be able to connect to the database.</p>
+      <p>The recommended size is between two and five, but it should be tested to find the optimal size for the configuration in use.</p>
+      <h3 id="HL7CodeTranslationandValidationFilters-Caching">Caching</h3>
+      <p>Caching stores the coding systems that have been previously looked up. This makes subsequent lookups faster. Two parameters control the performance of a cache:</p>
+      <ul>
+       <li><code>Age limit</code> - describes how long an item remains usable in the cache, this allows changes in the database to propagate to the cache. If the cache has a high age limit, changes in the database will take a long time to appear in the filter. If the cache has a low age limit, unnecessary database lookups will be performed. Use an age limit that gives an acceptable update time for the application.</li>
+       <li><code>Size of the cache</code> - the number of identifiers/coding systems that will be stored in the cache. If a large value is used, more memory is required by Rhapsody. If the value is too small the benefit is lost as the identifiers/coding systems will be replaced before they are used.</li>
+      </ul>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

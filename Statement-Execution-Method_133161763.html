@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Statement Execution Method</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Database-Configuration_133161571.html">Database Configuration</a></span> </li> 
+       <li> <span><a href="Database-Component-Configuration-Reference_133161758.html">Database Component Configuration Reference</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Statement Execution Method</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Specifying the method attribute on statement elements allows you to control how SQL statements and stored procedures are executed.</p>
+      <p>By default, Rhapsody calls execute() to execute SQL statements and stored procedures. You may set this variable to one of the following values:</p>
+      <ul>
+       <li><code>execute</code></li>
+       <li><code>executeUpdate</code></li>
+       <li><code>executeQuery</code></li>
+      </ul>
+      <p>For example:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&lt;statement name="main" method="executeQuery"&gt;</pre> 
+       </div>
+      </div>
+      <ul>
+       <li>The <code>execute</code> method can be used for both query (results returned) and update (no results returned) SQL statements and is by far the most used method in the statement element.</li>
+       <li>The <code>executeUpdate</code> method is used for the SQL statements that don't return results; for example, <code>INSERT</code> or <code>UPDATE</code> statements.</li>
+       <li>The <code>executeQuery</code> method is used for SQL statements that return results; for example, <code>SELECT</code> statements. It differs from the <code>execute</code> method because it returns the <code>ResultSet</code> object containing the query results.</li>
+      </ul>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>As the <code>execute()</code> method works for most cases, it is unnecessary to specify the execution method unless there is an error in the JDBC driver that you use. One known issue is that the Sprinta driver (<code>com.inet.tds.TdsDriver</code>) fails to return a <code>ResultSet</code> object for a stored procedure when the <code>execute()</code> method is used. If you have found a similar issue, please report it to <a href="http://supporttracker.orionhealth.com" class="external-link" rel="nofollow">Rhapsody Support</a>.</p>
+       </div>
+      </div>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

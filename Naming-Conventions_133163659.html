@@ -1,0 +1,442 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Naming Conventions</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Naming Conventions</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="color: rgb(51,51,51);">Rhapsody recommends you use a naming convention that facilitates the implementation of configurations that are essentially self-documenting, and enables components to&nbsp;be labeled in a&nbsp;manner which is clear and indicative of purpose. This allows for the grouping of components and simplifies searches across components in Rhapsody applications, thereby streamlining the development and monitoring processes.&nbsp;</span></p>
+      <p>Naming&nbsp;communication points and filters by including information such as their type and purpose is especially important when the components are viewed in the Management Console where they are not distinguishable by&nbsp;icon&nbsp;(unlike in Rhapsody IDE, which provides unique icons for every Rhapsody object and component type).</p>
+      <p><span style="color: rgb(51,51,51);">Furthermore, c</span>onsistent naming simplifies maintenance by both internal and external personnel as it reduces the time needed to understand the purpose of a configuration.</p>
+      <p>The following recommendations provide a&nbsp;starting point for developing your own Rhapsody naming conventions:</p>
+      <p><span style="color: rgb(51,51,51);"><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146938694 {padding: 0px;}
+div.rbtoc1565146938694 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146938694 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></span></p>
+      <div class="toc-macro rbtoc1565146938694"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#NamingConventions-GeneralConsiderations">General Considerations</a></li> 
+        <li><a href="#NamingConventions-NamingFormat">Naming Format</a></li> 
+        <li><a href="#NamingConventions-Lockers">Lockers</a></li> 
+        <li><a href="#NamingConventions-Folders">Folders</a></li> 
+        <li><a href="#NamingConventions-Routes">Routes</a></li> 
+        <li><a href="#NamingConventions-CommunicationPoints">Communication Points</a></li> 
+        <li><a href="#NamingConventions-Filters">Filters</a></li> 
+        <li><a href="#NamingConventions-Conditional/JavaScriptConnectors">Conditional / JavaScript Connectors</a></li> 
+        <li><a href="#NamingConventions-MessageDefinitions">Message Definitions</a></li> 
+        <li><a href="#NamingConventions-MessageProperties">Message Properties</a></li> 
+        <li><a href="#NamingConventions-RhapsodyVariables">Rhapsody Variables</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="NamingConventions-GeneralConsiderations"><span style="color: rgb(51,51,51);">General Considerations</span></h2>
+      <h3 id="NamingConventions-SpecialCharactersinNames"><span style="color: rgb(51,51,51);">Special Characters in Names</span></h3>
+      <p><span style="color: rgb(51,51,51);">Components may require medium length strings of multiple tokens (including prefixes and suffixes) to indicate use and purpose as described below. Generally, it is recommended to separate these by either the space character or the underscore character. The underscore is suitable for shorter token sequences. For longer sequences, particularly when naming items that appear within the&nbsp;Route Editor canvas (such as communication points and filters), the use of the space character is recommended.</span></p>
+      <ul>
+       <li><span style="color: rgb(51,51,51);">Use of the underscore in component names tends to stretch the component name horizontally and can make efficient use of layout in the&nbsp;Route Editor canvas difficult.</span></li>
+       <li><span style="color: rgb(51,51,51);">Use of underscores in filenames such as Message Definition and Mapper files has no impact on layout within Rhapsody IDE.</span></li>
+       <li><span style="color: rgb(51,51,51);">You cannot use the following characters:&nbsp;<code>{}[]&lt;&gt;:; $\/?"|</code>.</span></li>
+      </ul>
+      <h3 id="NamingConventions-LongNames"><span style="color: rgb(51,51,51);">Long Names</span></h3>
+      <ul>
+       <li><span style="color: rgb(51,51,51);">Avoid component names which would wrap to more than three or four lines in the Route Editor canvas.</span></li>
+       <li><span style="color: rgb(51,51,51);">Avoid&nbsp;route names which are long, or nesting folders too deeply as this makes it difficult to see the entire component name without the need to scroll within the Rhapsody IDE Workspace.</span></li>
+      </ul>
+      <h2 id="NamingConventions-NamingFormat"><span style="color: rgb(51,51,51);">Naming Format</span></h2>
+      <p><span style="color: rgb(51,51,51);">Format:<strong><em> prefix_body_suffix</em></strong></span></p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Element</span></th>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Description</span></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(51,51,51);"><em>prefix_</em></span></td>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">The prefix typically indicates the type of Rhapsody objects, particularly components (for&nbsp;example,<strong>&nbsp;</strong><code>tcp_</code>&nbsp;for TCP communication points). The Management Console uses the same icon for all filters and communication&nbsp;points,&nbsp;and does not indicate their&nbsp;component type in every instance.</span></p><p><span style="color: rgb(51,51,51);">The convention for component type prefixes should be outlined and discussed together with the users who are responsible for the day-to-day maintenance of the system. They may need to make alterations or additions to maintain a good naming standard.</span></p>
+           <ul>
+            <li><span style="color: rgb(51,51,51);"><code>CP.</code> - communication point.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>RT.</code> - route.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>WS.</code> - web service.</span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(51,51,51);"><em>body</em></span></td>
+          <td class="confluenceTd"><span style="color: rgb(51,51,51);">The body usually describes the function of the Rhapsody object.</span></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);"><em>_suffix</em></span></td>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);">The suffix provides supplementary information if required.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="NamingConventions-Lockers"><span style="color: rgb(51,51,51);">Lockers</span></h2>
+      <p><span style="color: rgb(51,51,51);"><em>Format: <strong>function</strong></em></span></p>
+      <p>&nbsp;</p>
+      <p><span style="color: rgb(51,51,51);">Examples:</span></p>
+      <ul>
+       <li><span style="color: rgb(51,51,51);"><code>Core</code></span></li>
+       <li style="color: rgb(0,0,0);"><span style="color: rgb(51,51,51);"><code>Complex Conductor Services</code></span></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Element</span></th>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Description</span></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);"><em>function</em></span></p></td>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">Lockers are named based on the requirement for the locker (for example to segregate by the role of the interfaces within the&nbsp;</span>locker,<span style="color: rgb(51,51,51);">&nbsp;or the separation requirement such as a multi-agency tenancy which would have a folder per tenant).</span></p>
+           <ul>
+            <li><span style="color: rgb(51,51,51);">&lt;Cluster&gt;</span></li>
+            <li><span style="color: rgb(51,51,51);">&lt;Tenant&gt;</span></li>
+            <li><span style="color: rgb(51,51,51);">&lt;Folder type&gt;</span></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="NamingConventions-Folders"><span style="color: rgb(51,51,51);">Folders</span></h2>
+      <p><span style="color: rgb(51,51,51);">Format: <strong>##<em>_type</em></strong></span></p>
+      <p>&nbsp;</p>
+      <p><span style="color: rgb(51,51,51);">Examples:</span></p>
+      <ul>
+       <li><span style="color: rgb(51,51,51);"><code>webPAS</code></span></li>
+       <li style="color: rgb(0,0,0);"><span style="color: rgb(51,51,51);"><code>01_Get National Identifiers</code></span></li>
+       <li style="color: rgb(0,0,0);"><span style="color: rgb(51,51,51);"><code>02_Prepare MyHR Upload</code></span></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Element</span></th>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Description</span></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">##_</span></p></td>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">An optional prefix that indicates the sequence number representing the different stages of processing.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);"><em>type</em></span></td>
+          <td colspan="1" class="confluenceTd"><p><span style="color: rgb(51,51,51);">Folders could be named according to one of the following conventions:</span></p>
+           <ul>
+            <li><span style="color: rgb(51,51,51);">The primary source or destination systems they integrate with.</span></li>
+            <li><span style="color: rgb(51,51,51);">The primary function the routes perform.</span></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="NamingConventions-Routes"><span style="color: rgb(51,51,51);">Routes</span></h2>
+      <p><span style="color: rgb(51,51,51);">Format: <strong>RT.##_<em>body</em>_<em>state</em></strong></span></p>
+      <p><span style="color: rgb(51,51,51);">Examples:</span></p>
+      <ul>
+       <li><span style="color: rgb(51,51,51);"><code>RT.01_Input ADT from PAS </code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>RT.02_Transform to CMM</code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>RT.03_EMPI SBR Update&nbsp;<em><br class="_mce_tagged_br"></em></code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>RT.01_ADT Validation_P</code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>RT.01_EMPI SBR_OR</code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>RT.03_PAS ADT to LIS_OUT</code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>RT.03_Terminology_IN</code></span></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Element</span></th>
+          <th colspan="2" class="confluenceTh"><span style="color: rgb(51,51,51);">Description</span></th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><span style="color: rgb(51,51,51);">##_<br></span></p></td>
+          <td colspan="2" class="confluenceTd"><p><span style="color: rgb(51,51,51);">An optional prefix that indicates the two-digit sequence ID of the route. When configurations break a complex processing sequence across several route stages, including the sequence ID in the route name may assist in understanding the processing flow.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);"><em>function</em></span></td>
+          <td colspan="2" class="confluenceTd"><p><span style="color: rgb(51,51,51);">For the body make it clear what the purpose of the component is.</span></p></td>
+         </tr>
+         <tr>
+          <td rowspan="4" class="confluenceTd"><span style="color: rgb(51,51,51);"><em>_state</em></span></td>
+          <td colspan="2" rowspan="4" class="confluenceTd"><p><span style="color: rgb(51,51,51);">An optional suffix that indicates the state of route:</span></p>
+           <ul>
+            <li><span style="color: rgb(51,51,51);"><code>_P</code> - processing.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>_OR</code> - orchestration.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>_OUT</code> - outbound.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>_IN</code> - inbound.</span></li>
+           </ul><p><span style="color: rgb(51,51,51);">All direction specifications should be Rhapsody-centric; that is, inbound means Rhapsody is receiving the message while outbound means Rhapsody is sending the message.</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="NamingConventions-CommunicationPoints"><span style="color: rgb(51,51,51);">Communication Points</span></h2>
+      <p><span style="color: rgb(51,51,51);">Format: <strong>CP.<em>type</em>_<em>function</em>_<em>mode</em></strong></span></p>
+      <p><span style="color: rgb(51,51,51);">Examples:</span></p>
+      <ul>
+       <li><span style="color: rgb(51,51,51);"><code>CP.tcp_PAS_I</code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>CP.email_Abnormal_O</code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>CP.ws_Register Doc_IO</code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>CP.ws_Terminology_OI</code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>CP.email_Ascribe_E</code></span></li>
+       <li><span style="color: rgb(51,51,51);"><code>CP.dir_Reportable_BI</code></span></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Element</span></th>
+          <th class="confluenceTh"><span style="color: rgb(51,51,51);">Description</span></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><span style="color: rgb(51,51,51);">CP.<em>type_</em></span></td>
+          <td class="confluenceTd"><p><span style="color: rgb(51,51,51);">A prefix that identifies the type of communication point, for example:</span></p>
+           <ul>
+            <li><span style="color: rgb(51,51,51);"><code>CP.db_</code> - Database <span>communication</span> point.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>CP.dir_</code> - DIrectory communication point.</span></li>
+            <li><span style="color: rgb(51,51,51);"><code>CP.email_</code> - Email Client <span>communication</span><span> point.</span></span></li>
+            <li><span style="color: rgb(51,51,51);"><code>CP.tcp_</code> - a TCP<span>&nbsp;</span><span>communication</span><span> point.</span></span></li>
+            <li><span style="color: rgb(51,51,51);"><code>CP.ws_</code> - a web services <span>communication</span><span> point.</span></span></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><span style="color: rgb(51,51,51);"><em>function</em></span></td>
+          <td colspan="1" class="confluenceTd"><p><span style="color: rgb(51,51,51);">A body that describes the system and its purpose, for example</span>:&nbsp;<span style="color: rgb(51,51,51);"><code>tcp_PAS_ADT</code>.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><em>_mode</em></td>
+          <td colspan="1" class="confluenceTd"><p><span>A suffix that identifies the flow of messages (correlates with a communication point's mode):</span></p>
+           <ul>
+            <li><code>_I</code> - In.</li>
+            <li><code>_O</code><span>&nbsp;- </span>Out.</li>
+            <li><code>_IO</code><span>&nbsp;- </span>In-&gt;Out.</li>
+            <li><code>_OI</code><span>&nbsp;- </span>Out-&gt;In.</li>
+            <li><code>_BI</code><span>&nbsp;- </span>Bi-directional.</li>
+            <li><code>_E</code><span>&nbsp;- </span>Error out.</li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="NamingConventions-Filters">Filters</h2>
+      <p>Format:<strong><em> type</em>_<em>function_route</em></strong></p>
+      <p>Example:</p>
+      <ul>
+       <li><code>js_Process CDA Referral</code></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span style="color: rgb(0,0,0);">Element</span></th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><em>type_</em></td>
+          <td colspan="1" class="confluenceTd"><p>A prefix identifies the type of filter, for example:</p>
+           <ul>
+            <li><code>js_</code> - JavaScript filter.</li>
+            <li><code>nop_</code> - No-operation filter.</li>
+            <li><code>map_</code> - Mapper filter.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><em>function</em></td>
+          <td colspan="1" class="confluenceTd">A body that describes the function of the filter.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><em>_route</em></td>
+          <td colspan="1" class="confluenceTd"><p>An optional suffix used for No-operation filters used as bookends to connect routes:</p>
+           <ul>
+            <li><code>_FROM_precedingRoute</code> - the input No-operation filter with their preceding route names.</li>
+            <li><code>_TO_nextRoute</code> - the output <span>No-operation filter</span>&nbsp;with the name of the next route.</li>
+           </ul><p>For example:</p>
+           <ul>
+            <li><code>nop_TO_RT PAS to G2</code></li>
+            <li><code>nop_TO_RT PAS to G2</code></li>
+           </ul></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="NamingConventions-FilterTests"><span style="color: rgb(0,0,0);">Filter Tests</span></h3>
+      <p>Filter tests and test&nbsp;messages that are used during filter testing should be saved with a meaningful name and a&nbsp;concise&nbsp;description of the test. This enables users carrying out peer review to use saved test messages for the review and testing of specific use cases.</p>
+      <p>Examples:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Name</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>Patient ID Found</span></code></td>
+          <td class="confluenceTd"><code><span>When the Patient ID Property is extracted and set from the database</span></code></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code><span>Patient ID Not Found</span></code></td>
+          <td class="confluenceTd"><code><span>When the Patient ID Property is not set from the database</span></code></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="NamingConventions-Conditional/JavaScriptConnectors"><span style="color: rgb(0,0,0);">Conditional / JavaScript Connectors</span></h2>
+      <p>Format:<strong><em> condition</em></strong></p>
+      <p>Examples:</p>
+      <ul>
+       <li><code>is&nbsp;Referral&nbsp;Message</code></li>
+       <li><code>is Required Msg Type</code></li>
+       <li><code>is Error Condition ADT Only</code></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Element</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><em>condition</em>&nbsp;</td>
+          <td class="confluenceTd"><p>Conditional connectors should be named succinctly to indicate their purpose. For unnamed conditional connectors, their actual condition is displayed in truncated form on the connection.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="NamingConventions-MessageDefinitions"><span style="color: rgb(0,0,0);">Message Definitions</span></h2>
+      <h3 id="NamingConventions-MappingDefinitionFiles"><span style="color: rgb(0,0,0);"><span>Mapping Definition Files</span></span></h3>
+      <p><span style="color: rgb(0,0,0);"><span>Format:<em><em>&nbsp;</em><strong>source</strong></em><strong>_to_<em>target</em>.mdf</strong></span></span></p>
+      <p>Example:</p>
+      <ul>
+       <li><code>Cerner_ADT_HL7v23_to_CareFusion_ADT_HL7v22.mdf</code></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span style="color: rgb(0,0,0);">Element</span></th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><em>source</em></p></td>
+          <td class="confluenceTd"><span><span>A prefix that indicates the source and source format</span> </span>being mapped from.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><em>target</em></td>
+          <td colspan="1" class="confluenceTd">A suffix that indicates the target and target format being mapped to.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="NamingConventions-EDIDefinitions"><span>EDI Definitions</span></h3>
+      <p><span style="color: rgb(0,0,0);">Format:</span><em><span style="color: rgb(0,0,0);"><em>&nbsp;</em><strong>system_HL7Version_messageTypes</strong></span></em><strong><span style="color: rgb(0,0,0);">.s3d</span></strong></p>
+      <p>Examples:</p>
+      <ul>
+       <li><code>ACTPAS_PatientMerge_HL72.3.1_ADT040.s3d</code></li>
+       <li><code>Cerner_HL7v23_ADT.s3d</code></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span>Element</span></th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><em>system_</em></td>
+          <td colspan="1" class="confluenceTd"><p class="_mce_tagged_br">A prefix that indicates the source or target system.</p><p class="_mce_tagged_br">&nbsp;</p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><em>HL7Version</em></td>
+          <td colspan="1" class="confluenceTd">A body that indications the HL7 version the definition defines.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><em>_messageTypes</em></td>
+          <td colspan="1" class="confluenceTd"><span>A suffix that indicates </span>the message types the definition defines.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="NamingConventions-MessageProperties">Message Properties</h2>
+      <p>Format:<em>&nbsp;<strong>valueType</strong></em></p>
+      <p>Examples:</p>
+      <ul>
+       <li><code><span>sourceFacilityCode</span></code></li>
+       <li><code><span>patientRegDB_patientID</span></code></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><span style="color: rgb(0,0,0);">Element</span></th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><em>valueType</em></td>
+          <td class="confluenceTd">Solution properties and Transient properties (only relevant to the set of route stages that populate and use the property) should be named appropriately to indicate the value it stores. In some cases, properties populated during route processing may require a prefix to aid in identifying their purpose and the solution that delivered them. This is especially true of properties that are populated by a publishing route and passed to any subscribers who require them for downstream processing (typically these properties should be managed within the configuration documentation to support easy identification and use by new subscribers).</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="NamingConventions-RhapsodyVariables">Rhapsody Variables</h2>
+      <p>Format:<em><em>&nbsp;</em><strong>externalSystem_componentType_function</strong></em></p>
+      <p>Examples:</p>
+      <ul>
+       <li><code>ACTPAS_WS_UserID</code></li>
+       <li><code>SMT_OutputDocType</code></li>
+       <li><code>CDR_DB_Password</code></li>
+       <li><code>RIS_TCP_Port</code></li>
+      </ul>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Element</th>
+          <th class="confluenceTh"><span style="color: rgb(0,0,0);">Description</span></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><em>externalSystem_</em></td>
+          <td class="confluenceTd"><p>An optional prefix that indicates&nbsp;the external&nbsp;system the variable is related to<span>. </span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><em>componentType</em></td>
+          <td class="confluenceTd"><p>An optional body which indicates the communication point or filter type that the Rhapsody variable is being used to configure, for example:</p>
+           <ul>
+            <li><code>TCP</code> - TCP.</li>
+            <li><code>DB</code> - database.</li>
+            <li><code>WS</code> - web service.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><em>_function</em></td>
+          <td colspan="1" class="confluenceTd">A suffix that indicates what the variable is used as a substitute for (for example a component's configuration property).</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

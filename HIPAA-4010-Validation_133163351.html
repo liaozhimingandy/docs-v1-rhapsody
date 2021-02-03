@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>HIPAA 4010 Validation</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="X12-Filters_133163343.html">X12 Filters</a></span> </li> 
+       <li> <span><a href="HIPAA-4010-Filters_133163344.html">HIPAA 4010 Filters</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">HIPAA 4010 Validation</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133163351/133163352.jpg" data-image-src="attachments/133163351/133163352.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133163352" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="image107.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133163351" data-linked-resource-container-version="2"></span></p>
+      <p>The <strong>HIPAA 4010 Validation</strong> filter&nbsp;is used to check for validity of HIPAA messages.</p>
+      <p>The filter automatically generates a TA1 acknowledgment message with the option of including the 997 information. The filter includes the option to return the original HIPAA message, the acknowledgment, or both regardless of whether the validation fails or succeeds. It is also possible to return separate messages containing only valid transactions or invalid transactions contained in the original message. Additionally, users can return an XML document with full error information that can be viewed as an HTML file with a provided XSLT stylesheet.</p>
+      <h2 id="HIPAA4010Validation-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Maximum Concurrency</p></td>
+          <td class="confluenceTd"><p>The maximum level of concurrency for this filter. A setting of <code>0</code> (zero) means unlimited. Limiting the level of concurrency limits memory usage. Refer to <a href="133163384.html#Configuration(Filters)-MaximumConcurrency">Maximum Concurrency</a> for details.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Version of Validation</p></td>
+          <td class="confluenceTd"><p>Options: <code>Version 4010A</code>, <code>Version 4010</code>, <code>Custom</code>. Default: <code>Version 4010A</code> <br> Identifies the version of HIPAA standard that valid messages conform to. If <code>Custom</code>, the definition specified in the <strong>Definition S3D (or PCF) File</strong> property will be used to validate messages.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Allowed Transactions</p></td>
+          <td class="confluenceTd"><p>The list that specifies identifiers for the valid transactions. Any transactions that are not in the list will be considered invalid. <br> This property only makes sense if the <strong>Version of Validation</strong> field is set to <code>Version 4010A</code> or <code>Version 4010</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition S3D (or PCF) File</p></td>
+          <td class="confluenceTd"><p>An S3D or a PCF definition that is used to validate messages. This property is only available and also required if the <strong>Version of Validation</strong> field is set to <code>Custom</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Validate</p></td>
+          <td class="confluenceTd"><p>Options: <code>Entire Message</code>, <code>Envelope Only</code>. Default: <code>Envelope Only</code> <br> Type of validation. If <code>Envelope Only</code> is selected, then the filter will validate just the interchange envelope of a HIPAA message, not the transactions contained in the message. Otherwise the whole message is validated.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Level of validation checking</p></td>
+          <td class="confluenceTd"><p>Options: <code>Symphonia Engine Errors Only</code>, <code>Level 1-2</code>, <code>Level 1-3</code>, <code>Level 1-4</code>, <code>Level 1-5</code>. Default: <code>Level 1-4</code> <br> Identifies the level of strictness for the HIPAA validation with <code>Symphonia Engine Errors Only</code> as the least strict level and <code>Level 1-5</code> as the strictest. <br> For an explanation of validation levels, please consult the HIPAA specifications.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Return Type on Pass</p></td>
+          <td class="confluenceTd"><p>This option specifies what message(s) comes out of the filter if the original message passes the validation process. The options are:</p>
+           <ul>
+            <li><code>Original</code> - the input message.</li>
+            <li><code>Functional Acknowledgment (997)</code> - 997 acknowledgment produced as a result of the input message validation.</li>
+            <li><code>Interchange Acknowledgment (TA1)</code> - TA1 acknowledgment produced as a result of the validation of the input message's envelope.</li>
+            <li><code>XML</code> - XML report of validation of the input message.</li>
+            <li><code>Both Original and Functional Acknowledgment (997)</code> - both 1 and 2 as separate messages.</li>
+            <li><code>Valid Transactions, Invalid Transactions and Functional Acknowledgment (997)</code> - three separate messages come out of the filter, one containing only the valid transactions contained in the original message, another containing only the invalid transactions contained in the original message, and finally the 997 functional acknowledgment for the input message.<br class="atl-forced-newline">Since the filter can return more than one message there needs to be a way to distinguish between the messages containing transactions and the acknowledgments. To this effect the filter sets the following properties on the output messages:
+             <ul>
+              <li><code>ACK</code> - Values: <code>True</code>, <code>False</code>. If <code>True</code>, the message is a functional acknowledgment. Otherwise it is a message that contains transactions of the input message.</li>
+              <li><code>VALID</code> - Values: <code>True</code>, <code>False</code>. If <code>True</code>, the message contains only valid transactions. If <code>False</code>, the message either contains only invalid transactions (if option 6 is used) or it is the original message (if option 5 is used).</li>
+             </ul></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>On Validation Error</p></td>
+          <td class="confluenceTd"><p>Options: <code>Continue Processing</code>, <code>Send to Error Node</code>. Default: <code>Send to Error Node</code>.<br> This option specifies where to route the output message(s) if the validation of the input message fails. If <code>Send to Error Node</code> is set, then the output message(s) is sent to the error connector for the filter. Otherwise, the output message(s) is sent to the normal output of the filter.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Return Type on Fail</p></td>
+          <td class="confluenceTd"><p>This option specifies what message(s) comes out of the filter if the original message fails the validation process. The options are:</p>
+           <ul>
+            <li><code>Original</code> - the input message.</li>
+            <li><code>Functional Acknowledgment (997)</code> - 997 acknowledgment produced as a result of the input message validation.</li>
+            <li><code>Interchange Acknowledgment (TA1)</code> - TA1 acknowledgment produced as a result of the validation of the input message's envelope.</li>
+            <li><code>XML</code> - XML report of validation of the input message.</li>
+            <li><code>Both Original and Functional Acknowledgment (997)</code> - both 1 and 2 as separate messages.</li>
+            <li><code>Valid Transactions, Invalid Transactions and Functional Acknowledgment (997)</code> - three separate messages come out of the filter, one containing only the valid transactions contained in the original message, another containing only the invalid transactions contained in the original message, and finally the 997 functional acknowledgment for the input message.<br>Since the filter can return more than one message there needs to be a way to distinguish between the messages containing transactions and the acknowledgments. To this effect the filter sets the following properties on the output messages:
+             <ul>
+              <li><code>ACK</code> - Values: <code>True</code>, <code>False</code>. If set to <code>True</code> then the message is a functional acknowledgment. Otherwise it is a message that contains transactions of the input message.</li>
+              <li><code>VALID</code> - Values: <code>True</code>, <code>False</code>. If set to <code>True</code> then the message contains only valid transactions. If set to False then the message either contains only invalid transactions (if option 6 is used) or it is the original message (if option 5 is used).</li>
+             </ul></li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Number of Valid Transactions</p></td>
+          <td class="confluenceTd"><p>Name of the property that holds the number of valid input transactions. The filter creates a property with this name on the output message(s) and assigns the number of valid transactions contained in the input message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Number of Invalid Transactions</p></td>
+          <td class="confluenceTd"><p>Name of the property that holds the number of invalid input transactions. The filter creates a property with this name on the output message(s) and assigns the number of invalid transactions contained in the input message.</p><p>The information on the number of invalid transactions can be useful during re-batching; refer to the <a href="HIPAA-4010-Rebatcher_133163357.html">HIPAA 4010 Rebatcher</a> for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

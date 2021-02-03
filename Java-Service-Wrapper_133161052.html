@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Java Service Wrapper</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Administering-Rhapsody_133160982.html">Administering Rhapsody</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Java Service Wrapper</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>The Java Service Wrapper manages the startup and shutdown processes for the JVM, and provides logging. It also provides automatic restarts if the Rhapsody JVM fails. The Java Service Wrapper configuration files:</p>
+      <ul>
+       <li><code>wrapper.conf</code></li>
+       <li><code>wrapper-local.conf</code></li>
+       <li><code>wrapper-platform.conf</code></li>
+       <li><code>wrapper-license.conf</code></li>
+      </ul>
+      <p>These files are located in the <code>&lt;RhapsodyInstallDirectory&gt;\Rhapsody\bin</code> directory.</p>
+      <h2 id="JavaServiceWrapper-wrapper.conf">wrapper.conf</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This file is <em>not</em> site-editable.</p>
+       </div>
+      </div>
+      <h3 id="JavaServiceWrapper-UsefulConfigurationParameters"><strong>Useful Configuration Parameters</strong></h3>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Parameter</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+          <th class="confluenceTh"><p>Default Value</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>wrapper.request_thread_dump_on_failed_jvm_exit</code></p></td>
+          <td class="confluenceTd"><p>Gets a thread dump when the JVM fails.</p></td>
+          <td class="confluenceTd"><p><code>true</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>wrapper.logfile</code></p></td>
+          <td class="confluenceTd"><p>The log file to use for wrapper output logging.</p></td>
+          <td class="confluenceTd"><p><code>logs/wrapper.log</code></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p><code>wrapper.logfile.maxfiles</code></p></td>
+          <td class="confluenceTd"><p>The maximum number of rolled log files that will be allowed before the old files are deleted. A value of <code>0</code> implies that there is no limit.</p></td>
+          <td class="confluenceTd"><p><code>10</code></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="JavaServiceWrapper-wrapper-local.conf">wrapper-local.conf</h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This file is site-editable.</p>
+       </div>
+      </div>
+      <p>The <code>wrapper-local.conf</code> file contains configuration information for the local machine. Any properties you set in this file will override the properties in the <code>wrapper.conf</code> and <code>wrapper-platform.conf</code> files. Uncomment the properties that you require or that you want to change.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">################################################################################
+## $service.name.display$ Java Service Wrapper Configuration
+## Local site config, site editable
+## Can override any properties in wrapper.conf or wrapper-platform.conf
+################################################################################
+
+# Uncomment the following to debug the wrapper.
+#wrapper.debug=TRUE
+
+# Log level for console output. (See docs for log levels).
+#wrapper.console.loglevel=INFO
+
+# Log level for log file output. (See docs for log levels).
+#wrapper.logfile.loglevel=INFO
+
+# Initial Java heap size (in MB)
+wrapper.java.initmemory=$jvm.initial$
+
+# Maximum Java heap size (in MB)
+wrapper.java.maxmemory=$jvm.preferred$
+
+#********************************************************************
+# GC Options (sequence range 100-199)
+#********************************************************************
+
+# Conventional GC Options
+wrapper.java.additional.100=-XX:MaxMetaspaceSize=1024m
+wrapper.java.additional.101=-XX:MetaspaceSize=256m
+
+# Change the default Derby statement cache setting. 
+wrapper.java.additional.102=-Dderby.language.statementCacheSize=500
+
+# Parallel GC Options
+
+# Concurrent GC Options
+
+# Garbage First (G1) GC Options
+
+#********************************************************************
+# Other VM Options (sequence range 200-)
+#********************************************************************
+# Derby statement cache
+wrapper.java.additional.200=-Dderby.language.statementCacheSize=500
+ 
+# Metaspace Compress Class Space size (in MB)
+wrapper.java.additional.201=-XX:CompressedClassSpaceSize=512m</pre> 
+       </div>
+      </div>
+      <h2 id="JavaServiceWrapper-wrapper-platform.conf"><span style="color: rgb(0,0,0);">wrapper-platform.conf</span></h2>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>This file is <em>not</em> site-editable.</p>
+       </div>
+      </div>
+      <p>The <code>wrapper-platform.conf</code> file contains configuration information for the operating system or platform.</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: text; gutter: false; theme: Confluence" data-theme="Confluence">################################################################################
+## Rhapsody 6.4.0 Java Service Wrapper Configuration
+## Platform specific config
+##
+## Note: This file is *NOT* site editable
+################################################################################
+
+#********************************************************************
+# VM specific Options (sequence range 50-99)
+#********************************************************************
+
+wrapper.java.additional.50=-Djavax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom=com.sun.org.apache.xpath.internal.jaxp.XPathFactoryImpl
+wrapper.java.additional.51=-Djavax.xml.transform.TransformerFactory=com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl
+wrapper.java.additional.52=-XX:+UseG1GC
+wrapper.java.additional.53=-Dorg.osgi.framework.os.name=Win32</pre> 
+       </div>
+      </div>
+      <h2 id="JavaServiceWrapper-wrapper-license.conf"><span style="color: rgb(0,0,0);">wrapper-license.conf</span></h2>
+      <p>The <code>wrapper-license.conf</code> file contains the license for the Java Service Wrapper.</p>
+      <p> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

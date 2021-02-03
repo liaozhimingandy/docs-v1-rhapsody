@@ -1,0 +1,435 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Managing Mapping Project Tests</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Intelligent-Mapper_133161894.html">Intelligent Mapper</a></span> </li> 
+       <li> <span><a href="Mapping-Project-Editor_133161904.html">Mapping Project Editor</a></span> </li> 
+       <li> <span><a href="Testing-Mapping-Projects_133161938.html">Testing Mapping Projects</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Managing Mapping Project Tests</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span style="color: rgb(51,51,51);font-size: 14.0px;">You can test your mapping project by adding individual tests manually, or importing a group of tests based on analyzing input and output sample messages through the <strong>Intelligent Mapper Testing</strong> dialog:</span></p>
+      <p><span style="color: rgb(51,51,51);font-size: 14.0px;"> <style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146995607 {padding: 0px;}
+div.rbtoc1565146995607 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146995607 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></span></p>
+      <div class="toc-macro rbtoc1565146995607"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#ManagingMappingProjectTests-ViewingMappingProjectTests">Viewing Mapping Project Tests</a></li> 
+        <li><a href="#ManagingMappingProjectTests-AddingMappingProjectTests">Adding&nbsp;Mapping Project Tests</a></li> 
+        <li><a href="#ManagingMappingProjectTests-ModifyingaMappingProjectTest">Modifying a&nbsp;Mapping Project Test</a></li> 
+        <li><a href="#ManagingMappingProjectTests-DeletingMappingProjectTests">Deleting Mapping Project Tests</a></li> 
+       </ul> 
+      </div> 
+      <p></p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161939/133161952.png" data-image-src="attachments/133161939/133161952.png" data-unresolved-comment-count="0" data-linked-resource-id="133161952" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="IntelligentMapperTesting.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span></p>
+      <p>The&nbsp;<strong>Intelligent Mapper Testing</strong>&nbsp;dialog provides the following information:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Field</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">The user-defined name of the test.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Description</td>
+          <td class="confluenceTd">The user-defined description of the test.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Result</td>
+          <td colspan="1" class="confluenceTd"><p>The cumulative test result for the test:</p>
+           <ul>
+            <li>None (blank field) - the test has not yet been run.</li>
+            <li><code>Passed</code>&nbsp;- the test has been executed, and all expected output messages match their corresponding actual output messages.</li>
+            <li><code>Failed</code>&nbsp;- the test has been executed, and at least one expected output message does not match its corresponding actual output message.</li>
+            <li><code>Executed</code>&nbsp;- the test has been executed, but not validated. The test has run, with no&nbsp;<a href="Reviewing-Filter-Test-Results_133162686.html#ReviewingFilterTestResults-FilterTestingErrors">fatal errors</a>&nbsp;occurring.</li>
+            <li><code>Error</code>&nbsp;-&nbsp;<a href="Reviewing-Filter-Test-Results_133162686.html#ReviewingFilterTestResults-FilterTestingErrors">fatal errors</a>&nbsp;have occurred while running the test.</li>
+            <li><code>Skipped</code>&nbsp;- the test has been skipped, usually because no input messages have been selected when&nbsp;in testing in collection mode.</li>
+           </ul><p>You can open the <strong>Intelligent Mapper Test Results</strong> dialog by clicking on the result. Refer to <a href="Reviewing-Mapping-Project-Test-Results_133161953.html">Reviewing Mapping Project Test Results</a> for details.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can perform the following actions from the&nbsp;<strong>Intelligent Mapper</strong> <strong>&nbsp;Testing</strong>&nbsp;dialog:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingMappingProjectTests-AddingaTest">Add Test</a></td>
+          <td class="confluenceTd">Enables you to add a new individual test.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingMappingProjectTests-ModifyingaTest">Edit Test</a></td>
+          <td class="confluenceTd">Enables you to edit a test.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingMappingProjectTests-DeletingTests">Remove Test</a></td>
+          <td colspan="1" class="confluenceTd">Enables you to delete selected tests.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingMappingProjectTests-AddingaTest">Add Tests</a></td>
+          <td colspan="1" class="confluenceTd">Enables you add tests automatically via the <strong>Import Test Messages </strong>dialog.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingMappingProjectTests-RunningTests">Run Test</a></td>
+          <td colspan="1" class="confluenceTd">Enables you to run a test you have selected.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><a href="#ManagingMappingProjectTests-RunningTests">Run Checked Tests</a></td>
+          <td colspan="1" class="confluenceTd"><p>Enables you to r<span>un all tests you have checked.</span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Select All</td>
+          <td colspan="1" class="confluenceTd">Selects all tests by checking their checkboxes.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Deselect All</td>
+          <td colspan="1" class="confluenceTd">Deselects all tests by unchecking their checkboxes.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Timeout</td>
+          <td colspan="1" class="confluenceTd">Enables you to set the maximum time in seconds allowed for running the tests.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Logging Level</td>
+          <td colspan="1" class="confluenceTd">Enables you to set the level of logging events to capture.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="confluence-information-macro confluence-information-macro-information">
+       <span class="aui-icon aui-icon-small aui-iconfont-info confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>When you modify tests<span>, the associated route is automatically checked out.</span></p>
+       </div>
+      </div>
+      <h2 id="ManagingMappingProjectTests-ViewingMappingProjectTests">Viewing Mapping Project Tests</h2>
+      <p>To view tests added to a mapping project:</p>
+      <ol>
+       <li>On the <strong>Mapping Project Manager</strong>, select the mapping project you want to test. The&nbsp;<strong>Mapping Project Editor </strong>for the mapping project is displayed.</li>
+       <li>On the&nbsp;<strong>Mapping Project Editor</strong>, select the&nbsp;<strong>Manage Tests</strong>&nbsp;button to display the&nbsp;<strong>Intelligent Mapping Testing&nbsp;</strong>dialog.</li>
+      </ol>
+      <div class="confluence-information-macro confluence-information-macro-note">
+       <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p>If mapping project testing is not supported by your engine, or if you do not have the 'Run Intelligent Mapper tests' access right, then the <strong>Manage Tests</strong> button is disabled.</p>
+       </div>
+      </div>
+      <h2 id="ManagingMappingProjectTests-AddingMappingProjectTests"><span style="color: rgb(0,0,0);font-size: 20.0px;">Adding&nbsp;</span>Mapping Project Tests</h2>
+      <p>You can add tests to a mapping project:</p>
+      <ul>
+       <li>Automatically, by performing a mapping analysis on source (input) and target (output) messages and importing the matched message pairs as test messages in individual tests. Refer to&nbsp;<a href="#ManagingMappingProjectTests-ImportingTestMessages">Importing Test Messages</a> for details.</li>
+       <li>Manually, by adding tests with matched message pairs as test messages. Refer to&nbsp;<a href="#ManagingMappingProjectTests-AddingTestsManually">Adding Tests Manually</a> for details.</li>
+      </ul>
+      <h3 id="ManagingMappingProjectTests-ImportingTestMessages">Importing Test Messages</h3>
+      <p>To add tests automatically to the mapping project by&nbsp;importing matched messages as individual tests:</p>
+      <ol>
+       <li><p>On the&nbsp;<strong>Intelligent Mapping Testing&nbsp;</strong>dialog,&nbsp;the Select the&nbsp;<strong>Add Tests</strong>&nbsp;button to display the&nbsp;<strong>Import Test Messages</strong>&nbsp;dialog:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161939/133161942.png" data-image-src="attachments/133161939/133161942.png" data-unresolved-comment-count="0" data-linked-resource-id="133161942" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ImportTestMessageA.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span></p></li>
+       <li>Select the directories containing the input and output messages.</li>
+       <li>Enter the source and target fields to match the messages on.</li>
+       <li>Select the&nbsp;<strong>Pair Messages</strong>&nbsp;button.</li>
+       <li><p>The analysis results are displayed in the&nbsp;<strong>Matched Messages</strong>&nbsp;panel:</p><p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161939/133161951.png" data-image-src="attachments/133161939/133161951.png" data-unresolved-comment-count="0" data-linked-resource-id="133161951" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ImportTestMessages.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span></p></li>
+       <li>Select the&nbsp;<strong>OK</strong>&nbsp;button to import the messages as individual tests, or the&nbsp;<strong>Cancel</strong>&nbsp;button to abort.</li>
+      </ol>
+      <h3 id="ManagingMappingProjectTests-AddingTestsManually">Adding Tests Manually</h3>
+      <p>To add tests manually to the mapping project individually one at a time:</p>
+      <ol>
+       <li><p><span>On the&nbsp;</span> <strong>Intelligent Mapper Testing</strong> <span>&nbsp;dialog, select the&nbsp;</span> <strong>Add Test</strong> <span>&nbsp;button to display the<strong>&nbsp;Test Editor</strong>&nbsp;dialog:</span></p><p><span> <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161939/133161946.png" data-image-src="attachments/133161939/133161946.png" data-unresolved-comment-count="0" data-linked-resource-id="133161946" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="TestEditorInput.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span> </span></p></li>
+       <li><p><span>Enter a&nbsp;<strong>Name</strong>&nbsp;and&nbsp;<strong>Description</strong>&nbsp;for the test.&nbsp;</span></p></li>
+       <li><span>In the&nbsp;<strong>Input Messages</strong>&nbsp;tab, s</span><span>elect the test mode for input message in&nbsp;<strong>Mode</strong>:</span>
+        <ol>
+         <li>If you need to use a single input test message, select&nbsp;<code>Single Message</code>. Refer to&nbsp;<a href="#ManagingMappingProjectTests-InputMessages%20-%20SingleMessageTestMode">Input Message - Single Message Test Mode</a>&nbsp;on how to&nbsp;add a single input test message.</li>
+         <li>If you need to use multiple input test messages, select&nbsp;<code>Message Collection</code>. Refer to&nbsp;<a href="#ManagingMappingProjectTests-InputMessage-MessageCollectionTestMode">Input Messages - Message Collection Test Mode</a>&nbsp;on how to&nbsp;add multiple input test messages.</li>
+        </ol></li>
+       <li><span>In the&nbsp;</span> <strong>Expected Output Messages</strong> <span>&nbsp;tab,&nbsp;</span> <span>s</span><span>elect the expected output message mode:</span> <br>
+        <ol>
+         <li>If you expect a single output message, select&nbsp;<code>Single Message</code>.&nbsp;Refer to&nbsp;<a href="#ManagingMappingProjectTests-ExpectedOutputMessages-SingleMessageMode">Expected Output Message - Single Message Mode</a>&nbsp;on how to add a single expected output message.</li>
+         <li>If you expect multiple output messages, select&nbsp;<code>Message Collection</code>.&nbsp;Refer to&nbsp;<a href="#ManagingMappingProjectTests-ExpectedOutputMessages-MessageCollectionMode">Expected Output Messages - Message Collection Mode</a>&nbsp;on how to&nbsp;add multiple expected output messages.</li>
+        </ol></li>
+       <li><span>Select the&nbsp;</span><strong>OK</strong> <span>&nbsp;button to add the test to&nbsp;</span>the<span>&nbsp;<strong>Intelligent Mapping</strong> </span><strong>Testing</strong> <span>dialog, or the</span>&nbsp;<strong>Cancel</strong><span>&nbsp;button to abort.</span></li>
+      </ol>
+      <p><span>Alternatively, you can copy-paste an existing test to a filter from&nbsp;<em>any</em>&nbsp;mapping project or filter by using the right-click menu.<br> </span></p>
+      <h3 id="ManagingMappingProjectTests-InputMessages-SingleMessageTestMode">Input Messages -&nbsp;Single Message Test Mode</h3>
+      <p>In single message test mode, the&nbsp;<strong>Input Messages</strong>&nbsp;tab appears&nbsp;as follows:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161939/133161947.png" data-image-src="attachments/133161939/133161947.png" data-unresolved-comment-count="0" data-linked-resource-id="133161947" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="InputMessage.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span></p>
+      <p>To add a single test message, enter the following information in the&nbsp;<strong>Input Messages</strong>&nbsp;tab:</p>
+      <ol>
+       <li>Add message properties.</li>
+       <li><span>Select the&nbsp;</span> <strong>Mode</strong> <strong>&nbsp;</strong> <span>for your test message (you can switch between the two modes at any time):</span> <br>
+        <ul>
+         <li><code>Show Whitespace</code>&nbsp;mode uses Java escape characters to represent non-printable characters.</li>
+         <li><code>Raw Hex</code>&nbsp;mode lets you directly edit the hexadecimal characters that make up the binary message.</li>
+        </ul></li>
+       <li>Select the&nbsp;<strong>Encoding&nbsp;</strong>for your test message (<code>Unknown/Not Set</code>&nbsp;means no encoding is stamped on the message when it is processed by the mapping code&nbsp;for testing).</li>
+       <li>Add your message using one of the following methods:<br>
+        <ul>
+         <li>Enter the message manually. Ensure you&nbsp;add&nbsp;<code>\r\n</code>&nbsp;(or&nbsp;<code>\r</code>&nbsp;or&nbsp;<code>\n</code>) to the end of every segment in the message.</li>
+         <li>Click&nbsp;the&nbsp;<strong>Load Message</strong>&nbsp;link to load a message from a file.</li>
+        </ul></li>
+       <li>Select the&nbsp;<strong>OK</strong>&nbsp;button to save your changes, or the&nbsp;<strong>Cancel</strong>&nbsp;button to abort.</li>
+      </ol>
+      <h3 id="ManagingMappingProjectTests-InputMessage-MessageCollectionTestMode">Input Message - Message Collection Test Mode</h3>
+      <p>In message collection test mode, the&nbsp;<strong>Input Messages</strong>&nbsp;tab appears&nbsp;as follows:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161939/133161948.png" data-image-src="attachments/133161939/133161948.png" data-unresolved-comment-count="0" data-linked-resource-id="133161948" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="InputMessageMessageCollection.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span></p>
+      <p>The&nbsp;<strong>Input Messages</strong>&nbsp;tab provides the following information for each input test message:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">&nbsp;Field</th>
+          <th class="confluenceTh">Description&nbsp;</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Name</td>
+          <td class="confluenceTd">The user-defined name for the test message.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Definition</td>
+          <td class="confluenceTd">The message definition used by the test message.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Description</td>
+          <td class="confluenceTd">The user-defined description of the test message.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p>You can perform the following actions from the&nbsp;<strong>Input Messages</strong>&nbsp;tab:</p>
+      <div class="table-wrap">
+       <table class="confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Action</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingMappingProjectTests-EditingorAddingInputMessages">Add</a></td>
+          <td class="confluenceTd"><p>Enables you to add a test message using the <strong>Edit Input Message</strong> dialog.</p><p><span>Alternatively, you can copy-paste an existing input test message from&nbsp;</span><em>any</em> <span><span>mapping project or </span>filter test in message collection test mode by using the right-click menu.</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><a href="#ManagingMappingProjectTests-EditingorAddingInputMessages">Edit</a></td>
+          <td class="confluenceTd">Enables you to edit a selected test message using the <strong>Edit Input Message</strong> dialog.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd">Remove</td>
+          <td class="confluenceTd">Enables you to delete a selected test message.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Move Down</td>
+          <td colspan="1" class="confluenceTd">Enables you to prioritize the order in which the test messages are sent by demoting a selected test message.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Move Up</td>
+          <td colspan="1" class="confluenceTd">Enables you to prioritize the order in which the test messages are sent by promoting a selected test message.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Select All</td>
+          <td colspan="1" class="confluenceTd">Enables you to select all test messages.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd">Deselect All</td>
+          <td colspan="1" class="confluenceTd"><span>Enables you to deselect all test messages.</span></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h3 id="ManagingMappingProjectTests-ExpectedOutputMessages-SingleMessageMode">Expected Output Messages -&nbsp;Single Message Mode</h3>
+      <p>In single message test mode, the&nbsp;<strong>Expected Output Messages</strong>&nbsp;tab appears&nbsp;as follows:</p>
+      <p><span style="color: rgb(0,105,127);"> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="602" width="560" src="attachments/133161939/133161941.png" data-image-src="attachments/133161939/133161941.png" data-unresolved-comment-count="0" data-linked-resource-id="133161941" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExpectedOutputMessage.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span> </span></p>
+      <p><span style="color: rgb(0,105,127);font-size: 16.0px;font-weight: bold;">&nbsp;</span>To add a single test message, enter the following information in the&nbsp;<strong>Expected Output Messages</strong>&nbsp;tab:</p>
+      <div>
+       <ol>
+        <li>Check the&nbsp;<strong>Validate expected output result</strong>&nbsp;checkbox if you want your test result to be validated.</li>
+        <li>Check the&nbsp;<strong>Expect test result to be an error</strong>&nbsp;checkbox if you want your test to pass when there is an error.</li>
+        <li>Add message properties.</li>
+        <li>Enter the properties and message fields to ignore in the&nbsp;<strong>Ignore Paths</strong>&nbsp;field.</li>
+        <li>Select the&nbsp;<strong>Mode</strong> <strong>&nbsp;</strong>for your test message (you can switch between the two modes at any time):
+         <ul>
+          <li><code>Show Whitespace</code>&nbsp;mode uses Java escape characters to represent non-printable characters.</li>
+          <li><code>Raw Hex</code>&nbsp;mode lets you directly edit the hexadecimal characters that make up the binary message.</li>
+         </ul></li>
+        <li>Select the&nbsp;<strong>Encoding&nbsp;</strong>for your test message (<code>Unknown/Not Set</code>&nbsp;means no encoding is stamped on the message when it is processed by the mapping code&nbsp;for testing).</li>
+        <li>Add your message using one of the following methods:<br>
+         <ul>
+          <li>Enter the message manually. Ensure you&nbsp;add&nbsp;<code>\r\n</code>&nbsp;(or&nbsp;<code>\r</code>&nbsp;or&nbsp;<code>\n</code>) to the end of every segment in the message.</li>
+          <li>Click&nbsp;the&nbsp;<strong>Load Message</strong>&nbsp;link to load a message from a file.</li>
+         </ul></li>
+        <li>Select the&nbsp;<strong>OK</strong>&nbsp;button to save your changes, or the&nbsp;<strong>Cancel</strong>&nbsp;button to abort.</li>
+       </ol>
+       <h3 id="ManagingMappingProjectTests-ExpectedOutputMessages-MessageCollectionMode">Expected Output Messages - Message Collection Mode</h3>
+       <p>In message collection test mode, the&nbsp;<strong>Expected Output Messages</strong>&nbsp;tab appears as follows:</p>
+      </div>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="602" width="560" src="attachments/133161939/133161940.png" data-image-src="attachments/133161939/133161940.png" data-unresolved-comment-count="0" data-linked-resource-id="133161940" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="ExpectedOutputMessageMessageCollection.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span></p>
+      <div>
+       <p>The&nbsp;<strong>Expected Output Messages</strong>&nbsp;tab provides the following information for each input test message:</p>
+       <div class="table-wrap">
+        <table class="confluenceTable">
+         <tbody>
+          <tr>
+           <th class="confluenceTh">&nbsp;Field</th>
+           <th class="confluenceTh">Description&nbsp;</th>
+          </tr>
+          <tr>
+           <td class="confluenceTd">Name</td>
+           <td class="confluenceTd">The user-defined name for the test message.</td>
+          </tr>
+          <tr>
+           <td class="confluenceTd">Definition</td>
+           <td class="confluenceTd">The message definition used by the test message.</td>
+          </tr>
+          <tr>
+           <td class="confluenceTd">Description</td>
+           <td class="confluenceTd">The user-defined description of the test message.</td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+       <p>You can perform the following actions from&nbsp;the&nbsp;<strong>Expected Output</strong> <strong>&nbsp;Messages</strong>&nbsp;tab:</p>
+       <div class="table-wrap">
+        <table class="confluenceTable">
+         <tbody>
+          <tr>
+           <th class="confluenceTh">Action</th>
+           <th class="confluenceTh">Description</th>
+          </tr>
+          <tr>
+           <td class="confluenceTd"><a href="#ManagingMappingProjectTests-EditingorAddingExpectedOutputMessages">Add</a></td>
+           <td class="confluenceTd">Enables you to add a test message using the <strong>Edit Output Message</strong> dialog.</td>
+          </tr>
+          <tr>
+           <td class="confluenceTd"><a href="#ManagingMappingProjectTests-EditingorAddingExpectedOutputMessages">Edit</a></td>
+           <td class="confluenceTd">Enables you to edit a selected test message using the <strong>Edit Output Message</strong> dialog.</td>
+          </tr>
+          <tr>
+           <td class="confluenceTd">Remove</td>
+           <td class="confluenceTd">Enables you to delete a selected test message.</td>
+          </tr>
+          <tr>
+           <td colspan="1" class="confluenceTd">Move Down</td>
+           <td colspan="1" class="confluenceTd">Enables you to prioritize the order in which the test messages are sent by demoting a selected test message.</td>
+          </tr>
+          <tr>
+           <td colspan="1" class="confluenceTd">Move Up</td>
+           <td colspan="1" class="confluenceTd">Enables you to prioritize the order in which the test messages are sent by promoting a selected test message.</td>
+          </tr>
+          <tr>
+           <td colspan="1" class="confluenceTd"><p>Validate Expected Output Result</p></td>
+           <td colspan="1" class="confluenceTd">Enables you to select whether your test results should be validated.</td>
+          </tr>
+          <tr>
+           <td colspan="1" class="confluenceTd">Select All</td>
+           <td colspan="1" class="confluenceTd">Enables you to select all test messages.</td>
+          </tr>
+          <tr>
+           <td colspan="1" class="confluenceTd">Deselect All</td>
+           <td colspan="1" class="confluenceTd">Enables you to deselect all test messages.</td>
+          </tr>
+         </tbody>
+        </table>
+       </div>
+       <h3 id="ManagingMappingProjectTests-EditingorAddingInputMessages"><span>Editing or Adding Input Messages</span></h3>
+       <p><span>&nbsp;</span>For input messages, the&nbsp;<strong>Edit Input Message</strong>&nbsp;dialog appears as follows:</p>
+       <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161939/133161945.png" data-image-src="attachments/133161939/133161945.png" data-unresolved-comment-count="0" data-linked-resource-id="133161945" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="EditMessage.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span></p>
+      </div>
+      <p>&nbsp;To add an input test message, enter the following information in the&nbsp;<strong>Edit Messages</strong>&nbsp;dialog:</p>
+      <ol>
+       <li>Click the&nbsp;<strong>Select&nbsp;</strong>link to select a message definition (clicking the&nbsp;<strong>Clear</strong>&nbsp;link clears the message definition).</li>
+       <li>Add message properties.</li>
+       <li>Select the&nbsp;<strong>Mode</strong> <strong>&nbsp;</strong>for your test message (you can switch between the two modes at any time):<br>
+        <ul>
+         <li><code>Show Whitespace</code>&nbsp;mode uses Java escape characters to represent non-printable characters.</li>
+         <li><code>Raw Hex</code>&nbsp;mode lets you directly edit the hexadecimal characters that make up the binary message.</li>
+        </ul></li>
+       <li>Select the&nbsp;<strong>Encoding&nbsp;</strong>for your test message (<code>Unknown/Not Set</code>&nbsp;means no encoding is stamped on the message when it is processed by the mapping code for testing).</li>
+       <li>Add your message using one of the following methods:<br>
+        <ul>
+         <li>Enter the message manually. Ensure you&nbsp;add&nbsp;<code>\r\n</code>&nbsp;(or&nbsp;<code>\r</code>&nbsp;or&nbsp;<code>\n</code>) to the end of every segment in the message.</li>
+         <li>Click&nbsp;the&nbsp;<strong>Load Message</strong>&nbsp;link to load a message from a file.</li>
+        </ul></li>
+       <li>Select the&nbsp;<strong>OK</strong>&nbsp;button to save your changes, or the&nbsp;<strong>Cancel</strong>&nbsp;button to abort.</li>
+      </ol>
+      <h3 id="ManagingMappingProjectTests-EditingorAddingExpectedOutputMessages">Editing or Adding&nbsp;Expected Output Messages</h3>
+      <p>For expected output messages, the&nbsp;<strong style="color: rgb(51,51,51);font-size: 14.0px;">Edit Output Message</strong><span style="color: rgb(51,51,51);font-size: 14.0px;">&nbsp;dialog appears as follows:</span></p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133161939/133161944.png" data-image-src="attachments/133161939/133161944.png" data-unresolved-comment-count="0" data-linked-resource-id="133161944" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="EditMessageOutput.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133161939" data-linked-resource-container-version="1"></span></p>
+      <div>
+       <p>&nbsp;To add an expected output message, enter the following information in the&nbsp;<strong>Expected Output Messages</strong>&nbsp;tab:</p>
+       <div>
+        <ol>
+         <li>Check the&nbsp;<strong>Expect test result to be an error</strong>&nbsp;checkbox if you want your test to pass when there is an error.</li>
+         <li>Click the&nbsp;<strong>Select&nbsp;</strong>link to select a message definition (clicking the&nbsp;<strong>Clear</strong>&nbsp;link clears the message definition).</li>
+         <li>Add message properties.</li>
+         <li>Enter the properties and message fields to ignore in the&nbsp;<strong>Ignore Paths</strong>&nbsp;field.</li>
+         <li><span>Select the&nbsp;</span><strong>Mode</strong> <span>for your test message (you can switch between the two modes at any time):</span> <br>
+          <ul>
+           <li><code>Show Whitespace</code>&nbsp;mode uses Java escape characters to represent non-printable characters.</li>
+           <li><code>Raw Hex</code>&nbsp;mode lets you directly edit the hexadecimal characters that make up the binary message.</li>
+          </ul></li>
+         <li>Select the&nbsp;<strong>Encoding&nbsp;</strong>for your test message (<code>Unknown/Not Set</code> <span>&nbsp;means no encoding is stamped on the message when it is processed by the mapping code&nbsp;for testing).</span></li>
+         <li>Add your message using one of the following methods:<br>
+          <ul>
+           <li>Enter the message manually. Ensure you&nbsp;add&nbsp;<code>\r\n</code>&nbsp;(or&nbsp;<code>\r</code>&nbsp;or&nbsp;<code>\n</code>) to the end of every segment in the message.</li>
+           <li>Click&nbsp;the&nbsp;<strong>Load Message</strong>&nbsp;link to load a message from a file.</li>
+          </ul></li>
+         <li>Select the&nbsp;<strong>OK</strong>&nbsp;button to save your changes, or the&nbsp;<strong>Cancel</strong>&nbsp;button to abort.</li>
+        </ol>
+       </div>
+      </div>
+      <h2 id="ManagingMappingProjectTests-ModifyingaMappingProjectTest"><span style="color: rgb(0,0,0);font-size: 20.0px;">Modifying a&nbsp;</span>Mapping Project Test</h2>
+      <p><span>To modify a test:</span></p>
+      <ol>
+       <li>On the&nbsp;<strong>Intelligent Mapper Testing&nbsp;</strong>dialog, double-click a test, or select a test, then click the&nbsp;<strong>Edit Test</strong>&nbsp;button to display the&nbsp;<strong>Test Editor</strong>&nbsp;dialog:</li>
+       <li><p>Edit the&nbsp;<strong>Name</strong>&nbsp;and&nbsp;<strong>Description</strong>&nbsp;for the test as required.</p></li>
+       <li>To edit an input message, select the&nbsp;<strong>Input Messages</strong>&nbsp;tab:
+        <ol>
+         <li>If in single message test mode,&nbsp;refer to&nbsp;<a href="#ManagingMappingProjectTests-InputMessages-SingleMessageTestMode">Input Message - Single Message Test Mode</a>&nbsp;on how to&nbsp;edit an input message.</li>
+         <li>If in message collection test mode, refer to&nbsp;<a href="#ManagingMappingProjectTests-InputMessage-MessageCollectionTestMode">Input Messages - Message Collection Test Mode</a>&nbsp;on how to edit one or more input messages.</li>
+        </ol></li>
+       <li>To edit an input message, select the&nbsp;<strong>Expected Output Messages</strong>&nbsp;tab:<br>
+        <ol>
+         <li>If in single message test mode,&nbsp;refer&nbsp;to&nbsp;<a href="#ManagingMappingProjectTests-ExpectedOutputMessages-SingleMessageMode">Expected Output Message - Single Message Mode</a>&nbsp;on how to edit an expected output message.</li>
+         <li>If in message collection test mode, refer&nbsp;to&nbsp;<a href="#ManagingMappingProjectTests-ExpectedOutputMessages-MessageCollectionMode">Expected Output Messages - Message Collection Mode</a>&nbsp;on how to&nbsp;edit one or more expected output messages.</li>
+        </ol></li>
+       <li>Select the&nbsp;<strong>OK</strong>&nbsp;button to add the test message, or the&nbsp;<strong>Cancel</strong>&nbsp;button to abort.</li>
+      </ol>
+      <h2 id="ManagingMappingProjectTests-DeletingMappingProjectTests">Deleting Mapping Project Tests</h2>
+      <p>To delete tests:</p>
+      <ol>
+       <li>On the&nbsp;<strong>Intelligent Mapper Testing</strong>&nbsp;dialog, select the tests you want to delete by checking their checkbox, then select the&nbsp;<strong>Remove Test</strong>&nbsp;button.</li>
+       <li>Select the&nbsp;<strong>Yes</strong>&nbsp;button when prompted to confirm the deletion.</li>
+      </ol>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

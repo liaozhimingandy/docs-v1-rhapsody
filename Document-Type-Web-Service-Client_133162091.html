@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Document-Type Web Service Client</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Deprecated-Components_133162090.html">Deprecated Components</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Document-Type Web Service Client</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162091/133162093.jpg" data-image-src="attachments/133162091/133162093.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162093" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="icon_documentwebservice.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162091" data-linked-resource-container-version="3"></span></p>
+      <div class="confluence-information-macro confluence-information-macro-warning">
+       <p class="title">Deprecated Component</p>
+       <span class="aui-icon aui-icon-small aui-iconfont-error confluence-information-macro-icon"></span>
+       <div class="confluence-information-macro-body">
+        <p><br></p>
+       </div>
+      </div>
+      <p>The <strong>Document-Type Web Service Client</strong> communication point&nbsp;enables you to communicate with external Web services that have operations of the document style. The communication point can be used to build the XML document for a specified operation, for a pre-built document (as passed to the communication point), or constant string can be used. The communication point wraps this body in a SOAP envelope and submits it to the specified web service, and receives an XML document response containing the result of the call.</p>
+      <p>The communication point handles building simple documents. Namely, it supports building documents made up of XSI simple types. These documents may contain complex types composed of simple XSI types. Optional types and restrictions are also supported (though no checking of the restriction is performed). Unions and types requiring more than one occurrence are not supported. The documents are built from the parameter values specified in the communication point's WSDL configuration. The parameters can be hard-coded (constant strings or variables), or derived from the message (using message properties or message fields).</p>
+      <p>The communication point can be configured in three ways, as specified by the <strong>Configuration Method</strong> configuration property.</p>
+      <ul>
+       <li>The <code>WSDL</code> configuration method is recommended in most cases and makes configuring the communication point easy. When using this mode, the endpoint URL and parameter types are automatically configured from the WSDL and the WSDL configuration dialog can be used to select which service and operation defined in the WSDL is to be called. Using the WSDL mode also enables the SOAP body to be automatically built based on the types defined in the WSDL.</li>
+       <li>In situations where no WSDL is available for the web service to connect to, <code>Manual</code> configuration mode can be used.</li>
+       <li>The <code>Override</code> configuration method can be used to test the communication point when configured by a WSDL. This mode is mostly the same as when using the WSDL configuration method, but the endpoint is overridden as specified in the <code>Endpoint URL</code>. The endpoint can instead be set to be a HTTP server and the request sent to this server can be examined to verify its correctness.</li>
+      </ul>
+      <p>The Document-Type Web Service Client supports:</p>
+      <ul>
+       <li>WSDL 1.0 and 1.1.</li>
+       <li>SOAP 1.1 and 1.2.</li>
+       <li>HTTP and WS-Security UsernameToken authentication.</li>
+       <li>Using the input message as the SOAP body or hard-coded in the configuration.</li>
+       <li>Building SOAP body documents satisfying the types specified in the WSDL (with the restrictions specified above).</li>
+       <li>Inserting the result document of the call into the input message or replacing the input message completely.</li>
+       <li>Manually specifying a SOAP header (provided it is valid XML).</li>
+      </ul>
+      <p>The communication point is usually used in Out-&gt;In mode. The output side sends a request to the web service and the input side receives the corresponding response. If the response is not of interest, output mode can be used.</p>
+      <p>Supported Operational Modes: <em>Output</em>, <em>Out -&gt; In</em>.</p>
+      <h2 id="Document-TypeWebServiceClient-ConfigurationProperties">Configuration Properties</h2>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Definition</p></td>
+          <td class="confluenceTd"><p>The message definition to use when parsing.</p><p>This property is only required if <code>Insert result into message</code> is specified in <strong>Output message type</strong> or if the parameter values are specified as a field from the message.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Configuration method</p></td>
+          <td class="confluenceTd"><p>Specifies the approach to use to configure this communication point.</p>
+           <ul>
+            <li><code>WSDL</code> - parses the Web Services Description Language (WSDL) at the specified URI and uses this to work out the URL of the endpoint to connect. It also enables the WSDL configuration dialog so the service, operation and parameters can be easily configured.</li>
+            <li><code>Override</code> - uses automatic WSDL configuration, but allows the endpoint URL to be overridden for testing purposes.</li>
+            <li><code>Manual</code> - manual configuration for when no WSDL is available.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>WSDL Configuration</p></td>
+          <td class="confluenceTd">
+           <div class="content-wrapper">
+            <p>Specify the WSDL and any WSDL-specific configuration. Click the <strong>Create Configuration</strong> link to display the <strong>Enter WSDL URI</strong> dialog:</p>
+            <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162091/133162095.jpg" data-image-src="attachments/133162091/133162095.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162095" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="rpc1.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162091" data-linked-resource-container-version="3"></span> <br> After a WSDL has been specified, Rhapsody parses the WSDL and then the Web Service Configuration screen is displayed, from which the desired service, operation, and parameters can be specified. Refer to <a href="#Document-TypeWebServiceClient-WebServiceConfiguration">Web Service Configuration</a> for details. <br class="atl-forced-newline"> Not required if using manual configuration.</p>
+           </div></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Authentication</p></td>
+          <td class="confluenceTd"><p>Specify the type of authentication to be used.</p>
+           <ul>
+            <li><code>None</code> - no authentication.</li>
+            <li><code>HTTP Authentication</code> - HTTP authentication to be used. If this option is selected the username and password must be specified.</li>
+            <li><code>WS-Security UsernameToken</code> - WS-security authentication (UsernameToken profile) to be used. If this option is selected the username and password must be specified.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Username</p></td>
+          <td class="confluenceTd"><p>The username if using HTTP or WS-Security authentication.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Password</p></td>
+          <td class="confluenceTd"><p>The password if using HTTP or WS-Security authentication.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Header</p></td>
+          <td class="confluenceTd"><p>An optional, additional SOAP header. The specified header must be a valid XML document. This can be a static string or a message property.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Body Type</p></td>
+          <td class="confluenceTd"><p>Specify how the SOAP Body document will be configured.</p>
+           <ul>
+            <li><code>Message Body</code> - the message body the communication point is to send is used as the body of the SOAP document.</li>
+            <li><code>Configuration Property</code> - the SOAP body document is placed in a configuration property. This can be used if the request does not change.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Body</p></td>
+          <td class="confluenceTd"><p>The SOAP body document. This field is only applicable if <code>Configuration Property</code> is selected in the <strong>SOAP Body</strong> field.</p><p>This is an XML document specifying the operation to call and containing all the parameters required by that operation.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Endpoint URL</p></td>
+          <td class="confluenceTd"><p>The URL of the Web Service endpoint. This option is not applicable if <strong>Configuration method</strong> is set to <code>WSDL</code>. When in WSDL mode, Rhapsody parses the WSDL at the specified URI and uses this to work out the URL of the endpoint.</p><p>If <strong>Configuration method</strong> is set to <code>Override</code>, this property enables you to specify the endpoint URL which is used instead of that specified in the WSDL.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operation namespace</p></td>
+          <td class="confluenceTd"><p>The unique namespace URI of the operation to call, if using manual configuration.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operation name</p></td>
+          <td class="confluenceTd"><p>The local name of the operation to call, if using manual configuration.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Action URI</p></td>
+          <td class="confluenceTd"><p>The SOAP Action URI, if required (only when using manual configuration). This is the URI identifying the intent of the SOAP HTTP request.</p><p>Leave this blank if not using a SOAP action (this is normally not required if doing an RPC call).</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Output message type</p></td>
+          <td class="confluenceTd"><p>Specify how the results of the web service call are handled.</p>
+           <ul>
+            <li><code>Insert result into message</code> - if the body of the message passed to the output side of this communication point should be received on the input side, but with the result of the web service call inserted into the <strong>Insert Field</strong> (supplement the message). You must specify the message definition to use when parsing the message in the <strong>Definition</strong> field and which field to insert the web service call result in the <strong>Insert Field</strong> field.</li>
+            <li><code>Replace message with result</code> - the result of the web service call should be used as the body of the message (replace the message completely).</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Insert Field</p></td>
+          <td class="confluenceTd"><p>The field in which to insert the result of the web service call.</p><p>Only available if <code>Insert result into message</code> is specified in <strong>Output message type</strong>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="Document-TypeWebServiceClient-WebServiceConfiguration">Web Service Configuration</h2>
+      <p>The <strong>Web Service Configuration</strong> dialog enables you to specify the desired service, operation, and parameters:</p>
+      <p><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133162091/133162092.jpg" data-image-src="attachments/133162091/133162092.jpg" data-unresolved-comment-count="0" data-linked-resource-id="133162092" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="DocTypeWebServicesClient1.jpg" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/jpeg" data-linked-resource-container-id="133162091" data-linked-resource-container-version="3"></span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh"><p>Property</p></th>
+          <th class="confluenceTh"><p>Description</p></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>WSDL URI</p></td>
+          <td class="confluenceTd"><p>The Uniform Resource Identifier (URI) of the WSDL for the web service to which you want to connect. To use a local file on the machine running Rhapsody use the file URI schema (for example <code>"file:///path/to/unix/file"</code> or <code>"file:///C:/path/to/windows/file%20with%20spaces"</code>.</p><p>This property is not applicable if <strong>Configuration method</strong> is set to <code>Manual</code>.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Service</p></td>
+          <td class="confluenceTd"><p>The unique qualified name of the service in the WSDL to which you want to connect. Commonly a WSDL only describes one service, but if more than one is specified, select the relevant one here.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Operation</p></td>
+          <td class="confluenceTd"><p>The name of the operation to call. All operations described for the given service in the WSDL are available for selection. The operation name normally describes the action the web service performs.</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Body Type</p></td>
+          <td class="confluenceTd"><p>Specify how the SOAP Body document will be configured.</p>
+           <ul>
+            <li><code>Build XML Message</code> - the document is automatically built from the simple types in the operation request as specified in the WSDL. The names of each simple type or "parameter" and their types are shown in the parameters pane.</li>
+            <li><code>Configured Value</code> - if the SOAP body document is a constant string specified in the configuration. This can be used if the request does not change.</li>
+            <li><code>Message Body</code> - if the body of the message passed to the communication point is to be used as the body of the SOAP document in the web service call.</li>
+           </ul></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>Parameters</p></td>
+          <td class="confluenceTd"><p>The parameter values for the web service call. The parameters relate to the operation specified in the operation name field and the parameter names, types and modes are worked out from the WSDL. Each parameter can be specified as a static string (optionally containing variables) or from the message, as a message property, message field, or the entire message body (specify "&lt;messagebody&gt;").</p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><p>SOAP Body</p></td>
+          <td class="confluenceTd"><p>The body of the SOAP message to be sent to the web service. This option is only available if <code>Configured Value</code> is selected in <strong>Body Type</strong>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

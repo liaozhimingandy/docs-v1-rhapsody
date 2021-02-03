@@ -1,0 +1,314 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Using Message Definitions</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Development-Kit_133161275.html">Rhapsody Development Kit</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Using Message Definitions</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <h2 id="UsingMessageDefinitions-ExtendedDefinitionService">Extended Definition Service</h2>
+      <p>As of Rhapsody 6.1, the Rhapsody RDK wizard uses an extended definition service.&nbsp;<span style="line-height: 13.0pt;background-color: transparent;">Because definitions must now be placed in lockers, their names must be unique within that locker (though not necessarily across the entire engine). As a result, the&nbsp;</span><code><span style="line-height: 13.0pt;">getDefinition(String definitionName)</span></code><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;method</span><span style="line-height: 13.0pt;background-color: transparent;"> is no longer sufficient to identify a definition uniquely. Two&nbsp;new methods&nbsp;are used to pass in either the route or the communication point information in order to identify the associated locker and locate the definition with the given name in that locker. Though t</span><span style="line-height: 13.0pt;background-color: transparent;">he deprecated method has been updated to pass in the locker automatically, it is recommended you use the replacement methods.&nbsp;</span></p>
+      <p>An example of how to call the&nbsp;extended definition service is included in the template methods. When setting up the Rhapsody RDK development environment, you must point the environment to the latest version of Rhapsody (Rhapsody 6.1 or later) that has the extended definition service.</p>
+      <h3 id="UsingMessageDefinitions-DeprecatedDefinitionServiceMethod">Deprecated&nbsp;Definition Service Method</h3>
+      <div>
+       <p><span style="line-height: 13.0pt;background-color: transparent;">The following Definition Service method <span style="color: rgb(51,51,51);">has been deprecated:</span></span></p>
+       <div class="code panel pdl" style="border-width: 1px;">
+        <div class="codeContent panelContent pdl"> 
+         <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public Definition getDefinition(String definitionName) throws DefinitionNotFoundException;</pre> 
+        </div>
+       </div>
+       <h3 id="UsingMessageDefinitions-ReplacementDefinitionServiceMethods">Replacement Definition Service Methods</h3>
+       <p>The following Definition Service method replaces the deprecated method, e<span style="line-height: 13.0pt;background-color: transparent;">ither:</span></p>
+       <div class="code panel pdl" style="border-width: 1px;">
+        <div class="codeContent panelContent pdl"> 
+         <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;public Definition getDefinition(RouteInfo routeInfo, String definitionName) throws DefinitionNotFoundException;</pre> 
+        </div>
+       </div>
+       <p class="p1"><span style="color: rgb(51,51,51);">where&nbsp;<code>RouteInfo</code> can be retrieved with&nbsp;</span><span style="line-height: 13.0pt;"><code>getFilterInfo().getRoute()</code>, o</span><span style="line-height: 13.0pt;background-color: transparent;">r:</span></p>
+       <div class="code panel pdl" style="border-width: 1px;">
+        <div class="codeContent panelContent pdl"> 
+         <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public Definition getDefinition(CommunicationPointInfo commPointInfo, String definitionName) throws DefinitionNotFoundException;</pre> 
+        </div>
+       </div>
+       <p class="p1"><span style="color: rgb(51,51,51);">where&nbsp;<code>CommunicationPointInfo</code> can be retrieved with&nbsp;</span><span style="line-height: 13.0pt;"><code>getCommunicationPointInfo()</code>.</span></p>
+      </div>
+      <h2 id="UsingMessageDefinitions-MessageParsinginCustomFilters">Message Parsing in Custom Filters</h2>
+      <ol>
+       <li><p>Modify the <code>Service.xml</code> to load the two services declaratively (the <code>Definition</code> and <code>MessageParsing</code>services):</p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;reference name="DEFINITION" interface="com.orchestral.rhapsody.model.definition.DefinitionService" bind="setDefinitionService" unbind="unsetDefinitionService"/&gt;
+&lt;reference name="MESSAGE_PARSING" interface="com.orchestral.rhapsody.messageparsing.MessageParsingService" bind="setMessageParsingService" unbind="unsetMessageParsingService"/&gt;            </pre> 
+         </div>
+        </div></li>
+       <li><p><span style="line-height: 13.0pt;background-color: transparent;">Ensure you are importing the message parsing and definition packages. This is achieved by editing the </span><code style="line-height: 13.0pt;">MANIFEST.MF</code><span style="line-height: 13.0pt;background-color: transparent;"> file in the bundle's </span><code style="line-height: 13.0pt;">META-INF</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">folder. Ensure you have the following:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">&nbsp;...
+Import-Package: com.orchestral.rhapsody.configuration,
+ com.orchestral.rhapsody.message,
+ com.orchestral.rhapsody.messageparsing,
+ com.orchestral.rhapsody.messageparsing.definition,
+ com.orchestral.rhapsody.messageparsing.format,
+ com.orchestral.rhapsody.messageparsing.xpath,
+ com.orchestral.rhapsody.model.definition,
+ com.orchestral.rhapsody.module,
+ com.orchestral.rhapsody.module.filter,
+ com.orchestral.rhapsody.module.helper.messageparsing.format,
+ org.apache.log4j;version="1.2.14",
+ org.osgi.framework;version="1.3.0",
+ org.osgi.service.component;version="1.0.0"
+...</pre> 
+         </div>
+        </div><p><span style="line-height: 13.0pt;background-color: transparent;">The Activator class (as referenced in </span><code style="line-height: 13.0pt;">Service.xml</code><span style="line-height: 13.0pt;background-color: transparent;">) will need a method that matches that specified in the</span><code style="line-height: 13.0pt;"> bind</code><span style="line-height: 13.0pt;background-color: transparent;"> parameter above. In the example given, the Activator class will need a </span><code style="line-height: 13.0pt;">setMessageParsingService()</code><span style="line-height: 13.0pt;background-color: transparent;"> method that takes </span>a <code style="line-height: 13.0pt;">com.orchestral.rhapsody.messageparsing.MessageParsingService</code><span style="line-height: 13.0pt;background-color: transparent;"> object. The implementation of this method can store the </span><code style="line-height: 13.0pt;">MessageParsingService</code><span style="line-height: 13.0pt;background-color: transparent;"> object statically for use from the communication point or filter.</span></p></li>
+       <li><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">Modify the Activator to have member variables to reference the services:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static DefinitionService definitionService;
+private static MessageParsingService messageParsingService;</pre> 
+         </div>
+        </div></li>
+       <li><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">Modify your Activator class to add the following methods:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">protected void setDefinitionService(final DefinitionService definitionService) {
+	Activator.definitionService = definitionService;
+}
+ 
+protected void unsetDefinitionService(final DefinitionService definitionService) {
+	Activator.definitionService = null;
+}
+ 
+protected void setMessageParsingService(final MessageParsingService messageParsingService) {
+    Activator.messageParsingService = messageParsingService;
+}
+ 
+protected void unsetMessageParsingService(final MessageParsingService messageParsingService) {
+    Activator.messageParsingService = null;
+}
+
+...
+  &nbsp;
+public static DefinitionService getDefinitionService() {
+    return Activator.definitionService;
+}
+ 
+public static MessageParsingService getMessageParsingService() {
+    return Activator.messageParsingService;
+}</pre> 
+         </div>
+        </div></li>
+       <li><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">Modify the filter to take a definition as an argument:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static final String USERNAME = "USERNAME|*s||username property||Set this to any value";
+private static final String PASSWORD= "PASSWORD|*w||password property||Set this to any value";
+private static final String DEFFILE= "DEFFILE|*m||definition file||Set this to any def file";
+
+private String userName;
+private String password;
+private String defFile;
+               
+private final Logger logger = getLogger();
+               
+private static final String[] props = { USERNAME, PASSWORD, DEFFILE };
+</pre> 
+         </div>
+        </div><p><span style="line-height: 13.0pt;background-color: transparent;">Here </span><code style="line-height: 13.0pt;">DEFFILE</code><span style="line-height: 13.0pt;background-color: transparent;"> has been added to the properties list. This property will take a definition file on the filter properties dialog. From Rhapsody&nbsp;</span>IDE,<span style="line-height: 13.0pt;background-color: transparent;"> you will be able to select the </span><code style="line-height: 13.0pt;">s3d</code><span style="line-height: 13.0pt;background-color: transparent;"> defined for the route.</span></p></li>
+       <li><p><span style="line-height: 13.0pt;background-color: transparent;">Modify </span><code style="line-height: 13.0pt;">doConfigure()</code><span style="line-height: 13.0pt;background-color: transparent;"> to receive the s3d filename.&nbsp; Add the following to </span><code style="line-height: 13.0pt;">doConfigure()</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">property = config.get("DEFFILE");
+if (null==property || 0==property.length()) {
+	throw new FilterConfigurationException("Required field 'definition file' missing.");
+} else {
+    defFile = property;
+    logger.info(property);
+}
+</pre> 
+         </div>
+        </div><p><span style="line-height: 13.0pt;background-color: transparent;"><br></span></p></li>
+       <li><p><span style="line-height: 13.0pt;background-color: transparent;">Use the </span><code style="line-height: 13.0pt;">defFile</code><span style="line-height: 13.0pt;background-color: transparent;"> member from the </span><code style="line-height: 13.0pt;">doProcessMessage()</code><span style="line-height: 13.0pt;background-color: transparent;"> method to parse your messages</span><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">. This example gets the patient surname and changes it to uppercase:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public Message[] doProcessMessage(Message[] messages) throws MessageException {
+	for (int i = 0; i &lt; messages.length; i++) {
+        try {
+            final String body = Messages.asString(messages[i]);
+            Messages.setBody(messages[i], body.toUpperCase());
+                                               
+            try {
+                Definition def = Activator.getDefinitionService().getDefinition(getFilterInfo().getRoute(), defFile);
+                MessageFormat format = Activator.getMessageParsingService().getMessageFormatFactory().getMessageFormat(def);
+                MessageXPathContext context = format.parseMessage(messages[i]).getParsedMessage();
+                String patientSurname = context.getField("PID/PatientName[0].FamilyName.Surname");
+                context.insertXPathValue("PID/PatientName[0].FamilyName.Surname", patientSurname.toUpperCase());
+                                                                  
+                Activator.getMessageParsingService().saveParsedMessage(messages[i], context);
+            } catch (DefinitionNotFoundException e) {
+        		logger.info(e);
+      		} catch(XPathException e ) {
+        		logger.info(e);
+      		} catch (MessageFormatException e) {
+      			logger.info(e);
+      		} catch (InterruptedException e) {
+      			logger.info(e);
+      		}
+		} catch (UnsupportedEncodingException e) {
+      		messages[i].addError("Message encoding type '" + messages[i].getBodyEncoding() + "' not supported.");
+		} catch (IOException e) {
+			throw new MessageException("Error while reading message", e);
+		}
+	}
+	return messages;
+}
+</pre> 
+         </div>
+        </div></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Now a </span><code style="line-height: 13.0pt;">MessageXPathContext</code><span style="line-height: 13.0pt;background-color: transparent;"> has been obtained, you can access or change fields on the message as required using the methods defined on the class.&nbsp;</span>
+        <ul>
+         <li><span style="line-height: 13.0pt;background-color: transparent;">To access fields you can use methods on the message context object, such as:</span>
+          <ul>
+           <li><code><span style="line-height: 13.0pt;">String getField(String path);</span></code></li>
+           <li><code><span style="line-height: 13.0pt;">List&lt;String&gt; extractValue(String path);</span></code></li>
+           <li><code><span style="line-height: 13.0pt;">int getCount(String path);</span></code></li>
+          </ul></li>
+         <li><span style="line-height: 13.0pt;background-color: transparent;">To set fields, use:</span>
+          <ul>
+           <li><code><span style="line-height: 13.0pt;">void insertValue(String path, String value);</span></code></li>
+          </ul></li>
+        </ul></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">Finally, </span><code style="line-height: 13.0pt;">saveParsedMessage</code><span style="line-height: 13.0pt;background-color: transparent;"> should be called before the filter returns, as this returns the parsed body for use by other filters, saving processing time on the route:</span>
+        <ul>
+         <li><code>MessagingModuleService.getMessageParsingService().saveParsedMessage(message, msgContext);</code><span style="line-height: 13.0pt;background-color: transparent;"><br></span></li>
+        </ul><span style="line-height: 13.0pt;background-color: transparent;">This method will work out if the parsed message has changed, and if it has will save the changes to the message body. Failing to call </span><code style="line-height: 13.0pt;">saveParsedMessage</code><span style="line-height: 13.0pt;background-color: transparent;"> will cause the following error to be logged: "Modified MessageXPathContext was never saved".</span></li>
+       <li><span style="line-height: 13.0pt;background-color: transparent;">If the parsed message has changed but you want the changes to be discarded call the above method with </span><code style="line-height: 13.0pt;">null</code><span style="line-height: 13.0pt;background-color: transparent;"> instead of the message:</span>
+        <ul>
+         <li><code><span style="line-height: 13.0pt;background-color: transparent;">MessagingModuleService.getMessageParsingService().saveParsedMessage(null, msgContext);</span></code></li>
+        </ul></li>
+      </ol>
+      <h2 id="UsingMessageDefinitions-UsingtheMessageFormatFactoryConfigurationHelper">Using the MessageFormatFactoryConfigurationHelper</h2>
+      <p class="Standard">The <code>MessageFormatFactoryConfigurationHelper</code> should also be used to make the job much easier.</p>
+      <ol>
+       <li class="Standard">Modify the&nbsp;<code>MANIFEST.MF</code>. Go to the <strong>Dependencies</strong> tab and select the <strong>Add...&nbsp;</strong>button to add the following Imported Packages:
+        <ul>
+         <li class="Standard"><code><span style="line-height: 13.0pt;">com.orchestral.rhapsody.module.helper.messageparsing.lazysoftdefinitions</span></code></li>
+         <li class="Standard"><code><span style="line-height: 13.0pt;">com.orchestral.rhapsody.module.helper.messageparsing.format</span></code></li>
+         <li class="Standard"><code><span style="line-height: 13.0pt;">com.orchestral.rhapsody.module.helper.messageparsing.util</span></code></li>
+        </ul></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">Import the class and store it in a static field:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public class Activator {
+	private static MessageFormatFactoryConfigurationHelper configurationHelper;
+...</pre> 
+         </div>
+        </div><p><span style="line-height: 13.0pt;background-color: transparent;"><br></span></p></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">Add a setter method for it:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">//Message parsing service getters and setters go here
+public static MessageFormatFactoryConfigurationHelper getMessageFormatFactoryConfigurationHelper() {
+	return MyFilterActivator.configurationHelper;
+}</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">Modify the activate method as follows:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">protected void activate(final ComponentContext componentContext) {
+	//Initialise the message format helper
+    Activator.configurationHelper = new MessageFormatFactoryConfigurationHelper(Activator.messageParsingService.getMessageFormatFactory(), Activator.definitionService);
+	...
+</pre> 
+         </div>
+        </div><p><span style="line-height: 13.0pt;background-color: transparent;"><br></span></p></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">Remove the definition property we created earlier and use the helper to add a definition property:</span></span><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private static final String[] props = { USERNAME, PASSWORD, DEFFILE };
+
+	@Override
+    public String[] getPropertyList() {
+    	//return props;
+        return Activator.getMessageFormatFactoryConfigurationHelper().appendConfigurationParameters(props, false, false);
+    }</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><span style="line-height: 13.0pt;background-color: transparent;">The last two arguments to the </span><code style="line-height: 13.0pt;">appendConfigurationParameters()</code><span style="line-height: 13.0pt;background-color: transparent;"> method determine whether the options </span><code style="line-height: 13.0pt;">AUTO</code><span style="line-height: 13.0pt;background-color: transparent;"> or </span><code style="line-height: 13.0pt;">NONE</code><span style="line-height: 13.0pt;background-color: transparent;"> will be available, respectively, instead of a definition. If the definition is only sometimes required, pass </span><code style="line-height: 13.0pt;">true</code><span style="line-height: 13.0pt;background-color: transparent;"> as the final parameter.</span></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;">Doing this allows the </span><code style="line-height: 13.0pt;">doConfigurationMessageFormat()</code><span style="line-height: 13.0pt;background-color: transparent;"> method to be called in the filter's </span><code style="line-height: 13.0pt;">doConfigure()</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">method (ensure you remove the code excerpt you originally used to get the definition file prior to using the helper).</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public void doConfigure(Configuration config) throws FilterConfigurationException, InterruptedException {
+                               
+	...        
+   &nbsp;
+	try {
+    	this.messageFormat = Activator.getMessageFormatFactoryConfigurationHelper().getConfigurationMessageFormat(config, getFilterInfo().getRoute());
+    } catch (final MessageFormatException e) {
+    	throw new FilterConfigurationException("Caught exception while loading definition",e);
+    }
+
+	...
+}
+</pre> 
+         </div>
+        </div></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">Add a reference for the message format:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">private MessageFormat messageFormat;
+</pre> 
+         </div>
+        </div><p><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;</span></span></p></li>
+       <li class="Standard"><p><span style="line-height: 13.0pt;background-color: transparent;">The message format can then be used in the </span><code style="line-height: 13.0pt;">doProcessMessage()</code><span style="line-height: 13.0pt;background-color: transparent;"><span style="line-height: 13.0pt;background-color: transparent;">&nbsp;method to parse the message:</span></span></p>
+        <div class="code panel pdl" style="border-width: 1px;">
+         <div class="codeContent panelContent pdl"> 
+          <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: java; gutter: false; theme: Confluence" data-theme="Confluence">public Message[] doProcessMessage(Message[] messages) throws MessageException {
+	for (int i = 0; i &lt; messages.length; i++) {
+    	try {
+        	final String body = Messages.asString(messages[i]);
+            Messages.setBody(messages[i], body.toUpperCase());            
+            &nbsp;
+			try {
+            	MessageXPathContext context = this.messageFormat.parseMessage(messages[i]).getParsedMessage();
+				String patientSurname = context.getField("PID/PatientName[0].FamilyName.Surname");
+             	context.insertXPathValue("PID/PatientName[0].FamilyName.Surname", patientSurname.toUpperCase());
+                Activator.getMessageParsingService().saveParsedMessage(messages[i], context);
+...
+</pre> 
+         </div>
+        </div></li>
+      </ol>
+      <h2 id="UsingMessageDefinitions-ParsingXML">Parsing XML</h2>
+      <p class="Textbody">To parse an XML message, you can use the following message format:</p>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">MessagingModuleService.getMessageParsingService().getMessageFormatFactory().getXMLMessageFormatType().newMessageFormat(null);</pre> 
+       </div>
+      </div>
+      <p class="Textbody"> </p> 
+     </div> 
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

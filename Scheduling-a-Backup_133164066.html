@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>Scheduling a Backup</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Monitoring-Rhapsody_133163664.html">Monitoring Rhapsody</a></span> </li> 
+       <li> <span><a href="Management-Console_133163667.html">Management Console</a></span> </li> 
+       <li> <span><a href="Management_133164048.html">Management</a></span> </li> 
+       <li> <span><a href="Backup-and-Restore_133164059.html">Backup and Restore</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">Scheduling a Backup</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody allows multiple backup schedules to be configured. Backups can be full or incremental, can backup a selected area or all areas, and be saved to a specified directory, at a specified time.</p>
+      <p>Multiple schedules can be configured to the same backup directory. For example, a full backup might be done weekly, and in daily increments. When configured for the same backup directory, a full backup is performed followed by six increments (one each day), then another full, then six more increments, and so on.</p>
+      <p>The user need only specify the directory in which the backups will be stored – they are created in sensibly named directories under this specified directory (the directory name contains the time of the backup and whether full or incremental).</p>
+      <p><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="577" width="1136" src="attachments/133164066/133164069.png" data-image-src="attachments/133164066/133164069.png" data-unresolved-comment-count="0" data-linked-resource-id="133164069" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="BackupScheduled.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164066" data-linked-resource-container-version="1"></span></p>
+      <h2 id="SchedulingaBackup-AddingaNewBackupSchedule">Adding a New Backup Schedule</h2>
+      <p>To schedule a backup:</p>
+      <ol>
+       <li>Navigate to <strong>Management&gt;Backup and Restore</strong> to display the <strong>Backup and Restore</strong> page.</li>
+       <li>Click the <strong>Add New Schedule</strong> link or the&nbsp;<strong>Add</strong> icon <span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164066/133164068.png" data-image-src="attachments/133164066/133164068.png" data-unresolved-comment-count="0" data-linked-resource-id="133164068" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="addicon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164066" data-linked-resource-container-version="1"></span> next to it. The <strong>Add New Backup Schedule</strong> dialog is displayed:<br class="atl-forced-newline"> <br class="atl-forced-newline"> <span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="304" width="524" src="attachments/133164066/133164071.png" data-image-src="attachments/133164066/133164071.png" data-unresolved-comment-count="0" data-linked-resource-id="133164071" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="addnewbackup.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164066" data-linked-resource-container-version="1"></span></li>
+       <li>Complete the following:
+        <ol>
+         <li>Select the backup <strong>Type</strong>, <code>Full</code> or <code>Incremental</code>.</li>
+         <li>Select the area from where you want to restore the backup (<code>Administration</code>, <code>Configuration</code>, <code>Message Store</code>, or <code>All</code>) from the <strong>Area</strong> drop-down list.</li>
+         <li>Select the frequency of the backup:
+          <ul>
+           <li><p>A backup can be scheduled to run every <code>x</code> hours (where <code>x</code> is a whole number greater than one) at <code>y</code> minutes past the hour (0 - 59), daily at a specified time, weekly (at a specified day and time), or monthly (at a specified day and time).</p>
+            <div class="confluence-information-macro confluence-information-macro-note">
+             <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+             <div class="confluence-information-macro-body">
+              <p>Do not schedule multiple backups at the same time. If you do so, the backups are in fact executed, but consecutively not simultaneously.</p>
+             </div>
+            </div></li>
+          </ul></li>
+         <li><p>Enter the location of the backup <strong>Directory</strong>.</p>
+          <div class="confluence-information-macro confluence-information-macro-note">
+           <span class="aui-icon aui-icon-small aui-iconfont-warning confluence-information-macro-icon"></span>
+           <div class="confluence-information-macro-body">
+            <p>Do do not configure i<span style="line-height: 13.0pt;background-color: transparent;">ncremental backup schedules for different backup areas to use the same backup directory</span><span style="line-height: 13.0pt;background-color: transparent;">. Doing so may result in full backups being initiated.</span></p>
+           </div>
+          </div></li>
+        </ol></li>
+       <li>Select the <strong>Apply</strong> button to add the backup schedule. The backup is then shown in the <strong>Current Schedules</strong> panel on the <strong>Backup and Restore</strong> page.</li>
+      </ol>
+      <h2 id="SchedulingaBackup-ModifyinganExistingBackupSchedule">Modifying an Existing Backup Schedule</h2>
+      <p>To modify an existing backup schedule:</p>
+      <ol>
+       <li>On the <strong>Backup and Restore</strong> page, click the <strong>Edit</strong>&nbsp;link for a backup you want to modify. The <strong>Edit Backup Schedule</strong> dialog is displayed: <br class="atl-forced-newline"><br class="atl-forced-newline"><span class="confluence-embedded-file-wrapper confluence-embedded-manual-size"><img class="confluence-embedded-image confluence-content-image-border" height="302" width="524" src="attachments/133164066/133164070.png" data-image-src="attachments/133164066/133164070.png" data-unresolved-comment-count="0" data-linked-resource-id="133164070" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="editbackup.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164066" data-linked-resource-container-version="1"></span></li>
+       <li>Complete the following:
+        <ol>
+         <li>Select the backup <strong>Type</strong>.</li>
+         <li>Select the area from where you want to restore the backup from the <strong>Area</strong> drop-down list.</li>
+         <li>Select the frequency of the backup.</li>
+         <li>Enter the location of the backup <strong>Directory</strong>.</li>
+        </ol></li>
+       <li>Select the <strong>Apply</strong> button to update the backup schedule.</li>
+      </ol>
+      <h2 id="SchedulingaBackup-DeletinganExistingBackupSchedule">Deleting an Existing Backup Schedule</h2>
+      <p>To delete an existing backup, o<span>n the </span><strong>Backup and Restore</strong><span> page, select the </span><strong>Delete</strong><span> icon </span><span class="confluence-embedded-file-wrapper"><img class="confluence-embedded-image" src="attachments/133164066/133164067.png" data-image-src="attachments/133164066/133164067.png" data-unresolved-comment-count="0" data-linked-resource-id="133164067" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="removeicon.png" data-base-url="https://docs.rhapsody.health" data-linked-resource-content-type="image/png" data-linked-resource-container-id="133164066" data-linked-resource-container-version="1"></span><span> for the backup you want to delete.</span></p>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>

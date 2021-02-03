@@ -1,0 +1,413 @@
+<!doctype html>
+<html>
+ <head> 
+  <title>FreeMarker API Object Reference</title> 
+  <link rel="stylesheet" href="styles/site.css" type="text/css"> 
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link rel="stylesheet" href="styles/icons.css" type="text/css">
+  <script src="js/jquery.min.js"></script>
+  <script src="tree/collapsibleTreeMenu.js"></script>
+  <link href="tree/collapsibleTreeMenu.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body class="theme-default aui-theme-default"> 
+  <div id="page"> 
+   <div id="main" class="aui-page-panel"> 
+    <div id="main-header"> 
+     <div id="breadcrumb-section"> 
+      <ol id="breadcrumbs">  
+       <li> <span><a href="Rhapsody-Integration-Engine-6.5_133160975.html">Rhapsody Integration Engine 6.5</a></span> </li> 
+       <li> <span><a href="Developing-Rhapsody_133161055.html">Developing Rhapsody</a></span> </li> 
+       <li> <span><a href="Rhapsody-Objects_133161790.html">Rhapsody Objects</a></span> </li> 
+       <li> <span><a href="Rhapsody-Components_133161994.html">Rhapsody Components</a></span> </li> 
+       <li> <span><a href="Filters_133162681.html">Filters</a></span> </li> 
+       <li> <span><a href="Filter-Types_133162712.html">Filter Types</a></span> </li> 
+       <li> <span><a href="FreeMarker-Mapper_133162925.html">FreeMarker Mapper</a></span> </li> 
+      </ol> 
+     </div> 
+     <h1 id="title-heading" class="pagetitle"> <span id="title-text">FreeMarker API Object Reference</span> </h1> 
+    </div> 
+    <div id="content" class="view">  
+     <div id="main-content" class="wiki-content group"> 
+      <p>Rhapsody provides the following API objects in addition to those available within FreeMarker mapping templates for accessing parts of the Rhapsody message:</p>
+      <p><style type="text/css">/*<![CDATA[*/
+div.rbtoc1565146968644 {padding: 0px;}
+div.rbtoc1565146968644 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1565146968644 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style></p>
+      <div class="toc-macro rbtoc1565146968644"> 
+       <ul class="toc-indentation"> 
+        <li><a href="#FreeMarkerAPIObjectReference-RhapsodyInputMessage">Rhapsody Input Message</a></li> 
+        <li><a href="#FreeMarkerAPIObjectReference-EDIInputMessage">EDI&nbsp;Input Message</a></li> 
+        <li><a href="#FreeMarkerAPIObjectReference-XMLInputMessage">XML Input Message</a></li> 
+        <li><a href="#FreeMarkerAPIObjectReference-LookupTables">Lookup Tables</a></li> 
+        <li><a href="#FreeMarkerAPIObjectReference-GeneralObjects">General Objects</a></li> 
+        <li><a href="#FreeMarkerAPIObjectReference-ExampleMappingTemplates">Example Mapping Templates</a></li> 
+       </ul> 
+      </div>
+      <p></p>
+      <h2 id="FreeMarkerAPIObjectReference-RhapsodyInputMessage">Rhapsody Input Message</h2>
+      <p>When transforming a message, the input Rhapsody message can be accessed via the <code>input</code> object. This can be done as follows: <code>${input.<em>command</em>}</code>. This object supports the commands for retrieving parts of the message:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Command</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>input</code></td>
+          <td class="confluenceTd">The Rhapsody message coming into the filter.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>input.getProperty("propertyName")</code></td>
+          <td colspan="1" class="confluenceTd">Retrieves the named property from the Rhapsody message.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>input.hasProperty("propertyName")</code></td>
+          <td colspan="1" class="confluenceTd">Returns a boolean indicating whether the named property exists in the Rhapsody message.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>input.getPropertyNames()</code></td>
+          <td colspan="1" class="confluenceTd">Returns the list of property names that exist in the Rhapsody message.</td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><p><code>input.text()</code></p></td>
+          <td colspan="1" class="confluenceTd">Returns the entire Rhapsody message body.</td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="FreeMarkerAPIObjectReference-EDIInputMessage">EDI&nbsp;Input Message</h2>
+      <p><span> <code>inputEDI</code> is the&nbsp;<span>root EDI element of the input EDI message. When transforming a message with an EDI message definition, the input message can be accessed via the&nbsp;</span><code>inputEDI</code> <span> object. This can be done as follows: </span> <code>${inputEDI.<em>command</em>}</code><span>. This object supports the following commands for retrieving parts of the message:</span> </span></p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <colgroup>
+         <col>
+         <col>
+        </colgroup>
+        <tbody>
+         <tr>
+          <th class="confluenceTh">Command</th>
+          <th class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>getElementValue("path")</code></td>
+          <td class="confluenceTd"><p>Retrieves the string value of the message element with the given path. If the element is the primitive type, then it returns the value of the field without any translation of special characters. Otherwise, it returns the encoded value for the element. For composite, repeating and message set elements, this will include the child elements. The path given should use the EDI XPath syntax.</p><p><span><strong>Example:</strong> <code><span>${inputEDI.</span><strong>getElementValue</strong><span>("</span><span>PID.HomePhoneNumber.</span><span>PhoneNumber</span><span>")}</span><br></code></span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>getElementAt("path")</code></td>
+          <td class="confluenceTd"><p>Returns the EDI element at the given path. This is similar to <code>getElementValue</code>, however the element is not immediately converted to a string value. This allows more flexibility with the returned result. For example, the element returned can be assigned to a FreeMarker variable, and then further elements queried on the result using the <code>getElementValue("path")</code> command.</p><p>Note that for repeating EDI elements it is important to include the element index number you wish to look up. This can be seen in the example with the path <code>PatientName[0]/GivenName</code>. Here we are looking up the <code>GivenName</code> on the first <code>PatientName</code> element. If there are multiple <code>PatientName</code> elements and the '[0]' index is not given then path lookup may return nothing.</p><p><span><strong>Example:</strong> <code><span>${inputEDI.</span><strong>getElementAt</strong><span>("PATIENT_RESULT[0].PATIENT.PID.PatientName[0].GivenName")}</span><br></code></span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>getAllChildren("path")</code></td>
+          <td colspan="1" class="confluenceTd"><p>Returns a list of EDI elements at the given path. This is similar to <code>getElementAt</code>, however the multiple elements can be returned. Similarly, the elements are can have commands run from them to inspect child elements. For example, the FreeMarker 'list' command could be used to iterate over all the elements returned.</p><p><span><strong>Example:</strong> <code><span>${inputEDI.</span><strong>getAllChildren</strong><span>("PID.PatientName[0]")}</span><br></code></span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>getAllChildren()</code></td>
+          <td colspan="1" class="confluenceTd"><p>Returns a list of child EDI elements for the current EDI element. This is the same as the <code>getAllChildren</code> command, except there is no path provided, and the children returned are for the EDI element this method is called on.</p><p><span><strong>Example:</strong> <code><span>${inputEDI.getElementAt("PID.PatientName[0]").</span><strong>getAllChildren</strong> <span>()}</span> </code></span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>getElementIndex()</code></td>
+          <td colspan="1" class="confluenceTd"><p>Returns the index of the element with respect to its parent. If this parent element is a repeating or message set element, the index returned is the position of the element within the collection.</p><p><span><strong>Example:</strong> <code><span>${inputEDI.getElementAt("PID.HomePhoneNumber").</span><strong>getElementIndex</strong><span>()}</span><br></code></span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>getElementCount()</code></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Retrieves the number of children that this element has.</p><p class="p1"><span><strong>Example:</strong> <code>${inputEDI.getElementAt("PID.HomePhoneNumber").<strong>getElementCount</strong>()}</code> </span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>getValue()</code></td>
+          <td colspan="1" class="confluenceTd"><p>Retrieves the string value of the message element with given path. If the element is the primitive type, then it returns the value of the field without any translation of special characters. Otherwise, it returns the encoded value for the element. For composite, repeating and message set elements, this will include the child elements.</p><p><span><strong>Example:</strong> <code><span>${inputEDI.getElementAt("PID.HomePhoneNumber").</span><strong>getValue</strong><span>()}</span><br></code></span></p></td>
+         </tr>
+         <tr>
+          <td colspan="1" class="confluenceTd"><code>isEmpty()</code></td>
+          <td colspan="1" class="confluenceTd"><p class="p1">Checks to see if the element or any of its children have a value. Returns true if the element or one of it's child-elements has a value.</p><p class="p1"><span><strong>Example:</strong> <code><span>${inputEDI.getElementAt("PID.HomePhoneNumber").</span><strong>isEmpty</strong><span>()}</span><br></code></span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="FreeMarkerAPIObjectReference-XMLInputMessage">XML Input Message</h2>
+      <p><span> <code>inputXML</code> is the&nbsp;root XML element of the input XML message. When transforming an XML message the input message can be accessed via the&nbsp;<code>inputXML</code> object. This can be done as follows: </span> <span> <code>${inputXML.<em>command</em>}</code>). </span> <span>This object supports the commands listed in the</span>&nbsp;<a rel="nofollow" href="http://freemarker.org/docs/xgui_imperative_learn.html" class="external-link">FreeMarker Manual</a><span>. When using these commands in the filter, ensure you substitute&nbsp;the root element&nbsp;<code>doc</code>&nbsp;in these examples with&nbsp;<code>inputXML</code>.</span></p>
+      <h2 id="FreeMarkerAPIObjectReference-LookupTables">Lookup Tables</h2>
+      <p><code>LookupTables</code> is the root lookup&nbsp;element of the Rhapsody lookup tables. The FreeMarker Mapping filter allows the&nbsp;user to look up values from a lookup table. The lookup table value can be accessed via the <code>LookupTables</code> object. This can be done as follows:&nbsp;<code><span><code><span>${L</span></code></span>ookupTables.<em>command</em></code>}. This object supports the following commands for performing a table lookup:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable" style="margin-left: 2.0px;">
+        <tbody>
+         <tr>
+          <th style="text-align: left;" class="confluenceTh">Methods</th>
+          <th style="text-align: left;" class="confluenceTh">Description</th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>get(string tableName)</code></td>
+          <td class="confluenceTd"><p>Retrieves the lookup table with the specified name returning a LookupTables object.</p><p><strong>Example: </strong><span style="font-family: monospace;">${LookupTables.get("Observations")}</span></p></td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>lookupTable.lookup(String column, String value, String resultColumnName)&nbsp;</code></td>
+          <td class="confluenceTd"><p>This performs a table lookup using the parameters provided. A row in the table is matched if all the values provided match values in their specified columns in the same row:</p>
+           <ul>
+            <li><code>column</code> - the column to look up value.</li>
+            <li><code>values</code> - the value used to match a row. This is a single <code>ColumnValue</code> object.</li>
+            <li><code>resultColumnName</code> - the value used to match the value in one column to be returned, rather than the entire row.</li>
+           </ul><p>An exception is thrown if the lookup fails or any of the column names are invalid. It returns null if no match is found which is indicated as a lookup failure in Rhapsody IDE. If a match is found, it returns the value in the desired column.</p><p><strong>Example: </strong><span style="font-family: monospace;"><code>${</code></span><span style="font-family: monospace;">lookupTable.lookup("HL72.5", "P", "FHIR")}</span><span style="font-family: monospace;">&nbsp;</span></p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="FreeMarkerAPIObjectReference-GeneralObjects">General Objects</h2>
+      <p>The following objects perform common tasks:</p>
+      <div class="table-wrap">
+       <table class="wrapped confluenceTable">
+        <tbody>
+         <tr>
+          <th class="confluenceTh">&nbsp;Methods</th>
+          <th class="confluenceTh"><span>Description</span></th>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>${UUID.generate()}</code></td>
+          <td class="confluenceTd">Generates a type 4 (pseudo randomly generated) UUID. This is generated using a cryptographically strong pseudo-random number generator.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>${Hl7v2DateTimeFormatter.date(EDIElement dateElement)}</code></td>
+          <td class="confluenceTd">Converts an HL7 dateElement to a String in the ISO 8601 date format.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>${Hl7v2DateTimeFormatter.dateTime(EDIElement dateElement, boolean includeTimeZone)}</code></td>
+          <td class="confluenceTd">Converts an HL7 dateElement to a String in the ISO 8601 date-time format. Optionally can include the timezone.</td>
+         </tr>
+         <tr>
+          <td class="confluenceTd"><code>${Hl7v2DateTimeFormatter.pattern(EDIElement dateElement, String pattern)}</code></td>
+          <td class="confluenceTd"><p>Formats an HL7 dateElement to a String as per the pattern expressed in <a href="http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormatter.html" class="external-link" rel="nofollow">JodaTimes DateTimeFormatter</a>.</p></td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <h2 id="FreeMarkerAPIObjectReference-ExampleMappingTemplates">Example Mapping Templates</h2>
+      <h3 id="FreeMarkerAPIObjectReference-MappingHL7ORUMessagetoanFHIRAtomFeedBundle">Mapping HL7 ORU Message to an FHIR Atom Feed Bundle</h3>
+      <p>The following example shows a main template file importing two other templates saved as auxiliary files. In this case, the input message is an EDI HL7v2 message, so the object <code>inputEDI</code> is used to look up fields within the message. The mapping makes use of FreeMarker features such as list iteration, and conditional if statements. Also illustrated is the use of the helper objects <code>UUID</code>&nbsp;and&nbsp;<code>Hl7v2DateTimeFormatter</code>,&nbsp;and how to access message properties using <code>input.getProperty</code>.&nbsp;</p>
+      <p>The template&nbsp;<code>Mapping ORU Message to an atom feed</code> is the main template. To use the template, save it as a file, and select it as the FreeMarker Mapping Template for the filter. The EDI message definition for the HL7 message must be set as well. A definition and example EDI input file for the below template can be downloaded as follows:</p>
+      <ul>
+       <li>EDI message definition:&nbsp;<a href="attachments/133162927/133162928.s3d" data-linked-resource-id="133162928" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="HL7v2.7_ORU.s3d" data-linked-resource-content-type="application/octet-stream" data-linked-resource-container-id="133162927" data-linked-resource-container-version="3">HL7v2.7_ORU.s3d</a>.</li>
+       <li>Example input file:&nbsp;<a href="attachments/133162927/133162929.edi" data-linked-resource-id="133162929" data-linked-resource-version="1" data-linked-resource-type="attachment" data-linked-resource-default-alias="oruInputFile_Hl7v2.7.edi" data-linked-resource-content-type="application/octet-stream" data-linked-resource-container-id="133162927" data-linked-resource-container-version="3">oruInputFile_Hl7v2.7.edi</a>.</li>
+      </ul>
+      <div class="code panel pdl" style="border-width: 1px;">
+       <div class="codeHeader panelHeader pdl" style="border-bottom-width: 1px;">
+        <b>Mapping ORU Message to an atom feed</b>
+       </div>
+       <div class="codeContent panelContent pdl"> 
+        <pre class="syntaxhighlighter-pre" data-syntaxhighlighter-params="brush: html/xml; gutter: false; theme: Confluence" data-theme="Confluence">&lt;#-- Extract out the PID segment and assign it to a variable for simpler access --&gt;
+&lt;#assign pid = inputEDI.getElementAt("PATIENT_RESULT[0]/PATIENT/PID")&gt;
+
+ 
+&lt;#-- The FHIR Bundle resource --&gt;
+&lt;feed xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;title&gt;FHIR patient observation&lt;/title&gt;
+ 
+  &lt;#-- A unique ID for our bundle posting --&gt;
+  &lt;id&gt;urn:uuid:${UUID.generate()}&lt;/id&gt;
+  &lt;#-- In our example template we are using a static time. This could either be processing time, a measurement time, or something else in the real world --&gt;
+  &lt;updated&gt;2014-05-28T22:12:21Z&lt;/updated&gt;
+  &lt;#-- In our example template we are using a static author. This could be the system, the doctors who took the measurements, or something else in the real world --&gt; 
+  &lt;author&gt;
+    &lt;name&gt;Jane Doe&lt;/name&gt;
+  &lt;/author&gt;
+  &lt;category scheme="http://hl7.org/fhir/tag/profile" term="http://localhost/Profile/glucose" label="Glucose Profile" /&gt;
+  
+  &lt;#-- Include our patient resource defined below --&gt;
+  &lt;#-- The patient element can be included conditionaly by wrapping in a conditional if statement, eg: &lt;#if input.getProperty("patient-found") == 'false'&gt; --&gt;
+  &lt;#if input.hasProperty("patient-id") &gt;
+    &lt;#assign patientIdentifier = input.getProperty("patient-id") &gt;
+  &lt;#else&gt;
+    &lt;#assign patientIdentifier = "cid:patient1" &gt;
+  &lt;/#if&gt;
+  &lt;#if input.hasProperty("patient-found") &gt;
+    &lt;#assign patientFound = "true" &gt;
+  &lt;#else&gt;
+    &lt;#assign patientFound = "false" &gt;
+  &lt;/#if&gt;
+  &lt;#if patientFound == 'false'&gt;
+  &lt;entry&gt;
+    &lt;title&gt;Patient details&lt;/title&gt;
+    &lt;id&gt;${patientIdentifier}&lt;/id&gt;
+    &lt;updated&gt;2014-05-28T22:12:21Z&lt;/updated&gt;
+    &lt;content type="text/xml"&gt;
+      &lt;Patient xmlns="http://hl7.org/fhir"&gt;
+     
+        &lt;#-- This element is not required, but should give a human readable representation of the data. We chose to extract some useful fields here --&gt;
+        &lt;text&gt;
+          &lt;status value="generated"/&gt;
+          &lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;${pid.getElementAt("PatientName[0]/FamilyName")}, ${pid.getElementAt("PatientName[0]/GivenName")} ID: patient/${pid.getElementAt("PatientIdentifierList[0]/AssigningAuthority")}|${pid.getElementAt("PatientIdentifierList[0]/IDNumber")}&lt;/div&gt;
+        &lt;/text&gt;
+     
+        &lt;#-- Pull out the required mappings --&gt;
+        &lt;identifier&gt;
+          &lt;system value="${pid.getElementAt('PatientIdentifierList[0]/AssigningAuthority')}"/&gt;
+          &lt;value value="${pid.getElementAt('PatientIdentifierList[0]/IDNumber')}"/&gt;
+        &lt;/identifier&gt;
+     
+        &lt;#-- This field could be resolved in a simpler manner by using a lookup table --&gt;
+        &lt;#list pid.getElementAt("PatientName").allChildren as PatientName&gt;
+          &lt;name&gt;
+            &lt;#if PatientName.getElementAt("NameTypeCode") == 'L'&gt;
+              &lt;use value="official"/&gt;
+            &lt;#elseif PatientName.getElementAt("NameTypeCode") == 'S'&gt;
+              &lt;use value="anonymous"/&gt;
+            &lt;#elseif PatientName.getElementAt("NameTypeCode") == 'B'&gt;
+              &lt;use value="old"/&gt;
+            &lt;/#if&gt;
+            &lt;family value="${PatientName.getElementAt("FamilyName")}"/&gt;
+            &lt;given value="${PatientName.getElementAt("GivenName")}"/&gt;
+          &lt;/name&gt;
+        &lt;/#list&gt;
+     
+        &lt;#list pid.getElementAt("HomePhoneNumber").allChildren as HomePhoneNumber&gt;
+          &lt;telecom&gt;
+            &lt;system value="phone"/&gt;
+            &lt;value value="${HomePhoneNumber.getElementAt("AreaCityCode")}-${HomePhoneNumber.getElementAt("LocalNumber")} ext ${HomePhoneNumber.getElementAt("Extension")}"/&gt;
+            &lt;use value="home"/&gt;
+          &lt;/telecom&gt;
+        &lt;/#list&gt;
+      
+        &lt;#-- This field could be resolved in a simpler manner by using a lookup table --&gt;
+        &lt;gender&gt;
+          &lt;coding&gt;
+            &lt;system value="http://hl7.org/fhir/v2/vs/0001"/&gt;
+            &lt;code value="${pid.getElementAt("AdministrativeSex")}"/&gt;
+            &lt;#if pid.getElementAt("AdministrativeSex") == 'M'&gt;
+              &lt;display value="Male"/&gt;
+            &lt;/#if&gt;
+            &lt;#if pid.getElementAt("AdministrativeSex") == 'F'&gt;
+              &lt;display value="Female"/&gt;
+            &lt;/#if&gt;
+            &lt;#if pid.getElementAt("AdministrativeSex") == 'A'&gt;
+              &lt;display value="Ambiguous"/&gt;
+            &lt;/#if&gt;
+          &lt;/coding&gt;
+        &lt;/gender&gt;
+   
+        &lt;#if pid.getElementAt("PatientDeathIndicator") == 'Y'&gt;
+          &lt;deceasedBoolean value="true"/&gt;
+        &lt;/#if&gt;
+        &lt;#if pid.getElementAt("PatientDeathIndicator") == 'N'&gt;
+          &lt;deceasedBoolean value="false"/&gt;
+        &lt;/#if&gt;
+   
+        &lt;managingOrganization&gt;
+          &lt;reference value="Organization/hl7"/&gt;
+        &lt;/managingOrganization&gt;
+        &lt;active value="true"/&gt;
+   
+      &lt;/Patient&gt;
+    &lt;/content&gt;
+  &lt;/entry&gt;
+  &lt;/#if&gt;
+ 
+  &lt;#-- Iterate through all the observations and include as an observation resource --&gt;
+  &lt;#list inputEDI.getElementAt("PATIENT_RESULT[0]/ORDER_OBSERVATION").allChildren as OrderObservation&gt;
+    &lt;#list OrderObservation.getElementAt("OBSERVATION").allChildren as Observation&gt;
+      &lt;entry&gt;
+        &lt;#assign OBR = OrderObservation.getElementAt("OBR")&gt;
+ 
+        &lt;#-- Give the observation an ID based upon its index, so it has a unique reference within this bundle --&gt;
+        &lt;title&gt;Observation obs-${OrderObservation_index}-${Observation_index}&lt;/title&gt;
+        &lt;id&gt;cid:obs-${OrderObservation_index}-${Observation_index}&lt;/id&gt;
+ 
+        &lt;#-- Grab out the observation date time as a ISO date time string --&gt;
+        &lt;#assign DateTime = OBR.getElementAt("ObservationDateTime")&gt;
+        &lt;updated&gt;${Hl7v2DateTimeFormatter.dateTime(OBR.getElementAt("ObservationDateTime"), false)}Z&lt;/updated&gt;
+        
+        &lt;#-- Include our observation template defined below --&gt;
+        &lt;#assign OBX = Observation.getElementAt("OBX")&gt;
+        &lt;#assign DateTime = OBX.getElementAt("DateTimeOfTheAnalysis")&gt;
+        &lt;content type="text/xml"&gt;
+          &lt;Observation xmlns="http://hl7.org/fhir"&gt;
+            &lt;#-- This element is not required, but should give a human readable representation of the data. We chose to extract some useful fields here --&gt;
+            &lt;text&gt;
+              &lt;status value="generated"/&gt;
+              &lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;${Hl7v2DateTimeFormatter.pattern(DateTime, 'MMM dd, yyyy')}: ${OBX.getElementAt("ObservationIdentifier/Text")} ${OBX.getElementAt("ObservationValue[0]")} ${OBX.getElementAt("Units/Text")}&lt;/div&gt;
+            &lt;/text&gt;
+             
+            &lt;#-- Use a lookup table to find the appropriate mapping between the HL7 and FHIR values. If its not found just use the HL7 code --&gt;
+            &lt;name&gt;
+              &lt;coding&gt;
+                &lt;#assign hl7ObsIdCode = OBX.getElementAt("ObservationIdentifier/NameOfCodingSystem")&gt;
+                &lt;#if hl7ObsIdCode == 'LN'&gt;
+                  &lt;system value="http://loinc.org" /&gt;
+                &lt;#else&gt;
+                  &lt;system value="${hl7ObsIdCode}" /&gt;
+                &lt;/#if&gt;
+                &lt;code value="${OBX.getElementAt('ObservationIdentifier/Identifier')}"/&gt;
+                &lt;display value="${OBX.getElementAt('ObservationIdentifier/Text')}"/&gt;
+              &lt;/coding&gt;
+            &lt;/name&gt;
+             
+            &lt;#-- Extract as much data as is provided about the observation --&gt;
+            &lt;#if OBX.getElementAt("ValueType") == 'NM'&gt;
+              &lt;valueQuantity&gt;
+                  &lt;value value="${OBX.getElementAt("ObservationValue[0]")}"/&gt;
+                  &lt;units value="${OBX.getElementAt("Units/Text")}"/&gt;
+                  &lt;#assign hl7UnitCode = OBX.getElementAt("Units/NameOfCodingSystem")&gt;
+                  &lt;#if hl7UnitCode == 'LN'&gt;
+                    &lt;system value="http://loinc.org" /&gt;
+                  &lt;#else&gt;
+                    &lt;system value="${hl7UnitCode}" /&gt;
+                  &lt;/#if&gt;
+              &lt;/valueQuantity&gt;
+            &lt;#else&gt;    
+              &lt;valueString value="${OBX.getElementAt("ObservationValue[0]")}"/&gt;
+            &lt;/#if&gt;
+             
+            &lt;#-- Convert the HL7 date time element into a ISO date time string --&gt;
+            &lt;appliesDateTime value="${Hl7v2DateTimeFormatter.dateTime(DateTime, false)}Z"/&gt;
+             
+            &lt;#-- Use a lookup table to find the appropriate mapping between the HL7 and FHIR values --&gt;
+            &lt;#-- An alternative to using a if statements would be to use a lookup table, e.g:
+             &lt;status value="${LookupTables.get("ObservationStatus").lookup("HL70085", OBX.getElementAt("ObservationResultStatus"), "FHIR")}"/&gt; --&gt;
+            &lt;#if OBX.getElementAt("ObservationResultStatus") == 'F'&gt;
+              &lt;status value="final"/&gt;
+            &lt;/#if&gt;
+            &lt;#if OBX.getElementAt("ObservationResultStatus") == 'P'&gt;
+              &lt;status value="preliminary"/&gt;
+            &lt;/#if&gt;
+            &lt;#if OBX.getElementAt("ObservationResultStatus") == 'C'&gt;
+              &lt;status value="amended"/&gt;
+            &lt;/#if&gt;
+            &lt;#if OBX.getElementAt("ObservationResultStatus") == 'X'&gt;
+              &lt;status value="cancelled"/&gt;
+            &lt;/#if&gt;
+            &lt;#if OBX.getElementAt("ObservationResultStatus") == 'O'&gt;
+              &lt;status value="registered"/&gt;
+            &lt;/#if&gt;
+            &lt;reliability value="ok"/&gt;
+            &lt;subject&gt;
+                &lt;reference value="Patient/${patientIdentifier}"/&gt;
+            &lt;/subject&gt;
+             
+            &lt;interpretation&gt;
+              &lt;coding&gt;
+                &lt;system value="http://hl7.org/fhir/v2/0078"/&gt;
+                &lt;#list OBX.getElementAt("InterpretationCodes").allChildren as InterpretationCode&gt;
+                    &lt;code value="${InterpretationCode}"/&gt;
+                &lt;/#list&gt;    
+              &lt;/coding&gt;
+              &lt;text value="low"/&gt;
+            &lt;/interpretation&gt;
+          &lt;/Observation&gt;
+        &lt;/content&gt; 
+      &lt;/entry&gt;
+    &lt;/#list&gt;
+  &lt;/#list&gt;
+&lt;/feed&gt;
+</pre> 
+       </div>
+      </div>
+      <p> </p> 
+     </div>  
+    </div> 
+   </div>  
+  </div>   
+ </body>
+</html>
